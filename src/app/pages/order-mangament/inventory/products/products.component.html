@@ -1,0 +1,689 @@
+<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-5 col-sm-12 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" class="owl-input owls-search" placeholder="search ...">
+      </div>
+    </div>
+
+    <div class="col-md-2  col-xs-12">
+      <div class="form-group ">
+
+
+        <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile" style="overflow: hidden">Import
+          CSV
+          <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv" (change)="importExcel($event)">
+        </button>
+      </div>
+
+    </div>
+    <div class="col-md-2  col-xs-12">
+      <div class="form-group">
+
+        <!-- <div style="line-height: 32px;" > -->
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">export CSV</a>
+        <!-- <input type="file" class="" id=" " placeholder="type here "> -->
+
+      </div>
+
+    </div>
+    <div class="col-md-3  col-xs-12 text-right">
+      <div class="owl-btn-list">
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100" (click)="resetForm()"> + New
+          product</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="table-responsive text-center">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th  scope="col">SKU</th>
+        <th  scope="col">product name</th>
+        <th scope="col">category > subcat</th>
+        <!-- <th  scope="col" class="hidden">creator</th> -->
+        <th scope="col" class="hidden">creation date
+        </th>
+        <th scope="col">main price </th>
+        <th scope="col">discount price</th>
+        <th  scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
+        <td>{{product.sku}}</td>
+        <td class="relative">{{product.name | summary : 25 }}
+          <div class="hover-reason text-left" *ngIf="product.name.length >= 25">
+            <div class="head">
+              product name
+             </div>
+            <div class="body">
+              {{product.name}}
+            </div>
+          </div>
+
+        </td>
+        <td>{{product.category.name}} >
+          <br> {{product.category.sub_categories[0].name}}</td>
+        <!-- <td class="hidden">{{product.creator?.name}}</td> -->
+        <td class="hidden">{{product.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.discount_price ? product.discount_price : "-"}}</td>
+        <td>
+          <a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
+            <i class="icon-View"></i>
+          </a>
+
+
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="editProduct(product)">
+            <i class="icon-grey"></i>
+          </a>
+
+
+
+          <label class="switch">
+            <input type="checkbox" value="1" [(ngModel)]="product.active" (change)="changeActive(product, $event)">
+            <span class="slider round"></span>
+            <div class="reason-popup text-left" [hidden]="!product.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this product?" [(ngModel)]="product.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!product.notes" (click)="submitDeactivate(product)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(product)">cancel</button>
+            </div>
+            <div class="hover-reason text-left" *ngIf="!product.active">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{product.deactivation_notes}}
+              </div>
+            </div>
+          </label>
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+</div>
+<pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+
+
+<div class="form-sidebar view-vindor-types" id="show-p-details">
+  <div class="head" *ngIf="currentProduct">
+    <span class="close" id="close-vindors4">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>Sku Code: {{currentProduct.sku}}</h3>
+  </div>
+
+  <div class="details details-2" *ngIf="currentProduct">
+    <div class="details-price">
+      <img src="{{currentProduct.image}}" alt="" class=" owl-img img-fluid ">
+
+      <div class="s-price" [ngClass]="{'discount': currentProduct.discount_price}">
+        {{currentProduct.price}}LE
+      </div>
+      <div class="s-price btn-green right" *ngIf="currentProduct.discount_price">
+        {{currentProduct.discount_price}}LE
+      </div>
+    </div>
+
+    <div class="thumbnails">
+      <div class="thum" *ngFor="let image of currentProduct.images">
+        <img width="60" height="60" src="{{image.url}}" alt="" class=" owl-img img-fluid">
+      </div>
+    </div>
+
+    <div>
+      <!-- <button class="float-right btn btn-owls btn-circle btn-remove btn-red2 " data-toggle="modal" data-target="#removePopUp">
+        <i class="fa fa-trash"></i>
+      </button> -->
+      <h5>Product</h5>
+      <p>{{currentProduct.name}}</p>
+    </div>
+
+    <div>
+      <h5>Creation Date</h5>
+      <p>{{currentProduct.created_at}}</p>
+    </div>
+
+    <div>
+      <h5>Details</h5>
+      <p>{{currentProduct.description}}</p>
+    </div>
+
+    <div>
+      <h5>category</h5>
+      <p>{{currentProduct.category.name}} > {{currentProduct.category.sub_categories[0].name}}</p>
+    </div>
+
+    <div>
+      <h5>Creator</h5>
+      <p>{{currentProduct.creator?.name}}</p>
+    </div>
+
+
+
+    <!-- <div>
+      <mat-form-field>
+        <input matInput placeholder="from date" [satDatepicker]="picker" [value]="date" [(ngModel)]="dateRange"
+          (dateChange)="getProductStats()" (change)="getProductStats()">
+        <sat-datepicker #picker [rangeMode]="true">
+        </sat-datepicker>
+        <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+      </mat-form-field>
+    </div> -->
+
+
+    <!-- <div class="sidebar-chart">
+      <h3>total bought </h3>
+      <canvas baseChart #baseChart2 width="400" height="400" [datasets]="lineChartData1" [labels]="lineChartLabels1"
+        [options]="lineChartOptions1" [colors]="lineChartColors1" [legend]="lineChartLegend1" [chartType]="lineChartType1">
+      </canvas>
+    </div> -->
+
+  </div>
+</div>
+
+
+
+<div class="form-sidebar view-vindor-types " id="add-prod">
+  <div class="head">
+    <span class="close" id="close-vindors1">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>new product</h3>
+  </div>
+
+  <form class="sideform" name="addProductForm" (ngSubmit)="addProducts(product)" [formGroup]="addProductForm"
+    novalidate>
+
+    <div class="form-group">
+      <label for=""> Name</label>
+      <input type="text" [(ngModel)]="product.name" class="owl-input" placeholder="Type.." name="name product" required
+        formControlName="name">
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addProductForm.controls.name.invalid && (addProductForm.controls.name.dirty || addProductForm.controls.name.touched)"
+        class="alert alert-danger">
+        <div *ngIf="addProductForm.controls.name.errors.required">
+          Name is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="">Name (Ar)</label>
+      <input type="text" [(ngModel)]="product.name_ar" class="owl-input" placeholder="Type.." name="name product"
+        required formControlName="name_ar">
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addProductForm.controls.name_ar.invalid && (addProductForm.controls.name_ar.dirty || addProductForm.controls.name_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="addProductForm.controls.name_ar.errors.required">
+          Name (Ar) is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+    <div class="form-group">
+      <label for="">images</label>
+
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" src="http://via.placeholder.com/328x177" alt="">
+        <!-- <img class="owl-img img-fluid" *ngIf="product.imageUrl" [src]="product.imageUrl" alt=""> -->
+        <input type="file" id="productImg" class="owl-input" placeholder="upload your image" (change)="onimgeSelected($event)"
+          name="image" />
+        <input type="hidden" [(ngModel)]="product.image" formControlName="image">
+        <!-- <i class="icon-Exit" (click)="product.imageUrl = ''; product.image = ''"></i> -->
+      </div>
+
+      <div class="add-img" (click)="addImage(product)">
+        <img src="assets/img/Expand.svg" alt="add image">
+        <span>add image</span>
+      </div>
+
+      <div class="owls-upload owls-upload3" *ngFor="let image of product.images; index as i">
+        <img width="60" height="60" class="owl-img" *ngIf="!image.urlPath" src="http://via.placeholder.com/60x60" alt="">
+        <img width="60" height="60" class="owl-img" *ngIf="image.urlPath " src="{{image.urlPath}}" alt="">
+        <input type="file" name="myfile" (change)="onimagesSelected($event, image)" />
+        <i class="icon-Exit" (click)="removeImage(product, i)"></i>
+      </div>
+
+      <div *ngIf="addProductForm.controls.image.invalid && (addProductForm.controls.image.dirty || addProductForm.controls.image.touched)"
+        class="alert alert-danger">
+        <div *ngIf="addProductForm.controls.image.errors.required">
+          Image is required.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="">description</label>
+      <textarea class="owl-input" placeholder="type" name="productDescription" id="productDescription" formControlName="description"
+        [(ngModel)]="product.description" required></textarea>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addProductForm.controls.description.invalid && (addProductForm.controls.description.dirty || addProductForm.controls.description.touched)"
+        class="alert alert-danger">
+        <div *ngIf="addProductForm.controls.description.errors.required">
+          Description is required.
+        </div>
+        <div *ngIf="addProductForm.controls.description.errors.minlength">
+          Description is too short.
+        </div>
+        <div *ngIf="addProductForm.controls.description.errors.maxlength">
+          Description is too long.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="">description (Ar)</label>
+      <textarea class="owl-input" placeholder="type" name="productDescription" id="productDescription" formControlName="description_ar"
+        [(ngModel)]="product.description_ar" required></textarea>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addProductForm.controls.description_ar.invalid && (addProductForm.controls.description_ar.dirty || addProductForm.controls.description_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="addProductForm.controls.description_ar.errors.required">
+          Description is required.
+        </div>
+        <div *ngIf="addProductForm.controls.description_ar.errors.minlength">
+          Description is too short.
+        </div>
+        <div *ngIf="addProductForm.controls.description_ar.errors.maxlength">
+          Description is too long.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for=""> Pricing</label>
+      <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" id="price" [(ngModel)]="product.price" class="owl-input" placeholder="Type.." name="price"
+        formControlName="price" required [min]="1" [max]="1000000">
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addProductForm.controls.price.invalid && (addProductForm.controls.price.dirty || addProductForm.controls.price.touched)"
+        class="alert alert-danger">
+        <div *ngIf="addProductForm.controls.price.errors.required">
+          Pricing is required.
+        </div>
+        <div *ngIf="addProductForm.controls.price.errors.min">
+          Price minimum is 1 LE.
+        </div>
+        <div *ngIf="addProductForm.controls.price.errors.max">
+          Price Maximum is 1000000 LE.
+        </div>
+        <div *ngIf="addProductForm.controls.price.errors.pattern">
+          Invalid number format
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <div class="form-group">
+        <label for=""> Discount Price
+          <small> optional</small>
+        </label>
+        <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" id="productPricingDiscount" [(ngModel)]="product.discount_price" class="owl-input"
+          placeholder="Type.." name="productPricingDiscount" formControlName="discount_price" [min]="0" max="{{product.price - 0.01}}">
+        <!-- Start  Errors Rolues -->
+
+        <div *ngIf="addProductForm.controls.discount_price.invalid && (addProductForm.controls.discount_price.dirty || addProductForm.controls.discount_price.touched)"
+          class="alert alert-danger">
+
+          <div *ngIf="addProductForm.controls.discount_price.errors.min">
+            Discount price can't be a negative value
+          </div>
+          <div *ngIf="addProductForm.controls.discount_price.errors.max">
+            Discount Price must be less than the price
+          </div>
+          <div *ngIf="addProductForm.controls.discount_price.errors.pattern">
+            Invalid number format
+          </div>
+        </div>
+        <!-- End Errors Rolues -->
+      </div>
+    </div>
+
+
+    <div class="form-group">
+
+      <label for="">Category</label>
+      <select class="owl-input" name="category" [(ngModel)]="category_id" (change)="selectCategory(category_id)"
+        formControlName="main_category" required>
+        <option value="{{cat.id}}" *ngFor="let cat of categories">{{cat.name}}
+          <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+        </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addProductForm.controls.main_category.invalid && (addProductForm.controls.main_category.dirty || addProductForm.controls.main_category.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="addProductForm.controls.main_category.errors.required">
+          Select Category
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="">Sub Category</label>
+      <select class="owl-input" [(ngModel)]="product.category_id" formControlName="category_id" required name="subCategory">
+        <option value=""></option>
+        <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
+          <span *ngIf="cat.active == 0"> - Deactivate </span>
+
+        </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addProductForm.controls.category_id.invalid && (addProductForm.controls.category_id.dirty || addProductForm.controls.category_id.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="addProductForm.controls.category_id.errors.required">
+          Select sub Category
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+    <div class="form-group">
+      <label> Brand Name </label>
+      <ng-select [(ngModel)]="product.brand_id" name="bransName" [items]="brands" bindLabel="name" bindValue="id"
+        [addTag]="addCustomUser" [multiple]="false" placeholder="Enter Brand name" formControlName="brand_id" required>
+      </ng-select>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addProductForm.controls.brand_id.invalid && (addProductForm.controls.brand_id.dirty || addProductForm.controls.brand_id.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="addProductForm.controls.brand_id.errors.required">
+          Brand name Is Required
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+    <div class="form-group">
+      <label for=""> SKU </label>
+      <input type="number" class="owl-input" placeholder="Type SKU.." name="sku" formControlName="sku" [(ngModel)]="product.sku"
+        required [min]="1">
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addProductForm.controls.sku.invalid && (addProductForm.controls.sku.dirty || addProductForm.controls.sku.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="addProductForm.controls.sku.errors.required">
+          sku required
+        </div>
+        <div *ngIf="addProductForm.controls.sku.errors.min">
+          sku must be numbers only
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green">add</button>
+    </div>
+  </form>
+</div>
+
+
+<div class="form-sidebar view-vindor-types " id="edit-prod">
+  <div class="head">
+    <span class="close" id="close-vindors2">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>edit product</h3>
+  </div>
+
+  <form *ngIf="product" (ngSubmit)="updateProductForm.valid && updateProduct(product)" novalidate class="sideform"
+    #updateProductForm="ngForm" name="updateProductForm">
+
+    <div class="form-group">
+      <label for=""> Name</label>
+      <input type="text" class="owl-input" placeholder="Type.." [(ngModel)]="product.name" name="name" #productName="ngModel"
+        required>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="updateProductForm.submitted &&  productName.invalid" class="alert alert-danger">
+        <div *ngIf="productName.errors.required">
+          Name is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for=""> Name (Ar)</label>
+      <input type="text" class="owl-input" placeholder="Type.." [(ngModel)]="product.name_ar" name="name_ar"
+        #productNameAr="ngModel" required>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="updateProductForm.submitted &&  productNameAr.invalid" class="alert alert-danger">
+        <div *ngIf="productNameAr.errors.required">
+          Name (Ar) is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for=""> images</label>
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" *ngIf="product.imageUrl" src="{{product.imageUrl}}" onError="this.src='http://via.placeholder.com/328x177';" alt="">
+        <img class="owl-img img-fluid" *ngIf="!product.imageUrl" src="http://via.placeholder.com/328x177" alt="">
+        <!-- <img width="328" height="177" class="owl-img" *ngIf="product.imageUrl" [src]="product.imageUrl" alt=""> -->
+        <input type="file" id="productImg" class="owl-input" placeholder="upload your image" (change)="onimgeSelected($event)" />
+        <!-- <i class="icon-Exit"></i> -->
+      </div>
+
+      <div class="add-img" (click)="addImage(product)">
+        <img src="assets/img/Expand.svg" alt="add image">
+        <span>add image</span>
+      </div>
+
+      <div class="owls-upload owls-upload3" *ngFor="let image of product.images; index as i">
+        <img width="60" height="60" class="owl-img" *ngIf="!image.urlPath" src="http://via.placeholder.com/60x60" alt="">
+        <img width="60" height="60" class="owl-img" *ngIf="image.urlPath" src="{{image.urlPath}}" alt="">
+        <input type="file" name="myfile" (change)="onimagesSelected($event, image)" />
+        <i class="icon-Exit" (click)="removeImage(product, i)"></i>
+      </div>
+
+
+
+    </div>
+
+
+    <div class="form-group">
+      <label for="">description</label>
+      <textarea class="owl-input" placeholder="type" name="desc" [(ngModel)]="product.description" required minlength="3" maxlength="250"
+        name="productDescription" #productDescription="ngModel"></textarea>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="updateProductForm.submitted &&  productDescription.invalid" class="alert alert-danger">
+        <div *ngIf="productDescription.errors.required">
+          Description is required.
+        </div>
+        <div *ngIf="productDescription.errors.minlength">
+          Description is too short
+        </div>
+        <div *ngIf="productDescription.errors.maxlength">
+          Description is too long
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="">description (Ar)</label>
+      <textarea class="owl-input" placeholder="type" [(ngModel)]="product.description_ar" required
+        minlength="3" maxlength="250" name="productDescription_ar" #productDescriptionAr="ngModel"></textarea>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="updateProductForm.submitted &&  productDescriptionAr.invalid" class="alert alert-danger">
+        <div *ngIf="productDescriptionAr.errors.required">
+          Description (Ar) is required.
+        </div>
+        <div *ngIf="productDescriptionAr.errors.minlength">
+          Description (Ar) is too short
+        </div>
+        <div *ngIf="productDescriptionAr.errors.maxlength">
+          Description (Ar) is too long
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="">price</label>
+      <input type="text" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input " id=" " placeholder="type here ($)" name="price" [(ngModel)]="product.price"
+        #price="ngModel" required [min]="1" [max]="1000000">
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="updateProductForm.submitted &&  price.invalid" class="alert alert-danger">
+        <div *ngIf="price.errors.required">
+          Pricing is required.
+        </div>
+        <div *ngIf="price.errors.min">
+          Price minimum is 1 LE.
+        </div>
+        <div *ngIf="price.errors.max">
+          Price Maximum is 1000000 LE.
+        </div>
+        <div *ngIf="price.errors.pattern">
+          Invlid Number Format
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+    <div class="form-group">
+      <div class="form-group">
+        <label for=""> Discount Price</label>
+        <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" [(ngModel)]="product.discount_price" class="owl-input" placeholder="Type.." name="productPricingDiscount"
+          #editPricingDiscount="ngModel" [min]="0" max="{{product.price - 0.01}}">
+        <!-- Start  Errors Rolues -->
+
+        <div *ngIf="updateProductForm.submitted &&  editPricingDiscount.invalid" class="alert alert-danger">
+
+          <div *ngIf="editPricingDiscount.errors.min">
+            Discount price can't be a negative value
+          </div>
+          <div *ngIf="editPricingDiscount.errors.max">
+            Discount Price must be less than the price
+          </div>
+          <div *ngIf="editPricingDiscount.errors.pattern">
+            Invlid Number Format
+          </div>
+        </div>
+        <!-- End Errors Rolues -->
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Category</label>
+      <select class="owl-input" name="category_id" [(ngModel)]="category_id" (change)="selectCategory(category_id)">
+        <option value="{{cat.id}}" *ngFor="let cat of categories">{{cat.name}}
+          <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+
+        </option>
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+      <label for="">Sub Category</label>
+      <select class="owl-input" name="city_id" [(ngModel)]="product.category_id" #subCategory="ngModel" name="subCategory">
+        <option value=""></option>
+        <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
+          <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+
+        </option>
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+      <label> Brand Name</label>
+      <ng-select [(ngModel)]="product.brand_id" name="bransName" [items]="brands" bindLabel="name" bindValue="id"
+        [addTag]="addCustomUser" name="brandEdit" [multiple]="false" placeholder="Enter Brand name" #brandEdit="ngModel"
+        required>
+      </ng-select>
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="updateProductForm.submitted &&  brandEdit.invalid" class="alert alert-danger">
+
+        <div *ngIf="brandEdit.errors.required">
+          Brand Name required
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+    <div class="form-group">
+      <label for=""> SKU </label>
+      <input type="number" class="owl-input" placeholder="Type SKU.." name="sku" #skuEdit="ngModel" [(ngModel)]="product.sku"
+        required [min]="1">
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="updateProductForm.submitted &&  skuEdit.invalid" class="alert alert-danger">
+
+        <div *ngIf="skuEdit.errors.required">
+          sku required
+        </div>
+        <div *ngIf="addProductForm.controls.sku.errors.min">
+          sku must be numbers only
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green ">Update</button>
+      <!-- <button class="btn btn-owls btn-circle btn-remove btn-red2" data-toggle="modal" data-target="#removePopUp2">
+        <i class="fa fa-trash"></i>
+      </button> -->
+    </div>
+  </form>
+</div>
+
+
+<!-- Delete  Popup side bar -->
+<div class="modal fade" id="removePopUp2" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">are you sure to delete this item ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+      </div>
+    </div>
+  </div>
+</div>

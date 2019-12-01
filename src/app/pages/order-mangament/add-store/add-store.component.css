@@ -1,0 +1,184 @@
+.login-wrap{
+    min-height: 100vh;
+    background: url('../../../../assets/img/login-bg.png') center center ;
+    position: relative;
+}
+
+.bg-blue{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background-color: #5EA6DB;
+}
+.store-form-up{
+    background-color: #fff;
+    box-shadow: 0 12px 54px 0 rgba(6,40,59,0.10);
+    border-radius: 12px;
+    padding: 40px ;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    transform: perspective(1px) translateY(14%);
+
+}
+
+.store-form-up h4{
+    text-align: center;
+    font-size: 28px;
+    color: #003C62
+}
+
+.store-form-up .bmd-form-group {
+    padding-top: 2.7em;
+}
+
+.store-form-up .bmd-form-group .bmd-label-static{
+    font-size: 14px;
+    color: rgba(0,61,97,0.64);
+}
+
+.login-image img {margin-top: 50px}
+.form-forget{margin-top: 14px}
+
+.forget{
+    font-size: 16px;
+    color: #557E96;
+    transition: 0.2s ease;
+    text-decoration: underline !important
+}
+.forget:hover{color: #003C62}
+.login-footer{margin-top: 40px;}
+
+form h3{
+    font-size: 22px;
+    color: #003C62;
+    margin: 24px 0;
+
+}
+.form-group h4{
+    font-size: 18px;
+    color: #003C62;
+    text-align: left;
+}
+
+.closebtn {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #96afbe;
+}
+.owls-time-alert{
+    display: inline-block;
+    position: relative;
+    height: 39px;
+    line-height: 39px;
+    background: #FCFCFC;
+    border: 1px solid rgba(167,189,202,0.26);
+    border-radius: 100px;
+    font-size: 18px;
+    color: #003C62;
+    text-align: center;
+    padding: 0 20px;
+    margin-right: 6px;
+    text-transform: capitalize;
+}
+
+
+.horizontal-scroll-wrapper{
+    margin-bottom: 35px;
+
+}
+.horizontal-scroll-wrapper .row {
+    overflow-x: auto;
+    white-space: nowrap;
+	-webkit-overflow-scrolling: touch
+}
+
+    .scrolling-wrapper {
+        -webkit-overflow-scrolling: touch;
+      }
+      .scrolling-wrapper .col-md-3 {
+        display: inline-block;
+        float: none;
+      }
+      .set-time-item{
+        background-color: #fff;
+        box-shadow: 0 12px 54px 0 rgba(6,40,59,0.10);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 22px;
+      }
+
+      
+.close{
+    cursor: pointer;
+    position: absolute;
+    z-index: 2;
+    right: 25px;
+    top: 33px;
+}
+
+.edit-out{
+    position: absolute;
+    background-color: #fff;
+    top: 56px;
+    left: 179px;
+    z-index: 2;
+    width: 470px;
+    box-shadow: 0 11px 22px 0 rgba(6,40,57,0.05);
+    border-radius: 12px;
+    padding: 30px;
+}
+.address-edit p a{
+    font-size: 18px;
+    color: #557E96;
+}
+
+.left-search span {
+    color: rgba(0,61,97,0.47);
+    font-size: 16px;
+    text-transform: capitalize
+
+}
+.left-search span i{
+    margin-right: 15px;
+    position: absolute;
+    z-index: 2;
+    top: 15px;
+    left: 30px;
+    color: rgba(0,61,97,0.47);
+}
+
+.deliverycharge2{
+    background:#fff;
+ 
+}
+
+#show-p-details{
+    width: 435px;
+}
+
+.congrats{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* .congrats::before{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+} */

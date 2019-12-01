@@ -1,0 +1,158 @@
+<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<div class="top-table-bar">
+
+  <div class="row">
+
+    <div class="col-md-2">
+      <a class="back-btn" id="back-btn">
+        <i class="fa fa-angle-left" routerLink="/pages/staff" aria-hidden="true"> Back</i>
+      </a>
+    </div>
+
+    <div class="col-md-7">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
+      </div>
+    </div>
+
+    <div class="col-md-3 text-right">
+      <div class="owl-btn-list">
+          <a target="_blank" href="{{exportUrl}}" class="btn btn-owls btn-rounded btn-blue2">Export to CSV</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="table-responsive">
+  <table class="table owls-table ">
+    <thead>
+      <tr>
+        <th style="width: 152px;" scope="col"> order ID </th>
+        <th scope="col">order amount</th>
+        <th scope="col">customer name</th>
+        <th scope="col">creation date</th>
+        <th scope="col">rating
+          <i class="fa fa-angle-up"></i>
+        </th>
+        <th scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders | orderFilter: searchTerm | paginate: { itemsPerPage: 20, currentPage: p, totalItems: orders.length }">
+        <td>{{order.id}}</td>
+        <td>{{order.amount}}</td>
+        <td>{{order.user?.name}}</td>
+        <td>{{order.created_at | date: "yyyy-MM-dd hh:mm a"}}</td>
+        <td>
+          <bar-rating *ngIf="order.rate" [readOnly]="true" [rate]="order.rate" [max]="5" disabled></bar-rating>
+          <span *ngIf="!order.rate">-</span>
+        </td>
+        <td>
+          <a href="javascript:void(0)" class="table-view toggle-vindor-view" (click)="viewCustomer(order.user)">
+            <i class="icon-View"></i>
+          </a>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+
+
+
+
+
+
+
+<div class="form-sidebar view-vindor-types" id="view-deactive">
+  <div class="head">
+    <span class="close" id="close-vindors4">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>customer details</h3>
+  </div>
+
+  <div class=" details details-2" *ngIf="currentCustomer">
+
+    <div>
+      <div class="customer-det">
+        <!-- <img src="http://via.placeholder.com/50x50" alt="" width="50" height="50"> -->
+        <div class="content">
+          <p>{{currentCustomer.name}}</p>
+          <h5>{{currentCustomer.phone}}</h5>
+          <h5>{{currentCustomer.email}}</h5>
+        </div>
+        <div class="date">
+          {{currentCustomer.id}}
+        </div>
+      </div>
+    </div>
+
+
+    <div>
+      <h5>address</h5>
+      <p style="cursor: pointer;" (click)="toggleShow()" *ngIf="currentCustomer.addresses.length">{{currentCustomer.addresses[0].formatted_address}}
+        <i *ngIf="hide" class="fa fa-angle-down"></i> <i *ngIf="show" class="fa fa-angle-up"></i>
+      </p>
+      <div *ngIf="show">
+        <p *ngFor="let address of currentCustomer.addresses | slice : 1">{{address.formatted_address}}</p>
+      </div>
+    </div>
+
+    <div>
+      <h5>date of birth</h5>
+      <p>{{currentCustomer.birthdate}} - {{currentCustomer.age}} Yo</p>
+    </div>
+
+    <div>
+      <h5>date of joining</h5>
+      <p>{{currentCustomer.created_at | date : "yyyy-MM-dd hh:mm a"}}</p>
+    </div>
+
+
+    <div *ngIf="currentCustomer.active">
+      <p class="btn-rounded btn-green2">active</p>
+    </div>
+
+    <div *ngIf="!currentCustomer.active">
+      <div class="reason-text">
+        <div class="inner">
+          <p>
+            {{currentCustomer.deactivation_notes}}
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <button class="btn btn-owls btn-rounded btn-green">Reactivate</button>
+      </div>
+    </div>
+
+
+    <div class="order-history">
+      <h5>order history ({{currentCustomer.orders.length}})</h5>
+
+      <div class="order-item" *ngFor="let order of currentCustomer.orders">
+        <a [routerLink]="['/pages/orders/order-details', order.id]">
+          <h4>Order ID: {{order.id}}</h4>
+        </a>
+
+     
+
+        <!-- <p>
+          <span *ngFor="let product of order.products; index as i "> {{i + 1 }} - {{product.name}} <br></span>
+        </p> -->
+      </div>
+
+
+    </div>
+  </div>
+</div>

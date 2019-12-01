@@ -1,0 +1,336 @@
+<ngx-loading-bar [color]="'#2196F3 '"></ngx-loading-bar>
+<div class="top-table-bar" style="margin-bottom: 30px;">
+
+  <div class="row">
+    <div class="col-md-3">
+      <a class="back-btn" [routerLink]="['/pages/orders']">
+        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a>
+    </div>
+
+    <div class="col-md-9" *ngIf="order">
+      <button [routerLink]="['/pages/print-receipt',order.id ]" class="float-right btn btn-owls btn-rounded btn-green">print</button>
+    </div>
+  </div>
+</div>
+
+<!-- steppers -->
+
+<div>
+  <div class="row" *ngIf="order">
+    <div class="offset-md-1 col-md-11">
+
+      <ul class="top-stepper row">
+        <li class="col active" *ngIf="order.state_id != 9">
+          <span></span>
+          <span><i class="icon-Check"></i></span>
+          <p>order placed</p>
+        </li>
+        <li class="col canceled incomplete" *ngIf="order.state_id == 9">
+          <span></span>
+          <span><i class="icon-Exit"></i></span>
+          <p>Not Paid</p>
+        </li>
+
+
+
+        <li class="col" [ngClass]="{'active': processing && !cancelled, 'canceled': cancelled}">
+          <span></span>
+          <span><i [ngClass]="{'icon-Check': processing && !cancelled, 'icon-Exit': cancelled}"></i></span>
+          <p>processing </p>
+        </li>
+
+        <li class="col " [ngClass]="{'active': delivering && !returned, 'canceled': delivering && returned}">
+          <span></span>
+          <span><i [ngClass]="{'icon-Check': delivering && !returned, 'icon-Exit': delivering && returned}"></i></span>
+          <p>out for delivary </p>
+        </li>
+
+        <li class="col " [ngClass]="{'active': delivered && !returned, 'canceled': delivered && returned}">
+          <span></span>
+          <span><i [ngClass]="{'icon-Check': delivered && !returned, 'icon-Exit': delivered && returned}"></i></span>
+          <p> delivered </p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+</div>
+
+
+<div class="block-title">
+  <h4>Order Details</h4>
+</div>
+
+<div class="block" *ngIf="order">
+  <div class="row">
+
+    <div class="col-md-5">
+
+      <div class="block-item">
+        <p>order iD</p>
+        <span>{{order.id}}</span>
+
+      </div>
+
+      <div class="block-item">
+        <p>request time</p>
+        <span>{{order.created_at |  date: 'd-M-yyyy  h:mm a' }}</span>
+
+      </div>
+
+      <div class="block-item" *ngIf="order.scheduled_at">
+          <p>schedule time</p>
+          <span>{{order.scheduled_at |  date: 'd-M-yyyy  h:mm a' }}</span>
+      </div>
+
+      <div class="block-item">
+        <p> delivary man </p>
+        <span *ngIf="order.deliverer">{{order.deliverer?.name}}</span>
+      </div>
+
+      <div class="block-item">
+        <p>delivary number </p>
+        <span>{{order.deliverer?.phone}}</span>
+      </div>
+
+    </div>
+
+    <div class="col-md-2 "></div>
+
+    <div class="col-md-5 ">
+
+
+     
+      <div class="block-item">
+        <p>address </p>
+        
+        <span>{{order?.address.area?.name}}</span>
+,
+        <span>{{order?.address.city?.name}}</span> 
+
+
+      </div>
+
+      <div class="block-item">
+        <p>Delivery time </p>
+        <span *ngIf="order.state_id == 4">{{order.updated_at | date: "mediumTime"}}</span>
+      </div>
+
+
+      <div class="block-item">
+        <p class="pRating">customer rating</p>
+        <div class="rate-item">
+          <bar-rating [readOnly]="true" [(rate)]="order.rate" [max]="5"></bar-rating>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-12">
+      <div class="block-item">
+        <p>Order Feedback  </p>
+        <span>{{order.feedback}}</span>
+      </div>
+      <div class="block-item">
+        <p>customer notes </p>
+        <span>{{order.notes}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="block-title">
+  <h4>Product </h4>
+</div>
+
+<div class="block" *ngIf="order">
+
+  <div *ngFor="let item of order.items; index as i">
+    <div class="block-ratings">
+      <p>{{i + 1}}</p>
+      <img [src]="item?.product.image" alt="" class="owl-img" width="80">
+      <div class="content">
+        <h4>{{item.product.name}}</h4>
+        <p>{{item.product.description}}</p>
+      </div>
+    </div>
+
+    <div class="qty-item">
+      <p>QTY: {{item.amount}}</p>
+      <span *ngIf="!item?.product.discount_price">{{item.product.price}} LE</span>
+      <span *ngIf="item?.product.discount_price">{{item.product.discount_price}} LE</span>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="block-title" *ngIf="order && order.schedule">
+  <h4>Recurring </h4>
+</div>
+
+<div class="block" *ngIf="order && order.schedule">
+
+  <div class="row">
+
+    <div class="col-md-5 ">
+
+      <div class="block-item">
+        <p>Repeat Every </p>
+        <span *ngIf="order.schedule.interval == 1">Day</span>
+        <span *ngIf="order.schedule.interval == 2">Week</span>
+        <span *ngIf="order.schedule.interval == 3">Month</span>
+      </div>
+
+      <div class="block-item">
+        <p>Time</p>
+        <span>{{order.schedule.time}}</span>
+      </div>
+
+    </div>
+
+
+    <div class="col-md-2 "></div>
+
+
+    <div class="col-md-5 ">
+
+      <div class="block-item">
+        <p>Previous Repeats</p>
+        <span>{{order.reorder_count}}</span>
+      </div>
+
+      <div class="block-item">
+        <p>Next Time</p>
+        <span>{{order.schedule.next_order}}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="block-title">
+  <h4>customer Details</h4>
+</div>
+
+<div class="block" *ngIf="order">
+  <div class="row">
+
+    <div class="col-md-5 ">
+
+      <div class="block-item">
+        <p>id </p>
+        <span>{{order.user.id}}</span>
+
+      </div>
+
+      <div class="block-item">
+        <p>name</p>
+        <span>{{order.user.name}}</span>
+
+      </div>
+
+
+
+    </div>
+
+
+    <div class="col-md-2 "></div>
+
+
+    <div class="col-md-5 ">
+
+      <div class="block-item">
+        <p>number</p>
+        <span>{{order.user.phone}}</span>
+
+      </div>
+
+      <div class="block-item">
+        <p>email </p>
+        <span>{{order.user.email}}</span>
+
+      </div>
+
+    </div>
+    <div class="col-sm-12">
+      <div class="block-item">
+        <p>address </p>
+        <span>{{order.address.formatted_address}}</span>
+
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+
+
+
+
+<div class="block-title">
+  <h4>Billing Details</h4>
+</div>
+
+<div class="block" *ngIf="order">
+  <div class="row">
+
+    <div class="col-md-4">
+
+      <div class="block-item">
+        <p>Applied Offer</p>
+        <span *ngIf="order.promo">{{order.promo.name}} -{{order.promo.amount}} <span *ngIf="order.promo.type == 2">%</span><span
+            *ngIf="order.promo.type == 1">LE</span></span>
+
+      </div>
+
+      <div class="block-item">
+        <p>Remaining</p>
+        <span>{{order.remaining}}</span>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-4 "></div>
+
+    <div class="col-md-4 ">
+
+      <div class="block-item">
+        <p>Payment Method</p>
+        <span>{{order.payment_method == 1 ? "Cash" : "Visa"}}</span>
+      </div>
+
+      <div class="block-item">
+        <p>Grand Total</p>
+        <span>{{order.amount}}</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="block-title">
+  <h4>order milestones</h4>
+</div>
+
+
+<div class="milestones-stepper" *ngIf="order">
+  <ul class="row">
+
+    <li class="col active" *ngFor="let state of order.history">
+      <img src="{{state.image}}" alt="" *ngIf="state.state_id !== 9">
+      <img src="assets/img/warning.svg" alt="" *ngIf="state.state_id == 9">
+      <p>{{state.name}}</p>
+      <span>{{state.created_at | date: "yyyy-MM-dd hh:mm a"}}</span>
+    </li>
+  </ul>
+</div>

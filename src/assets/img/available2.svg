@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="37px" height="37px" viewBox="0 0 37 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons/micro/check-box/Active Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="6.18875 12.93875 3.06125 9.81125 2 10.8725 6.18875 15.06125 15.18875 6.06125 14.1275 5"></polygon>
+    </defs>
+    <g id="UI" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons/micro/check-box/Active" transform="translate(0.000000, -2.000000)">
+            <g id="Group" transform="translate(4.000000, 4.000000)">
+                <g id="Group-2">
+                    <g id="Group-3">
+                        <g id="Radio-Button-Trolley-" fill="#38A0CD">
+                            <circle id="Oval-3" cx="14.5" cy="14.5" r="14.5"></circle>
+                        </g>
+                        <g id="Icons/Check" transform="translate(6.000000, 5.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Mask" fill="#FFFFFF" fill-rule="nonzero" xlink:href="#path-1"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

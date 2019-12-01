@@ -1,0 +1,36 @@
+<svg width="36" height="36" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+ <title>Icons/micro/order/unavailable</title>
+ <desc>Created with Sketch.</desc>
+ <defs>
+  <circle id="path-1" cx="18" cy="18" r="10"/>
+  <filter x="-117.5%" y="-92.5%" width="335.0%" height="335.0%" filterUnits="objectBoundingBox" id="filter-2">
+   <feGaussianBlur stdDeviation="7"/>
+  </filter>
+  <polygon id="path-3" points="10.2916667 3.46666667 9.53333333 2.70833333 6.5 5.74166667 3.46666667 2.70833333 2.70833333 3.46666667 5.74166667 6.5 2.70833333 9.53333333 3.46666667 10.2916667 6.5 7.25833333 9.53333333 10.2916667 10.2916667 9.53333333 7.25833333 6.5"/>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="38" height="38" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="Icons/micro/order/unavailable" fill="none" fill-rule="evenodd">
+   <g id="Oval-3">
+    <use fill="#ffaa56" filter="url(#filter-2)" xlink:href="#path-1" id="svg_1"/>
+    <use fill="#ffaa56" fill-rule="evenodd" xlink:href="#path-1" id="svg_2"/>
+   </g>
+   <g id="Icon-/-Close-/-Filled">
+    <mask fill="#ffaa56" id="mask-4">
+     <use xlink:href="#path-3" id="svg_3" fill="#ffaa56"/>
+    </mask>
+    <g id="Mask"/>
+    <g id="✱-/-Color-/-Icons-/-Selected-/-On-Primary-/-Active-" mask="url(#mask-4)" fill="#FFFFFF" fill-rule="evenodd">
+     <rect id="Rectangle-3" x="12" y="12" width="12.931061" height="12.931061" fill="#ffaa56"/>
+    </g>
+   </g>
+   <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="12" id="svg_4" y="22.228605" x="16.278066" stroke-width="0" stroke="#000" fill="#ffaa56">!</text>
+  </g>
+  <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="12" id="svg_5" y="21.915526" x="16.027603" stroke-width="0" stroke="#000" fill="#ffffff">!</text>
+ </g>
+</svg>

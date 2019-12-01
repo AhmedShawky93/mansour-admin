@@ -1,0 +1,620 @@
+<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-6 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
+      </div>
+    </div>
+
+    <div class="col-md-3 col-xs-6  text-right">
+
+      <div class="form-group">
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">export CSV</a>
+      </div>
+
+    </div>
+
+    <div class="col-md-3 col-xs-6 text-right">
+      <div class="owl-btn-list">
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big open-add w-100"> + New man</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="staff-items">
+
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" *ngFor="let user of deliverers | stringFilter: searchTerm">
+      <div class="item">
+        <div class="row">
+          <div class="col-3">
+            <div class="staff-img">
+              <img *ngIf="user.delivererProfile.image" src="{{user.delivererProfile.image}}" alt="">
+              <img *ngIf="!user.delivererProfile.image" src="./assets/img/profile.png" alt="">
+            </div>
+          </div>
+
+          <div class="col-9">
+            <div class="content">
+              <h4>{{user.name}}</h4>
+              <p>{{user.phone}}</p>
+              <div>
+
+                <a href="javascript:void(0)" class="table-view open-view" (click)="viewDeliverer(user)">
+                  <i class="icon-View"></i>
+                </a>
+
+                <a href="javascript:void(0)" class="table-view open-edit" (click)="editDeliverer(user)">
+                  <i class="icon-grey"></i>
+                </a>
+
+                <label class="switch">
+
+                  <input type="checkbox" value="1" [(ngModel)]="user.active" (change)="changeActive(user, $event)">
+                  <span class="slider round"></span>
+
+                  <div class="reason-popup" [hidden]="!user.showReason">
+                    <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this delivery man?" [(ngModel)]="user.notes"></textarea>
+                    <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!user.notes" (click)="submitDeactivate(user)">submit</button>
+                    <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(user)">cancel</button>
+                  </div>
+
+                  <div class="hover-reason" *ngIf="!user.active">
+                    <div class="head">
+                      Deactivation Notes
+                    </div>
+                    <div class="body">
+                      {{user.deactivation_notes}}
+                    </div>
+                  </div>
+
+                </label>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="content2">
+          <div class="row">
+            <div class="col">
+              <div class="area">
+                <span>area</span>
+                <p>{{user.delivererProfile.area.name}}, {{user.delivererProfile.area.city.name}}</p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="roder">
+                <span>order</span>
+                <p>
+                  <a [routerLink]="['/pages/staff/total-orders2' , user.id]">{{user.numberOfOrders}}</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="rev-block">
+            <div class="row">
+              <div class="col">
+                <div class="review">
+                  <span>Overall activity</span>
+
+                  <div class="rate-item">
+                    <bar-rating [readOnly]="true" [(rate)]="user.rating" [max]="5"></bar-rating>
+                    <span>({{user.numberOfRates}})</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+<!-- view side bar  -->
+<div class="form-sidebar view-vindor-types" id="view-man">
+  <div class="head">
+    <span class="close" id="close-vindors4">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>delivary details</h3>
+  </div>
+
+  <div class=" details " *ngIf="currentUser">
+
+    <div>
+      <div class="customer-det">
+        <img *ngIf="currentUser.delivererProfile.image" src="{{currentUser.delivererProfile.image}}" alt="" width="50" height="50">
+        <img *ngIf="!currentUser.delivererProfile.image" src="./assets/img/profile.png" alt="" width="50" height="50">
+        <div class="content">
+          <p>{{currentUser.name}}</p>
+          <h5>{{currentUser.phone}}</h5>
+          <span class="toggle-delevary open-edit" (click)="editDeliverer(currentUser)">
+            <i class="icon-grey"></i>
+          </span>
+        </div>
+        <div class="date">
+          delivary ID {{currentUser.id}}
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h5>date of birth</h5>
+      <p>
+        <span>{{currentUser.birthdate | date: "dd MMMM yyyy"}}</span>, {{currentUser.age}} YO</p>
+    </div>
+
+    <div>
+      <h5>ID Number</h5>
+      <p>{{currentUser.delivererProfile.unique_id}}</p>
+    </div>
+
+
+
+    <div>
+      <h5>Address</h5>
+      <p>{{currentUser.address}}</p>
+    </div>
+
+  </div>
+
+
+  <div class="order-history" *ngIf="currentUser">
+    <span style="cursor: pointer;" (click)="toggleShow()">most recent
+      <i *ngIf="hide" class="fa fa-angle-down"></i>
+      <i *ngIf="show" class="fa fa-angle-up"></i>
+    </span>
+    <h5>history of order ({{currentUser.orders.length}})</h5>
+
+    <div *ngIf="hide">
+      <div class="order-item" *ngFor="let order of currentUser.orders">
+        <span>{{order.created_at | date: "dd MMMM"}}</span>
+        <a [routerLink]="['/pages/order-details', order.id]">
+          <h4>Order ID: {{order.id}}</h4>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <button *ngIf="currentUser" class=" btn btn-owls btn-rounded btn-red2 " data-toggle="modal" data-target="#removePopUp2">delete
+    {{currentUser.name}} </button> -->
+</div>
+
+<!-- add area side bar -->
+<div class="form-sidebar view-vindor-types " id="add-man">
+  <div class="head">
+    <span class="close" id="close-add-area">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>new delivary man</h3>
+  </div>
+
+
+  <div class="add-area-form">
+    <form [formGroup]="addStaff" (ngSubmit)="createDeliverer(newDeliverer)" novalidate>
+      <h3>personal</h3>
+      <div class="form-group">
+        <label for=""> name</label>
+        <input type="text" id="namestaff" placeholder="type" class="owl-input" name="name" [(ngModel)]="newDeliverer.name" required
+          formControlName="name">
+        <!-- Start Errors Rolues -->
+        <div *ngIf="addStaff.controls.name.invalid && (addStaff.controls.name.dirty || addStaff.controls.name.touched)" class="alert alert-danger">
+          <div *ngIf="addStaff.controls.name.errors.required">
+            Staff Name is required.
+          </div>
+          <div *ngIf="addStaff.controls.name.errors.minlength">
+            Name must be at least 3 characters long.
+          </div>
+        </div>
+        <!-- End  Errors Rolues -->
+      </div>
+      <div class="form-group">
+        <label for=""> phone number</label>
+        <input type="text" id="" placeholder="type" class="owl-input" name="phone" [(ngModel)]="newDeliverer.phone" required formControlName="phone">
+        <!-- Start Errors Rolues -->
+        <div *ngIf="addStaff.controls.phone.invalid && (addStaff.controls.phone.dirty || addStaff.controls.phone.touched)" class="alert alert-danger">
+          <div *ngIf="addStaff.controls.phone.errors.required">
+            Number Phone is required
+          </div>
+          <div *ngIf="addStaff.controls.phone.errors.minlength">
+            Name must be at least 11 characters long.
+          </div>
+          <div *ngIf="addStaff.controls.phone.errors.pattern">
+            Must Be Number Only.
+          </div>
+        </div>
+        <!-- End  Errors Rolues -->
+      </div>
+      <div class="form-group">
+        <label for=""> email</label>
+        <input type="email" id="emailstaff" placeholder="type" class="owl-input" name="emailfdsaf" [(ngModel)]="newDeliverer.email"
+          formControlName="email">
+        <!-- Start Errors Rolues -->
+        <div *ngIf="addStaff.controls.email.invalid && (addStaff.controls.email.dirty || addStaff.controls.email.touched)" class="alert alert-danger">
+          <div *ngIf="addStaff.controls.email.errors.required">
+            email is required.
+          </div>
+          <div *ngIf="addStaff.controls.email.errors.email">
+            email is wrong
+          </div>
+        </div>
+        <!-- End  Errors Rolues -->
+      </div>
+      <div class="form-group">
+        <label for=""> password</label>
+        <input type="password" id="password" placeholder="type" class="owl-input" name="passworfasfd" [(ngModel)]="newDeliverer.password"
+          required formControlName="password" autocomplete="new-password">
+        <!-- Start Errors Rolues -->
+        <div *ngIf="addStaff.controls.password.invalid && (addStaff.controls.password.dirty || addStaff.controls.password.touched)"
+          class="alert alert-danger">
+          <div *ngIf="addStaff.controls.password.errors.required">
+            password is required.
+          </div>
+          <div *ngIf="addStaff.controls.password.errors.minlength">
+            passowrd must be at least 8 characters long.
+          </div>
+        </div>
+        <!-- End  Errors Rolues -->
+      </div>
+      <div class="form-group">
+        <div>
+          <mat-form-field>
+            <input [max]="today" matInput placeholder="date of birth" [satDatepicker]="picker"
+             [value]="date" name="birthdate" [(ngModel)]="newDeliverer.birthdate"
+              required formControlName="birthdate">
+            <sat-datepicker #picker [rangeMode]="false">
+            </sat-datepicker>
+            <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+          </mat-form-field>
+          <!-- Start Errors Rolues -->
+          <div *ngIf="addStaff.controls.birthdate.invalid && (addStaff.controls.birthdate.dirty || addStaff.controls.birthdate.touched)"
+            class="alert alert-danger">
+            <div *ngIf="addStaff.controls.birthdate.errors.required">
+              birth Date is required.
+            </div>
+          </div>
+          <!-- End  Errors Rolues -->
+        </div>
+      </div>
+      <div class="form-group">
+        <label for=""> address </label>
+        <input type="text" placeholder="type Your Address" class="owl-input" [(ngModel)]="newDeliverer.address" name="address" formControlName="address"
+          required>
+        <!-- Start Errors Rolues -->
+        <div *ngIf="addStaff.controls.address.invalid && (addStaff.controls.address.dirty || addStaff.controls.address.touched)"
+          class="alert alert-danger">
+          <div *ngIf="addStaff.controls.address.errors.required">
+            address is required.
+          </div>
+        </div>
+        <!-- End  Errors Rolues -->
+      </div>
+      <div class="form-group">
+        <label for=""> iD number </label>
+        <input type="text" pattern="[0-9]+" placeholder="type Your id number" class="owl-input" name="unique_id" [(ngModel)]="newDeliverer.unique_id"
+          required formControlName="unique_id" maxlength="14" minlength="14">
+        <!-- Start Errors Rolues -->
+        <div *ngIf="addStaff.controls.unique_id.invalid && (addStaff.controls.unique_id.dirty || addStaff.controls.unique_id.touched)"
+          class="alert alert-danger">
+          <div *ngIf="addStaff.controls.unique_id.errors.required">
+            id number is required.
+          </div>
+          <div *ngIf="addStaff.controls.unique_id.errors.maxlength">
+            id number must be 14 characters.
+          </div>
+          <div *ngIf="addStaff.controls.unique_id.errors.minlength">
+            id number must be 14 characters.
+          </div>
+        </div>
+        <!-- End  Errors Rolues -->
+      </div>
+
+      <div class="form-group" style="margin-top: 15px;">
+        <label for="">image</label>
+        <div class=" owl-input owl-input-file">
+          <input type="file" class="" (change)="onFileSelected($event, newDeliverer)" placeholder="upload">
+        </div>
+      </div>
+      <div style="margin-bottom: 25px;">
+        <img class="img-circle float-right" *ngIf="!newDeliverer.imageUrl" src="http://via.placeholder.com/50x50" alt="">
+        <img class="img-circle float-right img-responsive" *ngIf="newDeliverer.imageUrl" width="50" height="50" [src]="newDeliverer.imageUrl"
+          alt="">
+        <h3>area of service</h3>
+      </div>
+      <!--  end Image Form  -->
+      <div *ngIf="showError" class="alert alert-danger">
+        Images is required.
+      </div>
+      <div class="form-group">
+        <label for="">City</label>
+        <select class="owl-input" name="city_id" [(ngModel)]="city_id" (change)="loadAreas(city_id)" required formControlName="city_id">
+          <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+        </select>
+        <!-- Start Errors Rolues -->
+        <div *ngIf="addStaff.controls.city_id.invalid && (addStaff.controls.city_id.dirty || addStaff.controls.city_id.touched)"
+          class="alert alert-danger">
+          <div *ngIf="addStaff.controls.city_id.errors.required">
+            city is required.
+          </div>
+        </div>
+        <!-- End  Errors Rolues -->
+      </div>
+      <div class="s-d-a">
+        <button class=" btn btn-owls btn-rounded btn-blue2  open-choose" type="button" >Select Delivary Area</button>
+
+        <div class="choose">
+          <span class="close">
+            <i class="icon-Exit"></i>
+          </span>
+          <h3>delivary area</h3>
+          <ul>
+            <li *ngFor="let area of area_list; index as i">
+              <label class="checkup">{{area.name}}
+                <input type="radio" name="area_id" value="{{area.id}}" [(ngModel)]="newDeliverer.area_id" formControlName="area_id" required>
+                <span class="checkmark"></span>
+              </label>
+            </li>
+          </ul>
+
+        </div>
+
+        <!-- Start Errors Rolues -->
+        <div *ngIf="addStaff.controls.area_id.invalid && (addStaff.controls.area_id.dirty || addStaff.controls.area_id.touched)"
+          class="alert alert-danger">
+          <div *ngIf="addStaff.controls.area_id.errors.required">
+            delivary area is required.
+          </div>
+        </div>
+        <!-- End  Errors Rolues -->
+      </div>
+
+
+      <button class="btn btn-owls btn-rounded btn-green btn-block" type="submit">Add</button>
+    </form>
+  </div>
+
+
+
+  <!-- edit area side bar -->
+  <div class="form-sidebar view-vindor-types " id="edit-man">
+    <div class="head">
+      <span class="close" id="close-edit-area">
+        <i class="icon-Exit"></i>
+      </span>
+      <h3>edit delivary man</h3>
+    </div>
+
+
+    <div class="add-area-form" *ngIf="editUser">
+      <form #editStaff="ngForm" (ngSubmit)="editStaff.valid  && updateDeliverer(editUser)" novalidate>
+        <h3>personal</h3>
+        <div class="form-group">
+          <label for=""> name</label>
+          <input type="text" placeholder="type" class="owl-input" name="editName" [(ngModel)]="editUser.name" #editName="ngModel" required
+            [rangeLength]="[3, 21]">
+          <!-- Start Errors Rolues -->
+          <div *ngIf="editStaff.submitted &&  editName.invalid" class="alert alert-danger">
+            <div *ngIf="editName.errors.required">
+              Staff Name is required.
+            </div>
+            <div *ngIf="editName.errors.rangeLength">
+              Minimum chart 3 And Max 140
+
+            </div>
+          </div>
+          <!-- End  Errors Rolues -->
+        </div>
+
+        <div class="form-group">
+          <label for=""> phone number</label>
+          <input type="text" placeholder="type" class="owl-input" name="phone" [(ngModel)]="editUser.phone" pattern="[0-9]+" required
+            #editPhone="ngModel" id="phone">
+          <!-- Start Errors Rolues -->
+          <div *ngIf="editStaff.submitted &&  editPhone.invalid" class="alert alert-danger">
+            <div *ngIf="editPhone.errors.required">
+              phone is required.
+            </div>
+            <div *ngIf="editPhone.errors.pattern">
+              Must Be Number Only.
+            </div>
+          </div>
+          <!-- End  Errors Rolues -->
+        </div>
+
+        <div class="form-group">
+          <label for=""> email address </label>
+          <input type="email" placeholder="type" class="owl-input" name="email" [(ngModel)]="editUser.email" email name="email" #editEmail="ngModel">
+          <!-- Start Errors Rolues -->
+          <div *ngIf="editStaff.submitted &&  editEmail.invalid" class="alert alert-danger">
+            <div *ngIf="editEmail.errors.required">
+              email is required.
+            </div>
+            <div *ngIf="editEmail.errors.email">
+              email is not valid.
+            </div>
+          </div>
+          <!-- End  Errors Rolues -->
+        </div>
+
+        <div class="form-group">
+          <label for=""> Password </label>
+          <input type="password" placeholder="type" class="owl-input" name="password" [(ngModel)]="editUser.password" #editPassword="ngModel"
+            [rangeLength]="[8, 35]" autocomplete="new-password">
+          <!-- Start Errors Rolues -->
+          <!-- Start Errors Rolues -->
+          <div *ngIf="editStaff.submitted &&  editPassword.invalid" class="alert alert-danger">
+            <div *ngIf="editPassword.errors.required">
+              password is required
+            </div>
+            <div *ngIf="editPassword.errors.rangeLength">
+              Minimum password 8 chart.
+            </div>
+          </div>
+          <!-- End  Errors Rolues -->
+          <!-- End  Errors Rolues -->
+        </div>
+
+        <div class="form-group">
+          <mat-form-field>
+            <input [max]="today" matInput placeholder=" date of birth" [satDatepicker]="picker2" [value]="date" name="birthdate" [(ngModel)]="editUser.birthdate"
+              required #editData="ngModel">
+            <sat-datepicker #picker2 [rangeMode]="false">
+            </sat-datepicker>
+            <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+          </mat-form-field>
+          <!-- Start Errors Rolues -->
+          <div *ngIf="editStaff.submitted &&  editData.invalid" class="alert alert-danger">
+            <div *ngIf="editData.errors.required">
+              birth Day is required.
+            </div>
+          </div>
+          <!-- End  Errors Rolues -->
+        </div>
+
+        <div class="form-group">
+          <label for=""> address </label>
+          <input type="text" placeholder="write your address" class="owl-input" name="address" [(ngModel)]="editUser.address" #editAddress="ngModel"
+            required>
+          <!-- Start Errors Rolues -->
+          <div *ngIf="editStaff.submitted &&  editAddress.invalid" class="alert alert-danger">
+            <div *ngIf="editAddress.errors.required">
+              Address is required.
+            </div>
+          </div>
+          <!-- End  Errors Rolues -->
+        </div>
+
+        <div class="form-group">
+          <label for=""> iD number </label>
+          <input type="text" pattern="[0-9]+" placeholder="type" class="owl-input" name="unique_id" [(ngModel)]="editUser.unique_id"
+            required name="editIdNumber" #editIdNumber="ngModel" maxlength="14" minlength="14">
+          <!-- Start Errors Rolues -->
+          <div *ngIf="editStaff.submitted &&  editIdNumber.invalid" class="alert alert-danger">
+            <div *ngIf="editIdNumber.errors.required">
+              ID Number is required.
+            </div>
+            <div *ngIf="editIdNumber.errors.minlength">
+              ID Number must be 14 characters.
+            </div>
+            <div *ngIf="editIdNumber.errors.maxlength">
+              ID Number must be 14 characters.
+            </div>
+          </div>
+          <!-- End  Errors Rolues -->
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <label for="">image</label>
+          <div class=" owl-input owl-input-file">
+            <input type="file" class="" placeholder="upload" (change)="onFileSelected($event, editUser)">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+          <img class="img-circle float-right" *ngIf="!editUser.imageUrl" src="http://via.placeholder.com/50x50" alt="">
+          <img class="img-circle float-right" *ngIf="editUser.imageUrl" width="50" height="50" [src]="editUser.imageUrl" alt="">
+          <h3>area of service</h3>
+        </div>
+        <div *ngIf="showError" class="alert alert-danger">
+          Images is required.
+        </div>
+
+        <div class="form-group">
+          <label for="">City</label>
+          <select class="owl-input" name="city_id" [(ngModel)]="city_id" (change)="loadAreas(city_id)">
+            <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+          </select>
+        </div>
+
+        <div class="s-d-a">
+          <button class=" btn btn-owls btn-rounded btn-blue2  open-choose " id="open-choose2" (click)="toggeldelivary(newDeliverer)" type="button">select delivary area</button>
+
+          <div class="choose" id="choose"  *ngIf="newDeliverer.showDelivere">
+            <span class="close">
+              <i class="icon-Exit" (click)='toggeldelivary(newDeliverer)'></i>
+            </span>
+            <h3>delivary area {{editUser.area_id}}</h3>
+            <ul>
+              <li *ngFor="let area of area_list; index as i">
+                <label class="checkup">{{area.name}}
+                  <input type="radio" name="area{{i}}" [value]="area.id" [(ngModel)]="editUser.area_id" [checked]="editUser.area_id == area.id">
+                  <span class="checkmark"></span>
+                </label>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-owls btn-rounded btn-green ">Update</button>
+          <!-- <button class="btn btn-owls btn-circle btn-remove btn-red2" data-toggle="modal" data-target="#removePopUp">
+          <i class="fa fa-trash"></i>
+        </button> -->
+        </div>
+
+      </form>
+    </div>
+
+
+  </div>
+
+
+  <!-- Delete  Popup-->
+  <div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">are you sure to delete this item ?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
+          <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Delete in view sidebar  Popup-->
+  <div class="modal fade" id="removePopUp2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">are you sure to delete this item ?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
+          <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+        </div>
+      </div>
+    </div>
+  </div>

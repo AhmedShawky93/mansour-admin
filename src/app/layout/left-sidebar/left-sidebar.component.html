@@ -1,0 +1,117 @@
+<div class="left-sidebar">
+  <div class="app-logo">
+    <img src="assets/img/logo.png" alt="" width="132">
+  </div>
+
+  <nav class=" side-nav accordion-group">
+    <ul class="nav navbar-nav  ">
+      <li class="side-nav-item" routerLinkActive="active">
+        <a routerLink="/pages/home">
+          <i class="icon-None" data-toggle="tooltip" data-placement="right" title="Dashboard"></i>
+          <span>dashboard</span>
+        </a>
+      </li>
+
+      <li class="side-nav-item ">
+        <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-1" aria-controls="submenu-2">
+          <i class="icon-None7" data-toggle="tooltip" data-placement="right" title="Manage Usder"></i>
+          <span>Inventory</span>
+          <i class="fa fa-fw fa-angle-down pull-right"></i>
+        </a>
+
+        <ul id="submenu-1" class="collapse">
+          <li>
+            <a routerLink="/pages/categories" routerLinkActive="active">
+              categories</a>
+          </li>
+          <li>
+            <a routerLink="/pages/products" routerLinkActive="active">
+              products</a>
+          </li>
+        </ul>
+      </li>
+
+
+      <li class="side-nav-item " routerLinkActive="active">
+        <a routerLink="/pages/orders">
+          <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Orders"></i>
+          <span>Orders</span>
+        </a>
+      </li>
+
+
+      <li class="side-nav-item" routerLinkActive="active">
+        <a routerLink="/pages/manage-customer" routerLinkActive="active">
+          <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Customers"></i>
+          <span>customers</span>
+        </a>
+      </li>
+
+
+      <li class="side-nav-item" routerLinkActive="active">
+        <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-4" aria-controls="submenu-4">
+          <i class="icon-None2" data-toggle="tooltip" data-placement="right" title="Delivery"></i>
+          <span>Delivery</span>
+          <i class="fa fa-fw fa-angle-down pull-right"></i>
+        </a>
+
+        <ul id="submenu-4" class="collapse">
+          <li>
+            <a routerLink="/pages/staff" routerLinkActive="active">
+              staff</a>
+          </li>
+          <li>
+            <a routerLink="/pages/areas" routerLinkActive="active">
+              areas</a>
+          </li>
+        </ul>
+      </li>
+
+
+
+      <!-- <li class="side-nav-item">
+        <a routerLink="/pages/reporting-center" routerLinkActive="active">
+          <i class="icon-None5" data-toggle="tooltip" data-placement="right" title="dashboard"></i>
+          <span> Reporting Center</span>
+        </a>
+      </li> -->
+
+
+
+      <li class="side-nav-item" routerLinkActive="active">
+        <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-6" aria-controls="submenu-6">
+          <i class="icon-None3" data-toggle="tooltip" data-placement="right" title="Marketing"></i>
+          <span>Marketing</span>
+          <i class="fa fa-fw fa-angle-down pull-right"></i>
+        </a>
+        <ul id="submenu-6" class="collapse">
+          <li>
+            <a routerLink="/pages/promocodes" routerLinkActive="active">
+              promocodes</a>
+          </li>
+          <li>
+            <a routerLink="/pages/ads" routerLinkActive="active">
+              ads</a>
+          </li>
+          <li>
+            <a routerLink="/pages/notifications" routerLinkActive="active">
+              notifications</a>
+          </li>
+
+        </ul>
+      </li>
+      <li class="side-nav-item" routerLinkActive="active">
+        <a routerLink="/pages/medical" routerLinkActive="active">
+          <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Medical Prescriptions"></i>
+          <span>Medical Prescriptions</span>
+        </a>
+      </li>
+      <li class="side-nav-item" routerLinkActive="active">
+        <a routerLink="/pages/settings" routerLinkActive="active">
+          <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Settings"></i>
+          <span> settings</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,66 @@
+<header class="top-header">
+  <div class="container-fluid">
+
+    <div class="right-part">
+      <div class="dropdown avatar-part float-right" *ngIf="user"> 
+        <img class="img-circle" style="width: 40px;"  *ngIf="user.imageUrl" src="{{user.imageUrl}}"
+        >
+        <img class="img-circle" style="width: 40px;"  *ngIf="!user.imageUrl" src="assets/img/profile.png"
+          alt="Admin Image">
+        <button class="btn btn-secondary dropdown-toggle btn-top" 
+          style=" text-transform: capitalize; "
+        type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          {{user.name }}
+        </button>
+        <div class="dropdown-menu admin-dropdown row" aria-labelledby="dropdownMenuButton">
+          <a class="col" routerLink='/pages/settings'> edit profile</a>
+          <a class="col" href="javascript:void(0);" (click)="logout()">log out</a>
+        </div>
+      </div>
+
+      <div class="notification-part float-right">
+        <button (click)="clickEvent()" class="btn btn-secondary dropdown-toggle" type="button" id="notification"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span>
+            <i class="fa fa-bell fa-top"></i>
+          </span>
+        </button>
+        <span class="notification_number" *ngIf="unread">{{unread}}</span>
+      </div>
+    </div>
+
+    <div class="left-part">
+      <span id="toggle-sidebar">
+        <i class="fa fa-bars"></i>
+      </span>
+      <h2 class="hidden-mobile">{{title}}</h2>
+    </div>
+  </div>
+</header>
+
+<!-- notification sidebar -->
+<!-- <div  [ngClass]="'notification-area' : 'notification-area-toggle' "> -->
+<div class="notification-area" [ngClass]="{'notification-area-toggle' : notifToggle }">
+  <div class="head">
+    <div class="colse" (click)="clickEvent()">
+      <span>
+        <i class="icon-Exit"></i>
+      </span>
+    </div>
+    <h4>notifications</h4>
+  </div>
+
+  <div class="not-day" *ngFor="let group of notificationGroups | groupBy: 'created_at' ">
+    <!-- <h5>{{group.key | amTimeAgo}}</h5> -->
+
+    <div class="not-item" *ngFor="let notification of group.value">
+      <small>{{notification.created_at | amDateFormat:'h:mm:ss a'}}</small>
+      <p>{{notification.title}}</p>
+      <span>{{notification.body}}</span>
+    </div>
+
+  </div>
+
+
+</div>

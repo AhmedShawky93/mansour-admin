@@ -1,0 +1,512 @@
+<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-8">
+
+    </div>
+
+    <div class="col-md-4 text-right">
+      <div class="owl-btn-list">
+        <button href="javascript:void(0)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-new">+ New ad</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table owls-table ">
+    <thead>
+      <tr>
+        <th style="width: 180px;" scope="col">iD</th>
+        <th scope="col">type</th>
+        <th scope="col">location</th>
+        <th scope="col">Order</th>
+        <th scope="col">Creation Date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ad of ads | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
+        <td>{{ad.id}}</td>
+        <td>
+          <P *ngIf="ad.type == 1"> product </P>
+          <P *ngIf="ad.type == 2"> Category </P>
+          <P *ngIf="ad.type == 3"> Medical </P>
+
+        </td>
+        <td>
+          <P *ngIf="ad.popup">Popup</P>
+          <P *ngIf="!ad.popup && !ad.banner_ad">Slider</P>
+          <P *ngIf="ad.banner_ad">Banner</P>
+        </td>
+        <td>{{ad.order}}</td>
+        <td>{{ad.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td>
+
+          <a style="margin-right: 10px" (click)="viewAd(ad)" class="toggle-view-category table-view">
+            <i class="icon-View"></i>
+          </a>
+
+
+          <!-- <a href="javascript:void(0)" (click)="editCurrentAd(ad)" class="table-view edit-new">
+            <i class="icon-grey"></i>
+          </a> -->
+
+
+
+          <label class="switch" *ngIf="!ad.banner_ad">
+            <input type="checkbox"  value="1" [(ngModel)]="ad.active" (change)="changeActive(ad, $event)">
+            <span class="slider round"></span>
+            <div class="reason-popup text-left" [hidden]="!ad.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this ad?" [(ngModel)]="ad.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!ad.notes" (click)="submitDeactivate(ad)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(ad)">cancel</button>
+            </div>
+            <div class="hover-reason text-left" *ngIf="!ad.active">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{ad.deactivation_notes}}
+              </div>
+            </div>
+          </label>
+        </td>
+      </tr>
+
+
+
+
+
+    </tbody>
+  </table>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+
+
+
+
+
+
+<div class="form-sidebar view-vindor-types" id="view-category">
+  <div class="head" *ngIf="seclecAds">
+    <span class="close" id="close-vindors1">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>ad ID: {{seclecAds.id}}</h3>
+
+  </div>
+
+  <div class="head-btn">
+    <button id="add-vindor-types-btn" class="btn btn-owls btn-rounded btn-blue2 open-edit " (click)="editCurrentAd(seclecAds)">
+
+      edit</button>
+  </div>
+
+  <div class="details details-2" *ngIf="seclecAds">
+
+    <div>
+      <div>
+        <h5>images</h5>
+        <img class="owl-img img-fluid" src="{{seclecAds.image}}" alt="">
+      </div>
+    </div>
+
+    <div>
+      <h5>creation Date</h5>
+      <p>{{seclecAds.created_at | date : "yyyy-MM-dd hh:mm a"}}</p>
+    </div>
+
+
+
+    <div>
+      <h5>Type</h5>
+      <P *ngIf="seclecAds.type == 1"> product </P>
+      <P *ngIf="seclecAds.type == 2"> Category </P>
+      <P *ngIf="seclecAds.type == 3"> Medical </P>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<!-- add new ads -->
+<div class="form-sidebar view-vindor-types " id="add-ads">
+  <div class="head">
+    <span class="close" id="close-vindors2">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>new ad</h3>
+  </div>
+
+  <form class="sideform" [formGroup]="newAdsForm" (ngSubmit)="newAdForm(ad)" novalidate>
+
+    <div class="form-group">
+      <label for="">images</label>
+
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" *ngIf="ad.imageUrl" src="{{ad.imageUrl}}" alt="">
+        <img class="owl-img img-fluid" *ngIf="!ad.imageUrl" src="http://via.placeholder.com/328x177" alt="">
+        <input type="file" id="productImg" class="owl-input" placeholder="upload your image" (change)="onimgeSelected(ad, $event)"
+        />
+        <input type="hidden" [(ngModel)]="ad.image" name="image" required formControlName="image">
+      </div>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="newAdsForm.controls.image.invalid && (newAdsForm.controls.image.dirty || newAdsForm.controls.image.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.image.errors.required">
+          image Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Order</label>
+
+      <input type="number" class="owl-input" formControlName="order"  name="order"  placeholder="Type here..."
+      [(ngModel)]="ad.order" required >
+
+           <!-- Start  Errors Rolues -->
+           <div *ngIf="newAdsForm.controls.order.invalid && (newAdsForm.controls.order.dirty || newAdsForm.controls.order.touched)"
+           class="alert alert-danger">
+           <div *ngIf="newAdsForm.controls.order.errors.required">
+            Ad Order is required.
+           </div>
+           
+         </div>
+         <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="">Ad Location</label>
+      <select type="text" class="owl-input" required formControlName="popup" [(ngModel)]="ad.popup" name="popup">
+        <option value="" selected disabled>Select Location</option>
+        <option value="0">Slider</option>
+        <option value="1">Popup</option>
+      </select>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="newAdsForm.controls.popup.invalid && (newAdsForm.controls.popup.dirty || newAdsForm.controls.popup.touched)" class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.popup.errors.required">
+          Ad Location Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+    <div class="form-group">
+      <label for=""> type</label>
+      <select type="text" class="owl-input" required formControlName="type" [(ngModel)]="ad.type" name="type" (change)="onAdTypeChanged(newAdsForm)">
+        <option value="" selected disabled>Select Type</option>
+        <option value="1">product</option>
+        <option value="2">Category</option>
+        <option value="3">Medical </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="newAdsForm.controls.type.invalid && (newAdsForm.controls.type.dirty || newAdsForm.controls.type.touched)" class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.type.errors.required">
+          type Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <!--  -->
+
+    <div class="form-group" *ngIf="ad.type == 2 || ad.type == 1">
+      <label for=""> category</label>
+      <select type="text" class="owl-input" (change)="selectCategory(category_id)" required formControlName="category" [(ngModel)]="category_id"
+        name="category">
+        <option value="" selected>Select Category</option>
+        <option value="{{cat.id}}" *ngFor="let cat of categories" >{{cat.name}}
+          <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+        </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="newAdsForm.controls.category.invalid && (newAdsForm.controls.category.dirty || newAdsForm.controls.category.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.category.errors.required">
+          category Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+    <div class="form-group" *ngIf="ad.type == 2 || ad.type == 1">
+      <label for=""> subcategory</label>
+      <select type="text" class="owl-input" (change)="loadProducts(selectedSubcategory)" required formControlName="subCategory"
+        [(ngModel)]="selectedSubcategory" name="subCategory">
+        <option value="" selected>Select Sub Category</option>
+        <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
+            <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+        </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="newAdsForm.controls.subCategory.invalid && (newAdsForm.controls.subCategory.dirty || newAdsForm.controls.subCategory.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.subCategory.errors.required">
+          sub Category Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group" *ngIf="ad.type == 1">
+      <label for=""> product</label>
+      <select type="text" class="owl-input" required formControlName="prod" name="prod" [(ngModel)]="selectedProductId">
+        <option value="" selected disabled>Select Product</option>
+        <option value="{{product.id}}" *ngFor="let product of productList">{{product.name}}</option>
+      </select>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="newAdsForm.controls.prod.invalid && (newAdsForm.controls.prod.dirty || newAdsForm.controls.prod.touched)" class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.prod.errors.required">
+          product Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green">add</button>
+    </div>
+  </form>
+</div>
+
+
+<!-- edit new ads -->
+<div class="form-sidebar view-vindor-types " id="edit-ads">
+  <div class="head">
+    <span class="close" id="close-vindors3">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>edit ad</h3>
+  </div>
+
+  <form class="sideform" [formGroup]="editFormGroup" (ngSubmit)="editdForm(adCrrentEdit)" novalidate>
+
+    <div class="form-group">
+      <label for="">images</label>
+
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" *ngIf="adCrrentEdit.imageUrl" src="{{adCrrentEdit.imageUrl}}" alt="">
+        <img class="owl-img img-fluid" *ngIf="!adCrrentEdit.imageUrl" src="http://via.placeholder.com/328x177" alt="">
+        <input type="file" id="" class="owl-input" placeholder="upload your image" name="image" (change)="onimgeSelected(adCrrentEdit, $event)"/>
+        <input type="hidden" formControlName="image" [(ngModel)]="adCrrentEdit.image">
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="adCrrentEdit.banner_ad">
+      <label for="">Banner Title</label>
+      <input type="text" class="form-control" formControlName="banner_title"  name="banner_title" [(ngModel)]="adCrrentEdit.banner_title">
+    </div>
+
+    <div class="form-group" *ngIf="adCrrentEdit.banner_ad">
+      <label for="">Banner Title (Ar)</label>
+      <input type="text" class="form-control" formControlName="banner_title_ar"  name="banner_title_ar" [(ngModel)]="adCrrentEdit.banner_title_ar">
+    </div>
+
+    <div class="form-group" *ngIf="adCrrentEdit.banner_ad">
+      <label for="">Banner Description</label>
+      <input type="text" class="form-control" formControlName="banner_description"  name="banner_description" [(ngModel)]="adCrrentEdit.banner_description">
+    </div>
+
+    <div class="form-group" *ngIf="adCrrentEdit.banner_ad">
+      <label for="">Banner Description (Ar)</label>
+      <input type="text" class="form-control" formControlName="banner_description_ar"  name="banner_description_ar" [(ngModel)]="adCrrentEdit.banner_description_ar">
+    </div>
+
+    <div class="form-group" *ngIf="!adCrrentEdit.banner_ad">
+      <label for="amount">Order</label>
+
+      <input type="number" class="owl-input" formControlName="order"  name="order"  placeholder="Type here..."
+      [(ngModel)]="adCrrentEdit.order">
+
+           <!-- Start  Errors Rolues -->
+           <div *ngIf="editFormGroup.controls.order.invalid && (editFormGroup.controls.order.dirty || editFormGroup.controls.order.touched)"
+           class="alert alert-danger">
+           <div *ngIf="editFormGroup.controls.order.errors.required">
+            Ad Order is required.
+           </div>
+           
+         </div>
+         <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group" *ngIf="!adCrrentEdit.banner_ad">
+      <label for="">Ad Location</label>
+      <select type="text" class="owl-input" formControlName="popup" [(ngModel)]="adCrrentEdit.popup" name="popup">
+        <option value="0" selected>Slider</option>
+        <option value="1">Popup</option>
+      </select>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="editFormGroup.controls.popup.invalid && (editFormGroup.controls.popup.dirty || editFormGroup.controls.popup.touched)" class="alert alert-danger">
+        <div *ngIf="editFormGroup.controls.popup.errors.required">
+          Ad Location Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+    <div class="form-group">
+      <label for=""> type</label>
+      <select type="text" class="owl-input" required formControlName="type" [(ngModel)]="adCrrentEdit.type" name="type" (change)="onAdTypeChanged(editFormGroup)">
+        <option value="1">Product</option>
+        <option value="2">Category</option>
+        <option value="3">Medical</option>
+      </select>
+    </div>
+
+
+    <div class="form-group" *ngIf="adCrrentEdit.type == 2 || adCrrentEdit.type == 1">
+      <label for=""> category</label>
+      <select type="text" class="owl-input" (change)="selectCategory(category_id)" required formControlName="category" [(ngModel)]="category_id"
+        name="category">
+        <option value="" selected disabled>Select Category</option>
+        <option value="{{cat.id}}" *ngFor="let cat of categories">{{cat.name}}
+            <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+        </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="editFormGroup.controls.category.invalid && (editFormGroup.controls.category.dirty || editFormGroup.controls.category.touched)"
+        class="alert alert-danger">
+        <div *ngIf="editFormGroup.controls.category.errors.required">
+          category Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+    <div class="form-group" *ngIf="adCrrentEdit.type == 2 || adCrrentEdit.type == 1">
+      <label for=""> subcategory</label>
+      <select type="text" class="owl-input" (change)="loadProducts(selectedSubcategory)" required formControlName="subCategory"
+        [(ngModel)]="selectedSubcategory" name="subCategory">
+        <option value="" selected disabled>Select Sub Category</option>
+        <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
+            <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+
+        </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="editFormGroup.controls.subCategory.invalid && (editFormGroup.controls.subCategory.dirty || editFormGroup.controls.subCategory.touched)"
+        class="alert alert-danger">
+        <div *ngIf="editFormGroup.controls.subCategory.errors.required">
+          sub Category Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group" *ngIf="adCrrentEdit.type == 1">
+      <label for=""> product</label>
+      <select type="text" class="owl-input" required formControlName="prod" name="prod" [(ngModel)]="selectedProductId">
+        <option value="" selected disabled>Select Product</option>
+        <option value="{{product.id}}" *ngFor="let product of productList">{{product.name}}</option>
+      </select>
+      <!-- Start  Errors Rolues -->
+      <div *ngIf="editFormGroup.controls.prod.invalid && (editFormGroup.controls.prod.dirty || editFormGroup.controls.prod.touched)" class="alert alert-danger">
+        <div *ngIf="editFormGroup.controls.prod.errors.required">
+          product Is Required.
+        </div>
+
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green">Update</button>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+
+<!-- view new  -->
+<div class="form-sidebar view-vindor-types" id="view-ads">
+  <div class="head">
+    <span class="close" id="close-view">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3> ad name</h3>
+  </div>
+
+
+
+  <div class="details details-2">
+
+    <div>
+      <h5>images</h5>
+      <img class="owl-img img-fluid" src="http://via.placeholder.com/328x177" alt="">
+    </div>
+
+
+    <div>
+      <h5>type</h5>
+      <p>type here</p>
+    </div>
+
+
+    <div>
+      <h5>category</h5>
+      <p>category here</p>
+    </div>
+
+
+    <div>
+      <h5>subcategory</h5>
+      <p>subcategory here</p>
+    </div>
+
+
+    <div>
+      <h5>product</h5>
+      <p>product here</p>
+    </div>
+  </div>
+
+
+
+  <!-- Delete  Popup-->
+  <div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">are you sure to delete this item ?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
+          <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+        </div>
+      </div>
+    </div>
+  </div>

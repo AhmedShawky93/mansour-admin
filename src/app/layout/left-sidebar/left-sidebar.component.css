@@ -1,0 +1,85 @@
+.app-logo{
+    margin: 0px 0px 50px 0;
+}
+.left-sidebar{
+    background: #FFFFFF;
+    box-shadow: 0 12px 54px 0 rgba(6,40,59,0.10);
+    width: 293px;
+    position: fixed;
+    left: 0;
+    height: 100%;
+    top: 0;
+    padding: 25px;
+    transition: 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 10;
+    overflow: auto
+}
+
+
+.side-nav .navbar-nav li ul > li > a{
+    margin-left: 16px;
+    margin-top: 8px;
+    display: block;
+    color:#557E96;
+
+}
+.side-nav .navbar-nav li ul > li  > a{
+    text-transform: capitalize;
+}
+.side-nav .navbar-nav li ul > li:hover > a,
+.side-nav .navbar-nav li ul > li > a.active{
+    color: #009EFA;
+    text-decoration: underline !important
+}
+
+.side-nav .navbar-nav li ul > li > a::before{
+    content: none
+}
+.side-nav .navbar-nav > li{
+    margin-bottom: 30px ;
+
+}
+.side-nav .navbar-nav > li > a{
+font-size: 18px;
+text-transform: capitalize;
+color:#557E96;
+display: block
+
+}
+
+.side-nav-item > a i{
+    margin-right: 7px;
+    color: #a7bdca;
+}
+
+.side-nav-item.active > a{
+    color: #003C62 !important;
+    font-weight: bold;
+}
+.side-nav-item.active > a i{
+    color: #009EFA !important;
+
+}
+
+.side-nav-item.active > a i.pull-right{
+    transition: 0.2s linear;
+    color: #003C62 !important;
+    font-size: 18px
+
+}
+
+.collapsed i.pull-right{
+    transform: rotate(180deg);
+}
+
+
+.toggle-left-sidebar .side-nav-item ul.collapse,
+.toggle-left-sidebar .side-nav-item ul.show,
+.toggle-left-sidebar .side-nav-item ul{
+    height: 0;
+    display: none}
+
+    .side-nav-item
+    {
+        cursor: pointer;
+    }

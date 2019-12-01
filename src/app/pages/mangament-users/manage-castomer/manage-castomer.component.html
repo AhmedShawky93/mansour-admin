@@ -1,0 +1,168 @@
+<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-9">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm" (keyup)="searchCustomers(searchTerm)">
+      </div>
+    </div>
+
+    <div class="col-md-3 text-right">
+      <div class="owl-btn-list">
+        <a target="_blank" href="{{exportUrl}}" class="btn btn-owls btn-rounded btn-blue2">Export to CSV</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th scope="col">Customer iD</th>
+        <th scope="col">Name</th>
+        <th scope="col">Area</th>
+        <th scope="col">contact details </th>
+        <th scope="col">Total Orders</th>
+        <th scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
+        <td scope="row">
+          {{customer.id}}
+        </td>
+        <td>{{customer.name | truncate : 15 }}</td>
+        <td>{{customer.address }}</td>
+        <td>{{customer.phone}}</td>
+        <td>{{customer.orders}}</td>
+
+        <td>
+          <a href="javascript:void(0)" class=" toggle-vindor-view table-view" (click)="viewCustomer(customer)">
+            <i class="icon-View"></i>
+          </a>
+
+          <label class="switch">
+            <input type="checkbox" value="1" [(ngModel)]="customer.active" (change)="changeActive(customer, $event)">
+            <span class="slider round"></span>
+            <div class="reason-popup text-left" [hidden]="!customer.showReason">
+              <textarea  class="owl-input" placeholder="Why Do yo want to deactivate this customer?" 
+              [(ngModel)]="customer.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!customer.notes" (click)="submitDeactivate(customer)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(customer)">cancel</button>
+              
+            </div>
+            <div class="hover-reason text-left" *ngIf="!customer.active">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{customer.deactivation_notes}}
+              </div>
+            </div>
+          </label>
+
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+<pagination-controls (pageChange)="changePage($event)" *ngIf="!searchTerm"></pagination-controls>
+
+
+
+
+<div class="form-sidebar view-vindor-types" id="view-active">
+  <div class="head">
+    <span class="close" id="close-vindors1">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>customer details</h3>
+  </div>
+
+  <div *ngIf="customer" class=" details details-2">
+
+    <div>
+      <div class="customer-det">
+        <!-- <img src="http://via.placeholder.com/50x50" alt="" width="50" height="50"> -->
+        <div class="content">
+          <p>{{customer.name}}</p>
+          <h5>{{customer.phone}}</h5>
+          <h5>{{customer.email}}</h5>
+        </div>
+        <div class="date">
+          {{customer.id}}
+        </div>
+      </div>
+    </div>
+
+
+    <div>
+      <h5>address</h5>
+      <p style="cursor: pointer;" (click)="toggleShow()" *ngIf="customer.addresses.length">{{customer.addresses[0].formatted_address}}
+        <i *ngIf="customer.addresses.length > 0 && hide" class="fa fa-angle-down"></i> <i *ngIf="customer.addresses.length > 0 && show" class="fa fa-angle-up"></i>
+      </p>
+      <div *ngIf="show">
+        <p *ngFor="let address of customer.addresses; index as i"><span *ngIf="i > 0">{{address.formatted_address}}</span></p>
+      </div>
+    </div>
+
+    <div>
+      <h5>date of birth</h5>
+      <p>{{customer.birthdate}} - {{customer.age}} Yo</p>
+    </div>
+
+    <div>
+      <h5>date of joining</h5>
+      <p>{{customer.created_at | date : "yyyy-MM-dd hh:mm a"}}</p>
+    </div>
+
+
+    <div *ngIf="customer.active">
+      <p class="btn-rounded btn-green2">active</p>
+    </div>
+
+    <div *ngIf="!customer.active">
+        <h5>Deactivation reason</h5>
+      <div class="reason-text">
+        <div class="inner">
+          <p>
+            {{customer.deactivation_notes}}
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <button class="btn btn-owls btn-rounded btn-green" (click)="activateUser(customer)">Reactivate</button>
+      </div>
+    </div>
+
+
+    <div class="order-history">
+      <h5>order history ({{customer.orders.length}})</h5>
+
+      <div class="order-item" *ngFor="let order of customer.orders">
+        <a [routerLink]="['/pages/orders/order-details', order.id]">
+          <h4>Order ID: {{order.id}}</h4>
+        </a>
+
+        <a [routerLink]="['/pages/orders/order-details', order.id]">
+          <i class="fa fa-angle-right"></i>
+        </a>
+
+        <p>
+          <span *ngFor="let product of order.products">{{product.name}}</span>
+        </p>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
+

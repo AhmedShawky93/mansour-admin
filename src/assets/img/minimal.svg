@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="69px" height="73px" viewBox="0 0 69 73" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>Logo/minimal</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M21.5507161,42.277 C21.5507161,43.3360963 21.5507161,45.9833407 22.5155308,48.0136889 C22.7792895,48.3670519 23.2170797,48.7204148 23.2170797,49.0732815 C23.1298175,49.4256519 22.6910413,49.6033259 21.9894923,49.6033259 C17.5169329,49.6033259 16.0260797,44.1296741 16.0260797,40.687363 C16.0260797,36.4504815 16.9021531,28.5027926 16.9021531,21.9705407 C16.9021531,18.527237 16.7281217,15.6149704 15.9378315,13.5841259 C19.0960343,13.5841259 24.6201776,13.7608074 24.6201776,20.2057111 C24.6201776,21.176963 21.5507161,36.0072889 21.5507161,42.277" id="path-1"></path>
+        <filter x="-466.5%" y="-87.5%" width="1032.9%" height="324.9%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="9" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="12" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.219607843   0 0 0 0 0.62745098   0 0 0 0 0.803921569  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M42.608721,14.2577985 C26.4878853,17.6440281 19.0715811,8.69084296 5.71700769,15.6518948 C5.01890979,16.01568 2.18116154,17.46288 1.79168601,18.7964281 C1.66843427,19.2202652 1.27205664,19.6475763 0.930895804,19.7284726 C0.569521678,19.7245022 0.297381818,19.3383837 0.154902797,18.7368726 C-0.886820979,14.3575541 3.53988881,12.325717 7.12306364,10.8849689 C17.9445671,6.53046519 46.7332175,14.3704578 57.5202105,0.000198518519 C58.4993224,4.12094667 55.442186,11.5639022 42.608721,14.2577985" id="path-3"></path>
+        <filter x="-70.2%" y="-159.7%" width="240.4%" height="510.6%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="9" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="12" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.219607843   0 0 0 0 0.62745098   0 0 0 0 0.803921569  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Logo/minimal" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(6.000000, 12.000000)">
+            <g id="Fill-1">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#38A0CD" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+            <g id="Fill-17">
+                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                <use fill="#38A0CD" fill-rule="evenodd" xlink:href="#path-3"></use>
+            </g>
+        </g>
+    </g>
+</svg>

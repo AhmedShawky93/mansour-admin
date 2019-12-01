@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons/micro/Expand</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="18" cy="18" r="16"></circle>
+        
+    </defs>
+    <g id="Icons/micro/Expand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Oval-3">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+        </g>
+        <path d="M17.047619,17.047619 L17.047619,13.952381 C17.047619,13.4263955 17.4740145,13 18,13 C18.5259855,13 18.952381,13.4263955 18.952381,13.952381 L18.952381,17.047619 L22.047619,17.047619 C22.5736045,17.047619 23,17.4740145 23,18 C23,18.5259855 22.5736045,18.952381 22.047619,18.952381 L18.952381,18.952381 L18.952381,22.047619 C18.952381,22.5736045 18.5259855,23 18,23 C17.4740145,23 17.047619,22.5736045 17.047619,22.047619 L17.047619,18.952381 L13.952381,18.952381 C13.4263955,18.952381 13,18.5259855 13,18 C13,17.4740145 13.4263955,17.047619 13.952381,17.047619 L17.047619,17.047619 Z" id="Combined-Shape" fill="#557E96"></path>
+    </g>
+</svg>

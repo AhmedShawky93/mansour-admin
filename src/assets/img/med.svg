@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons/micro/order/med</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="18" cy="18" r="10"></circle>
+        <filter x="-117.5%" y="-92.5%" width="335.0%" height="335.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="5" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="7" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.960784314   0 0 0 0 0.650980392   0 0 0 0 0.137254902  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Icons/micro/order/med" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Oval-3">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#F5A623" fill-rule="evenodd" xlink:href="#path-1"></use>
+        </g>
+        <g id="Icons/Loading" transform="translate(12.000000, 12.000000)" fill="#FFFFFF">
+            <g id="Group" transform="translate(2.800000, 5.600000)">
+                <circle id="Oval" fill-rule="nonzero" cx="6.47499989" cy="0.874999985" r="1"></circle>
+                <circle id="Oval-Copy" fill-rule="nonzero" cx="3.67499994" cy="0.874999985" r="1"></circle>
+                <circle id="Oval-Copy-2" fill-rule="nonzero" cx="0.874999985" cy="0.874999985" r="1"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

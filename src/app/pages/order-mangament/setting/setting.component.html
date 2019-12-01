@@ -1,0 +1,281 @@
+<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+
+<nav class="">
+  <div class="row nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="col nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+      aria-controls="nav-home" aria-selected="true">edit profile</a>
+    <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+      aria-controls="nav-profile" aria-selected="false">Upload Gallery</a>
+    <!-- <a class="col nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact"
+      aria-selected="false">terms and conditions</a> -->
+  </div>
+</nav>
+
+
+
+
+
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+    <form class="row" name="formSetting" [formGroup]="formSetting" (ngSubmit)="updateSetting(user)" novalidate *ngIf="user">
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="">image</label>
+          <div class=" owl-input owl-input-file">
+            <input type="file" id="productImg" (change)="onimgeSelected($event, formSetting.controls.image)" name="image"
+              accept="image/*" />
+          </div>
+          <input type="hidden" formControlName="image">
+          <!-- Start  Errors Rolues -->
+          <div *ngIf="formSetting.controls.image.invalid && (formSetting.controls.image.dirty || formSetting.controls.image.touched)"
+            class="alert alert-danger">
+            <div *ngIf="formSetting.controls.image.errors.required">
+              image Is Required.
+            </div>
+          </div>
+          <!-- End Errors Rolues -->
+
+        </div>
+
+
+        <div class="form-group">
+          <label for="">name</label>
+          <input type="text" required formControlName="name" name="name" class="owl-input" placeholder="Type here..." />
+          <!-- Start  Errors Rolues -->
+          <div *ngIf="formSetting.controls.name.invalid && (formSetting.controls.name.dirty || formSetting.controls.name.touched)"
+            class="alert alert-danger">
+            <div *ngIf="formSetting.controls.name.errors.required">
+              Name Is Required.
+            </div>
+            <div *ngIf="formSetting.controls.name.errors.maxlength">
+              Name Max Length is 20.
+            </div>
+
+          </div>
+          <!-- End Errors Rolues -->
+        </div>
+
+        <div class="form-group">
+          <label for="">email address</label>
+          <input type="email" class="owl-input" placeholder="Type here..." required formControlName="email" name="email">
+          <!-- Start  Errors Rolues -->
+          <div *ngIf="formSetting.controls.email.invalid && (formSetting.controls.email.dirty || formSetting.controls.email.touched)"
+            class="alert alert-danger">
+            <div *ngIf="formSetting.controls.email.errors.required">
+              email Is Required.
+            </div>
+
+          </div>
+          <!-- End Errors Rolues -->
+        </div>
+
+      </div>
+
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="">current password</label>
+          <input type="password" class="owl-input" formControlName="current_password" name="current_password"
+            placeholder="Type here...">
+          <!-- Start  Errors Rolues -->
+          <div *ngIf="formSetting.invalid && formSetting.errors?.currentPassword && (formSetting.controls.current_password.dirty || formSetting.controls.current_password.touched)"
+            class="alert alert-danger">
+            <div *ngIf="formSetting.errors.currentPassword">
+              current password Is Required.
+            </div>
+          </div>
+
+          <!-- End Errors Rolues -->
+        </div>
+
+        <div class="form-group">
+          <label for="">new password</label>
+          <input type="password" class="owl-input" formControlName="password" name="password" placeholder="Type here...">
+          <!-- Start  Errors Rolues -->
+          <div *ngIf="formSetting.controls.password.invalid &&  (formSetting.controls.password.dirty || formSetting.controls.password.touched)"
+            class="alert alert-danger">
+            <div *ngIf="formSetting.controls.password.errors.minlength">
+              Minmum Password 8
+            </div>
+
+          </div>
+          <!-- End Errors Rolues -->
+        </div>
+
+        <div class="form-group">
+          <label for="">confirm new password</label>
+          <input type="password" class="owl-input" formControlName="confirmPassword" name="confirmPassword" placeholder="Type here...">
+          <!-- Start  Errors Rolues -->
+
+          <div *ngIf="formSetting.invalid && formSetting.errors?.confirmPassword && (formSetting.controls.confirmPassword.dirty || formSetting.controls.confirmPassword.touched)"
+            class="alert alert-danger">
+            <div *ngIf="formSetting.errors.confirmPassword">
+              Confirmation password does not match
+            </div>
+          </div>
+          <!-- End Errors Rolues -->
+        </div>
+
+      </div>
+
+
+      <div class="col-md-4">
+        <div class="view-img" style="height:300px;">
+          <div class="colse" *ngIf="user.imageUrl">
+            <i class="fa fa-close" (click)="deleteImage(img)" id='colse'></i>
+          </div>
+          <img style="margin-top: 25px" *ngIf="!user.imageUrl" src="http://via.placeholder.com/350x300" alt="" class="img-fluid owl-img">
+          <img class="owl-img img-fluid" style="" id="userImage" *ngIf="user.imageUrl" src="{{user.imageUrl}}" alt="">
+        </div>
+      </div>
+
+
+      <div class="col-md-4" style="margin-top: 25px;">
+        <button class="btn btn-green btn-rounded btn-owls">save</button>
+      </div>
+    </form>
+
+  </div>
+
+
+
+
+
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+    <form class="row">
+      <div class="col-md-6">
+        <div class=" owl-input owl-input-file">
+          <input type="file" (change)="oniImageSelected($event)" name="image" multiple accept="image/*" />
+        </div>
+      </div>
+    </form>
+
+    <div class="gallery">
+      <h3>gallery</h3>
+
+      <div class="row text-center">
+        <div class="col-md-3" *ngFor="let image of gallery">
+          <img alt="" src="{{image.url}}" class="img-responsive secialImg">
+          <p class="specialName"> {{image.name}}</p>
+        </div>
+
+
+        <button class="btn  btn-blue " (click)="loadMore()">Show More</button>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+  <!-- <div class="tab-pane terms fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+    <h3>built Trolly app as a Commercial app. This SERVICE is provided by and is intended for use as is.
+
+    </h3>
+
+    <p>
+      This page is used to inform website visitors regarding our policies with the collection, use, and disclosure of
+      Personal
+      Information if anyone decided to use our Service.
+    </p>
+
+    <p>If you choose to use our Service, then you agree to the collection and use of information in relation to this
+      policy.
+      The Personal Information that we collect is used for providing and improving the Service. We will not use or
+      share
+      your information with anyone except as described in this Privacy Policy.
+    </p>
+
+    <p>
+      The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible
+      at Trolly
+      unless otherwise defined in this Privacy Policy.
+    </p>
+
+    <h4>Information Collection and Use</h4>
+
+    <p>
+      For a better experience, while using our Service, we may require you to provide us with certain personally
+      identifiable information.
+      The information that we request is will be retained by us and used as described in this privacy policy.
+    </p>
+
+    <p>
+      The app does use third party services that may collect information used to identify you.
+    </p>
+
+    <p>
+      Link to privacy policy of third party service providers used by the app
+    </p>
+
+    <p>Google Play Services </p>
+    <p>Log Data</p>
+
+    <p>
+      We want to inform you that whenever you use our Service, in a case of an error in the app we collect data and
+      information
+      (through third party products) on your phone called Log Data. This Log Data may include information such as your
+      device
+      Internet Protocol (“IP”) address, device name, operating system version, the configuration of the app when
+      utilizing
+      our Service, the time and date of your use of the Service, and other statistics.
+    </p>
+
+
+    <h4>Cookies</h4>
+
+    <p>Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are
+      sent
+      and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to
+      use
+      some portions of this Service.
+    </p>
+
+
+    <h4>Service Providers</h4>
+
+    <p>We may employ third-party companies and individuals due to the following reasons:</p>
+    <p>To provide the Service on our behalf;</p>
+    <p>To perform Service-related services; or</p>
+    <p>To assist us in analyzing how our Service is used.</p>
+    <p>We want to inform users of this Service that these third parties have access to your Personal Information. The
+      reason
+      is </p>
+    <p>to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the
+      information
+    </p>
+    <p>for any other purpose.</p>
+
+    <h4>Security</h4>
+    <p>
+      We value your trust in providing us your Personal Information, thus we are striving to use commercially
+      acceptable means
+      of protecting it. But remember that no method of transmission over the internet, or method of electronic storage
+      is
+      100% secure and reliable, and we cannot guarantee its absolute security.
+    </p>
+
+    <h4>Links to Other Sites</h4>
+    <p>
+      This Service may contain links to other sites. If you click on a third-party link, you will be directed to that
+      site. Note
+      that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy
+      of
+      these websites. We have no control over and assume no responsibility for the content, privacy policies, or
+      practices
+      of any third-party sites or services.
+    </p>
+
+
+
+  </div> -->
+</div>

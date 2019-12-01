@@ -1,0 +1,66 @@
+<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-2">
+      <a class="back-btn" routerLink="/pages/orders">
+        <i class="fa fa-angle-left" aria-hidden="true"> Back</i></a>
+    </div>
+
+    <div class="col-md-4">
+      <select name="" id="" class="owl-input">
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+    </div>
+
+    <div class="col-md-1">
+    </div>
+
+    <div class="col-md-5">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search ...">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th scope="col">iD</th>
+        <th scope="col">vendor id</th>
+        <th scope="col"> store iD </th>
+        <th scope="col"> date & time</th>
+        <th scope="col"> total amount <i class="fa fa-angle-down"></i></th>
+        <th scope="col"> rating <i class="fa fa-angle-down"></i> </th>
+        <th scope="col"> status </th>
+        <th scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <th scope="row">7315</th>
+        <td>eraqi</td>
+        <td>1449</td>
+        <td>shehab eldeen</td>
+        <td>four rating </td>
+        <td>654 </td>
+        <td class="completed"> completed </td>
+        <td>
+          <a routerLink="/pages/order-details" class="table-view">
+            <i class="icon-View"></i>
+          </a>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

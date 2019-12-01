@@ -1,0 +1,93 @@
+* {
+    text-transform: capitalize
+}
+
+.receipt {
+    margin-top: 100px;
+    border: 1px solid #ddd
+}
+
+.receipt .head {
+    margin-top: 10px;
+    padding: 0px 10px;
+    margin-bottom: 0px;
+
+}
+
+.right-rec p {
+    font-size: 20px;
+    color: #000000;
+}
+
+.right-rec p i {
+    margin-right: 6px;
+    color: #a3a3a3
+}
+
+.main-list {
+    padding: 10px;
+    border-bottom: 1px solid #979797;
+    margin-bottom: 0px !important
+}
+
+.main-list li span {
+    display: inline-block;
+    width: 67px;
+    margin-right: 7px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.main-list li {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: #000000;
+    text-transform: capitalize;
+    display: block;
+    margin-bottom: 0px;
+}
+
+.bottom-list li span {
+    width: 65px;
+    margin-right: 24px;
+    text-align: left;
+    font-size: 12px;
+}
+
+tr 
+{
+    vertical-align: text-top !important;
+
+}
+tr td {
+   
+    padding: 2px 0 !important;
+    background-color: #fbfbfb !important;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.footer {
+    height: 40px;
+    line-height: 40px;
+    background-color: rgba(85, 126, 150, 0.05);
+}
+
+.footer p {
+    text-transform: capitalize;
+    font-size: 15px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 21px;
+}
+
+.footer p span {
+    margin-left: 25px;
+    font-size: 21px;
+}
+.main-list .row .col-6 
+{
+    height: auto;
+}

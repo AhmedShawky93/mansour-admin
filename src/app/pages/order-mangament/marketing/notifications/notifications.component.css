@@ -1,0 +1,98 @@
+textarea{
+    height: 88px;
+    padding: 16px
+}
+
+#add-not,#manage-charges{width: 450px;}
+@media (max-width: 920px){
+    
+    .owl-btn-list .btn{
+       margin-left: 0 !important;
+       width: 100% !important;
+    }
+    .btn-rounded
+    {
+        padding: 0 !important;
+    }
+    .table thead th
+    {
+            padding-right: 15px;
+            font-size: 9px !important;
+            padding-bottom: 15px;
+            padding-top: 15px;
+
+    }
+    .table td, .table th
+    {
+        padding: 0;
+    font-size: 12px;
+    padding-bottom: 15px;
+            padding-top: 15px;
+    }
+    .owl-btn-list .btn
+    {
+        width: 100% !important;
+        font-size: 10px !important;
+        line-height: 44px;
+        height: 44px;
+    }
+    .hidden
+    {
+        display: none !important;
+    }
+}
+.owls-upload {
+    position: relative;
+    background-color:  transparent; 
+    text-align: center;
+    width: 328px;
+    height: 177px;
+    padding-top: 25px;
+    cursor: pointer;
+    margin-bottom: 41px;
+    border-radius: 12px;
+    margin: 10px auto;
+    padding-top: 0px;
+}
+.owls-upload input[type=file] {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.notificat-img-style
+{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.img-table-style
+{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: contain;
+    cursor: pointer;
+}
+.close-popup
+{
+    position: relative;
+    left: -19px;
+    top: 20px;
+    background: #fff;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    z-index: 3;
+    line-height: 4px;
+    text-align: center;
+}
+
+.modal-content .modal-body{
+    padding: 0px !important
+}
