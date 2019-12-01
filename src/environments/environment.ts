@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  api: "http://dev.soleekhub.com/trolley/public/api"
+  api: "https://api.el-dokan.com/api"
 };
