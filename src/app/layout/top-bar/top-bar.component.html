@@ -3,8 +3,10 @@
 
     <div class="right-part">
       <div class="dropdown avatar-part float-right" *ngIf="user"> 
-        <img class="img-circle" style="width: 40px;"  *ngIf="user.imageUrl" src="{{user.imageUrl}}"
-        >
+        <img
+            onError="this.src='./assets/img/profile.png';"
+            default="./assets/img/profile.png"
+            class="img-circle" style="width: 40px;"  *ngIf="user.imageUrl" src="{{user.imageUrl}}">
         <img class="img-circle" style="width: 40px;"  *ngIf="!user.imageUrl" src="assets/img/profile.png"
           alt="Admin Image">
         <button class="btn btn-secondary dropdown-toggle btn-top" 
