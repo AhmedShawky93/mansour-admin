@@ -474,13 +474,13 @@ textarea.owl-input {
 
 .btn-blue2 {
     color: #fff !important;
-    background: #38A0CD !important;
+    background: #39384d !important;
     font-size: 14px !important;
     line-height: 36px
 }
 
 .btn-blue {
-    background: #009EFA !important;
+    background: #39384d !important;
     color: #fff !important;
     font-size: 14px !important;
     line-height: 36px
@@ -524,7 +524,7 @@ textarea.owl-input {
 
 .tb-btn.bg-blue {
     color: #fff;
-    background: #38A0CD;
+    background: #39384d;
 }
 
 .add-vendor-form form h2 {
@@ -832,7 +832,7 @@ textarea.owl-input {
 }
 
 .ngx-pagination .current {
-    background-color: #38A0CD !important;
+    background-color: #39384d !important;
     border-radius: 50%;
     width: 44px;
     height: 44px;
@@ -857,7 +857,7 @@ a.btn {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: #38A0CD;
+    background-color: #39384d;
 }
 
 /* Rounded sliders */

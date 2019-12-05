@@ -64,6 +64,7 @@
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
         <th scope="col"> paid amount </th>
+        <th scope="col"> Delivery Fees </th>
         <th scope="col"> total amount
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
@@ -94,7 +95,8 @@
             </form>
           </div>
         </td>
-        <td>{{order.amount}}</td>
+        <td>{{order.delivery_fees}}</td>
+        <td>{{order.amount + order.delivery_fees}}</td>
         <td>{{order.remaining}}</td>
         <td>
           <span *ngIf="order.schedule">
@@ -111,8 +113,8 @@
         <td style="text-align: center;">
           <div class="tb-assign" *ngIf="order.state_id == 1 || order.state_id == 9">
 
-            <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;" *ngIf="order.state_id == 1">assign</button>
-            <button class="tb-btn color-red" (click)="getDeliverers(order); order.showPopup = 1;" *ngIf="order.state_id == 9">Not Paid</button>
+            <!-- <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;" *ngIf="order.state_id == 1">assign</button>
+            <button class="tb-btn color-red" (click)="getDeliverers(order); order.showPopup = 1;" *ngIf="order.state_id == 9">Not Paid</button> -->
 
             <div class="edit-out delevaryman-popup" *ngIf="order.showPopup">
               <div class="close" (click)="order.showPopup = 0">
@@ -145,13 +147,20 @@
 
           </div>
 
-          <button *ngIf="order.state_id == 2" class="tb-btn" [ngClass]="{'color-yellow': order.state_id == 2}" (click)="openSideView(order)">Processing</button>
+          <button *ngIf="order.state_id == 1" class=" tb-btn bg-blue" (click)="openModal(1, order)">Start order</button>
+          <button *ngIf="order.state_id == 2" class="tb-btn" [ngClass]="{'color-yellow': order.state_id == 2}"  (click)="openModal(2, order)" >Processing</button>
+          <button *ngIf="order.state_id == 8" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 8}" (click)="openModal(8, order)" >Prepared</button>
+          <button *ngIf="order.state_id == 3" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 3}" (click)="openModal(3, order)" >Delivering</button>
+          <button *ngIf="order.state_id == 4" class="tb-btn" [ngClass]="{'color-green': order.state_id == 4}">Completed</button>
+          <button *ngIf="order.state_id == 6" class="tb-btn" [ngClass]="{'color-red': order.state_id == 6}">Canceled</button>
+
+          <!-- <button *ngIf="order.state_id == 2" class="tb-btn" [ngClass]="{'color-yellow': order.state_id == 2}" (click)="openSideView(order)">Processing</button>
           <button *ngIf="order.state_id == 3" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 3}" (click)="openSideView(order)">Delivering</button>
           <button *ngIf="order.state_id == 4" class="tb-btn" [ngClass]="{'color-green': order.state_id == 4}">Completed</button>
           <button *ngIf="order.state_id == 5" class="tb-btn" [ngClass]="{'color-purple': order.state_id == 5}" (click)="openSideView(order)">Investigating</button>
           <button *ngIf="order.state_id == 6" class="tb-btn" [ngClass]="{'color-red': order.state_id == 6}">Cancelled</button>
           <button *ngIf="order.state_id == 7" class="tb-btn" [ngClass]="{'color-red': order.state_id == 7}" (click)="openSideView(order)">Returned</button>
-          <button *ngIf="order.state_id == 8" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 8}" (click)="openSideView(order)">Prepared</button>
+          <button *ngIf="order.state_id == 8" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 8}" (click)="openSideView(order)">Prepared</button> -->
         </td>
 
 
@@ -236,6 +245,26 @@
   </div>
 </div>
 
+<div class="modal fade" id="confirmPopUp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"  id="exampleModalLabel">
+          {{orderContent}}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green  btn-red2">Cancel</button>
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmState(currentOrder.state_id)">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="form-sidebar view-vindor-types" id="view-deactive">
   <div class="head" *ngIf="currentOrder">

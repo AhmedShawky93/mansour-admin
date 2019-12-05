@@ -133,7 +133,7 @@
                    font-size: 11px;
                    width: 120%;
                    font-weight: 600;
-               '> -{{(order.actual_amount - order.discount_amount) | number}}  <span class="text-right">L.E</span></span>
+               '> -{{(order.amount - order.discount_amount) | number}}  <span class="text-right">L.E</span></span>
                 </div>
             </div>
             <div class="col-6"   style="   
@@ -194,7 +194,7 @@
       </div>
 
       <div class="footer text-center">
-        <p>grand total <span>{{order.amount}} L.E</span></p>
+        <p>grand total <span>{{order.amount + order.delivery_fees}} L.E</span></p>
       </div>
     </div>
   </div>

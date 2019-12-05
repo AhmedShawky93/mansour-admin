@@ -286,6 +286,11 @@
     <div class="col-md-4">
 
       <div class="block-item">
+        <p>Delivery Fees</p>
+        <span>{{order.delivery_fees}} LE</span>
+      </div>
+
+      <div class="block-item">
         <p>Applied Offer</p>
         <span *ngIf="order.promo">{{order.promo.name}} -{{order.promo.amount}} <span *ngIf="order.promo.type == 2">%</span><span
             *ngIf="order.promo.type == 1">LE</span></span>
@@ -305,13 +310,18 @@
     <div class="col-md-4 ">
 
       <div class="block-item">
+        <p>Item Total</p>
+        <span>{{order.actual_amount}}</span>
+      </div>
+
+      <div class="block-item">
         <p>Payment Method</p>
         <span>{{order.payment_method == 1 ? "Cash" : "Visa"}}</span>
       </div>
 
       <div class="block-item">
         <p>Grand Total</p>
-        <span>{{order.amount}}</span>
+        <span>{{order.amount + order.delivery_fees}}</span>
       </div>
 
     </div>
