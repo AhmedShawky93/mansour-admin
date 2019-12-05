@@ -399,7 +399,7 @@
       <label for=""> subcategory</label>
       <select type="text" class="owl-input" (change)="loadProducts(selectedSubcategory)" required formControlName="subCategory"
         [(ngModel)]="selectedSubcategory" name="subCategory">
-        <option value="" selected disabled>Select Sub Category</option>
+        <option value="" selected>Select Sub Category</option>
         <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
             <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
 
@@ -419,7 +419,7 @@
     <div class="form-group" *ngIf="adCrrentEdit.type == 1">
       <label for=""> product</label>
       <select type="text" class="owl-input" required formControlName="prod" name="prod" [(ngModel)]="selectedProductId">
-        <option value="" selected disabled>Select Product</option>
+        <option value="" selected>Select Product</option>
         <option value="{{product.id}}" *ngFor="let product of productList">{{product.name}}</option>
       </select>
       <!-- Start  Errors Rolues -->

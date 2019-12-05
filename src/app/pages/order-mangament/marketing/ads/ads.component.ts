@@ -329,7 +329,7 @@ export class adsComponent implements OnInit {
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
       this.categories = response.data;
-
+      
     });
   }
 
@@ -339,12 +339,21 @@ export class adsComponent implements OnInit {
     const index = this.categories.findIndex(item => item.id == cat_id);
     const category = this.categories[index];
     this.sub_categories = category.sub_categories;
+    this.productList = [];
+    
+    // this.newAdsForm.get('prod').setValue(null);
+    // this.editFormGroup.get('prod').setValue(null);
+    // console.log(this.newAdsForm.value);
+    // console.log(this.productList);
   }
 
-
-
-
-  loadProducts(catId) {
+  loadProducts(catId, clear = false) {
+    if (clear) {
+      console.log("clearing");
+      this.selectedProductId = null;
+      this.newAdsForm.get('prod').setValue(null);
+      this.editFormGroup.get('prod').setValue(null);
+    }
     this._CategoriesService.getProducts(catId)
       .subscribe((response: any) => {
         this.productList = response.data;
