@@ -7,7 +7,7 @@ import { MatInput } from '@angular/material';
 import * as moment from 'moment';
 
 import {Title} from '@angular/platform-browser';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from '@app/shared/auth.service';
 import { environment } from '@env/environment';
@@ -65,6 +65,7 @@ export class OrdersComponent implements OnInit {
 
   filter$ = new Subject;
   exportUrl: string;
+  orderContent: string;
 
   constructor(private ordersService: OrdersService,
      private catService: CategoryService, private toasterService: ToastrService, private titleService: Title, private auth: AuthService) {
@@ -418,5 +419,63 @@ export class OrdersComponent implements OnInit {
     this.product_list = [];
     this.toggleProductSelect();
 
+  }
+
+  openModal(state_id, order)
+  {
+    console.log("ssdsaf");
+    $("#confirmPopUp").modal("show");
+    this.currentOrder = order;
+    switch (state_id){
+      case 1:
+        this.orderContent = "Are you sure you want to start this order?";
+        break;
+
+      case 2:
+        this.orderContent = "Are you sure to want to prepare this order?";
+        break;
+
+      case 8:
+        this.orderContent = "Are you sure to start delivering this order?";
+        break;
+      
+      case 3:
+        this.orderContent = "Are you sure this order is delivered?";
+        break;
+    }
+  }
+
+  confirmState(state_id) {
+    let obs: Observable<any>;
+    switch (state_id){
+      case 1:
+        obs = this.ordersService.proceedOrder(this.currentOrder.id);
+        break;
+
+      case 2:
+        obs = this.ordersService.prepareOrder(this.currentOrder.id);
+        break;
+
+      case 8:
+        obs = this.ordersService.deliverOrder(this.currentOrder.id);
+        break;
+      
+      case 3:
+        obs = this.ordersService.completeOrder(this.currentOrder.id);
+        break;
+    }
+
+    obs.subscribe((response: any) => {
+      if (response.code == 200) {
+
+        $("#confirmPopUp").modal("hide");
+
+        let ind = this.orders.findIndex((item) => item.id == this.currentOrder.id);
+
+        if (ind !== -1) {
+          this.orders[ind] = response.data;
+        }
+      }
+    })
   }
 }

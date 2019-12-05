@@ -74,6 +74,27 @@ export class OrdersService {
             })
     }
 
+    prepareOrder(id) {
+        return this.http.post(this.url + "/orders/" + id + "/prepare", {})
+            .catch((error: any) => {
+                return Observable.throw(error.error || 'Server error');
+            })
+    }
+
+    deliverOrder(id) {
+        return this.http.post(this.url + "/orders/" + id + "/deliver", {})
+            .catch((error: any) => {
+                return Observable.throw(error.error || 'Server error');
+            })
+    }
+
+    completeOrder(id) {
+        return this.http.post(this.url + "/orders/" + id + "/complete", {})
+            .catch((error: any) => {
+                return Observable.throw(error.error || 'Server error');
+            })
+    }
+
     updatePaidAmount(id, data) {
         return this.http.post(this.url + "/orders/" + id + "/update_payment", data)
             .catch((error: any) => {
