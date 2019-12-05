@@ -263,6 +263,10 @@ export class adsComponent implements OnInit {
     form.get('category').updateValueAndValidity();
     form.get('subCategory').updateValueAndValidity();
     form.get('prod').updateValueAndValidity();
+
+    this.category_id = null;
+    this.selectedSubcategory = null;
+    this.productList = [];
   }
 
   viewAd(adView) {

@@ -208,7 +208,7 @@
         <option value="" selected disabled>Select Type</option>
         <option value="1">product</option>
         <option value="2">Category</option>
-        <option value="3">Medical </option>
+        <!-- <option value="3">Medical </option> -->
       </select>
       <!-- Start  Errors Rolues -->
       <div *ngIf="newAdsForm.controls.type.invalid && (newAdsForm.controls.type.dirty || newAdsForm.controls.type.touched)" class="alert alert-danger">
@@ -369,7 +369,7 @@
       <select type="text" class="owl-input" required formControlName="type" [(ngModel)]="adCrrentEdit.type" name="type" (change)="onAdTypeChanged(editFormGroup)">
         <option value="1">Product</option>
         <option value="2">Category</option>
-        <option value="3">Medical</option>
+        <!-- <option value="3">Medical</option> -->
       </select>
     </div>
 
