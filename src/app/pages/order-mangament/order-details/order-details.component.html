@@ -316,7 +316,11 @@
 
       <div class="block-item">
         <p>Payment Method</p>
-        <span>{{order.payment_method == 1 ? "Cash" : "Visa"}}</span>
+        <ng-container [ngSwitch]="order.payment_method">
+          <span *ngSwitchCase="1">Cash</span>
+          <span *ngSwitchCase="2">Visa</span>
+          <span *ngSwitchCase="3">ValU</span>
+        </ng-container>
       </div>
 
       <div class="block-item">
