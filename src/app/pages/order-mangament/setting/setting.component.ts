@@ -1,33 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import { UploadFilesService } from '@app/pages/services/upload-files.service';
-import { FormGroup, FormBuilder, Validators, FormControl, NgForm, AbstractControl } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { SettingService } from '@app/pages/services/setting.service';
-import { Conditional } from '@angular/compiler';
-import { EventEmitter } from '@angular/core';
-import { delay } from 'rxjs/operators';
-import * as moment from 'moment';
+import { Component, OnInit } from "@angular/core";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+  NgForm,
+  AbstractControl,
+} from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
+import { SettingService } from "@app/pages/services/setting.service";
+import { Conditional } from "@angular/compiler";
+import { EventEmitter } from "@angular/core";
+import { delay } from "rxjs/operators";
+import * as moment from "moment";
 
 function currentPasswordValidator(group: AbstractControl) {
-  if (group.get('password').value && !group.get('current_password').value) {
+  if (group.get("password").value && !group.get("current_password").value) {
     return { currentPassword: true };
   }
 
   return null;
 }
 
-
 function confirmPasswordValidator(group: AbstractControl) {
-  if (group.get('password').value && (group.get('confirmPassword').value !== group.get('password').value)) {
+  if (
+    group.get("password").value &&
+    group.get("confirmPassword").value !== group.get("password").value
+  ) {
     return { confirmPassword: true };
   }
   return null;
 }
 
 function timeValidator(group: AbstractControl) {
-  let open_time = group.get('open_time').value;
-  let off_time = group.get('off_time').value;
-  if (off_time && open_time && moment(open_time, 'h:mma').isAfter(moment(off_time, 'h:mma'))) {
+  let open_time = group.get("open_time").value;
+  let off_time = group.get("off_time").value;
+  if (
+    off_time &&
+    open_time &&
+    moment(open_time, "h:mma").isAfter(moment(off_time, "h:mma"))
+  ) {
     return { timeError: true };
   }
 
@@ -35,18 +48,16 @@ function timeValidator(group: AbstractControl) {
 }
 
 @Component({
-  selector: 'app-setting',
-  templateUrl: './setting.component.html',
-  styleUrls: ['./setting.component.css']
+  selector: "app-setting",
+  templateUrl: "./setting.component.html",
+  styleUrls: ["./setting.component.css"],
 })
 export class SettingComponent implements OnInit {
   page: any = 1;
   gallery: any;
   public errorMatch;
   selectFile = null;
-  setting: any = [
-
-  ];
+  setting: any = [];
 
   formSetting: FormGroup;
   user: any;
@@ -63,78 +74,74 @@ export class SettingComponent implements OnInit {
   constructor(
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
-    private settingService: SettingService,
+    private settingService: SettingService
   ) {}
 
   ngOnInit() {
-
-
     this.getUser();
 
-    this.uploadFile.getUploadedFiles()
-      .subscribe((response: any) => {
-        this.gallery = response.data;
-      });
+    this.uploadFile.getUploadedFiles().subscribe((response: any) => {
+      this.gallery = response.data;
+    });
 
     this.loadSettings();
   }
 
   loadMore() {
     this.page++;
-    this.uploadFile.getUploadedFiles(this.page)
-      .subscribe((response: any) => {
-        this.gallery = this.gallery.concat(response.data);
-        console.log(this.gallery);
-      });
+    this.uploadFile.getUploadedFiles(this.page).subscribe((response: any) => {
+      this.gallery = this.gallery.concat(response.data);
+      console.log(this.gallery);
+    });
   }
 
   setForm(user) {
-    this.formSetting = new FormGroup({
-      image: new FormControl(user.image),
-      name: new FormControl(user.name, [Validators.required, Validators.maxLength(20)]),
-      email: new FormControl(user.email, Validators.required),
-      current_password: new FormControl(''),
-      password: new FormControl('', Validators.minLength(8)),
-      confirmPassword: new FormControl(''),
-    }, { validators: [currentPasswordValidator, confirmPasswordValidator] });
+    this.formSetting = new FormGroup(
+      {
+        image: new FormControl(user.image),
+        name: new FormControl(user.name, [
+          Validators.required,
+          Validators.maxLength(20),
+        ]),
+        email: new FormControl(user.email, Validators.required),
+        current_password: new FormControl(""),
+        password: new FormControl("", Validators.minLength(8)),
+        confirmPassword: new FormControl(""),
+      },
+      { validators: [currentPasswordValidator, confirmPasswordValidator] }
+    );
   }
 
   getUser() {
-    this.settingService.getNotification()
-      .subscribe((response: any) => {
-        this.user = response.data;
-        this.user.imageUrl = this.user.image;
-        this.setForm(this.user);
-      });
+    this.settingService.getNotification().subscribe((response: any) => {
+      this.user = response.data;
+      this.user.imageUrl = this.user.image;
+      this.setForm(this.user);
+    });
   }
 
   onimgeSelected(event, image) {
     this.selectFile = <File>event.target.files[0];
-    this.uploadFile.uploadFile(this.selectFile)
-      .subscribe((response: any) => {
-
-        if (response.body) {
-          this.user.image = response.body.data.name;
-          this.user.imageUrl = response.body.data.filePath;
-          image.setValue(response.body.data.filePath);
-        }
-
-      });
+    this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {
+      if (response.body) {
+        this.user.image = response.body.data.name;
+        this.user.imageUrl = response.body.data.filePath;
+        image.setValue(response.body.data.filePath);
+      }
+    });
   }
 
   oniImageSelected(event) {
     this.selectedFiles = <Array<File>>event.target.files;
 
-    this.uploadFile.uploadFiles(this.selectedFiles)
+    this.uploadFile
+      .uploadFiles(this.selectedFiles)
       .subscribe((response: any) => {
-
         this.gallery = this.gallery.concat(response.data);
-
       });
   }
 
   updateSetting(user) {
-
     console.log(this.formSetting);
 
     if (!this.formSetting.valid) {
@@ -144,63 +151,85 @@ export class SettingComponent implements OnInit {
 
     user = this.formSetting.value;
 
-    if (this.user.imageUrl === '') {
-      user.imageUrl = '';
-      user.image = '';
+    if (this.user.imageUrl === "") {
+      user.imageUrl = "";
+      user.image = "";
     }
 
-    this.settingService.updateNotification(user)
-      .subscribe((response: any) => {
-        if (response.code === 200) {
-          this.user = response.data;
-          this.user.imageUrl = this.user.image;
-          this.formSetting.reset();
-          this.setForm(this.user);
-          console.log('UPDATED');
-          console.log(this.user);
-          this.settingService.imageload(response.data);
-          this.toastrService.success(response.message);
-        } else {
-          this.toastrService.error(response.message);
-        }
-
-      });
+    this.settingService.updateNotification(user).subscribe((response: any) => {
+      if (response.code === 200) {
+        this.user = response.data;
+        this.user.imageUrl = this.user.image;
+        this.formSetting.reset();
+        this.setForm(this.user);
+        console.log("UPDATED");
+        console.log(this.user);
+        this.settingService.imageload(response.data);
+        this.toastrService.success(response.message);
+      } else {
+        this.toastrService.error(response.message);
+      }
+    });
   }
 
   loadSettings() {
-    console.log(this.settings)
+    console.log(this.settings);
     if (!this.settings) {
       this.settingsLoading = true;
-      this.settingService.getSettings()
-        .subscribe((response: any) => {
-          this.settings = response.data;
-          this.systemForm = new FormGroup({
+      this.settingService.getSettings().subscribe((response: any) => {
+        this.settings = response.data;
+        this.systemForm = new FormGroup(
+          {
             min_order_amount: new FormControl(this.settings.min_order_amount),
             off_time: new FormControl(this.settings.off_time),
-            open_time: new FormControl(this.settings.open_time)
-          }, timeValidator);
-      
-          this.starsForm = new FormGroup({
-            ex_rate_pts: new FormControl(this.settings.ex_rate_pts, Validators.required),
-            ex_rate_egp: new FormControl(this.settings.ex_rate_egp, Validators.required),
-            ex_rate_gold: new FormControl(this.settings.ex_rate_gold, Validators.required),
-            refer_points: new FormControl(this.settings.refer_points, Validators.required),
-            refer_minimum: new FormControl(this.settings.refer_minimum, Validators.required),
-            egp_gold: new FormControl(this.settings.egp_gold, Validators.required),
-            pending_days: new FormControl(this.settings.pending_days, Validators.required)
-          });
-          this.settingsLoading = false;
+            open_time: new FormControl(this.settings.open_time),
+          },
+          timeValidator
+        );
+
+        this.starsForm = new FormGroup({
+          ex_rate_pts: new FormControl(
+            this.settings.ex_rate_pts,
+            Validators.required
+          ),
+          ex_rate_egp: new FormControl(
+            this.settings.ex_rate_egp,
+            Validators.required
+          ),
+          ex_rate_gold: new FormControl(
+            this.settings.ex_rate_gold,
+            Validators.required
+          ),
+          refer_points: new FormControl(
+            this.settings.refer_points,
+            Validators.required
+          ),
+          refer_minimum: new FormControl(
+            this.settings.refer_minimum,
+            Validators.required
+          ),
+          egp_gold: new FormControl(
+            this.settings.egp_gold,
+            Validators.required
+          ),
+          pending_days: new FormControl(
+            this.settings.pending_days,
+            Validators.required
+          ),
         });
+        this.settingsLoading = false;
+      });
     }
   }
-  
+
   updateSystemSettings() {
     if (!this.systemForm.valid) {
       return this.markFormGroupTouched(this.systemForm);
     }
-    
+
     this.systemLoading = true;
-    this.settingService.updateSystemSettings(this.systemForm.value)
+    this.settingService
+      .updateSystemSettings(this.systemForm.value)
       .subscribe((response: any) => {
         this.settings = response.data;
         this.toastrService.success("System Settings Updated Successfully!");
@@ -212,18 +241,21 @@ export class SettingComponent implements OnInit {
     if (!this.starsForm.valid) {
       return this.markFormGroupTouched(this.starsForm);
     }
-    
+
     this.starsLoading = true;
-    this.settingService.updateLoyalitySettings(this.starsForm.value)
+    this.settingService
+      .updateLoyalitySettings(this.starsForm.value)
       .subscribe((response: any) => {
         this.settings = response.data;
-        this.toastrService.success("Trolley Stars Settings Updated Successfully!");
+        this.toastrService.success(
+          "El-dokan Stars Settings Updated Successfully!"
+        );
         this.starsLoading = false;
       });
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach(control => {
+    (<any>Object).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
 
       if (control.controls) {
@@ -232,8 +264,7 @@ export class SettingComponent implements OnInit {
     });
   }
   deleteImage(img) {
-    this.user.imageUrl = '';
-    this.user.image = '';
+    this.user.imageUrl = "";
+    this.user.image = "";
   }
-
 }

@@ -161,7 +161,7 @@ bar-rating {
   position: absolute;
     bottom: 0;
     right: 0;
-    background: #38A0CD;
+    background: #39384d;
     padding: 5px 12px;
     border-radius: 8px 0px 8px 0px;
     color: #fff;
@@ -174,7 +174,7 @@ bar-rating {
 
 .s-price.right{
   right: 70px;
-  
+
 }
 .form-group label {
   display: block
@@ -185,7 +185,7 @@ bar-rating {
 .form-group textarea {
   height: 120px;
 }
-  
+
 .owls-upload3 {
   display: inline-block;
   margin: 10px 5px;
@@ -283,7 +283,7 @@ position: relative;
   }
   .btn-owls
   {
-    width: 100% !important; 
+    width: 100% !important;
   }
 }
 @media (min-width: 992px) {
@@ -299,7 +299,7 @@ position: relative;
 
 @media (max-width: 920px) {
 
-  
+
   .owl-btn-list .btn {
     margin-left: 0 !important;
     width: 100% !important;

@@ -85,7 +85,7 @@
 
 #view-deactive .btn-group .btn,
 #view-delivaring .btn-group .btn{
-    width: 195px; 
+    width: 195px;
 }
 /* customer-details */
 .customer-details{
@@ -203,7 +203,7 @@
  .delete-dets div span{
      margin-left: 15px;
      text-transform: capitalize;
-     color: #009EFA;
+     color: #39384d;
      font-weight: 500;
      cursor: pointer;
  }
@@ -328,7 +328,7 @@
     margin-top: 20px;
 }
 @media (max-width: 920px){
-    
+
     .owl-btn-list .btn{
        margin-left: 0 !important;
        width: 100% !important;
@@ -357,7 +357,7 @@
         margin: 2px;
         margin-right: 5px;
     }
-    i 
+    i
     {
         font-size: 14px;
     }
@@ -406,7 +406,7 @@ position: relative;
     font-weight: 500;
 
   }
-  
+
   /* Hide the browser's default checkbox */
   .container input {
     position: absolute;
@@ -415,7 +415,7 @@ position: relative;
     height: 0;
     width: 0;
   }
-  
+
   /* Create a custom checkbox */
   .checkmark {
     position: absolute;
@@ -425,29 +425,29 @@ position: relative;
     width: 20px;;
     background-color: #eee;
   }
-  
+
   /* On mouse-over, add a grey background color */
   .container:hover input ~ .checkmark {
     background-color: #ccc;
   }
-  
+
   /* When the checkbox is checked, add a blue background */
   .container input:checked ~ .checkmark {
     background-color: #2196F3;
   }
-  
+
   /* Create the checkmark/indicator (hidden when not checked) */
   .checkmark:after {
     content: "";
     position: absolute;
     display: none;
   }
-  
+
   /* Show the checkmark when checked */
   .container input:checked ~ .checkmark:after {
     display: block;
   }
-  
+
   /* Style the checkmark/indicator */
   .container .checkmark:after {
     left: 7px;

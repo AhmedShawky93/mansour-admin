@@ -201,7 +201,7 @@ export class CategoriesComponent implements OnInit {
           name: new FormControl(item.name, Validators.required),
           name_ar: new FormControl(item.name_ar, Validators.required),
           image: new FormControl(item.image, Validators.required),
-          options: new FormControl(item.options.map((p) => p.id, Validators.required),
+          options: new FormControl(item.options, Validators.required),
         })
       );
     });

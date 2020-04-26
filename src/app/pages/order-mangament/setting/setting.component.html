@@ -7,7 +7,7 @@
     <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
       aria-controls="nav-profile" aria-selected="false">Upload Gallery</a>
     <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-stars" role="tab"
-      aria-controls="nav-profile" aria-selected="false">Trolley Stars</a>
+      aria-controls="nav-profile" aria-selected="false">El-dokan Stars</a>
     <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-system" role="tab"
       aria-controls="nav-profile" aria-selected="false">System Settings</a>
   </div>
@@ -16,18 +16,20 @@
 <div class="tab-content" id="nav-tabContent">
   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-    <form class="row" name="formSetting" [formGroup]="formSetting" (ngSubmit)="updateSetting(user)" novalidate *ngIf="user">
+    <form class="row" name="formSetting" [formGroup]="formSetting" (ngSubmit)="updateSetting(user)" novalidate
+      *ngIf="user">
 
       <div class="col-md-4">
         <div class="form-group">
           <label for="">image</label>
           <div class=" owl-input owl-input-file">
-            <input type="file" id="productImg" (change)="onimgeSelected($event, formSetting.controls.image)" name="image"
-              accept="image/*" />
+            <input type="file" id="productImg" (change)="onimgeSelected($event, formSetting.controls.image)"
+              name="image" accept="image/*" />
           </div>
           <input type="hidden" formControlName="image">
           <!-- Start  Errors Rolues -->
-          <div *ngIf="formSetting.controls.image.invalid && (formSetting.controls.image.dirty || formSetting.controls.image.touched)"
+          <div
+            *ngIf="formSetting.controls.image.invalid && (formSetting.controls.image.dirty || formSetting.controls.image.touched)"
             class="alert alert-danger">
             <div *ngIf="formSetting.controls.image.errors.required">
               image Is Required.
@@ -42,7 +44,8 @@
           <label for="">name</label>
           <input type="text" required formControlName="name" name="name" class="owl-input" placeholder="Type here..." />
           <!-- Start  Errors Rolues -->
-          <div *ngIf="formSetting.controls.name.invalid && (formSetting.controls.name.dirty || formSetting.controls.name.touched)"
+          <div
+            *ngIf="formSetting.controls.name.invalid && (formSetting.controls.name.dirty || formSetting.controls.name.touched)"
             class="alert alert-danger">
             <div *ngIf="formSetting.controls.name.errors.required">
               Name Is Required.
@@ -57,9 +60,11 @@
 
         <div class="form-group">
           <label for="">email address</label>
-          <input type="email" class="owl-input" placeholder="Type here..." required formControlName="email" name="email">
+          <input type="email" class="owl-input" placeholder="Type here..." required formControlName="email"
+            name="email">
           <!-- Start  Errors Rolues -->
-          <div *ngIf="formSetting.controls.email.invalid && (formSetting.controls.email.dirty || formSetting.controls.email.touched)"
+          <div
+            *ngIf="formSetting.controls.email.invalid && (formSetting.controls.email.dirty || formSetting.controls.email.touched)"
             class="alert alert-danger">
             <div *ngIf="formSetting.controls.email.errors.required">
               email Is Required.
@@ -78,7 +83,8 @@
           <input type="password" class="owl-input" formControlName="current_password" name="current_password"
             placeholder="Type here...">
           <!-- Start  Errors Rolues -->
-          <div *ngIf="formSetting.invalid && formSetting.errors?.currentPassword && (formSetting.controls.current_password.dirty || formSetting.controls.current_password.touched)"
+          <div
+            *ngIf="formSetting.invalid && formSetting.errors?.currentPassword && (formSetting.controls.current_password.dirty || formSetting.controls.current_password.touched)"
             class="alert alert-danger">
             <div *ngIf="formSetting.errors.currentPassword">
               current password Is Required.
@@ -90,9 +96,11 @@
 
         <div class="form-group">
           <label for="">new password</label>
-          <input type="password" class="owl-input" formControlName="password" name="password" placeholder="Type here...">
+          <input type="password" class="owl-input" formControlName="password" name="password"
+            placeholder="Type here...">
           <!-- Start  Errors Rolues -->
-          <div *ngIf="formSetting.controls.password.invalid &&  (formSetting.controls.password.dirty || formSetting.controls.password.touched)"
+          <div
+            *ngIf="formSetting.controls.password.invalid &&  (formSetting.controls.password.dirty || formSetting.controls.password.touched)"
             class="alert alert-danger">
             <div *ngIf="formSetting.controls.password.errors.minlength">
               Minmum Password 8
@@ -104,10 +112,12 @@
 
         <div class="form-group">
           <label for="">confirm new password</label>
-          <input type="password" class="owl-input" formControlName="confirmPassword" name="confirmPassword" placeholder="Type here...">
+          <input type="password" class="owl-input" formControlName="confirmPassword" name="confirmPassword"
+            placeholder="Type here...">
           <!-- Start  Errors Rolues -->
 
-          <div *ngIf="formSetting.invalid && formSetting.errors?.confirmPassword && (formSetting.controls.confirmPassword.dirty || formSetting.controls.confirmPassword.touched)"
+          <div
+            *ngIf="formSetting.invalid && formSetting.errors?.confirmPassword && (formSetting.controls.confirmPassword.dirty || formSetting.controls.confirmPassword.touched)"
             class="alert alert-danger">
             <div *ngIf="formSetting.errors.confirmPassword">
               Confirmation password does not match
@@ -124,7 +134,8 @@
           <div class="colse" *ngIf="user.imageUrl">
             <i class="fa fa-close" (click)="deleteImage(img)" id='colse'></i>
           </div>
-          <img style="margin-top: 25px" *ngIf="!user.imageUrl" src="http://via.placeholder.com/350x300" alt="" class="img-fluid owl-img">
+          <img style="margin-top: 25px" *ngIf="!user.imageUrl" src="http://via.placeholder.com/350x300" alt=""
+            class="img-fluid owl-img">
           <img class="owl-img img-fluid" id="userImage" *ngIf="user.imageUrl" src="{{user.imageUrl}}" alt="">
         </div>
       </div>
@@ -166,121 +177,159 @@
   <div class="tab-pane terms fade" id="nav-stars" role="tabpanel" aria-labelledby="nav-contact-tab">
     <div class="min-height: 200px;">
       <app-loader *ngIf="settingsLoading"></app-loader>
-      <form *ngIf="!settingsLoading" class="row" name="starsForm" [formGroup]="starsForm" (submit)="updateLoyalitySettings()" novalidate>
+      <form *ngIf="!settingsLoading" class="row" name="starsForm" [formGroup]="starsForm"
+        (submit)="updateLoyalitySettings()" novalidate>
 
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="">Exchange Rate (X Points for each Y EGP spent)</label>
-              <div class="row">
-                <div class="col-md-6">
-                    <input formControlName="ex_rate_pts" placeholder="X points" type="number" min="0" id="ex_rate_pts" class="owl-input" name="ex_rate_pts" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
-                </div>
-                <div class="col-md-6">
-                    <input formControlName="ex_rate_egp" placeholder="Y EGP" type="number" min="0" id="ex_rate_egp" class="owl-input" name="ex_rate_egp" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
-                </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Exchange Rate (X Points for each Y EGP spent)</label>
+            <div class="row">
+              <div class="col-md-6">
+                <input formControlName="ex_rate_pts" placeholder="X points" type="number" min="0" id="ex_rate_pts"
+                  class="owl-input" name="ex_rate_pts"
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
               </div>
-              <small id="ex_rate_pts_help" class="form-text text-muted">For each Y EGP spent by the user, X points are added to his account.</small>
-              <div *ngIf="starsForm.controls.ex_rate_pts.invalid && (starsForm.controls.ex_rate_pts.dirty || starsForm.controls.ex_rate_pts.touched)" class="alert alert-danger">
-                <div *ngIf="starsForm.controls.ex_rate_pts.errors.required">
-                  Exchange rate is required
-                </div>
+              <div class="col-md-6">
+                <input formControlName="ex_rate_egp" placeholder="Y EGP" type="number" min="0" id="ex_rate_egp"
+                  class="owl-input" name="ex_rate_egp"
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+              </div>
+            </div>
+            <small id="ex_rate_pts_help" class="form-text text-muted">For each Y EGP spent by the user, X points are
+              added to his account.</small>
+            <div
+              *ngIf="starsForm.controls.ex_rate_pts.invalid && (starsForm.controls.ex_rate_pts.dirty || starsForm.controls.ex_rate_pts.touched)"
+              class="alert alert-danger">
+              <div *ngIf="starsForm.controls.ex_rate_pts.errors.required">
+                Exchange rate is required
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="">Refer Minimum Amount</label>
-              <input formControlName="refer_minimum" type="number" min="0" id="refer_minimum" class="owl-input" name="refer_minimum" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"/>
-              <small id="refer_minimum_help" class="form-text text-muted">The minimum order amount for the referal code to work</small>
-              <div *ngIf="starsForm.controls.refer_minimum.invalid && (starsForm.controls.refer_minimum.dirty || starsForm.controls.refer_minimum.touched)" class="alert alert-danger">
-                <div *ngIf="starsForm.controls.refer_minimum.errors.required">
-                  Refer minimum amount is required
-                </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Refer Minimum Amount</label>
+            <input formControlName="refer_minimum" type="number" min="0" id="refer_minimum" class="owl-input"
+              name="refer_minimum"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46" />
+            <small id="refer_minimum_help" class="form-text text-muted">The minimum order amount for the referal code to
+              work</small>
+            <div
+              *ngIf="starsForm.controls.refer_minimum.invalid && (starsForm.controls.refer_minimum.dirty || starsForm.controls.refer_minimum.touched)"
+              class="alert alert-danger">
+              <div *ngIf="starsForm.controls.refer_minimum.errors.required">
+                Refer minimum amount is required
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="">Refer Points</label>
-              <input formControlName="refer_points" type="number" min="0" id="refer_points" class="owl-input" name="refer_points" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"/>
-              <small id="refer_points_help" class="form-text text-muted">Number of points the users get when they refer a friend.</small>
-              <div *ngIf="starsForm.controls.refer_points.invalid && (starsForm.controls.refer_points.dirty || starsForm.controls.refer_points.touched)" class="alert alert-danger">
-                <div *ngIf="starsForm.controls.refer_points.errors.required">
-                  Refer points is required
-                </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Refer Points</label>
+            <input formControlName="refer_points" type="number" min="0" id="refer_points" class="owl-input"
+              name="refer_points"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46" />
+            <small id="refer_points_help" class="form-text text-muted">Number of points the users get when they refer a
+              friend.</small>
+            <div
+              *ngIf="starsForm.controls.refer_points.invalid && (starsForm.controls.refer_points.dirty || starsForm.controls.refer_points.touched)"
+              class="alert alert-danger">
+              <div *ngIf="starsForm.controls.refer_points.errors.required">
+                Refer points is required
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="">Gold Rate (%)</label>
-              <input formControlName="ex_rate_gold" type="number" min="0" id="ex_rate_gold" class="owl-input" name="ex_rate_gold" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"/>
-              <small id="ex_rate_gold_help" class="form-text text-muted">Extra % of points the user will get while Gold</small>
-              <div *ngIf="starsForm.controls.ex_rate_gold.invalid && (starsForm.controls.ex_rate_gold.dirty || starsForm.controls.ex_rate_gold.touched)" class="alert alert-danger">
-                <div *ngIf="starsForm.controls.ex_rate_gold.errors.required">
-                  Gold rate is required
-                </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Gold Rate (%)</label>
+            <input formControlName="ex_rate_gold" type="number" min="0" id="ex_rate_gold" class="owl-input"
+              name="ex_rate_gold"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46" />
+            <small id="ex_rate_gold_help" class="form-text text-muted">Extra % of points the user will get while
+              Gold</small>
+            <div
+              *ngIf="starsForm.controls.ex_rate_gold.invalid && (starsForm.controls.ex_rate_gold.dirty || starsForm.controls.ex_rate_gold.touched)"
+              class="alert alert-danger">
+              <div *ngIf="starsForm.controls.ex_rate_gold.errors.required">
+                Gold rate is required
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="">Gold Amount</label>
-              <input formControlName="egp_gold" type="number" min="0" id="egp_gold" class="owl-input" name="egp_gold" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
-              <small id="egp_gold_help" class="form-text text-muted">Egp need per month to earn user gold status</small>
-              <div *ngIf="starsForm.controls.egp_gold.invalid && (starsForm.controls.egp_gold.dirty || starsForm.controls.egp_gold.touched)" class="alert alert-danger">
-                <div *ngIf="starsForm.controls.egp_gold.errors.required">
-                  Gold amount is required
-                </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Gold Amount</label>
+            <input formControlName="egp_gold" type="number" min="0" id="egp_gold" class="owl-input" name="egp_gold"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+            <small id="egp_gold_help" class="form-text text-muted">Egp need per month to earn user gold status</small>
+            <div
+              *ngIf="starsForm.controls.egp_gold.invalid && (starsForm.controls.egp_gold.dirty || starsForm.controls.egp_gold.touched)"
+              class="alert alert-danger">
+              <div *ngIf="starsForm.controls.egp_gold.errors.required">
+                Gold amount is required
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="">Pending Days</label>
-              <input formControlName="pending_days" type="number" min="0" id="pending_days" class="owl-input" name="pending_days" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
-              <small id="pending_days_help" class="form-text text-muted">The number of days the user points will remain 'Pending' before it changes to 'Earned'</small>
-              <div *ngIf="starsForm.controls.pending_days.invalid && (starsForm.controls.pending_days.dirty || starsForm.controls.pending_days.touched)" class="alert alert-danger">
-                <div *ngIf="starsForm.controls.pending_days.errors.required">
-                  Pending days is required
-                </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Pending Days</label>
+            <input formControlName="pending_days" type="number" min="0" id="pending_days" class="owl-input"
+              name="pending_days" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+            <small id="pending_days_help" class="form-text text-muted">The number of days the user points will remain
+              'Pending' before it changes to 'Earned'</small>
+            <div
+              *ngIf="starsForm.controls.pending_days.invalid && (starsForm.controls.pending_days.dirty || starsForm.controls.pending_days.touched)"
+              class="alert alert-danger">
+              <div *ngIf="starsForm.controls.pending_days.errors.required">
+                Pending days is required
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-4" style="margin-top: 25px;">
-            <button class="btn btn-green btn-rounded btn-owls" [appLoading]="starsLoading">save</button>
-          </div>
-        </form>
+        <div class="col-md-4" style="margin-top: 25px;">
+          <button class="btn btn-green btn-rounded btn-owls" [appLoading]="starsLoading">save</button>
+        </div>
+      </form>
     </div>
   </div>
 
   <div class="tab-pane terms fade" id="nav-system" role="tabpanel" aria-labelledby="nav-contact-tab">
-    
+
     <div style="min-height: 200px;">
       <app-loader *ngIf="settingsLoading"></app-loader>
-      <form *ngIf="!settingsLoading" class="row" name="systemForm" [formGroup]="systemForm" (submit)="updateSystemSettings()" novalidate>
+      <form *ngIf="!settingsLoading" class="row" name="systemForm" [formGroup]="systemForm"
+        (submit)="updateSystemSettings()" novalidate>
 
         <div class="col-md-4">
           <div class="form-group">
             <label for="">Minimum Order Amount</label>
-            <input formControlName="min_order_amount" min="0" type="number" id="min_order_amount" class="owl-input" name="min_order_amount" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"/>
-            <small id="min_order_amount_help" class="form-text text-muted">This will remove delivery fees for orders with amount above this value</small>
+            <input formControlName="min_order_amount" min="0" type="number" id="min_order_amount" class="owl-input"
+              name="min_order_amount"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46" />
+            <small id="min_order_amount_help" class="form-text text-muted">This will remove delivery fees for orders
+              with amount above this value</small>
           </div>
         </div>
 
         <div class="col-md-4">
           <div class="form-group">
             <label for="">Opening Time</label>
-            <input formControlName="open_time" type="text" id="open_time" class="owl-input" name="open_time" [ngxTimepicker]="openPicker">
+            <input formControlName="open_time" type="text" id="open_time" class="owl-input" name="open_time"
+              [ngxTimepicker]="openPicker">
             <ngx-material-timepicker [minutesGap]="5" #openPicker></ngx-material-timepicker>
-            <small id="open_time_help" class="form-text text-muted">Orders made before this time will be postponed to next day</small>
-            <div *ngIf="systemForm.invalid && systemForm.errors?.timeError && (systemForm.controls.open_time.dirty || systemForm.controls.open_time.touched)" class="alert alert-danger">
+            <small id="open_time_help" class="form-text text-muted">Orders made before this time will be postponed to
+              next day</small>
+            <div
+              *ngIf="systemForm.invalid && systemForm.errors?.timeError && (systemForm.controls.open_time.dirty || systemForm.controls.open_time.touched)"
+              class="alert alert-danger">
               <div *ngIf="systemForm.errors.timeError">
                 Opening time must be before closing time
               </div>
@@ -291,9 +340,11 @@
         <div class="col-md-4">
           <div class="form-group">
             <label for="">Closing Time</label>
-            <input formControlName="off_time" type="text" id="off_time" class="owl-input" name="off_time" [ngxTimepicker]="offPicker">
+            <input formControlName="off_time" type="text" id="off_time" class="owl-input" name="off_time"
+              [ngxTimepicker]="offPicker">
             <ngx-material-timepicker [minutesGap]="5" #offPicker></ngx-material-timepicker>
-            <small id="off_time_help" class="form-text text-muted">Orders made after this time will be postponed to next day</small>
+            <small id="off_time_help" class="form-text text-muted">Orders made after this time will be postponed to next
+              day</small>
           </div>
         </div>
 

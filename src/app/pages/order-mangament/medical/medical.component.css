@@ -48,8 +48,8 @@
 .home-item .content a{
     text-transform: capitalize;
     font-size: 16px;
-    color: #009EFA;
-  
+    color: #39384d;
+
 }
 
 
@@ -131,7 +131,7 @@
     margin-right: 20px;
 }
 @media (max-width: 920px){
-    
+
     .owl-btn-list .btn{
        margin-left: 0 !important;
        width: 100% !important;
@@ -160,7 +160,7 @@
         margin: 2px;
         margin-right: 5px;
     }
-    i 
+    i
     {
         font-size: 14px;
     }
@@ -180,7 +180,7 @@
 }
 .modal.show .modal-dialog
 {
-    
+
     width: 600px;
 
 }

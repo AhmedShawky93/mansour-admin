@@ -253,7 +253,7 @@ label {
 
 .toggle-left-sidebar .side-nav-item:hover i,
 .toggle-left-sidebar .side-nav-item.active i {
-    color: #009EFA !important;
+    color: #39384d !important;
 }
 
 .toggle-left-sidebar .app-logo {
@@ -281,9 +281,9 @@ label {
 
 /* .open-form-sidebar{
     margin-left: -18px;
-     opacity: 1; 
-    visibility: visible 
-} 
+     opacity: 1;
+    visibility: visible
+}
 */
 
 .form-sidebar h3 {
@@ -415,7 +415,7 @@ textarea.owl-input {
 }
 
 .color-blue {
-    color: #38A0CD !important;
+    color: #39384d !important;
 }
 
 .btn-group .btn,
@@ -478,13 +478,13 @@ textarea.owl-input {
 
 .btn-blue2 {
     color: #fff !important;
-    background: #38A0CD !important;
+    background: #39384d !important;
     font-size: 14px !important;
     line-height: 36px
 }
 
 .btn-blue {
-    background: #009EFA !important;
+    background: #39384d !important;
     color: #fff !important;
     font-size: 14px !important;
     line-height: 36px
@@ -528,7 +528,7 @@ textarea.owl-input {
 
 .tb-btn.bg-blue {
     color: #fff;
-    background: #38A0CD;
+    background: #39384d;
 }
 
 .add-vendor-form form h2 {
@@ -577,7 +577,7 @@ textarea.owl-input {
 }
 
 .table-link {
-    color: #009EFA;
+    color: #39384d;
     font-size: 16px;
     text-transform: capitalize;
 }
@@ -589,7 +589,7 @@ textarea.owl-input {
 }
 
 .table-view:hover {
-    color: #009EFA !important;
+    color: #39384d !important;
 }
 
 .table-remove {
@@ -604,7 +604,7 @@ textarea.owl-input {
 }
 
 .link-underline {
-    color: #009EFA;
+    color: #39384d;
     text-decoration: underline !important
 }
 
@@ -836,7 +836,7 @@ textarea.owl-input {
 }
 
 .ngx-pagination .current {
-    background-color: #38A0CD !important;
+    background-color: #39384d !important;
     border-radius: 50%;
     width: 44px;
     height: 44px;
@@ -861,7 +861,7 @@ a.btn {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: #38A0CD;
+    background-color: #39384d;
 }
 
 /* Rounded sliders */
@@ -914,7 +914,7 @@ a.btn {
 }
 
 .details .p-list a:hover {
-    color: #009EFA
+    color: #39384d
 }
 
 #store-details {
@@ -1017,7 +1017,7 @@ a.btn {
 .owls-upload p {
     font-size: 18px;
     font-weight: 500;
-    color: #009EFA;
+    color: #39384d;
 }
 
 .block {
@@ -1046,7 +1046,7 @@ a.btn {
     background-color: #4AC356 !important;
 }
 
-/* 
+/*
 
 .mat-stepper-horizontal-line{
     border-top-width: 6px !important;
@@ -1221,7 +1221,7 @@ td.cancel {
     background: #EBF5FA;
     border-radius: 12px 0 12px 0;
     font-size: 12px;
-    color: #38A0CD;
+    color: #39384d;
     padding: 3px 20px;
 }
 
@@ -1620,7 +1620,7 @@ bar-rating {
     .left-sidebar .side-nav-item:hover i,
     .left-sidebar .side-nav-item.active i,
         {
-        color: #009EFA !important;
+        color: #39384d !important;
     }
     .left-sidebar .app-logo {
         margin-bottom: 0;

@@ -28,7 +28,7 @@
 }
 .side-nav .navbar-nav li ul > li:hover > a,
 .side-nav .navbar-nav li ul > li > a.active{
-    color: #009EFA;
+    color: #39384d;
     text-decoration: underline !important
 }
 
@@ -57,7 +57,7 @@ display: block
     font-weight: bold;
 }
 .side-nav-item.active > a i{
-    color: #009EFA !important;
+    color: #39384d !important;
 
 }
 

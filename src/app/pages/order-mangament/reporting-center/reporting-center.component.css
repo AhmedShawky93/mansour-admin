@@ -18,7 +18,7 @@
 
 .nav-tabs a.nav-link.active{
     color: #003C62;
-    border-bottom:5px solid #009EFA;
+    border-bottom:5px solid #39384d;
     border-radius: 3px 3px 0 0;
 }
 
@@ -91,15 +91,15 @@
 
 .home-item .content h5 span{
     font-size: 21px;
-    color: #38A0CD;
+    color: #39384d;
     font-weight: normal;
 }
 
 .home-item .content a{
     text-transform: capitalize;
     font-size: 16px;
-    color: #009EFA;
-  
+    color: #39384d;
+
 }
 .staff-items .item{
     background: #FFFFFF;
@@ -215,7 +215,7 @@
 
 .coming
 {
-  
+
     width: 300px;
     margin: 250px auto;
 }

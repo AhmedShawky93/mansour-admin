@@ -29,10 +29,22 @@ import { PrintReceiptComponent } from "@app/pages/order-mangament/print-receipt/
 import { BrandsComponent } from "@app/pages/brands/brands.component";
 
 const routes: Routes = [
-  { path: "login", component: LoginComponent },
-  { path: "add-store", component: AddStoreComponent },
-  { path: "reset-password", component: ResetPasswordComponent },
-  { path: "forget-password", component: ForgetPasswordComponent },
+  { path: "login", component: LoginComponent, data: { title: "Login" } },
+  {
+    path: "add-store",
+    component: AddStoreComponent,
+    data: { title: "Add store" },
+  },
+  {
+    path: "reset-password",
+    component: ResetPasswordComponent,
+    data: { title: "Reset password" },
+  },
+  {
+    path: "forget-password",
+    component: ForgetPasswordComponent,
+    data: { title: "Forget password" },
+  },
   { path: "", redirectTo: "/pages/home", pathMatch: "full" },
 
   {

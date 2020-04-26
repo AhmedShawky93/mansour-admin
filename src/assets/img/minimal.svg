@@ -21,11 +21,11 @@
         <g id="Group" transform="translate(6.000000, 12.000000)">
             <g id="Fill-1">
                 <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
-                <use fill="#38A0CD" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <use fill="#39384d" fill-rule="evenodd" xlink:href="#path-1"></use>
             </g>
             <g id="Fill-17">
                 <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
-                <use fill="#38A0CD" fill-rule="evenodd" xlink:href="#path-3"></use>
+                <use fill="#39384d" fill-rule="evenodd" xlink:href="#path-3"></use>
             </g>
         </g>
     </g>
