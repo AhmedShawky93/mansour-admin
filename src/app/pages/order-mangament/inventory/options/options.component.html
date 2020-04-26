@@ -40,8 +40,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let option of options">
-        <!-- <tr *ngFor="let option of options  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }"> -->
+      <!-- <tr *ngFor="let option of options"> -->
+      <tr *ngFor="let option of options  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
 
         <td class="relative">
           {{(option.name_en.length >= 25) ? (option.name_en | slice:0:25)+'...' : option.name_en }}
@@ -109,7 +109,7 @@
 <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
 <h4 class="text-center" *ngIf="productIsEmpty">No Option</h4>
 
-<!-- <pagination-controls (pageChange)="p = $event" *ngIf="options.length"></pagination-controls> -->
+<pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
 <!-- view product -->
 <app-view-option (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"

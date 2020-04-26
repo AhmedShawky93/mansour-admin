@@ -51,7 +51,7 @@ export class OptionsComponent implements OnInit {
   total = 0;
   p = 1;
   searchObj = {
-    page: 0,
+    page: 1,
     q: "",
   };
   toggleAddOption: string = "out";
@@ -83,8 +83,8 @@ export class OptionsComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code === 200) {
           console.log(response.data.data);
-          this.options = response.data;
-          // this.total = response.data.total;
+          this.options = response.data.options;
+          this.total = response.data.total;
           this.loading = false;
         }
 
@@ -95,10 +95,11 @@ export class OptionsComponent implements OnInit {
   }
 
   changePage(p) {
+    console.log(p);
+    this.searchObj.page = p;
     this.p = p;
     // this.filter.page = p;
-    console.log(this.p);
-    // this.filter$.next(this.filter);
+    this.getOptions();
   }
 
   changeActive(clinic) {

@@ -67,6 +67,10 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       description_en: new FormControl(data ? data.description_en : "", []),
       description_ar: new FormControl(data ? data.description_ar : "", []),
+      appear_in_search: new FormControl(
+        data ? data.appear_in_search : false,
+        []
+      ),
       type: new FormControl(data ? data.type : "1", [Validators.required]),
       values: this.formBuilder.array(data ? data.values : [], [
         Validators.minLength(1),
@@ -81,7 +85,6 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
   closeSideBar() {
     this.closeSideBarEmit.emit();
     this.OptionForm.reset();
-    this.imageUrl = "";
   }
   submitForm() {
     if (this.selectProductDataEdit) {
