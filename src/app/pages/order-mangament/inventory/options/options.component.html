@@ -1,0 +1,144 @@
+<!-- <ngx-loading-bar [color]="'#007C41'"></ngx-loading-bar> -->
+
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-9 col-sm-12 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search"
+          placeholder="search ...">
+      </div>
+    </div>
+
+
+    <div class="col-md-3  col-xs-12 text-right">
+      <div class="owl-btn-list">
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big w-100" (click)="toggleMenu(null)"
+          style="margin-left: 0px;"> + New Option</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Tabel -->
+<div class="table-responsive text-center">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th scope="col">Option</th>
+        <th scope="col">Image/Color code </th>
+        <th scope="col">Values</th>
+        <!-- <th  scope="col" class="hidden">creator</th> -->
+        <th scope="col" class="hidden">creation date
+        </th>
+        <th scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let option of options">
+        <!-- <tr *ngFor="let option of options  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }"> -->
+
+        <td class="relative">
+          {{(option.name_en.length >= 25) ? (option.name_en | slice:0:25)+'...' : option.name_en }}
+          <div class="hover-reason text-left" *ngIf="option.name_en.length >= 25">
+            <div class="head">
+              option name
+            </div>
+            <div class="body">
+              {{option.name_en}}
+            </div>
+          </div>
+
+        </td>
+        <td *ngIf="option.type">
+          <span [ngSwitch]="option.type">
+            <span *ngSwitchCase="1">Text</span>
+            <span *ngSwitchCase="2">Color</span>
+            <span *ngSwitchCase="3">Image</span>
+            <span *ngSwitchCase="4">Product Image</span>
+            <span *ngSwitchDefault>-</span>
+          </span>
+        </td>
+        <td>{{option.values ? option.values.length : "-" }}</td>
+
+        <td class="hidden">{{option.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td>
+          <a style="margin-right: 10px" class="table-view open-show" (click)="viewClinic(option)">
+            <i class="icon-View"></i>
+          </a>
+
+
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="toggleMenu(option)">
+            <i class="icon-grey"></i>
+          </a>
+
+
+
+          <label class="switch">
+            <input type="checkbox" value="1" [(ngModel)]="option.active" (change)="changeActive(option, $event)">
+            <span class="slider round"></span>
+            <div class="reason-popup text-left" [hidden]="!option.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this option?"
+                [(ngModel)]="option.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!option.notes"
+                (click)="submitDeactivate(option)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(option)">cancel</button>
+            </div>
+            <div class="hover-reason text-left" *ngIf="!option.active">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{option.deactivation_notes}}
+              </div>
+            </div>
+          </label>
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+</div>
+<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
+<h4 class="text-center" *ngIf="productIsEmpty">No Option</h4>
+
+<!-- <pagination-controls (pageChange)="p = $event" *ngIf="options.length"></pagination-controls> -->
+
+<!-- view product -->
+<app-view-option (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
+  [selectProductDataEdit]="selectOptionDataView">
+
+</app-view-option>
+<!-- Add / edit Product -->
+<app-add-edit-options (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData"></app-add-edit-options>
+
+
+
+
+<!-- Delete  Popup side bar -->
+<div class="modal fade" id="removePopUp2" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">are you sure to delete this item ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+      </div>
+    </div>
+  </div>
+</div>

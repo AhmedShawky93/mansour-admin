@@ -85,14 +85,19 @@
     <h3>customer details</h3>
   </div>
 
-  <div *ngIf="customer" class=" details details-2">
+  <app-loader *ngIf="customerLoading"></app-loader>
+  <div *ngIf="customer && !customerLoading" class=" details details-2">
 
     <div>
       <div class="customer-det">
         <!-- <img src="http://via.placeholder.com/50x50" alt="" width="50" height="50"> -->
         <div class="content">
           <p>{{customer.name}}</p>
-          <h5>{{customer.phone}}</h5>
+          <h5>
+            {{customer.phone}} 
+            <span style="cursor: pointer;" class="text-success" *ngIf="customer.phone_verified"><i class="fa fa-check"></i> Verified</span>
+            <span (click)="confirmVerifyPhone(customer)" data-toggle="modal" data-target="#verifyPopUp" style="cursor: pointer;" class="text-warning" *ngIf="customer.phone && !customer.phone_verified"><i class="fa fa-exclamation-circle"></i> Not Verified</span>
+          </h5>
           <h5>{{customer.email}}</h5>
         </div>
         <div class="date">
@@ -104,17 +109,17 @@
 
     <div>
       <h5>address</h5>
-      <p style="cursor: pointer;" (click)="toggleShow()" *ngIf="customer.addresses.length">{{customer.addresses[0].formatted_address}}
+      <!-- <p style="cursor: pointer;" (click)="toggleShow()" *ngIf="customer.addresses.length">{{customer.addresses[0].formatted_address}}
         <i *ngIf="customer.addresses.length > 0 && hide" class="fa fa-angle-down"></i> <i *ngIf="customer.addresses.length > 0 && show" class="fa fa-angle-up"></i>
-      </p>
-      <div *ngIf="show">
-        <p *ngFor="let address of customer.addresses; index as i"><span *ngIf="i > 0">{{address.formatted_address}}</span></p>
+      </p> -->
+      <div>
+        <p *ngFor="let address of customer.addresses; index as i">{{address.formatted_address}}  <a *ngIf="address.lat" href="https://www.google.com/maps/search/?api=1&query={{address.lat}},{{address.lng}}" target="_blank"><i class="fa fa-external-link"></i></a></p>
       </div>
     </div>
 
     <div>
       <h5>date of birth</h5>
-      <p>{{customer.birthdate}} - {{customer.age}} Yo</p>
+      <p>{{customer.birthdate}}</p>
     </div>
 
     <div>
@@ -146,23 +151,95 @@
     <div class="order-history">
       <h5>order history ({{customer.orders.length}})</h5>
 
-      <div class="order-item" *ngFor="let order of customer.orders">
-        <a [routerLink]="['/pages/orders/order-details', order.id]">
-          <h4>Order ID: {{order.id}}</h4>
-        </a>
-
-        <a [routerLink]="['/pages/orders/order-details', order.id]">
-          <i class="fa fa-angle-right"></i>
-        </a>
-
-        <p>
-          <span *ngFor="let product of order.products">{{product.name}}</span>
-        </p>
+      <div class="order-list">
+        <div class="order-item" *ngFor="let order of customer.orders">
+          <a [routerLink]="['/pages/orders/order-details', order.id]">
+            <h4>Order ID: {{order.id}}</h4>
+          </a>
+  
+          <a [routerLink]="['/pages/orders/order-details', order.id]">
+            <i class="fa fa-angle-right"></i>
+          </a>
+  
+          <p>
+            <span *ngFor="let product of order.products">{{product.name}}</span>
+          </p>
+        </div>
       </div>
-
-
     </div>
+
+    <div class="order-history">
+        <h5>Stars Points</h5>
+
+        <div class="order-list">
+          <div class="order-item" *ngFor="let point of customer.points">
+            <div>
+                <h4 style="display: inline-block;">Total Points: {{point.total_points}}</h4>
+                <a *ngIf="!point.deleted_at" class="pull-right" href="javascript:void(0)" data-toggle="modal" data-target="#cancelPopUp" (click)="confirmCancelPoints(point)">
+                  <i class="fa fa-times"></i>
+                </a>
+            </div>
+            
+            <p *ngIf="!point.deleted_at">
+              {{point.active ? "Earned" : "Pending"}}
+            </p>
+            <p *ngIf="point.deleted_at">
+              Cancelled
+            </p>
+            <p *ngIf="point.order_id">
+              Order ID: {{point.order_id}}
+            </p>
+            <p *ngIf="!point.order_id">
+              Referer: {{point.referer.referal}}
+            </p>
+            <p>
+              Remaining: {{point.remaining_points}}
+            </p>
+              
+            
+          </div>
+        </div>
+  
+      </div>
   </div>
 
 </div>
 
+
+<div class="modal fade" id="cancelPopUp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" *ngIf="currentPoints">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">are you sure to cancel {{currentPoints.remaining_points}} points?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2" (click)="cancelPoints()">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="verifyPopUp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" *ngIf="customer">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">are you sure to verify {{customer.phone}} for {{customer.name}}?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2" (click)="verifyPhone()">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">No</button>
+      </div>
+    </div>
+  </div>
+</div>

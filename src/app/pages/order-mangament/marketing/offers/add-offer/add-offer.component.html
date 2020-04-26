@@ -22,7 +22,7 @@
     <div class="col-md-6">
       <h2>new promocode</h2>
       
-      <div class="form-group"  style="    overflow: visible; ">
+      <div class="form-group"  style="overflow: visible;">
         <label>Customers </label>
         <ng-select [typeahead]="customersInput$" [loading]="customersLoading" [(ngModel)]="newPromo.customers" name="customers" [items]="customers$ | async"
         bindLabel="name" bindValue="id" [multiple]="true" placeholder="Enter Customer name" formControlName="customers">

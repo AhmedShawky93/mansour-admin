@@ -2,7 +2,7 @@
 <div class="top-table-bar">
 
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
@@ -28,19 +28,32 @@
       </select>
     </div>
 
-    <div class="col-md-3 col-sm-10">
+    <div class="col-md-2 col-sm-10">
       <mat-form-field>
-        <input matInput #mdate placeholder="date" [satDatepicker]="picker2" [value]="date" [(ngModel)]="filter.date"
+        <input matInput #mdate placeholder="Date From" [satDatepicker]="picker2" [value]="date" [(ngModel)]="filter.date_from"
           (dateChange)="changePage(1)">
         <sat-datepicker #picker2 [rangeMode]="false">
         </sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-
     <div class="col-md-1 col-sm-1" style="max-width: 70px;">
-      <a class="clear-date" href="javascript:void(0)" (click)="clearDate()"><i class="icon-Exit"></i></a>
+      <a class="clear-date" href="javascript:void(0)" (click)="clearDateFrom()"><i class="icon-Exit"></i></a>
     </div>
+
+    <div class="col-md-2 col-sm-10">
+      <mat-form-field>
+        <input matInput #mdate placeholder="Date To" [satDatepicker]="pickerTo" [value]="date" [(ngModel)]="filter.date_to"
+          (dateChange)="changePage(1)">
+        <sat-datepicker #pickerTo [rangeMode]="false">
+        </sat-datepicker>
+        <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
+      </mat-form-field>
+    </div>
+    <div class="col-md-1 col-sm-1" style="max-width: 70px;">
+      <a class="clear-date" href="javascript:void(0)" (click)="clearDateTo()"><i class="icon-Exit"></i></a>
+    </div>
+
     <div class="col-md-2 col-sm-1" style="padding-top: 21px; ">
       <label class="container">Hide Scheduled
         <input type="checkbox"  class="form-control checkbox-style" name="hide_scheduled" id="hide_scheduled" [value]="1" [(ngModel)]="filter.hide_scheduled" (change)="changePage(1)">
@@ -48,6 +61,16 @@
       </label>
       <!-- <label style="color: rgba(0, 61, 97, 0.47);" for="hide_scheduled"></label> -->
     </div>
+    <div class="col-md-3  col-xs-12">
+      <div class="form-group">
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportProductsUrl}}">Export Products Sales</a>
+      </div>
+    </div>
+    <!-- <div class="col-md-3  col-xs-12">
+      <div class="form-group">
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">Export All Orders</a>
+      </div>
+    </div> -->
     <div class="col-md-1" style="padding-top: 15px;">
       <a href="{{exportUrl}}" target="_blank"><img src="./assets/img/export.png" style="width: 30px" alt=""></a>
     </div>
@@ -64,7 +87,6 @@
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
         <th scope="col"> paid amount </th>
-        <!-- <th scope="col"> Delivery Fees </th> -->
         <th scope="col"> total amount
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
@@ -95,8 +117,7 @@
             </form>
           </div>
         </td>
-        <!-- <td>{{order.delivery_fees}}</td> -->
-        <td>{{order.amount + order.delivery_fees}}</td>
+        <td>{{order.amount}}</td>
         <td>{{order.remaining}}</td>
         <td>
           <span *ngIf="order.schedule">
@@ -113,8 +134,8 @@
         <td style="text-align: center;">
           <div class="tb-assign" *ngIf="order.state_id == 1 || order.state_id == 9">
 
-            <!-- <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;" *ngIf="order.state_id == 1">assign</button> -->
-            <span *ngIf="order.state_id == 9">Not Paid</span>
+            <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;" *ngIf="order.state_id == 1">assign</button>
+            <button class="tb-btn color-red" *ngIf="order.state_id == 9">Not Paid</button>
 
             <div class="edit-out delevaryman-popup" *ngIf="order.showPopup">
               <div class="close" (click)="order.showPopup = 0">
@@ -147,20 +168,13 @@
 
           </div>
 
-          <button *ngIf="order.state_id == 1" class=" tb-btn bg-blue" (click)="openModal(1, order)">Start order</button>
-          <button *ngIf="order.state_id == 2" class="tb-btn" [ngClass]="{'color-yellow': order.state_id == 2}"  (click)="openModal(2, order)" >Processing</button>
-          <button *ngIf="order.state_id == 8" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 8}" (click)="openModal(8, order)" >Prepared</button>
-          <button *ngIf="order.state_id == 3" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 3}" (click)="openModal(3, order)" >Delivering</button>
-          <button *ngIf="order.state_id == 4" class="tb-btn" [ngClass]="{'color-green': order.state_id == 4}">Completed</button>
-          <button *ngIf="order.state_id == 6" class="tb-btn" [ngClass]="{'color-red': order.state_id == 6}">Canceled</button>
-
-          <!-- <button *ngIf="order.state_id == 2" class="tb-btn" [ngClass]="{'color-yellow': order.state_id == 2}" (click)="openSideView(order)">Processing</button>
+          <button *ngIf="order.state_id == 2" class="tb-btn" [ngClass]="{'color-yellow': order.state_id == 2}" (click)="openSideView(order)">Processing</button>
           <button *ngIf="order.state_id == 3" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 3}" (click)="openSideView(order)">Delivering</button>
           <button *ngIf="order.state_id == 4" class="tb-btn" [ngClass]="{'color-green': order.state_id == 4}">Completed</button>
           <button *ngIf="order.state_id == 5" class="tb-btn" [ngClass]="{'color-purple': order.state_id == 5}" (click)="openSideView(order)">Investigating</button>
           <button *ngIf="order.state_id == 6" class="tb-btn" [ngClass]="{'color-red': order.state_id == 6}">Cancelled</button>
           <button *ngIf="order.state_id == 7" class="tb-btn" [ngClass]="{'color-red': order.state_id == 7}" (click)="openSideView(order)">Returned</button>
-          <button *ngIf="order.state_id == 8" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 8}" (click)="openSideView(order)">Prepared</button> -->
+          <button *ngIf="order.state_id == 8" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 8}" (click)="openSideView(order)">Prepared</button>
         </td>
 
 
@@ -245,28 +259,8 @@
   </div>
 </div>
 
-<div class="modal fade" id="confirmPopUp" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"  id="exampleModalLabel">
-          {{orderContent}}
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green  btn-red2">Cancel</button>
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmState(currentOrder.state_id)">Confirm</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- <div class="form-sidebar view-vindor-types" id="view-deactive">
+<div class="form-sidebar view-vindor-types" id="view-deactive">
   <div class="head" *ngIf="currentOrder">
     <span class="close" id="close-vindors4">
       <i class="icon-Exit"></i>
@@ -367,6 +361,17 @@
         </label>
       </div>
 
+      <!-- <div class="item">
+        <img class="owl-img" src="http://via.placeholder.com/45x45" alt="" width="45" height="45">
+        <img src="/assets/img/unavailable.svg" alt="">
+        <h4>burger</h4>
+
+        <label class="checkup" *ngIf="show">
+          <input type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+        </label>
+
+      </div> -->
     </div>
 
     <div>
@@ -429,6 +434,26 @@
           </div>
 
 
+          <!-- <div class="item">
+            <div class="float-right">
+              <span>
+                <img src="/assets/img/collapse.svg" alt="">
+              </span>
+              <b>2</b>
+              <span>
+                <img src="/assets/img/Expand.svg" alt="">
+              </span>
+              <img src="/assets/img/available.svg" alt="">
+            </div>
+
+            <img class="owl-img" src="http://via.placeholder.com/45x45" alt="" width="45" height="45">
+            <div class="content">
+              <h4>tomatos</h4>
+              <span>$price</span>
+            </div>
+          </div> -->
+
+
         </div>
 
         <button class="btn btn-owls  btn-rounded btn-green" (click)="addProducts()">add</button>
@@ -448,6 +473,7 @@
         <p>CUSTOMER DETAILS</p>
 
         <div class="head">
+          <!-- <img class="img-circle" width="45" height="45" src="http://via.placeholder.com/45x45" alt=""> -->
           <h4>{{currentOrder.user.name}}</h4>
         </div>
         <div>
@@ -469,4 +495,4 @@
 
     </div>
   </div>
-</div> -->
+</div>

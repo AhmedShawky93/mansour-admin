@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="col-md col-sm-12">
+    <div class="col-md col-sm-12">
       <div class="home-item">
         <span>
           <img class="icon-img" src="./assets/img/money.svg">
@@ -49,9 +49,10 @@
         <div class="content">
           <span>Sms Credits Left</span>
           <h5>{{smsCount}}</h5>
+          <!-- <a  routerLink="/pages/products">more details</a> -->
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>
 
@@ -86,9 +87,8 @@
             <td>
     
               <div class="tb-assign" *ngIf="order.state_id == 1">
-                <!-- <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;">assign</button> -->
-                <button class="tb-btn bg-blue" (click)="openModal(order)"> Start Order</button>
-                
+                <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;">assign</button>
+
                 <div class="edit-out delevaryman-popup" *ngIf="order.showPopup">
                   <div class="close" (click)="order.showPopup = 0">
                     <i class="icon-Exit"></i>
@@ -129,25 +129,4 @@
     </tbody>
   </table>
   <pagination-controls (pageChange)="p = $event"></pagination-controls>
-</div>
-
-<div class="modal fade" id="confirmPopUp" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"  id="exampleModalLabel">
-          {{orderContent}}
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green  btn-red2">Cancel </button>
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmState(currentOrder.state_id)">Confirm</button>
-      </div>
-    </div>
-  </div>
 </div>

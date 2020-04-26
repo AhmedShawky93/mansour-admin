@@ -1,0 +1,258 @@
+<ngx-loading-bar [color]="'#0EAFF5 '"></ngx-loading-bar>
+
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-5 col-sm-12 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <form>
+          <input type="text" class="owl-input owls-search" placeholder="search ..." name="search" [(ngModel)]="searchTerm">
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-2  col-xs-6">
+  
+    </div>
+    <div class="col-md-2  col-xs-6">
+
+
+
+    </div>
+    <div class="col-md-3  col-xs-12 text-right">
+      <div class="owl-btn-list">
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100" (click)="resetForm()"> + Brand
+          </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th style="width: 70px;" scope="col"> name</th>
+        <th style="width: 230px;" scope="col">Name Ar</th>
+        <th style="width: 100px;" scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let brand of brands | stringFilter: searchTerm | paginate: { itemsPerPage: 20, currentPage: p, totalItems: brands.length }">
+        <td>{{brand.name}}</td>
+        <td>{{brand.name_ar}}</td>
+        <td>
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="editBrand(brand)">
+            <i class="icon-grey"></i>
+          </a>
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+
+<!-- <div class="form-sidebar view-vindor-types" id="show-p-details">
+  <div class="head" *ngIf="currentProduct">
+    <span class="close" id="close-vindors4">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3> SKU Code: {{currentProduct.sku}}</h3>
+  </div>
+
+  <div class="details details-2" *ngIf="currentProduct">
+    <div class="details-price">
+      <img src="{{currentProduct.image}}" alt="" class=" owl-img img-fluid ">
+
+      <div class="s-price" [ngClass]="{'discount': currentProduct.discount_price}">
+        {{currentProduct.price}}LE
+      </div>
+      <div class="s-price btn-green right" *ngIf="currentProduct.discount_price">
+        {{currentProduct.discount_price}}LE
+      </div>
+    </div>
+
+    <div class="thumbnails">
+      <div class="thum" *ngFor="let image of currentProduct.images">
+        <img width="60" height="60" src="{{image.url}}" alt="" class=" owl-img img-fluid">
+      </div>
+      
+    </div>
+
+    <div>
+     
+      <h5>Product</h5>
+      <p>{{currentProduct.name}}</p>
+    </div>
+
+    <div>
+      <h5>Creation Date</h5>
+      <p>{{currentProduct.created_at}}</p>
+    </div>
+
+    <div>
+      <h5>Details</h5>
+      <p>{{currentProduct.description}}</p>
+    </div>
+
+    <div>
+      <h5>category</h5>
+      <p>{{currentProduct.category.name}} > {{currentProduct.category.sub_categories[0].name}}</p>
+    </div>
+
+    <div>
+      <h5>Creator</h5>
+      <p>{{currentProduct.creator?.name}}</p>
+    </div>
+
+    <div>
+      <h5>Attributes</h5>
+      <p *ngFor="let attr of currentProduct.attributes_view">{{attr.name}}: {{attr.value}}</p>
+    </div>
+
+
+  </div>
+</div> -->
+
+
+
+<div class="form-sidebar view-vindor-types " id="add-prod">
+  <div class="head">
+    <span class="close" id="close-vindors1">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>new Brand</h3>
+  </div>
+
+  <form class="sideform" name="addBrandForm" (ngSubmit)="createBrand()" [formGroup]="addBrandForm"
+    novalidate>
+
+    <!-- <div class="form-group">
+      <label for="">Image</label>
+
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" *ngIf="!imageUrl" src="http://via.placeholder.com/250x250" alt="">
+        <img class="owl-img img-fluid" *ngIf="imageUrl" [src]="imageUrl" alt="">
+        <input type="file" id="productImg" class="owl-input" placeholder="upload your image" (change)="onImageSelected($event)"
+          name="image"/>
+        <input type="hidden" [(ngModel)]="imageUrl" formControlName="image">
+      </div>
+
+      <div *ngIf="addBrandForm.controls.image.invalid && (addBrandForm.controls.image.dirty || addBrandForm.controls.image.touched)"
+        class="alert alert-danger">
+        <div *ngIf="addBrandForm.controls.image.errors.required">
+          Image is required.
+        </div>
+      </div>
+    </div> -->
+
+    <div class="form-group">
+      <label for=""> Name</label>
+      <input type="text" class="owl-input" placeholder="Type.." name="name" required
+        formControlName="name">
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addBrandForm.controls.name.invalid && (addBrandForm.controls.name.dirty || addBrandForm.controls.name.touched)"
+        class="alert alert-danger">
+        <div *ngIf="addBrandForm.controls.name.errors.required">
+          Name is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="">Name (ar)</label>
+      <input type="text" class="owl-input" placeholder="اسم المنتج..." name="name product"
+        required formControlName="name_ar">
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="addBrandForm.controls.name_ar.invalid && (addBrandForm.controls.name_ar.dirty || addBrandForm.controls.name_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="addBrandForm.controls.name_ar.errors.required">
+          Arabic Name is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green">add</button>
+    </div>
+  </form>
+</div>
+
+
+<div class="form-sidebar view-vindor-types " id="edit-prod">
+  <div class="head">
+    <span class="close" id="close-vindors2">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>edit Brand</h3>
+  </div>
+
+  <form *ngIf="editForm" class="sideform" name="editForm" (ngSubmit)="updateBrand()" [formGroup]="editForm"
+    novalidate>
+
+    <!-- <div class="form-group">
+      <label for="">Image</label>
+
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" *ngIf="!imageUrl" src="http://via.placeholder.com/250x250" alt="">
+        <img class="owl-img img-fluid" *ngIf="imageUrl" [src]="imageUrl" alt="">
+        <input type="file" id="productImg" class="owl-input" placeholder="upload your image" (change)="onImageSelected($event)"
+          name="image"/>
+        <input type="hidden" [(ngModel)]="imageUrl" formControlName="image">
+      </div>
+
+      <div *ngIf="editForm.controls.image.invalid && (editForm.controls.image.dirty || editForm.controls.image.touched)"
+        class="alert alert-danger">
+        <div *ngIf="editForm.controls.image.errors.required">
+          Image is required.
+        </div>
+      </div>
+    </div> -->
+
+    <div class="form-group">
+      <label for=""> Name</label>
+      <input type="text" class="owl-input" placeholder="Type.." name="name" required
+        formControlName="name">
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="editForm.controls.name.invalid && (editForm.controls.name.dirty || editForm.controls.name.touched)"
+        class="alert alert-danger">
+        <div *ngIf="editForm.controls.name.errors.required">
+          Name is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="">Name (ar)</label>
+      <input type="text" class="owl-input" placeholder="اسم المنتج..." name="name product"
+        required formControlName="name_ar">
+      <!-- Start  Errors Rolues -->
+
+      <div *ngIf="editForm.controls.name_ar.invalid && (editForm.controls.name_ar.dirty || editForm.controls.name_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="editForm.controls.name_ar.errors.required">
+          Arabic Name is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green">add</button>
+    </div>
+  </form>
+</div>

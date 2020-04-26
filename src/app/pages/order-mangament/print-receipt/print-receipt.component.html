@@ -7,7 +7,7 @@
             <img src="assets/img/logo-black.png" width="50" alt="">
           </div>
           <div class="col right-rec">
-            <p class="text-right" style="position: relative;right: 24px;"><i class="fa fa-phone"></i>01065355559</p>
+            <p class="text-right" style="position: relative;right: 24px;"><i class="fa fa-phone"></i>0110400081</p>
           </div>
         </div>
       </div>
@@ -80,14 +80,14 @@
         
               <td style="text-align: right;
               padding-right: 10px !important;" >
-                <span *ngIf="!item.product?.discount_price">{{item.product?.price}} </span>
-                <span *ngIf="item.product?.discount_price">{{item.product?.discount_price}} </span>
+                <span *ngIf="item.product?.discount_price === null">{{item.price?.price}} </span>
+                <span *ngIf="item.product?.discount_price !== null">{{item.price?.discount_price}} </span>
               </td>
               <td style="text-align: center;">{{item.amount}} </td>
               <td style="text-align: right;
               padding-right: 10px !important;">
-                <span *ngIf="!item.product?.discount_price">{{item.product?.price * item.amount}} </span>
-                <span *ngIf="item.product?.discount_price">{{item.product?.discount_price * item.amount}} </span>
+                <span *ngIf="item.product?.discount_price === null">{{item.price?.price * item.amount}} </span>
+                <span *ngIf="item.product?.discount_price !== null">{{item.price?.discount_price * item.amount}} </span>
               </td>
             </tr>
 
@@ -121,7 +121,7 @@
                 </div>
             </div>
  
-            <div class="col-6"  *ngIf="order.discount_amount !== null" style="   
+            <div class="col-6"  *ngIf="order.discount_amount" style="   
             padding-right: 0px !important;    
             font-weight: 600;
             font-size: 11px;">
@@ -133,7 +133,7 @@
                    font-size: 11px;
                    width: 120%;
                    font-weight: 600;
-               '> -{{(order.amount - order.discount_amount) | number}}  <span class="text-right">L.E</span></span>
+               '> -{{(order.actual_amount - order.discount_amount) | number}}  <span class="text-right">L.E</span></span>
                 </div>
             </div>
             <div class="col-6"   style="   
@@ -194,7 +194,7 @@
       </div>
 
       <div class="footer text-center">
-        <p>grand total <span>{{order.amount + order.delivery_fees}} L.E</span></p>
+        <p>grand total <span>{{order.amount}} L.E</span></p>
       </div>
     </div>
   </div>

@@ -7,7 +7,7 @@ import { MatInput } from '@angular/material';
 import * as moment from 'moment';
 
 import {Title} from '@angular/platform-browser';
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from '@app/shared/auth.service';
 import { environment } from '@env/environment';
@@ -51,7 +51,8 @@ export class OrdersComponent implements OnInit {
   filter = {
     term: '',
     state_id: '',
-    date: '',
+    date_from: '',
+    date_to: '',
     hide_scheduled: 1
   };
 
@@ -65,7 +66,8 @@ export class OrdersComponent implements OnInit {
 
   filter$ = new Subject;
   exportUrl: string;
-  orderContent: string;
+  exportProductsUrl: string;
+  productsUrl: string;
 
   constructor(private ordersService: OrdersService,
      private catService: CategoryService, private toasterService: ToastrService, private titleService: Title, private auth: AuthService) {
@@ -176,15 +178,24 @@ export class OrdersComponent implements OnInit {
 
     let token = this.auth.getToken();
     this.exportUrl = environment.api + "/admin/orders/export?token=" + token;
+    this.productsUrl = environment.api + "/admin/products/export_sales?token=" + token;
+    this.exportProductsUrl = this.productsUrl;
   }
 
-  clearDate() {
-    this.filter.date = '';
+  clearDateFrom() {
+    this.filter.date_from = '';
+    this.changePage(1);
+  }
+
+  clearDateTo() {
+    this.filter.date_to = '';
     this.changePage(1);
   }
 
   changePage(p) {
     this.p = p;
+    console.log(this.filter);
+    
     // this.filterOrders(p);
     this.filter$.next(this.filter);
   }
@@ -192,10 +203,16 @@ export class OrdersComponent implements OnInit {
   filterOrders() {
     this.search = true;
     // this.p = p;
-    if (this.filter.date) {
-      this.filter.date = moment(this.filter.date).format('YYYY-MM-DD');
+    if (this.filter.date_from) {
+      this.filter.date_from = moment(this.filter.date_from).format('YYYY-MM-DD');
     }
 
+    if (this.filter.date_to) {
+      this.filter.date_to = moment(this.filter.date_to).format('YYYY-MM-DD');
+    }
+    // console.log(this.serialize(this.filter));
+    this.exportProductsUrl = this.productsUrl + "&" + this.serialize(this.filter);
+    
     return this.ordersService.filterOrders(this.filter, this.p);
   }
 
@@ -421,61 +438,12 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  openModal(state_id, order)
-  {
-    console.log("ssdsaf");
-    $("#confirmPopUp").modal("show");
-    this.currentOrder = order;
-    switch (state_id){
-      case 1:
-        this.orderContent = "Are you sure you want to start this order?";
-        break;
-
-      case 2:
-        this.orderContent = "Are you sure to want to prepare this order?";
-        break;
-
-      case 8:
-        this.orderContent = "Are you sure to start delivering this order?";
-        break;
-      
-      case 3:
-        this.orderContent = "Are you sure this order is delivered?";
-        break;
-    }
-  }
-
-  confirmState(state_id) {
-    let obs: Observable<any>;
-    switch (state_id){
-      case 1:
-        obs = this.ordersService.proceedOrder(this.currentOrder.id);
-        break;
-
-      case 2:
-        obs = this.ordersService.prepareOrder(this.currentOrder.id);
-        break;
-
-      case 8:
-        obs = this.ordersService.deliverOrder(this.currentOrder.id);
-        break;
-      
-      case 3:
-        obs = this.ordersService.completeOrder(this.currentOrder.id);
-        break;
-    }
-
-    obs.subscribe((response: any) => {
-      if (response.code == 200) {
-
-        $("#confirmPopUp").modal("hide");
-
-        let ind = this.orders.findIndex((item) => item.id == this.currentOrder.id);
-
-        if (ind !== -1) {
-          this.orders[ind] = response.data;
-        }
+  serialize(obj) {
+    var str = [];
+    for (var p in obj)
+      if (obj.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
       }
-    })
+    return str.join("&");
   }
 }

@@ -1,280 +1,306 @@
 <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
 <div class="top-table-bar">
 
-    <div class="row">
-        <div class="col-md-8 col-sm-6 col-xs-12">
-            <div class="left-search">
-                <span>
-                    <i class="fa fa-search"></i>
-                </span>
-                <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-6 col-xs-12 text-right">
-            <div class="owl-btn-list">
-                <button class="btn btn-owls btn-block btn-rounded btn-blue2 btn-big add-category ml-auto"> + New category</button>
-            </div>
-        </div>
-
+  <div class="row">
+    <div class="col-md-8 col-sm-6 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
+      </div>
     </div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12 text-right">
+      <div class="owl-btn-list">
+        <button class="btn btn-owls btn-block btn-rounded btn-blue2 btn-big add-category ml-auto"> + New
+          category</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <div class="table-responsive">
-    <table class="table owls-table ">
-        <thead>
-            <tr>
-                <th scope="col"> category name</th>
-                <th scope="col">order</th>
-                <th scope="col">subcategories</th>
-                <th scope="col" class="hidden">creation date</th>
-                <th scope="col">creator</th>
-                <th scope="col">action</th>
-            </tr>
-        </thead>
-        <tbody>
+  <table class="table owls-table ">
+    <thead>
+      <tr>
+        <th scope="col"> category name</th>
+        <th scope="col">order</th>
+        <th scope="col">subcategories</th>
+        <th scope="col" class="hidden">creation date</th>
+        <th scope="col">creator</th>
+        <th scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
 
 
-            <tr *ngFor="let category of categories | categoryFilter: searchTerm | paginate: { itemsPerPage: 10, currentPage: p }">
-                <td>{{category.name}}</td>
-                <td>{{category.order}}</td>
-                <td style="
+      <tr
+        *ngFor="let category of categories | categoryFilter: searchTerm | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td>{{category.name}}</td>
+        <td>{{category.order}}</td>
+        <td style="
         text-align:center;">{{category.sub_categories.length }}</td>
-                <td class="hidden">{{category.created_at}}</td>
-                <td>{{category.creator?.name}}</td>
-                <td>
-                    <a href="javascript:void(0)" class="table-view view-c" (click)="viewCategory(category)">
-                        <i class="icon-View"></i>
-                    </a>
+        <td class="hidden">{{category.created_at}}</td>
+        <td>{{category.creator?.name}}</td>
+        <td>
+          <a href="javascript:void(0)" class="table-view view-c" (click)="viewCategory(category)">
+            <i class="icon-View"></i>
+          </a>
 
-                    <label class="switch">
-                        <input type="checkbox" value="1" [(ngModel)]="category.active" (change)="changeActive(category, $event)">
-                        <span class="slider round"></span>
-                        <div class="reason-popup text-left" [hidden]="!category.showReason">
-                            <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this category?" [(ngModel)]="category.notes"></textarea>
-                            <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!category.notes" (click)="submitDeactivate(category)">submit</button>
-                            <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(category)">cancel</button>
-                        </div>
-                        <div class="hover-reason text-left" *ngIf="!category.active">
-                            <div class="head">
-                                Deactivation Notes
-                            </div>
-                            <div class="body">
-                                {{category.deactivation_notes}}
-                            </div>
-                        </div>
-                    </label>
-                </td>
-            </tr>
+          <label class="switch">
+            <input type="checkbox" value="1" [(ngModel)]="category.active" (change)="changeActive(category, $event)">
+            <span class="slider round"></span>
+            <div class="reason-popup text-left" [hidden]="!category.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this category?"
+                [(ngModel)]="category.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!category.notes"
+                (click)="submitDeactivate(category)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(category)">cancel</button>
+            </div>
+            <div class="hover-reason text-left" *ngIf="!category.active">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{category.deactivation_notes}}
+              </div>
+            </div>
+          </label>
+        </td>
+      </tr>
 
-        </tbody>
-    </table>
+    </tbody>
+  </table>
 </div>
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
 
 <div class="form-sidebar view-vindor-types" id="view-category">
-    <div class="head">
-        <span class="close" id="close-vindors3">
-            <i class="icon-Exit"></i>
-        </span>
-        <h3>catigory iD</h3>
+  <div class="head">
+    <span class="close" id="close-vindors3">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>catigory iD</h3>
+  </div>
+
+  <div class="head-btn">
+    <button id="edit-category" class="btn btn-owls btn-rounded btn-blue2"
+      (click)="editCategory(currentCategory)">edit</button>
+  </div>
+
+  <div class="details details-2" *ngIf="currentCategory">
+
+    <div>
+      <h5>name</h5>
+      <p>{{currentCategory.name}}</p>
     </div>
 
-    <div class="head-btn">
-        <button id="edit-category" class="btn btn-owls btn-rounded btn-blue2" (click)="editCategory(currentCategory)">edit</button>
-    </div>
+    <div>
 
-    <div class="details details-2" *ngIf="currentCategory">
+      <h5>sub categories</h5>
 
-        <div>
-            <h5>name</h5>
-            <p>{{currentCategory.name}}</p>
-        </div>
-
-        <div>
-
-            <h5>sub categories</h5>
-
-            <div *ngFor="let cat of currentCategory.sub_categories">
-                <label class="switch float-right">
-                    <input type="checkbox" value="1" [(ngModel)]="cat.active" (change)="changeActive(cat, $event)">
-                    <span class="slider round"></span>
-                    <div class="reason-popup text-left" [hidden]="!cat.showReason">
-                        <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this category?" [(ngModel)]="cat.notes"></textarea>
-                        <button class="btn btn-sm btn-rounded btn-sm btn-green2" [disabled]="!cat.notes" (click)="submitDeactivate(cat)">submit</button>
-                        <button class="btn btn-sm btn-rounded btn-sm btn-blue2 cancel-check" (click)="cancelDeactivate(cat)">cancel</button>
-                    </div>
-                    <div class="hover-reason text-left" *ngIf="!cat.active">
-                        <div class="head">
-                            Deactivation Notes
-                        </div>
-                        <div class="body">
-                            {{cat.deactivation_notes}}
-                        </div>
-                    </div>
-                </label>
-                <p>• {{cat.name}}</p>
+      <div *ngFor="let cat of currentCategory.sub_categories">
+        <label class="switch float-right">
+          <input type="checkbox" value="1" [(ngModel)]="cat.active" (change)="changeActive(cat, $event)">
+          <span class="slider round"></span>
+          <div class="reason-popup text-left" [hidden]="!cat.showReason">
+            <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this category?"
+              [(ngModel)]="cat.notes"></textarea>
+            <button class="btn btn-sm btn-rounded btn-sm btn-green2" [disabled]="!cat.notes"
+              (click)="submitDeactivate(cat)">submit</button>
+            <button class="btn btn-sm btn-rounded btn-sm btn-blue2 cancel-check"
+              (click)="cancelDeactivate(cat)">cancel</button>
+          </div>
+          <div class="hover-reason text-left" *ngIf="!cat.active">
+            <div class="head">
+              Deactivation Notes
             </div>
-        </div>
-
-        <div>
-            <h5>description</h5>
-            <p>{{currentCategory.description}}</p>
-        </div>
-
-        <div>
-            <h5>total products </h5>
-            <p>{{currentCategory.product_count}}</p>
-        </div>
-
+            <div class="body">
+              {{cat.deactivation_notes}}
+            </div>
+          </div>
+        </label>
+        <p>• {{cat.name}}</p>
+      </div>
     </div>
+
+    <div>
+      <h5>description</h5>
+      <p>{{currentCategory.description}}</p>
+    </div>
+
+    <div>
+      <h5>total products </h5>
+      <p>{{currentCategory.products_count}}</p>
+    </div>
+
+  </div>
 </div>
 
 <div class="form-sidebar view-vindor-types " id="edit-cat">
-    <div class="head">
-        <span class="close" id="close-vindors2">
-            <i class="icon-Exit"></i>
-        </span>
-        <h3>edit category</h3>
+  <div class="head">
+    <span class="close" id="close-vindors2">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>edit category</h3>
+  </div>
+
+  <form *ngIf="editCat" class="sideform" (submit)="updateCategory(editCat)" [formGroup]="editCatForm" novalidate>
+    <div class="row rowCustom">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="">image</label>
+
+          <div class="owls-upload owls-upload3 big">
+            <img class="owl-img img-fluid" [hidden]="editCatForm.controls.image.value"
+              src="http://via.placeholder.com/200x200" alt="">
+            <img class="owl-img img-fluid" style="width: 200px; height: 200px;"
+              [hidden]="!editCatForm.controls.image.value" [src]="editCatForm.controls.image.value" alt="">
+            <input type="file" id="editCatImg" class="owl-input" placeholder="upload your image"
+              (change)="uploadImage(editCatForm.controls.image, $event)" name="image" />
+            <input type="hidden" [(ngModel)]="editCat.image" formControlName="image">
+          </div>
+          <div
+            *ngIf="editCatForm.controls.image.invalid && (editCatForm.controls.image.dirty || editCatForm.controls.image.touched)"
+            class="alert alert-danger">
+            <div *ngIf="editCatForm.controls.image.errors.required">
+              Image is required.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="">Name</label>
+              <input type="text" class="owl-input" name="name" placeholder="Type.." [(ngModel)]="editCat.name" required
+                formControlName="name">
+              <!-- start Errors Rolues -->
+              <div
+                *ngIf="editCatForm.controls.name.invalid && (editCatForm.controls.name.dirty || editCatForm.controls.name.touched)"
+                class="alert alert-danger">
+                <div *ngIf="editCatForm.controls.name.errors.required">
+                  Name is required.
+                </div>
+                <div *ngIf="editCatForm.controls.name.errors.pattern">
+                  Name is must contain letters, numbers, "&" and "-".
+                </div>
+              </div>
+              <!-- End Errors Rolues -->
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="">Name (ar)</label>
+              <input type="text" class="owl-input" name="name_ar" placeholder="اسم القسم.."
+                [(ngModel)]="editCat.name_ar" required formControlName="name_ar">
+              <!-- start Errors Rolues -->
+              <div
+                *ngIf="editCatForm.controls.name_ar.invalid && (editCatForm.controls.name_ar.dirty || editCatForm.controls.name_ar.touched)"
+                class="alert alert-danger">
+                <div *ngIf="editCatForm.controls.name_ar.errors.required">
+                  Arabic Name is required.
+                </div>
+                <div *ngIf="editCatForm.controls.name_ar.errors.pattern">
+                  Arabic Name is must contain letters, numbers, "&" and "-".
+                </div>
+              </div>
+              <!-- End Errors Rolues -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="amount">Description (140 Max)</label>
+          <textarea class="owl-input" placeholder="type" name="description" id="" maxlength="140"
+            [(ngModel)]="editCat.description" required formControlName="description"></textarea>
+          <!-- Errors Rolues -->
+          <div
+            *ngIf="editCatForm.controls.description.invalid && (editCatForm.controls.description.dirty || editCatForm.controls.description.touched)"
+            class="alert alert-danger">
+            <div *ngIf="editCatForm.controls.description.errors.required">
+              Description is required.
+            </div>
+          </div>
+          <!-- Errors Rolues -->
+          <!-- <input type="text" class="owl-input" id="amount" aria-describedby="emailHelp" placeholder="Type.."> -->
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="amount">Description (ar) (140 Max)</label>
+          <textarea class="owl-input" placeholder="وصف القسم ..." name="description_ar" id="" maxlength="140"
+            [(ngModel)]="editCat.description_ar" required formControlName="description_ar"></textarea>
+          <!-- Errors Rolues -->
+          <div
+            *ngIf="editCatForm.controls.description_ar.invalid && (editCatForm.controls.description_ar.dirty || editCatForm.controls.description_ar.touched)"
+            class="alert alert-danger">
+            <div *ngIf="editCatForm.controls.description_ar.errors.required">
+              Arabic Description is required.
+            </div>
+          </div>
+          <!-- Errors Rolues -->
+          <!-- <input type="text" class="owl-input" id="amount" aria-describedby="emailHelp" placeholder="Type.."> -->
+        </div>
+      </div>
+      <div class="w-100"></div>
+      <div class="col">
+        <div class="form-group">
+          <label for="amount">Order</label>
+          <input type="number" class="owl-input" placeholder="Type.." name="order" [(ngModel)]="editCat.order" required
+            formControlName="order">
+          <div
+            *ngIf="editCatForm.controls.order.invalid && (editCatForm.controls.order.dirty || editCatForm.controls.order.touched)"
+            class="alert alert-danger">
+            <div *ngIf="editCatForm.controls.order.errors.required">
+              Order is required.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <form *ngIf="editCat" class="sideform" (submit)="updateCategory(editCat)" [formGroup]="editCatForm" novalidate>
-        <div class="row rowCustom">
-            <div class="col-6">
-              <div class="form-group">
-                <label for="">image</label>
-      
-                <div class="owls-upload owls-upload3 big">
-                  <img class="owl-img img-fluid" [hidden]="editCatForm.controls.image.value" src="http://via.placeholder.com/200x200"
-                    alt="">
-                  <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!editCatForm.controls.image.value"
-                    [src]="editCatForm.controls.image.value" alt="">
-                  <input type="file" id="editCatImg" class="owl-input" placeholder="upload your image" (change)="uploadImage(editCatForm.controls.image, $event)"
-                    name="image" />
-                  <input type="hidden" [(ngModel)]="editCat.image" formControlName="image">
-                </div>
-                <div *ngIf="editCatForm.controls.image.invalid && (editCatForm.controls.image.dirty || editCatForm.controls.image.touched)"
-                  class="alert alert-danger">
-                  <div *ngIf="editCatForm.controls.image.errors.required">
-                    Image is required.
-                  </div>
-                </div>
+    <div formArrayName="sub_categories">
+      <div *ngFor='let sub of editCatForm.get("sub_categories").controls; let i = index'>
+        <div class="form-group inputAimage borderSubCategories" [formGroupName]="i">
+          <div class="row rowImage">
+            <div class="col-sm-6 ">
+              <div class="owls-upload owls-upload3 ">
+                <img *ngIf="!sub.controls.image.value" src="https://via.placeholder.com/150x150" alt="" class="owl-img">
+                <img *ngIf="sub.controls.image.value" style="width: 150px; height: 150px"
+                  [src]="sub.controls.image.value" alt="" class="owl-img">
+                <input type="file" name="myfile"
+                  (change)="uploadImage(editCatForm.controls.sub_categories.controls[i].controls.image, $event)" />
+                <input type="hidden" formControlName="image">
               </div>
             </div>
-            <div class="col-6">
-              <div class="row">
-                <div class="col-12">
-                  <div class="form-group">
-                    <label for="">Name</label>
-                    <input type="text" class="owl-input" name="name" placeholder="Type.." [(ngModel)]="editCat.name" required
-                      formControlName="name">
-                    <!-- start Errors Rolues -->
-                    <div *ngIf="editCatForm.controls.name.invalid && (editCatForm.controls.name.dirty || editCatForm.controls.name.touched)"
-                      class="alert alert-danger">
-                      <div *ngIf="editCatForm.controls.name.errors.required">
-                        Name is required.
-                      </div>
-                      <div *ngIf="editCatForm.controls.name.errors.pattern">
-                        Name is must contain letters, numbers, "&" and "-".
-                      </div>
-                    </div>
-                    <!-- End Errors Rolues -->
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <label for="">Name (ar)</label>
-                    <input type="text" class="owl-input" name="name_ar" placeholder="اسم القسم.." [(ngModel)]="editCat.name_ar"
-                      required formControlName="name_ar">
-                    <!-- start Errors Rolues -->
-                    <div *ngIf="editCatForm.controls.name_ar.invalid && (editCatForm.controls.name_ar.dirty || editCatForm.controls.name_ar.touched)"
-                      class="alert alert-danger">
-                      <div *ngIf="editCatForm.controls.name_ar.errors.required">
-                        Arabic Name is required.
-                      </div>
-                      <div *ngIf="editCatForm.controls.name_ar.errors.pattern">
-                        Arabic Name is must contain letters, numbers, "&" and "-".
-                      </div>
-                    </div>
-                    <!-- End Errors Rolues -->
-                  </div>
-                </div>
+            <div class="col-sm-12  col-lx-6">
+              <div class="col-sm-12 m-t-b-8">
+                <label for="">sub category</label>
+                <input type="text" class="owl-input" placeholder="type here" name="subName{{i}}" formControlName="name"
+                  required>
               </div>
-            </div>
-            
-          </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="amount">Description (140 Max)</label>
-                    <textarea class="owl-input" placeholder="type" name="description" id="" maxlength="140" [(ngModel)]="editCat.description" required formControlName="description"></textarea>
-                    <!-- Errors Rolues -->
-                    <div *ngIf="editCatForm.controls.description.invalid && (editCatForm.controls.description.dirty || editCatForm.controls.description.touched)" class="alert alert-danger">
-                        <div *ngIf="editCatForm.controls.description.errors.required">
-                            Description is required.
-                        </div>
-                    </div>
-                    <!-- Errors Rolues -->
-                    <!-- <input type="text" class="owl-input" id="amount" aria-describedby="emailHelp" placeholder="Type.."> -->
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="amount">Description (ar) (140 Max)</label>
-                    <textarea class="owl-input" placeholder="وصف القسم ..." name="description_ar" id="" maxlength="140" [(ngModel)]="editCat.description_ar" required formControlName="description_ar"></textarea>
-                    <!-- Errors Rolues -->
-                    <div *ngIf="editCatForm.controls.description_ar.invalid && (editCatForm.controls.description_ar.dirty || editCatForm.controls.description_ar.touched)" class="alert alert-danger">
-                        <div *ngIf="editCatForm.controls.description_ar.errors.required">
-                            Arabic Description is required.
-                        </div>
-                    </div>
-                    <!-- Errors Rolues -->
-                    <!-- <input type="text" class="owl-input" id="amount" aria-describedby="emailHelp" placeholder="Type.."> -->
-                </div>
-            </div>
-            <div class="w-100"></div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="amount">Order</label>
-                    <input type="number" class="owl-input" placeholder="Type.." name="order" [(ngModel)]="editCat.order" required formControlName="order">
-                    <div *ngIf="editCatForm.controls.order.invalid && (editCatForm.controls.order.dirty || editCatForm.controls.order.touched)" class="alert alert-danger">
-                        <div *ngIf="editCatForm.controls.order.errors.required">
-                            Order is required.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div formArrayName="sub_categories">
-            <div *ngFor='let sub of editCatForm.get("sub_categories").controls; let i = index'>
-                <div class="form-group inputAimage borderSubCategories" [formGroupName]="i">
-                    <div class="row rowImage">
-                        <div class="col-sm-6 ">
-                            <div class="owls-upload owls-upload3 ">
-                                <img *ngIf="!sub.controls.image.value" src="https://via.placeholder.com/150x150" alt="" class="owl-img">
-                                <img *ngIf="sub.controls.image.value" style="width: 150px; height: 150px" [src]="sub.controls.image.value" alt="" class="owl-img">
-                                <input type="file" name="myfile" (change)="uploadImage(editCatForm.controls.sub_categories.controls[i].controls.image, $event)" />
-                                <input type="hidden" formControlName="image">
-                            </div>
-                        </div>
-                        <div class="col-sm-12  col-lx-6">
-                            <div class="col-sm-12 ">
-                                <div class="">
-                                    <label for="">sub category</label>
-                                    <input type="text" class="owl-input" placeholder="type here" name="subName{{i}}" formControlName="name" required>
-                                </div>
-                            </div>
-                            <div class=" ">
-                                <div class="col-sm-12">
-                                    <label for="">sub category (ar)</label>
-                                    <input type="text" class="owl-input" placeholder="اسم القسم الفرعي ..." name="subNameAr{{i}" formControlName="name_ar" required>
+              <div class="col-sm-12 m-t-b-8">
+                <label for="">sub category (ar)</label>
+                <input type="text" class="owl-input" placeholder="اسم القسم الفرعي ..." name="subNameAr{{i}" formControlName="name_ar" required>
                   </div>
-                </div>
-                        </div>
+                  <div class="col-12 m-t-b-8">
+                    <label> Options Name </label>
+                    <ng-select   name="optionName" [items]="options" bindLabel="name_en" bindValue="id"
+                      [multiple]="true" placeholder="Enter Brand name" formControlName="options" required>
+                    </ng-select>
+                  </div>
+            </div>
 
-                
+
           </div>
         </div>
 
@@ -329,7 +355,7 @@
         <div class="col-6">
           <div class="form-group">
             <label for="">image</label>
-  
+
             <div class="owls-upload owls-upload3 big">
               <img class="owl-img img-fluid" [hidden]="categoriesForm.controls.image.value" src="http://via.placeholder.com/200x200"
                 alt="">
@@ -439,21 +465,27 @@
               </div>
             </div>
             <div class="col-sm-12  col-lx-6">
-                <div class="col-sm-12 ">
-                    <div class="">
+              <div class="row">
+                <div class="col-sm-12 m-t-b-5">
                       <label for="">sub category</label>
-                      <input type="text" class="owl-input" placeholder="type here" name="subName{{i}}" formControlName="name" required>
-                                  </div>
-                              </div>
-                              <div class="">
-                                  <div class="col-sm-12">
-                                      <label for="">sub category (ar)</label>
-                                      <input type="text" class="owl-input" placeholder="اسم القسم الفرعي ..." name="subNameAr{{i}" formControlName="name_ar" required>
-                        </div>
-                  </div>
-            </div> 
-         
-            
+                      <input type="text" class="owl-input" placeholder="type here" name="subName{{i}}"
+                  formControlName="name" required>
+              </div>
+              <div class="col-sm-12 m-t-b-8">
+                <label for="">sub category (ar)</label>
+                <input type="text" class="owl-input" placeholder="اسم القسم الفرعي ..." name="subNameAr{{i}" formControlName="name_ar" required>
+              </div>
+
+              <div class="col-12 m-t-b-5">
+                <label> Options Name </label>
+                <ng-select   name="optionName" [items]="options" bindLabel="name_en" bindValue="id"
+                  [multiple]="true" placeholder="Enter Brand name" formControlName="options" required>
+                </ng-select>
+              </div>
+              </div>
+            </div>
+
+
           </div>
           <a href="javascript:void(0)" class="remove-sub" (click)="removeSubCategory(image, i)">remove subcategory</a>
         </div>

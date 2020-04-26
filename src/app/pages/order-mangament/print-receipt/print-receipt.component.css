@@ -62,12 +62,14 @@ tr
 
 }
 tr td {
-   
+
     padding: 2px 0 !important;
     background-color: #fbfbfb !important;
     font-weight: bold;
     font-size: 12px;
 }
+
+
 
 .footer {
     height: 40px;

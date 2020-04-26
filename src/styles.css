@@ -136,6 +136,10 @@
     content: "\e918";
 }
 
+.icon-cog:before {
+    content: "\e931";
+}
+
 .icon-None7:before {
     content: "\e919";
 }
@@ -474,13 +478,13 @@ textarea.owl-input {
 
 .btn-blue2 {
     color: #fff !important;
-    background: #39384d !important;
+    background: #38A0CD !important;
     font-size: 14px !important;
     line-height: 36px
 }
 
 .btn-blue {
-    background: #39384d !important;
+    background: #009EFA !important;
     color: #fff !important;
     font-size: 14px !important;
     line-height: 36px
@@ -524,7 +528,7 @@ textarea.owl-input {
 
 .tb-btn.bg-blue {
     color: #fff;
-    background: #39384d;
+    background: #38A0CD;
 }
 
 .add-vendor-form form h2 {
@@ -832,7 +836,7 @@ textarea.owl-input {
 }
 
 .ngx-pagination .current {
-    background-color: #39384d !important;
+    background-color: #38A0CD !important;
     border-radius: 50%;
     width: 44px;
     height: 44px;
@@ -857,7 +861,7 @@ a.btn {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: #39384d;
+    background-color: #38A0CD;
 }
 
 /* Rounded sliders */

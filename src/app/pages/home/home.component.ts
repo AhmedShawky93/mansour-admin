@@ -37,8 +37,6 @@ export class HomeComponent implements OnInit {
   viewFilter;
   listFilter;
   smsCount: any;
-  currentOrder: any;
-  orderContent: string;
 
   constructor(private ordersService: OrdersService, private titleService: Title, private settingsService: SettingService) {
     this.titleService.setTitle('Dashboard');
@@ -114,29 +112,6 @@ export class HomeComponent implements OnInit {
         }
 
       });
-  }
-
-  openModal(order)
-  {
-    this.currentOrder = order;
-    $("#confirmPopUp").modal("show");
-    this.orderContent = "Are you sure you want to start this order?";
-  }
-
-  confirmState(state_id) {
-    if (state_id == 1) {
-      this.ordersService.proceedOrder(this.currentOrder.id)
-        .subscribe((response: any) => {
-          if (response.code == 200) {
-            let ind = this.orders.findIndex((item) => item.id == this.currentOrder.id);
-            $("#confirmPopUp").modal("hide");
-            if (ind !== -1) {
-              this.orders.splice(ind, 1);
-            }
-          }
-        })
-        
-    }
   }
 
 }

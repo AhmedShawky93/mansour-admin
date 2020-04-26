@@ -39,7 +39,7 @@ export class TopBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pollingData = Observable.interval(10000).startWith(0)
+    this.pollingData = Observable.interval(15000).startWith(0)
       .switchMap(() => this.settingService.getNotifications())
       .subscribe((response: any) => {
         this.notificationGroups = response.data.notifications;

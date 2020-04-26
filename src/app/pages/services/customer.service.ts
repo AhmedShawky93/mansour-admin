@@ -55,4 +55,12 @@ export class CustomerService {
                 return Observable.throw(error.error || 'Server error');
             })
     }
+
+    cancelPoints(id) {
+        return this.http.post(this.url + "/points/" + id + "/cancel", {})
+    }
+
+    verifyPhone(id) {
+        return this.http.post(this.url + "/customers/" + id + "/verify_phone", {})
+    }
 }

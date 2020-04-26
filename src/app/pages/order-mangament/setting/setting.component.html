@@ -6,14 +6,12 @@
       aria-controls="nav-home" aria-selected="true">edit profile</a>
     <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
       aria-controls="nav-profile" aria-selected="false">Upload Gallery</a>
-    <!-- <a class="col nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact"
-      aria-selected="false">terms and conditions</a> -->
+    <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-stars" role="tab"
+      aria-controls="nav-profile" aria-selected="false">Trolley Stars</a>
+    <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-system" role="tab"
+      aria-controls="nav-profile" aria-selected="false">System Settings</a>
   </div>
 </nav>
-
-
-
-
 
 <div class="tab-content" id="nav-tabContent">
   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -127,21 +125,17 @@
             <i class="fa fa-close" (click)="deleteImage(img)" id='colse'></i>
           </div>
           <img style="margin-top: 25px" *ngIf="!user.imageUrl" src="http://via.placeholder.com/350x300" alt="" class="img-fluid owl-img">
-          <img class="owl-img img-fluid" style="" id="userImage" *ngIf="user.imageUrl" src="{{user.imageUrl}}" alt="">
+          <img class="owl-img img-fluid" id="userImage" *ngIf="user.imageUrl" src="{{user.imageUrl}}" alt="">
         </div>
       </div>
 
 
       <div class="col-md-4" style="margin-top: 25px;">
-        <button class="btn btn-green btn-rounded btn-owls">save</button>
+        <button class="btn btn-green btn-rounded btn-owls" [appLoading]="systemLoading">save</button>
       </div>
     </form>
 
   </div>
-
-
-
-
 
   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
@@ -169,113 +163,144 @@
 
   </div>
 
+  <div class="tab-pane terms fade" id="nav-stars" role="tabpanel" aria-labelledby="nav-contact-tab">
+    <div class="min-height: 200px;">
+      <app-loader *ngIf="settingsLoading"></app-loader>
+      <form *ngIf="!settingsLoading" class="row" name="starsForm" [formGroup]="starsForm" (submit)="updateLoyalitySettings()" novalidate>
 
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">Exchange Rate (X Points for each Y EGP spent)</label>
+              <div class="row">
+                <div class="col-md-6">
+                    <input formControlName="ex_rate_pts" placeholder="X points" type="number" min="0" id="ex_rate_pts" class="owl-input" name="ex_rate_pts" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
+                </div>
+                <div class="col-md-6">
+                    <input formControlName="ex_rate_egp" placeholder="Y EGP" type="number" min="0" id="ex_rate_egp" class="owl-input" name="ex_rate_egp" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
+                </div>
+              </div>
+              <small id="ex_rate_pts_help" class="form-text text-muted">For each Y EGP spent by the user, X points are added to his account.</small>
+              <div *ngIf="starsForm.controls.ex_rate_pts.invalid && (starsForm.controls.ex_rate_pts.dirty || starsForm.controls.ex_rate_pts.touched)" class="alert alert-danger">
+                <div *ngIf="starsForm.controls.ex_rate_pts.errors.required">
+                  Exchange rate is required
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">Refer Minimum Amount</label>
+              <input formControlName="refer_minimum" type="number" min="0" id="refer_minimum" class="owl-input" name="refer_minimum" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"/>
+              <small id="refer_minimum_help" class="form-text text-muted">The minimum order amount for the referal code to work</small>
+              <div *ngIf="starsForm.controls.refer_minimum.invalid && (starsForm.controls.refer_minimum.dirty || starsForm.controls.refer_minimum.touched)" class="alert alert-danger">
+                <div *ngIf="starsForm.controls.refer_minimum.errors.required">
+                  Refer minimum amount is required
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">Refer Points</label>
+              <input formControlName="refer_points" type="number" min="0" id="refer_points" class="owl-input" name="refer_points" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"/>
+              <small id="refer_points_help" class="form-text text-muted">Number of points the users get when they refer a friend.</small>
+              <div *ngIf="starsForm.controls.refer_points.invalid && (starsForm.controls.refer_points.dirty || starsForm.controls.refer_points.touched)" class="alert alert-danger">
+                <div *ngIf="starsForm.controls.refer_points.errors.required">
+                  Refer points is required
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">Gold Rate (%)</label>
+              <input formControlName="ex_rate_gold" type="number" min="0" id="ex_rate_gold" class="owl-input" name="ex_rate_gold" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"/>
+              <small id="ex_rate_gold_help" class="form-text text-muted">Extra % of points the user will get while Gold</small>
+              <div *ngIf="starsForm.controls.ex_rate_gold.invalid && (starsForm.controls.ex_rate_gold.dirty || starsForm.controls.ex_rate_gold.touched)" class="alert alert-danger">
+                <div *ngIf="starsForm.controls.ex_rate_gold.errors.required">
+                  Gold rate is required
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">Gold Amount</label>
+              <input formControlName="egp_gold" type="number" min="0" id="egp_gold" class="owl-input" name="egp_gold" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
+              <small id="egp_gold_help" class="form-text text-muted">Egp need per month to earn user gold status</small>
+              <div *ngIf="starsForm.controls.egp_gold.invalid && (starsForm.controls.egp_gold.dirty || starsForm.controls.egp_gold.touched)" class="alert alert-danger">
+                <div *ngIf="starsForm.controls.egp_gold.errors.required">
+                  Gold amount is required
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">Pending Days</label>
+              <input formControlName="pending_days" type="number" min="0" id="pending_days" class="owl-input" name="pending_days" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
+              <small id="pending_days_help" class="form-text text-muted">The number of days the user points will remain 'Pending' before it changes to 'Earned'</small>
+              <div *ngIf="starsForm.controls.pending_days.invalid && (starsForm.controls.pending_days.dirty || starsForm.controls.pending_days.touched)" class="alert alert-danger">
+                <div *ngIf="starsForm.controls.pending_days.errors.required">
+                  Pending days is required
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-md-4" style="margin-top: 25px;">
+            <button class="btn btn-green btn-rounded btn-owls" [appLoading]="starsLoading">save</button>
+          </div>
+        </form>
+    </div>
+  </div>
 
-  <!-- <div class="tab-pane terms fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-    <h3>built Trolly app as a Commercial app. This SERVICE is provided by and is intended for use as is.
+  <div class="tab-pane terms fade" id="nav-system" role="tabpanel" aria-labelledby="nav-contact-tab">
+    
+    <div style="min-height: 200px;">
+      <app-loader *ngIf="settingsLoading"></app-loader>
+      <form *ngIf="!settingsLoading" class="row" name="systemForm" [formGroup]="systemForm" (submit)="updateSystemSettings()" novalidate>
 
-    </h3>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Minimum Order Amount</label>
+            <input formControlName="min_order_amount" min="0" type="number" id="min_order_amount" class="owl-input" name="min_order_amount" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"/>
+            <small id="min_order_amount_help" class="form-text text-muted">This will remove delivery fees for orders with amount above this value</small>
+          </div>
+        </div>
 
-    <p>
-      This page is used to inform website visitors regarding our policies with the collection, use, and disclosure of
-      Personal
-      Information if anyone decided to use our Service.
-    </p>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Opening Time</label>
+            <input formControlName="open_time" type="text" id="open_time" class="owl-input" name="open_time" [ngxTimepicker]="openPicker">
+            <ngx-material-timepicker [minutesGap]="5" #openPicker></ngx-material-timepicker>
+            <small id="open_time_help" class="form-text text-muted">Orders made before this time will be postponed to next day</small>
+            <div *ngIf="systemForm.invalid && systemForm.errors?.timeError && (systemForm.controls.open_time.dirty || systemForm.controls.open_time.touched)" class="alert alert-danger">
+              <div *ngIf="systemForm.errors.timeError">
+                Opening time must be before closing time
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <p>If you choose to use our Service, then you agree to the collection and use of information in relation to this
-      policy.
-      The Personal Information that we collect is used for providing and improving the Service. We will not use or
-      share
-      your information with anyone except as described in this Privacy Policy.
-    </p>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Closing Time</label>
+            <input formControlName="off_time" type="text" id="off_time" class="owl-input" name="off_time" [ngxTimepicker]="offPicker">
+            <ngx-material-timepicker [minutesGap]="5" #offPicker></ngx-material-timepicker>
+            <small id="off_time_help" class="form-text text-muted">Orders made after this time will be postponed to next day</small>
+          </div>
+        </div>
 
-    <p>
-      The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible
-      at Trolly
-      unless otherwise defined in this Privacy Policy.
-    </p>
-
-    <h4>Information Collection and Use</h4>
-
-    <p>
-      For a better experience, while using our Service, we may require you to provide us with certain personally
-      identifiable information.
-      The information that we request is will be retained by us and used as described in this privacy policy.
-    </p>
-
-    <p>
-      The app does use third party services that may collect information used to identify you.
-    </p>
-
-    <p>
-      Link to privacy policy of third party service providers used by the app
-    </p>
-
-    <p>Google Play Services </p>
-    <p>Log Data</p>
-
-    <p>
-      We want to inform you that whenever you use our Service, in a case of an error in the app we collect data and
-      information
-      (through third party products) on your phone called Log Data. This Log Data may include information such as your
-      device
-      Internet Protocol (“IP”) address, device name, operating system version, the configuration of the app when
-      utilizing
-      our Service, the time and date of your use of the Service, and other statistics.
-    </p>
-
-
-    <h4>Cookies</h4>
-
-    <p>Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are
-      sent
-      and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to
-      use
-      some portions of this Service.
-    </p>
-
-
-    <h4>Service Providers</h4>
-
-    <p>We may employ third-party companies and individuals due to the following reasons:</p>
-    <p>To provide the Service on our behalf;</p>
-    <p>To perform Service-related services; or</p>
-    <p>To assist us in analyzing how our Service is used.</p>
-    <p>We want to inform users of this Service that these third parties have access to your Personal Information. The
-      reason
-      is </p>
-    <p>to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the
-      information
-    </p>
-    <p>for any other purpose.</p>
-
-    <h4>Security</h4>
-    <p>
-      We value your trust in providing us your Personal Information, thus we are striving to use commercially
-      acceptable means
-      of protecting it. But remember that no method of transmission over the internet, or method of electronic storage
-      is
-      100% secure and reliable, and we cannot guarantee its absolute security.
-    </p>
-
-    <h4>Links to Other Sites</h4>
-    <p>
-      This Service may contain links to other sites. If you click on a third-party link, you will be directed to that
-      site. Note
-      that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy
-      of
-      these websites. We have no control over and assume no responsibility for the content, privacy policies, or
-      practices
-      of any third-party sites or services.
-    </p>
-
-
-
-  </div> -->
+        <div class="col-md-4" style="margin-top: 25px;">
+          <button class="btn btn-green btn-rounded btn-owls" [appLoading]="systemLoading">save</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

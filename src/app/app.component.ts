@@ -58,10 +58,10 @@ export class AppComponent implements OnInit {
         // $("i", this).toggleClass(" icon-Exit fa fa-bars");
         if ($('.main-content').hasClass('toggle-main-content')) {
           $('.view-vindor-types').addClass('open-view-vindor-types2');
-          $('.app-logo img').attr('src', 'assets/img/logoMini.png');
+          $('.app-logo img').attr('src', 'assets/img/logo.png');
         } else {
           $('.view-vindor-types').removeClass('open-view-vindor-types2');
-          $('.app-logo img').attr('src', 'assets/img/logo2.png');
+          $('.app-logo img').attr('src', 'assets/img/logo.png');
 
         }
       });

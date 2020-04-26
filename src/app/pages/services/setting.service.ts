@@ -42,6 +42,18 @@ export class SettingService {
       })
   }
 
+  getSettings() {
+    return this.http.get(this.url + 'settings');
+  }
+
+  updateSystemSettings(data) {
+    return this.http.post(this.url + 'settings/system', data);
+  }
+
+  updateLoyalitySettings(data) {
+    return this.http.post(this.url + 'settings/loyality', data);
+  }
+
   getStatistics() {
     return this.http.get(this.url + "dashboard");
   }

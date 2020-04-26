@@ -24,6 +24,8 @@ export class ManageCastomerComponent implements OnInit {
   p = 1;
 
   customer;
+  currentPoints: any;
+  customerLoading: boolean;
 
   constructor(private cs: CustomerService, private auth: AuthService) { }
 
@@ -109,9 +111,11 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   viewCustomer(customer) {
+    this.customerLoading = true;
     this.cs.getCustomer(customer.id)
       .subscribe((response: any) => {
         this.customer = response.data;
+        this.customerLoading = false;
       });
   }
 
@@ -148,6 +152,35 @@ export class ManageCastomerComponent implements OnInit {
       user.notes = user.deactivation_notes;
       user.showReason = 1;
     }
+  }
+
+  confirmCancelPoints(point) {
+    this.currentPoints = point;
+  }
+
+  cancelPoints() {
+    this.cs.cancelPoints(this.currentPoints.id)
+      .subscribe((response: any) => {
+        this.currentPoints = response.data;
+        let ind = this.customer.points.findIndex(p => p.id == this.currentPoints.id);
+        if (ind !== -1) {
+          this.customer.points[ind] = this.currentPoints;
+        }
+      });
+  }
+
+  confirmVerifyPhone(customer) {
+    this.customer = customer;
+  }
+
+  verifyPhone() {
+    console.log(this.customer);
+    this.cs.verifyPhone(this.customer.id)
+      .subscribe((response: any) => {
+        if (response.code == 200) {
+          this.customer.phone_verified = response.data.phone_verified;
+        }
+      });
   }
 
   cancelDeactivate(user) {

@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { SettingService } from '@app/pages/services/setting.service';
 import { Conditional } from '@angular/compiler';
 import { EventEmitter } from '@angular/core';
+import { delay } from 'rxjs/operators';
+import * as moment from 'moment';
 
 function currentPasswordValidator(group: AbstractControl) {
   if (group.get('password').value && !group.get('current_password').value) {
@@ -19,6 +21,16 @@ function confirmPasswordValidator(group: AbstractControl) {
   if (group.get('password').value && (group.get('confirmPassword').value !== group.get('password').value)) {
     return { confirmPassword: true };
   }
+  return null;
+}
+
+function timeValidator(group: AbstractControl) {
+  let open_time = group.get('open_time').value;
+  let off_time = group.get('off_time').value;
+  if (off_time && open_time && moment(open_time, 'h:mma').isAfter(moment(off_time, 'h:mma'))) {
+    return { timeError: true };
+  }
+
   return null;
 }
 
@@ -41,15 +53,18 @@ export class SettingComponent implements OnInit {
   users: any;
   requiredIf: boolean;
   selectedFiles: File[];
+  settings: any;
+  settingsLoading: boolean;
+  systemForm: FormGroup;
+  starsForm: FormGroup;
+  systemLoading: boolean;
+  starsLoading: boolean;
 
   constructor(
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
     private settingService: SettingService,
-  ) {
-
-
-  }
+  ) {}
 
   ngOnInit() {
 
@@ -60,6 +75,8 @@ export class SettingComponent implements OnInit {
       .subscribe((response: any) => {
         this.gallery = response.data;
       });
+
+    this.loadSettings();
   }
 
   loadMore() {
@@ -149,6 +166,62 @@ export class SettingComponent implements OnInit {
 
       });
   }
+
+  loadSettings() {
+    console.log(this.settings)
+    if (!this.settings) {
+      this.settingsLoading = true;
+      this.settingService.getSettings()
+        .subscribe((response: any) => {
+          this.settings = response.data;
+          this.systemForm = new FormGroup({
+            min_order_amount: new FormControl(this.settings.min_order_amount),
+            off_time: new FormControl(this.settings.off_time),
+            open_time: new FormControl(this.settings.open_time)
+          }, timeValidator);
+      
+          this.starsForm = new FormGroup({
+            ex_rate_pts: new FormControl(this.settings.ex_rate_pts, Validators.required),
+            ex_rate_egp: new FormControl(this.settings.ex_rate_egp, Validators.required),
+            ex_rate_gold: new FormControl(this.settings.ex_rate_gold, Validators.required),
+            refer_points: new FormControl(this.settings.refer_points, Validators.required),
+            refer_minimum: new FormControl(this.settings.refer_minimum, Validators.required),
+            egp_gold: new FormControl(this.settings.egp_gold, Validators.required),
+            pending_days: new FormControl(this.settings.pending_days, Validators.required)
+          });
+          this.settingsLoading = false;
+        });
+    }
+  }
+  
+  updateSystemSettings() {
+    if (!this.systemForm.valid) {
+      return this.markFormGroupTouched(this.systemForm);
+    }
+    
+    this.systemLoading = true;
+    this.settingService.updateSystemSettings(this.systemForm.value)
+      .subscribe((response: any) => {
+        this.settings = response.data;
+        this.toastrService.success("System Settings Updated Successfully!");
+        this.systemLoading = false;
+      });
+  }
+
+  updateLoyalitySettings() {
+    if (!this.starsForm.valid) {
+      return this.markFormGroupTouched(this.starsForm);
+    }
+    
+    this.starsLoading = true;
+    this.settingService.updateLoyalitySettings(this.starsForm.value)
+      .subscribe((response: any) => {
+        this.settings = response.data;
+        this.toastrService.success("Trolley Stars Settings Updated Successfully!");
+        this.starsLoading = false;
+      });
+  }
+
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach(control => {
       control.markAsTouched();

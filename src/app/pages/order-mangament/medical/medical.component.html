@@ -42,8 +42,8 @@
         <td>{{med.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
         <td>{{med.user.name}}</td>
         <td>{{med.user.phone}}</td>
-        <td class="relative"><span *ngIf="med.user.addresses">{{med.user.addresses[0].formatted_address | summary : 25}}</span>
-          <div class="hover-reason text-left" *ngIf="med.user.addresses[0].formatted_address.length >= 25">
+        <td class="relative"><span *ngIf="med.user.addresses.length">{{med.user.addresses[0].formatted_address | summary : 25}}</span>
+          <div class="hover-reason text-left" *ngIf="med.user.addresses.length && med.user.addresses[0].formatted_address && med.user.addresses[0].formatted_address.length >= 25">
             <div class="head">
               address
             </div>

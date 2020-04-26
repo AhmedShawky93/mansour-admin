@@ -80,6 +80,11 @@ import { RequiredIfDirective } from '@app/shared/required-if.directive';
 import { PrintReceiptComponent } from './pages/order-mangament/print-receipt/print-receipt.component';
 import { OrderFilterPipe } from "./pages/order-mangament/totalorders2/order.pipe";
 import { SummaryPipe } from './shared/summary.pipe';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { BrandsComponent } from './pages/brands/brands.component';
+import { ButtonSpinnerDirective } from './shared/directives/button-spinner.directive';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -90,14 +95,15 @@ import { SummaryPipe } from './shared/summary.pipe';
     EditOfferComponent, MedicalComponent, SettingComponent, OrdersComponent, CategoriesComponent, StaffComponent,
     AreasComponent, HomeComponent, ProductsComponent, ReportingCenterComponent, TotalComponent, LoaderComponent,
     RequiredIfDirective, PrintReceiptComponent,
-    CategoryPipe, OrderFilterPipe, SummaryPipe,
+    CategoryPipe, OrderFilterPipe, SummaryPipe, BrandsComponent
 
   ],
   imports: [
     AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule, LoadingBarHttpClientModule, BarRatingModule, 
     NgxPaginationModule, BrowserAnimationsModule, MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule,
     MatInputModule, MatButtonModule, MatStepperModule, MatIconModule, NgSelectModule, ChartsModule, ToastrModule.forRoot(),
-    SatDatepickerModule, SatNativeDateModule, TruncateModule, ReactiveFormsModule, BrowserModule, CustomFormsModule, MomentModule
+    SatDatepickerModule, SatNativeDateModule, TruncateModule, ReactiveFormsModule, BrowserModule, CustomFormsModule, MomentModule,
+    NgxMaterialTimepickerModule, FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(), SharedModule
   ],
   providers: [
     {
