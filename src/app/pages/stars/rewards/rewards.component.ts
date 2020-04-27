@@ -1,51 +1,52 @@
-import { Component, OnInit } from '@angular/core';
-import { LoyalityService } from '@app/pages/services/loyality.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UploadFilesService } from '@app/pages/services/upload-files.service';
-import { T } from '@angular/core/src/render3';
+import { Component, OnInit } from "@angular/core";
+import { LoyalityService } from "@app/pages/services/loyality.service";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import { T } from "@angular/core/src/render3";
 
 declare var jquery: any;
 declare var $: any;
 
 @Component({
-  selector: 'app-rewards',
-  templateUrl: './rewards.component.html',
-  styleUrls: ['./rewards.component.css']
+  selector: "app-rewards",
+  templateUrl: "./rewards.component.html",
+  styleUrls: ["./rewards.component.css"],
 })
 export class RewardsComponent implements OnInit {
-
   p = 1;
   rewards = [];
   addForm: FormGroup;
   selectFile: File;
   currentReward: any;
   submitting: boolean;
-
-  constructor(private loyalityService: LoyalityService, private uploadService: UploadFilesService) { }
+  searchTerm: "";
+  constructor(
+    private loyalityService: LoyalityService,
+    private uploadService: UploadFilesService
+  ) {}
 
   ngOnInit() {
-    this.loyalityService.getRewards()
-      .subscribe((response: any) => {
-        this.rewards = response.data;
-        this.rewards = this.rewards.map(item => {
-          item.deactivated = !item.active;
-          return item;
-        })
+    this.loyalityService.getRewards().subscribe((response: any) => {
+      this.rewards = response.data;
+      this.rewards = this.rewards.map((item) => {
+        item.deactivated = !item.active;
+        return item;
       });
+    });
 
     $("body").on("click", ".add-product", function () {
       console.log("clicked");
-      $("#add-prod").toggleClass("open-view-vindor-types")
-    })
+      $("#add-prod").toggleClass("open-view-vindor-types");
+    });
 
     $(".edit-product").on("click", function () {
-      $("#edit-prod").toggleClass("open-view-vindor-types")
-    })
+      $("#edit-prod").toggleClass("open-view-vindor-types");
+    });
 
     $("body").on("click", ".open-show", function () {
-      console.log("opening")
-      $("#show-p-details").toggleClass("open-view-vindor-types")
-    })
+      console.log("opening");
+      $("#show-p-details").toggleClass("open-view-vindor-types");
+    });
 
     $(".slider").on("click", function () {
       var then = $(this).siblings(".reason-popup").slideToggle(100);
@@ -53,30 +54,30 @@ export class RewardsComponent implements OnInit {
     });
 
     $("#close-vindors1").on("click", function () {
-      $("#add-prod").removeClass("open-view-vindor-types")
-    })
+      $("#add-prod").removeClass("open-view-vindor-types");
+    });
 
     $("#close-vindors2").on("click", function () {
-      $("#edit-prod").removeClass("open-view-vindor-types")
-    })
+      $("#edit-prod").removeClass("open-view-vindor-types");
+    });
 
     $("#show-p-details").on("click", "#close-vindors4", function () {
-      $("#show-p-details").removeClass("open-view-vindor-types")
-    })
+      $("#show-p-details").removeClass("open-view-vindor-types");
+    });
 
     this.addForm = new FormGroup({
       id: new FormControl(),
-      name: new FormControl('', Validators.required),
-      name_ar: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-      description_ar: new FormControl('', Validators.required),
-      point_cost: new FormControl('', Validators.required),
+      name: new FormControl("", Validators.required),
+      name_ar: new FormControl("", Validators.required),
+      description: new FormControl("", Validators.required),
+      description_ar: new FormControl("", Validators.required),
+      point_cost: new FormControl("", Validators.required),
       is_gold: new FormControl(false),
-      type: new FormControl('', Validators.required),
-      image: new FormControl(''),
-      amount_type: new FormControl(''),
-      amount: new FormControl(''),
-      max_amount: new FormControl(''),
+      type: new FormControl("", Validators.required),
+      image: new FormControl(""),
+      amount_type: new FormControl(""),
+      amount: new FormControl(""),
+      max_amount: new FormControl(""),
     });
   }
 
@@ -86,42 +87,46 @@ export class RewardsComponent implements OnInit {
 
   onFormSubmit() {
     console.log(this.addForm.value);
-    if (this.addForm.get('id').value) {
-      console.log("UPDATE")
+    if (this.addForm.get("id").value) {
+      console.log("UPDATE");
       this.updateReward();
     } else {
-      console.log("CREATE")
+      console.log("CREATE");
       this.addReward();
     }
   }
 
   addReward() {
-    console.log(this.addForm.value)
+    console.log(this.addForm.value);
     if (!this.addForm.valid) {
       console.log("INVALID");
       return this.markFormGroupTouched(this.addForm);
     }
     this.submitting = true;
-    this.loyalityService.createReward(this.addForm.value)
+    this.loyalityService
+      .createReward(this.addForm.value)
       .subscribe((response: any) => {
         if (response.code == 200) {
           this.rewards.unshift(response.data);
           this.addForm.reset();
-          $("#add-prod").toggleClass("open-view-vindor-types")
+          $("#add-prod").toggleClass("open-view-vindor-types");
         }
 
         this.submitting = false;
-      })
+      });
   }
 
   editReward(reward) {
     console.log(reward);
     this.addForm = new FormGroup({
       id: new FormControl(reward.id),
-      name: new FormControl(reward.name ,Validators.required),
+      name: new FormControl(reward.name, Validators.required),
       name_ar: new FormControl(reward.name_ar, Validators.required),
       description: new FormControl(reward.description, Validators.required),
-      description_ar: new FormControl(reward.description_ar, Validators.required),
+      description_ar: new FormControl(
+        reward.description_ar,
+        Validators.required
+      ),
       point_cost: new FormControl(reward.point_cost, Validators.required),
       is_gold: new FormControl(Boolean(reward.is_gold)),
       type: new FormControl(reward.type, Validators.required),
@@ -135,97 +140,99 @@ export class RewardsComponent implements OnInit {
   }
 
   updateReward() {
-    console.log(this.addForm.value)
+    console.log(this.addForm.value);
     if (!this.addForm.valid) {
       console.log("INVALID");
       return this.markFormGroupTouched(this.addForm);
     }
     this.submitting = true;
-    this.loyalityService.updateReward(this.addForm.get('id').value, this.addForm.value)
+    this.loyalityService
+      .updateReward(this.addForm.get("id").value, this.addForm.value)
       .subscribe((response: any) => {
         if (response.code == 200) {
-          let ind = this.rewards.findIndex(r => r.id == response.data.id);
+          let ind = this.rewards.findIndex((r) => r.id == response.data.id);
           if (ind !== -1) {
             this.rewards[ind] = response.data;
             this.addForm.reset();
-            $("#add-prod").toggleClass("open-view-vindor-types")
+            $("#add-prod").toggleClass("open-view-vindor-types");
           }
         } else {
-
         }
 
         this.submitting = false;
-      })
+      });
   }
 
   changeType(form: FormGroup) {
-    let type = form.get('type').value;
+    let type = form.get("type").value;
 
     if (type == 1) {
-      form.get('amount_type').setValidators([Validators.required]);
-      
-      // clear validators
-      form.get('image').clearValidators();
-    } else if (type == 2) {
-      form.get('image').setValidators([Validators.required]);
-      
-      // clear validators
-      form.get('amount_type').clearValidators();
-      form.get('amount').clearValidators();
-      form.get('max_amount').clearValidators();
-    } 
+      form.get("amount_type").setValidators([Validators.required]);
 
-    form.get('image').updateValueAndValidity();
-    form.get('amount_type').updateValueAndValidity();
-    form.get('amount').updateValueAndValidity();
-    form.get('max_amount').updateValueAndValidity();
+      // clear validators
+      form.get("image").clearValidators();
+    } else if (type == 2) {
+      form.get("image").setValidators([Validators.required]);
+
+      // clear validators
+      form.get("amount_type").clearValidators();
+      form.get("amount").clearValidators();
+      form.get("max_amount").clearValidators();
+    }
+
+    form.get("image").updateValueAndValidity();
+    form.get("amount_type").updateValueAndValidity();
+    form.get("amount").updateValueAndValidity();
+    form.get("max_amount").updateValueAndValidity();
   }
 
   changeAmountType(form: FormGroup) {
-    let amount_type = form.get('amount_type').value;
+    let amount_type = form.get("amount_type").value;
 
     if (amount_type == 1) {
-      form.get('amount').setValidators([Validators.required]);
+      form.get("amount").setValidators([Validators.required]);
 
-      form.get('max_amount').clearValidators();
+      form.get("max_amount").clearValidators();
     } else if (amount_type == 2) {
-      form.get('amount').setValidators([Validators.required]);
-      form.get('max_amount').setValidators([Validators.required]);
+      form.get("amount").setValidators([Validators.required]);
+      form.get("max_amount").setValidators([Validators.required]);
     }
 
-    form.get('amount').updateValueAndValidity();
-    form.get('max_amount').updateValueAndValidity();
+    form.get("amount").updateValueAndValidity();
+    form.get("max_amount").updateValueAndValidity();
   }
 
   onImageSelected(event, form: FormGroup) {
     this.selectFile = <File>event.target.files[0];
-    this.uploadService.uploadFile(this.selectFile)
+    this.uploadService
+      .uploadFile(this.selectFile)
       .subscribe((response: any) => {
-
         if (response.body) {
-          form.get('image').setValue(response.body.data.filePath)
+          form.get("image").setValue(response.body.data.filePath);
         }
-
       });
   }
 
   changeActive(reward) {
-    this.rewards.filter((reward) => {
-      return reward.showReason;
-    }).map((reward) => {
-      if (reward.active == reward.deactivated) {
-        reward.active = !reward.active;
-      }
-      reward.showReason = 0;
-      return reward;
-    });
+    this.rewards
+      .filter((reward) => {
+        return reward.showReason;
+      })
+      .map((reward) => {
+        if (reward.active == reward.deactivated) {
+          reward.active = !reward.active;
+        }
+        reward.showReason = 0;
+        return reward;
+      });
 
     if (reward.active) {
       // currently checked
       reward.showReason = 0;
       reward.notes = "";
       if (reward.deactivated) {
-        this.loyalityService.activateReward(reward.id)
+        this.loyalityService
+          .activateReward(reward.id)
           .subscribe((data: any) => {
             reward.active = 1;
             reward.notes = "";
@@ -233,7 +240,6 @@ export class RewardsComponent implements OnInit {
             reward.deactivated = 0;
           });
       }
-
     } else {
       reward.notes = reward.deactivation_notes;
       reward.showReason = 1;
@@ -248,17 +254,18 @@ export class RewardsComponent implements OnInit {
 
   submitDeactivate(reward) {
     reward.active = 0;
-    this.loyalityService.deactivateReward(reward.id, { deactivation_notes: reward.notes })
+    this.loyalityService
+      .deactivateReward(reward.id, { deactivation_notes: reward.notes })
       .subscribe((data: any) => {
         reward.active = 0;
         reward.deactivation_notes = reward.notes;
         reward.showReason = 0;
         reward.deactivated = 1;
       });
-  } 
+  }
 
   private markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach(control => {
+    (<any>Object).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
 
       if (control.controls) {
