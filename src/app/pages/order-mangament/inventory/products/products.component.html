@@ -322,6 +322,19 @@
     </div>
 
     <div class="form-group">
+      <label for="">Long description</label>
+      <textarea class="owl-input" placeholder="type" name="long_description_en"
+        [(ngModel)]="product.long_description_en" required minlength="3" name="long_description_en"
+        #long_description_en="ngModel"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="">Long description (Ar)</label>
+      <textarea class="owl-input" placeholder="type" name="long_description_ar"
+        [(ngModel)]="product.long_description_ar" required minlength="3" name="long_description_ar"
+        #long_description_ar="ngModel"></textarea>
+    </div>
+
+    <div class="form-group">
       <label for=""> Pricing</label>
       <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" id="price" [(ngModel)]="product.price" class="owl-input"
         placeholder="Type.." name="price" formControlName="price" required [min]="1" [max]="1000000">
@@ -401,6 +414,7 @@
       <label for="">Sub Category</label>
       <select class="owl-input" [(ngModel)]="product.category_id" formControlName="category_id" required
         name="subCategory" (change)="selectSubCategoryOption(category_id)">
+        <option [value]="" hidden selected>Select Sub Category</option>
         <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
           <span *ngIf="cat.active == 0"> - Deactivate </span>
 
@@ -418,12 +432,17 @@
       </div>
       <!-- End Errors Rolues -->
     </div>
-    <div class="form-group" *ngIf="options">
-      <label> Options Name </label>
-      <select class="owl-input" name="options_id" formControlName="options" [(ngModel)]="product.options">
-        <option value="{{option.id}}" *ngFor="let option of options">{{option.name_en}}
-        </option>
-      </select>
+    <div *ngIf="options">
+
+      <div class="form-group" *ngFor="let option of options; let i = index">
+        <label> {{option.name_en}} </label>
+        <select class="owl-input" name="options_id" (change)="selectOptionValue(option, $event, i)"
+          formControlName="option_values">
+          <option [value]="" hidden selected>Select option </option>
+          <option value="{{value.id}}" *ngFor="let value of option.values">{{value.name_en}}
+          </option>
+        </select>
+      </div>
     </div>
 
 
@@ -587,7 +606,6 @@
       </div>
       <!-- End Errors Rolues -->
     </div>
-
     <div class="form-group">
       <label for="">description (Ar)</label>
       <textarea class="owl-input" placeholder="type" [(ngModel)]="product.description_ar" required minlength="3"
@@ -607,6 +625,20 @@
       </div>
       <!-- End Errors Rolues -->
     </div>
+    <div class="form-group">
+      <label for="">Long description</label>
+      <textarea class="owl-input" placeholder="type" name="long_description_en"
+        [(ngModel)]="product.long_description_en" required minlength="3" name="long_description_en"
+        #long_description_en="ngModel"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="">Long description (Ar)</label>
+      <textarea class="owl-input" placeholder="type" name="long_description_ar"
+        [(ngModel)]="product.long_description_ar" required minlength="3" name="long_description_ar"
+        #long_description_ar="ngModel"></textarea>
+    </div>
+
+
 
     <div class="form-group">
       <label for="">price</label>
@@ -655,7 +687,7 @@
 
     <div class="form-group">
       <label for="">Category</label>
-      <select class="owl-input" name="category_id" [(ngModel)]="category_id">
+      <select class="owl-input" name="category_id" [(ngModel)]="category_id" (change)="selectCategory(category_id)">
         <option value="{{cat.id}}" *ngFor="let cat of categories">{{cat.name}}
           <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
 
@@ -676,13 +708,17 @@
       </select>
 
     </div>
-    <div class="form-group" *ngIf="options">
-      <label> Options Name </label>
-      <select class="owl-input" name="options_id" [(ngModel)]="product.options" #options="ngModel" name="options">
-        <option value="{{cat.id}}" *ngFor="let cat of options">{{cat.name_en}}
-          <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
-        </option>
-      </select>
+    <div *ngIf="options">
+
+      <div class="form-group" *ngFor="let option of options; let i = index">
+        <label> {{option.name_en}} </label>
+        <select class="owl-input" name="options_id" (change)="selectOptionValue(option, $event, i)"
+          formControlName="option_values">
+          <option [value]="" hidden selected>Select option </option>
+          <option value="{{value.id}}" *ngFor="let value of option.values">{{value.name_en}}
+          </option>
+        </select>
+      </div>
     </div>
 
 

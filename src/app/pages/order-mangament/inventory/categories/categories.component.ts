@@ -188,6 +188,7 @@ export class CategoriesComponent implements OnInit {
         Validators.required
       ),
       order: new FormControl(category.order, Validators.required),
+
       sub_categories: new FormArray(
         [],
         [Validators.minLength(1), Validators.required]
@@ -201,7 +202,10 @@ export class CategoriesComponent implements OnInit {
           name: new FormControl(item.name, Validators.required),
           name_ar: new FormControl(item.name_ar, Validators.required),
           image: new FormControl(item.image, Validators.required),
-          options: new FormControl(item.options, Validators.required),
+          options: new FormControl(
+            item.options.map((p) => p.id),
+            Validators.required
+          ),
         })
       );
     });

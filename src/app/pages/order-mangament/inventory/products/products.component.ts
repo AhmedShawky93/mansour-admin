@@ -35,60 +35,6 @@ export class ProductsComponent implements OnInit {
   category_id: any;
   @ViewChild("myInput") importFile: ElementRef;
 
-  // lineChart
-  public lineChartData1: Array<any> = [
-    { data: [658, 200, 567, 635, 33, 251], label: "Legend 1 " },
-    // { data: [150, 489, 319, 326, 160, 365], label: 'Legend 2' },
-    // { data: [100, 459, 200, 123, 428, 157], label: 'Legend 3' }
-  ];
-  public lineChartLabels1: Array<any> = [
-    "Jan",
-    "feb",
-    "mar",
-    "apr",
-    "may",
-    "Jun",
-    "jul",
-  ];
-  public lineChartOptions1: any = {
-    responsive: true,
-  };
-  public lineChartColors1: Array<any> = [
-    {
-      // grey
-      backgroundColor: "rgba(83,127,223,0.7)",
-      borderColor: "rgba(83,127,223,0.7)",
-      pointBackgroundColor: "rgba(83,127,223,1)",
-      pointBorderColor: "rgba(83,127,223,1)",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(148,159,177,0.8)",
-    },
-    {
-      // dark grey
-      backgroundColor: "rgba(197,136,189,0.7)",
-      borderColor: "rgba(197,136,189,0.7)",
-      pointBackgroundColor: "rgba(77,83,96,1)",
-      pointBorderColor: "#fff",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(77,83,96,1)",
-    },
-    {
-      // grey
-      backgroundColor: "rgba(132,230,200,0.7)",
-      borderColor: "rgba(132,230,200,0.7)",
-      pointBackgroundColor: "rgba(94,227,174,1)",
-      pointBorderColor: "rgba(94,227,174,1)",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(148,159,177,0.8)",
-    },
-  ];
-  public lineChartLegend1: boolean = true;
-  public lineChartType1: string = "line";
-
-  users = [
-    { id: "anjmao", name: "Anjmao" },
-    { id: "varnas", name: "Tadeus Varnas" },
-  ];
   selectedUserIds: number[];
   products = [];
   public product: any = {
@@ -100,7 +46,9 @@ export class ProductsComponent implements OnInit {
     sku: "",
     category_id: "",
     image: "",
-    options: "",
+    long_description_ar: "",
+    long_description_en: "",
+    option_values: [] = [],
     images: [],
   };
   addProductForm: FormGroup;
@@ -222,6 +170,8 @@ export class ProductsComponent implements OnInit {
         Validators.minLength(3),
         Validators.maxLength(250),
       ]),
+      long_description_en: new FormControl("", []),
+      long_description_ar: new FormControl("", []),
       description_ar: new FormControl("", [
         Validators.required,
         Validators.minLength(3),
@@ -239,7 +189,7 @@ export class ProductsComponent implements OnInit {
       image: new FormControl("", Validators.required),
       max_per_order: new FormControl(),
       min_days: new FormControl(),
-      options: new FormControl(""),
+      option_values: new FormControl([]),
     });
   }
 
@@ -298,13 +248,7 @@ export class ProductsComponent implements OnInit {
   viewProduct(product) {
     this.currentProduct = product;
     // set chart data
-    this.lineChartLabels1 = product.history.map((item) => item.month);
-    this.lineChartData1 = [
-      {
-        data: product.history.map((item) => item.productAmount),
-        label: product.name,
-      },
-    ];
+
     $("#show-p-details").toggleClass("open-view-vindor-types");
   }
 
@@ -315,13 +259,13 @@ export class ProductsComponent implements OnInit {
         end: new Date(this.dateRange.end),
       })
       .subscribe((response: any) => {
-        this.lineChartLabels1 = response.data.map((item) => item.month);
-        this.lineChartData1 = [
-          {
-            data: response.data.map((item) => item.productAmount),
-            label: this.currentProduct.name,
-          },
-        ];
+        // this.lineChartLabels1 = response.data.map((item) => item.month);
+        // this.lineChartData1 = [
+        //   {
+        //     data: response.data.map((item) => item.productAmount),
+        //     label: this.currentProduct.name,
+        //   },
+        // ];
       });
   }
 
@@ -344,6 +288,9 @@ export class ProductsComponent implements OnInit {
   }
 
   addProducts(product) {
+    product.option_values = this.product.option_values;
+    console.log(product);
+    console.log(this.product);
     if (!this.addProductForm.valid) {
       this.markFormGroupTouched(this.addProductForm);
       return;
@@ -373,10 +320,13 @@ export class ProductsComponent implements OnInit {
     this.product.images.map((image) => (image.urlPath = image.url));
     this.product.deleted_images = [];
     this.selectCategory(this.category_id);
+    this.selectSubCategoryOption(this.product.options[0]);
     $("#edit-prod").toggleClass("open-view-vindor-types");
   }
 
   updateProduct(product) {
+    product.option_values = this.product.option_values;
+    console.log(product);
     this.productsService
       .updateProduct(product.id, product)
       .subscribe((response: any) => {
@@ -435,6 +385,28 @@ export class ProductsComponent implements OnInit {
 
     this.options = this.sub_categories[index].options;
     console.log(this.options);
+  }
+  selectOptionValue(option, value, index) {
+    console.log(option, value, index);
+    if (this.product.option_values) {
+      const indexOption = this.product.option_values.findIndex(
+        (item) => item.option_id == option.id
+      );
+      if (indexOption !== -1) {
+        this.product.option_values[indexOption].option_value_id =
+          value.target.value;
+      } else {
+        this.product.option_values.push({
+          option_id: option.id,
+          option_value_id: value.target.value,
+        });
+      }
+    } else {
+      this.product.option_values.push({
+        option_id: option.id,
+        option_value_id: value.target.value,
+      });
+    }
   }
 
   addImage(product) {
