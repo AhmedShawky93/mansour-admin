@@ -1,3 +1,4 @@
+import { AddEditProductComponent } from "./add-edit-product/add-edit-product.component";
 import { Component, OnInit } from "@angular/core";
 import { ProductsService } from "@app/pages/services/products.service";
 import { CategoryService } from "@app/pages/services/category.service";
@@ -7,6 +8,14 @@ import { environment } from "@env/environment";
 import { AuthService } from "@app/shared/auth.service";
 import { products } from "@app/products";
 import { ToastrService } from "ngx-toastr";
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from "@angular/animations";
+
 import {
   FormGroup,
   FormBuilder,
@@ -26,6 +35,24 @@ import { tap, delay } from "rxjs/operators";
   selector: "app-products",
   templateUrl: "./products.component.html",
   styleUrls: ["./products.component.css"],
+  animations: [
+    trigger("slideInOut", [
+      state(
+        "in",
+        style({
+          transform: "translate3d(0px, 0, 0)",
+        })
+      ),
+      state(
+        "out",
+        style({
+          transform: "translate3d(-100%, 0, 0)",
+        })
+      ),
+      transition("in => out", animate("300ms ease-in-out")),
+      transition("out => in", animate("300ms ease-in-out")),
+    ]),
+  ],
 })
 export class ProductsComponent implements OnInit {
   searchForm: FormGroup;
@@ -52,6 +79,12 @@ export class ProductsComponent implements OnInit {
     images: [],
   };
   addProductForm: FormGroup;
+
+  toggleAddProduct: string = "out";
+  viewProductSidebar: string = "out";
+  selectProductData: any;
+  selectProductDataView: any;
+
   addCustomUser = (term) => ({ id: term, name: term });
 
   categories: any;
@@ -75,6 +108,7 @@ export class ProductsComponent implements OnInit {
     q: "",
     page: 1,
   };
+  @ViewChild("productForm") productForm: AddEditProductComponent;
 
   constructor(
     private productsService: ProductsService,
@@ -95,26 +129,6 @@ export class ProductsComponent implements OnInit {
     this.searchForm = new FormGroup({
       searchTerm: new FormControl(),
     });
-
-    // this.searchForm.get('searchTerm').valueChanges
-    //       .debounceTime(800)
-    //       .distinctUntilChanged()
-    //       // .filter(term => term && term.trim().length > 0)
-    //       .switchMap(term => {
-    //         if (term && term.trim().length > 0) {
-    //           return this.productsService.searchProducts(term)
-    //         } else {
-    //           return this.productsService.getProducts(this.p);
-    //         }
-    //       })
-    //       .subscribe((result: any) => {
-    //           this.products = result.data.products;
-    //           this.products = this.products.map(item => {
-    //             item.deactivated = !item.active;
-    //             return item;
-    //           })
-    //           this.total = result.data.total;
-    //       });
 
     this.filter$
       .debounceTime(400)
@@ -162,35 +176,35 @@ export class ProductsComponent implements OnInit {
 
     this.exportUrl = environment.api + "/admin/products/export?token=" + token;
 
-    this.addProductForm = new FormGroup({
-      name: new FormControl("", Validators.required),
-      name_ar: new FormControl("", Validators.required),
-      description: new FormControl("", [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(250),
-      ]),
-      long_description_en: new FormControl("", []),
-      long_description_ar: new FormControl("", []),
-      description_ar: new FormControl("", [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(250),
-      ]),
-      price: new FormControl("", Validators.required),
-      discount_price: new FormControl("", [
-        Validators.max(this.product.price),
-        Validators.min(1),
-      ]),
-      brand_id: new FormControl("", Validators.required),
-      main_category: new FormControl("", Validators.required),
-      category_id: new FormControl("", Validators.required),
-      sku: new FormControl("", Validators.required),
-      image: new FormControl("", Validators.required),
-      max_per_order: new FormControl(),
-      min_days: new FormControl(),
-      option_values: new FormControl([]),
-    });
+    // this.addProductForm = new FormGroup({
+    //   name: new FormControl("", Validators.required),
+    //   name_ar: new FormControl("", Validators.required),
+    //   description: new FormControl("", [
+    //     Validators.required,
+    //     Validators.minLength(3),
+    //     Validators.maxLength(250),
+    //   ]),
+    //   long_description_en: new FormControl("", []),
+    //   long_description_ar: new FormControl("", []),
+    //   description_ar: new FormControl("", [
+    //     Validators.required,
+    //     Validators.minLength(3),
+    //     Validators.maxLength(250),
+    //   ]),
+    //   price: new FormControl("", Validators.required),
+    //   discount_price: new FormControl("", [
+    //     Validators.max(this.product.price),
+    //     Validators.min(1),
+    //   ]),
+    //   brand_id: new FormControl("", Validators.required),
+    //   main_category: new FormControl("", Validators.required),
+    //   category_id: new FormControl("", Validators.required),
+    //   sku: new FormControl("", Validators.required),
+    //   image: new FormControl("", Validators.required),
+    //   max_per_order: new FormControl(),
+    //   min_days: new FormControl(),
+    //   option_values: new FormControl([]),
+    // });
   }
 
   getProducts() {
@@ -246,10 +260,47 @@ export class ProductsComponent implements OnInit {
   }
 
   viewProduct(product) {
+    console.log("viewProduct");
     this.currentProduct = product;
-    // set chart data
 
-    $("#show-p-details").toggleClass("open-view-vindor-types");
+    console.log(product);
+    this.selectProductDataView = null;
+    this.selectProductDataView = product;
+    this.toggleAddProduct = "out";
+    this.viewProductSidebar = "in";
+  }
+  toggleMenu(data) {
+    console.log("toggleMenu");
+
+    // this.productForm.resetForm();
+    this.selectProductData = null;
+    this.selectProductData = data;
+    this.viewProductSidebar = "out";
+    this.toggleAddProduct = "in";
+    // console.log(this.selectProductData)
+  }
+  toggleMenuNew(data) {
+    console.log("toggleMenuNew");
+
+    this.productForm.resetForm();
+    this.selectProductData = null;
+    this.selectProductData = data;
+    this.viewProductSidebar = "out";
+    this.toggleAddProduct = "in";
+  }
+
+  closeSideBar() {
+    this.toggleAddProduct = "out";
+    this.viewProductSidebar = "out";
+  }
+
+  addOrUpdateProduct(data) {
+    const index = this.products.findIndex((item) => item.id == data.id);
+    if (index !== -1) {
+      this.products[index] = data;
+    } else {
+      this.products.push(data);
+    }
   }
 
   getProductStats() {

@@ -22,7 +22,6 @@ import { CategoriesComponent } from "../pages/order-mangament/inventory/categori
 import { StaffComponent } from "../pages/order-mangament/delivery/staff/staff.component";
 import { AreasComponent } from "../pages/order-mangament/delivery/areas/areas.component";
 import { HomeComponent } from "../pages/home/home.component";
-import { ProductsComponent } from "../pages/order-mangament/inventory/products/products.component";
 import { ReportingCenterComponent } from "../pages/order-mangament/reporting-center/reporting-center.component";
 import { TotalComponent } from "../pages/order-mangament/totalorders2/totalorders2.component";
 import { PrintReceiptComponent } from "@app/pages/order-mangament/print-receipt/print-receipt.component";
@@ -101,11 +100,7 @@ const routes: Routes = [
         component: CategoriesComponent,
         data: { title: "Categories" },
       },
-      {
-        path: "products",
-        component: ProductsComponent,
-        data: { title: "Products" },
-      },
+
       { path: "staff", component: StaffComponent, data: { title: "Staff" } },
       { path: "areas", component: AreasComponent, data: { title: "Areas" } },
       {
@@ -142,6 +137,11 @@ const routes: Routes = [
         path: "options",
         loadChildren:
           "../pages/order-mangament/inventory/options/options.module#OptionsModule",
+      },
+      {
+        path: "products",
+        loadChildren:
+          "../pages/order-mangament/inventory/products/products.module#ProductsModule",
       },
     ],
     canActivate: [AuthGuard],

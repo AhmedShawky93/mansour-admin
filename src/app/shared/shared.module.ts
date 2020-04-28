@@ -1,18 +1,10 @@
+import { SummaryPipe } from "./summary.pipe";
 import { ButtonSpinnerDirective } from "./directives/button-spinner.directive";
 import { NgModule } from "@angular/core";
 
-
-
 @NgModule({
-  declarations: [
-    ButtonSpinnerDirective
-  ],
-  imports: [
-
-  ],
-  exports: [
-    ButtonSpinnerDirective
-  ],
-
+  declarations: [ButtonSpinnerDirective, SummaryPipe],
+  imports: [],
+  exports: [ButtonSpinnerDirective, SummaryPipe],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -66,7 +66,6 @@ import { CategoriesComponent } from "./pages/order-mangament/inventory/categorie
 import { StaffComponent } from "./pages/order-mangament/delivery/staff/staff.component";
 import { AreasComponent } from "./pages/order-mangament/delivery/areas/areas.component";
 import { HomeComponent } from "./pages/home/home.component";
-import { ProductsComponent } from "./pages/order-mangament/inventory/products/products.component";
 import { ReportingCenterComponent } from "./pages/order-mangament/reporting-center/reporting-center.component";
 import { ToastrModule } from "ngx-toastr";
 import { CustomerService } from "@app/pages/services/customer.service";
@@ -83,7 +82,6 @@ import { adsComponent } from "@app/pages/order-mangament/marketing/ads/ads.compo
 import { RequiredIfDirective } from "@app/shared/required-if.directive";
 import { PrintReceiptComponent } from "./pages/order-mangament/print-receipt/print-receipt.component";
 import { OrderFilterPipe } from "./pages/order-mangament/totalorders2/order.pipe";
-import { SummaryPipe } from "./shared/summary.pipe";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { BrandsComponent } from "./pages/brands/brands.component";
 import { ButtonSpinnerDirective } from "./shared/directives/button-spinner.directive";
@@ -97,7 +95,6 @@ import { SharedModule } from "./shared/shared.module";
     TopBarComponent,
     LoginComponent,
     DetailsViewComponent,
-    ProductsComponent,
     DoneComponent,
     ManageCastomerComponent,
     TotalOrdersComponent,
@@ -121,7 +118,6 @@ import { SharedModule } from "./shared/shared.module";
     StaffComponent,
     AreasComponent,
     HomeComponent,
-    ProductsComponent,
     ReportingCenterComponent,
     TotalComponent,
     LoaderComponent,
@@ -129,7 +125,6 @@ import { SharedModule } from "./shared/shared.module";
     PrintReceiptComponent,
     CategoryPipe,
     OrderFilterPipe,
-    SummaryPipe,
     BrandsComponent,
   ],
   imports: [
