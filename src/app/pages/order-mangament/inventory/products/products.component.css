@@ -159,23 +159,24 @@ bar-rating {
 
 .s-price {
   position: absolute;
-    bottom: 0;
-    right: 0;
-    background: #39384d;
-    padding: 5px 12px;
-    border-radius: 8px 0px 8px 0px;
-    color: #fff;
-    font-size: 15px;
+  bottom: 0;
+  right: 0;
+  background: #39384d;
+  padding: 5px 12px;
+  border-radius: 8px 0px 8px 0px;
+  color: #fff;
+  font-size: 15px;
 }
 
 .s-price.discount {
   text-decoration: line-through;
 }
 
-.s-price.right{
+.s-price.right {
   right: 70px;
 
 }
+
 .form-group label {
   display: block
 }
@@ -254,15 +255,16 @@ bar-rating {
 .owl-btn-list .btn.w-100 {
   margin-left: 0;
   width: 100% !important;
-}
-.inputFile
-{
-position: relative;
+  margin-bottom: 25px;
 
 }
 
-.owl-input-file
-{
+.inputFile {
+  position: relative;
+
+}
+
+.owl-input-file {
   background-image: none
 }
 
@@ -272,20 +274,18 @@ position: relative;
   opacity: 0;
 }
 
-@media(max-width: 1400px)
-
-{
-  .btn-rounded
-  {
-    padding: 0px  !important;
+@media(max-width: 1400px) {
+  .btn-rounded {
+    padding: 0px !important;
     line-height: 50px;
 
   }
-  .btn-owls
-  {
+
+  .btn-owls {
     width: 100% !important;
   }
 }
+
 @media (min-width: 992px) {
 
   .table-responsive {
@@ -363,3 +363,6 @@ position: relative;
   }
 }
 
+.p-l-r-5 {
+  padding: 0 5px 0 !important;
+}

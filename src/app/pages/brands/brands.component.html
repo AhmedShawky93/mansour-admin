@@ -52,8 +52,8 @@
             style="border-radius: 50%; object-fit: cover;" alt="">
           <span *ngIf="!brand.image">-</span>
         </td>
-        <td>{{brand.name}}</td>
-        <td>{{brand.name_ar}}</td>
+        <td>{{(brand.name) ? (brand.name) : '-'}}</td>
+        <td>{{(brand.name_ar) ? (brand.name_ar) : '-'}}</td>
         <td>
           <a href="javascript:void(0)" class="table-view edit-product" (click)="editBrand(brand)">
             <i class="icon-grey"></i>

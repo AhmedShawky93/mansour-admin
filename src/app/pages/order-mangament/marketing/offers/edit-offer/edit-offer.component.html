@@ -22,48 +22,46 @@
     <div class="col-md-6">
       <h2>edit promocode</h2>
 
-      <div class="form-group"  style="    overflow: visible; ">
+      <div class="form-group" style="    overflow: visible; ">
         <label>Customers </label>
-        <ng-select [typeahead]="customersInput$" [loading]="customersLoading" [(ngModel)]="promo.customers" name="customers" [items]="customers$ | async"
-        bindLabel="name" bindValue="id" [multiple]="true" placeholder="Enter Customer name" formControlName="customers">
-       </ng-select>
+        <ng-select [typeahead]="customersInput$" [loading]="customersLoading" [(ngModel)]="promo.customers"
+          name="customers" [items]="customers$ | async" bindLabel="name" bindValue="id" [multiple]="true"
+          placeholder="Enter Customer name" formControlName="customers">
+        </ng-select>
       </div>
 
       <div class="form-group">
         <label for="">prmocode name </label>
-        <input type="text" class="owl-input" 
-          [(ngModel)]="promo.name" 
-          formControlName="editName"
-          name="edit Name" required pattern="[A-Za-z0-9\-\&]+$" maxlength="15"
-        id="" placeholder="Type here...">
+        <input type="text" class="owl-input" [(ngModel)]="promo.name" formControlName="editName" name="edit Name"
+          required pattern="[A-Za-z0-9\-\&]+$" maxlength="15" id="" placeholder="Type here...">
         <!-- Start  Errors Rolues -->
-        <div *ngIf="editForm.controls.editName.invalid && (editForm.controls.editName.dirty || editForm.controls.editName.touched)"
-        class="alert alert-danger">
-        <div *ngIf="editForm.controls.editName.errors.required">
-          PromoCode Type  is required.
-        </div>
-        <div *ngIf="editForm.controls.editName.errors.pattern">
+        <div
+          *ngIf="editForm.controls.editName.invalid && (editForm.controls.editName.dirty || editForm.controls.editName.touched)"
+          class="alert alert-danger">
+          <div *ngIf="editForm.controls.editName.errors.required">
+            PromoCode Type is required.
+          </div>
+          <div *ngIf="editForm.controls.editName.errors.pattern">
             Name is must contain letters, numbers.
           </div>
-      </div>
-      <!-- End Errors Rolues -->
+        </div>
+        <!-- End Errors Rolues -->
       </div>
 
       <div class="form-group">
         <label for="charge">Promocode Recurrence</label>
-        <select name="" id="charge" class="owl-input" 
-          required name="recurrence" formControlName="recurrence"
-          [(ngModel)]="promo.recurrence"
-          >
+        <select name="" id="charge" class="owl-input" required name="recurrence" formControlName="recurrence"
+          [(ngModel)]="promo.recurrence">
           <option value="" disabled selected>Select PromoCode Recurrence</option>
           <option value="1">One time use</option>
           <option value="2">Daily use</option>
         </select>
         <!-- Start  Errors Rolues -->
-        <div *ngIf="editForm.controls.recurrence.invalid && (editForm.controls.recurrence.dirty || editForm.controls.recurrence.touched)"
-        class="alert alert-danger">
+        <div
+          *ngIf="editForm.controls.recurrence.invalid && (editForm.controls.recurrence.dirty || editForm.controls.recurrence.touched)"
+          class="alert alert-danger">
           <div *ngIf="editForm.controls.recurrence.errors.required">
-            PromoCode Type  is required.
+            PromoCode Type is required.
           </div>
         </div>
         <!-- End Errors Rolues -->
@@ -71,41 +69,43 @@
 
       <div class="form-group">
         <label for="charge">promocode type </label>
-        <select name="" id="charge" class="owl-input"  [(ngModel)]="promo.type"  required
-        formControlName="editType"
-        name="editType">
+        <select name="" id="charge" class="owl-input" [(ngModel)]="promo.type" required formControlName="editType"
+          name="editType">
           <option value="1">amount </option>
           <option value="2">percentage</option>
+          <option value="3">Free delivery</option>
+
         </select>
-        
+
       </div>
 
-      <div class="form-group icon-le" *ngIf="promo.type == 1 "> <!--Start For Amount -->
+      <div class="form-group icon-le" *ngIf="promo.type == 1 ">
+        <!--Start For Amount -->
         <label for=""> amount </label>
-        <input type="number" class="owl-input" id="" placeholder="amount..."
-        name="amount" [(ngModel)]="promo.amount" required [min]="1"
-        formControlName="editAmount"
-        >
-          <!-- Start  Errors Rolues --> 
-          <div *ngIf="editForm.controls.editAmount.invalid && (editForm.controls.editAmount.dirty || editForm.controls.editAmount.touched)"
+        <input type="number" class="owl-input" id="" placeholder="amount..." name="amount" [(ngModel)]="promo.amount"
+          required [min]="1" formControlName="editAmount">
+        <!-- Start  Errors Rolues -->
+        <div
+          *ngIf="editForm.controls.editAmount.invalid && (editForm.controls.editAmount.dirty || editForm.controls.editAmount.touched)"
           class="alert alert-danger">
           <div *ngIf="editForm.controls.editAmount.errors.required">
             Amount Is Required.
           </div>
           <div *ngIf="editForm.controls.editAmount.errors.min">
-            Minimum Amount is 1 
+            Minimum Amount is 1
           </div>
-        </div> <!--END For Amount -->
+        </div>
+        <!--END For Amount -->
         <!-- End Errors Rolues -->
       </div>
-      <div class="form-group icon-per" *ngIf="promo.type == 2 "> <!--Start For max Amount -->
+      <div class="form-group icon-per" *ngIf="promo.type == 2 ">
+        <!--Start For max Amount -->
         <label for=""> percentage </label>
-        <input type="number" class="owl-input" id="" placeholder="percentage..."
-        name="amount" [(ngModel)]="promo.amount" required [min]="1"
-        formControlName="editAmount" [max]="100"
-        >
-          <!-- Start  Errors Rolues --> 
-          <div *ngIf="editForm.controls.editAmount.invalid && (editForm.controls.editAmount.dirty || editForm.controls.editAmount.touched)"
+        <input type="number" class="owl-input" id="" placeholder="percentage..." name="amount"
+          [(ngModel)]="promo.amount" required [min]="1" formControlName="editAmount" [max]="100">
+        <!-- Start  Errors Rolues -->
+        <div
+          *ngIf="editForm.controls.editAmount.invalid && (editForm.controls.editAmount.dirty || editForm.controls.editAmount.touched)"
           class="alert alert-danger">
           <div *ngIf="editForm.controls.editAmount.errors.min">
             Minimum percentage 1%
@@ -113,40 +113,48 @@
           <div *ngIf="editForm.controls.editAmount.errors.max">
             max percentage 100 %
           </div>
-        </div> <!--END For max Amount -->
+        </div>
+        <!--END For max Amount -->
         <!-- End Errors Rolues -->
       </div>
-      
+
       <div class="form-group" *ngIf="promo.type == 2 ">
         <label for=""> max amount </label>
-        <input type="number" class="owl-input" id="" placeholder=" max amount"
-        name="max_amount" [(ngModel)]="promo.max_amount" 
-        formControlName="maxAmount" [max]="10000"
-        >
-          <!-- Start  Errors Rolues -->
-          <div *ngIf="editForm.controls.maxAmount.invalid && (editForm.controls.maxAmount.dirty || editForm.controls.maxAmount.touched)"
+        <input type="number" class="owl-input" id="" placeholder=" max amount" name="max_amount"
+          [(ngModel)]="promo.max_amount" formControlName="maxAmount" [max]="10000">
+        <!-- Start  Errors Rolues -->
+        <div
+          *ngIf="editForm.controls.maxAmount.invalid && (editForm.controls.maxAmount.dirty || editForm.controls.maxAmount.touched)"
           class="alert alert-danger">
           <div *ngIf="editForm.controls.maxAmount.errors.max">
-            Minimum max Amount  10000
+            Minimum max Amount 10000
           </div>
         </div>
         <!-- End Errors Rolues -->
-      </div>  <!--END For Max Amount -->
+      </div>
+      <!--END For Max Amount -->
 
+      <div class="form-group">
+        <label for=""> Minimum order </label>
+        <input type="number" class="owl-input" id="" placeholder=" max amount" name="minimum_amount"
+          [(ngModel)]="promo.minimum_amount" formControlName="minimum_amount" [max]="10000">
 
-
+      </div>
+      <!--END For Max Amount -->
+      <label class="checkup">First order only
+        <input type="checkbox" formControlName="first_order" [(ngModel)]="promo.first_order">
+        <span class="checkmark"></span>
+      </label>
       <div class="form-group">
         <label for="charge">Description </label>
         <textarea name="" style="height: 150px;" class="owl-input" placeholder="type here.."
-        [(ngModel)]="promo.description"
-        formControlName="editDescription"
-        name="edit Description" required
-        ></textarea>
-          <!-- Start  Errors Rolues -->
-          <div *ngIf="editForm.controls.editDescription.invalid && (editForm.controls.editDescription.dirty || editForm.controls.editDescription.touched)"
+          [(ngModel)]="promo.description" formControlName="editDescription" name="edit Description" required></textarea>
+        <!-- Start  Errors Rolues -->
+        <div
+          *ngIf="editForm.controls.editDescription.invalid && (editForm.controls.editDescription.dirty || editForm.controls.editDescription.touched)"
           class="alert alert-danger">
           <div *ngIf="editForm.controls.editDescription.errors.required">
-            Description  is required.
+            Description is required.
           </div>
         </div>
         <!-- End Errors Rolues -->
@@ -156,22 +164,22 @@
       <div class="form-group">
         <div>
           <mat-form-field>
-            <input [min]="today" matInput placeholder="Valid To" [satDatepicker]="picker"
-              [value]="editDate" formControlName="editDate" name="date" requried
-              >
+            <input [min]="today" matInput placeholder="Valid To" [satDatepicker]="picker" [value]="editDate"
+              formControlName="editDate" name="date" requried>
             <sat-datepicker #picker [rangeMode]="false">
             </sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
           </mat-form-field>
         </div>
-          <!-- Start  Errors Rolues -->
-          <div *ngIf="editForm.controls.editDate.invalid && (editForm.controls.editDate.dirty || editForm.controls.editDate.touched)"
+        <!-- Start  Errors Rolues -->
+        <div
+          *ngIf="editForm.controls.editDate.invalid && (editForm.controls.editDate.dirty || editForm.controls.editDate.touched)"
           class="alert alert-danger">
           <div *ngIf="editForm.controls.editDate.errors.required">
-          Data  Is Required.
+            Data Is Required.
           </div>
           <div *ngIf="editForm.controls.editDate.errors.min">
-          Must be today at least
+            Must be today at least
           </div>
         </div>
         <!-- End Errors Rolues -->
@@ -186,4 +194,3 @@
 
   </form>
 </div>
-

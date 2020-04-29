@@ -60,6 +60,7 @@
       <input type="checkbox" formControlName="appear_in_search">
       <span class="checkmark"></span>
     </label>
+
     <div formArrayName="values" class="values">
       <div class="value" *ngFor="let item of OptionForm.get('values')['controls']; let i = index">
         <div class="" [formGroupName]="i">

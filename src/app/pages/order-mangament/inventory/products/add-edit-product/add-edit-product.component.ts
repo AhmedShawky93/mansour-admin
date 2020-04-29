@@ -103,6 +103,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       images: this.formBuilder.array(data ? data.images : []),
       max_per_order: new FormControl(data ? data.max_per_order : ""),
       min_days: new FormControl(data ? data.min_days : ""),
+      stock_alert: new FormControl(data ? data.stock_alert : ""),
       option_values: this.formBuilder.array([]),
     });
     // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));

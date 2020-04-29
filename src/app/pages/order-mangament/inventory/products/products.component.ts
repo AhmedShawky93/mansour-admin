@@ -61,6 +61,7 @@ export class ProductsComponent implements OnInit {
   currentProduct: any;
   category_id: any;
   @ViewChild("myInput") importFile: ElementRef;
+  @ViewChild("myInputStock") importFileStock: ElementRef;
 
   selectedUserIds: number[];
   products = [];
@@ -98,6 +99,7 @@ export class ProductsComponent implements OnInit {
   p = 1;
 
   exportUrl: string;
+  exportStock: string;
   formProduct;
   brands = [];
   newPrdouct;
@@ -175,6 +177,8 @@ export class ProductsComponent implements OnInit {
     let token = this.auth.getToken();
 
     this.exportUrl = environment.api + "/admin/products/export?token=" + token;
+    this.exportStock =
+      environment.api + "/admin/products/export?token=" + token;
 
     // this.addProductForm = new FormGroup({
     //   name: new FormControl("", Validators.required),
@@ -410,6 +414,22 @@ export class ProductsComponent implements OnInit {
 
     this.toastrService.success("File uploaded successfully");
     this.importFile.nativeElement.value = "";
+  }
+  importStock(event) {
+    this.selectFile = <File>event.target.files[0];
+
+    this.productsService
+      .uploadFileStock(this.selectFile)
+      .subscribe((response: any) => {
+        // if (response.body) {
+        //   this.product.image = response.body.data.name;
+        //   this.product.imageUrl = response.body.data.filePath;
+        //   this.showError = 0;
+        // }
+      });
+
+    this.toastrService.success("File uploaded successfully ");
+    this.importFileStock.nativeElement.value = "";
   }
 
   getCategories() {

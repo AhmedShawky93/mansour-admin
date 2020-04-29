@@ -3,7 +3,7 @@
 <div class="top-table-bar">
 
   <div class="row">
-    <div class="col-md-5 col-sm-12 col-xs-12">
+    <div class="col-md-9 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
@@ -13,29 +13,7 @@
       </div>
     </div>
 
-    <div class="col-md-2  col-xs-12">
-      <div class="form-group ">
 
-
-        <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile"
-          style="overflow: hidden">Import
-          CSV
-          <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
-            (change)="importExcel($event)">
-        </button>
-      </div>
-
-    </div>
-    <div class="col-md-2  col-xs-12">
-      <div class="form-group">
-
-        <!-- <div style="line-height: 32px;" > -->
-        <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">export CSV</a>
-        <!-- <input type="file" class="" id=" " placeholder="type here "> -->
-
-      </div>
-
-    </div>
     <div class="col-md-3  col-xs-12 text-right">
       <div class="owl-btn-list">
         <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100" (click)="toggleMenuNew(null)"> +
@@ -43,7 +21,53 @@
           product</button>
       </div>
     </div>
+    <div class="col-md-4 col-sm-12 col-xs-12">
 
+    </div>
+    <div class="col-md-8  col-sm-12 col-xs-12">
+      <div class="row">
+        <div class="col-md-3  col-xs-12 p-l-r-5">
+          <div class="form-group ">
+
+
+            <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile"
+              style="overflow: hidden">Import
+              CSV
+              <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
+                (change)="importExcel($event)">
+            </button>
+          </div>
+
+        </div>
+        <div class="col-md-3  col-xs-12 p-l-r-5">
+          <div class="form-group">
+            <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">export
+              CSV</a>
+          </div>
+
+        </div>
+        <div class="col-md-3  col-xs-12 p-l-r-5">
+          <div class="form-group ">
+
+
+            <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile"
+              style="overflow: hidden">Import
+              Stock
+              <input #myInputStock type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
+                (change)="importStock($event)">
+            </button>
+          </div>
+
+        </div>
+        <div class="col-md-3  col-xs-12 p-l-r-5">
+          <div class="form-group">
+            <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportStock}}">export
+              Stock</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -55,7 +79,7 @@
         <th scope="col">product name</th>
         <th scope="col">category > subcat</th>
         <!-- <th  scope="col" class="hidden">creator</th> -->
-        <th scope="col" class="hidden">creation date
+        <th scope="col">Stock
         </th>
         <th scope="col">main price </th>
         <th scope="col">discount price</th>
@@ -80,7 +104,7 @@
         <td>{{product.category.name}} >
           <br> {{product.category.sub_categories[0].name}}</td>
         <!-- <td class="hidden">{{product.creator?.name}}</td> -->
-        <td class="hidden">{{product.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td class="hidden">{{product.stock ?  product.stock : '0'}}</td>
         <td>{{product.price}}</td>
         <td>{{product.discount_price ? product.discount_price : "-"}}</td>
         <td>

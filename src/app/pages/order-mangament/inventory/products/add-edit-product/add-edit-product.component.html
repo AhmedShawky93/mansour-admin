@@ -311,6 +311,12 @@
     </div>
 
     <div class="form-group">
+      <label for="">Stock notification limit </label>
+      <input type="number" class="owl-input" placeholder="Type.." formControlName="stock_alert">
+
+    </div>
+
+    <div class="form-group">
       <label for="">Max Quantity Per Order</label>
       <input type="number" (change)="onQuantityFieldsChange()" class="owl-input" placeholder="Type.."
         formControlName="max_per_order">
