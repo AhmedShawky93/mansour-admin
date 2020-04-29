@@ -97,7 +97,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         data ? data.category_id : "",
         Validators.required
       ),
-
+      stock: new FormControl(data ? data.stock : "", Validators.required),
       sku: new FormControl(data ? data.sku : "", Validators.required),
       image: new FormControl("", Validators.required),
       images: this.formBuilder.array(data ? data.images : []),
@@ -296,29 +296,15 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       console.log(index);
       this.options = this.sub_categories[index].options;
       console.log(this.options);
+      this.options.forEach((element) => {
+        this.addOptions();
+      });
     }
   }
   selectOptionValue(option, value, index) {
     console.log(option, value, index);
-    // if (this.product.option_values) {
-    //   const indexOption = this.product.option_values.findIndex(
-    //     (item) => item.option_id == option.id
-    //   );
-    //   if (indexOption !== -1) {
-    //     this.product.option_values[indexOption].option_value_id =
-    //       value.target.value;
-    //   } else {
-    //     this.product.option_values.push({
-    //       option_id: option.id,
-    //       option_value_id: value.target.value,
-    //     });
-    //   }
-    // } else {
-    //   this.product.option_values.push({
-    //     option_id: option.id,
-    //     option_value_id: value.target.value,
-    //   });
-    // }
+    this.addProductForm.get("option_values").value[index].option_id = option.id;
+    console.log(this.addProductForm.get("option_values").value);
   }
   onQuantityFieldsChange() {
     if (

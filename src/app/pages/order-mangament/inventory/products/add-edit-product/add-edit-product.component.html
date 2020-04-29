@@ -136,7 +136,25 @@
       <textarea class="owl-input" placeholder="type" formControlName="long_description_ar"></textarea>
 
     </div>
+    <div class="form-group">
+      <label for="">Stock
+      </label>
+      <input type="text" class="owl-input" placeholder="Stock" formControlName="stock" [min]="0" maxlength="6"
+        onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' minlength="1">
 
+      <div
+        *ngIf="addProductForm.controls.stock.invalid && (addProductForm.controls.stock.dirty || addProductForm.controls.stock.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="addProductForm.controls.stock.errors.required">
+          Stock is required
+        </div>
+        <div *ngIf="addProductForm.controls.stock.errors.min">
+          Stock can't be a negative value
+        </div>
+
+      </div>
+    </div>
 
 
     <div class="form-group">
@@ -272,6 +290,7 @@
       </div>
       <!-- End Errors Rolues -->
     </div>
+
     <div class="form-group">
       <label for=""> SKU </label>
       <input type="number" class="owl-input" placeholder="Type SKU.." formControlName="sku" required [min]="1">
