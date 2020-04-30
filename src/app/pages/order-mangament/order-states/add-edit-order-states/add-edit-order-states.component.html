@@ -1,0 +1,49 @@
+<!-- add area side bar -->
+<div class="form-sidebar view-vindor-types" id="add-area">
+  <div class="head">
+    <span class="close" id="close-add-area" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3> Edit order states </h3>
+  </div>
+  <div class="add-area-form">
+
+    <form [formGroup]="cityForm" (ngSubmit)="submitForm()" novalidate>
+      <div class="form-group">
+        <label for="">Name </label>
+
+        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name">
+
+      </div>
+      <!-- Errors Rolues -->
+      <div *ngIf="cityForm.controls.name.invalid && (cityForm.controls.name.dirty || cityForm.controls.name.touched)"
+        class="alert alert-danger">
+        <div *ngIf="cityForm.controls.name.errors.required ">
+          Name is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Name (ar)</label>
+
+        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name_ar">
+
+      </div>
+      <!-- Errors Rolues -->
+      <div
+        *ngIf="cityForm.controls.name_ar.invalid && (cityForm.controls.name_ar.dirty || cityForm.controls.name_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="cityForm.controls.name_ar.errors.required ">
+          Name (Ar)is required.
+        </div>
+      </div>
+
+
+
+      <div class="btn-group">
+        <button type="submit" class="btn btn-owls btn-rounded btn-green">Save</button>
+      </div>
+    </form>
+  </div>
+
+</div>

@@ -1,0 +1,72 @@
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table owls-table text-center">
+    <thead>
+      <tr>
+        <th scope="col">name</th>
+        <th scope="col">Name (ar)</th>
+        <th scope="col">Sub order states </th>
+        <th scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr
+        *ngFor="let status of orderStatus ">
+        <td scope="row"> {{status.name ? (status.name) : '-'}} </td>
+        <td scope="row"> {{(status.name_ar) ? (status.name_ar) : '-'}} </td>
+        <td scope="row"> {{status.sub_states.length}} </td>
+        <td>
+          <a style="margin-right: 10px" class="table-view open-show" (click)="viewData(status)">
+            <i class="icon-View"></i>
+          </a>
+          <a href="javascript:void(0)" (click)="toggleMenu(status)" class="edit-new table-view">
+            <i class="icon-grey"></i>
+          </a>
+          <!-- <label class="switch">
+            <input type="checkbox" value="1" [(ngModel)]="status.active" (change)="changeActive(status, $event)">
+            <span class="slider round"></span>
+            <div class="reason-popup text-left" [hidden]="!status.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this status?"
+                [(ngModel)]="status.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!status.notes"
+                (click)="submitDeactivate(status)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(status)">cancel</button>
+            </div>
+            <div class="hover-reason text-left" *ngIf="!status.active">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{status.deactivation_notes}}
+              </div>
+            </div>
+          </label> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-add-edit-order-states (dataEmit)="addOrUpdateData($event)" (closeSideBarEmit)="closeSideBar()"
+[@slideInOut]="toggleAddEditData" [selectDataEdit]="selectData"></app-add-edit-order-states>
+
+<app-view-order-states (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewDataSidebar" [selectDataEdit]="selectDataView"></app-view-order-states>
+
+
