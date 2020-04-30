@@ -47,7 +47,7 @@
         <img src="./assets/img/Spinner-loading.svg" *ngIf="loading" class="img-loading">
         <!-- <img class="owl-img img-fluid" *ngIf="product.imageUrl" [src]="product.imageUrl" alt=""> -->
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
-          (change)="onimgeSelected($event)" formControlName="image" name="image" accept="image/*" />
+          (change)="onimgeSelected(addProductForm,$event)" formControlName="image" name="image" accept="image/*" />
         <!-- <i class="icon-Exit" (click)="product.imageUrl = ''; product.image = ''"></i> -->
       </div>
       <div class="add-img" (click)="addImage()">

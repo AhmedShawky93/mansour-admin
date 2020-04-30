@@ -1,3 +1,4 @@
+import { UploadFilesService } from "./../../../../services/upload-files.service";
 import { Component, OnInit } from "@angular/core";
 import { PromosService } from "@app/pages/services/promos.service";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -38,13 +39,15 @@ export class EditOfferComponent implements OnInit {
   customers$: Observable<any>;
   customersInput$ = new Subject<String>();
   customersLoading: boolean;
+  selectFile: File;
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
     private promoService: PromosService,
     private _formBuilder: FormBuilder,
     private customerService: CustomerService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private uploadFile: UploadFilesService
   ) {}
 
   ngOnInit() {
@@ -56,10 +59,11 @@ export class EditOfferComponent implements OnInit {
       editDate: ["", Validators.required],
       maxAmount: [""],
       minimum_amount: [""],
-      customer_phones: [""],
-      first_order: [false],
       recurrence: ["", Validators.required],
       customers: [],
+      customer_phones: new FormControl(""),
+      first_order: new FormControl(false),
+      typeCustmerSelect: new FormControl("1"),
     });
 
     this.today = new Date();
@@ -135,5 +139,39 @@ export class EditOfferComponent implements OnInit {
         this.markFormGroupTouched(control);
       }
     });
+  }
+
+  changeTypePromo(event) {
+    console.log(event.target.value);
+    if (event.target.value == "3") {
+      this.editForm.get("amount").clearValidators();
+      this.editForm.get("amount").updateValueAndValidity();
+    } else {
+      this.editForm.get("amount").setValidators([Validators.required]);
+      this.editForm.get("amount").updateValueAndValidity();
+    }
+  }
+  onImageSelected(data, event) {
+    this.selectFile = <File>event.target.files[0];
+    this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {
+      if (response.body) {
+        console.log(response);
+        data = response.body.data.filePath;
+        this.promo.customer_phones = response.body.data.filePath;
+        // this.toastrService.success(response.message);
+      } else {
+        // this.toastrService.error(response.message);
+      }
+    });
+  }
+
+  typeCustmerSelect(event) {
+    if (this.promo.typeCustmerSelect == "1") {
+      this.editForm.get("customer_phones").setValue("");
+      this.promo.customer_phones = "";
+    } else {
+      this.editForm.get("customers").setValue("");
+      this.promo.customers = "";
+    }
   }
 }

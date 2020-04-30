@@ -64,7 +64,6 @@ import { SettingComponent } from "./pages/order-mangament/setting/setting.compon
 import { OrdersComponent } from "./pages/order-mangament/orders/orders.component";
 import { CategoriesComponent } from "./pages/order-mangament/inventory/categories/categories.component";
 import { StaffComponent } from "./pages/order-mangament/delivery/staff/staff.component";
-import { AreasComponent } from "./pages/order-mangament/delivery/areas/areas.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { ReportingCenterComponent } from "./pages/order-mangament/reporting-center/reporting-center.component";
 import { ToastrModule } from "ngx-toastr";
@@ -116,7 +115,6 @@ import { SharedModule } from "./shared/shared.module";
     OrdersComponent,
     CategoriesComponent,
     StaffComponent,
-    AreasComponent,
     HomeComponent,
     ReportingCenterComponent,
     TotalComponent,

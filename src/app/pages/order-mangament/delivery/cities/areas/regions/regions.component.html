@@ -1,0 +1,79 @@
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
+      </div>
+    </div>
+
+    <div class="col-md-4 text-right">
+      <div class="owl-btn-list">
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big btn-block open-add ml-auto"
+          (click)="toggleMenu(null)"> + New regions</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- <app-loader></app-loader> -->
+<div class="table-responsive">
+  <table class="table owls-table ">
+    <thead>
+      <tr>
+        <th style="width: 250px" scope="col">Name</th>
+        <th style="width: 390px" scope="col"> name ar </th>
+        <th scope="col"> Delivery Fees </th>
+        <th style="text-align: center" scope="col"> action </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let area of cities ">
+        <td>{{(area.name) ? (area.name) : '-'}}</td>
+        <td>{{(area.name_ar) ? (area.name_ar) : '-'}}</td>
+        <td>{{(area.delivery_fees) ? (area.delivery_fees) : '-'}}</td>
+        <td style="text-align: center">
+          <a style="margin-right: 10px" class="table-view open-show" (click)="viewDataInSidebar(area)">
+            <i class="icon-View"></i>
+          </a>
+          <a (click)='toggleMenu(area)' href="javascript:void(0)" class="table-view open-edit">
+            <i class="icon-grey"></i>
+          </a>
+          <label class="switch">
+            <input type="checkbox" value="1" [(ngModel)]="area.active" (change)="changeActive(area, $event)">
+            <span class="slider round"></span>
+
+            <div class="reason-popup text-left" [hidden]="!area.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this area?"
+                [(ngModel)]="area.notes"></textarea>
+
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!area.notes"
+                (click)="submitDeactivate(area)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(area)">cancel</button>
+            </div>
+            <div class="hover-reason text-left" *ngIf="!area.active">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{area.deactivation_notes}}
+              </div>
+            </div>
+          </label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- view product -->
+<app-view-region (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewDataSidebar" [selectDataEdit]="selectDataView">
+</app-view-region>
+
+<!-- Add / edit Product -->
+<app-add-edit-region (dataEmit)="addOrUpdateData($event)" (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="toggleAddEditData" [selectDataEdit]="selectData" [idParent]="idParent"></app-add-edit-region>

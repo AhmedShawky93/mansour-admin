@@ -1,0 +1,10 @@
+.form-sidebar{width: 380px;}
+
+.givin-area{
+    box-shadow: 0 11px 22px 0 rgba(6,40,57,0.05);
+    padding: 20px;
+    margin: 25px 0;
+}
+.givin-area > div{
+    margin:5px 0;
+}

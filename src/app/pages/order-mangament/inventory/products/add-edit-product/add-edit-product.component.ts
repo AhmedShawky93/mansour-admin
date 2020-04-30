@@ -116,6 +116,13 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       let category = this.categories[index];
       this.sub_categories = category.sub_categories;
 
+      if (data.image) {
+        console.log("clearValidators");
+        this.addProductForm.get("image").clearValidators();
+        // this.addProductForm.get("image").patchValue(data.image);
+        this.addProductForm.get("image").updateValueAndValidity();
+        this.addProductForm.updateValueAndValidity();
+      }
       // this.addSubImages.patchValue(data.images)
     }
   }
@@ -164,7 +171,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     this.addSubImages.removeAt(index);
   }
 
-  onimgeSelected(event) {
+  onimgeSelected(form: FormGroup, event) {
     if (event.target.value) {
       this.loading = true;
       const selectFile = <File>event.target.files[0];
@@ -176,7 +183,8 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       this.uploadFile.uploadFile(selectFile).subscribe((response: any) => {
         if (response.body) {
           this.imageUrl = response.body.data.filePath;
-          // this.addProductForm.get("image").setValue(this.imageUrl);
+          form.get("image").setValue(response.body.data.filePath);
+
           this.showError = 0;
         }
         setTimeout(() => {
@@ -203,14 +211,15 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       // edit
       const product = this.addProductForm.value;
       product.image = this.imageUrl;
-      // delete product.category_id;
-      delete product.optional_main_category;
-      delete product.optional_main_category_2;
-      if (this.imageUrl) {
+      console.log(product);
+
+      if (product.image) {
+        console.log("clearValidators");
         this.addProductForm.get("image").clearValidators();
         this.addProductForm.get("image").updateValueAndValidity();
       }
-      console.log(product);
+      console.log(this.addProductForm.value);
+      console.log(this.addProductForm.valid);
       if (!this.addProductForm.valid) {
         this.markFormGroupTouched(this.addProductForm);
         return;
@@ -233,8 +242,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       const product = this.addProductForm.value;
       product.image = this.imageUrl;
       delete product.main_category;
-      delete product.optional_main_category;
-      delete product.optional_main_category_2;
       console.log(this.addProductForm.value);
       console.log(this.addProductForm.valid);
       if (this.addProductForm.invalid) {

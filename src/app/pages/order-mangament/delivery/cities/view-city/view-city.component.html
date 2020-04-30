@@ -1,0 +1,42 @@
+<div class="form-sidebar view-vindor-types" id="show-p-details">
+  <div class="head">
+    <span class="close" id="close-vindors4" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+
+    <h3>View CIty</h3>
+  </div>
+  <div class="details details-2" *ngIf="dataView">
+    <button class="btn btn-owls btn-rounded btn-green" (click)="closeSideBar()"
+      [routerLink]="[dataView.id,'areas']">View Areas List</button>
+
+    <div>
+      <h5> name </h5>
+      <p>{{dataView.name}}</p>
+    </div>
+    <div>
+      <h5> name (Ar) </h5>
+      <p>{{dataView.name_ar}}</p>
+    </div>
+
+
+    <div *ngIf="dataView?.deactivation_notes">
+      <h5>Deactivation notes</h5>
+      <p>{{dataView?.deactivation_notes}}</p>
+    </div>
+
+
+
+
+    <div>
+      <h5>Areas Name </h5>
+
+      <p *ngIf="dataView?.areas">
+        <span *ngFor="let value of  dataView?.areas">
+          <p>{{value.name}}</p>
+
+        </span>
+      </p>
+    </div>
+  </div>
+</div>

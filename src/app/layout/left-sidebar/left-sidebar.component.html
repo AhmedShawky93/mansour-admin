@@ -69,8 +69,9 @@
               staff</a>
           </li>
           <li>
-            <a routerLink="/pages/areas" routerLinkActive="active">
-              areas</a>
+            <a routerLink="/pages/cities" routerLinkActive="active">
+              Cities
+            </a>
           </li>
         </ul>
       </li>
@@ -130,6 +131,24 @@
           <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Medical Prescriptions"></i>
           <span>Medical Prescriptions</span>
         </a>
+      </li>
+      <li class="side-nav-item ">
+        <a routerLinkActive="active" data-toggle="collapse" data-target="#subAdmins" aria-controls="subAdmins">
+          <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Sub Admins"></i>
+          <span>Sub Admins</span>
+          <i class="fa fa-fw fa-angle-down pull-right"></i>
+        </a>
+
+        <ul id="subAdmins" class="collapse">
+          <li>
+            <a routerLink="/pages/sub-admins/admins-rules" routerLinkActive="active">
+              Rules</a>
+          </li>
+          <li>
+            <a routerLink="/pages/sub-admins/admins-users" routerLinkActive="active">
+              Users</a>
+          </li>
+        </ul>
       </li>
       <li class="side-nav-item" routerLinkActive="active">
         <a routerLink="/pages/settings" routerLinkActive="active">

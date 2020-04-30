@@ -43,7 +43,7 @@ export class AddOfferComponent implements OnInit {
     id: Number,
     minimum_amount: "",
     customer_phones: "",
-    typeCustmerSelect: 1,
+    typeCustmerSelect: "1",
     first_order: false,
   };
 
@@ -63,6 +63,7 @@ export class AddOfferComponent implements OnInit {
 
   // add Promo
   addpromo(promo) {
+    console.log(promo);
     if (!this.newPromo.valid) {
       this.markFormGroupTouched(this.newPromo);
       return;
@@ -80,11 +81,16 @@ export class AddOfferComponent implements OnInit {
       }
     });
   }
-  onImageSelected(form: FormGroup, event) {
+  onImageSelected(data, event) {
     this.selectFile = <File>event.target.files[0];
     this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {
       if (response.body) {
-        form.get("customer_phones").setValue(response.body.data.filePath);
+        console.log(response);
+        data = response.body.data.filePath;
+        this.promo.customer_phones = response.body.data.filePath;
+        // this.toastrService.success(response.message);
+      } else {
+        // this.toastrService.error(response.message);
       }
     });
   }
@@ -146,10 +152,26 @@ export class AddOfferComponent implements OnInit {
       minimum_amount: new FormControl(""),
       customer_phones: new FormControl(""),
       first_order: new FormControl(false),
-      typeCustmerSelect: new FormControl(1),
+      typeCustmerSelect: new FormControl("1"),
     });
   }
   typeCustmerSelect(event) {
-    console.log(event);
+    if (this.promo.typeCustmerSelect == "1") {
+      this.newPromo.get("customer_phones").setValue("");
+      this.promo.customer_phones = "";
+    } else {
+      this.newPromo.get("customers").setValue("");
+      this.promo.customers = "";
+    }
+  }
+  changeTypePromo(event) {
+    console.log(event.target.value);
+    if (event.target.value == "3") {
+      this.newPromo.get("amount").clearValidators();
+      this.newPromo.get("amount").updateValueAndValidity();
+    } else {
+      this.newPromo.get("amount").setValidators([Validators.required]);
+      this.newPromo.get("amount").updateValueAndValidity();
+    }
   }
 }

@@ -20,7 +20,6 @@ import { SettingComponent } from "../pages/order-mangament/setting/setting.compo
 import { OrdersComponent } from "../pages/order-mangament/orders/orders.component";
 import { CategoriesComponent } from "../pages/order-mangament/inventory/categories/categories.component";
 import { StaffComponent } from "../pages/order-mangament/delivery/staff/staff.component";
-import { AreasComponent } from "../pages/order-mangament/delivery/areas/areas.component";
 import { HomeComponent } from "../pages/home/home.component";
 import { ReportingCenterComponent } from "../pages/order-mangament/reporting-center/reporting-center.component";
 import { TotalComponent } from "../pages/order-mangament/totalorders2/totalorders2.component";
@@ -102,7 +101,6 @@ const routes: Routes = [
       },
 
       { path: "staff", component: StaffComponent, data: { title: "Staff" } },
-      { path: "areas", component: AreasComponent, data: { title: "Areas" } },
       {
         path: "reporting-center",
         component: ReportingCenterComponent,
@@ -142,6 +140,15 @@ const routes: Routes = [
         path: "products",
         loadChildren:
           "../pages/order-mangament/inventory/products/products.module#ProductsModule",
+      },
+      {
+        path: "sub-admins",
+        loadChildren: "../pages/access-admins/sub-admin.module#SubAdminModule",
+      },
+      {
+        path: "cities",
+        loadChildren:
+          "../pages/order-mangament/delivery/cities/cities.module#CitiesModule",
       },
     ],
     canActivate: [AuthGuard],

@@ -1,4 +1,3 @@
-
 :host {
   background: #ffffff;
   color: #fff;
@@ -9,18 +8,20 @@
   bottom: 0;
   width: 435px;
   z-index: 5;
-  height: 100vh;
+  height: 100%;
   overflow: auto;
   overflow-x: hidden;
 }
-.view-vindor-types
-{
+
+.view-vindor-types {
   width: 435px;
   left: auto;
 }
+
 .form-group label {
   display: block
 }
+
 .img-loading {
   position: absolute;
   left: 25%;
@@ -103,14 +104,13 @@
   margin-left: 0;
   width: 100% !important;
 }
-.inputFile
-{
-position: relative;
+
+.inputFile {
+  position: relative;
 
 }
 
-.owl-input-file
-{
+.owl-input-file {
   background-image: none
 }
 

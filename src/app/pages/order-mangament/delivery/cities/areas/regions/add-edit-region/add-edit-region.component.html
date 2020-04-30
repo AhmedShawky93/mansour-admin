@@ -1,0 +1,74 @@
+<!-- add area side bar -->
+<div class="form-sidebar view-vindor-types" id="add-area">
+  <div class="head">
+    <span class="close" id="close-add-area" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>{{selectDataEdit ? 'Edit regions':'new regions'}} </h3>
+
+  </div>
+  <div class="add-area-form">
+
+    <form [formGroup]="cityForm" (ngSubmit)="submitForm()" novalidate>
+      <div class="form-group">
+        <label for="">Name </label>
+
+        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name">
+
+      </div>
+      <!-- Errors Rolues -->
+      <div *ngIf="cityForm.controls.name.invalid && (cityForm.controls.name.dirty || cityForm.controls.name.touched)"
+        class="alert alert-danger">
+        <div *ngIf="cityForm.controls.name.errors.required ">
+          Name is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Name (ar)</label>
+
+        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name_ar">
+
+      </div>
+      <!-- Errors Rolues -->
+      <div
+        *ngIf="cityForm.controls.name_ar.invalid && (cityForm.controls.name_ar.dirty || cityForm.controls.name_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="cityForm.controls.name_ar.errors.required ">
+          Name (Ar)is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Delivery Fees</label>
+        <input type="text" class="owl-input" placeholder="type here.." name="delivery_fees" required min="0" max="500"
+          formControlName="delivery_fees">
+      </div>
+      <div
+        *ngIf="cityForm.controls.delivery_fees.invalid && (cityForm.controls.delivery_fees.dirty || cityForm.controls.delivery_fees.touched)"
+        class="alert alert-danger">
+        <div *ngIf="cityForm.controls.delivery_fees.errors.required">
+          Delivery Fees is required.
+        </div>
+        <div *ngIf="cityForm.controls.delivery_fees.errors.min">
+          Delivery Fees can't be a negative number
+        </div>
+        <div *ngIf="cityForm.controls.delivery_fees.errors.max">
+          Delivery Fees can't be more than 500
+        </div>
+      </div>
+
+      <!-- Errors Rolues -->
+
+      <!-- <label class="checkup">Apply with other
+        <input type="checkbox" formControlName="apply_with_other">
+        <span class="checkmark"></span>
+      </label> -->
+
+      <div class="btn-group">
+        <button type="submit" class="btn btn-owls btn-rounded btn-green">Save</button>
+      </div>
+    </form>
+  </div>
+
+</div>

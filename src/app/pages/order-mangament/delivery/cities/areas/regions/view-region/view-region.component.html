@@ -1,0 +1,25 @@
+<div class="form-sidebar view-vindor-types" id="show-p-details">
+  <div class="head">
+    <span class="close" id="close-vindors4" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+
+    <h3>View regions</h3>
+  </div>
+  <div class="details details-2" *ngIf="dataView">
+
+
+    <div>
+      <h5> name </h5>
+      <p>{{dataView.name}}</p>
+    </div>
+    <div>
+      <h5> name (Ar) </h5>
+      <p>{{dataView.name_ar}}</p>
+    </div>
+    <div *ngIf="dataView?.deactivation_notes">
+      <h5>Deactivation notes</h5>
+      <p>{{dataView?.deactivation_notes}}</p>
+    </div>
+  </div>
+</div>

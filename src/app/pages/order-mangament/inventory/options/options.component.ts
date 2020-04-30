@@ -170,6 +170,7 @@ export class OptionsComponent implements OnInit {
 
   addOrUpdateOption(data) {
     const index = this.options.findIndex((item) => item.id == data.id);
+
     if (index !== -1) {
       this.options[index] = data;
     } else {

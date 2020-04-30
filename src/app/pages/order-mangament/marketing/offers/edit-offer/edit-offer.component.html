@@ -21,13 +21,30 @@
 
     <div class="col-md-6">
       <h2>edit promocode</h2>
-
-      <div class="form-group" style="    overflow: visible; ">
+      <label for="select_Customers" class="checkup customer">Select Customers
+        <input id="select_Customers" type="radio" name="typeCustmerSelect" formControlName="typeCustmerSelect"
+          [(ngModel)]="promo.typeCustmerSelect" (change)="typeCustmerSelect($event)" [value]="'1'">
+        <span class="checkmark"></span>
+      </label>
+      <label for="upload_Customers" class="checkup">Upload Customers
+        <input type="radio" name="typeCustmerSelect" formControlName="typeCustmerSelect"
+          [(ngModel)]="promo.typeCustmerSelect" id="upload_Customers" (change)="typeCustmerSelect($event)"
+          [value]="'2'">
+        <span class="checkmark"></span>
+      </label>
+      <div class="form-group" style="    overflow: visible; " *ngIf="promo.typeCustmerSelect == '1'">
         <label>Customers </label>
         <ng-select [typeahead]="customersInput$" [loading]="customersLoading" [(ngModel)]="promo.customers"
           name="customers" [items]="customers$ | async" bindLabel="name" bindValue="id" [multiple]="true"
           placeholder="Enter Customer name" formControlName="customers">
         </ng-select>
+      </div>
+      <div class="form-group" *ngIf="promo.typeCustmerSelect == '2'">
+        <button class=" btn btn-owls import-file btn-rounded btn-green  btn-special owl-input-file inputFile"
+          style="overflow: hidden">Import Customers phone
+          <input #myInput (change)="onImageSelected(promo.customer_phones, $event)" type="file" class="input-style"
+            placeholder="type here " accept=".xlsx, .xls, .csv">
+        </button>
       </div>
 
       <div class="form-group">
@@ -52,9 +69,9 @@
         <label for="charge">Promocode Recurrence</label>
         <select name="" id="charge" class="owl-input" required name="recurrence" formControlName="recurrence"
           [(ngModel)]="promo.recurrence">
-          <option value="" disabled selected>Select PromoCode Recurrence</option>
-          <option value="1">One time use</option>
-          <option value="2">Daily use</option>
+          <option [value]="" disabled selected>Select PromoCode Recurrence</option>
+          <option [value]="1">One time use</option>
+          <option [value]="2">Daily use</option>
         </select>
         <!-- Start  Errors Rolues -->
         <div
@@ -70,10 +87,10 @@
       <div class="form-group">
         <label for="charge">promocode type </label>
         <select name="" id="charge" class="owl-input" [(ngModel)]="promo.type" required formControlName="editType"
-          name="editType">
-          <option value="1">amount </option>
-          <option value="2">percentage</option>
-          <option value="3">Free delivery</option>
+          name="editType" (change)="changeTypePromo($event)">
+          <option [value]="1">amount </option>
+          <option [value]="2">percentage</option>
+          <option [value]="3">Free delivery</option>
 
         </select>
 
