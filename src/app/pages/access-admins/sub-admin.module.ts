@@ -1,3 +1,4 @@
+import { AccessAdminsComponent } from './access-admins.component';
 import { SharedModule } from "./../../shared/shared.module";
 import { RolesComponent } from "./roles/roles.component";
 import { UserSubAdminComponent } from "./user-sub-admin/user-sub-admin.component";
@@ -26,6 +27,7 @@ const router = [
     CommonModule,
     RouterModule.forChild(router),
     NgxPaginationModule,
+    AccessAdminsComponent,
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
