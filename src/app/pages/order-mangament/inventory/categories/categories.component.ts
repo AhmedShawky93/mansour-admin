@@ -363,7 +363,8 @@ export class CategoriesComponent implements OnInit {
         category.showReason = 0;
         return category;
       });
-
+      console.log(this.categories)
+      console.log(category)
     if (category.active) {
       // currently checked
       category.showReason = 0;

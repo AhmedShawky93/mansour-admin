@@ -43,6 +43,7 @@ export class OrderStatesComponent implements OnInit {
   viewDataSidebar: string = "out";
   selectData: any;
   selectDataView: any;
+  sub_states = [];
   constructor(
     private adminService: AdminsService,
     private toastrService: ToastrService,
@@ -93,62 +94,11 @@ export class OrderStatesComponent implements OnInit {
       this.orderStatus[index] = data;
     }
   }
-  changeActive(admin) {
-    this.admins
-      .filter((admin) => {
-        return admin.showReason;
-      })
-      .map((admin) => {
-        if (admin.active === admin.deactivated) {
-          admin.active = !admin.active;
-        }
-        admin.showReason = 0;
-        return admin;
-      });
-
-    if (admin.active) {
-      // currently checked
-      admin.showReason = 0;
-      admin.notes = "";
-      if (admin.deactivated) {
-        this.adminService.activateAdmin(admin.id).subscribe((data: any) => {
-          admin.active = 1;
-          admin.notes = "";
-          admin.deactivation_notes = "";
-          admin.deactivated = 0;
-        });
-      }
-    } else {
-      admin.notes = admin.deactivation_notes;
-      admin.notes = "";
-      admin.showReason = 1;
-    }
-  }
-
-  cancelDeactivate(admin) {
-    admin.active = 1;
-    admin.notes = "";
-    admin.showReason = 0;
-  }
-
-  submitDeactivate(admin) {
-    admin.active = 0;
-    this.adminService
-      .deactivateAdmin(admin.id, { deactivation_notes: admin.notes })
-      .subscribe((data: any) => {
-        admin.active = 0;
-        admin.deactivation_notes = admin.notes;
-        admin.showReason = 0;
-        admin.deactivated = 1;
-      });
-  }
 
   addOrUpdateData(data) {
     const index = this.orderStatus.findIndex((item) => item.id == data.id);
     if (index !== -1) {
       this.orderStatus[index] = data;
-    } else {
-      this.orderStatus.push(data);
     }
   }
 }
