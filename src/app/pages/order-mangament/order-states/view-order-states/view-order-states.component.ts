@@ -11,7 +11,9 @@ export class ViewOrderStatesComponent implements OnInit {
   @Input("selectDataEdit") dataView;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.dataView)
+  }
 
   closeSideBar() {
     this.closeSideBarEmit.emit();

@@ -150,6 +150,11 @@ const routes: Routes = [
         loadChildren:
           "../pages/order-mangament/delivery/cities/cities.module#CitiesModule",
       },
+      {
+        path: "order-states",
+        loadChildren:
+          "../pages/order-mangament/order-states/order-states.module#OrderStatesModule",
+      },
     ],
     canActivate: [AuthGuard],
   },

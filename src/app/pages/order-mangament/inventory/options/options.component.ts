@@ -149,6 +149,7 @@ export class OptionsComponent implements OnInit {
         clinic.deactivated = 1;
       });
   }
+
   viewClinic(clinic) {
     console.log(clinic);
     this.selectOptionDataView = clinic;

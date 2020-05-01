@@ -130,3 +130,10 @@
   margin-bottom: 20px;
   border-radius: 10px;
 }
+
+.sub-state {
+  border: 1px solid #3442;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}

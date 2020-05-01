@@ -5,11 +5,11 @@ import { ToastrService } from "ngx-toastr";
 declare var $: any;
 
 @Component({
-  selector: "app-rules",
-  templateUrl: "./rules.component.html",
-  styleUrls: ["./rules.component.css"],
+  selector: "app-roles",
+  templateUrl: "./roles.component.html",
+  styleUrls: ["./roles.component.css"],
 })
-export class RulesComponent implements OnInit {
+export class RolesComponent implements OnInit {
   showgivin = false;
   admins = [];
   searchTerm: "";

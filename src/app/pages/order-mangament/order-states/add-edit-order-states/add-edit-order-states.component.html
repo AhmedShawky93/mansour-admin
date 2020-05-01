@@ -37,8 +37,36 @@
           Name (Ar)is required.
         </div>
       </div>
+      <div class="sub-status" formArrayName="sub_states">
+        <div class="" *ngFor="let item of cityForm.get('sub_states')['controls']; let i = index">
+          <div [formGroupName]='i' class="sub-state">
+            <div class="form-group">
+              <label for="">Name </label>
+              <input type="text" class="owl-input" placeholder="type here.." name="name" required
+                formControlName="name">
+            </div>
 
+            <div
+            class="alert alert-danger" *ngIf="(item.get('name').errors && (item.get('name').dirty || item.get('name').touched)) ||
+            (item.get('name').untouched )" >
+            <div *ngIf="item.get('name').hasError('required')">
+              Name is required.
+            </div>
+          </div>
+            <!-- <div class="form-group">
+              <label for="">Name (ar)</label>
+              <input type="text" class="owl-input" placeholder="type here.." name="name" required
+                formControlName="name_ar">
 
+            </div> -->
+            <!-- <a href="javascript:void(0)" class="add-sub" (click)="removeSubStates(i)">Remove sub States</a> -->
+
+          </div>
+        </div>
+      </div>
+      <div>
+        <a href="javascript:void(0)" class="add-sub" (click)="addSubStates()">Add sub States</a>
+      </div>
 
       <div class="btn-group">
         <button type="submit" class="btn btn-owls btn-rounded btn-green">Save</button>

@@ -4,7 +4,7 @@
       <i class="icon-Exit"></i>
     </span>
 
-    <h3>View CIty</h3>
+    <h3>View order states</h3>
   </div>
   <div class="details details-2" *ngIf="dataView">
     <button class="btn btn-owls btn-rounded btn-green" (click)="closeSideBar()"
@@ -20,19 +20,16 @@
     </div>
 
 
-    <div *ngIf="dataView?.deactivation_notes">
-      <h5>Deactivation notes</h5>
-      <p>{{dataView?.deactivation_notes}}</p>
-    </div>
+
 
 
 
 
     <div>
-      <h5>Areas Name </h5>
+      <h5>sub order states </h5>
 
-      <p *ngIf="dataView?.areas">
-        <span *ngFor="let value of  dataView?.areas">
+      <p *ngIf="dataView?.sub_states">
+        <span *ngFor="let value of  dataView?.sub_states">
           <p>{{value.name}}</p>
 
         </span>

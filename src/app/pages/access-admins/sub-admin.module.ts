@@ -1,5 +1,5 @@
 import { SharedModule } from "./../../shared/shared.module";
-import { RulesComponent } from "./rules/rules.component";
+import { RolesComponent } from "./roles/roles.component";
 import { UserSubAdminComponent } from "./user-sub-admin/user-sub-admin.component";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -15,9 +15,9 @@ const router = [
     data: { title: "Admins users" },
   },
   {
-    path: "admins-rules",
-    component: RulesComponent,
-    data: { title: "Rules" },
+    path: "admins-roles",
+    component: RolesComponent,
+    data: { title: "Roles" },
   },
 ];
 
@@ -31,6 +31,6 @@ const router = [
     NgSelectModule,
     SharedModule,
   ],
-  declarations: [UserSubAdminComponent, RulesComponent],
+  declarations: [UserSubAdminComponent, RolesComponent],
 })
 export class SubAdminModule {}
