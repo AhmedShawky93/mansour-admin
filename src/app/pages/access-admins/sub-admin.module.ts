@@ -27,12 +27,12 @@ const router = [
     CommonModule,
     RouterModule.forChild(router),
     NgxPaginationModule,
-    AccessAdminsComponent,
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
     SharedModule,
   ],
-  declarations: [UserSubAdminComponent, RolesComponent],
+  declarations: [UserSubAdminComponent, RolesComponent,     AccessAdminsComponent,
+  ],
 })
 export class SubAdminModule {}

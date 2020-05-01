@@ -33,7 +33,7 @@
     <tbody>
 
       <tr
-        *ngFor="let admin of admins |stringFilter : searchTerm | paginate: { id: 'p1', itemsPerPage: 10,currentPage: p1, totalItems: admins.length }">
+        *ngFor="let admin of admins">
         <td scope="row"> {{admin.name}} </td>
         <td scope="row"> {{admin.created_at}} </td>
         <td>{{admin.permissions?.length}}</td>
@@ -67,7 +67,7 @@
     </tbody>
   </table>
 </div>
-<pagination-controls id="p1" (pageChange)="p1 = $event"></pagination-controls>
+<!-- <pagination-controls id="p1" (pageChange)="p1 = $event"></pagination-controls> -->
 
 <!-- add sidebar -->
 <div class="form-sidebar view-vindor-types" id="add-admin">
@@ -79,7 +79,7 @@
   </div>
 
 
-  <form (ngSubmit)="createSubAdmin(subAdmin)" [formGroup]="addSubAdminForm" novalidate>
+  <form (ngSubmit)="createSubAdmin('subAdmin')" [formGroup]="addSubAdminForm" novalidate>
     <div class="form-group">
       <label for="">sub-admin name </label>
       <input type="text" class="owl-input" placeholder="Type here..." formControlName="name">
