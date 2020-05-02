@@ -12,7 +12,7 @@
 
     <div class="col-md-4 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-green btn-big add-new"> + New rule</button>
+        <button class="btn btn-owls btn-rounded btn-green btn-big add-new" (click)="resetForm()">+ New Role</button>
       </div>
     </div>
 
@@ -24,8 +24,8 @@
     <thead>
       <tr>
         <th scope="col">name</th>
-        <th scope="col">creation date </th>
-        <th scope="col">Permissions </th>
+        <th scope="col">creation date</th>
+        <th scope="col">Permissions</th>
         <th scope="col">Order Status</th>
         <th scope="col">action</th>
       </tr>
@@ -33,32 +33,32 @@
     <tbody>
 
       <tr
-        *ngFor="let admin of admins  | paginate: { id: 'p1', itemsPerPage: 10,currentPage: p, totalItems: admins.length }">
-        <td scope="row"> {{admin.name}} </td>
-        <td scope="row"> {{admin.created_at}} </td>
-        <td>{{admin.permissions?.length}}</td>
-        <td>{{admin.email }}</td>
+        *ngFor="let role of roles | paginate: { id: 'p1', itemsPerPage: 10, currentPage: p, totalItems: roles.length }">
+        <td scope="row">{{role.name}}</td>
+        <td scope="row">{{role.created_at}}</td>
+        <td>{{role.permissions?.length}}</td>
+        <td>{{role.states.length}}</td>
         <td>
-          <a href="javascript:void(0)" (click)="editadmin(admin)" class="edit-new table-view">
+          <a href="javascript:void(0)" (click)="editRole(role)" class="edit-new table-view">
             <i class="icon-grey"></i>
           </a>
           <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="admin.active" (change)="changeActive(admin, $event)">
+            <input type="checkbox" value="1" [(ngModel)]="role.active" (change)="changeActive(role, $event)">
             <span class="slider round"></span>
-            <div class="reason-popup text-left" [hidden]="!admin.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this admin?"
-                [(ngModel)]="admin.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!admin.notes"
-                (click)="submitDeactivate(admin)">submit</button>
+            <div class="reason-popup text-left" [hidden]="!role.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this role?"
+                [(ngModel)]="role.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!role.notes"
+                (click)="submitDeactivate(role)">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(admin)">cancel</button>
+                (click)="cancelDeactivate(role)">cancel</button>
             </div>
-            <div class="hover-reason text-left" *ngIf="!admin.active">
+            <div class="hover-reason text-left" *ngIf="!role.active">
               <div class="head">
                 Deactivation Notes
               </div>
               <div class="body">
-                {{admin.deactivation_notes}}
+                {{role.deactivation_notes}}
               </div>
             </div>
           </label>
@@ -75,20 +75,18 @@
     <span class="close" id="close-vindors1">
       <i class="icon-Exit"></i>
     </span>
-    <h3>new Rule</h3>
+    <h3>new Role</h3>
   </div>
 
 
-  <form (ngSubmit)="createSubAdmin(addSubAdminForm)" [formGroup]="addSubAdminForm" novalidate>
+  <form (ngSubmit)="createRole(roleForm)" [formGroup]="roleForm" novalidate>
     <div class="form-group">
-      <label for=""> name Rule </label>
+      <label for="">Role Name</label>
       <input type="text" class="owl-input" placeholder="Type here..." formControlName="name">
       <!-- Start  Errors Rolues -->
-      <div
-        *ngIf="addSubAdminForm.controls.name.invalid && (addSubAdminForm.controls.name.dirty || addSubAdminForm.controls.name.touched)"
-        class="alert alert-danger">
-        <div *ngIf="addSubAdminForm.controls.name.errors.required">
-          Rule Name is required.
+      <div *ngIf="roleForm.controls.name.invalid && (roleForm.controls.name.dirty || roleForm.controls.name.touched)" class="alert alert-danger">
+        <div *ngIf="roleForm.controls.name.errors.required">
+          Role Name is required.
         </div>
       </div>
       <!-- End Errors Rolues -->
@@ -97,35 +95,22 @@
 
     <div class="form-group">
       <label for=""> Permissions </label>
-      <ng-select id="vendor_types" name="types" bindLabel="display_name" bindValue="id" [closeOnSelect]="false" required
+      <ng-select id="vendor_types" name="types" bindLabel="name" bindValue="id" [closeOnSelect]="false" required
         [items]="permissions" [multiple]="true" ngDefaultControl formControlName="permissions" required>
       </ng-select>
       <!-- Start  Errors Rolues  -->
-      <div
-        *ngIf="addSubAdminForm.controls.permissions.invalid && (addSubAdminForm.controls.permissions.dirty || addSubAdminForm.controls.permissions.touched)"
-        class="alert alert-danger">
-        <div *ngIf="addSubAdminForm.controls.permissions.errors.required">
+      <div *ngIf="roleForm.controls.permissions.invalid && (roleForm.controls.permissions.dirty || roleForm.controls.permissions.touched)" class="alert alert-danger">
+        <div *ngIf="roleForm.controls.permissions.errors.required">
           Permissions is required.
         </div>
       </div>
       <!-- End Errors Rolues -->
     </div>
     <div class="form-group">
-      <label for=""> Order Status </label>
-      <ng-select id="vendor_types" name="types" bindLabel="display_name" bindValue="id" [closeOnSelect]="false" required
-        [items]="permissions" [multiple]="true" ngDefaultControl formControlName="permissions" required>
+      <label for="">Order Status</label>
+      <ng-select id="vendor_types" name="types" bindLabel="name" bindValue="id" [closeOnSelect]="false" [items]="states" [multiple]="true" ngDefaultControl formControlName="order_states">
       </ng-select>
-      <!-- Start  Errors Rolues  -->
-      <div
-        *ngIf="addSubAdminForm.controls.permissions.invalid && (addSubAdminForm.controls.permissions.dirty || addSubAdminForm.controls.permissions.touched)"
-        class="alert alert-danger">
-        <div *ngIf="addSubAdminForm.controls.permissions.errors.required">
-          Order Status is required.
-        </div>
-      </div>
-      <!-- End Errors Rolues -->
     </div>
-
 
     <div class="btn-group">
       <button class="btn btn-owls btn-rounded btn-green">save</button>
@@ -140,18 +125,18 @@
     <span class="close" id="close-vindors2">
       <i class="icon-Exit"></i>
     </span>
-    <h3>Edit rule</h3>
+    <h3>Edit role</h3>
   </div>
 
-  <form *ngIf="editSubAdminForm" [formGroup]="editSubAdminForm" (ngSubmit)="updateSubAdmin(admin)" novalidate>
+  <form *ngIf="roleForm" [formGroup]="roleForm" (ngSubmit)="updateRole(role)" novalidate>
     <div class="form-group">
       <label for=""> name rule</label>
       <input type="text" class="owl-input" placeholder="Type here..." formControlName="name">
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="editSubAdminForm.controls.name.invalid && (editSubAdminForm.controls.name.dirty || editSubAdminForm.controls.name.touched)"
+        *ngIf="roleForm.controls.name.invalid && (roleForm.controls.name.dirty || roleForm.controls.name.touched)"
         class="alert alert-danger">
-        <div *ngIf="editSubAdminForm.controls.name.errors.required">
+        <div *ngIf="roleForm.controls.name.errors.required">
           rule Name is required.
         </div>
       </div>
@@ -160,34 +145,21 @@
 
     <div class="form-group">
       <label for=""> Permissions </label>
-      <ng-select name="types" bindLabel="display_name" bindValue="id" [closeOnSelect]="false" required
+      <ng-select id="vendor_types" name="types" bindLabel="name" bindValue="id" [closeOnSelect]="false" required
         [items]="permissions" [multiple]="true" ngDefaultControl formControlName="permissions" required>
       </ng-select>
       <!-- Start  Errors Rolues  -->
-      <div
-        *ngIf="editSubAdminForm.controls.permissions.invalid && (editSubAdminForm.controls.permissions.dirty || editSubAdminForm.controls.permissions.touched)"
-        class="alert alert-danger">
-        <div *ngIf="editSubAdminForm.controls.permissions.errors.required">
+      <div *ngIf="roleForm.controls.permissions.invalid && (roleForm.controls.permissions.dirty || roleForm.controls.permissions.touched)" class="alert alert-danger">
+        <div *ngIf="roleForm.controls.permissions.errors.required">
           Permissions is required.
         </div>
       </div>
       <!-- End Errors Rolues -->
     </div>
-
     <div class="form-group">
-      <label for=""> Order Status </label>
-      <ng-select name="types" bindLabel="display_name" bindValue="id" [closeOnSelect]="false" required
-        [items]="permissions" [multiple]="true" ngDefaultControl formControlName="permissions" required>
+      <label for="">Order Status</label>
+      <ng-select id="vendor_types" name="types" bindLabel="name" bindValue="id" [closeOnSelect]="false" [items]="states" [multiple]="true" ngDefaultControl formControlName="order_states">
       </ng-select>
-      <!-- Start  Errors Rolues  -->
-      <div
-        *ngIf="editSubAdminForm.controls.permissions.invalid && (editSubAdminForm.controls.permissions.dirty || editSubAdminForm.controls.permissions.touched)"
-        class="alert alert-danger">
-        <div *ngIf="editSubAdminForm.controls.permissions.errors.required">
-          Order Status is required.
-        </div>
-      </div>
-      <!-- End Errors Rolues -->
     </div>
 
     <div class="btn-group">

@@ -86,6 +86,7 @@ import { BrandsComponent } from "./pages/brands/brands.component";
 import { ButtonSpinnerDirective } from "./shared/directives/button-spinner.directive";
 import { FroalaEditorModule, FroalaViewModule } from "angular-froala-wysiwyg";
 import { SharedModule } from "./shared/shared.module";
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [
@@ -156,6 +157,7 @@ import { SharedModule } from "./shared/shared.module";
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
     SharedModule,
+    NgxPermissionsModule.forRoot()
   ],
   providers: [
     {

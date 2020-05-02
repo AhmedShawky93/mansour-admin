@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Injector } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 @Injectable()
 export class AuthService {
   url;
-  constructor( private http: HttpClient) {
+  constructor( private http: HttpClient, private permissionsService: NgxPermissionsService) {
     this.url = environment.api + "/admin";
   }
 
@@ -26,6 +27,29 @@ export class AuthService {
     else {
       return false
     }
+  }
+
+  getProfile() {
+    return this.http.get(this.url + '/profile')
+  }
+
+  setPermissions() {
+    this.getProfile()
+      .subscribe((response: any) => {
+        this.permissionsService.flushPermissions();
+        // this.roleService.flushRoles();
+
+        let user = response.data;
+        if (user.roles.length) {
+          const perm = user.roles[0].permissions.map((perm) => perm.name);
+          this.permissionsService.loadPermissions(perm);
+
+          if (user.roles[0].name == "Super Admin") {
+            this.permissionsService.addPermission(['ADMIN']);
+          }
+        }
+      })
+
   }
 
   setToken(token) {

@@ -30,7 +30,7 @@ export class AdminsService {
 
   getPermissions() {
     return this.http
-      .get<any>(this.url + "/admins/permissions")
+      .get<any>(this.url + "/permissions")
       .catch((error: any) => {
         return Observable.throw(error.error || "admins Error");
       });

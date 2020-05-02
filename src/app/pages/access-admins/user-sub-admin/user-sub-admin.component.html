@@ -24,9 +24,9 @@
     <thead>
       <tr>
         <th scope="col">name</th>
-        <th scope="col">creation date </th>
-        <th scope="col">Roules </th>
-        <th scope="col"> email address </th>
+        <th scope="col">creation date</th>
+        <th scope="col">Roles</th>
+        <th scope="col">email address</th>
         <th scope="col">action</th>
       </tr>
     </thead>
@@ -36,10 +36,10 @@
         *ngFor="let admin of admins  | paginate: { id: 'p1', itemsPerPage: 10,currentPage: p, totalItems: admins.length }">
         <td scope="row"> {{admin.name}} </td>
         <td scope="row"> {{admin.created_at}} </td>
-        <td>{{admin.permissions?.length}}</td>
-        <td>{{admin.email }}</td>
+        <td><span *ngIf="admin.roles.length">{{admin.roles[0].name}}</span></td>
+        <td>{{admin.email}}</td>
         <td>
-          <a href="javascript:void(0)" (click)="editadmin(admin)" class="edit-new table-view">
+          <a href="javascript:void(0)" (click)="editAdmin(admin)" class="edit-new table-view">
             <i class="icon-grey"></i>
           </a>
           <label class="switch">
@@ -79,15 +79,15 @@
   </div>
 
 
-  <form (ngSubmit)="createSubAdmin(addSubAdminForm)" [formGroup]="addSubAdminForm" novalidate>
+  <form (ngSubmit)="createSubAdmin(adminForm)" [formGroup]="adminForm" novalidate>
     <div class="form-group">
       <label for="">user name </label>
       <input type="text" class="owl-input" placeholder="Type here..." formControlName="name">
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="addSubAdminForm.controls.name.invalid && (addSubAdminForm.controls.name.dirty || addSubAdminForm.controls.name.touched)"
+        *ngIf="adminForm.controls.name.invalid && (adminForm.controls.name.dirty || adminForm.controls.name.touched)"
         class="alert alert-danger">
-        <div *ngIf="addSubAdminForm.controls.name.errors.required">
+        <div *ngIf="adminForm.controls.name.errors.required">
           Sub Admin Name is required.
         </div>
       </div>
@@ -96,16 +96,16 @@
 
 
     <div class="form-group">
-      <label for=""> roules </label>
-      <ng-select id="vendor_types" name="types" bindLabel="display_name" bindValue="id" [closeOnSelect]="false" required
-        [items]="permissions" [multiple]="false" ngDefaultControl formControlName="permissions" required>
+      <label for=""> Role </label>
+      <ng-select id="vendor_types" name="types" bindLabel="name" bindValue="id" [closeOnSelect]="true" required
+        [items]="roles" [multiple]="false" ngDefaultControl formControlName="role_id" required>
       </ng-select>
       <!-- Start  Errors Rolues  -->
       <div
-        *ngIf="addSubAdminForm.controls.permissions.invalid && (addSubAdminForm.controls.permissions.dirty || addSubAdminForm.controls.permissions.touched)"
+        *ngIf="adminForm.controls.role_id.invalid && (adminForm.controls.role_id.dirty || adminForm.controls.role_id.touched)"
         class="alert alert-danger">
-        <div *ngIf="addSubAdminForm.controls.permissions.errors.required">
-          roules is required.
+        <div *ngIf="adminForm.controls.role_id.errors.required">
+          Role is required.
         </div>
       </div>
       <!-- End Errors Rolues -->
@@ -117,12 +117,12 @@
       <input type="email" class="owl-input" placeholder="Type here..." formControlName="email">
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="addSubAdminForm.controls.email.invalid && (addSubAdminForm.controls.email.dirty || addSubAdminForm.controls.email.touched)"
+        *ngIf="adminForm.controls.email.invalid && (adminForm.controls.email.dirty || adminForm.controls.email.touched)"
         class="alert alert-danger">
-        <div *ngIf="addSubAdminForm.controls.email.errors.required">
+        <div *ngIf="adminForm.controls.email.errors.required">
           email Name is required.
         </div>
-        <div *ngIf="addSubAdminForm.controls.email.errors.email">
+        <div *ngIf="adminForm.controls.email.errors.email">
           email not correct
         </div>
       </div>
@@ -136,21 +136,18 @@
       <input type="password" class="owl-input" placeholder="Type here..." formControlName="password">
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="addSubAdminForm.controls.password.invalid && (addSubAdminForm.controls.password.dirty || addSubAdminForm.controls.password.touched)"
+        *ngIf="adminForm.controls.password.invalid && (adminForm.controls.password.dirty || adminForm.controls.password.touched)"
         class="alert alert-danger">
-        <div *ngIf="addSubAdminForm.controls.password.errors.required">
+        <div *ngIf="adminForm.controls.password.errors.required">
           Password is required.
         </div>
-        <div *ngIf="addSubAdminForm.controls.password.errors.minlength">
-          Password is short
+        <div *ngIf="adminForm.controls.password.errors.minlength">
+          Password is too short
         </div>
       </div>
 
       <!-- End Errors Rolues -->
     </div>
-
-
-
 
     <div class="btn-group">
       <button class="btn btn-owls btn-rounded btn-green">save</button>
@@ -168,15 +165,15 @@
     <h3>Edit User</h3>
   </div>
 
-  <form *ngIf="editSubAdminForm" [formGroup]="editSubAdminForm" (ngSubmit)="updateSubAdmin(admin)" novalidate>
+  <form *ngIf="adminForm" [formGroup]="adminForm" (ngSubmit)="updateSubAdmin(admin)" novalidate>
     <div class="form-group">
       <label for="">User name </label>
       <input type="text" class="owl-input" placeholder="Type here..." formControlName="name">
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="editSubAdminForm.controls.name.invalid && (editSubAdminForm.controls.name.dirty || editSubAdminForm.controls.name.touched)"
+        *ngIf="adminForm.controls.name.invalid && (adminForm.controls.name.dirty || adminForm.controls.name.touched)"
         class="alert alert-danger">
-        <div *ngIf="editSubAdminForm.controls.name.errors.required">
+        <div *ngIf="adminForm.controls.name.errors.required">
           User Name is required.
         </div>
       </div>
@@ -184,16 +181,16 @@
     </div>
 
     <div class="form-group">
-      <label for=""> roules </label>
-      <ng-select name="types" bindLabel="display_name" bindValue="id" [closeOnSelect]="false" required
-        [items]="permissions" [multiple]="true" ngDefaultControl formControlName="permissions" required>
+      <label for=""> Role </label>
+      <ng-select name="types" bindLabel="name" bindValue="id" [closeOnSelect]="true" required
+        [items]="roles" [multiple]="false" ngDefaultControl formControlName="role_id" required>
       </ng-select>
       <!-- Start  Errors Rolues  -->
       <div
-        *ngIf="editSubAdminForm.controls.permissions.invalid && (editSubAdminForm.controls.permissions.dirty || editSubAdminForm.controls.permissions.touched)"
+        *ngIf="adminForm.controls.role_id.invalid && (adminForm.controls.role_id.dirty || adminForm.controls.role_id.touched)"
         class="alert alert-danger">
-        <div *ngIf="editSubAdminForm.controls.permissions.errors.required">
-          roules is required.
+        <div *ngIf="adminForm.controls.role_id.errors.required">
+          Role is required.
         </div>
       </div>
       <!-- End Errors Rolues -->
@@ -204,12 +201,12 @@
       <input type="email" class="owl-input" placeholder="Type here..." formControlName="email">
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="editSubAdminForm.controls.email.invalid && (editSubAdminForm.controls.email.dirty || editSubAdminForm.controls.email.touched)"
+        *ngIf="adminForm.controls.email.invalid && (adminForm.controls.email.dirty || adminForm.controls.email.touched)"
         class="alert alert-danger">
-        <div *ngIf="editSubAdminForm.controls.email.errors.required">
+        <div *ngIf="adminForm.controls.email.errors.required">
           email Name is required.
         </div>
-        <div *ngIf="editSubAdminForm.controls.email.errors.email">
+        <div *ngIf="adminForm.controls.email.errors.email">
           email not correct
         </div>
       </div>
@@ -223,10 +220,10 @@
       <input type="password" class="owl-input" placeholder="Type here..." formControlName="password">
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="editSubAdminForm.controls.password.invalid && (editSubAdminForm.controls.password.dirty || editSubAdminForm.controls.password.touched)"
+        *ngIf="adminForm.controls.password.invalid && (adminForm.controls.password.dirty || adminForm.controls.password.touched)"
         class="alert alert-danger">
 
-        <div *ngIf="editSubAdminForm.controls.password.errors.minlength">
+        <div *ngIf="adminForm.controls.password.errors.minlength">
           Password is short.
         </div>
       </div>
