@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: "https://dev.soleekhub.com/eldokan/api",
+  api: "https://api.el-dokan.com/api/",
 };

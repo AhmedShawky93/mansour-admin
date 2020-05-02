@@ -195,7 +195,7 @@ export class OrdersComponent implements OnInit {
   changePage(p) {
     this.p = p;
     console.log(this.filter);
-    
+
     // this.filterOrders(p);
     this.filter$.next(this.filter);
   }
@@ -212,7 +212,7 @@ export class OrdersComponent implements OnInit {
     }
     // console.log(this.serialize(this.filter));
     this.exportProductsUrl = this.productsUrl + "&" + this.serialize(this.filter);
-    
+
     return this.ordersService.filterOrders(this.filter, this.p);
   }
 

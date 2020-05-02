@@ -1,0 +1,95 @@
+<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+  <div class="head">
+    <span class="close" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>{{selectProductDataEdit ?  'Edit staff delivery' : 'New staff delivery' }} </h3>
+  </div>
+
+  <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="OptionForm" novalidate>
+    <div class="form-group">
+      <label for=""> Name</label>
+      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name">
+      <div
+        *ngIf="OptionForm.controls.name.invalid && (OptionForm.controls.name.dirty || OptionForm.controls.name.touched)"
+        class="alert alert-danger">
+        <div *ngIf="OptionForm.controls.name.errors.required">
+          Name is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">description</label>
+      <textarea class="owl-input" placeholder="Type.." maxlength="250" laceholder="type"
+        formControlName="address"></textarea>
+      <div
+        *ngIf="OptionForm.controls.address.invalid && (OptionForm.controls.address.dirty || OptionForm.controls.address.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="OptionForm.controls.address.errors.required">
+          description is required
+        </div>
+        <!-- End Errors Rolues -->
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="">City </label>
+      <select class="owl-input" formControlName="city_id" required name="city_id" (change)="selectCity($event)">
+        <option value="" selected hidden>Select City </option>
+        <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}
+        </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+
+      <div
+        *ngIf="OptionForm.controls.city_id.invalid && (OptionForm.controls.city_id.dirty || OptionForm.controls.city_id.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="OptionForm.controls.city_id.errors.required">
+          Select city
+        </div>
+        <!-- End Errors Rolues -->
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="">Area </label>
+      <select class="owl-input" formControlName="area_id" required name="area_id" (change)="selectArea($event)">
+        <option value="" selected hidden>Select Area </option>
+        <option value="{{cat.id}}" *ngFor="let cat of areas">{{cat.name}}
+        </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+
+      <div
+        *ngIf="OptionForm.controls.area_id.invalid && (OptionForm.controls.area_id.dirty || OptionForm.controls.area_id.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="OptionForm.controls.area_id.errors.required">
+          Select area
+        </div>
+        <!-- End Errors Rolues -->
+      </div>
+    </div>
+    <div class="form-group">
+      <label> districts </label>
+      <ng-select name="bransName" [items]="districts" bindLabel="name" bindValue="id" [multiple]="true"
+        placeholder=" Select districts" formControlName="districts_id" required>
+      </ng-select>
+      <!-- Start  Errors Rolues -->
+
+      <div
+        *ngIf="OptionForm.controls.districts_id.invalid && (OptionForm.controls.districts_id.dirty || OptionForm.controls.districts_id.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="OptionForm.controls.districts_id.errors.required">
+          Select districts
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green">Save</button>
+    </div>
+  </form>
+</div>

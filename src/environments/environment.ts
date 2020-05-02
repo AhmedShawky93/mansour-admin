@@ -6,4 +6,6 @@
 export const environment = {
   production: false,
   api: "https://dev.soleekhub.com/eldokan/api",
+  // api: "https://api.el-dokan.com/api",
+
 };
