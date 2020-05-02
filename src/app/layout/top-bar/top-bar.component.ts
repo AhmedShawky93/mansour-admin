@@ -39,12 +39,12 @@ export class TopBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pollingData = Observable.interval(15000).startWith(0)
-      .switchMap(() => this.settingService.getNotifications())
-      .subscribe((response: any) => {
-        this.notificationGroups = response.data.notifications;
-        this.unread = response.data.unread;
-      });
+    // this.pollingData = Observable.interval(15000).startWith(0)
+    //   .switchMap(() => this.settingService.getNotifications())
+    //   .subscribe((response: any) => {
+    //     this.notificationGroups = response.data.notifications;
+    //     this.unread = response.data.unread;
+    //   });
 
     // this.title = this.activatedRoute.snapshot.data["title"];
 
@@ -62,6 +62,8 @@ export class TopBarComponent implements OnInit {
       .subscribe((event) => {
         this.title = event['title'];
       });
+
+    this.user = this.auth.getUser();
     this.getUser();
   }
 

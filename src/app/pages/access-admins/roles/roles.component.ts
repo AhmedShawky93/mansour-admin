@@ -1,4 +1,6 @@
 import { AdminsService } from "../../services/admins.service";
+import { RolesService } from "../../services/roles.service";
+import { OrderStatesService } from "../../services/order-states.service";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
@@ -11,16 +13,20 @@ declare var $: any;
 })
 export class RolesComponent implements OnInit {
   showgivin = false;
-  admins = [];
+  roles = [];
   searchTerm: "";
+  roleForm: FormGroup;
   addSubAdminForm: FormGroup;
   editSubAdminForm: FormGroup;
-  admin: any;
+  role: any;
   p: 1;
   permissions = [];
+  states = [];
 
   constructor(
     private adminService: AdminsService,
+    private rolesService: RolesService,
+    private orderStatesService: OrderStatesService,
     private toastrService: ToastrService
   ) {}
 
@@ -42,55 +48,44 @@ export class RolesComponent implements OnInit {
       $("#edit-admin").removeClass("open-view-vindor-types");
     });
 
-    this.addSubAdminForm = new FormGroup({
+    this.roleForm = new FormGroup({
       name: new FormControl("", Validators.required),
-      email: new FormControl("", [Validators.required, Validators.email]),
+      order_states: new FormControl(""),
       permissions: new FormControl("", Validators.required),
-      password: new FormControl("", [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
     });
 
-    this.adminService.getPermissions().subscribe((response) => {
+    this.adminService.getPermissions().subscribe((response: any) => {
       this.permissions = response.data;
     });
 
-    this.getAdmins();
+    this.orderStatesService.getOrderStatus().subscribe((response: any) => {
+      this.states = response.data;
+    });
+
+    this.getRoles();
   }
 
-  setAdmin(admin) {
-    this.editSubAdminForm = new FormGroup({
-      id: new FormControl(admin.id ? admin.id : "", Validators.required),
-      name: new FormControl(admin.name ? admin.name : "", Validators.required),
-      email: new FormControl(admin.email ? admin.email : "", [
-        Validators.required,
-        Validators.email,
-      ]),
-      permissions: new FormControl(
-        admin.permissions.map((p) => p.id),
-        Validators.required
-      ),
-      password: new FormControl(admin.password ? admin.password : "", [
-        Validators.minLength(8),
-      ]),
+  setRole(role) {
+    this.roleForm = new FormGroup({
+      id: new FormControl(role.id),
+      name: new FormControl(role.name, Validators.required),
+      permissions: new FormControl(role.permissions.map((p) => p.id), Validators.required),
+      order_states: new FormControl(role.states.map((s) => s.id)),
     });
   }
 
-  getAdmins() {
-    this.adminService.getAdmins().subscribe((response: any) => {
-      this.admins = response.data;
-      this.admins = this.admins.map((item) => {
+  getRoles() {
+    this.rolesService.getRoles().subscribe((response: any) => {
+      this.roles = response.data;
+      this.roles = this.roles.map((item) => {
         item.deactivated = !item.active;
         return item;
       });
     });
   }
 
-  editadmin(admin) {
-    console.log(admin);
-    this.setAdmin(admin);
-    console.log(this.setAdmin(admin));
+  editRole(role) {
+    this.setRole(role);
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
@@ -103,16 +98,15 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  createSubAdmin(subAdmin) {
-    if (!this.addSubAdminForm.valid) {
-      this.markFormGroupTouched(this.addSubAdminForm);
+  createRole(role) {
+    if (!this.roleForm.valid) {
+      this.markFormGroupTouched(this.roleForm);
       return;
     }
 
-    subAdmin = this.addSubAdminForm.value;
-    this.adminService.createAdmin(subAdmin).subscribe((response: any) => {
+    this.rolesService.createRole(this.roleForm.value).subscribe((response: any) => {
       if (response.code === 200) {
-        this.admins.push(response.data);
+        this.roles.push(response.data);
         $("#add-admin").removeClass("open-view-vindor-types");
       } else {
         this.toastrService.error(response.message);
@@ -120,23 +114,23 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  updateSubAdmin(admin) {
-    if (!this.editSubAdminForm.valid) {
-      this.markFormGroupTouched(this.editSubAdminForm);
+  updateRole(role) {
+    if (!this.roleForm.valid) {
+      this.markFormGroupTouched(this.roleForm);
       return;
     }
 
-    admin = this.editSubAdminForm.value;
-    this.adminService
-      .updateAdmin(admin.id, admin)
+    role = this.roleForm.value;
+    this.rolesService
+      .updateRole(role.id, role)
       .subscribe((response: any) => {
         if (response.code === 200) {
-          const ind = this.admins.findIndex((item) => {
-            return item.id === admin.id;
+          const ind = this.roles.findIndex((item) => {
+            return item.id === role.id;
           });
 
           if (ind !== -1) {
-            this.admins[ind] = response.data;
+            this.roles[ind] = response.data;
           }
           $("#edit-admin").removeClass("open-view-vindor-types");
         } else {
@@ -149,53 +143,57 @@ export class RolesComponent implements OnInit {
     this.showgivin = !this.showgivin;
   }
 
-  changeActive(admin) {
-    this.admins
-      .filter((admin) => {
-        return admin.showReason;
+  resetForm() {
+    this.roleForm.reset();
+  }
+
+  changeActive(role) {
+    this.roles
+      .filter((role) => {
+        return role.showReason;
       })
-      .map((admin) => {
-        if (admin.active === admin.deactivated) {
-          admin.active = !admin.active;
+      .map((role) => {
+        if (role.active === role.deactivated) {
+          role.active = !role.active;
         }
-        admin.showReason = 0;
-        return admin;
+        role.showReason = 0;
+        return role;
       });
 
-    if (admin.active) {
+    if (role.active) {
       // currently checked
-      admin.showReason = 0;
-      admin.notes = "";
-      if (admin.deactivated) {
-        this.adminService.activateAdmin(admin.id).subscribe((data: any) => {
-          admin.active = 1;
-          admin.notes = "";
-          admin.deactivation_notes = "";
-          admin.deactivated = 0;
+      role.showReason = 0;
+      role.notes = "";
+      if (role.deactivated) {
+        this.rolesService.activateRole(role.id).subscribe((data: any) => {
+          role.active = 1;
+          role.notes = "";
+          role.deactivation_notes = "";
+          role.deactivated = 0;
         });
       }
     } else {
-      admin.notes = admin.deactivation_notes;
-      admin.notes = "";
-      admin.showReason = 1;
+      role.notes = role.deactivation_notes;
+      role.notes = "";
+      role.showReason = 1;
     }
   }
 
-  cancelDeactivate(admin) {
-    admin.active = 1;
-    admin.notes = "";
-    admin.showReason = 0;
+  cancelDeactivate(role) {
+    role.active = 1;
+    role.notes = "";
+    role.showReason = 0;
   }
 
-  submitDeactivate(admin) {
-    admin.active = 0;
-    this.adminService
-      .deactivateAdmin(admin.id, { deactivation_notes: admin.notes })
+  submitDeactivate(role) {
+    role.active = 0;
+    this.rolesService
+      .deactivateRole(role.id, { deactivation_notes: role.notes })
       .subscribe((data: any) => {
-        admin.active = 0;
-        admin.deactivation_notes = admin.notes;
-        admin.showReason = 0;
-        admin.deactivated = 1;
+        role.active = 0;
+        role.deactivation_notes = role.notes;
+        role.showReason = 0;
+        role.deactivated = 1;
       });
   }
 }

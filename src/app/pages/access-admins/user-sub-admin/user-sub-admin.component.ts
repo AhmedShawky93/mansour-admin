@@ -1,4 +1,5 @@
 import { AdminsService } from "./../../services/admins.service";
+import { RolesService } from "./../../services/roles.service";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
@@ -13,14 +14,15 @@ export class UserSubAdminComponent implements OnInit {
   showgivin = false;
   admins = [];
   searchTerm: "";
-  addSubAdminForm: FormGroup;
+  adminForm: FormGroup;
   editSubAdminForm: FormGroup;
   admin: any;
   p: 1;
-  permissions = [];
+  roles = [];
 
   constructor(
     private adminService: AdminsService,
+    private rolesService: RolesService,
     private toastrService: ToastrService
   ) {}
 
@@ -42,38 +44,30 @@ export class UserSubAdminComponent implements OnInit {
       $("#edit-admin").removeClass("open-view-vindor-types");
     });
 
-    this.addSubAdminForm = new FormGroup({
+    this.adminForm = new FormGroup({
       name: new FormControl("", Validators.required),
       email: new FormControl("", [Validators.required, Validators.email]),
-      permissions: new FormControl("", Validators.required),
+      role_id: new FormControl("", Validators.required),
       password: new FormControl("", [
         Validators.required,
         Validators.minLength(8),
       ]),
     });
 
-    this.adminService.getPermissions().subscribe((response) => {
-      this.permissions = response.data;
+    this.rolesService.getRoles().subscribe((response) => {
+      this.roles = response.data;
     });
 
     this.getAdmins();
   }
 
   setAdmin(admin) {
-    this.editSubAdminForm = new FormGroup({
-      id: new FormControl(admin.id ? admin.id : "", Validators.required),
-      name: new FormControl(admin.name ? admin.name : "", Validators.required),
-      email: new FormControl(admin.email ? admin.email : "", [
-        Validators.required,
-        Validators.email,
-      ]),
-      permissions: new FormControl(
-        admin.permissions.map((p) => p.id),
-        Validators.required
-      ),
-      password: new FormControl(admin.password ? admin.password : "", [
-        Validators.minLength(8),
-      ]),
+    this.adminForm = new FormGroup({
+      id: new FormControl(admin.id, Validators.required),
+      name: new FormControl(admin.name, Validators.required),
+      email: new FormControl(admin.email, [Validators.required, Validators.email]),
+      role_id: new FormControl(admin.roles.length ? admin.roles[0].id : null, Validators.required),
+      password: new FormControl("", [Validators.minLength(8)]),
     });
   }
 
@@ -87,10 +81,8 @@ export class UserSubAdminComponent implements OnInit {
     });
   }
 
-  editadmin(admin) {
-    console.log(admin);
+  editAdmin(admin) {
     this.setAdmin(admin);
-    console.log(this.setAdmin(admin));
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
@@ -104,12 +96,12 @@ export class UserSubAdminComponent implements OnInit {
   }
 
   createSubAdmin(subAdmin) {
-    if (!this.addSubAdminForm.valid) {
-      this.markFormGroupTouched(this.addSubAdminForm);
+    if (!this.adminForm.valid) {
+      this.markFormGroupTouched(this.adminForm);
       return;
     }
 
-    subAdmin = this.addSubAdminForm.value;
+    subAdmin = this.adminForm.value;
     this.adminService.createAdmin(subAdmin).subscribe((response: any) => {
       if (response.code === 200) {
         this.admins.push(response.data);
@@ -121,12 +113,12 @@ export class UserSubAdminComponent implements OnInit {
   }
 
   updateSubAdmin(admin) {
-    if (!this.editSubAdminForm.valid) {
-      this.markFormGroupTouched(this.editSubAdminForm);
+    if (!this.adminForm.valid) {
+      this.markFormGroupTouched(this.adminForm);
       return;
     }
 
-    admin = this.editSubAdminForm.value;
+    admin = this.adminForm.value;
     this.adminService
       .updateAdmin(admin.id, admin)
       .subscribe((response: any) => {
