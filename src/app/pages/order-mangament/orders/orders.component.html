@@ -89,7 +89,6 @@
         <th scope="col"> order time
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
-        <th scope="col"> paid amount </th>
         <th scope="col"> total amount
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
@@ -99,6 +98,8 @@
         <th style="text-align: center;" scope="col"> status
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
+        <th scope="col"> sub status </th>
+
         <th scope="col">actions</th>
       </tr>
     </thead>
@@ -111,17 +112,7 @@
           <span *ngIf="order.scheduled_at">{{order.scheduled_at | date: 'd-M-yyyy  h:mm a'}}</span>
           <span *ngIf="!order.scheduled_at">{{order.created_at | date: 'd-M-yyyy  h:mm a'}}</span>
         </td>
-        <td class="tb customAction"><span *ngIf="order.paid_amount"
-            (click)="showAmount(order)">{{order.paid_amount}}</span>
-          <div class="edit-amount" *ngIf="order.showPayment">
-            <form (submit)="updatePaidAmount(order, newAmount)" ngNativeValidate>
-              <input type="text" class="owl-input" name="newAmount" [(ngModel)]="newAmount" type="number" min="0">
-              <button class="btn btn-owls btn-rounded btn-green2 ">save</button>
-              <button class="btn btn-owls btn-rounded btn-red2 " (click)="order.showPayment = 0"
-                type="button">cancel</button>
-            </form>
-          </div>
-        </td>
+
         <td>{{order.amount}}</td>
         <td>{{order.remaining}}</td>
         <td>
@@ -184,10 +175,19 @@
         </td> -->
         <td>
           <!-- <select class="owl-input" formControlName="area_id" required name="area_id" (change)="selectArea($event)"> -->
-          <select class="owl-input"  required name="area_id">
-            <option value="" selected hidden>Select Area </option>
-            <!-- <option value="{{cat.id}}" *ngFor="let cat of areas">{{cat.name}}
-            </option> -->
+          <select class="owl-input" required name="status" [ngModel]="order.state_id"
+            (change)="selectStatus($event.target.value)">
+            <option value="" selected hidden>Select Status </option>
+            <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}
+            </option>
+          </select>
+
+        </td>
+        <td>
+          <select class="owl-input" required name="status" [ngModel]="order.sub_state_id">
+            <option value="" selected hidden>Select sub Status </option>
+            <option value="{{status.id}}" *ngFor="let status of orderSubStatus">{{status.name}}
+            </option>
           </select>
         </td>
         <td>
