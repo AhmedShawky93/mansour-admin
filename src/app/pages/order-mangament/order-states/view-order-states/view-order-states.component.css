@@ -40,3 +40,16 @@
 .btn {
   margin-bottom: 20px;
 }
+.form-sidebar .switch {
+  margin-right: 15px;
+}
+
+.form-sidebar .reason-popup {
+  width: 360px;
+  right: -23px;
+}
+
+.form-sidebar .hover-reason {
+  width: 365px !important;
+  right: -30px !important;
+}

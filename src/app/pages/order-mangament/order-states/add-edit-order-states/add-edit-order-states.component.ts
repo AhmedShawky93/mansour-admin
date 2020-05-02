@@ -29,27 +29,30 @@ export class AddEditOrderStatesComponent implements OnInit {
     this.cityForm = new FormGroup({
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-      sub_states: this.formBuilder.array(data ? data.sub_states : []),
+      sub_states: this.formBuilder.array([]),
     });
-    // this.sub_states  =  data.sub_states ?  data.sub_states : this.sub_states;
-    console.log(this.cityForm.value)
+    console.log(this.cityForm.value);
+    if (data) {
+      data.sub_states.forEach((element) => {
+        this.addSubStates(element);
+      });
+    }
   }
 
-
-  addSubStates(): void {
+  addSubStates(data): void {
     this.sub_states = this.cityForm.get("sub_states") as FormArray;
-    this.sub_states.push(this.createItemSubStates());
+    this.sub_states.push(this.createItemSubStates(data));
   }
 
-  createItemSubStates(): FormGroup {
+  createItemSubStates(data): FormGroup {
     return this.formBuilder.group({
-      name: new FormControl( "", Validators.required),
+      name: new FormControl(data ? data.name : '', Validators.required),
       // name_ar: "",
     });
   }
 
   submitForm() {
-    console.log(this.cityForm.value)
+    console.log(this.cityForm.value);
     if (!this.cityForm.valid) {
       this.markFormGroupTouched(this.cityForm);
       return;
@@ -66,9 +69,7 @@ export class AddEditOrderStatesComponent implements OnInit {
         });
     }
   }
-  removeSubStates(index){
-
-  }
+  removeSubStates(index) {}
   closeSideBar() {
     this.closeSideBarEmit.emit();
     if (!this.selectDataEdit) {
