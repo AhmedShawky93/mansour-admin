@@ -67,13 +67,23 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
     this.OptionForm = this.formBuilder.group({
       name: new FormControl(data ? data.name : "", Validators.required),
       address: new FormControl(data ? data.address : "", Validators.required),
-      city_id: new FormControl(data ? data.city_id : "", Validators.required),
-      area_id: new FormControl(data ? data.area_id : "", Validators.required),
+      city_id: new FormControl(
+        data ? data.delivererProfile.city.id : "",
+        Validators.required
+      ),
+      area_id: new FormControl(
+        data ? data.delivererProfile.area.id : "",
+        Validators.required
+      ),
       districts_id: new FormControl(
-        data ? data.districts_id : [],
+        data ? data.delivererProfile.districts.map((p) => p.id) : [],
         Validators.required
       ),
     });
+    if (data) {
+      this.selectCity(data.delivererProfile.city.id);
+      this.selectArea(data.delivererProfile.area.id);
+    }
   }
 
   closeSideBar() {
@@ -140,10 +150,7 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
 
   selectCity(city_id) {
     this.districts = [];
-    console.log(city_id.target.value);
-    let index = this.cities.findIndex(
-      (item) => item.id == city_id.target.value
-    );
+    let index = this.cities.findIndex((item) => item.id == city_id);
     console.log(index);
     if (index !== -1) {
       this.areas = this.cities[index].areas;
@@ -152,7 +159,7 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
   }
   selectArea(area_id) {
     console.log(area_id);
-    let index = this.areas.findIndex((item) => item.id == area_id.target.value);
+    let index = this.areas.findIndex((item) => item.id == area_id);
     console.log(index);
 
     this.districts = this.areas[index].districts;

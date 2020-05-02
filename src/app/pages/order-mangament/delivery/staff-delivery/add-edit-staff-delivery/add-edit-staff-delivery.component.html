@@ -35,7 +35,7 @@
     </div>
     <div class="form-group">
       <label for="">City </label>
-      <select class="owl-input" formControlName="city_id" required name="city_id" (change)="selectCity($event)">
+      <select class="owl-input" formControlName="city_id" required name="city_id" (change)="selectCity($event.target.value)">
         <option value="" selected hidden>Select City </option>
         <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}
         </option>
@@ -54,7 +54,7 @@
     </div>
     <div class="form-group">
       <label for="">Area </label>
-      <select class="owl-input" formControlName="area_id" required name="area_id" (change)="selectArea($event)">
+      <select class="owl-input" formControlName="area_id" required name="area_id" (change)="selectArea($event.target.value)">
         <option value="" selected hidden>Select Area </option>
         <option value="{{cat.id}}" *ngFor="let cat of areas">{{cat.name}}
         </option>

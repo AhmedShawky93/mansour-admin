@@ -3,43 +3,37 @@
     <span class="close" id="close-vindors4" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>View Options</h3>
+    <h3>View staff delivery</h3>
   </div>
   <div class="details details-2" *ngIf="dataView">
 
     <div>
       <h5>Option name </h5>
-      <p>{{dataView.name_en}}</p>
+      <p>{{dataView.name}}</p>
     </div>
-    <div>
-      <h5>Option name Ar </h5>
-      <p>{{dataView.name_ar}}</p>
-    </div>
+
 
     <div>
       <h5>Creation Date</h5>
-      <p>{{dataView?.created_at}}</p>
+      <p>{{(dataView?.created_at) ?  (dataView?.created_at  | date : "yyyy-MM-dd hh:mm a")  : '-' }}</p>
     </div>
 
     <div>
       <h5>Description</h5>
-      <p>{{dataView?.description_en}}</p>
+      <p>{{dataView?.address}}</p>
     </div>
     <div>
-      <h5>Description ar</h5>
-      <p>{{dataView?.description_ar}}</p>
+      <h5>City</h5>
+      <p>{{dataView?.delivererProfile?.city?.name}}</p>
     </div>
-
     <div>
-      <h5>Options</h5>
-
-      <p *ngIf="dataView?.values">
-        <span *ngFor="let value of  dataView?.values">
-          <span>{{value.name_en}}</span>
-          <div class="details-price" *ngIf="value.image">
-            <img src="{{value?.image}}" alt="" class=" owl-img img-fluid ">
-          </div>
-        </span>
+      <h5>Area</h5>
+      <p>{{dataView?.delivererProfile?.area?.name}}</p>
+    </div>
+    <div>
+      <h5>districts</h5>
+      <p *ngFor="let districts of dataView?.delivererProfile?.districts">
+        • {{districts?.name}}
       </p>
     </div>
   </div>

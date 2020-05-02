@@ -46,23 +46,28 @@
       <tr *ngFor="let delivery of deliverers  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
 
         <td class="relative">
-          {{(delivery.name_en.length >= 25) ? (delivery.name_en | slice:0:25)+'...' : delivery.name_en }}
-          <div class="hover-reason text-left" *ngIf="delivery.name_en.length >= 25">
+          {{(delivery.name.length >= 25) ? (delivery.name | slice:0:25)+'...' : delivery.name }}
+          <div class="hover-reason text-left" *ngIf="delivery.name.length >= 25">
             <div class="head">
               delivery name
             </div>
             <div class="body">
-              {{delivery.name_en}}
+              {{delivery.name}}
             </div>
           </div>
 
         </td>
-        <td> Description  </td>
-        <td> cities  </td>
-        <td> Areas </td>
-      <td>   Districts  </td>
+        <td> {{delivery.address}} </td>
+        <td> {{delivery?.delivererProfile?.city?.name}} </td>
+        <td> {{delivery?.delivererProfile?.area?.name}} </td>
+        <td>
+          <span *ngFor="let districts of delivery?.delivererProfile?.districts ">
+            {{districts.name}}<br>
+          </span>
+        </td>
 
-        <td class="hidden">{{delivery.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td class="hidden">{{(delivery.created_at) ?  (delivery.created_at  | date : "yyyy-MM-dd hh:mm a")  : '-' }}
+        </td>
         <td>
           <a style="margin-right: 10px" class="table-view open-show" (click)="viewClinic(delivery)">
             <i class="icon-View"></i>
