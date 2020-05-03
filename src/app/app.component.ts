@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
 
       $(".flex-nowrap ").niceScroll({
         horizrailenabled: true,
-        cursorcolor: "#5EA6DB",
+        cursorcolor: "#ec1c24",
       });
 
       $('[data-toggle="tooltip"]').tooltip();

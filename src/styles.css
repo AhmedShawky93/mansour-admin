@@ -463,7 +463,7 @@ textarea.owl-input {
 
 .btn-green {
   color: #fff !important;
-  background-color: #4AC356 !important;
+  background-color: #eb1c24  !important;
 }
 
 .btn-green2 {
@@ -479,13 +479,13 @@ textarea.owl-input {
 
 .btn-blue2 {
   color: #fff !important;
-  background: #39384d !important;
+  background: #ec1c24  !important;
   font-size: 14px !important;
   line-height: 36px
 }
 
 .btn-blue {
-  background: #39384d !important;
+  background: #ec1c24  !important;
   color: #fff !important;
   font-size: 14px !important;
   line-height: 36px
@@ -788,7 +788,7 @@ textarea.owl-input {
 /* When the checkbox is checked, add a blue background */
 
 .checkup input:checked~.checkmark {
-  background-color: #39384d;
+  background-color: #ec1c24  ;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -837,7 +837,7 @@ textarea.owl-input {
 }
 
 .ngx-pagination .current {
-  background-color: #39384d !important;
+  background-color: #ec1c24  !important;
   border-radius: 50%;
   width: 44px;
   height: 44px;
@@ -862,7 +862,7 @@ a.btn {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #39384d;
+  background-color: #ec1c24;
 }
 
 /* Rounded sliders */

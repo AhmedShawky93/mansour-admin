@@ -75,7 +75,7 @@ export class AreasComponent implements OnInit {
     });
 
     $(".deliverycharge").niceScroll({
-      cursorcolor: "#5EA6DB",
+      cursorcolor: "#ec1c24",
     });
   }
   viewDataInSidebar(clinic) {
