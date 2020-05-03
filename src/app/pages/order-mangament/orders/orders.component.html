@@ -129,42 +129,8 @@
           <span *ngIf="!order.schedule && !order.parent_id && !order.scheduled_at">-</span>
           <span *ngIf="order.scheduled_at">Later</span>
         </td>
-        <!-- <td style="text-align: center;">
-          <div class="tb-assign" *ngIf="order.state_id == 1 || order.state_id == 9">
-
-            <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;" *ngIf="order.state_id == 1">assign</button>
-            <button class="tb-btn color-red" *ngIf="order.state_id == 9">Not Paid</button>
-
-            <div class="edit-out delevaryman-popup" *ngIf="order.showPopup">
-              <div class="close" (click)="order.showPopup = 0">
-                <i class="icon-Exit"></i>
-              </div>
-              <div class="inner-addon left-addon">
-                <i class="fa fa-search"></i>
-                <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="listSearch">
-              </div>
-
-              <div class="delivary-list">
-                <ul class="list-unstyled">
-
-                  <li class="media" *ngFor="let user of availableDeliverers | stringFilter: listSearch" (click)="selectDeliverer(user)">
-                    <img width="65" height="65" *ngIf="user.deliverer_profile.image" class="mr-3 img-circle" src="{{user.deliverer_profile.image}}"
-                      alt="">
-                    <img height="65" width="65" *ngIf="!user.deliverer_profile.image" class="img-circle" src="./assets/img/profile.png"
-                      alt="">
-                    <div class="media-body">
-                      <img src="assets/img/available2.svg" alt="" *ngIf="user.selected">
-                      <h5 class="">{{user.name}}</h5>
-                      <span>{{ user.last_active | amTimeAgo }}</span>
-                    </div>
-                  </li>
-
-                </ul>
-              </div>
-              <button class="btn btn-owls btn-rounded btn-blue2" (click)="assignDeliverer(order)">assign</button>
-            </div>
-
-          </div>
+        <!--
+        <td style="text-align: center;">
 
           <button *ngIf="order.state_id == 2" class="tb-btn" [ngClass]="{'color-yellow': order.state_id == 2}" (click)="openSideView(order)">Processing</button>
           <button *ngIf="order.state_id == 3" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 3}" (click)="openSideView(order)">Delivering</button>
@@ -191,16 +157,64 @@
             <option value="{{status.id}}" *ngFor="let status of order?.sub_states">{{status.name}}
             </option>
           </select>
+
+
         </td>
         <td>
-          <a [routerLink]="['/pages/orders/order-details', order.id]" class="table-view">
+          <!-- <a [routerLink]="['/pages/orders/order-details', order.id]" class="table-view">
             <i class="icon-View"></i>
           </a>
           <a *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5" href="javascript:void(0)"
             data-toggle="modal" data-target="#removePopUp" (click)="promtCancel(order)"
             class="toggle-view-category table-remove">
             <i class="icon-Exit"></i>
-          </a>
+          </a> -->
+
+          <select class="owl-input" required name="status" (change)="openPopupAction($event.target.value, order)">
+            <option [value]="" selected hidden> Action </option>
+            <option [value]="1"> Assign </option>
+            <option [value]="2"> Order details </option>
+            <option [value]="3">Edit order</option>
+            <option [value]="4" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"> Cancel order
+            </option>
+          </select>
+          <div class="tb-assign">
+
+            <!-- <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;"
+              *ngIf="order.state_id == 1">assign</button> -->
+            <!-- <button class="tb-btn color-red" *ngIf="order.state_id == 9">Not Paid</button> -->
+
+            <div class="edit-out delevaryman-popup" *ngIf="order.showPopup">
+              <div class="close" (click)="order.showPopup = 0">
+                <i class="icon-Exit"></i>
+              </div>
+              <div class="inner-addon left-addon">
+                <i class="fa fa-search"></i>
+                <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="listSearch">
+              </div>
+
+              <div class="delivary-list">
+                <ul class="list-unstyled">
+
+                  <li class="media" *ngFor="let user of availableDeliverers | stringFilter: listSearch"
+                    (click)="selectDeliverer(user)">
+                    <img width="65" height="65" *ngIf="user.deliverer_profile.image" class="mr-3 img-circle"
+                      src="{{user.deliverer_profile.image}}" alt="">
+                    <img height="65" width="65" *ngIf="!user.deliverer_profile.image" class="img-circle"
+                      src="./assets/img/profile.png" alt="">
+                    <div class="media-body">
+                      <img src="assets/img/available2.svg" alt="" *ngIf="user.selected">
+                      <h5 class="">{{user.name}}</h5>
+                      <span>{{ user.last_active | amTimeAgo }}</span>
+                    </div>
+                  </li>
+
+                </ul>
+              </div>
+              <button class="btn btn-owls btn-rounded btn-blue2">assign</button>
+            </div>
+
+          </div>
         </td>
       </tr>
 
@@ -217,41 +231,25 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to cancel this order?</h5>
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">are you sure to cancel this order?
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-red2" (click)="cancelOrder()">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">No</button>
+      <div class="modal-footer" style="justify-content: center;
+      ">
+        <button type="button" class="btn-owls btn-rounded btn-green  btn-blue2" (click)="cancelOrder()">Yes</button>
+        <button type="button" data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
       </div>
     </div>
   </div>
 </div>
 
 
-<!-- Delete for cancel sidebar Popup-->
-<!-- <div class="modal fade" id="removePopUp2" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to return this order?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 
 <!-- return for cancel sidebar Popup-->
@@ -267,9 +265,9 @@
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-red2" (click)="returnOrder()">Return
+        <button type="button" class="btn-owls btn-rounded  btn-green btn-blue2" (click)="returnOrder()">Return
           Order</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">close </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2 ">close </button>
       </div>
     </div>
   </div>
@@ -294,9 +292,9 @@
       </div>
       <div class="modal-footer" style="    justify-content: center; ">
 
-        <button type="button" class="btn-owls btn-rounded btn-green btn-red2"
+        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
           (click)="changeStatus(notifyUser,typeStatusPopup)">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">no </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
       </div>
     </div>
   </div>

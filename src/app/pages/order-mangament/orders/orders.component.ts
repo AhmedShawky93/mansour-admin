@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Console } from "@angular/core/src/console";
 import { OrderStatesService } from "./../../services/order-states.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
@@ -63,6 +64,7 @@ export class OrdersComponent implements OnInit {
   newAmount;
 
   searchTerm = "";
+  listSearch = "";
 
   total: number = 0;
 
@@ -83,6 +85,7 @@ export class OrdersComponent implements OnInit {
     private toasterService: ToastrService,
     private titleService: Title,
     private auth: AuthService,
+    private router : Router,
     private orderStatesService: OrderStatesService
   ) {
     this.titleService.setTitle("Orders");
@@ -288,6 +291,7 @@ export class OrdersComponent implements OnInit {
         this.availableDeliverers = response.data;
         this.viewFilter = "";
         this.listFilter = "";
+        order.showPopup = 1;
       });
 
     // order.showPopup = !order.showPopup;
@@ -512,6 +516,22 @@ export class OrdersComponent implements OnInit {
             $("#confirmOrderStatus").modal("hide");
           }
         });
+    }
+  }
+
+  openPopupAction(type, data) {
+    console.log(type, data);
+    if (type == 1) { // assign delivery
+      this.getDeliverers(data);
+      data.showPopup = 1;
+    }else if (type == 2){ // order details
+      this.router.navigate(['/pages/orders/order-details', data.id])
+    }else if (type == 3){ // edit order
+      this.openSideView(data)
+    }else if (type == 4){ // cancel order
+      this.promtCancel(data);
+      $("#removePopUp").modal("show");
+
     }
   }
 }
