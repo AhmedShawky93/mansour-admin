@@ -110,4 +110,18 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
+  changeStatus(id, data) {
+    return this.http
+      .post(this.url + '/orders/'+ id + "/change_state", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+  changeSubStatus(id, data) {
+    return this.http
+      .post(this.url + '/orders/'+ id + "/change_sub_state", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
 }
