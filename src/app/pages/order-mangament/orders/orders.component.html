@@ -141,6 +141,7 @@
           <button *ngIf="order.state_id == 8" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 8}" (click)="openSideView(order)">Prepared</button>
         </td> -->
         <td>
+
           <!-- <select class="owl-input" formControlName="area_id" required name="area_id" (change)="selectArea($event)"> -->
           <select class="owl-input" required name="status" [(ngModel)]="order.state_id"
             (change)="selectStatus($event.target.value, order , i); openPopupConfirmStatus(order.state_id, 1)">
@@ -174,7 +175,9 @@
             <option [value]="" selected hidden> Action </option>
             <option [value]="1"> Assign </option>
             <option [value]="2"> Order details </option>
-            <option [value]="3">Edit order</option>
+            <option [value]="3"
+              *ngIf="order.state_id == 2 || order.state_id == 3 || order.state_id == 5  || order.state_id == 7  || order.state_id == 8">
+              Edit order</option>
             <option [value]="4" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"> Cancel order
             </option>
           </select>
@@ -211,7 +214,7 @@
 
                 </ul>
               </div>
-              <button class="btn btn-owls btn-rounded btn-blue2">assign</button>
+              <button class="btn btn-owls btn-rounded btn-blue2" (click)="assignDeliverer(order)">assign</button>
             </div>
 
           </div>

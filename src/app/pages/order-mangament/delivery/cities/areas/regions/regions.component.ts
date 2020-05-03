@@ -78,6 +78,10 @@ export class RegionsComponent implements OnInit {
     this._areaService.getDistrictById(id).subscribe((response: any) => {
       if (response.code === 200) {
         this.cities = response.data;
+        this.cities.map((data: any) => {
+          data.deactivated = !data.active;
+          return data;
+        });
       }
     });
   }

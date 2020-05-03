@@ -28,7 +28,7 @@ export class OptionsService {
   }
   editOptions(id, data) {
     return this.http
-      .get(this.url + "/options/" + id, data)
+      .put(this.url + "/options/" + id, data)
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });

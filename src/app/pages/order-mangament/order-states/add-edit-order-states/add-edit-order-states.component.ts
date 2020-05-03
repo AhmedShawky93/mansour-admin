@@ -46,8 +46,8 @@ export class AddEditOrderStatesComponent implements OnInit {
 
   createItemSubStates(data): FormGroup {
     return this.formBuilder.group({
-      name: new FormControl(data ? data.name : '', Validators.required),
-      // name_ar: "",
+      name: new FormControl(data ? data.name : "", Validators.required),
+      id: new FormControl(data ? data.id : ""),
     });
   }
 

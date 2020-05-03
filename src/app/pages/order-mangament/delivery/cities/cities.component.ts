@@ -72,6 +72,10 @@ export class CitiesComponent implements OnInit {
     this._areaService.getCities().subscribe((response: any) => {
       if (response.code === 200) {
         this.cities = response.data;
+        this.cities.map((data: any) => {
+          data.deactivated = !data.active;
+          return data;
+        });
       }
     });
   }

@@ -47,7 +47,7 @@
         <img src="./assets/img/Spinner-loading.svg" *ngIf="loading" class="img-loading">
         <!-- <img class="owl-img img-fluid" *ngIf="product.imageUrl" [src]="product.imageUrl" alt=""> -->
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
-          (change)="onimgeSelected(addProductForm,$event)" formControlName="image" name="image" accept="image/*" />
+          (change)="onimgeSelected(addProductForm,$event)"  name="image" accept="image/*" />
         <!-- <i class="icon-Exit" (click)="product.imageUrl = ''; product.image = ''"></i> -->
       </div>
       <div class="add-img" (click)="addImage()">
@@ -263,7 +263,7 @@
       <div class="form-group" *ngFor="let option of options; let i = index">
         <span [formGroupName]='i'>
           <label> {{option.name_en}} </label>
-          <select class="owl-input" required name="option" (change)="selectOptionValue(option, $event, i)"
+          <select class="owl-input"  name="option" (change)="selectOptionValue(option, $event, i)"
             formControlName="option_value_id">
             <option [value]="" hidden selected>Select option </option>
             <option value="{{value.id}}" *ngFor="let value of option.values">{{value.name_en}}

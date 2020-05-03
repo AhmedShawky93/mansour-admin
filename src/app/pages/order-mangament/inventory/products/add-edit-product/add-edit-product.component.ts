@@ -65,6 +65,16 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   getForm(data) {
+    if (data) {
+      this.imageUrl = data.image;
+      const cat_id = data.category.id;
+      let index = this.categories.findIndex((item) => item.id == cat_id);
+      this.categories[index].selected = true;
+      let category = this.categories[index];
+      this.sub_categories = category.sub_categories;
+
+      // this.addSubImages.patchValue(data.images)
+    }
     console.log(data);
     this.addProductForm = this.formBuilder.group({
       name: new FormControl(data ? data.name : "", Validators.required),
@@ -99,7 +109,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       ),
       stock: new FormControl(data ? data.stock : "", Validators.required),
       sku: new FormControl(data ? data.sku : "", Validators.required),
-      image: new FormControl("", Validators.required),
+      image: new FormControl(data ? data.image :'', Validators.required),
       images: this.formBuilder.array(data ? data.images : []),
       max_per_order: new FormControl(data ? data.max_per_order : ""),
       min_days: new FormControl(data ? data.min_days : ""),
@@ -109,12 +119,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));
 
     if (data) {
-      this.imageUrl = data.image;
-      const cat_id = data.category.id;
-      let index = this.categories.findIndex((item) => item.id == cat_id);
-      this.categories[index].selected = true;
-      let category = this.categories[index];
-      this.sub_categories = category.sub_categories;
+
 
       if (data.image) {
         console.log("clearValidators");
@@ -209,6 +214,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   addProducts() {
     if (this.selectProductDataEdit) {
       // edit
+
       const product = this.addProductForm.value;
       product.image = this.imageUrl;
       console.log(product);
@@ -217,6 +223,13 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         console.log("clearValidators");
         this.addProductForm.get("image").clearValidators();
         this.addProductForm.get("image").updateValueAndValidity();
+      }
+      if (this.imageUrl) {
+        console.log("clearValidators");
+        this.addProductForm.get("image").clearValidators();
+        // this.addProductForm.get("image").patchValue(data.image);
+        this.addProductForm.get("image").updateValueAndValidity();
+        this.addProductForm.updateValueAndValidity();
       }
       console.log(this.addProductForm.value);
       console.log(this.addProductForm.valid);

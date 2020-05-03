@@ -31,7 +31,7 @@
         *ngFor="let status of orderStatus ">
         <td scope="row"> {{status.name ? (status.name) : '-'}} </td>
         <td scope="row"> {{(status.name_ar) ? (status.name_ar) : '-'}} </td>
-        <td scope="row"> {{status.sub_states.length}} </td>
+        <td scope="row"> {{status?.sub_states?.length}} </td>
         <td>
           <a style="margin-right: 10px" class="table-view open-show" (click)="viewData(status)">
             <i class="icon-View"></i>

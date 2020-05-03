@@ -30,7 +30,7 @@ export class BrandsService {
   }
 
   updateBrand(id, data) {
-    return this.http.post(this.url + 'brands/' + id, data)
+    return this.http.patch(this.url + 'brands/' + id, data)
       .catch((error: any) => {
         return Observable.throw(error.error || 'error brands')
       })

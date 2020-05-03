@@ -86,6 +86,9 @@ export class OptionsComponent implements OnInit {
           this.options = response.data.options;
           this.total = response.data.total;
           this.loading = false;
+          this.options.map((option) => {
+            option.deactivated = !option.active;
+            return option;
         }
 
         // if (response.data.length == 0) {

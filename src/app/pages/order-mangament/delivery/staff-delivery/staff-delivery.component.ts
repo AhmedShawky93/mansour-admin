@@ -61,7 +61,6 @@ export class StaffDeliveryComponent implements OnInit {
   selectOptionDataView: any;
   loading: boolean;
   productIsEmpty: boolean;
-  options = [];
   deliverers: any;
   constructor(
     private toastrService: ToastrService,
@@ -114,12 +113,14 @@ export class StaffDeliveryComponent implements OnInit {
       clinic.showReason = 0;
       clinic.notes = "";
       if (clinic.deactivated) {
-        this.deliveryService.activateDeliverer(clinic.id).subscribe((data: any) => {
-          clinic.active = 1;
-          clinic.notes = "";
-          clinic.deactivation_notes = "";
-          clinic.deactivated = 0;
-        });
+        this.deliveryService
+          .activateDeliverer(clinic.id)
+          .subscribe((data: any) => {
+            clinic.active = 1;
+            clinic.notes = "";
+            clinic.deactivation_notes = "";
+            clinic.deactivated = 0;
+          });
       }
     } else {
       clinic.notes = clinic.deactivation_notes;
@@ -164,12 +165,12 @@ export class StaffDeliveryComponent implements OnInit {
   }
 
   addOrUpdateOption(data) {
-    const index = this.options.findIndex((item) => item.id == data.id);
+    const index = this.deliverers.findIndex((item) => item.id == data.id);
 
     if (index !== -1) {
-      this.options[index] = data;
+      this.deliverers[index] = data;
     } else {
-      this.options.unshift(data);
+      this.deliverers.unshift(data);
     }
   }
 }

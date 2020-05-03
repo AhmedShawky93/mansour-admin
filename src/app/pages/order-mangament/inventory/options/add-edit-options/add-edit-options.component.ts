@@ -53,11 +53,9 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    console.log(this.selectProductDataEdit);
     this.getForm(this.selectProductDataEdit);
   }
   ngOnChanges(): void {
-    console.log(this.selectProductDataEdit);
     this.getForm(this.selectProductDataEdit);
   }
 
@@ -72,21 +70,40 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
         []
       ),
       type: new FormControl(data ? data.type : "1", [Validators.required]),
-      values: this.formBuilder.array(data ? data.values : [], [
-        Validators.minLength(1),
-        Validators.required,
-      ]),
+      values: this.formBuilder.array(
+        [],
+        [Validators.minLength(1), Validators.required]
+      ),
     });
-
-    console.log(this.OptionForm.get("values")["controls"]);
-    console.log(this.OptionForm);
+    console.log(data);
+    if (data) {
+      console.log(data);
+      data.values.forEach((element) => {
+        console.log(element);
+        this.addValueForm(element);
+      });
+    }
   }
 
+  addValueForm(data): void {
+    this.values = this.OptionForm.get("values") as FormArray;
+    this.values.push(this.createItem(data));
+  }
+  createItem(data): FormGroup {
+    return this.formbuilder.group({
+      id: new FormControl(data ? data.id : ""),
+      name_en: new FormControl(data ? data.name_en : ""),
+      name_ar: new FormControl(data ? data.name_ar : ""),
+      color_code: new FormControl(data ? data.color_code : ""),
+      image: new FormControl(data ? data.image : ""),
+    });
+  }
   closeSideBar() {
     this.closeSideBarEmit.emit();
     this.OptionForm.reset();
   }
   submitForm() {
+
     if (this.selectProductDataEdit) {
       // edit
       const data = this.OptionForm.value;
@@ -171,22 +188,8 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
     }
   }
 
-  addValueForm(): void {
-    this.values = this.OptionForm.get("values") as FormArray;
-    this.values.push(this.createItem());
-    console.log(this.OptionForm.get("values")["controls"]);
-  }
-
   removeValueForm(index) {
     this.values.removeAt(index);
-  }
-  createItem(): FormGroup {
-    return this.formbuilder.group({
-      name_en: new FormControl(""),
-      name_ar: new FormControl(""),
-      color_code: new FormControl(""),
-      image: new FormControl(""),
-    });
   }
 
   uploadImage(e: any) {

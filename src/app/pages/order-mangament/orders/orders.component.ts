@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import { Console } from "@angular/core/src/console";
 import { OrderStatesService } from "./../../services/order-states.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
@@ -6,7 +6,8 @@ import { OrdersService } from "@app/pages/services/orders.service";
 import { CategoryService } from "@app/pages/services/category.service";
 import { ToastrService } from "ngx-toastr";
 import { MatInput } from "@angular/material";
-
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/map";
 import * as moment from "moment";
 
 import { Title } from "@angular/platform-browser";
@@ -85,7 +86,7 @@ export class OrdersComponent implements OnInit {
     private toasterService: ToastrService,
     private titleService: Title,
     private auth: AuthService,
-    private router : Router,
+    private router: Router,
     private orderStatesService: OrderStatesService
   ) {
     this.titleService.setTitle("Orders");
@@ -320,7 +321,7 @@ export class OrdersComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code === 200) {
           const ind = this.orders.findIndex((item) => item.id === order.id);
-
+          this.orders[ind] = response.data;
           order.showPopup = false;
           order.showViewPopup = false;
 
@@ -521,17 +522,20 @@ export class OrdersComponent implements OnInit {
 
   openPopupAction(type, data) {
     console.log(type, data);
-    if (type == 1) { // assign delivery
+    if (type == 1) {
+      // assign delivery
       this.getDeliverers(data);
       data.showPopup = 1;
-    }else if (type == 2){ // order details
-      this.router.navigate(['/pages/orders/order-details', data.id])
-    }else if (type == 3){ // edit order
-      this.openSideView(data)
-    }else if (type == 4){ // cancel order
+    } else if (type == 2) {
+      // order details
+      this.router.navigate(["/pages/orders/order-details", data.id]);
+    } else if (type == 3) {
+      // edit order
+      this.openSideView(data);
+    } else if (type == 4) {
+      // cancel order
       this.promtCancel(data);
       $("#removePopUp").modal("show");
-
     }
   }
 }
