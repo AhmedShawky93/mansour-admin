@@ -254,7 +254,7 @@ label {
 
 .toggle-left-sidebar .side-nav-item:hover i,
 .toggle-left-sidebar .side-nav-item.active i {
-  color: #ec1c24  !important;
+  color: #535070  !important;
 }
 
 .toggle-left-sidebar .app-logo {
@@ -467,8 +467,8 @@ textarea.owl-input {
 }
 
 .btn-green2 {
-  color: #4ac356 !important;
-  background: rgba(0, 211, 164, 0.10) !important;
+  color: #fff!important;
+  background:#ec1c24 !important;
   font-size: 14px !important
 }
 
@@ -479,13 +479,13 @@ textarea.owl-input {
 
 .btn-blue2 {
   color: #fff !important;
-  background: #ec1c24  !important;
+  background: #535070  !important;
   font-size: 14px !important;
   line-height: 36px
 }
 
 .btn-blue {
-  background: #ec1c24  !important;
+  background: #535070  !important;
   color: #fff !important;
   font-size: 14px !important;
   line-height: 36px
@@ -788,7 +788,7 @@ textarea.owl-input {
 /* When the checkbox is checked, add a blue background */
 
 .checkup input:checked~.checkmark {
-  background-color: #ec1c24  ;
+  background-color: #535070  ;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -837,7 +837,7 @@ textarea.owl-input {
 }
 
 .ngx-pagination .current {
-  background-color: #ec1c24  !important;
+  background-color: #535070  !important;
   border-radius: 50%;
   width: 44px;
   height: 44px;
@@ -862,7 +862,7 @@ a.btn {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #ec1c24;
+  background-color: #535070;
 }
 
 /* Rounded sliders */
@@ -1087,11 +1087,11 @@ a.btn {
 /* .modal-footer{justify-content: flex-start !important;} */
 
 .tooltip>.tooltip-inner {
-  background-image: linear-gradient(-134deg, #ec1c24 0%, #ec1c24 100%);
+  background-image: linear-gradient(-134deg, #535070 0%, #535070 100%);
 }
 
 .tooltip>.tooltip-arrow {
-  background-image: linear-gradient(-134deg, #ec1c24 0%, #ec1c24 100%);
+  background-image: linear-gradient(-134deg, #535070 0%, #535070 100%);
 }
 
 .bs-tooltip-auto[x-placement^=right] .arrow:before,
@@ -1639,7 +1639,7 @@ bar-rating {
   .left-sidebar .side-nav-item:hover i,
   .left-sidebar .side-nav-item.active i
     {
-    color: #ec1c24 !important;
+    color: #535070 !important;
   }
 
   .left-sidebar .app-logo {
