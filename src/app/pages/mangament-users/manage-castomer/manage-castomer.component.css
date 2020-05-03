@@ -54,7 +54,7 @@
 
 .order-item h4{
     font-size: 16px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: bold;
     text-decoration: underline;
 }
@@ -74,13 +74,13 @@
 
 p.btn-rounded{
 display: inline-block
-} 
+}
 
 .order-item a+a{
     position: absolute;
     right: 25px;
     top: 34%;
-    color: #003C62 ;
+    color: #003C62  ;
     font-size: 25px;
 }
 
@@ -97,7 +97,7 @@ display: inline-block
 
 
 @media (max-width: 920px){
-    
+
     .owl-btn-list .btn{
        margin-left: 0 !important;
        width: 100% !important;
@@ -126,7 +126,7 @@ display: inline-block
         margin: 2px;
         margin-right: 5px;
     }
-    i 
+    i
     {
         font-size: 14px;
     }
@@ -137,11 +137,11 @@ display: inline-block
         line-height: 44px;
         height: 44px;
     }
-    
+
 }
 
 @media (min-width: 992px){
-    
+
     .table-responsive{
         overflow-x: inherit !important;
     }

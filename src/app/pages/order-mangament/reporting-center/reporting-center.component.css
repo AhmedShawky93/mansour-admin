@@ -17,7 +17,7 @@
 }
 
 .nav-tabs a.nav-link.active{
-    color: #003C62;
+    color: #003C62 ;
     border-bottom:5px solid #39384d;
     border-radius: 3px 3px 0 0;
 }
@@ -27,7 +27,7 @@
 
 .title h2{
     font-size: 22px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 }
 
@@ -42,7 +42,7 @@
 
 .most-area li p{
     font-size: 18px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 }
 
@@ -50,7 +50,7 @@
 .home-items{ margin: 0 0  40px 0;}
 .block-title h2{
     font-size: 22px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 }
 
@@ -84,7 +84,7 @@
 
 .home-item .content h5{
     font-size: 28px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
     margin-bottom: 5px;
 }
@@ -117,7 +117,7 @@
 
 .staff-items .item .content h4{
     font-size: 18px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 
 }

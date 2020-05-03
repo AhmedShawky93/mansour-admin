@@ -34,7 +34,7 @@
 
 .delevaryman-popup ul li h5{
     font-size: 16px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
     line-height: 5px;
     margin-top: 17px;
@@ -105,7 +105,7 @@
 .customer-details h4{
    display: inline-block;
     font-size: 16px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 }
 .customer-details > p{
@@ -128,7 +128,7 @@
 
 .customer-details div h4{
     font-size: 16px;
-    color: #003C62;
+    color: #003C62 ;
 }
 .order-list .item{
     margin-bottom: 20px;
@@ -172,7 +172,7 @@
 .order-list .item h4{
     display: inline-block;
     font-size: 16px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 }
 
@@ -259,7 +259,7 @@
 
 .payment-area .item p{
     font-size: 16px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
     display: inline-block;
 }

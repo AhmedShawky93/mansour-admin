@@ -10,7 +10,7 @@
     left: 0;
     right: 0;
     height: 50%;
-    background-image:linear-gradient(-130deg, #535070 0, #535070 90%);}
+    background-image:linear-gradient(-130deg, #ec1c24 0, #ec1c24 90%);}
 
 .login-form-up{
     background-color: #fff;
@@ -48,5 +48,5 @@
     transition: 0.2s ease;
     text-decoration: underline !important
 }
-.forget:hover{color: #003C62}
+.forget:hover{color: #003C62 }
 .login-footer{margin-top: 40px;}

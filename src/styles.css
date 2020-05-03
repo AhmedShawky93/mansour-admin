@@ -254,7 +254,7 @@ label {
 
 .toggle-left-sidebar .side-nav-item:hover i,
 .toggle-left-sidebar .side-nav-item.active i {
-  color: #39384d !important;
+  color: #ec1c24  !important;
 }
 
 .toggle-left-sidebar .app-logo {
@@ -1087,11 +1087,11 @@ a.btn {
 /* .modal-footer{justify-content: flex-start !important;} */
 
 .tooltip>.tooltip-inner {
-  background-image: linear-gradient(-134deg, #4388BB 0%, #5EA6DB 100%);
+  background-image: linear-gradient(-134deg, #ec1c24 0%, #ec1c24 100%);
 }
 
 .tooltip>.tooltip-arrow {
-  background-image: linear-gradient(-134deg, #4388BB 0%, #5EA6DB 100%);
+  background-image: linear-gradient(-134deg, #ec1c24 0%, #ec1c24 100%);
 }
 
 .bs-tooltip-auto[x-placement^=right] .arrow:before,
@@ -1637,9 +1637,9 @@ bar-rating {
   }
 
   .left-sidebar .side-nav-item:hover i,
-  .left-sidebar .side-nav-item.active i,
+  .left-sidebar .side-nav-item.active i
     {
-    color: #39384d !important;
+    color: #ec1c24 !important;
   }
 
   .left-sidebar .app-logo {

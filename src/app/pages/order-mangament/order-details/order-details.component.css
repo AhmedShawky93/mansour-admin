@@ -17,7 +17,7 @@
 
 .block-item span{
     font-size: 18px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 }
 
@@ -38,7 +38,7 @@
     display:block;
     margin: 7px;
     font-size: 18px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 }
 
@@ -74,9 +74,9 @@
     text-transform: uppercase;
 }
 
-.qty-item span{    
+.qty-item span{
     font-size: 18px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;}
 
 .milestones-stepper{
@@ -101,7 +101,7 @@
 .milestones-stepper ul li p{
     margin-top: 28px;
     font-size: 16px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
     text-transform: capitalize;
 }

@@ -53,17 +53,17 @@ display: block
 }
 
 .side-nav-item.active > a{
-    color: #003C62 !important;
+    color: #ec1c24  !important;
     font-weight: bold;
 }
 .side-nav-item.active > a i{
-    color: #39384d !important;
+    color: #ec1c24  !important;
 
 }
 
 .side-nav-item.active > a i.pull-right{
     transition: 0.2s linear;
-    color: #003C62 !important;
+    color: #ec1c24  !important;
     font-size: 18px
 
 }

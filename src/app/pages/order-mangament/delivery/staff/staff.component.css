@@ -1,12 +1,12 @@
 #add-man,
 #edit-man,#view-man{
-   width: 400px 
+   width: 400px
 }
 
 #add-man h3,
 #edit-man h3 {
     font-size: 16px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 }
 
@@ -37,7 +37,7 @@
 
 .staff-items .item .content h4{
     font-size: 18px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 
 }
@@ -165,7 +165,7 @@ bar-rating .br{
 
 .order-item h4{
     font-size: 16px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: bold;
     text-decoration: underline;
 }
@@ -185,13 +185,13 @@ bar-rating .br{
 
 p.btn-rounded{
 display: inline-block
-} 
+}
 
 .order-item a+a{
     position: absolute;
     right: 25px;
     top: 34%;
-    color: #003C62 ;
+    color: #003C62  ;
     font-size: 25px;
 }
 
@@ -207,7 +207,7 @@ display: inline-block
 
 .details div p{
     font-size: 18px;
-    color: #003C62;
+    color: #003C62 ;
     font-weight: 500;
 }
 
@@ -272,13 +272,13 @@ display: inline-block
 
     }
 @media (min-width: 992px){
-    
+
     .table-responsive{
         overflow-x: inherit !important;
     }
 }
 @media (max-width: 920px){
-    
+
     .owl-btn-list .btn{
        margin-left: 0 !important;
        width: 100% !important;
@@ -332,20 +332,19 @@ display: inline-block
         font-size: 17px;
         padding-left: 13px;
     }
-    .staff-items .item .content p 
+    .staff-items .item .content p
     {
         padding-left: 14px;
     }
-    .staff-items .item .content div 
+    .staff-items .item .content div
     {
         padding-left: 10px;
 
     }
-    .staff-items .item 
+    .staff-items .item
     {
         height: 400px;
 
     }
 
 }
-    
