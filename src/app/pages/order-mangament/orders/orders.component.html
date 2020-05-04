@@ -115,7 +115,7 @@
         </td>
 
         <td>{{order.amount}}</td>
-        <td>no / yes</td>
+        <td>{{order.user.admin_first_order ? 'Yes' : 'No'}}</td>
         <td>
           <span *ngIf="order.schedule">
             <span *ngIf="order.schedule.interval == 1">Daily</span>
@@ -207,14 +207,14 @@
 
                   <li class="media" *ngFor="let user of availableDeliverers | stringFilter: listSearch"
                     (click)="selectDeliverer(user)">
-                    <img width="65" height="65" *ngIf="user.deliverer_profile.image" class="mr-3 img-circle"
-                      src="{{user.deliverer_profile.image}}" alt="">
-                    <img height="65" width="65" *ngIf="!user.deliverer_profile.image" class="img-circle"
+                    <img width="65" height="65" *ngIf="user?.deliverer_profile?.image" class="mr-3 img-circle"
+                      src="{{user?.deliverer_profile?.image}}" alt="">
+                    <img height="65" width="65" *ngIf="!user?.deliverer_profile?.image" class="img-circle"
                       src="./assets/img/profile.png" alt="">
                     <div class="media-body">
-                      <img src="assets/img/available2.svg" alt="" *ngIf="user.selected">
-                      <h5 class="">{{user.name}}</h5>
-                      <span>{{ user.last_active | amTimeAgo }}</span>
+                      <img src="assets/img/available2.svg" alt="" *ngIf="user?.selected">
+                      <h5 class="">{{user?.name}}</h5>
+                      <span>{{ user?.last_active | amTimeAgo }}</span>
                     </div>
                   </li>
 

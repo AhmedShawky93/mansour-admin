@@ -56,9 +56,6 @@
       </div>
 
       <div formArrayName="images">
-
-
-
         <div class="owls-upload owls-upload3"
           *ngFor="let image of addProductForm.get('images')['controls']; let i = index">
 
@@ -276,7 +273,7 @@
     <div class="form-group">
       <label> Brand Name </label>
       <ng-select name="bransName" [items]="brands" bindLabel="name" bindValue="id" [multiple]="false"
-        placeholder="Enter Brand name" formControlName="brand_id" required>
+        placeholder="Enter Brand name" formControlName="brand_id"  >
       </ng-select>
       <!-- Start  Errors Rolues -->
 

@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  api: "https://api.sayudlituk.com/api",
-  // api: "https://dev.soleekhub.com/eldokan/api",
+  // api: "https://api.sayudlituk.com/api",
+  api: "https://dev.soleekhub.com/eldokan/api",
 
 };

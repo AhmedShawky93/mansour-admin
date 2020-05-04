@@ -516,3 +516,7 @@ a.clear-date {
 .btn.btn-secondary:hover {
   color: #fff;
 }
+
+.dropdown-item {
+  cursor: pointer;
+}
