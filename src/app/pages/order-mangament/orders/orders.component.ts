@@ -12,7 +12,7 @@ import * as moment from "moment";
 
 import { Title } from "@angular/platform-browser";
 import { Subject } from "rxjs";
-import { tap } from "rxjs/operators";
+import { tap, switchMap } from "rxjs/operators";
 import { AuthService } from "@app/shared/auth.service";
 import { environment } from "@env/environment";
 
@@ -167,8 +167,10 @@ export class OrdersComponent implements OnInit {
 
     this.filter$
       .debounceTime(400)
-      .pipe(tap((e) => (this.loading = true)))
-      .switchMap((filter) => this.filterOrders())
+      .pipe(
+        tap((e) => (this.loading = true)),
+        switchMap((filter) => this.filterOrders()) 
+      )
       .subscribe((response: any) => {
         this.loading = false;
         this.orders = response.data.orders;

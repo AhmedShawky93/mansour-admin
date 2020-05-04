@@ -7,7 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ActivationEnd } from '@angular/router';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/pairwise';
-import { Observable } from 'rxjs';
+import { Observable, interval } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 declare var jquery: any;
 declare var $: any;
@@ -39,12 +40,12 @@ export class TopBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.pollingData = Observable.interval(15000).startWith(0)
-    //   .switchMap(() => this.settingService.getNotifications())
-    //   .subscribe((response: any) => {
-    //     this.notificationGroups = response.data.notifications;
-    //     this.unread = response.data.unread;
-    //   });
+    this.pollingData = interval(15000)
+      .pipe(switchMap(() => this.settingService.getNotifications()))
+      .subscribe((response: any) => {
+        this.notificationGroups = response.data.notifications;
+        this.unread = response.data.unread;
+      });
 
     // this.title = this.activatedRoute.snapshot.data["title"];
 
