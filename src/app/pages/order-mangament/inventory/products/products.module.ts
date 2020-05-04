@@ -11,7 +11,7 @@ import { RouterModule } from "@angular/router";
 import { ViewProductComponent } from "./view-product/view-product.component";
 
 const router = [
-  { path: "", component: ProductsComponent, data: { title: "Products" } },
+  { path: "", component: ProductsComponent, data: { title: "Products", permissions: ['ADMIN', 'View Products'] } },
 ];
 
 @NgModule({

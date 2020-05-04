@@ -55,52 +55,52 @@ const routes: Routes = [
       {
         path: "manage-customer",
         component: ManageCastomerComponent,
-        data: { title: "Customers" },
+        data: { title: "Customers", permissions: ['ADMIN', 'View Customers']},
       },
       {
         path: "promocodes",
         component: OffersComponent,
-        data: { title: "Promo Codes" },
+        data: { title: "Promo Codes", permissions: ['ADMIN', 'View Promos']},
       },
       {
         path: "promocodes/edit-offers/:id",
         component: EditOfferComponent,
-        data: { title: "Edit Offers" },
+        data: { title: "Edit Offers", permissions: ['ADMIN', 'View Promos'] },
       },
       { path: "ads", component: adsComponent, data: { title: "Ads" } },
       {
         path: "promocodes/add-offers",
         component: AddOfferComponent,
-        data: { title: "Add Offers" },
+        data: { title: "Add Offers", permissions: ['ADMIN', 'View Promos'] },
       },
       {
         path: "promocodes/edit-offers",
         component: EditOfferComponent,
-        data: { title: "Edit Offers" },
+        data: { title: "Edit Offers", permissions: ['ADMIN', 'View Promos'] },
       },
       {
         path: "notifications",
         component: NotificationsComponent,
-        data: { title: "Notifications" },
+        data: { title: "Notifications", permissions: ['ADMIN', 'View Notifications'] },
       },
       {
         path: "medical",
         component: MedicalComponent,
-        data: { title: "Medical" },
+        data: { title: "Medical", permissions: ['ADMIN', 'View Medical'] },
       },
       {
         path: "settings",
         component: SettingComponent,
-        data: { title: "Settings" },
+        data: { title: "Settings", permissions: ['ADMIN', 'View Settings'] },
       },
-      { path: "orders", component: OrdersComponent, data: { title: "Orders" } },
+      { path: "orders", component: OrdersComponent, data: { title: "Orders", permissions: ['ADMIN', 'View Orders'] } },
       {
         path: "categories",
         component: CategoriesComponent,
-        data: { title: "Categories" },
+        data: { title: "Categories", permissions: ['ADMIN', 'View Categories'] },
       },
 
-      { path: "staff", component: StaffComponent, data: { title: "Staff" } },
+      { path: "staff", component: StaffComponent, data: { title: "Staff", permissions: ['ADMIN', 'View Staff'] } },
       {
         path: "reporting-center",
         component: ReportingCenterComponent,
@@ -119,46 +119,53 @@ const routes: Routes = [
       {
         path: "orders/order-details/:id",
         component: OrderDetailsComponent,
-        data: { title: "Order Details" },
+        data: { title: "Order Details", permissions: ['ADMIN', 'View Orders'] },
       },
       {
         path: "print-receipt/:id",
         component: PrintReceiptComponent,
-        data: { title: "print-receipt" },
+        data: { title: "print-receipt", permissions: ['ADMIN', 'View Orders'] },
       },
-      { path: "brands", component: BrandsComponent, data: { title: "Brands" } },
+      { path: "brands", component: BrandsComponent, data: { title: "Brands", permissions: ['ADMIN', 'View Brands'] } },
       {
         path: "stars",
         loadChildren: "../pages/stars/stars.module#StarsModule",
+        data: {permissions: ['ADMIN', 'View Rewards', 'View Gift Requests']}
       },
       {
         path: "options",
         loadChildren:
           "../pages/order-mangament/inventory/options/options.module#OptionsModule",
+        data: {permissions: ['ADMIN', 'View Options']}
       },
       {
         path: "products",
         loadChildren:
           "../pages/order-mangament/inventory/products/products.module#ProductsModule",
+        data: {permissions: ['ADMIN', 'View Products']}
       },
       {
         path: "sub-admins",
         loadChildren: "../pages/access-admins/sub-admin.module#SubAdminModule",
+        data: {permissions: ['ADMIN', 'View Admins']}
       },
       {
         path: "cities",
         loadChildren:
           "../pages/order-mangament/delivery/cities/cities.module#CitiesModule",
+        data: {permissions: ['ADMIN', 'View Cities']}
       },
       {
         path: "order-status",
         loadChildren:
           "../pages/order-mangament/order-states/order-states.module#OrderStatesModule",
+        data: {permissions: ['ADMIN', 'View Order States']}
       },
       {
         path: "staff-delivery",
         loadChildren:
           "../pages/order-mangament/delivery/staff-delivery/staff-delivery.module#StaffDeliveryModule",
+        data: {permissions: ['ADMIN', 'View Staff']}
       },
     ],
     canActivate: [AuthGuard],
