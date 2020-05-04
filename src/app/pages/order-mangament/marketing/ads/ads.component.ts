@@ -116,7 +116,7 @@ export class adsComponent implements OnInit {
     this.newAdsForm = new FormGroup({
       id: new FormControl(),
       type: new FormControl("", Validators.required),
-      popup: new FormControl("", Validators.required),
+      popup: new FormControl(0, Validators.required),
       order: new FormControl("", Validators.required),
       banner_ad: new FormControl(false),
       banner_title: new FormControl(""),

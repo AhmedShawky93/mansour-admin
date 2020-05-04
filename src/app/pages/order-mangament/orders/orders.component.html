@@ -143,18 +143,22 @@
         <td>
 
           <!-- <select class="owl-input" formControlName="area_id" required name="area_id" (change)="selectArea($event)"> -->
-          <select class="owl-input" required name="status" [(ngModel)]="order.state_id"
-            (change)="selectStatus($event.target.value, order , i); openPopupConfirmStatus(order.state_id, 1)">
-            <option value="" selected hidden>Select Status </option>
-            <option value="{{status.id}}" *ngFor="let status of order.order_status">{{status.name}}
-            </option>
-          </select>
+            <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
+          <div *ngIf="order.order_status_editable">
+            <select class="owl-input" required name="status" [(ngModel)]="order.state_id"
+              (change)="selectStatus($event.target.value, order , i); openPopupConfirmStatus(order.state_id, 1)">
+              <option value="" selected hidden>Select Status </option>
+              <option value="{{status.id}}" *ngFor="let status of order.order_status">{{status.name}}
+              </option>
+            </select>
+          </div>
+
 
         </td>
         <td>
           <select class="owl-input" required name="status" [(ngModel)]="order.sub_state_id"
             (change)="openPopupConfirmStatus($event.target.value, 2)">
-            <option [value]="" selected hidden>Select sub Status </option>
+            <option [value]="null" selected hidden>Select sub Status </option>
             <option value="{{status.id}}" *ngFor="let status of order?.sub_states">{{status.name}}
             </option>
           </select>

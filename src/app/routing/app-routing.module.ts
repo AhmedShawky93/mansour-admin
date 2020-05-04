@@ -90,12 +90,12 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: { title: "Notifications", permissions: {only: ['ADMIN', 'View Notifications'], redirectTo: '/pages/home'} },
       },
-      {
-        path: "medical",
-        component: MedicalComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { title: "Medical", permissions: {only: ['ADMIN', 'View Medical'], redirectTo: '/pages/home'} },
-      },
+      // {
+      //   path: "medical",
+      //   component: MedicalComponent,
+      //   canActivate: [NgxPermissionsGuard],
+      //   data: { title: "Medical", permissions: {only: ['ADMIN', 'View Medical'], redirectTo: '/pages/home'} },
+      // },
       {
         path: "settings",
         component: SettingComponent,
@@ -145,13 +145,13 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: {permissions: {only: ['ADMIN', 'View Rewards', 'View Gift Requests'], redirectTo: '/pages/home'}}
       },
-      {
-        path: "options",
-        loadChildren:
-          "../pages/order-mangament/inventory/options/options.module#OptionsModule",
-        canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Options'], redirectTo: '/pages/home'}}
-      },
+      // {
+      //   path: "options",
+      //   loadChildren:
+      //     "../pages/order-mangament/inventory/options/options.module#OptionsModule",
+      //   canActivate: [NgxPermissionsGuard],
+      //   data: {permissions: {only: ['ADMIN', 'View Options'], redirectTo: '/pages/home'}}
+      // },
       {
         path: "products",
         loadChildren:

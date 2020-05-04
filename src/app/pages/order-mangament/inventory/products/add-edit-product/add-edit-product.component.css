@@ -11,6 +11,8 @@
   height: 100%;
   overflow: auto;
   overflow-x: hidden;
+  box-shadow: 0 12px 54px 0 rgba(6,40,59,.1);
+
 }
 
 .view-vindor-types {
