@@ -171,16 +171,22 @@
             <i class="icon-Exit"></i>
           </a> -->
 
-          <select class="owl-input" required name="status" (change)="openPopupAction($event.target.value, order)">
-            <option [value]="" selected hidden> Action </option>
-            <option [value]="1"> Assign </option>
-            <option [value]="2"> Order details </option>
-            <option [value]="3"
-              *ngIf="order.state_id == 2 || order.state_id == 3 || order.state_id == 5  || order.state_id == 7  || order.state_id == 8">
-              Edit order</option>
-            <option [value]="4" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"> Cancel order
-            </option>
-          </select>
+
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign</a>
+              <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a>
+              <a class="dropdown-item"
+                *ngIf="order.state_id == 2 || order.state_id == 3 || order.state_id == 5  || order.state_id == 7  || order.state_id == 8"
+                (click)="openPopupAction(3, order)">Edit order</a>
+              <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
+                (click)="openPopupAction(4, order)">Cancel order</a>
+            </div>
+          </div>
           <div class="tb-assign">
 
             <!-- <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;"
