@@ -210,7 +210,7 @@ export class OrdersComponent implements OnInit {
   }
 
   getOrderStates() {
-    this.orderStatesService.getOrderStatus().subscribe({
+    this.orderStatesService.getOrderEditableStatus().subscribe({
       next: (response: any) => {
         if (response.code === 200) {
           this.orderStatus = response.data;
