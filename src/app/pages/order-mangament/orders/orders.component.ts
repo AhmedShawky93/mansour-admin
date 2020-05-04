@@ -1,3 +1,4 @@
+import { Console } from "@angular/core/src/console";
 import { OrderStatesService } from "./../../services/order-states.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { OrdersService } from "@app/pages/services/orders.service";
@@ -27,6 +28,7 @@ export class OrdersComponent implements OnInit {
   selectedSubcategory: string;
   selectedCategory: string;
   search: boolean;
+  firstTime: boolean = true;
   listFilter: string;
   viewFilter: string;
   @ViewChild("mdate", { read: MatInput }) input: MatInput;
@@ -70,7 +72,11 @@ export class OrdersComponent implements OnInit {
   productsUrl: string;
   orderStatus: any;
   orderSubStatus: any;
-
+  typeStatusPopup: any;
+  notifyUser: boolean = true;
+  idOrder: any;
+  orderId: any;
+  orderStatuId: any;
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -167,8 +173,10 @@ export class OrdersComponent implements OnInit {
         if (this.total === 0) {
           this.p = 1;
         }
-        this.orders.forEach(element => {
-            this.selectStatus(element.state_id)
+        this.orders.forEach((element, index) => {
+          element.order_status = this.orderStatus;
+          console.log(element);
+          this.selectStatus(element.state_id, element, index);
         });
       });
 
@@ -458,15 +466,52 @@ export class OrdersComponent implements OnInit {
       }
     return str.join("&");
   }
-  selectStatus(id) {
-    console.log(id);
-    let index = this.orderStatus.findIndex(
-      (item) => item.id == id
-    );
+  selectStatus(id, data, indexstatus) {
+    console.log(id, data);
+    let index = data.order_status.findIndex((item) => item.id == id);
     console.log(index);
+
     if (index !== -1) {
-      this.orderSubStatus = this.orderStatus[index].sub_states;
-      console.log(this.orderSubStatus);
+      data.sub_states = data.order_status[index].sub_states;
+      console.log(data);
+      this.orderId = data.id;
+    }
+    // if (!this.firstTime) {
+    //   $("#confirmOrderStatus").modal("show");
+    //   this.firstTime = false;
+    // }
+    // console.log(this.firstTime);
+  }
+  openPopupConfirmStatus(data, type) {
+    // type 1 change order status and 2 sub statue
+    console.log(data);
+    this.orderStatuId = data;
+    this.typeStatusPopup = type;
+    $("#confirmOrderStatus").modal("show");
+  }
+  changeStatus(notifyUser, type) {
+    console.log(notifyUser, type);
+    if (type == 1) {
+      this.ordersService
+        .changeStatus(this.orderId, {
+          state_id: this.orderStatuId,
+          notify_customer: notifyUser,
+        })
+        .subscribe((response: any) => {
+          if (response.code === 200) {
+            $("#confirmOrderStatus").modal("hide");
+          }
+        });
+    } else {
+      this.ordersService
+        .changeSubStatus(this.orderId, {
+          sub_state_id: this.orderStatuId,
+        })
+        .subscribe((response: any) => {
+          if (response.code === 200) {
+            $("#confirmOrderStatus").modal("hide");
+          }
+        });
     }
   }
 }

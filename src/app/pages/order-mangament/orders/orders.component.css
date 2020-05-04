@@ -460,3 +460,16 @@ position: relative;
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
+.modal-body .checkmark
+{
+  top: 9px;
+
+}
+.modal-body .checkup .checkmark:after
+{
+  left: 6px;
+  top: 2px;
+  width: 7px;
+  height: 14px;
+
+}
