@@ -90,20 +90,12 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: { title: "Notifications", permissions: {only: ['ADMIN', 'View Notifications'], redirectTo: '/pages/home'} },
       },
-<<<<<<< HEAD
       // {
       //   path: "medical",
       //   component: MedicalComponent,
-      //   data: { title: "Medical" },
+      //   canActivate: [NgxPermissionsGuard],
+      //   data: { title: "Medical", permissions: {only: ['ADMIN', 'View Medical'], redirectTo: '/pages/home'} },
       // },
-=======
-      {
-        path: "medical",
-        component: MedicalComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { title: "Medical", permissions: {only: ['ADMIN', 'View Medical'], redirectTo: '/pages/home'} },
-      },
->>>>>>> 4cd69cb4b60f39b06721d0807dfb3003dc5d22d8
       {
         path: "settings",
         component: SettingComponent,
