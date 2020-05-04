@@ -45,6 +45,7 @@ export class AuthService {
           this.permissionsService.loadPermissions(perm);
 
           if (user.roles[0].name == "Super Admin") {
+            console.log("overriding all permissions");
             this.permissionsService.addPermission(['ADMIN']);
           }
         }
