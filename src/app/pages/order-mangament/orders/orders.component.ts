@@ -508,7 +508,7 @@ export class OrdersComponent implements OnInit {
     console.log(notifyUser, type);
     if (type == 1) {
       this.ordersService
-        .changeStatus(this.orderId, {
+      .changeStatus(this.orderId, {
           state_id: this.orderStatuId,
           notify_customer: notifyUser,
         })
@@ -529,6 +529,9 @@ export class OrdersComponent implements OnInit {
             );
             if (indexOrder !== -1) {
               this.orders[indexOrder] = response.data;
+              this.orders[indexOrder] = response.data;
+              this.orders[indexOrder] = response.data;
+
             }
           }
         });

@@ -12,6 +12,8 @@
   overflow-x: hidden;
   height: 100%;
   min-height: 100vh;
+  box-shadow: 0 12px 54px 0 rgba(6,40,59,.1);
+
 }
 
 agm-map {
