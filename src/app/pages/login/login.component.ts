@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         if(response.code == 200) {
           this._auth.setToken(response.data.token);
           this._auth.setUser(response.data);
-
+          this._auth.setPermissions();
           this.router.navigate(["/pages/home"])
         }else{
           this.showError = true;

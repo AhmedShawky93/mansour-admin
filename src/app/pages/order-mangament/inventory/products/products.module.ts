@@ -9,9 +9,10 @@ import { CommonModule } from "@angular/common";
 
 import { RouterModule } from "@angular/router";
 import { ViewProductComponent } from "./view-product/view-product.component";
+import { NgxPermissionsGuard } from "ngx-permissions";
 
 const router = [
-  { path: "", component: ProductsComponent, data: { title: "Products" } },
+  { path: "", component: ProductsComponent, canActivate: [NgxPermissionsGuard], data: { title: "Products", permissions: {only: ['ADMIN', 'View Products'], redirectTo: '/pages/home'} } },
 ];
 
 @NgModule({
