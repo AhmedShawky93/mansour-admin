@@ -65,16 +65,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   getForm(data) {
-    if (data) {
-      this.imageUrl = data.image;
-      const cat_id = data.category.id;
-      let index = this.categories.findIndex((item) => item.id == cat_id);
-      this.categories[index].selected = true;
-      let category = this.categories[index];
-      this.sub_categories = category.sub_categories;
-
-      // this.addSubImages.patchValue(data.images)
-    }
     console.log(data);
     this.addProductForm = this.formBuilder.group({
       name: new FormControl(data ? data.name : "", Validators.required),
@@ -99,7 +89,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       discount_price: new FormControl(data ? data.discount_price : "", [
         Validators.min(1),
       ]),
-      brand_id: new FormControl(data ? data.brand_id : "", Validators.required),
+      brand_id: new FormControl(data ? data.brand_id : ""),
       main_category: new FormControl(
         data && data.category ? data.category.id : ""
       ),
@@ -107,9 +97,9 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         data ? data.category_id : "",
         Validators.required
       ),
-      stock: new FormControl(data ? data.stock : "", Validators.required),
+      stock: new FormControl(data ? data.stock : 0, Validators.required),
       sku: new FormControl(data ? data.sku : "", Validators.required),
-      image: new FormControl(data ? data.image :'', Validators.required),
+      image: new FormControl(data ? data.image : "", Validators.required),
       images: this.formBuilder.array(data ? data.images : []),
       max_per_order: new FormControl(data ? data.max_per_order : ""),
       min_days: new FormControl(data ? data.min_days : ""),
@@ -119,6 +109,12 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));
 
     if (data) {
+      this.imageUrl = data.image;
+      const cat_id = data.category.id;
+      let index = this.categories.findIndex((item) => item.id == cat_id);
+      this.categories[index].selected = true;
+      let category = this.categories[index];
+      this.sub_categories = category.sub_categories;
 
 
       if (data.image) {
@@ -128,7 +124,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         this.addProductForm.get("image").updateValueAndValidity();
         this.addProductForm.updateValueAndValidity();
       }
-      // this.addSubImages.patchValue(data.images)
+
     }
   }
 

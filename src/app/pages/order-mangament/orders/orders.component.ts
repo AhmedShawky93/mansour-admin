@@ -65,7 +65,7 @@ export class OrdersComponent implements OnInit {
   newAmount;
 
   searchTerm = "";
-  listSearch = "";
+  listSearch : "";
 
   total: number = 0;
 
@@ -289,6 +289,7 @@ export class OrdersComponent implements OnInit {
     this.ordersService
       .getAvailableDeliverers(order.id)
       .subscribe((response: any) => {
+        console.log(response.data)
         this.availableDeliverers = response.data;
         this.viewFilter = "";
         this.listFilter = "";
@@ -321,10 +322,9 @@ export class OrdersComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code === 200) {
           const ind = this.orders.findIndex((item) => item.id === order.id);
-          this.orders[ind] = response.data;
+          // this.orders[ind] = response.data;
           order.showPopup = false;
           order.showViewPopup = false;
-
           order.state_id = response.data.state_id;
         }
       });
