@@ -89,6 +89,7 @@ export class OptionsComponent implements OnInit {
           this.options.map((option) => {
             option.deactivated = !option.active;
             return option;
+          });
         }
 
         // if (response.data.length == 0) {
