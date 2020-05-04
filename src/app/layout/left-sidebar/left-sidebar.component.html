@@ -21,10 +21,10 @@
         </a>
 
         <ul id="submenu-1" class="collapse">
-          <li *ngxPermissionsOnly="['ADMIN', 'View Options']">
+          <!-- <li *ngxPermissionsOnly="['ADMIN', 'View Options']">
             <a routerLink="/pages/options" routerLinkActive="active">
               Options</a>
-          </li>
+          </li> -->
           <li *ngxPermissionsOnly="['ADMIN', 'View Categories']">
             <a routerLink="/pages/categories" routerLinkActive="active">
               categories</a>
@@ -133,12 +133,12 @@
           </li>
         </ul>
       </li> -->
-      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']">
+      <!-- <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']">
         <a routerLink="/pages/medical" routerLinkActive="active">
           <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Medical Prescriptions"></i>
           <span>Medical Prescriptions</span>
         </a>
-      </li>
+      </li> -->
       <li class="side-nav-item " *ngxPermissionsOnly="['ADMIN', 'View Admins']">
         <a routerLinkActive="active" data-toggle="collapse" data-target="#subAdmins" aria-controls="subAdmins">
           <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Sub Admins"></i>

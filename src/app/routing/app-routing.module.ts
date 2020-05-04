@@ -83,11 +83,11 @@ const routes: Routes = [
         component: NotificationsComponent,
         data: { title: "Notifications" },
       },
-      {
-        path: "medical",
-        component: MedicalComponent,
-        data: { title: "Medical" },
-      },
+      // {
+      //   path: "medical",
+      //   component: MedicalComponent,
+      //   data: { title: "Medical" },
+      // },
       {
         path: "settings",
         component: SettingComponent,
@@ -131,11 +131,11 @@ const routes: Routes = [
         path: "stars",
         loadChildren: "../pages/stars/stars.module#StarsModule",
       },
-      {
-        path: "options",
-        loadChildren:
-          "../pages/order-mangament/inventory/options/options.module#OptionsModule",
-      },
+      // {
+      //   path: "options",
+      //   loadChildren:
+      //     "../pages/order-mangament/inventory/options/options.module#OptionsModule",
+      // },
       {
         path: "products",
         loadChildren:

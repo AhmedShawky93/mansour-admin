@@ -203,9 +203,7 @@ export class CategoriesComponent implements OnInit {
           name_ar: new FormControl(item.name_ar, Validators.required),
           image: new FormControl(item.image, Validators.required),
           options: new FormControl(
-            item.options.map((p) => p.id),
-            Validators.required
-          ),
+            item.options.map((p) => p.id)),
         })
       );
     });
@@ -252,7 +250,7 @@ export class CategoriesComponent implements OnInit {
         name: new FormControl("", Validators.required),
         name_ar: new FormControl("", Validators.required),
         image: new FormControl("", Validators.required),
-        options: new FormControl([], Validators.required),
+        options: new FormControl([]),
       })
     );
 

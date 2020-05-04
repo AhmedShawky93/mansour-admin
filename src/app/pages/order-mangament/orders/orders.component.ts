@@ -65,7 +65,7 @@ export class OrdersComponent implements OnInit {
   newAmount;
 
   searchTerm = "";
-  listSearch : "";
+  listSearch: "";
 
   total: number = 0;
 
@@ -181,6 +181,16 @@ export class OrdersComponent implements OnInit {
           element.order_status = this.orderStatus;
           console.log(element);
           this.selectStatus(element.state_id, element, index);
+          const indexOrderStatus = element.order_status.findIndex(
+            (item) => item.id == element.state_id
+          );
+          if (indexOrderStatus !== -1) {
+            element.order_status_name =
+              element.order_status[indexOrderStatus].name;
+            element.order_status_editable =
+              element.order_status[indexOrderStatus].editable;
+          }
+          console.log(element);
         });
       });
 
@@ -289,7 +299,7 @@ export class OrdersComponent implements OnInit {
     this.ordersService
       .getAvailableDeliverers(order.id)
       .subscribe((response: any) => {
-        console.log(response.data)
+        console.log(response.data);
         this.availableDeliverers = response.data;
         this.viewFilter = "";
         this.listFilter = "";
@@ -505,6 +515,21 @@ export class OrdersComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.code === 200) {
             $("#confirmOrderStatus").modal("hide");
+            const indexOrderStatus = this.orderStatus.findIndex(
+              (item) => item.id == response.data.id
+            );
+            if (indexOrderStatus !== -1) {
+              response.data.order_status_name =
+                response.data.order_status[indexOrderStatus].name;
+              response.data.order_status_editable =
+                response.data.order_status[indexOrderStatus].editable;
+            }
+            const indexOrder = this.orders.findIndex(
+              (item) => item.id == response.data.id
+            );
+            if (indexOrder !== -1) {
+              this.orders[indexOrder] = response.data;
+            }
           }
         });
     } else {
