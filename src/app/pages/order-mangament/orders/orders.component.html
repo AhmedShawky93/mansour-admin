@@ -209,7 +209,7 @@
               <div class="delivary-list">
                 <ul class="list-unstyled">
 
-                  <li class="media" *ngFor="let user of availableDeliverers | stringFilter: listSearch"
+                  <li class="media" *ngFor="let user of availableDeliverers | deliveryFilter: listSearch"
                     (click)="selectDeliverer(user)">
                     <img width="65" height="65" *ngIf="user?.deliverer_profile?.image" class="mr-3 img-circle"
                       src="{{user?.deliverer_profile?.image}}" alt="">

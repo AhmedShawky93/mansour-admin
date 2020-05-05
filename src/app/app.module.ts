@@ -87,6 +87,8 @@ import { ButtonSpinnerDirective } from "./shared/directives/button-spinner.direc
 import { FroalaEditorModule, FroalaViewModule } from "angular-froala-wysiwyg";
 import { SharedModule } from "./shared/shared.module";
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { DeliveredPipe } from "./pages/stars/pipes/delivered.pipe";
+import { DeliveryFilterPipe } from "./shared/delivery-filter.pipe";
 
 @NgModule({
   declarations: [
@@ -105,6 +107,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     AddStoreComponent,
     PagesComponent,
     StringFilterPipe,
+    DeliveryFilterPipe,
     NotificationFilterPipe,
     GroupByDatePipe,
     NotificationsComponent,
