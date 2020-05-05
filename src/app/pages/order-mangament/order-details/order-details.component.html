@@ -23,7 +23,7 @@
         <li class="col active" *ngIf="order.state_id != 9">
           <span></span>
           <span><i class="icon-Check"></i></span>
-          <p>order placed</p>
+          <p>{{order.states[0].name}}</p>
         </li>
         <li class="col canceled incomplete" *ngIf="order.state_id == 9">
           <span></span>
@@ -34,19 +34,19 @@
         <li class="col" [ngClass]="{'active': order.states[1].id }">
           <span></span>
           <span><i [ngClass]="{'icon-Check': order.states[1].id}"></i></span>
-          <p>processing </p>
+          <p>{{order.states[1].name}} </p>
         </li>
 
         <li class="col " [ngClass]="{'active': order.states[2].id}">
           <span></span>
           <span><i [ngClass]="{'icon-Check': order.states[2].id}"></i></span>
-          <p>out for delivary </p>
+          <p>{{order.states[2].name}} </p>
         </li>
 
         <li class="col " [ngClass]="{'active': order.states[3].id}">
           <span></span>
           <span><i [ngClass]="{'icon-Check':order.states[3].id}"></i></span>
-          <p> delivered </p>
+          <p>{{order.states[3].name}}</p>
         </li>
       </ul>
 
