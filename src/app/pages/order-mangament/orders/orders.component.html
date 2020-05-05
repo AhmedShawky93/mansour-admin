@@ -184,9 +184,9 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign</a>
               <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a>
-              <a class="dropdown-item"
+              <!-- <a class="dropdown-item"
                 *ngIf="order.state_id == 2 || order.state_id == 3 || order.state_id == 5  || order.state_id == 7  || order.state_id == 8"
-                (click)="openPopupAction(3, order)">Edit order</a>
+                (click)="openPopupAction(3, order)">Edit order</a> -->
               <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
                 (click)="openPopupAction(4, order)">Cancel order</a> -->
             </div>
@@ -218,7 +218,7 @@
                     <div class="media-body">
                       <img src="assets/img/available2.svg" alt="" *ngIf="user?.selected">
                       <h5 class="">{{user?.name}}</h5>
-                      <span>{{ user?.last_active | amTimeAgo }}</span>
+                      <span>{{user.deliverer_profile.city.name}}<span *ngIf="user.deliverer_profile.area">, {{user.deliverer_profile.area.name}}</span><span *ngIf="user.deliverer_profile.districts">, {{user.deliverer_profile.district_names}}</span></span>
                     </div>
                   </li>
 

@@ -301,6 +301,10 @@ export class OrdersComponent implements OnInit {
       .subscribe((response: any) => {
         console.log(response.data);
         this.availableDeliverers = response.data;
+        this.availableDeliverers.map(deliverer => {
+          deliverer.deliverer_profile.district_names = deliverer.deliverer_profile.districts.map(d => d.name).join(", ")
+        });
+        console.log(this.availableDeliverers);
         this.viewFilter = "";
         this.listFilter = "";
         order.showPopup = 1;
