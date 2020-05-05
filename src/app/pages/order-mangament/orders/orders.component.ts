@@ -80,6 +80,7 @@ export class OrdersComponent implements OnInit {
   idOrder: any;
   orderId: any;
   orderStatuId: any;
+  ineditableStates = [9, 11, 12];
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -181,16 +182,13 @@ export class OrdersComponent implements OnInit {
         }
         this.orders.forEach((element, index) => {
           element.order_status = this.orderStatus;
-          console.log(element);
           this.selectStatus(element.state_id, element, index);
           const indexOrderStatus = element.order_status.findIndex(
             (item) => item.id == element.state_id
           );
           if (indexOrderStatus !== -1) {
-            element.order_status_name =
-              element.order_status[indexOrderStatus].name;
-            element.order_status_editable =
-              element.order_status[indexOrderStatus].editable;
+            element.order_status_name = element.order_status[indexOrderStatus].name;
+            element.order_status_editable = !this.ineditableStates.includes(element.state_id);
           }
           console.log(element);
         });
@@ -484,7 +482,9 @@ export class OrdersComponent implements OnInit {
     return str.join("&");
   }
   selectStatus(id, data, indexstatus) {
-    console.log(id, data);
+    
+    console.log(id, data, indexstatus);
+    
     let index = data.order_status.findIndex((item) => item.id == id);
     console.log(index);
 
@@ -499,6 +499,7 @@ export class OrdersComponent implements OnInit {
     // }
     // console.log(this.firstTime);
   }
+
   openPopupConfirmStatus(data, type) {
     // type 1 change order status and 2 sub statue
     console.log(data);
@@ -506,6 +507,7 @@ export class OrdersComponent implements OnInit {
     this.typeStatusPopup = type;
     $("#confirmOrderStatus").modal("show");
   }
+
   changeStatus(notifyUser, type) {
     console.log(notifyUser, type);
     if (type == 1) {
@@ -518,22 +520,19 @@ export class OrdersComponent implements OnInit {
           if (response.code === 200) {
             $("#confirmOrderStatus").modal("hide");
             const indexOrderStatus = this.orderStatus.findIndex(
-              (item) => item.id == response.data.id
+              (item) => item.id == response.data.state_id
             );
             if (indexOrderStatus !== -1) {
-              response.data.order_status_name =
-                response.data.order_status[indexOrderStatus].name;
-              response.data.order_status_editable =
-                response.data.order_status[indexOrderStatus].editable;
+              response.data.order_status_name = response.data.order_status[indexOrderStatus].name;
             }
+            
+            response.data.order_status_editable = !this.ineditableStates.includes(response.data.state_id);
+            
             const indexOrder = this.orders.findIndex(
               (item) => item.id == response.data.id
             );
             if (indexOrder !== -1) {
               this.orders[indexOrder] = response.data;
-              this.orders[indexOrder] = response.data;
-              this.orders[indexOrder] = response.data;
-
             }
           }
         });
@@ -548,6 +547,10 @@ export class OrdersComponent implements OnInit {
           }
         });
     }
+  }
+
+  cancelChangeState() {
+    this.currentOrder.state_id = this.currentOrder.previous_state;
   }
 
   openPopupAction(type, data) {

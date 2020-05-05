@@ -143,10 +143,10 @@
         <td>
 
           <!-- <select class="owl-input" formControlName="area_id" required name="area_id" (change)="selectArea($event)"> -->
-            <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
+          <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
           <div *ngIf="order.order_status_editable">
-            <select class="owl-input" required name="status" [(ngModel)]="order.state_id"
-              (change)="selectStatus($event.target.value, order , i); openPopupConfirmStatus(order.state_id, 1)">
+            <select class="owl-input" required name="status" [ngModel]="order.state_id"
+              (ngModelChange)="selectStatus($event, order , i); order.previous_state = order.state_id; openPopupConfirmStatus($event, 1)">
               <option value="" selected hidden>Select Status </option>
               <option value="{{status.id}}" *ngFor="let status of order.order_status">{{status.name}}
               </option>
@@ -307,7 +307,7 @@
 
         <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
           (click)="changeStatus(notifyUser,typeStatusPopup)">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
+        <button type="button" data-dismiss="modal" (click)="cancelStateChange()" class="btn-owls btn-rounded btn-green btn-red2">no </button>
       </div>
     </div>
   </div>
