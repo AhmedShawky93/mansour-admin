@@ -130,7 +130,7 @@ const routes: Routes = [
         path: "orders/order-details/:id",
         component: OrderDetailsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Order Details", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} },
+        // data: { title: "Order Details", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} },
       },
       {
         path: "print-receipt/:id",

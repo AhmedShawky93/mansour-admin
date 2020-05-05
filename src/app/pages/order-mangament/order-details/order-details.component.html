@@ -16,14 +16,14 @@
 <!-- steppers -->
 
 <div>
-  <div class="row" *ngIf="order">
+  <div class="row" *ngIf="order && order.showStepper">
     <div class="offset-md-1 col-md-11">
 
       <ul class="top-stepper row">
         <li class="col active" *ngIf="order.state_id != 9">
           <span></span>
           <span><i class="icon-Check"></i></span>
-          <p>order placed</p>
+          <p>{{order.states[0].name}}</p>
         </li>
         <li class="col canceled incomplete" *ngIf="order.state_id == 9">
           <span></span>
@@ -31,24 +31,22 @@
           <p>Not Paid</p>
         </li>
 
-
-
-        <li class="col" [ngClass]="{'active': processing && !cancelled, 'canceled': cancelled}">
+        <li class="col" [ngClass]="{'active': order.states[1].id }">
           <span></span>
-          <span><i [ngClass]="{'icon-Check': processing && !cancelled, 'icon-Exit': cancelled}"></i></span>
-          <p>processing </p>
+          <span><i [ngClass]="{'icon-Check': order.states[1].id}"></i></span>
+          <p>{{order.states[1].name}} </p>
         </li>
 
-        <li class="col " [ngClass]="{'active': delivering && !returned, 'canceled': delivering && returned}">
+        <li class="col " [ngClass]="{'active': order.states[2].id}">
           <span></span>
-          <span><i [ngClass]="{'icon-Check': delivering && !returned, 'icon-Exit': delivering && returned}"></i></span>
-          <p>out for delivary </p>
+          <span><i [ngClass]="{'icon-Check': order.states[2].id}"></i></span>
+          <p>{{order.states[2].name}} </p>
         </li>
 
-        <li class="col " [ngClass]="{'active': delivered && !returned, 'canceled': delivered && returned}">
+        <li class="col " [ngClass]="{'active': order.states[3].id}">
           <span></span>
-          <span><i [ngClass]="{'icon-Check': delivered && !returned, 'icon-Exit': delivered && returned}"></i></span>
-          <p> delivered </p>
+          <span><i [ngClass]="{'icon-Check':order.states[3].id}"></i></span>
+          <p>{{order.states[3].name}}</p>
         </li>
       </ul>
 
@@ -105,8 +103,9 @@
       <div class="block-item">
         <p>address </p>
 
-        <span>{{order?.address.area?.name}}</span>
-,
+        <span *ngIf="order.address.district">{{order?.address.district?.name}}, </span>
+
+        <span *ngIf="order.address.area">{{order?.address.area?.name}}, </span>
         <span>{{order?.address.city?.name}}</span>
 
 
@@ -159,8 +158,8 @@
 
     <div class="qty-item">
       <p>QTY: {{item.amount}}</p>
-      <span *ngIf="item?.price.discount_price === null">{{item.price.price}} LE</span>
-      <span *ngIf="item?.price.discount_price !== null">{{item.price.discount_price}} LE</span>
+      <span *ngIf="item?.product.discount_price === null">{{item.product.price}} LE</span>
+      <span *ngIf="item?.product.discount_price !== null">{{item.product.discount_price}} LE</span>
     </div>
   </div>
 
@@ -318,12 +317,12 @@
   </div>
 </div>
 
-<div class="block-title">
+<!-- <div class="block-title">
   <h4>order milestones</h4>
-</div>
+</div> -->
 
 
-<div class="milestones-stepper" *ngIf="order">
+<!-- <div class="milestones-stepper" *ngIf="order">
   <ul class="row">
 
     <li class="col active" *ngFor="let state of order.history">
@@ -333,4 +332,4 @@
       <span>{{state.created_at | date: "yyyy-MM-dd hh:mm a"}}</span>
     </li>
   </ul>
-</div>
+</div> -->

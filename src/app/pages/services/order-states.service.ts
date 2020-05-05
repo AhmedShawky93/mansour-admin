@@ -20,6 +20,12 @@ export class OrderStatesService {
     });
   }
 
+  getOrderEditableStatus() {
+    return this.http.get(this.url + "/editable").catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
   updateOrderStatus(id, data) {
     return this.http.post<any>(this.url + '/'+ id, data).catch((error: any) => {
       return Observable.throw(error.error || "Server error");

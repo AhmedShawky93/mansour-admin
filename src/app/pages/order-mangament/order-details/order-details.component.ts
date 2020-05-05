@@ -25,6 +25,8 @@ export class OrderDetailsComponent implements OnInit {
   delivered = false;
   returned = false;
 
+  stepperStates = [1, 2, 3, 4];
+
   constructor(private _formBuilder: FormBuilder, private router: Router,
     private activeRoute: ActivatedRoute, private orderService: OrdersService) { }
 
@@ -62,7 +64,7 @@ export class OrderDetailsComponent implements OnInit {
           })
           let stepsArray = this.order.history.slice(lastCreatedIndex);
 
-
+          this.order.showStepper = this.stepperStates.includes(this.order.state_id);
           this.processing = this.hasState(stepsArray, 2);
           this.cancelled = this.hasState(stepsArray, 6);
           this.delivering = this.hasState(stepsArray, 3);
