@@ -103,8 +103,9 @@
       <div class="block-item">
         <p>address </p>
 
-        <span>{{order?.address.area?.name}}</span>
-,
+        <span *ngIf="order.address.district">{{order?.address.district?.name}}, </span>
+
+        <span *ngIf="order.address.area">{{order?.address.area?.name}}, </span>
         <span>{{order?.address.city?.name}}</span>
 
 

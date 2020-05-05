@@ -187,8 +187,8 @@
               <a class="dropdown-item"
                 *ngIf="order.state_id == 2 || order.state_id == 3 || order.state_id == 5  || order.state_id == 7  || order.state_id == 8"
                 (click)="openPopupAction(3, order)">Edit order</a>
-              <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
-                (click)="openPopupAction(4, order)">Cancel order</a>
+              <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
+                (click)="openPopupAction(4, order)">Cancel order</a> -->
             </div>
           </div>
           <div class="tb-assign">
