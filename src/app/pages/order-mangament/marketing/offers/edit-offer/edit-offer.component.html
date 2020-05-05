@@ -68,7 +68,7 @@
       <div class="form-group">
         <label for="charge">Promocode Recurrence</label>
         <select name="" id="charge" class="owl-input" required name="recurrence" formControlName="recurrence"
-          [(ngModel)]="promo.recurrence">
+          [(ngModel)]="promo.recurrence" (change)="changeTypePromo($event)">
           <option [value]="" disabled selected>Select PromoCode Recurrence</option>
           <option [value]="1">One time use</option>
           <option [value]="2">Daily use</option>
@@ -87,7 +87,7 @@
       <div class="form-group">
         <label for="charge">promocode type </label>
         <select name="" id="charge" class="owl-input" [(ngModel)]="promo.type" required formControlName="editType"
-          name="editType" (change)="changeTypePromo($event)">
+          name="editType" (change)="changeTypePromo($event.target.value)">
           <option [value]="1">amount </option>
           <option [value]="2">percentage</option>
           <option [value]="3">Free delivery</option>
@@ -100,7 +100,7 @@
         <!--Start For Amount -->
         <label for=""> amount </label>
         <input type="number" class="owl-input" id="" placeholder="amount..." name="amount" [(ngModel)]="promo.amount"
-          required [min]="1" formControlName="editAmount">
+            [min]="1" formControlName="editAmount">
         <!-- Start  Errors Rolues -->
         <div
           *ngIf="editForm.controls.editAmount.invalid && (editForm.controls.editAmount.dirty || editForm.controls.editAmount.touched)"
