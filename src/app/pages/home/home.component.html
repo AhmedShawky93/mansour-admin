@@ -9,7 +9,7 @@
         <div class="content">
           <span>Total Orders</span>
           <h5>{{ordersCount}}</h5>
-          <a  routerLink="/pages/orders">more details</a>
+          <a routerLink="/pages/orders">more details</a>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
         <div class="content">
           <span>Total Products</span>
           <h5>{{productsCount}}</h5>
-          <a  routerLink="/pages/products">more details</a>
+          <a routerLink="/pages/products">more details</a>
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@
         </span>
         <div class="content">
           <span>Sms Credits Left</span>
-          <h5>{{smsCount}}</h5>
+          <h5>{{smsCount? smsCount : '0' }}</h5>
           <!-- <a  routerLink="/pages/products">more details</a> -->
         </div>
       </div>
@@ -66,7 +66,7 @@
     <thead>
       <tr>
         <th scope="col">Order ID</th>
-        <th  class="remove_date"  scope="col"> date & time </th>
+        <th class="remove_date" scope="col"> date & time </th>
         <th>Customer details </th>
         <th> delivary address </th>
         <th> Total Amount </th>
@@ -75,56 +75,57 @@
     </thead>
     <tbody>
 
-        <tr *ngFor="let order of orders | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }"
-        @fade
-        >
-            <td>{{order.id}}</td>
-            <td>{{order.created_at | date: 'd-M-yyyy  h:mm a'}}</td>
-            <td>{{order.user?.name}} - {{order.user?.phone}}</td>
-            <td>{{order.address?.address}}</td>
-            <td>{{order.amount}}</td>
+      <tr *ngFor="let order of orders | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }" @fade>
+        <td>{{order.id}}</td>
+        <td>{{order.created_at | date: 'd-M-yyyy  h:mm a'}}</td>
+        <td>{{order.user?.name}} - {{order.user?.phone}}</td>
+        <td>{{order.address?.address}}</td>
+        <td>{{order.amount}}</td>
+<!--
+        <td>
 
-            <td>
-    
-              <div class="tb-assign" *ngIf="order.state_id == 1">
-                <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;">assign</button>
+          <div class="tb-assign" *ngIf="order.state_id == 1">
+            <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;">assign</button>
 
-                <div class="edit-out delevaryman-popup" *ngIf="order.showPopup">
-                  <div class="close" (click)="order.showPopup = 0">
-                    <i class="icon-Exit"></i>
-                  </div>
-                  <div class="inner-addon left-addon">
-                    <i class="fa fa-search"></i>
-                    <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="listSearch">
-                  </div>
-
-                  <div class="delivary-list">
-                    <ul class="list-unstyled">
-
-                      <li class="media" *ngFor="let user of availableDeliverers | stringFilter: listSearch" (click)="selectDeliverer(user)">
-                        <img width="65" *ngIf="user.deliverer_profile.image" height="65" class="mr-3 img-circle" src="{{user.deliverer_profile.image}}" alt="">
-                        <img height="65" width="65"  *ngIf="!user.deliverer_profile.image" class="mr-3 img-circle" src="./assets/img/profile.png" alt="">
-                        <div class="media-body">
-                          <img src="assets/img/available.svg" alt="" *ngIf="user.selected">
-                          <h5 class="">{{user.name}}</h5>
-                          <span>{{ user.last_active | amTimeAgo }}</span>
-                        </div>
-                      </li>
-
-                    </ul>
-                  </div>
-                  <button class="btn btn-owls btn-rounded btn-green" (click)="assignDeliverer(order)">assign</button>
-                </div>
+            <div class="edit-out delevaryman-popup" *ngIf="order.showPopup">
+              <div class="close" (click)="order.showPopup = 0">
+                <i class="icon-Exit"></i>
+              </div>
+              <div class="inner-addon left-addon">
+                <i class="fa fa-search"></i>
+                <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="listSearch">
               </div>
 
-            </td>
-    
-            <td style="text-align: center">
-              <a [routerLink]="['/pages/order-details', order.id]" class="table-view">
-                <i class="icon-View"></i>
-              </a>
-            </td>
-          </tr>
+              <div class="delivary-list">
+                <ul class="list-unstyled">
+
+                  <li class="media" *ngFor="let user of availableDeliverers | stringFilter: listSearch"
+                    (click)="selectDeliverer(user)">
+                    <img width="65" *ngIf="user.deliverer_profile.image" height="65" class="mr-3 img-circle"
+                      src="{{user.deliverer_profile.image}}" alt="">
+                    <img height="65" width="65" *ngIf="!user.deliverer_profile.image" class="mr-3 img-circle"
+                      src="./assets/img/profile.png" alt="">
+                    <div class="media-body">
+                      <img src="assets/img/available.svg" alt="" *ngIf="user.selected">
+                      <h5 class="">{{user.name}}</h5>
+                      <span>{{ user.last_active | amTimeAgo }}</span>
+                    </div>
+                  </li>
+
+                </ul>
+              </div>
+              <button class="btn btn-owls btn-rounded btn-green" (click)="assignDeliverer(order)">assign</button>
+            </div>
+          </div>
+
+        </td> -->
+
+        <td style="text-align: center">
+          <a [routerLink]="['/pages/order-details', order.id]" class="table-view">
+            <i class="icon-View"></i>
+          </a>
+        </td>
+      </tr>
 
     </tbody>
   </table>

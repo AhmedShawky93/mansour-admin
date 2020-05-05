@@ -233,7 +233,7 @@
 
     </tbody>
   </table>
-  <h4 class="text-center" *ngIf="search && orders.length == 0">There are no Orders</h4>
+  <h4 class="text-center" *ngIf="no_orders">There are no Orders</h4>
 </div>
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 

@@ -8,7 +8,8 @@
     </div>
 
     <div class="col-md-9" *ngIf="order">
-      <button [routerLink]="['/pages/print-receipt',order.id ]" class="float-right btn btn-owls btn-rounded btn-green">print</button>
+      <button [routerLink]="['/pages/print-receipt',order.id ]"
+        class="float-right btn btn-owls btn-rounded btn-green">print</button>
     </div>
   </div>
 </div>
@@ -78,8 +79,8 @@
       </div>
 
       <div class="block-item" *ngIf="order.scheduled_at">
-          <p>schedule time</p>
-          <span>{{order.scheduled_at |  date: 'd-M-yyyy  h:mm a' }}</span>
+        <p>schedule time</p>
+        <span>{{order.scheduled_at |  date: 'd-M-yyyy  h:mm a' }}</span>
       </div>
 
       <div class="block-item">
@@ -127,7 +128,7 @@
     </div>
     <div class="col-md-12">
       <div class="block-item">
-        <p>Order Feedback  </p>
+        <p>Order Feedback </p>
         <span>{{order.feedback}}</span>
       </div>
       <div class="block-item">
@@ -261,7 +262,9 @@
     <div class="col-sm-12">
       <div class="block-item">
         <p>address </p>
-        <span>{{order.address.formatted_address}} <a *ngIf="order.address.lat" href="https://www.google.com/maps/search/?api=1&query={{order.address.lat}},{{order.address.lng}}" target="_blank"><i class="fa fa-external-link"></i></a></span>
+        <span>{{order.address.formatted_address}} <a *ngIf="order.address.lat"
+            href="https://www.google.com/maps/search/?api=1&query={{order.address.lat}},{{order.address.lng}}"
+            target="_blank"><i class="fa fa-external-link"></i></a></span>
 
       </div>
     </div>
@@ -286,8 +289,8 @@
 
       <div class="block-item">
         <p>Applied Offer</p>
-        <span *ngIf="order.promo">{{order.promo.name}} -{{order.promo.amount}} <span *ngIf="order.promo.type == 2">%</span><span
-            *ngIf="order.promo.type == 1">LE</span></span>
+        <span *ngIf="order.promo">{{order.promo.name}} -{{order.promo.amount}} <span
+            *ngIf="order.promo.type == 2">%</span><span *ngIf="order.promo.type == 1">LE</span></span>
 
       </div>
 
@@ -328,19 +331,18 @@
   </div>
 </div>
 
-<!-- <div class="block-title">
+<div class="block-title">
   <h4>order milestones</h4>
-</div> -->
+</div>
 
 
-<!-- <div class="milestones-stepper" *ngIf="order">
+<div class="milestones-stepper" *ngIf="order">
   <ul class="row">
 
     <li class="col active" *ngFor="let state of order.history">
-      <img src="{{state.image}}" alt="" *ngIf="state.state_id !== 9">
-      <img src="assets/img/warning.svg" alt="" *ngIf="state.state_id == 9">
+      <img src="./assets/img/available.svg">
       <p>{{state.name}}</p>
       <span>{{state.created_at | date: "yyyy-MM-dd hh:mm a"}}</span>
     </li>
   </ul>
-</div> -->
+</div>

@@ -105,9 +105,6 @@ export class OrderDetailsComponent implements OnInit {
       case 6:
       case 7:
         return 'assets/img/unavailable.svg';
-      case 5:
-        return 'assets/img/med.svg'
-
       default:
         return 'assets/img/available.svg';
     }
