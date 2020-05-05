@@ -549,7 +549,7 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  cancelChangeState() {
+  cancelStateChange() {
     this.currentOrder.state_id = this.currentOrder.previous_state;
   }
 
