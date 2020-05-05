@@ -55,6 +55,7 @@
         <td>
           <P *ngIf="promo.type == '1'"> Amount </P>
           <P *ngIf="promo.type == '2'"> Percentage </P>
+          <P *ngIf="promo.type == '3'"> Free delivery</P>
 
         </td>
 
@@ -85,7 +86,7 @@
         </td>
       </tr>
 
-      
+
 
     </tbody>
   </table>
@@ -119,6 +120,8 @@
       <h5>type</h5>
           <P *ngIf="viewPromo.type == 1"> amount </P>
           <P *ngIf="viewPromo.type == 2"> percentage </P>
+          <P *ngIf="viewPromo.type == 3"> Free delivery </P>
+
     </div>
     <div>
     <h5>Amount</h5>
@@ -164,7 +167,7 @@
     <button routerLink="/pages/promocodes/edit-offers" id="add-vindor-types-btn" class="btn btn-owls btn-rounded btn-blue2 open-edit">edit</button>
   </div>
 
- 
+
 </div>
 
 

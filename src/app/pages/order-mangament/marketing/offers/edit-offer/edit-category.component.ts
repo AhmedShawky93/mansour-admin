@@ -73,6 +73,8 @@ export class EditOfferComponent implements OnInit {
       let id = params["id"];
       this.promoService.getPromo(id).subscribe((response: any) => {
         this.promo = response.data;
+        this.changeTypePromo(this.promo.type)
+
         this.customers$ = concat(
           of(
             response.data.targets.map((customer) => {
@@ -110,10 +112,13 @@ export class EditOfferComponent implements OnInit {
           .get("editDate")
           .setValue(new Date(this.promo.expiration_date));
       });
+
     });
   }
 
   updatePromo(promo) {
+    console.log(this.editForm.value)
+    console.log(this.editForm.valid)
     if (!this.editForm.valid) {
       this.markFormGroupTouched(this.editForm);
       return;
@@ -141,14 +146,14 @@ export class EditOfferComponent implements OnInit {
     });
   }
 
-  changeTypePromo(event) {
-    console.log(event.target.value);
-    if (event.target.value == "3") {
-      this.editForm.get("amount").clearValidators();
-      this.editForm.get("amount").updateValueAndValidity();
+  changeTypePromo(type) {
+    console.log(type);
+    if (type == "3") {
+      this.editForm.get("editAmount").clearValidators();
+      this.editForm.get("editAmount").updateValueAndValidity();
     } else {
-      this.editForm.get("amount").setValidators([Validators.required]);
-      this.editForm.get("amount").updateValueAndValidity();
+      this.editForm.get("editAmount").setValidators([Validators.required]);
+      this.editForm.get("editAmount").updateValueAndValidity();
     }
   }
   onImageSelected(data, event) {
