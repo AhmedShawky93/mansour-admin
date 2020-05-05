@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: "https://api.sayudlituk.com/api",
+  api: "https://api.misrpharmacy.com/api",
 };

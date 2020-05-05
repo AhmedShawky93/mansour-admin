@@ -296,6 +296,9 @@ export class OrdersComponent implements OnInit {
   getDeliverers(order: any) {
     // load available
     this.orders.map((item) => (item.showPopup = 0));
+    if (order.address.district) {
+      this.listSearch = order.address.district.name;
+    }
     this.ordersService
       .getAvailableDeliverers(order.id)
       .subscribe((response: any) => {
