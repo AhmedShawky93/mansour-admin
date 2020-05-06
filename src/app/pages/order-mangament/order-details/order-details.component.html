@@ -17,16 +17,16 @@
 <!-- steppers -->
 
 <div>
-  <div class="row" *ngIf="order && order.showStepper">
+  <div class="row" *ngIf="order && order?.showStepper">
     <div class="offset-md-1 col-md-11">
 
       <ul class="top-stepper row">
-        <li class="col active" *ngIf="order.state_id != 9">
+        <li class="col active" *ngIf="order?.state_id != 9">
           <span></span>
           <span><i class="icon-Check"></i></span>
           <p>{{order.states[0].name}}</p>
         </li>
-        <li class="col canceled incomplete" *ngIf="order.state_id == 9">
+        <li class="col canceled incomplete" *ngIf="order?.state_id == 9">
           <span></span>
           <span><i class="icon-Exit"></i></span>
           <p>Not Paid</p>

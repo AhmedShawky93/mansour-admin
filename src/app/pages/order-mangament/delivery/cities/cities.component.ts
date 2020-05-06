@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { AreasService } from "@app/pages/services/areas.service";
 import {
   trigger,
@@ -7,6 +7,7 @@ import {
   animate,
   style,
 } from "@angular/animations";
+import { ToastrService } from "ngx-toastr";
 declare var jquery: any;
 declare var $: any;
 
@@ -41,7 +42,13 @@ export class CitiesComponent implements OnInit {
   viewDataSidebar: string = "out";
   selectDataView: any;
   selectData: any;
-  constructor(private _areaService: AreasService) {}
+  selectFile = null;
+  @ViewChild("myInput") importFile: ElementRef;
+
+  constructor(
+    private _areaService: AreasService,
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit() {
     $(".switch").on("click", ".slider", function () {
@@ -120,6 +127,17 @@ export class CitiesComponent implements OnInit {
     }
   }
 
+  importExcel(event) {
+    this.selectFile = <File>event.target.files[0];
+
+    this._areaService.uploadFile(this.selectFile).subscribe((response: any) => {
+      console.log(response);
+      if (response.code === 200) {
+        this.toastrService.success("File uploaded successfully");
+        this.importFile.nativeElement.value = "";
+      }
+    });
+  }
   cancelDeactivate(area) {
     area.active = 1;
     area.notes = "";

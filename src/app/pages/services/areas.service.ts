@@ -15,6 +15,18 @@ export class AreasService {
   }
 
   // start City
+
+  uploadFile(file) {
+    const fd = new FormData();
+    fd.append("file", file);
+
+    return this._HttpClient
+      .post(this.url + "/cities/import", fd)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "file upload error");
+      });
+  }
+
   getCities() {
     return this._HttpClient.get(this.url + "/cities").catch((error: any) => {
       return Observable.throw(error.error || "Area error");
