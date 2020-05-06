@@ -184,9 +184,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign</a>
               <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a>
-              <a class="dropdown-item"
-                *ngIf="order.state_id == 2 || order.state_id == 3 || order.state_id == 5  || order.state_id == 7  || order.state_id == 8"
-                (click)="openPopupAction(3, order)">Edit order</a>
+              <!-- <a class="dropdown-item">Edit order</a> -->
               <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
                 (click)="openPopupAction(4, order)">Cancel order</a> -->
             </div>
