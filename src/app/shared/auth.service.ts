@@ -33,24 +33,20 @@ export class AuthService {
     return this.http.get(this.url + '/profile')
   }
 
-  setPermissions() {
-    this.getProfile()
-      .subscribe((response: any) => {
-        this.permissionsService.flushPermissions();
-        // this.roleService.flushRoles();
+  async setPermissions() 
+  {
+    let data: any = await this.http.get(this.url + '/profile').toPromise();
+    this.permissionsService.flushPermissions();
 
-        let user = response.data;
-        if (user.roles.length) {
-          const perm = user.roles[0].permissions.map((perm) => perm.name);
-          this.permissionsService.loadPermissions(perm);
+    let user = data.data;
+    if (user.roles.length) {
+      const perm = user.roles[0].permissions.map((perm) => perm.name);
+      await this.permissionsService.loadPermissions(perm);
 
-          if (user.roles[0].name == "Super Admin") {
-            console.log("overriding all permissions");
-            this.permissionsService.addPermission(['ADMIN']);
-          }
-        }
-      })
-
+      if (user.roles[0].name == "Super Admin") {
+        this.permissionsService.addPermission(['ADMIN']);
+      }
+    }
   }
 
   setToken(token) {
