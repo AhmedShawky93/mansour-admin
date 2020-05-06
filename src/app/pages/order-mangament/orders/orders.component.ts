@@ -31,6 +31,7 @@ export class OrdersComponent implements OnInit {
   selectedCategory: string;
   search: boolean;
   firstTime: boolean = true;
+  no_orders: boolean = false;
   listFilter: string;
   viewFilter: string;
   @ViewChild("mdate", { read: MatInput }) input: MatInput;
@@ -169,13 +170,18 @@ export class OrdersComponent implements OnInit {
     this.filter$
       .debounceTime(400)
       .pipe(
-        tap((e) => (this.loading = true)),
-        switchMap((filter) => this.filterOrders()) 
+        tap((e) => (this.loading = true, this.no_orders = false)),
+        switchMap((filter) => this.filterOrders())
       )
       .subscribe((response: any) => {
         this.loading = false;
+
+
         this.orders = response.data.orders;
         this.total = response.data.total;
+        if (this.orders.length == 0) {
+          this.no_orders = true;
+        }
         console.log(this.total);
         if (this.total === 0) {
           this.p = 1;
@@ -187,8 +193,11 @@ export class OrdersComponent implements OnInit {
             (item) => item.id == element.state_id
           );
           if (indexOrderStatus !== -1) {
-            element.order_status_name = element.order_status[indexOrderStatus].name;
-            element.order_status_editable = !this.ineditableStates.includes(element.state_id);
+            element.order_status_name =
+              element.order_status[indexOrderStatus].name;
+            element.order_status_editable = !this.ineditableStates.includes(
+              element.state_id
+            );
           }
           console.log(element);
         });
@@ -304,8 +313,10 @@ export class OrdersComponent implements OnInit {
       .subscribe((response: any) => {
         console.log(response.data);
         this.availableDeliverers = response.data;
-        this.availableDeliverers.map(deliverer => {
-          deliverer.deliverer_profile.district_names = deliverer.deliverer_profile.districts.map(d => d.name).join(", ")
+        this.availableDeliverers.map((deliverer) => {
+          deliverer.deliverer_profile.district_names = deliverer.deliverer_profile.districts
+            .map((d) => d.name)
+            .join(", ");
         });
         console.log(this.availableDeliverers);
         this.viewFilter = "";
@@ -489,9 +500,8 @@ export class OrdersComponent implements OnInit {
     return str.join("&");
   }
   selectStatus(id, data, indexstatus) {
-    
     console.log(id, data, indexstatus);
-    
+
     let index = data.order_status.findIndex((item) => item.id == id);
     console.log(index);
 
@@ -519,7 +529,7 @@ export class OrdersComponent implements OnInit {
     console.log(notifyUser, type);
     if (type == 1) {
       this.ordersService
-      .changeStatus(this.orderId, {
+        .changeStatus(this.orderId, {
           state_id: this.orderStatuId,
           notify_customer: notifyUser,
         })
@@ -530,11 +540,14 @@ export class OrdersComponent implements OnInit {
               (item) => item.id == response.data.state_id
             );
             if (indexOrderStatus !== -1) {
-              response.data.order_status_name = response.data.order_status[indexOrderStatus].name;
+              response.data.order_status_name =
+                response.data.order_status[indexOrderStatus].name;
             }
-            
-            response.data.order_status_editable = !this.ineditableStates.includes(response.data.state_id);
-            
+
+            response.data.order_status_editable = !this.ineditableStates.includes(
+              response.data.state_id
+            );
+
             const indexOrder = this.orders.findIndex(
               (item) => item.id == response.data.id
             );

@@ -47,12 +47,10 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    console.log(this.selectProductDataEdit);
     this.getForm(this.selectProductDataEdit);
     this.getCities();
   }
   ngOnChanges(): void {
-    console.log(this.selectProductDataEdit);
     this.getForm(this.selectProductDataEdit);
   }
   getCities() {
@@ -88,7 +86,9 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
 
   closeSideBar() {
     this.closeSideBarEmit.emit();
-    this.OptionForm.reset();
+    if(!this.selectProductDataEdit){
+      this.OptionForm.reset();
+    }
   }
   submitForm() {
     if (this.selectProductDataEdit) {

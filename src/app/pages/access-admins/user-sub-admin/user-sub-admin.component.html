@@ -79,7 +79,7 @@
   </div>
 
 
-  <form (ngSubmit)="createSubAdmin(adminForm)" [formGroup]="adminForm" novalidate>
+  <form (ngSubmit)="createSubAdmin(adminForm)" [formGroup]="adminForm" novalidate autocomplete="off">
     <div class="form-group">
       <label for="">user name </label>
       <input type="text" class="owl-input" placeholder="Type here..." formControlName="name">
@@ -132,8 +132,8 @@
 
 
     <div class="form-group">
-      <label for=""> password</label>
-      <input type="password" class="owl-input" placeholder="Type here..." formControlName="password">
+      <label for="">password</label>
+      <input type="password" class="owl-input" placeholder="Type here..." formControlName="password" autocomplete="new-password">
       <!-- Start  Errors Rolues -->
       <div
         *ngIf="adminForm.controls.password.invalid && (adminForm.controls.password.dirty || adminForm.controls.password.touched)"
@@ -165,7 +165,7 @@
     <h3>Edit User</h3>
   </div>
 
-  <form *ngIf="adminForm" [formGroup]="adminForm" (ngSubmit)="updateSubAdmin(admin)" novalidate>
+  <form *ngIf="adminForm" [formGroup]="adminForm" (ngSubmit)="updateSubAdmin(admin)" novalidate autocomplete="off">
     <div class="form-group">
       <label for="">User name </label>
       <input type="text" class="owl-input" placeholder="Type here..." formControlName="name">

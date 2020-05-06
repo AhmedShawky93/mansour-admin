@@ -184,9 +184,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign</a>
               <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a>
-              <!-- <a class="dropdown-item"
-                *ngIf="order.state_id == 2 || order.state_id == 3 || order.state_id == 5  || order.state_id == 7  || order.state_id == 8"
-                (click)="openPopupAction(3, order)">Edit order</a> -->
+              <!-- <a class="dropdown-item">Edit order</a> -->
               <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
                 (click)="openPopupAction(4, order)">Cancel order</a> -->
             </div>
@@ -233,7 +231,7 @@
 
     </tbody>
   </table>
-  <h4 class="text-center" *ngIf="search && orders.length == 0">There are no Orders</h4>
+  <h4 class="text-center" *ngIf="no_orders">There are no Orders</h4>
 </div>
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
@@ -326,10 +324,11 @@
 
     <div>
       <div class="customer-det">
-        <img src="{{currentOrder.deliverer.deliverer_profile.image}}" alt="" width="50" height="50">
+        <img src="{{currentOrder?.deliverer?.deliverer_profile?.image}}" alt="" width="50" height="50">
         <div class="content">
-          <p>{{currentOrder.deliverer.name}}</p>
-          <h5>{{currentOrder.deliverer.phone}}</h5>
+          <p *ngIf=" currentOrder?.deliverer">{{currentOrder?.deliverer?.name}}</p>
+          <h5 *ngIf=" currentOrder?.deliverer">{{currentOrder?.deliverer?.phone}}</h5>
+          <p *ngIf="!currentOrder?.deliverer">No deliverer Selected</p>
           <span class="toggle-delevary2"
             *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5 || currentOrder.state_id == 8">
             <i class="icon-grey" (click)="currentOrder.showViewPopup = 1; getDeliverers(currentOrder)"></i>
@@ -364,7 +363,7 @@
 
         </div>
         <div class="date">
-          Deliverer ID: {{currentOrder.deliverer.id}}
+          Deliverer ID: {{currentOrder?.deliverer?.id}}
         </div>
       </div>
     </div>
@@ -537,21 +536,20 @@
 
         <div class="head">
           <!-- <img class="img-circle" width="45" height="45" src="http://via.placeholder.com/45x45" alt=""> -->
-          <h4>{{currentOrder.user.name}}</h4>
+          <h4>{{currentOrder?.user?.name}}</h4>
         </div>
         <div>
           <p>Phone Number</p>
-          <h4>{{currentOrder.user.phone}}</h4>
+          <h4>{{currentOrder?.user?.phone}}</h4>
         </div>
 
         <div>
           <p>Email Address</p>
-          <h4>{{currentOrder.user.email}}</h4>
+          <h4>{{currentOrder?.user?.email}}</h4>
         </div>
-
         <div>
           <p>Customer Address</p>
-          <h4>{{currentOrder.address.address}}</h4>
+          <h4>{{currentOrder?.address?.address}}</h4>
         </div>
 
       </div>

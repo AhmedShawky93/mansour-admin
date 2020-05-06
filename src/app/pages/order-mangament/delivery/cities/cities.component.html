@@ -2,7 +2,7 @@
 <div class="top-table-bar">
 
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
@@ -10,8 +10,20 @@
         <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
       </div>
     </div>
+    <div class="col-md-3  col-xs-12 p-l-r-5">
+      <div class="form-group ">
 
-    <div class="col-md-4 text-right">
+
+        <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile"
+          style="overflow: hidden">Import
+          Cities
+          <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
+            (change)="importExcel($event)">
+        </button>
+      </div>
+
+    </div>
+    <div class="col-md-3 text-right">
       <div class="owl-btn-list">
         <button class="btn btn-owls btn-rounded btn-blue2 btn-big btn-block open-add ml-auto"
           (click)="toggleMenu(null)"> + New City</button>
