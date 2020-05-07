@@ -240,3 +240,6 @@ p.pRating
     position: relative;
     top: -19px;
 }
+.owl-input{
+  margin-bottom: 50px;
+}

@@ -1,3 +1,4 @@
+import { AreasService } from "@app/pages/services/areas.service";
 import { Router } from "@angular/router";
 import { Console } from "@angular/core/src/console";
 import { OrderStatesService } from "./../../services/order-states.service";
@@ -66,7 +67,7 @@ export class OrdersComponent implements OnInit {
   newAmount;
 
   searchTerm = "";
-  listSearch: "";
+  listSearch = "";
 
   total: number = 0;
 
@@ -82,6 +83,11 @@ export class OrdersComponent implements OnInit {
   orderId: any;
   orderStatuId: any;
   ineditableStates = [9, 11, 12];
+  cities: any;
+  areaList: any;
+  districts: any;
+  loadingProductSideBar: boolean;
+  orderSelected: any;
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -89,13 +95,14 @@ export class OrdersComponent implements OnInit {
     private titleService: Title,
     private auth: AuthService,
     private router: Router,
+    private _areaService: AreasService,
     private orderStatesService: OrderStatesService
   ) {
     this.titleService.setTitle("Orders");
   }
 
   ngOnInit() {
-    this.getOrderStates();
+    this.getCities();
     $(".payment-open").on("click", function () {
       $(".payment-area").slideToggle(100);
     });
@@ -170,12 +177,11 @@ export class OrdersComponent implements OnInit {
     this.filter$
       .debounceTime(400)
       .pipe(
-        tap((e) => (this.loading = true, this.no_orders = false)),
+        tap((e) => ((this.loading = true), (this.no_orders = false))),
         switchMap((filter) => this.filterOrders())
       )
       .subscribe((response: any) => {
         this.loading = false;
-
 
         this.orders = response.data.orders;
         this.total = response.data.total;
@@ -186,21 +192,21 @@ export class OrdersComponent implements OnInit {
         if (this.total === 0) {
           this.p = 1;
         }
-        this.orders.forEach((element, index) => {
-          element.order_status = this.orderStatus;
-          this.selectStatus(element.state_id, element, index);
-          const indexOrderStatus = element.order_status.findIndex(
-            (item) => item.id == element.state_id
-          );
-          if (indexOrderStatus !== -1) {
-            element.order_status_name =
-              element.order_status[indexOrderStatus].name;
-            element.order_status_editable = !this.ineditableStates.includes(
-              element.state_id
-            );
-          }
-          console.log(element);
-        });
+        // this.orders.forEach((element, index) => {
+        //   element.order_status = this.orderStatus;
+        //   this.selectStatus(element.state_id, element, index);
+        //   const indexOrderStatus = element.order_status.findIndex(
+        //     (item) => item.id == element.state_id
+        //   );
+        //   if (indexOrderStatus !== -1) {
+        //     element.order_status_name =
+        //       element.order_status[indexOrderStatus].name;
+        //     element.order_status_editable = !this.ineditableStates.includes(
+        //       element.state_id
+        //     );
+        //   }
+        //   console.log(element);
+        // });
       });
 
     this.filter$.next(this.filter);
@@ -278,7 +284,6 @@ export class OrdersComponent implements OnInit {
         return item;
       });
     }
-
     this.showDelete = !this.showDelete;
   }
 
@@ -420,7 +425,25 @@ export class OrdersComponent implements OnInit {
   openSideView(order) {
     this.ordersService.getOrder(order.id).subscribe((response: any) => {
       $("#view-deactive").toggleClass("open-view-vindor-types");
+
       this.currentOrder = response.data;
+      this.currentOrder.items.forEach((element) => {
+        element.quantity = element.amount;
+      });
+      this.selectedCategory = "";
+      this.selectedSubcategory = "";
+      this.product_list = [];
+      $(".add-prod").hide();
+    });
+  }
+  openSideViewReturnOrder(order) {
+    this.orderSelected = order;
+    this.ordersService.getOrder(order.id).subscribe((response: any) => {
+      $("#view-side-bar-return-order").toggleClass("open-view-vindor-types");
+      this.currentOrder = response.data;
+      this.currentOrder.items.forEach((element) => {
+        element.quantity = element.amount;
+      });
       this.selectedCategory = "";
       this.selectedSubcategory = "";
       this.product_list = [];
@@ -430,14 +453,33 @@ export class OrdersComponent implements OnInit {
 
   loadSubcategories(cat_id) {
     const index = this.categories.findIndex((item) => item.id == cat_id);
-
     this.sub_categories = this.categories[index].sub_categories;
   }
 
   loadProducts(cat_id) {
+    this.loadingProductSideBar = true;
+    this.product_list = [];
     this.catService.getProducts(cat_id).subscribe((response: any) => {
-      this.product_list = response.data;
-      this.product_list.map((prod) => (prod.amount = 0));
+      console.log(response);
+      console.log(this.currentOrder.items);
+      if (response.code === 200) {
+        this.loadingProductSideBar = false;
+        this.product_list = response.data;
+        this.product_list.forEach((element) => {
+          const indexProduct = this.currentOrder.items.findIndex(
+            (item) => item.id == element.id
+          );
+          if (indexProduct !== -1) {
+            element.amount = this.currentOrder.items[indexProduct].amount;
+            element.quantity = this.currentOrder.items[indexProduct].quantity;
+          } else {
+            element.amount = 0;
+            element.quantity = 0;
+          }
+        });
+
+        // this.product_list.map((prod) => (prod.amount = 0));
+      }
     });
   }
 
@@ -459,16 +501,75 @@ export class OrdersComponent implements OnInit {
       });
   }
 
-  addAmount(product) {
+  addAmountOldItem(product) {
+    console.log(product);
+    // if (product.quantity < product.amount) {
     product.amount++;
+    // console.log(product, "if");
+    // }
+  }
+  removeAmountOldItem(product) {
+    console.log(product);
+    product.amount > 1 ? product.amount-- : (product.amount = 1);
+    // product.quantity > 0 ? product.quantity-- : (product.quantity = 0);
   }
 
+  addAmountOldItemReturn(product) {
+    console.log(product);
+    if (product.quantity < product.amount) {
+      product.quantity++;
+      console.log(product, "if");
+    }
+  }
+  removeAmountOldItemReturn(product) {
+    console.log(product);
+
+    product.quantity > 1 ? product.quantity-- : (product.quantity = 1);
+  }
+  addAmount(product) {
+    product.amount++;
+    const productAmountIndex = this.currentOrder.items.findIndex(
+      (item) => item.id == product.id
+    );
+    if (productAmountIndex !== -1) {
+      this.currentOrder.items[productAmountIndex].amount = product.amount;
+    } else {
+      console.log(product);
+      console.log(this.currentOrder.items);
+
+      this.currentOrder.items.push({
+        id: product.id,
+        amount: product.amount,
+        quantity: product.amount,
+        order_id: null,
+        product: {
+          id: product.id,
+          name: product.name,
+          image: product.image,
+        },
+      });
+    }
+  }
   removeAmount(product) {
-    product.amount > 0 ? product.amount-- : (product.amount = 0);
+    console.log(product);
+    product.amount > 0 ? product.amount-- : (product.amount = 1);
+
+    const productAmountIndex = this.currentOrder.items.findIndex(
+      (item) => item.id == product.id
+    );
+    if (productAmountIndex !== -1) {
+      if (product.amount > 0) {
+        this.currentOrder.items[productAmountIndex].amount = product.amount;
+        console.log("if");
+      } else if (product.amount == 0) {
+        this.currentOrder.items.splice(productAmountIndex, 1);
+        console.log("else if ");
+      }
+    }
   }
 
   addProducts() {
-    const items = this.product_list
+    const items = this.currentOrder.items
       .filter((item) => item.amount)
       .map((item) => {
         return {
@@ -484,11 +585,43 @@ export class OrdersComponent implements OnInit {
           this.currentOrder.items = response.data;
         });
     }
-
     this.selectedCategory = "";
     this.selectedSubcategory = "";
     this.product_list = [];
     this.toggleProductSelect();
+  }
+  updateProducts() {
+    $("#confirmOrderUpdate").modal("show");
+  }
+  confirmUpdateProducts(notifyUser) {
+    const items = this.currentOrder.items
+      .filter((item) => item.amount)
+      .map((item) => {
+        return {
+          id: item.id,
+          amount: item.amount,
+        };
+      });
+
+    if (items.length) {
+      this.ordersService
+        .updateItems(this.currentOrder.id, {
+          items: items,
+          notes: this.currentOrder.notes,
+          delivery_fees: this.currentOrder.delivery_fees,
+          admin_discount: null,
+          notify_customer: notifyUser,
+        })
+        .subscribe((response: any) => {
+          if (response.code === 200) {
+            $("#confirmOrderUpdate").modal("hide");
+            this.currentOrder.items = response.data.items;
+          }
+        });
+    }
+    this.selectedCategory = "";
+    this.selectedSubcategory = "";
+    this.product_list = [];
   }
 
   serialize(obj) {
@@ -499,23 +632,23 @@ export class OrdersComponent implements OnInit {
       }
     return str.join("&");
   }
-  selectStatus(id, data, indexstatus) {
-    console.log(id, data, indexstatus);
+  // selectStatus(id, data, indexstatus) {
+  //   console.log(id, data, indexstatus);
 
-    let index = data.order_status.findIndex((item) => item.id == id);
-    console.log(index);
+  //   let index = data.order_status.findIndex((item) => item.id == id);
+  //   console.log(index);
 
-    if (index !== -1) {
-      data.sub_states = data.order_status[index].sub_states;
-      console.log(data);
-      this.orderId = data.id;
-    }
-    // if (!this.firstTime) {
-    //   $("#confirmOrderStatus").modal("show");
-    //   this.firstTime = false;
-    // }
-    // console.log(this.firstTime);
-  }
+  //   if (index !== -1) {
+  //     data.sub_states = data.order_status[index].sub_states;
+  //     console.log(data);
+  //     this.orderId = data.id;
+  //   }
+  //   // if (!this.firstTime) {
+  //   //   $("#confirmOrderStatus").modal("show");
+  //   //   this.firstTime = false;
+  //   // }
+  //   // console.log(this.firstTime);
+  // }
 
   openPopupConfirmStatus(data, type) {
     // type 1 change order status and 2 sub statue
@@ -579,16 +712,68 @@ export class OrdersComponent implements OnInit {
       // assign delivery
       this.getDeliverers(data);
       data.showPopup = 1;
+      this.getArea(data.address.city_id);
+      this.getDistrict(data.address.area_id);
     } else if (type == 2) {
       // order details
       this.router.navigate(["/pages/orders/order-details", data.id]);
     } else if (type == 3) {
       // edit order
       this.openSideView(data);
+    } else if (type == 5) {
+      // edit order
+      this.openSideViewReturnOrder(data);
     } else if (type == 4) {
       // cancel order
       this.promtCancel(data);
       $("#removePopUp").modal("show");
     }
+  }
+
+  getCities() {
+    this._areaService.getCities().subscribe((response: any) => {
+      if (response.code === 200) {
+        this.cities = response.data;
+      }
+    });
+  }
+
+  SelectDistrict(event, data) {
+    console.log(event);
+    console.log(data);
+  }
+  public getArea(area) {
+    console.log(area);
+    const index = this.cities.findIndex((item) => item.id == area);
+    if (index !== -1) {
+      if (this.cities[index].areas.length) {
+        this.areaList = this.cities[index].areas;
+        console.log(this.areaList, "if");
+      } else {
+        this.areaList = [];
+        this.areaList.push(this.cities[index]);
+        this.districts.push(this.cities[index]);
+
+        console.log(this.areaList, "else");
+      }
+    }
+    this.districts = [];
+  }
+  public getDistrict(district) {
+    const index = this.areaList.findIndex((item) => item.id == district);
+    if (index !== -1) {
+      if (this.areaList[index].districts.length) {
+        this.districts = this.areaList[index].districts;
+        console.log(this.areaList, "if");
+      } else {
+        this.districts = [];
+        this.districts.push(this.areaList[index]);
+        console.log(this.areaList, "else");
+      }
+    }
+  }
+  closeSideBar() {
+    $("#view-deactive").removeClass("open-view-vindor-types");
+    $("#view-side-bar-return-order").removeClass("open-view-vindor-types");
   }
 }

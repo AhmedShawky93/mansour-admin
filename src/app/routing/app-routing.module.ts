@@ -180,7 +180,7 @@ const routes: Routes = [
         data: {permissions: {only: ['ADMIN', 'View Order States'], redirectTo: '/pages/home'}}
       },
       {
-        path: "staff-delivery",
+        path: "branches",
         loadChildren:
           "../pages/order-mangament/delivery/staff-delivery/staff-delivery.module#StaffDeliveryModule",
         canActivate: [NgxPermissionsGuard],

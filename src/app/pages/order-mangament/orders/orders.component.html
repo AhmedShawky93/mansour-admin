@@ -96,7 +96,6 @@
         </th>
         <th>Recurring</th>
         <th style="text-align: center;" scope="col"> status
-          <!-- <i class="fa fa-angle-down"></i> -->
         </th>
         <th scope="col"> sub status </th>
 
@@ -129,8 +128,13 @@
           <span *ngIf="!order.schedule && !order.parent_id && !order.scheduled_at">-</span>
           <span *ngIf="order.scheduled_at">Later</span>
         </td>
-        <!--
-        <td style="text-align: center;">
+        <td>
+          status
+        </td>
+        <td>
+          sub status
+        </td>
+        <!-- <td style="text-align: center;">
 
           <button *ngIf="order.state_id == 2" class="tb-btn" [ngClass]="{'color-yellow': order.state_id == 2}" (click)="openSideView(order)">Processing</button>
           <button *ngIf="order.state_id == 3" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 3}" (click)="openSideView(order)">Delivering</button>
@@ -139,11 +143,14 @@
           <button *ngIf="order.state_id == 6" class="tb-btn" [ngClass]="{'color-red': order.state_id == 6}">Cancelled</button>
           <button *ngIf="order.state_id == 7" class="tb-btn" [ngClass]="{'color-red': order.state_id == 7}" (click)="openSideView(order)">Returned</button>
           <button *ngIf="order.state_id == 8" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 8}" (click)="openSideView(order)">Prepared</button>
-        </td> -->
-        <td>
 
-          <!-- <select class="owl-input" formControlName="area_id" required name="area_id" (change)="selectArea($event)"> -->
-          <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
+          <span>
+            {{order.add}}
+          </span>
+        </td> -->
+        <!-- <td>
+
+           <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
           <div *ngIf="order.order_status_editable">
             <select class="owl-input" required name="status" [ngModel]="order.state_id"
               (ngModelChange)="selectStatus($event, order , i); order.previous_state = order.state_id; openPopupConfirmStatus($event, 1)">
@@ -164,7 +171,7 @@
           </select>
 
 
-        </td>
+        </td> -->
         <td>
           <!-- <a [routerLink]="['/pages/orders/order-details', order.id]" class="table-view">
             <i class="icon-View"></i>
@@ -184,7 +191,8 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign</a>
               <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a>
-              <!-- <a class="dropdown-item">Edit order</a> -->
+              <a class="dropdown-item" (click)="openPopupAction(3, order)">Edit order</a>
+              <a class="dropdown-item" (click)="openPopupAction(5, order)">Return order</a>
               <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
                 (click)="openPopupAction(4, order)">Cancel order</a> -->
             </div>
@@ -203,7 +211,31 @@
                 <i class="fa fa-search"></i>
                 <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="listSearch">
               </div>
-
+              <div class="row">
+                <div class="col-6">
+                  <select class="owl-input mb-10" required name="city_id" [ngModel]="order.address.city_id"
+                    (ngModelChange)="getArea($event)">
+                    <option value="" selected hidden>Select City </option>
+                    <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <select class="owl-input mb-10" required name="status" [ngModel]="order.address.area_id"
+                    (ngModelChange)="getDistrict($event)">
+                    <option value="" selected hidden>Select Area </option>
+                    <option value="{{status.id}}" *ngFor="let status of areaList">{{status.name}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <select class="owl-input mb-10" required name="status" [ngModel]="order.address.district_id">
+                    <option value="" selected hidden>Select district </option>
+                    <option value="{{status.id}}" *ngFor="let status of districts">{{status.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
               <div class="delivary-list">
                 <ul class="list-unstyled">
 
@@ -216,7 +248,9 @@
                     <div class="media-body">
                       <img src="assets/img/available2.svg" alt="" *ngIf="user?.selected">
                       <h5 class="">{{user?.name}}</h5>
-                      <span>{{user.deliverer_profile.city.name}}<span *ngIf="user.deliverer_profile.area">, {{user.deliverer_profile.area.name}}</span><span *ngIf="user.deliverer_profile.districts">, {{user.deliverer_profile.district_names}}</span></span>
+                      <span>{{user.deliverer_profile.city.name}}<span *ngIf="user.deliverer_profile.area">,
+                          {{user.deliverer_profile.area.name}}</span><span *ngIf="user.deliverer_profile.districts">,
+                          {{user.deliverer_profile.district_names}}</span></span>
                     </div>
                   </li>
 
@@ -283,38 +317,12 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="confirmOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" *ngIf="typeStatusPopup == 1" id="exampleModalLabel" style="text-align: center;
-        ">Are you sure you want to change Status this order ?</h5>
-        <h5 class="modal-title" *ngIf="typeStatusPopup == 2" id="exampleModalLabel" style="text-align: center;
-        ">Are you sure you want to change sub Status this order ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <label class="checkup" *ngIf="typeStatusPopup == 1"> notify user
-          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
-          <span class="checkmark"></span>
-        </label>
-      </div>
-      <div class="modal-footer" style="    justify-content: center; ">
 
-        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
-          (click)="changeStatus(notifyUser,typeStatusPopup)">Yes</button>
-        <button type="button" data-dismiss="modal" (click)="cancelStateChange()" class="btn-owls btn-rounded btn-green btn-red2">no </button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <div class="form-sidebar view-vindor-types" id="view-deactive">
   <div class="head" *ngIf="currentOrder">
-    <span class="close" id="close-vindors4">
+    <span class="close" id="close-vindors4" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
     <h3>Order #{{currentOrder.id}}</h3>
@@ -323,116 +331,9 @@
   <div class=" details details-2" *ngIf="currentOrder">
 
     <div>
-      <div class="customer-det">
-        <img src="{{currentOrder?.deliverer?.deliverer_profile?.image}}" alt="" width="50" height="50">
-        <div class="content">
-          <p *ngIf=" currentOrder?.deliverer">{{currentOrder?.deliverer?.name}}</p>
-          <h5 *ngIf=" currentOrder?.deliverer">{{currentOrder?.deliverer?.phone}}</h5>
-          <p *ngIf="!currentOrder?.deliverer">No deliverer Selected</p>
-          <span class="toggle-delevary2"
-            *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5 || currentOrder.state_id == 8">
-            <i class="icon-grey" (click)="currentOrder.showViewPopup = 1; getDeliverers(currentOrder)"></i>
-          </span>
-
-          <div class="edit-out delevaryman-popup" *ngIf="currentOrder.showViewPopup">
-            <div class="close" (click)="currentOrder.showViewPopup = 0">
-              <i class="icon-Exit"></i>
-            </div>
-            <div class="inner-addon left-addon">
-              <i class="fa fa-search"></i>
-              <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="viewFilter">
-            </div>
-
-            <div class="delivary-list">
-              <ul class="list-unstyled">
-
-                <li class="media" *ngFor="let user of availableDeliverers | stringFilter: viewFilter"
-                  (click)="selectDeliverer(user)">
-                  <img width="65" height="65" class="mr-3 img-circle" src="{{ user.delivererProfile?.image }}" alt="">
-                  <div class="media-body">
-                    <img src="assets/img/available.svg" alt="" *ngIf="user.selected">
-                    <h5 class="">{{user.name}}</h5>
-                    <span>{{ user.last_active | amTimeAgo }}</span>
-                  </div>
-                </li>
-
-              </ul>
-            </div>
-            <button class="btn btn-owls btn-rounded btn-green" (click)="assignDeliverer(currentOrder)">Switch</button>
-          </div>
-
-        </div>
-        <div class="date">
-          Deliverer ID: {{currentOrder?.deliverer?.id}}
-        </div>
-      </div>
-    </div>
-
-    <div class="order-report">
-
-      <div *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5">
-        <i class="fa fa-trash trash-side" *ngIf="!showDelete" (click)="toggleDelete()"></i>
-      </div>
-
-
-      <div *ngIf="hide">
-        <p>Order Report -
-          <span>{{currentOrder.created_at | amTimeAgo}}</span>
-        </p>
-      </div>
-
-      <div class="delete-dets" *ngIf="showDelete">
-        <div class="div">
-          <span class="delete" (click)="deleteItems()" *ngIf="getDeleteCount() > 0">delete</span>
-          <span class="cancel" (click)="toggleDelete()">cancel</span>
-        </div>
-        <p><span>({{getDeleteCount()}})</span> selected </p>
-      </div>
-    </div>
-    <div class="order-list">
-
-      <div class="item" *ngFor="let item of currentOrder.items; index as i">
-        <img class="owl-img" src="{{item.product.image}}" alt="" width="45" height="45">
-        <img *ngIf="!item.missing" src="./assets/img/available.svg" alt="">
-        <img *ngIf="item.missing" src="./assets/img/unavailable.svg" alt="">
-        <h4 class="relative">{{item.product.name | summary :
-          25}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; x{{item.amount}}
-          <div class="hover-reason text-left" *ngIf="item.product.name.length >= 25">
-            <div class="head">
-              product name
-            </div>
-            <div class="body">
-              {{item.product.name}}
-            </div>
-          </div>
-
-        </h4>
-
-
-
-        <label class="checkup" *ngIf="showDelete">
-          <input type="checkbox" checked="checked" [(ngModel)]="item.remove" name="remove{{i}}">
-          <span class="checkmark"></span>
-        </label>
-      </div>
-
-      <!-- <div class="item">
-        <img class="owl-img" src="http://via.placeholder.com/45x45" alt="" width="45" height="45">
-        <img src="/assets/img/unavailable.svg" alt="">
-        <h4>burger</h4>
-
-        <label class="checkup" *ngIf="show">
-          <input type="checkbox" checked="checked">
-          <span class="checkmark"></span>
-        </label>
-
-      </div> -->
-    </div>
-
-    <div>
       <button class="add-item-btn" (click)="toggleProductSelect()"
-        *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5">+
-        Add New Product</button>
+        *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5">
+        + Add New Product</button>
 
       <div class="add-prod">
 
@@ -457,14 +358,15 @@
         </div>
 
         <div class="order-list">
+          <img src="./assets/img/loading-table.svg" class="img-loading-side-bar-product" *ngIf="loadingProductSideBar">
           <div class="item" *ngFor="let product of product_list | stringFilter: productTerm">
             <div class="float-right">
               <span>
-                <img src="./assets/img/collapse.svg" alt="" (click)="removeAmount(product)">
+                <img src="./assets/img/collapse.svg" alt="" (click)="removeAmount(product)" style="cursor: pointer;">
               </span>
               <b>{{product.amount}}</b>
               <span>
-                <img src="./assets/img/Expand.svg" alt="" (click)="addAmount(product)">
+                <img src="./assets/img/Expand.svg" alt="" (click)="addAmount(product)" style="cursor: pointer;">
               </span>
               <img src="./assets/img/available.svg" style="
               position: absolute;
@@ -475,8 +377,8 @@
 
             <img class="owl-img" src="{{product.image}}" alt="" width="45" height="45">
             <div class="content">
-              <h4 class="relative">{{product.name | summary : 15}}
-                <div class="hover-reason text-left" *ngIf="product.name.length >= 15">
+              <h4 class="relative">{{product.name | summary : 10}}
+                <div class="hover-reason text-left" *ngIf="product.name.length >= 10">
                   <div class="head">
                     product name
                   </div>
@@ -484,37 +386,15 @@
                     {{product.name}}
                   </div>
                 </div>
-
               </h4>
               <span>{{product.price}}L.E</span>
 
             </div>
           </div>
 
-
-          <!-- <div class="item">
-            <div class="float-right">
-              <span>
-                <img src="/assets/img/collapse.svg" alt="">
-              </span>
-              <b>2</b>
-              <span>
-                <img src="/assets/img/Expand.svg" alt="">
-              </span>
-              <img src="/assets/img/available.svg" alt="">
-            </div>
-
-            <img class="owl-img" src="http://via.placeholder.com/45x45" alt="" width="45" height="45">
-            <div class="content">
-              <h4>tomatos</h4>
-              <span>$price</span>
-            </div>
-          </div> -->
-
-
         </div>
 
-        <button class="btn btn-owls  btn-rounded btn-green" (click)="addProducts()">add</button>
+        <!-- <button class="btn btn-owls  btn-rounded btn-green" (click)="addProducts()">add</button> -->
       </div>
 
 
@@ -522,8 +402,8 @@
         *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5">
         <button class="btn btn-owls  btn-rounded btn-green" *ngIf="currentOrder.state_id == 5"
           (click)="proceedOrder(currentOrder)">Proceed</button>
-        <button data-toggle="modal" data-target="#removePopUp" class="btn btn-owls  btn-rounded btn-red2"
-          (click)="promtCancel(currentOrder)">cancel</button>
+        <!-- <button data-toggle="modal" data-target="#removePopUp" class="btn btn-owls  btn-rounded btn-red2"
+          (click)="promtCancel(currentOrder)">cancel</button> -->
       </div>
 
       <div class="btn-group" *ngIf="currentOrder.state_id == 8 || currentOrder.state_id == 3">
@@ -531,29 +411,160 @@
           (click)="promtReturn(currentOrder)">return</button>
       </div>
 
-      <div class="customer-details">
-        <p>CUSTOMER DETAILS</p>
 
-        <div class="head">
-          <!-- <img class="img-circle" width="45" height="45" src="http://via.placeholder.com/45x45" alt=""> -->
-          <h4>{{currentOrder?.user?.name}}</h4>
-        </div>
-        <div>
-          <p>Phone Number</p>
-          <h4>{{currentOrder?.user?.phone}}</h4>
-        </div>
+    </div>
 
-        <div>
-          <p>Email Address</p>
-          <h4>{{currentOrder?.user?.email}}</h4>
-        </div>
-        <div>
-          <p>Customer Address</p>
-          <h4>{{currentOrder?.address?.address}}</h4>
-        </div>
+    <div class="order-report">
 
+      <div *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5">
+        <i class="fa fa-trash trash-side" *ngIf="!showDelete" (click)="toggleDelete()"></i>
       </div>
 
+
+      <!-- <div *ngIf="hide">
+        <p>Order Report -
+          <span>{{currentOrder.created_at | amTimeAgo}}</span>
+        </p>
+      </div> -->
+
+      <div class="delete-dets" *ngIf="showDelete">
+        <div class="div">
+          <span class="delete" (click)="deleteItems()" *ngIf="getDeleteCount() > 0">delete</span>
+          <span class="cancel" (click)="toggleDelete()">cancel</span>
+        </div>
+        <p><span>({{getDeleteCount()}})</span> selected </p>
+      </div>
+    </div>
+    <div class="order-list">
+
+      <div class="item" *ngFor="let item of currentOrder.items; index as i">
+        <img class="owl-img" src="{{item.product.image}}" alt="" width="45" height="45">
+        <!-- <img *ngIf="!item.missing" src="./assets/img/available.svg" alt="">
+        <img *ngIf="item.missing" src="./assets/img/unavailable.svg" alt=""> -->
+        <span class="quantity-item">
+          <span>
+            <img src="./assets/img/collapse.svg" alt="" (click)="removeAmountOldItem(item)">
+          </span>
+          <b>{{item.amount}}</b>
+          <span>
+            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItem(item)">
+          </span>
+        </span>
+        <h4 class="relative">
+          <span style="width: 270px; display: inline-block;" *ngIf="item.product">
+            {{(item.product.name.length > 26) ? (item.product.name | summary :  25) : item.product.name}}
+          </span>
+          <span style="width: 270px; display: inline-block;" *ngIf="!item.product">
+            {{(item.name.length > 26) ? (item.name | summary :  25) : item.name}}
+          </span>
+          <!-- x{{item.amount}} -->
+          <div class="hover-reason text-left" *ngIf="item.product.name.length >= 25">
+            <div class="head">
+              product name
+            </div>
+            <div class="body" *ngIf="item?.product">
+              {{item.product.name}}
+            </div>
+            <div class="body" *ngIf="!item?.product">
+              {{item.name}}
+            </div>
+          </div>
+
+        </h4>
+        <label class="checkup" *ngIf="showDelete">
+          <input type="checkbox" checked="checked" [(ngModel)]="item.remove" name="remove{{i}}">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+    <button class="btn btn-owls  btn-rounded btn-green" (click)="updateProducts()">Update Order</button>
+
+
+  </div>
+</div>
+
+<div class="form-sidebar view-vindor-types" id="view-side-bar-return-order">
+  <div class="head" *ngIf="currentOrder">
+    <span class="close" id="close-vindors4" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>Order #{{currentOrder.id}}</h3>
+  </div>
+
+  <div class=" details details-2" *ngIf="currentOrder">
+
+    <div class="order-list">
+
+      <div class="item" *ngFor="let item of currentOrder.items; index as i">
+        <img class="owl-img" src="{{item.product.image}}" alt="" width="45" height="45">
+        <!-- <img *ngIf="!item.missing" src="./assets/img/available.svg" alt="">
+        <img *ngIf="item.missing" src="./assets/img/unavailable.svg" alt=""> -->
+        <span class="quantity-item" *ngIf="item.retrun">
+          <span>
+            <img src="./assets/img/collapse.svg" alt="" (click)="removeAmountOldItemReturn(item)">
+          </span>
+          <b>{{item.quantity}}</b>
+          <span>
+            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItemReturn(item)">
+          </span>
+        </span>
+        <h4 class="relative">
+          <span style="width: 270px; display: inline-block;" *ngIf="item.product">
+            {{(item.product.name.length > 26) ? (item.product.name | summary :  25) : item.product.name}}
+          </span>
+          <span style="width: 270px; display: inline-block;" *ngIf="!item.product">
+            {{(item.name.length > 26) ? (item.name | summary :  25) : item.name}}
+          </span>
+          <!-- x{{item.amount}} -->
+          <div class="hover-reason text-left" *ngIf="item.product.name.length >= 25">
+            <div class="head">
+              product name
+            </div>
+            <div class="body" *ngIf="item?.product">
+              {{item.product.name}}
+            </div>
+            <div class="body" *ngIf="!item?.product">
+              {{item.name}}
+            </div>
+          </div>
+
+        </h4>
+        <label class="checkup">
+          <input type="checkbox" checked="checked" [(ngModel)]="item.retrun" name="remove{{i}}">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+    <button class="btn btn-owls  btn-rounded btn-green" (click)="updateProducts()">Return Order</button>
+
+
+  </div>
+</div>
+
+
+<div class="modal fade" id="confirmOrderUpdate" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
+        ">Are you sure you want to update this order ?</h5>
+        <button type="button" class="close" data-dismiss="confirmOrderUpdate" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label class="checkup"> notify user
+          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="modal-footer" style="    justify-content: center; ">
+
+        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
+          (click)="confirmUpdateProducts(notifyUser)">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
+      </div>
     </div>
   </div>
 </div>

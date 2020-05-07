@@ -520,3 +520,18 @@ a.clear-date {
 .dropdown-item {
   cursor: pointer;
 }
+
+.quantity-item {
+  position: absolute;
+  right: 0px;
+  top: 6px;
+}
+.mb-10
+{
+  margin-bottom: 10px;
+}
+.img-loading-side-bar-product
+{
+  display: block;
+  margin: 0px auto;
+}

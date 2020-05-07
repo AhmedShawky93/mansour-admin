@@ -10,7 +10,7 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 
 const router = [
-  { path: "", component: StaffDeliveryComponent, data: { title: "options" } },
+  { path: "", component: StaffDeliveryComponent, data: { title: "branches" } },
 ];
 
 @NgModule({
