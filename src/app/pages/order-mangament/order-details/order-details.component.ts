@@ -1,4 +1,4 @@
-import { OrderStatesService } from './../../services/order-states.service';
+import { OrderStatesService } from "./../../services/order-states.service";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -31,13 +31,16 @@ export class OrderDetailsComponent implements OnInit {
   orderStatuId: any;
   typeStatusPopup: any;
   orderStatus: any;
+  orderSubStates = [];
+  state_id: any;
+  sub_state_id: any;
 
   constructor(
     private _formBuilder: FormBuilder,
     private router: Router,
     private activeRoute: ActivatedRoute,
     private orderService: OrdersService,
-    private orderStatesService : OrderStatesService
+    private orderStatesService: OrderStatesService
   ) {}
 
   ngOnInit() {
@@ -81,8 +84,13 @@ export class OrderDetailsComponent implements OnInit {
         this.delivered = this.hasState(stepsArray, 4);
         this.returned = this.hasState(stepsArray, 7);
       });
+
+
     });
-    this.getOrderStates()
+    this.getOrderStates();
+    this.order.state_id = this.order.previous_state;
+    this.order.sub_state_id = this.order.previous_subState;
+
   }
 
   getStateName(id) {
@@ -127,16 +135,22 @@ export class OrderDetailsComponent implements OnInit {
     return ind !== -1;
   }
 
-  selectStatus(id, data, indexstatus) {
-    console.log(id, data, indexstatus);
+  changeStausInOrder(state, sub_state, id) {
+    console.log(state, sub_state);
+    this.state_id = state;
+    this.sub_state_id = sub_state;
+    this.orderId = id;
+    $("#confirmOrderStatus").modal("show");
+  }
+  selectStatus(id) {
+    console.log(id);
 
-    let index = data.order_status.findIndex((item) => item.id == id);
+    let index = this.orderStatus.findIndex((item) => item.id == id);
     console.log(index);
 
     if (index !== -1) {
-      data.sub_states = data.order_status[index].sub_states;
-      console.log(data);
-      this.orderId = data.id;
+      this.orderSubStates = this.orderStatus[index].sub_states;
+      console.log(this.orderSubStates);
     }
     // if (!this.firstTime) {
     //   $("#confirmOrderStatus").modal("show");
@@ -153,30 +167,24 @@ export class OrderDetailsComponent implements OnInit {
     $("#confirmOrderStatus").modal("show");
   }
 
-  changeStatus(notifyUser, type) {
-    console.log(notifyUser, type);
-    if (type == 1) {
-      this.orderService
-        .changeStatus(this.orderId, {
-          state_id: this.orderStatuId,
-          notify_customer: notifyUser,
-        })
-        .subscribe((response: any) => {
-          if (response.code === 200) {
-            $("#confirmOrderStatus").modal("hide");
-          }
-        });
-    } else {
-      this.orderService
-        .changeSubStatus(this.orderId, {
-          sub_state_id: this.orderStatuId,
-        })
-        .subscribe((response: any) => {
-          if (response.code === 200) {
-            $("#confirmOrderStatus").modal("hide");
-          }
-        });
-    }
+  confirmChangeStatus(notifyUser) {
+    console.log(notifyUser);
+    this.orderService
+      .changeBulkChangeState(this.orderId, {
+        orders: [
+          {
+            id: this.orderId,
+            state_id: this.state_id,
+            sub_state_id: this.sub_state_id,
+          },
+        ],
+        notify_customer: notifyUser,
+      })
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          $("#confirmOrderStatus").modal("hide");
+        }
+      });
   }
 
   getOrderStates() {

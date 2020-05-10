@@ -8,7 +8,7 @@
   </div>
   <div class="details details-2" *ngIf="dataView">
     <button class="btn btn-owls btn-rounded btn-green" (click)="closeSideBar()"
-      [routerLink]="[dataView.id,'regions']">View regions List</button>
+      [routerLink]="[dataView.id,'districts']">View districts List</button>
 
     <div>
       <h5> name </h5>
@@ -26,7 +26,7 @@
     </div>
 
     <div>
-      <h5>regions Name </h5>
+      <h5>districts Name </h5>
 
       <p *ngIf="dataView?.areas">
         <span *ngFor="let value of  dataView?.areas">

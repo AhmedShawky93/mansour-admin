@@ -442,7 +442,7 @@ export class OrdersComponent implements OnInit {
       $("#view-side-bar-return-order").toggleClass("open-view-vindor-types");
       this.currentOrder = response.data;
       this.currentOrder.items.forEach((element) => {
-        element.quantity = element.amount;
+        element.quantity = 1;
       });
       this.selectedCategory = "";
       this.selectedSubcategory = "";
@@ -593,6 +593,34 @@ export class OrdersComponent implements OnInit {
   updateProducts() {
     $("#confirmOrderUpdate").modal("show");
   }
+
+  returnProducts() {
+    $("#returnOrder").modal("show");
+  }
+  returnItemsProducts() {
+    const itemReturn = this.currentOrder.items
+      .filter((item) => item.retrun)
+      .map((item) => {
+        return {
+          id: item.id,
+          amount: item.quantity,
+        };
+      });
+    console.log(itemReturn);
+
+    if (itemReturn.length) {
+      this.ordersService
+        .retrunItems(this.currentOrder.id, { items: itemReturn })
+        .subscribe((response: any) => {
+          if (response.code === 200) {
+            $("#returnOrder").modal("hide");
+          }
+        });
+    }
+    this.selectedCategory = "";
+    this.selectedSubcategory = "";
+    this.product_list = [];
+  }
   confirmUpdateProducts(notifyUser) {
     const items = this.currentOrder.items
       .filter((item) => item.amount)
@@ -602,7 +630,11 @@ export class OrdersComponent implements OnInit {
           amount: item.amount,
         };
       });
-
+    const deleteIds = this.currentOrder.items
+      .filter((item) => item.remove)
+      .map((item) => item.id);
+    console.log(items);
+    console.log(deleteIds);
     if (items.length) {
       this.ordersService
         .updateItems(this.currentOrder.id, {
@@ -611,6 +643,7 @@ export class OrdersComponent implements OnInit {
           delivery_fees: this.currentOrder.delivery_fees,
           admin_discount: null,
           notify_customer: notifyUser,
+          deleted_itmes: deleteIds,
         })
         .subscribe((response: any) => {
           if (response.code === 200) {
@@ -721,7 +754,7 @@ export class OrdersComponent implements OnInit {
       // edit order
       this.openSideView(data);
     } else if (type == 5) {
-      // edit order
+      // Return order
       this.openSideViewReturnOrder(data);
     } else if (type == 4) {
       // cancel order
