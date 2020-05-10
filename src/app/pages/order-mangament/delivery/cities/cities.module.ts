@@ -18,9 +18,9 @@ const router = [
   { path: "", component: CitiesComponent, data: { title: "Cities" } },
   { path: ":id/areas", component: AreasComponent, data: { title: "Areas" } },
   {
-    path: ":id/areas/:id/regions",
+    path: ":id/areas/:id/districts",
     component: RegionsComponent,
-    data: { title: "Regions" },
+    data: { title: "districts" },
   },
 ];
 @NgModule({

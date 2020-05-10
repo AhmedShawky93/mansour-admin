@@ -110,16 +110,38 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
+  updateItems(id, data) {
+    return this.http
+      .post(this.url + "/orders/" + id, data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+
+  retrunItems(id, data) {
+    return this.http
+      .post(this.url + "/orders/" + id + "/return_items", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
   changeStatus(id, data) {
     return this.http
-      .post(this.url + '/orders/'+ id + "/change_state", data)
+      .post(this.url + "/orders/" + id + "/change_state", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+  changeBulkChangeState(id, data) {
+    return this.http
+      .post(this.url + "/orders/bulk_change_state", data)
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });
   }
   changeSubStatus(id, data) {
     return this.http
-      .post(this.url + '/orders/'+ id + "/change_sub_state", data)
+      .post(this.url + "/orders/" + id + "/change_sub_state", data)
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });

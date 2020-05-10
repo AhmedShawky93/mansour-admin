@@ -128,7 +128,7 @@ const routes: Routes = [
       },
       {
         path: "orders/order-details/:id",
-        component: OrderDetailsComponent,
+        component: OrderDetailsComponent,  data: {title: "order Details"},
         canActivate: [NgxPermissionsGuard],
         // data: { title: "Order Details", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} },
       },
@@ -180,7 +180,7 @@ const routes: Routes = [
         data: {permissions: {only: ['ADMIN', 'View Order States'], redirectTo: '/pages/home'}}
       },
       {
-        path: "staff-delivery",
+        path: "branches",
         loadChildren:
           "../pages/order-mangament/delivery/staff-delivery/staff-delivery.module#StaffDeliveryModule",
         canActivate: [NgxPermissionsGuard],

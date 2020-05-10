@@ -323,6 +323,7 @@ label {
 }
 
 .open-view-vindor-types {
+  transition: all .5s ease-in-out;
   left: 290px;
   visibility: visible;
 }

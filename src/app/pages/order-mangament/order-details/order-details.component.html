@@ -55,7 +55,49 @@
   </div>
 
 </div>
+<div class="col-12">
+  <div class="milestones-stepper" *ngIf="order">
+    <ul class="row">
+      <li class="col active" *ngFor="let state of order.history">
+        <img src="./assets/img/available.svg">
+        <p style="margin-bottom: 0px;">{{state.name}}</p>
+        <p style="margin-top: 3px;">{{state.sub_state}}</p>
+        <span>{{state.created_at | date: "yyyy-MM-dd hh:mm a"}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
 
+<div class="block-title">
+  <h4>Order Status</h4>
+</div>
+
+<div class="block" *ngIf="order">
+  <div class="row">
+    <div class="col-3">
+      <!-- <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
+      <div *ngIf="order.order_status_editable"> -->
+      <select class="owl-input" required name="status" [ngModel]="order.state_id"
+        (ngModelChange)="selectStatus($event); order.previous_state = order.state_id;">
+        <option value="" selected hidden>Select Status </option>
+        <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}
+        </option>
+      </select>
+      <!-- </div> -->
+    </div>
+    <div class="col-3" *ngIf="orderSubStates.length">
+      <select class="owl-input" required name="status" [(ngModel)]="order.sub_state_id">
+        <option [value]="null" selected hidden>Select sub Status </option>
+        <option value="{{status.id}}" *ngFor="let status of orderSubStates">{{status.name}}
+        </option>
+      </select>
+    </div>
+    <div clas="col-3">
+      <button class="float-right btn btn-owls btn-rounded btn-green"
+        (click)="changeStausInOrder(order.state_id, order.sub_state_id, order.id)">Apply</button>
+    </div>
+  </div>
+</div>
 
 <div class="block-title">
   <h4>Order Details</h4>
@@ -141,19 +183,20 @@
 
 
 
+
+
 <div class="block-title">
   <h4>Product </h4>
 </div>
 
 <div class="block" *ngIf="order">
-
   <div *ngFor="let item of order.items; index as i">
     <div class="block-ratings">
       <p>{{i + 1}}</p>
       <img [src]="item?.product.image" alt="" class="owl-img" width="80">
       <div class="content">
         <h4>{{item.product.name}}</h4>
-        <p>{{item.product.description}}</p>
+        <p>{{item.product.sku}}</p>
       </div>
     </div>
 
@@ -332,17 +375,57 @@
 </div>
 
 <div class="block-title">
-  <h4>order milestones</h4>
+  <h4>Return product </h4>
 </div>
 
+<div class="block" *ngIf="order">
+  <div *ngFor="let item of order.items; index as i">
+    <div class="block-ratings">
+      <p>{{i + 1}}</p>
+      <img [src]="item?.product.image" alt="" class="owl-img" width="80">
+      <div class="content">
+        <h4>{{item.product.name}}</h4>
+        <p>{{item.product.sku}}</p>
+      </div>
+    </div>
 
-<div class="milestones-stepper" *ngIf="order">
-  <ul class="row">
+    <div class="qty-item">
+      <p>QTY: {{item.amount}}</p>
+      <span *ngIf="item?.product.discount_price === null">{{item.product.price}} LE</span>
+      <span *ngIf="item?.product.discount_price !== null">{{item.product.discount_price}} LE</span>
+    </div>
+  </div>
 
-    <li class="col active" *ngFor="let state of order.history">
-      <img src="./assets/img/available.svg">
-      <p>{{state.name}}</p>
-      <span>{{state.created_at | date: "yyyy-MM-dd hh:mm a"}}</span>
-    </li>
-  </ul>
+</div>
+
+<!-- <div class="block-title">
+  <h4>order milestones</h4>
+</div> -->
+
+
+
+<div class="modal fade" id="confirmOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
+        ">Are you sure you want to change Status this order ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label class="checkup" *ngIf="typeStatusPopup == 1"> notify user
+          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="modal-footer" style="    justify-content: center; ">
+
+        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
+          (click)="confirmChangeStatus(notifyUser)">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
+      </div>
+    </div>
+  </div>
 </div>
