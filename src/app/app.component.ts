@@ -9,6 +9,8 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
 import { ActivatedRoute } from "@angular/router";
 import { AuthService } from "./shared/auth.service";
+import { NgxPermissionsService } from "ngx-permissions";
+import { HttpClient } from "@angular/common/http";
 
 declare var jquery: any;
 declare var $: any;
@@ -23,14 +25,17 @@ export class AppComponent implements OnInit {
     private router: Router,
     private title: Title,
     private activatedRoute: ActivatedRoute,
-    private auth: AuthService
+    private auth: AuthService,
+    private permissionsService: NgxPermissionsService,
+    private http: HttpClient
   ) {}
 
-  ngOnInit() {
-
+  async ngOnInit() {
     if (this.auth.isAuthenticated()) {
       this.auth.setPermissions();
     }
+    this.permissionsService.addPermission(['ADMIN']);
+    
 
     this.router.events
       .filter((event) => event instanceof NavigationEnd)
