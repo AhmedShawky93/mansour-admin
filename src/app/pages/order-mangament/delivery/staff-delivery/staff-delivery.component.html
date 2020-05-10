@@ -8,7 +8,7 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search"
+        <input type="text"  [(ngModel)]="filter.q" (change)="changePage(p)" name="searchTerm" class="owl-input owls-search"
           placeholder="search ...">
       </div>
     </div>
@@ -26,7 +26,7 @@
 
 
 <!-- Tabel -->
-<div class="table-responsive text-center">
+<div class="table-responsive text-center" *ngIf="!loading">
   <table class="table owls-table">
     <thead>
       <tr>

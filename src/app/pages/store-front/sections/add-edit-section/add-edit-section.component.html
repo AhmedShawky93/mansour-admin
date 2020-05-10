@@ -1,0 +1,99 @@
+<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+  <div class="head">
+    <span class="close" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>{{selectProductDataEdit ?  'Edit List' : 'New List' }} </h3>
+  </div>
+
+  <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="sectionForm" novalidate>
+
+    
+    <div class="form-group">
+      <label for="">Name</label>
+      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_en">
+      <div
+        *ngIf="sectionForm.controls.name_en.invalid && (sectionForm.controls.name_en.dirty || sectionForm.controls.name_en.touched)"
+        class="alert alert-danger">
+        <div *ngIf="sectionForm.controls.name_en.errors.required">
+          Name is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Name (Ar)</label>
+      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_ar">
+      <!-- Start  Errors Rolues -->
+
+      <div
+        *ngIf="sectionForm.controls.name_ar.invalid && (sectionForm.controls.name_ar.dirty || sectionForm.controls.name_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="sectionForm.controls.name_ar.errors.required">
+          Name (Ar) is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+    <div class="form-group">
+      <label for="">description</label>
+      <textarea class="owl-input" placeholder="Type.." maxlength="250" laceholder="type"
+        formControlName="description_en"></textarea>
+      <div
+        *ngIf="sectionForm.controls.description_en.invalid && (sectionForm.controls.description_en.dirty || sectionForm.controls.description_en.touched)"
+        class="alert alert-danger">
+        <div *ngIf="sectionForm.controls.description_en.errors.required">
+          Description is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">description (Ar)</label>
+      <textarea class="owl-input" maxlength="250" placeholder="Type.." formControlName="description_ar"></textarea>
+      <div
+        *ngIf="sectionForm.controls.description_ar.invalid && (sectionForm.controls.description_ar.dirty || sectionForm.controls.description_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="sectionForm.controls.description_ar.errors.required">
+          Description (Ar) is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Type</label>
+      <select formControlName="type" class="owl-input">
+        <option [value]="0" selected>Custom List</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="">Custom Lists</label>
+      <select formControlName="list_id" class="owl-input">
+        <option *ngFor="let list of lists" value="{{list.id}}">{{list.name_en}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="">Order</label>
+      <input type="number" class="owl-input" placeholder="Type.." required formControlName="order">
+      <!-- Start  Errors Rolues -->
+
+      <div
+        *ngIf="sectionForm.controls.order.invalid && (sectionForm.controls.order.dirty || sectionForm.controls.order.touched)"
+        class="alert alert-danger">
+        <div *ngIf="sectionForm.controls.order.errors.required">
+          Order is required.
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green">Save</button>
+    </div>
+  </form>
+</div>

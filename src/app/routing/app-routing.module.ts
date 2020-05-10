@@ -186,6 +186,20 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: {permissions: {only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home'}}
       },
+      {
+        path: "lists",
+        loadChildren:
+          "../pages/order-mangament/inventory/lists/lists.module#ListsModule",
+        canActivate: [NgxPermissionsGuard],
+        data: {permissions: {only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home'}}
+      },
+      {
+        path: "sections",
+        loadChildren:
+          "../pages/store-front/sections/sections.module#SectionsModule",
+        canActivate: [NgxPermissionsGuard],
+        data: {permissions: {only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home'}}
+      },
     ],
     canActivate: [AuthGuard],
   },

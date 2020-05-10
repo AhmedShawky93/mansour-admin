@@ -62,6 +62,11 @@ export class StaffDeliveryComponent implements OnInit {
   loading: boolean;
   productIsEmpty: boolean;
   deliverers: any;
+  filter$ = new Subject();
+  filter = {
+    q: "",
+    page: 1,
+  };
   constructor(
     private toastrService: ToastrService,
     private deliveryService: DeliveryService
@@ -73,26 +78,43 @@ export class StaffDeliveryComponent implements OnInit {
     this.searchForm = new FormGroup({
       searchTerm: new FormControl(),
     });
+
+    this.filter$
+      .debounceTime(400)
+      .pipe(tap((e) => (this.loading = true)))
+      .switchMap((filter) => this.searchDeliverers())
+      .subscribe((result: any) => {
+        this.deliverers = result.data.deliverers;
+        this.deliverers = this.deliverers.map((item) => {
+          item.deactivated = !item.active;
+          return item;
+        });
+        this.total = result.data.total;
+        this.loading = false;
+      });
   }
   openViewProduct(data) {}
 
   getDeliverers() {
-    this.deliveryService.getDeliverers().subscribe((response: any) => {
-      this.deliverers = response.data;
-
-      this.deliverers.map((data: any) => {
-        data.deactivated = !data.active;
-        return data;
+    this.deliveryService.getDeliverers(this.filter).subscribe((response: any) => {
+      this.deliverers = response.data.deliverers;
+      this.deliverers = this.deliverers.map((item) => {
+        item.deactivated = !item.active;
+        return item;
       });
+      this.total = response.data.total;
     });
   }
 
+  searchDeliverers() {
+    return this.deliveryService.getDeliverers(this.filter);
+  }
+
   changePage(p) {
-    console.log(p);
-    this.searchObj.page = p;
     this.p = p;
-    // this.filter.page = p;
-    this.getDeliverers();
+    this.filter.page = p;
+    console.log(this.filter);
+    this.filter$.next(this.filter);
   }
 
   changeActive(clinic) {

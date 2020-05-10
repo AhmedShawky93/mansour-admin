@@ -1,0 +1,52 @@
+<div class="form-sidebar view-vindor-types" id="show-p-details">
+  <div class="head">
+    <span class="close" id="close-vindors4" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>View List</h3>
+  </div>
+  <div class="details details-2" *ngIf="list">
+
+    <!-- <div class="row">
+      <div class="col-6">
+        <h5>Image</h5>
+        <img src="{{list.image_en}}" alt="">
+      </div>
+      <div class="col-6">
+        <h5>Image (Ar)</h5>
+        <img src="{{list.image_ar}}" alt="">
+      </div>
+    </div> -->
+
+    <div>
+      <h5>List Name </h5>
+      <p>{{list.name_en}}</p>
+    </div>
+
+    <div>
+      <h5>List Name Ar </h5>
+      <p>{{list.name_ar}}</p>
+    </div>
+
+    <div>
+      <h5>Description</h5>
+      <p>{{list?.description_en}}</p>
+    </div>
+
+    <div>
+      <h5>Description ar</h5>
+      <p>{{list?.description_ar}}</p>
+    </div>
+
+    <div>
+      <h5>Total Products</h5>
+      <p>{{list?.products.length}}</p>
+    </div>
+
+    <div>
+      <h5>Creation Date</h5>
+      <p>{{list?.created_at}}</p>
+    </div>
+
+  </div>
+</div>

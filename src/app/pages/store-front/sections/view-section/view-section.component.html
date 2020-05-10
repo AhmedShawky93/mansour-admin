@@ -1,0 +1,49 @@
+<div class="form-sidebar view-vindor-types" id="show-p-details">
+  <div class="head">
+    <span class="close" id="close-vindors4" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>View Section</h3>
+  </div>
+  <div class="details details-2" *ngIf="section">
+
+    <div>
+      <h5>Section name </h5>
+      <p>{{section.name_en}}</p>
+    </div>
+    <div>
+      <h5>Section name Ar </h5>
+      <p>{{section.name_ar}}</p>
+    </div>
+
+    <div>
+      <h5>Description</h5>
+      <p>{{section?.description_en}}</p>
+    </div>
+    <div>
+      <h5>Description ar</h5>
+      <p>{{section?.description_ar}}</p>
+    </div>
+    <div>
+      <h5>Type</h5>
+      <p>
+        <span [ngSwitch]="section.type">
+          <span *ngSwitchCase="0">Custom List</span>
+          <span *ngSwitchCase="1">Most Recent</span>
+          <span *ngSwitchCase="2">Most Bought</span>
+          <span *ngSwitchCase="3">Top Promotions</span>
+          <span *ngSwitchDefault>-</span>
+        </span>
+      </p>
+    </div>
+    <div>
+      <h5>Order</h5>
+      <p>{{section?.order}}</p>
+    </div>
+
+    <div>
+      <h5>Creation Date</h5>
+      <p>{{section?.created_at}}</p>
+    </div>
+  </div>
+</div>
