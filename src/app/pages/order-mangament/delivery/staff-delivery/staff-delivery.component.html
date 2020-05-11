@@ -63,9 +63,10 @@
         <td> {{delivery?.delivererProfile?.city?.name}} </td>
         <td> {{delivery?.delivererProfile?.area?.name}} </td>
         <td>
-          <span *ngFor="let districts of delivery?.delivererProfile?.districts ">
+          {{delivery?.delivererProfile?.districts.length}}
+          <!-- <span *ngFor="let districts of delivery?.delivererProfile?.districts ">
             {{districts.name}}<br>
-          </span>
+          </span> -->
         </td>
 
         <td class="hidden">{{(delivery.created_at) ?  (delivery.created_at  | date : "yyyy-MM-dd hh:mm a")  : '-' }}
