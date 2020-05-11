@@ -1736,3 +1736,7 @@ bar-rating {
   vertical-align: text-top !important;
 
 }
+
+.product-list .ng-select-container {
+  height: 200px !important;
+}

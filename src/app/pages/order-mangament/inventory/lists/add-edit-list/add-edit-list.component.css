@@ -134,3 +134,7 @@ agm-map {
   margin-bottom: 20px;
   border-radius: 10px;
 }
+
+.ng-select-container {
+  height: 200px !important;
+}

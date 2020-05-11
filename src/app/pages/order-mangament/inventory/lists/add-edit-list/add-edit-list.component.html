@@ -88,7 +88,7 @@
       </select>
     </div>
 
-    <div class="form-group" *ngIf="listForm.controls.type.value == 4">
+    <div class="form-group product-list" *ngIf="listForm.controls.type.value == 4">
       <label for="amount">Products</label>
       <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
         bindLabel="name" bindValue="id" placeholder="Enter Product name" formControlName="items" [multiple]="true">
