@@ -231,7 +231,7 @@ export class StaffComponent implements OnInit {
   }
 
   loadDeliverers() {
-    this.deliverService.getDeliverers().subscribe((response: any) => {
+    this.deliverService.getDeliverers({}).subscribe((response: any) => {
       this.deliverers = response.data;
 
       this.deliverers.map((user: any) => {

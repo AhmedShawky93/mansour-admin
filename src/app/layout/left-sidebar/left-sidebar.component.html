@@ -55,17 +55,13 @@
           <li>
             <a routerLink="/pages/sections" routerLinkActive="active">Sections</a>
           </li>
-        </ul>
-        <ul id="store-front" class="collapse">
-          <li>
-            <a routerLink="/pages/slider" routerLinkActive="active">Ads</a>
-          </li>
-        </ul>
-        <!-- <ul id="store-front" class="collapse">
           <li>
             <a routerLink="/pages/custom-ads" routerLinkActive="active">Ads</a>
           </li>
-        </ul> -->
+          <li>
+            <a routerLink="/pages/ads" routerLinkActive="active">Slider</a>
+          </li>
+        </ul>
       </li>
 
 
@@ -133,10 +129,10 @@
             <a routerLink="/pages/promocodes" routerLinkActive="active">
               promocodes</a>
           </li>
-          <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
+          <!-- <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
             <a routerLink="/pages/ads" routerLinkActive="active">
               ads</a>
-          </li>
+          </li> -->
           <li *ngxPermissionsOnly="['ADMIN', 'View Notifications']">
             <a routerLink="/pages/notifications" routerLinkActive="active">
               notifications</a>

@@ -12,15 +12,16 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { CategoryService } from "@app/pages/services/category.service";
 import { BrandsService } from "@app/pages/services/brands.service";
+import { CustomAdsService } from "@app/pages/services/custom-ads.service";
 
 declare var jquery: any;
 declare var $: any;
 @Component({
-  selector: "app-ads",
-  templateUrl: "./ads.component.html",
-  styleUrls: ["./ads.component.css"],
+  selector: "app-custom-ads",
+  templateUrl: "./custom-ads.component.html",
+  styleUrls: ["./custom-ads.component.css"],
 })
-export class adsComponent implements OnInit {
+export class CustomAdsComponent implements OnInit {
   category_id: any;
   editFormGroup: FormGroup;
   public productList: any[];
@@ -57,7 +58,7 @@ export class adsComponent implements OnInit {
   currentAd: any;
 
   constructor(
-    private adsService: AdsService,
+    private adsService: CustomAdsService,
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
     private _CategoriesService: CategoryService,
@@ -115,18 +116,13 @@ export class adsComponent implements OnInit {
 
     this.newAdsForm = new FormGroup({
       id: new FormControl(),
+      name_en: new FormControl("", Validators.required),
+      name_ar: new FormControl("", Validators.required),
       type: new FormControl("", Validators.required),
-      popup: new FormControl(0, Validators.required),
-      order: new FormControl("", Validators.required),
-      banner_ad: new FormControl(false),
-      banner_title: new FormControl(""),
-      banner_title_ar: new FormControl(""),
-      banner_description: new FormControl(""),
-      banner_description_ar: new FormControl(""),
       category: new FormControl(""),
       subCategory: new FormControl(""),
       prod: new FormControl(""),
-      image: new FormControl("", Validators.required),
+      image_en: new FormControl("", Validators.required),
       image_ar: new FormControl("", Validators.required),
       brand: new FormControl(),
     });
@@ -154,39 +150,41 @@ export class adsComponent implements OnInit {
   }
 
   editAd(ad) {
+    console.log(ad)
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
       type: new FormControl(ad.type, Validators.required),
-      popup: new FormControl(ad.popup, Validators.required),
-      order: new FormControl(ad.order, Validators.required),
-      banner_ad: new FormControl(ad.banner_ad),
-      banner_title: new FormControl(ad.banner_title),
-      banner_title_ar: new FormControl(ad.banner_title_ar),
-      banner_description: new FormControl(ad.banner_description),
-      banner_description_ar: new FormControl(ad.banner_description_ar),
-      image: new FormControl(ad.image, Validators.required),
-      image_ar: new FormControl(
-        ad.image_ar ? ad.image_ar : "",
-        Validators.required
-      ),
-      category: new FormControl(ad.category_id),
-      subCategory: new FormControl(ad.sub_category_id),
-      prod: new FormControl(ad.product_id),
-      brand: new FormControl(ad.brand_id),
+      name_en: new FormControl(ad.name_en, Validators.required),
+      name_ar: new FormControl(ad.name_ar, Validators.required),
+      image_en: new FormControl(ad.image_en, Validators.required),
+      image_ar: new FormControl(ad.image_ar, Validators.required),
+      category: new FormControl(),
+      subCategory: new FormControl(),
+      prod: new FormControl(),
+      brand: new FormControl(),
+      dev_key: new FormControl(ad.dev_key)
     });
+    if (ad.type == 1) {
+      this.newAdsForm.get('prod').setValue(ad.item_id);
+      this.newAdsForm.get('subCategory').setValue(ad.item_data.category_id);
+      this.newAdsForm.get('category').setValue(ad.item_data.category.id);
+    } else if (ad.type == 3) {
+      this.newAdsForm.get('subCategory').setValue(ad.item_id);
+      this.newAdsForm.get('category').setValue(ad.item_data.parent_id);
+    } else if (ad.type == 4) {
+      this.newAdsForm.get('brand').setValue(ad.item_id);
+    }
+    console.log(this.newAdsForm.value);
 
-    this.adCrrentEdit = JSON.parse(JSON.stringify(ad));
-    this.adCrrentEdit.imageUrl = this.adCrrentEdit.image;
-
-    this.category_id = this.adCrrentEdit.category_id;
-    this.selectedSubcategory = this.adCrrentEdit.sub_category_id;
-    this.selectedProductId = this.adCrrentEdit.product_id;
+    this.category_id = this.newAdsForm.get('category').value;
+    this.selectedSubcategory = this.newAdsForm.get('subCategory').value;
+    this.selectedProductId = this.newAdsForm.get('prod').value;
 
     // fill select options
-    if (this.adCrrentEdit.type == 1 || this.adCrrentEdit.type == 2) {
+    if (ad.type == 1 || ad.type == 3) {
       this.onCategoryChange(this.category_id);
 
-      if (this.adCrrentEdit.type == 1) {
+      if (ad.type == 1) {
         this.onSubCategoryChange(this.selectedSubcategory);
       }
     }
@@ -200,7 +198,7 @@ export class adsComponent implements OnInit {
       form.get("subCategory").setValidators([Validators.required]);
       form.get("prod").setValidators([Validators.required]);
       form.get("brand").clearValidators();
-    } else if (form.get("type").value == 2) {
+    } else if (form.get("type").value == 3) {
       form.get("category").setValidators([Validators.required]);
       form.get("subCategory").setValidators([Validators.required]);
       form.get("prod").clearValidators();
@@ -231,8 +229,8 @@ export class adsComponent implements OnInit {
     this.selectFile = <File>event.target.files[0];
     this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {
       if (response.body) {
-        if (type == "image") {
-          form.get("image").setValue(response.body.data.filePath);
+        if (type == "image_en") {
+          form.get("image_en").setValue(response.body.data.filePath);
         } else {
           form.get("image_ar").setValue(response.body.data.filePath);
         }
@@ -279,7 +277,7 @@ export class adsComponent implements OnInit {
 
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
-    } else if (ad.type == 2) {
+    } else if (ad.type == 3) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
       ad.item_id = this.newAdsForm.get("brand").value;
@@ -327,6 +325,7 @@ export class adsComponent implements OnInit {
     const index = this.categories.findIndex((item) => item.id == category_id);
     const category = this.categories[index];
     this.sub_categories = category.sub_categories;
+    console.log(this.sub_categories);
   }
 
   onSubCategoryChange(catId) {

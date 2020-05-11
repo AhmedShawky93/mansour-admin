@@ -26,6 +26,7 @@ import { TotalComponent } from "../pages/order-mangament/totalorders2/totalorder
 import { PrintReceiptComponent } from "@app/pages/order-mangament/print-receipt/print-receipt.component";
 import { BrandsComponent } from "@app/pages/brands/brands.component";
 import { NgxPermissionsGuard } from "ngx-permissions";
+import { CustomAdsComponent } from "@app/pages/store-front/custom-ads/custom-ads.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, data: { title: "Login" } },
@@ -144,6 +145,12 @@ const routes: Routes = [
         loadChildren: "../pages/stars/stars.module#StarsModule",
         canActivate: [NgxPermissionsGuard],
         data: {permissions: {only: ['ADMIN', 'View Rewards', 'View Gift Requests'], redirectTo: '/pages/home'}}
+      },
+      {
+        path: "custom-ads",
+        component: CustomAdsComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {permissions: {only: ['ADMIN'], redirectTo: '/pages/home'}}
       },
       // {
       //   path: "options",
