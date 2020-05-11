@@ -16,7 +16,7 @@
 
 <!-- steppers -->
 
-<div>
+<!-- <div>
   <div class="row" *ngIf="order && order?.showStepper">
     <div class="offset-md-1 col-md-11">
 
@@ -54,14 +54,14 @@
     </div>
   </div>
 
-</div>
+</div> -->
 <div class="col-12">
   <div class="milestones-stepper" *ngIf="order">
     <ul class="row">
       <li class="col active" *ngFor="let state of order.history">
         <img src="./assets/img/available.svg">
-        <p style="margin-bottom: 0px;">{{state.name}}</p>
-        <p style="margin-top: 3px;">{{state.sub_state}}</p>
+        <p style="margin-bottom: 0px;">{{state.state?.name}}</p>
+        <p style="margin-top: 3px;">{{state.sub_state?.name}}</p>
         <span>{{state.created_at | date: "yyyy-MM-dd hh:mm a"}}</span>
       </li>
     </ul>
@@ -374,7 +374,7 @@
   </div>
 </div>
 
-<div class="block-title">
+<!-- <div class="block-title">
   <h4>Return product </h4>
 </div>
 
@@ -396,7 +396,7 @@
     </div>
   </div>
 
-</div>
+</div> -->
 
 <!-- <div class="block-title">
   <h4>order milestones</h4>

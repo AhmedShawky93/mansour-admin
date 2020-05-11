@@ -12,10 +12,11 @@
 
 .delevaryman-popup {
   /* display: none; */
+  padding: 21px;
+  padding-top: 65px;
   position: absolute;
   right: 83px;
   top: 0px;
-  padding: 21px;
   width: 477px;
   background: #FFFFFF;
   box-shadow: 0 11px 22px 0 rgba(6, 40, 57, 0.05);
