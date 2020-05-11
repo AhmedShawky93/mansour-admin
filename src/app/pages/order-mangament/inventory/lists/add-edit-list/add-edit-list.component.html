@@ -3,7 +3,7 @@
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{selectProductDataEdit ?  'Edit List' : 'New List' }} </h3>
+    <h3>{{listData ?  'Edit List' : 'New List' }} </h3>
   </div>
 
   <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="listForm" novalidate>

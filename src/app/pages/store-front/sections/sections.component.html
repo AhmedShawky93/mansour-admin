@@ -102,7 +102,7 @@
 <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
 <h4 class="text-center" *ngIf="productIsEmpty">No Option</h4>
 
-<pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
 
 <app-view-section (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
   [sectionData]="currentSection">
