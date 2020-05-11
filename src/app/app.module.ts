@@ -89,6 +89,7 @@ import { SharedModule } from "./shared/shared.module";
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { DeliveredPipe } from "./pages/stars/pipes/delivered.pipe";
 import { DeliveryFilterPipe } from "./shared/delivery-filter.pipe";
+import { CustomAdsComponent } from "./pages/store-front/custom-ads/custom-ads.component";
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { DeliveryFilterPipe } from "./shared/delivery-filter.pipe";
     DoneComponent,
     ManageCastomerComponent,
     TotalOrdersComponent,
+    CustomAdsComponent,
     adsComponent,
     OrderDetailsComponent,
     ForgetPasswordComponent,

@@ -13,8 +13,8 @@ export class DeliveryService {
         this.url = environment.api + "/admin";
     }
 
-    getDeliverers() {
-        return this.http.get(this.url + "/deliverers")
+    getDeliverers(data) {
+        return this.http.get(this.url + "/deliverers", {params: data})
             .catch((error: any) => {
                 return Observable.throw(error.error || 'Server error');
             })

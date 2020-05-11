@@ -88,6 +88,7 @@ export class OrdersComponent implements OnInit {
   districts: any;
   loadingProductSideBar: boolean;
   orderSelected: any;
+  selectedDistrict: any;
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -310,6 +311,8 @@ export class OrdersComponent implements OnInit {
   getDeliverers(order: any) {
     // load available
     this.orders.map((item) => (item.showPopup = 0));
+    this.selectedDistrict = order.address.district_id;
+    
     if (order.address.district) {
       this.listSearch = order.address.district.name;
     }
@@ -345,7 +348,7 @@ export class OrdersComponent implements OnInit {
 
   assignDeliverer(order) {
     const deliverer = this.availableDeliverers.filter((user) => user.selected);
-
+    
     if (!deliverer.length) {
       return;
     }
@@ -794,6 +797,7 @@ export class OrdersComponent implements OnInit {
   }
   public getDistrict(district) {
     const index = this.areaList.findIndex((item) => item.id == district);
+    // this.selectedDistrict = district;
     if (index !== -1) {
       if (this.areaList[index].districts.length) {
         this.districts = this.areaList[index].districts;

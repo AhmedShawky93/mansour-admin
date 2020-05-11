@@ -1,0 +1,111 @@
+<!-- <ngx-loading-bar [color]="'#007C41'"></ngx-loading-bar> -->
+
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-9 col-sm-12 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search" placeholder="search ...">
+      </div>
+    </div>
+
+
+    <div class="col-md-3  col-xs-12 text-right">
+      <div class="owl-btn-list">
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big w-100" (click)="toggleMenu(null)"
+          style="margin-left: 0px;">+ New Section</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Tabel -->
+<div class="table-responsive text-center">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Source</th>
+        <th scope="col">Order</th>
+        <th scope="col">Creation Date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let section of sections  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
+
+        <td class="relative">
+          {{(section.name_en.length >= 25) ? (section.name_en | slice:0:25)+'...' : section.name_en }}
+          <div class="hover-reason text-left" *ngIf="section.name_en.length >= 25">
+            <div class="head">
+              Section Name
+            </div>
+            <div class="body">
+              {{section.name_en}}
+            </div>
+          </div>
+
+        </td>
+        <td>
+          <span [ngSwitch]="section.type">
+            <span *ngSwitchCase="0">Custom List</span>
+            <span *ngSwitchCase="1">Most Recent</span>
+            <span *ngSwitchCase="2">Most Bought</span>
+            <span *ngSwitchCase="3">Top Promotions</span>
+            <span *ngSwitchDefault>-</span>
+          </span>
+        </td>
+        <td>{{section.order}}</td>
+
+        <td class="hidden">{{section.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td>
+          <a style="margin-right: 10px" class="table-view open-show" (click)="viewSection(section)">
+            <i class="icon-View"></i>
+          </a>
+
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="toggleMenu(section)">
+            <i class="icon-grey"></i>
+          </a>
+
+          <label class="switch">
+            <input type="checkbox" value="1" [(ngModel)]="section.active" (change)="changeActive(section, $event)">
+            <span class="slider round"></span>
+            <div class="reason-popup text-left" [hidden]="!section.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this section?"
+                [(ngModel)]="section.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!section.notes"
+                (click)="submitDeactivate(section)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(section)">cancel</button>
+            </div>
+            <div class="hover-reason text-left" *ngIf="!section.active">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{section.deactivation_notes}}
+              </div>
+            </div>
+          </label>
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+</div>
+<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
+<h4 class="text-center" *ngIf="productIsEmpty">No Option</h4>
+
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+<app-view-section (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
+  [sectionData]="currentSection">
+</app-view-section>
+<app-add-edit-section (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="toggleAddOption" [sectionData]="currentSection"></app-add-edit-section>
