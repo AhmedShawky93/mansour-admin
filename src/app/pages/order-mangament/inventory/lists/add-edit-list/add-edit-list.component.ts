@@ -70,7 +70,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
       image_ar: new FormControl(data ? data.image_ar : ""),
       type: new FormControl(data ? data.type : "1", [Validators.required]),
       list_method: new FormControl(0, [Validators.required]),
-      status: new FormControl(data ? data.status : 1, [Validators.required]),
+      status: new FormControl(1),
       items: new FormControl([])
     });
     console.log(data);
