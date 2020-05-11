@@ -207,10 +207,10 @@
               <div class="close" (click)="order.showPopup = 0">
                 <i class="icon-Exit"></i>
               </div>
-              <!-- <div class="inner-addon left-addon">
-                <i class="fa fa-search"></i>
-                <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="listSearch">
-              </div> -->
+              <div class="inner-addon left-addon">
+                <!-- <i class="fa fa-search"></i> -->
+                <!-- <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="listSearch"> -->
+              </div>
               <div class="row">
                 <div class="col-6">
                   <select class="owl-input mb-10" required name="city_id" [ngModel]="order.address.city_id"
@@ -229,7 +229,7 @@
                   </select>
                 </div>
                 <div class="col-12">
-                  <select class="owl-input mb-10" required name="status" [ngModel]="selectedDistrict">
+                  <select class="owl-input mb-10" required name="status" [(ngModel)]="selectedDistrict">
                     <option value="" selected hidden>Select district </option>
                     <option value="{{status.id}}" *ngFor="let status of districts">{{status.name}}
                     </option>
