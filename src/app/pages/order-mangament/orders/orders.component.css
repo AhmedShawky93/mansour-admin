@@ -505,7 +505,7 @@ a.clear-date {
   color: #fff;
   height: 48px;
   line-height: 49px;
-  border-radius: 5px;
+  border-radius: 25px;
 }
 
 .btn-secondary.custom-file-control:before,

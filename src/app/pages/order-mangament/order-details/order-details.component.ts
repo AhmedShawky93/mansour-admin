@@ -59,6 +59,7 @@ export class OrderDetailsComponent implements OnInit {
 
       this.orderService.getOrder(id).subscribe((response: any) => {
         this.order = response.data;
+        this.getOrderStates();
 
         this.order.history.map((state) => {
           state.name = this.getStateName(state.state_id);
@@ -84,13 +85,9 @@ export class OrderDetailsComponent implements OnInit {
         this.delivered = this.hasState(stepsArray, 4);
         this.returned = this.hasState(stepsArray, 7);
       });
-
-
     });
-    this.getOrderStates();
     this.order.state_id = this.order.previous_state;
     this.order.sub_state_id = this.order.previous_subState;
-
   }
 
   getStateName(id) {
@@ -143,8 +140,6 @@ export class OrderDetailsComponent implements OnInit {
     $("#confirmOrderStatus").modal("show");
   }
   selectStatus(id) {
-    console.log(id);
-
     let index = this.orderStatus.findIndex((item) => item.id == id);
     console.log(index);
 
@@ -192,6 +187,7 @@ export class OrderDetailsComponent implements OnInit {
       next: (response: any) => {
         if (response.code === 200) {
           this.orderStatus = response.data;
+          this.selectStatus(this.order.state_id);
         }
       },
     });
