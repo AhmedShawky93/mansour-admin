@@ -312,7 +312,7 @@ export class OrdersComponent implements OnInit {
     // load available
     this.orders.map((item) => (item.showPopup = 0));
     this.selectedDistrict = order.address.district_id;
-    
+
     if (order.address.district) {
       this.listSearch = order.address.district.name;
     }
@@ -348,7 +348,7 @@ export class OrdersComponent implements OnInit {
 
   assignDeliverer(order) {
     const deliverer = this.availableDeliverers.filter((user) => user.selected);
-    
+
     if (!deliverer.length) {
       return;
     }
@@ -625,17 +625,23 @@ export class OrdersComponent implements OnInit {
     this.product_list = [];
   }
   confirmUpdateProducts(notifyUser) {
+    console.log(this.currentOrder.items);
+
     const items = this.currentOrder.items
-      .filter((item) => item.amount)
+      .filter((item) => item.amount && !item.remove )
       .map((item) => {
-        return {
-          id: item.id,
-          amount: item.amount,
-        };
+        if (!item.remove) {
+          return {
+            id: item.id,
+            amount: item.amount,
+          };
+        }
       });
     const deleteIds = this.currentOrder.items
       .filter((item) => item.remove)
       .map((item) => item.id);
+
+
     console.log(items);
     console.log(deleteIds);
     if (items.length) {
@@ -646,7 +652,7 @@ export class OrdersComponent implements OnInit {
           delivery_fees: this.currentOrder.delivery_fees,
           admin_discount: null,
           notify_customer: notifyUser,
-          deleted_itmes: deleteIds,
+          deleted_items: deleteIds,
         })
         .subscribe((response: any) => {
           if (response.code === 200) {
@@ -668,23 +674,23 @@ export class OrdersComponent implements OnInit {
       }
     return str.join("&");
   }
-  // selectStatus(id, data, indexstatus) {
-  //   console.log(id, data, indexstatus);
+  selectStatus(id, data, indexstatus) {
+    console.log(id, data, indexstatus);
 
-  //   let index = data.order_status.findIndex((item) => item.id == id);
-  //   console.log(index);
+    let index = data.order_status.findIndex((item) => item.id == id);
+    console.log(index);
 
-  //   if (index !== -1) {
-  //     data.sub_states = data.order_status[index].sub_states;
-  //     console.log(data);
-  //     this.orderId = data.id;
-  //   }
-  //   // if (!this.firstTime) {
-  //   //   $("#confirmOrderStatus").modal("show");
-  //   //   this.firstTime = false;
-  //   // }
-  //   // console.log(this.firstTime);
-  // }
+    if (index !== -1) {
+      data.sub_states = data.order_status[index].sub_states;
+      console.log(data);
+      this.orderId = data.id;
+    }
+    // if (!this.firstTime) {
+    //   $("#confirmOrderStatus").modal("show");
+    //   this.firstTime = false;
+    // }
+    // console.log(this.firstTime);
+  }
 
   openPopupConfirmStatus(data, type) {
     // type 1 change order status and 2 sub statue
