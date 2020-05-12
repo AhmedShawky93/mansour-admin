@@ -650,7 +650,7 @@ export class OrdersComponent implements OnInit {
           items: items,
           notes: this.currentOrder.notes,
           delivery_fees: this.currentOrder.delivery_fees,
-          admin_discount: null,
+          admin_discount: this.currentOrder.admin_discount,
           notify_customer: notifyUser,
           deleted_items: deleteIds,
         })
