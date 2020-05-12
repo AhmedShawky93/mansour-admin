@@ -657,6 +657,7 @@ export class OrdersComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.code === 200) {
             $("#confirmOrderUpdate").modal("hide");
+            $("#view-deactive").toggleClass("open-view-vindor-types");
             this.currentOrder.items = response.data.items;
           }
         });
