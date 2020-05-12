@@ -95,7 +95,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
             return response.data.products.map(p => {
               return {
                 id: p.id,
-                name: p.id + ": " + p.name
+                name: p.sku + ": " + p.name
               }
             })
           })
