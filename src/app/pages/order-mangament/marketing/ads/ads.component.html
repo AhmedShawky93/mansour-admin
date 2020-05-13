@@ -113,6 +113,18 @@
         <h5>Image</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image}}" alt="">
       </div>
+      <div>
+        <h5>Image (ar)</h5>
+        <img class="owl-img img-fluid" src="{{currentAd.image_ar}}" alt="">
+      </div>
+      <div *ngIf="currentAd.image_web">
+        <h5>Image Web (ar)</h5>
+        <img class="owl-img img-fluid" src="{{currentAd.image_web}}" alt="">
+      </div>
+      <div *ngIf="currentAd.image_web_ar">
+        <h5>Image Web (ar)</h5>
+        <img class="owl-img img-fluid" src="{{currentAd.image_web_ar}}" alt="">
+      </div>
     </div>
 
     <div>
@@ -143,12 +155,12 @@
   <form class="sideform" [formGroup]="newAdsForm" (ngSubmit)="onFormSubmit(newAdsForm)" novalidate>
 
     <div class="form-group">
-      <label for="">Image</label>
+      <label for="">Image Mobile</label>
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image').value" src="{{newAdsForm.get('image').value}}"
           alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image').value" src="http://via.placeholder.com/328x177"
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image').value" src="http://via.placeholder.com/500x350"
           alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelected(newAdsForm, $event, 'image')" accept="image/*" />
@@ -157,26 +169,64 @@
         *ngIf="newAdsForm.controls.image.invalid && (newAdsForm.controls.image.dirty || newAdsForm.controls.image.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.image.errors.required">
-          Image Is Required.
+          Image  Mobile Is Required.
         </div>
       </div>
     </div>
     <div class="form-group">
-      <label for="">Image (Ar)</label>
+      <label for="">Image Mobile (Ar)</label>
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_ar').value"
           src="{{newAdsForm.get('image_ar').value}}" alt="">
         <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_ar').value"
-          src="http://via.placeholder.com/328x177" alt="">
+          src="http://via.placeholder.com/500x350" alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelected(newAdsForm, $event, 'image_ar')" accept="image/*" />
       </div>
       <div
-        *ngIf="newAdsForm.controls.image.invalid && (newAdsForm.controls.image.dirty || newAdsForm.controls.image.touched)"
+        *ngIf="newAdsForm.controls.image_ar.invalid && (newAdsForm.controls.image_ar.dirty || newAdsForm.controls.image_ar.touched)"
         class="alert alert-danger">
-        <div *ngIf="newAdsForm.controls.image.errors.required">
-          Image (Ar) Is Required.
+        <div *ngIf="newAdsForm.controls.image_ar.errors.required">
+          Image Mobile (Ar) Is Required.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="">Image Web</label>
+
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value" src="{{newAdsForm.get('image_web').value}}"
+          alt="">
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value" src="http://via.placeholder.com/1400x500"
+          alt="">
+        <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
+          (change)="onImageSelectedWeb(newAdsForm, $event, 'image')" accept="image/*" />
+      </div>
+      <div
+        *ngIf="newAdsForm.controls.image_web.invalid && (newAdsForm.controls.image_web.dirty || newAdsForm.controls.image_web.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.image_web.errors.required">
+          Image Web Is Required.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="">Image Web (Ar)</label>
+
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web_ar').value"
+          src="{{newAdsForm.get('image_web_ar').value}}" alt="">
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web_ar').value"
+          src="http://via.placeholder.com/1400x500" alt="">
+        <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
+          (change)="onImageSelectedWeb(newAdsForm, $event, 'image_ar')" accept="image/*" />
+      </div>
+      <div
+        *ngIf="newAdsForm.controls.image_web_ar.invalid && (newAdsForm.controls.image_web_ar.dirty || newAdsForm.controls.image_web_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.image_web_ar.errors.required">
+          Image  Web (Ar) Is Required.
         </div>
       </div>
     </div>

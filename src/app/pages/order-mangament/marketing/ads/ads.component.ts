@@ -129,6 +129,8 @@ export class adsComponent implements OnInit {
       image: new FormControl("", Validators.required),
       image_ar: new FormControl("", Validators.required),
       brand: new FormControl(),
+      image_web: new FormControl("", Validators.required),
+      image_web_ar: new FormControl("", Validators.required),
     });
 
     this.ad.popup = "";
@@ -167,6 +169,11 @@ export class adsComponent implements OnInit {
       image: new FormControl(ad.image, Validators.required),
       image_ar: new FormControl(
         ad.image_ar ? ad.image_ar : "",
+        Validators.required
+      ),
+      image_web: new FormControl(ad.image_web, Validators.required),
+      image_web_ar: new FormControl(
+        ad.image_ar ? ad.image_web_ar : "",
         Validators.required
       ),
       category: new FormControl(ad.category_id),
@@ -235,6 +242,18 @@ export class adsComponent implements OnInit {
           form.get("image").setValue(response.body.data.filePath);
         } else {
           form.get("image_ar").setValue(response.body.data.filePath);
+        }
+      }
+    });
+  }
+  onImageSelectedWeb(form: FormGroup, event, type) {
+    this.selectFile = <File>event.target.files[0];
+    this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {
+      if (response.body) {
+        if (type == "image") {
+          form.get("image_web").setValue(response.body.data.filePath);
+        } else {
+          form.get("image_web_ar").setValue(response.body.data.filePath);
         }
       }
     });
