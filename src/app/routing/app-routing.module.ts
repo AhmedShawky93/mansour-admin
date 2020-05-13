@@ -72,7 +72,12 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: { title: "Edit Offers", permissions: {only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home'} },
       },
-      { path: "ads", component: adsComponent, data: { title: "Ads" } },
+      { 
+        path: "ads", 
+        component: adsComponent, 
+        canActivate: [NgxPermissionsGuard],
+        data: { title: "Ads", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'} } 
+      },
       {
         path: "promocodes/add-offers",
         component: AddOfferComponent,
@@ -150,7 +155,7 @@ const routes: Routes = [
         path: "custom-ads",
         component: CustomAdsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: {title: "Custom Ads", permissions: {only: ['ADMIN'], redirectTo: '/pages/home'}}
+        data: {title: "Custom Ads", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'}}
       },
       // {
       //   path: "options",
@@ -198,14 +203,14 @@ const routes: Routes = [
         loadChildren:
           "../pages/order-mangament/inventory/lists/lists.module#ListsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home'}}
+        data: {permissions: {only: ['ADMIN', 'View Lists'], redirectTo: '/pages/home'}}
       },
       {
         path: "sections",
         loadChildren:
           "../pages/store-front/sections/sections.module#SectionsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home'}}
+        data: {permissions: {only: ['ADMIN', 'View Sections'], redirectTo: '/pages/home'}}
       },
     ],
     canActivate: [AuthGuard],
