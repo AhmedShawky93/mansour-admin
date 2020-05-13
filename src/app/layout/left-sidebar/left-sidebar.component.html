@@ -37,14 +37,14 @@
             <a routerLink="/pages/brands" routerLinkActive="active">
               Brands</a>
           </li>
-          <li>
+          <li *ngxPermissionsOnly="['ADMIN', 'View Lists']">
             <a routerLink="/pages/lists" routerLinkActive="active">
               Custom Lists</a>
           </li>
         </ul>
       </li>
 
-      <li class="side-nav-item">
+      <li class="side-nav-item" *ngxPermissionsOnly="['ADMIN', 'View Ads', 'View Slider', 'View Sections']">
         <a routerLinkActive="active" data-toggle="collapse" data-target="#store-front" aria-controls="submenu-2">
           <i class="icon-None7" data-toggle="tooltip" data-placement="right" title="Manage Usder"></i>
           <span>Store Front</span>
@@ -52,13 +52,13 @@
         </a>
 
         <ul id="store-front" class="collapse">
-          <li>
+          <li *ngxPermissionsOnly="['ADMIN', 'View Sections']">
             <a routerLink="/pages/sections" routerLinkActive="active">Sections</a>
           </li>
-          <li>
+          <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
             <a routerLink="/pages/custom-ads" routerLinkActive="active">Ads</a>
           </li>
-          <li>
+          <li *ngxPermissionsOnly="['ADMIN', 'View Slider']">
             <a routerLink="/pages/ads" routerLinkActive="active">Slider</a>
           </li>
         </ul>
