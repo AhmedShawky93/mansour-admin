@@ -47,7 +47,7 @@
         <img src="./assets/img/Spinner-loading.svg" *ngIf="loading" class="img-loading">
         <!-- <img class="owl-img img-fluid" *ngIf="product.imageUrl" [src]="product.imageUrl" alt=""> -->
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
-          (change)="onimgeSelected(addProductForm,$event)"  name="image" accept="image/*" />
+          (change)="onimgeSelected(addProductForm,$event)" name="image" accept="image/*" />
         <!-- <i class="icon-Exit" (click)="product.imageUrl = ''; product.image = ''"></i> -->
       </div>
       <div class="add-img" (click)="addImage()">
@@ -137,7 +137,7 @@
       <label for="">Stock
       </label>
       <input type="text" class="owl-input" placeholder="Stock" formControlName="stock" [min]="0" maxlength="6"
-        onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' minlength="1">
+        onkeypress='return event.charCode >= 48 && event.charCode <= 57 '>
 
       <div
         *ngIf="addProductForm.controls.stock.invalid && (addProductForm.controls.stock.dirty || addProductForm.controls.stock.touched)"
@@ -146,9 +146,9 @@
         <div *ngIf="addProductForm.controls.stock.errors.required">
           Stock is required
         </div>
-        <div *ngIf="addProductForm.controls.stock.errors.min">
+        <!-- <div *ngIf="addProductForm.controls.stock.errors.min">
           Stock can't be a negative value
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -273,7 +273,7 @@
     <div class="form-group">
       <label> Brand Name </label>
       <ng-select name="bransName" [items]="brands" bindLabel="name" bindValue="id" [multiple]="false"
-        placeholder="Enter Brand name" formControlName="brand_id"  >
+        placeholder="Enter Brand name" formControlName="brand_id">
       </ng-select>
       <!-- Start  Errors Rolues -->
 
