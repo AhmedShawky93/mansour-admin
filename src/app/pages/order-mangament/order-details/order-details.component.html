@@ -374,29 +374,32 @@
   </div>
 </div>
 
-<!-- <div class="block-title">
+<div class="block-title" *ngIf="order.items[0].returned_quantity">
   <h4>Return product </h4>
 </div>
 
-<div class="block" *ngIf="order">
+<div class="block" *ngIf="order.items[0].returned_quantity">
   <div *ngFor="let item of order.items; index as i">
-    <div class="block-ratings">
-      <p>{{i + 1}}</p>
-      <img [src]="item?.product.image" alt="" class="owl-img" width="80">
-      <div class="content">
-        <h4>{{item.product.name}}</h4>
-        <p>{{item.product.sku}}</p>
-      </div>
-    </div>
+    <div *ngIf="item.returned_quantity">
 
-    <div class="qty-item">
-      <p>QTY: {{item.amount}}</p>
-      <span *ngIf="item?.product.discount_price === null">{{item.product.price}} LE</span>
-      <span *ngIf="item?.product.discount_price !== null">{{item.product.discount_price}} LE</span>
+      <div class="block-ratings">
+        <p>{{i + 1}}</p>
+        <img [src]="item?.product.image" alt="" class="owl-img" width="80">
+        <div class="content">
+          <h4>{{item.product.name}}</h4>
+          <p>{{item.product.sku}}</p>
+        </div>
+      </div>
+
+      <div class="qty-item">
+        <p>QTY: {{item.returned_quantity}}</p>
+        <span *ngIf="item?.product.discount_price === null">{{item.product.price}} LE</span>
+        <span *ngIf="item?.product.discount_price !== null">{{item.product.discount_price}} LE</span>
+      </div>
     </div>
   </div>
 
-</div> -->
+</div>
 
 <!-- <div class="block-title">
   <h4>order milestones</h4>
