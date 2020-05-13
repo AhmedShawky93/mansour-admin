@@ -150,7 +150,7 @@ const routes: Routes = [
         path: "custom-ads",
         component: CustomAdsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN'], redirectTo: '/pages/home'}}
+        data: {title: "Custom Ads", permissions: {only: ['ADMIN'], redirectTo: '/pages/home'}}
       },
       // {
       //   path: "options",
