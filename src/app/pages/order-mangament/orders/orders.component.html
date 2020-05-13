@@ -55,7 +55,7 @@
       <a class="clear-date" href="javascript:void(0)" (click)="clearDateTo()"><i class="icon-Exit"></i></a>
     </div>
 
-    <div class="col-md-2 col-sm-1" style="padding-top: 21px; ">
+    <div class="col-md-3 col-sm-3" style="padding-top: 21px; ">
       <label class="container">Hide Scheduled
         <input type="checkbox" class="form-control checkbox-style" name="hide_scheduled" id="hide_scheduled" [value]="1"
           [(ngModel)]="filter.hide_scheduled" (change)="changePage(1)">
@@ -63,10 +63,19 @@
       </label>
       <!-- <label style="color: rgba(0, 61, 97, 0.47);" for="hide_scheduled"></label> -->
     </div>
+    <div class="col-3">
+
+    </div>
     <div class="col-md-3  col-xs-12">
       <div class="form-group">
         <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportProductsUrl}}">Export
           Products Sales</a>
+      </div>
+    </div>
+    <div class="col-md-3  col-xs-12">
+      <div class="form-group">
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">Export
+          Orders  </a>
       </div>
     </div>
     <!-- <div class="col-md-3  col-xs-12">
@@ -74,9 +83,7 @@
         <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">Export All Orders</a>
       </div>
     </div> -->
-    <div class="col-md-1" style="padding-top: 15px;">
-      <a href="{{exportUrl}}" target="_blank"><img src="./assets/img/export.png" style="width: 30px" alt=""></a>
-    </div>
+
   </div>
 </div>
 
@@ -100,6 +107,7 @@
         <th scope="col"> sub status </th>
 
         <th scope="col">actions</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -134,83 +142,33 @@
         <td>
           {{order.sub_state ? order.sub_state?.name : "-"}}
         </td>
-        <!-- <td style="text-align: center;">
-
-          <button *ngIf="order.state_id == 2" class="tb-btn" [ngClass]="{'color-yellow': order.state_id == 2}" (click)="openSideView(order)">Processing</button>
-          <button *ngIf="order.state_id == 3" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 3}" (click)="openSideView(order)">Delivering</button>
-          <button *ngIf="order.state_id == 4" class="tb-btn" [ngClass]="{'color-green': order.state_id == 4}">Completed</button>
-          <button *ngIf="order.state_id == 5" class="tb-btn" [ngClass]="{'color-purple': order.state_id == 5}" (click)="openSideView(order)">Investigating</button>
-          <button *ngIf="order.state_id == 6" class="tb-btn" [ngClass]="{'color-red': order.state_id == 6}">Cancelled</button>
-          <button *ngIf="order.state_id == 7" class="tb-btn" [ngClass]="{'color-red': order.state_id == 7}" (click)="openSideView(order)">Returned</button>
-          <button *ngIf="order.state_id == 8" class="tb-btn" [ngClass]="{'color-blue': order.state_id == 8}" (click)="openSideView(order)">Prepared</button>
-
-          <span>
-            {{order.add}}
-          </span>
-        </td> -->
-        <!-- <td>
-
-           <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
-          <div *ngIf="order.order_status_editable">
-            <select class="owl-input" required name="status" [ngModel]="order.state_id"
-              (ngModelChange)="selectStatus($event, order , i); order.previous_state = order.state_id; openPopupConfirmStatus($event, 1)">
-              <option value="" selected hidden>Select Status </option>
-              <option value="{{status.id}}" *ngFor="let status of order.order_status">{{status.name}}
-              </option>
-            </select>
-          </div>
-
-
-        </td>
         <td>
-          <select class="owl-input" required name="status" [(ngModel)]="order.sub_state_id"
-            (change)="openPopupConfirmStatus($event.target.value, 2)">
-            <option [value]="null" selected hidden>Select sub Status </option>
-            <option value="{{status.id}}" *ngFor="let status of order?.sub_states">{{status.name}}
-            </option>
-          </select>
-
-
-        </td> -->
-        <td>
-          <!-- <a [routerLink]="['/pages/orders/order-details', order.id]" class="table-view">
-            <i class="icon-View"></i>
-          </a>
-          <a *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5" href="javascript:void(0)"
-            data-toggle="modal" data-target="#removePopUp" (click)="promtCancel(order)"
-            class="toggle-view-category table-remove">
-            <i class="icon-Exit"></i>
-          </a> -->
-
-
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Actions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign</a>
-              <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a>
+              <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign order</a>
+              <!-- <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a> -->
               <a class="dropdown-item" (click)="openPopupAction(3, order)"
                 *ngIf="order.state_id !== 4 && order.state_id !== 6 ">Edit order</a>
-              <!-- <a class="dropdown-item" (click)="openPopupAction(5, order)">Return order</a> -->
+              <a class="dropdown-item" (click)="openPopupAction(5, order)">Return order</a>
               <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
                 (click)="openPopupAction(4, order)">Cancel order</a> -->
             </div>
           </div>
+
           <div class="tb-assign">
 
-            <!-- <button class="tb-btn bg-blue" (click)="getDeliverers(order); order.showPopup = 1;"
-              *ngIf="order.state_id == 1">assign</button> -->
-            <!-- <button class="tb-btn color-red" *ngIf="order.state_id == 9">Not Paid</button> -->
+
 
             <div class="edit-out delevaryman-popup" *ngIf="order.showPopup">
               <div class="close" (click)="order.showPopup = 0">
                 <i class="icon-Exit"></i>
               </div>
               <div class="inner-addon left-addon">
-                <!-- <i class="fa fa-search"></i> -->
-                <!-- <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="listSearch"> -->
+
               </div>
               <div class="row">
                 <div class="col-6">
@@ -261,6 +219,10 @@
             </div>
 
           </div>
+        </td>
+        <td> <a [routerLink]="['/pages/orders/order-details', order.id]" class="table-view">
+            <i class="icon-View"></i>
+          </a>
         </td>
       </tr>
 

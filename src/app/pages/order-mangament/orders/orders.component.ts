@@ -445,7 +445,8 @@ export class OrdersComponent implements OnInit {
       $("#view-side-bar-return-order").toggleClass("open-view-vindor-types");
       this.currentOrder = response.data;
       this.currentOrder.items.forEach((element) => {
-        element.quantity = 1;
+        element.amount = element.amount - element.returned_quantity;
+        element.quantity = 0;
       });
       this.selectedCategory = "";
       this.selectedSubcategory = "";
@@ -521,13 +522,12 @@ export class OrdersComponent implements OnInit {
     console.log(product);
     if (product.quantity < product.amount) {
       product.quantity++;
-      console.log(product, "if");
     }
   }
   removeAmountOldItemReturn(product) {
     console.log(product);
 
-    product.quantity > 1 ? product.quantity-- : (product.quantity = 1);
+    product.quantity > 1 ? product.quantity-- : (product.quantity = 0);
   }
   addAmount(product) {
     product.amount++;
@@ -606,7 +606,7 @@ export class OrdersComponent implements OnInit {
       .map((item) => {
         return {
           id: item.id,
-          amount: item.quantity,
+          returned_quantity: item.quantity,
         };
       });
     console.log(itemReturn);
@@ -617,6 +617,9 @@ export class OrdersComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.code === 200) {
             $("#returnOrder").modal("hide");
+            $("#view-side-bar-return-order").removeClass(
+              "open-view-vindor-types"
+            );
           }
         });
     }
@@ -628,7 +631,7 @@ export class OrdersComponent implements OnInit {
     console.log(this.currentOrder.items);
 
     const items = this.currentOrder.items
-      .filter((item) => item.amount && !item.remove )
+      .filter((item) => item.amount && !item.remove)
       .map((item) => {
         if (!item.remove) {
           return {
@@ -641,7 +644,6 @@ export class OrdersComponent implements OnInit {
       .filter((item) => item.remove)
       .map((item) => item.id);
 
-
     console.log(items);
     console.log(deleteIds);
     if (items.length) {
@@ -650,7 +652,7 @@ export class OrdersComponent implements OnInit {
           items: items,
           notes: this.currentOrder.notes,
           delivery_fees: this.currentOrder.delivery_fees,
-          admin_discount: this.currentOrder.admin_discount,
+          admin_discount: null,
           notify_customer: notifyUser,
           deleted_items: deleteIds,
         })
