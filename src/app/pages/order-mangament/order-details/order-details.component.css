@@ -1,245 +1,285 @@
-.block{
-    background: #FFFFFF;
-    box-shadow: 0 11px 22px 0 rgba(6,40,57,0.05);
-    border-radius: 12px;
-    padding: 30px;
+.block {
+  background: #FFFFFF;
+  box-shadow: 0 11px 22px 0 rgba(6, 40, 57, 0.05);
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
 }
 
-.block-item p{
-    font-size: 18px;
-    color: #557E96;
-    text-transform: capitalize;
-    margin-bottom: 30px;
-    display: inline-block;
-    width: 160px;
+.copy-skus {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  background: #eee;
+  padding: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #ec1c24;
 
 }
 
-.block-item span{
-    font-size: 18px;
-    color: #003C62;
-    font-weight: 500;
+.block-item p {
+  font-size: 18px;
+  color: #557E96;
+  text-transform: capitalize;
+  margin-bottom: 30px;
+  display: inline-block;
+  width: 160px;
+
 }
 
-.block-ratings{margin-bottom: 25px;width: 70%;}
+.block-item span {
+  font-size: 18px;
+  color: #003C62;
+  font-weight: 500;
+}
+
+.block-ratings {
+  margin-bottom: 25px;
+  width: 70%;
+}
 
 .block-ratings p,
-.block-ratings img{
-    display: inline-block;
-    margin-right: 28px;
+.block-ratings img {
+  display: inline-block;
+  margin-right: 28px;
 }
 
-.block-ratings .content{
-    display: inline-block;
-    position: relative;
-    top: 25px;
- }
- .block-ratings .content h4{
-    display:block;
-    margin: 7px;
-    font-size: 18px;
-    color: #003C62;
-    font-weight: 500;
+.block-ratings .content {
+  display: inline-block;
+  position: relative;
+  top: 25px;
 }
 
-.block-ratings .content p{
-    display:block;
-    margin: 0;
-    font-size: 16px;
-    color: #557E96;
-    font-weight: 500;
-}
-.block-ratings .content bar-rating{
-    display: inline-block
+.block-ratings .content h4 {
+  display: block;
+  margin: 7px;
+  font-size: 18px;
+  color: #003C62;
+  font-weight: 500;
 }
 
-.block-ratings .content .br{
-    margin: 0 !important
-}
-.block-ratings .content span{
-    font-size: 14px;
-    color: #A7BDCA;
-}
-
-.qty-item{
-    margin-top: 40px;
-    margin-bottom: 50px;
-    margin-left: 0
-}
-.qty-item p{
-    width: 100px;
-    font-size: 18px;
-    display: inline-block;
-    color: #557E96;
-    text-transform: uppercase;
+.block-ratings .content p {
+  display: block;
+  margin: 0;
+  font-size: 16px;
+  color: #557E96;
+  font-weight: 500;
 }
 
-.qty-item span{
-    font-size: 18px;
-    color: #003C62;
-    font-weight: 500;}
-
-.milestones-stepper{
-    position: relative;
-    padding-bottom: 50px
-}
-.milestones-stepper ul li::before{
-    content: "";
-    height: 2px;
-    width: 99%;
-    position: absolute;
-    border: 1px dashed rgba(85,126,150,0.30); ;
-
+.block-ratings .content bar-rating {
+  display: inline-block
 }
 
-
-.milestones-stepper ul li img{
-    position: absolute;
-    top: -18px;
+.block-ratings .content .br {
+  margin: 0 !important
 }
 
-.milestones-stepper ul li p{
-    margin-top: 28px;
-    font-size: 16px;
-    color: #003C62;
-    font-weight: 500;
-    text-transform: capitalize;
+.block-ratings .content span {
+  font-size: 14px;
+  color: #A7BDCA;
 }
 
-.milestones-stepper ul li span{
-    font-size: 14px;
-    color: #557E96;
+.qty-item {
+  margin-top: 40px;
+  margin-bottom: 50px;
+  margin-left: 0
 }
 
-.mat-step-header{
-    color: red!important;
+.qty-item p {
+  width: 100px;
+  font-size: 18px;
+  display: inline-block;
+  color: #557E96;
+  text-transform: uppercase;
 }
 
+.qty-item span {
+  font-size: 18px;
+  color: #003C62;
+  font-weight: 500;
+}
 
-.top-stepper{position: relative;}
+.milestones-stepper {
+  position: relative;
+  padding-bottom: 50px
+}
 
-.top-stepper li{
-    position: relative;
-    display: inline-block
+.milestones-stepper ul li::before {
+  content: "";
+  height: 2px;
+  width: 99%;
+  position: absolute;
+  border: 1px dashed rgba(85, 126, 150, 0.30);
+  ;
 
 }
 
-.top-stepper li span{
-    content: "";
-    display: inline-block;
-    height: 47px;
-    width: 47px;
-    border-radius: 50%;
-    background: #A7BDCA;
-    margin-left: 25px;
-    margin-bottom: 15px;
+
+.milestones-stepper ul li img {
+  position: absolute;
+  top: -18px;
 }
 
-.top-stepper li::before{
-    content: "";
-    position: absolute;
-    background-color: #A7BDCA;
-    top: 24px;
-    height: 4px;
-    right: -41px;
-    width: 84%;
+.milestones-stepper ul li p {
+  margin-top: 28px;
+  font-size: 16px;
+  color: #003C62;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
-.top-stepper .active::before{
-        z-index: 2;
-        background-color: #4ac356;
-}
-.top-stepper li p{
-    font-size: 18px;
-    color: #A7BDCA;
-    letter-spacing: 0;
-    text-transform: capitalize;
+.milestones-stepper ul li span {
+  font-size: 14px;
+  color: #557E96;
 }
 
-.top-stepper li:last-child::before{
-    content: none;
-}
-
-.top-stepper li span+span{
-    width: 70px;
-    height: 70px;
-    position: absolute;
-    line-height: 80px;
-    left: 4px;
-    top: -12px;
-    font-size: 25px;
-    color: #fff;
-    background-color: #4ac356;
-    text-align: center;
-    display: none;
-    z-index: 2;
+.mat-step-header {
+  color: red !important;
 }
 
 
-.top-stepper li.canceled span+span{
-    background-color: #d0021c !important;
+.top-stepper {
+  position: relative;
 }
-.top-stepper li.incomplete span+span{
-    background-color: #faa955 !important;
+
+.top-stepper li {
+  position: relative;
+  display: inline-block
 }
-.top-stepper li.active p{
-    color: #4ac356
+
+.top-stepper li span {
+  content: "";
+  display: inline-block;
+  height: 47px;
+  width: 47px;
+  border-radius: 50%;
+  background: #A7BDCA;
+  margin-left: 25px;
+  margin-bottom: 15px;
 }
-.top-stepper li.active span+span{
-    display: block
+
+.top-stepper li::before {
+  content: "";
+  position: absolute;
+  background-color: #A7BDCA;
+  top: 24px;
+  height: 4px;
+  right: -41px;
+  width: 84%;
+}
+
+.top-stepper .active::before {
+  z-index: 2;
+  background-color: #4ac356;
+}
+
+.top-stepper li p {
+  font-size: 18px;
+  color: #A7BDCA;
+  letter-spacing: 0;
+  text-transform: capitalize;
+}
+
+.top-stepper li:last-child::before {
+  content: none;
+}
+
+.top-stepper li span+span {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  line-height: 80px;
+  left: 4px;
+  top: -12px;
+  font-size: 25px;
+  color: #fff;
+  background-color: #4ac356;
+  text-align: center;
+  display: none;
+  z-index: 2;
+}
+
+
+.top-stepper li.canceled span+span {
+  background-color: #d0021c !important;
+}
+
+.top-stepper li.incomplete span+span {
+  background-color: #faa955 !important;
+}
+
+.top-stepper li.active p {
+  color: #4ac356
+}
+
+.top-stepper li.active span+span {
+  display: block
 }
 
 
 
-.top-stepper li.canceled span+span{display: block}
-.top-stepper li.canceled p{
-    color: #d0021c;
-}
-.top-stepper li.canceled::after{
-    content: "";
-    position: absolute;
-    background-color: #d0021c;
-    top: 24px;
-    height: 4px;
-    right: 64%;
-    width: 100%;
-}
-.top-stepper li.incomplete span+span{display: block}
-.top-stepper li.incomplete p{
-    color: #faa955;
-}
-.top-stepper li.incomplete::after{
-    content: "";
-    position: absolute;
-    background-color: #faa955;
-    top: 24px;
-    height: 4px;
-    right: 64%;
-    width: 100%;
+.top-stepper li.canceled span+span {
+  display: block
 }
 
-.top-stepper li.incomplete.canceled::after{
-    right: -33% !important;
+.top-stepper li.canceled p {
+  color: #d0021c;
+}
+
+.top-stepper li.canceled::after {
+  content: "";
+  position: absolute;
+  background-color: #d0021c;
+  top: 24px;
+  height: 4px;
+  right: 64%;
+  width: 100%;
+}
+
+.top-stepper li.incomplete span+span {
+  display: block
+}
+
+.top-stepper li.incomplete p {
+  color: #faa955;
+}
+
+.top-stepper li.incomplete::after {
+  content: "";
+  position: absolute;
+  background-color: #faa955;
+  top: 24px;
+  height: 4px;
+  right: 64%;
+  width: 100%;
+}
+
+.top-stepper li.incomplete.canceled::after {
+  right: -33% !important;
 
 }
 
-.top-stepper{position: relative;}
-.overflow
-{
-    overflow: hidden;
+.top-stepper {
+  position: relative;
+}
+
+.overflow {
+  overflow: hidden;
 
 }
-p.pRating
-{
-    display: initial;
-    width: 50%;
-    float: left;
+
+p.pRating {
+  display: initial;
+  width: 50%;
+  float: left;
 }
-.rate-item
-{
-    position: relative;
-    top: -19px;
+
+.rate-item {
+  position: relative;
+  top: -19px;
 }
-.owl-input{
+
+.owl-input {
   margin-bottom: 50px;
 }

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import { OrdersService } from "@app/pages/services/orders.service";
+import { ToastrService } from "ngx-toastr";
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -34,12 +35,14 @@ export class OrderDetailsComponent implements OnInit {
   orderSubStates = [];
   state_id: any;
   sub_state_id: any;
+  textMessage = "";
 
   constructor(
     private _formBuilder: FormBuilder,
     private router: Router,
     private activeRoute: ActivatedRoute,
     private orderService: OrdersService,
+    private toastrService: ToastrService,
     private orderStatesService: OrderStatesService
   ) {}
 
@@ -60,6 +63,7 @@ export class OrderDetailsComponent implements OnInit {
       this.orderService.getOrder(id).subscribe((response: any) => {
         this.order = response.data;
         this.getOrderStates();
+        this.generateSkusToCopy();
 
         this.order.history.map((state) => {
           state.name = this.getStateName(state.state_id);
@@ -86,8 +90,8 @@ export class OrderDetailsComponent implements OnInit {
         this.returned = this.hasState(stepsArray, 7);
       });
     });
-    this.order.state_id = this.order.previous_state;
-    this.order.sub_state_id = this.order.previous_subState;
+    // this.order.state_id = this.order.previous_state;
+    // this.order.sub_state_id = this.order.previous_subState;
   }
 
   getStateName(id) {
@@ -190,6 +194,31 @@ export class OrderDetailsComponent implements OnInit {
           this.selectStatus(this.order.state_id);
         }
       },
+    });
+  }
+  copyInputMessage() {
+    this.textMessage = "";
+    const selBox = document.createElement("textarea");
+    selBox.style.position = "fixed";
+    selBox.style.left = "0";
+    selBox.style.top = "0";
+    selBox.style.opacity = "0";
+    this.generateSkusToCopy()
+    selBox.value = this.textMessage;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand("copy");
+    document.body.removeChild(selBox);
+    this.toastrService.success('copied')
+
+  }
+  generateSkusToCopy() {
+    this.order.items.forEach((element) => {
+      console.log(element.product.sku);
+
+      this.textMessage =  this.textMessage.concat(element.product.sku + " \n");
+      console.log(this.textMessage);
     });
   }
 }
