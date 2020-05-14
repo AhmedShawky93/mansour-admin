@@ -212,11 +212,12 @@ export class OrderDetailsComponent implements OnInit {
     this.toastrService.success("copied");
   }
   generateSkusToCopy() {
-    this.order.items.forEach((element) => {
-      console.log(element.product.sku);
-
-      this.textMessage = this.textMessage.concat(element.product.sku + " \n");
-      console.log(this.textMessage);
+    this.order.items.forEach((element, index) => {
+      if (index > this.order.items.length + 1) {
+        this.textMessage = this.textMessage.concat(element.product.sku + " \n");
+      } else {
+        this.textMessage = this.textMessage.concat(element.product.sku);
+      }
     });
   }
 }

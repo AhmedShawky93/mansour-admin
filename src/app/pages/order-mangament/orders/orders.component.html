@@ -75,7 +75,7 @@
     <div class="col-md-3  col-xs-12 text-right">
       <div class="form-group">
         <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">Export
-          Orders  </a>
+          Orders </a>
       </div>
     </div>
     <!-- <div class="col-md-3  col-xs-12">
@@ -84,6 +84,29 @@
       </div>
     </div> -->
 
+
+    <div class="col-3">
+      <!-- <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
+      <div *ngIf="order.order_status_editable"> -->
+      <select class="owl-input" required name="status" [(ngModel)]="state_id"
+        (ngModelChange)="selectStatus($event) ">
+        <option value="" selected hidden>Select Status </option>
+        <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}
+        </option>
+      </select>
+      <!-- </div> -->
+    </div>
+    <div class="col-3" *ngIf="orderSubStates.length">
+      <select class="owl-input" required name="status" [(ngModel)]="sub_state_id">
+        <option [value]="null" selected hidden>Select sub Status </option>
+        <option value="{{status.id}}" *ngFor="let status of orderSubStates">{{status.name}}
+        </option>
+      </select>
+    </div>
+    <div clas="col-3">
+      <button class="float-right btn btn-owls btn-rounded btn-green"
+        (click)="changeStausBulkInOrders()">Apply</button>
+    </div>
   </div>
 </div>
 
@@ -91,6 +114,12 @@
   <table class="table owls-table" *ngIf="orders.length">
     <thead>
       <tr>
+        <th scope="col">
+          <label class="container">
+            <input type="checkbox" class="form-control checkbox-style" (click)="selectAll()">
+            <span class="checkmark"></span>
+          </label>
+        </th>
         <th scope="col">order iD</th>
         <th scope="col"> user name</th>
         <th scope="col"> order time
@@ -114,6 +143,13 @@
 
       <tr
         *ngFor="let order of orders | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let i = index">
+        <td scope="row">
+          <label class="container">
+            <input type="checkbox" class="form-control checkbox-style" [(ngModel)]="order.select"
+              (click)="changeSelectBulk(order)">
+            <span class="checkmark"></span>
+          </label>
+        </td>
         <td scope="row">{{order.id}}</td>
         <td>{{order.user?.name}}</td>
         <td>
@@ -575,6 +611,33 @@
           (click)="returnItemsProducts()">Yes</button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
+        ">Are you sure you want to change Status this order ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label class="checkup"> notify user
+          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="modal-footer" style="    justify-content: center; ">
+
+        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
+          (click)="confirmChangeStatus(notifyUser)">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
+      </div>
+
     </div>
   </div>
 </div>

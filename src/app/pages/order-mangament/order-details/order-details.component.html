@@ -317,6 +317,11 @@
         <span>{{order.remaining}}</span>
 
       </div>
+      <div class="block-item">
+        <p>admin discount</p>
+        <span>{{(order?.admin_discount) ? order.admin_discount : '-'}}</span>
+
+      </div>
 
       <div class="block-item">
         <p>Delivery Fees</p>
@@ -353,7 +358,7 @@
   <h4>Return product </h4>
 </div>
 
-<div class="block"  *ngIf="order?.items[0]?.returned_quantity">
+<div class="block" *ngIf="order?.items[0]?.returned_quantity">
   <div *ngFor="let item of order.items; index as i">
     <div *ngIf="item.returned_quantity">
 
