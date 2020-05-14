@@ -63,7 +63,6 @@ export class OrderDetailsComponent implements OnInit {
       this.orderService.getOrder(id).subscribe((response: any) => {
         this.order = response.data;
         this.getOrderStates();
-        this.generateSkusToCopy();
 
         this.order.history.map((state) => {
           state.name = this.getStateName(state.state_id);
@@ -203,21 +202,20 @@ export class OrderDetailsComponent implements OnInit {
     selBox.style.left = "0";
     selBox.style.top = "0";
     selBox.style.opacity = "0";
-    this.generateSkusToCopy()
+    this.generateSkusToCopy();
     selBox.value = this.textMessage;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
     document.execCommand("copy");
     document.body.removeChild(selBox);
-    this.toastrService.success('copied')
-
+    this.toastrService.success("copied");
   }
   generateSkusToCopy() {
     this.order.items.forEach((element) => {
       console.log(element.product.sku);
 
-      this.textMessage =  this.textMessage.concat(element.product.sku + " \n");
+      this.textMessage = this.textMessage.concat(element.product.sku + " \n");
       console.log(this.textMessage);
     });
   }
