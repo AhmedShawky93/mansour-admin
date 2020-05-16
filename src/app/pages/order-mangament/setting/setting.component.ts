@@ -137,7 +137,13 @@ export class SettingComponent implements OnInit {
     this.uploadFile
       .uploadFiles(this.selectedFiles)
       .subscribe((response: any) => {
-        this.gallery = this.gallery.concat(response.data);
+        if (response.code === 200) {
+          this.gallery = this.gallery.concat(response.data);
+          this.toastrService.success(response.message);
+        } else {
+          this.toastrService.error(response.message);
+        }
+        
       });
   }
 
