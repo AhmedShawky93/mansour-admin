@@ -16,7 +16,14 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { Observable, Subject, concat, of } from "rxjs";
-import { distinctUntilChanged, debounceTime, tap, switchMap, map, catchError } from "rxjs/operators";
+import {
+  distinctUntilChanged,
+  debounceTime,
+  tap,
+  switchMap,
+  map,
+  catchError,
+} from "rxjs/operators";
 import { ProductsService } from "@app/pages/services/products.service";
 import { ListsService } from "@app/pages/services/lists.service";
 
@@ -42,7 +49,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
   products$: Observable<any>;
   productsInput$ = new Subject<String>();
   productsLoading: boolean;
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private uploadFile: UploadFilesService,
@@ -64,42 +71,50 @@ export class AddEditListComponent implements OnInit, OnChanges {
     this.listForm = this.formBuilder.group({
       name_en: new FormControl(data ? data.name_en : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-      description_en: new FormControl(data ? data.description_en : "", Validators.required),
-      description_ar: new FormControl(data ? data.description_ar : "", Validators.required),
+      description_en: new FormControl(
+        data ? data.description_en : "",
+        Validators.required
+      ),
+      description_ar: new FormControl(
+        data ? data.description_ar : "",
+        Validators.required
+      ),
       image_en: new FormControl(data ? data.image_en : ""),
       image_ar: new FormControl(data ? data.image_ar : ""),
       type: new FormControl(data ? data.type : "1", [Validators.required]),
       list_method: new FormControl(0, [Validators.required]),
       status: new FormControl(1),
-      items: new FormControl([])
+      items: new FormControl([]),
     });
     console.log(data);
-    let products = []
+    let products = [];
     if (data) {
       console.log(data);
-      let items = data.products.map(p => p.id);
-      this.listForm.get('items').setValue(items);
-      products = data.products
+      let items = data.products.map((p) => p.id);
+      this.listForm.get("items").setValue(items);
+      products = data.products;
     }
-    
+
     this.products$ = concat(
       of(products), // default items
       this.productsInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
-        tap(() => this.productsLoading = true),
-        switchMap(term => this.productService.searchProducts({q: term}, 1).pipe(
-          catchError(() => of([])), // empty list on error
-          tap(() => this.productsLoading = false),
-          map((response: any) => {
-            return response.data.products.map(p => {
-              return {
-                id: p.id,
-                name: p.sku + ": " + p.name
-              }
+        tap(() => (this.productsLoading = true)),
+        switchMap((term) =>
+          this.productService.searchProducts({ q: term }, 1).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.productsLoading = false)),
+            map((response: any) => {
+              return response.data.products.map((p) => {
+                return {
+                  id: p.id,
+                  name: p.sku + ": " + p.name,
+                };
+              });
             })
-          })
-        ))
+          )
+        )
       )
     );
   }
@@ -119,7 +134,9 @@ export class AddEditListComponent implements OnInit, OnChanges {
   }
   closeSideBar() {
     this.closeSideBarEmit.emit();
-    this.listForm.reset();
+    if (!this.listData) {
+      this.listForm.reset();
+    }
   }
   submitForm() {
     if (this.listData) {
@@ -133,10 +150,10 @@ export class AddEditListComponent implements OnInit, OnChanges {
       data.items = [
         {
           type: 4,
-          items: data.items
-        }
-      ]
-      
+          items: data.items,
+        },
+      ];
+
       this.listsService
         .editList(this.listData.id, data)
         .subscribe((response: any) => {
@@ -153,7 +170,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
     } else {
       // add
       const data = this.listForm.value;
-      
+
       if (!this.listForm.valid) {
         this.markFormGroupTouched(this.listForm);
         return;
@@ -163,9 +180,9 @@ export class AddEditListComponent implements OnInit, OnChanges {
       data.items = [
         {
           type: 4,
-          items: data.items
-        }
-      ]
+          items: data.items,
+        },
+      ];
       console.log(data);
       this.listsService.createList(data).subscribe((response: any) => {
         if (response.code == 200) {

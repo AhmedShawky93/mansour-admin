@@ -503,8 +503,8 @@ a.clear-date {
 .dropup {
   background: #eb1c24;
   color: #fff;
-  height: 48px;
-  line-height: 49px;
+  height: 40px;
+  line-height: 44px;
   border-radius: 25px;
 }
 
@@ -527,12 +527,16 @@ a.clear-date {
   right: 0px;
   top: 6px;
 }
-.mb-10
-{
+
+.mb-10 {
   margin-bottom: 10px;
 }
-.img-loading-side-bar-product
-{
+
+.img-loading-side-bar-product {
   display: block;
   margin: 0px auto;
+}
+table  .checkmark
+{
+  top: -9px;
 }

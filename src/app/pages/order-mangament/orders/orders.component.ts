@@ -40,7 +40,8 @@ export class OrdersComponent implements OnInit {
   showDelete: any;
   show = false;
   hide = true;
-
+  state_id = "";
+  sub_state_id = "";
   orders: any[] = [];
 
   categories: any[];
@@ -75,7 +76,7 @@ export class OrdersComponent implements OnInit {
   exportUrl: string;
   exportProductsUrl: string;
   productsUrl: string;
-  orderStatus: any;
+  orderStatus = [];
   orderSubStatus: any;
   typeStatusPopup: any;
   notifyUser: boolean = true;
@@ -89,6 +90,9 @@ export class OrdersComponent implements OnInit {
   loadingProductSideBar: boolean;
   orderSelected: any;
   selectedDistrict: any;
+  ordersBulk: any;
+  selectAllChecked = false;
+  orderSubStates = [];
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -104,6 +108,7 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit() {
     this.getCities();
+    this.getOrderStates();
     $(".payment-open").on("click", function () {
       $(".payment-area").slideToggle(100);
     });
@@ -188,26 +193,15 @@ export class OrdersComponent implements OnInit {
         this.total = response.data.total;
         if (this.orders.length == 0) {
           this.no_orders = true;
+        } else {
+          this.orders.forEach((element) => {
+            element.select = false;
+          });
         }
         console.log(this.total);
         if (this.total === 0) {
           this.p = 1;
         }
-        // this.orders.forEach((element, index) => {
-        //   element.order_status = this.orderStatus;
-        //   this.selectStatus(element.state_id, element, index);
-        //   const indexOrderStatus = element.order_status.findIndex(
-        //     (item) => item.id == element.state_id
-        //   );
-        //   if (indexOrderStatus !== -1) {
-        //     element.order_status_name =
-        //       element.order_status[indexOrderStatus].name;
-        //     element.order_status_editable = !this.ineditableStates.includes(
-        //       element.state_id
-        //     );
-        //   }
-        //   console.log(element);
-        // });
       });
 
     this.filter$.next(this.filter);
@@ -222,16 +216,84 @@ export class OrdersComponent implements OnInit {
       environment.api + "/admin/products/export_sales?token=" + token;
     this.exportProductsUrl = this.productsUrl;
   }
+  selectAll() {
+    this.ordersBulk = [];
+    if (this.orders.length) {
+      if (!this.selectAllChecked) {
+        this.orders.forEach((element) => {
+          element.select = true;
+          this.selectAllChecked = true;
+          console.log("selectAllChecked ==>", this.selectAllChecked);
+        });
+      } else {
+        this.orders.forEach((element) => {
+          element.select = false;
+          this.selectAllChecked = false;
+          console.log("selectAllChecked ==>", this.selectAllChecked);
+        });
+      }
+    }
+  }
+  changeSelectBulk(order) {
+    if (order.select) {
+      order.select = false;
+    } else {
+      order.select = true;
+    }
+  }
+  changeStausBulkInOrders() {
+    this.ordersBulk = this.orders
+      .filter((element) => element.select)
+      .map((item) => {
+        return {
+          id: item.id,
+          state_id: this.state_id,
+          sub_state_id: this.sub_state_id,
+        };
+      });
 
+    console.log(this.ordersBulk);
+    $("#confirmOrderStatus").modal("show");
+
+  }
+  confirmChangeStatus(notifyUser) {
+    console.log(notifyUser);
+    this.ordersService
+      .changeBulkChangeState(this.orderId, {
+        orders: this.ordersBulk,
+        notify_customer: notifyUser,
+      })
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          $("#confirmOrderStatus").modal("hide");
+        }
+      });
+  }
   getOrderStates() {
     this.orderStatesService.getOrderEditableStatus().subscribe({
       next: (response: any) => {
         if (response.code === 200) {
           this.orderStatus = response.data;
+          // this.selectStatus(this.order.state_id);
         }
       },
     });
   }
+  selectStatus(id) {
+    let index = this.orderStatus.findIndex((item) => item.id == id);
+    console.log(index);
+
+    if (index !== -1) {
+      this.orderSubStates = this.orderStatus[index].sub_states;
+      console.log(this.orderSubStates);
+    }
+    // if (!this.firstTime) {
+    //   $("#confirmOrderStatus").modal("show");
+    //   this.firstTime = false;
+    // }
+    // console.log(this.firstTime);
+  }
+
   clearDateFrom() {
     this.filter.date_from = "";
     this.changePage(1);
@@ -445,7 +507,8 @@ export class OrdersComponent implements OnInit {
       $("#view-side-bar-return-order").toggleClass("open-view-vindor-types");
       this.currentOrder = response.data;
       this.currentOrder.items.forEach((element) => {
-        element.quantity = 1;
+        element.amount = element.amount - element.returned_quantity;
+        element.quantity = 0;
       });
       this.selectedCategory = "";
       this.selectedSubcategory = "";
@@ -521,13 +584,12 @@ export class OrdersComponent implements OnInit {
     console.log(product);
     if (product.quantity < product.amount) {
       product.quantity++;
-      console.log(product, "if");
     }
   }
   removeAmountOldItemReturn(product) {
     console.log(product);
 
-    product.quantity > 1 ? product.quantity-- : (product.quantity = 1);
+    product.quantity > 1 ? product.quantity-- : (product.quantity = 0);
   }
   addAmount(product) {
     product.amount++;
@@ -606,7 +668,7 @@ export class OrdersComponent implements OnInit {
       .map((item) => {
         return {
           id: item.id,
-          amount: item.quantity,
+          returned_quantity: item.quantity,
         };
       });
     console.log(itemReturn);
@@ -617,6 +679,9 @@ export class OrdersComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.code === 200) {
             $("#returnOrder").modal("hide");
+            $("#view-side-bar-return-order").removeClass(
+              "open-view-vindor-types"
+            );
           }
         });
     }
@@ -628,7 +693,7 @@ export class OrdersComponent implements OnInit {
     console.log(this.currentOrder.items);
 
     const items = this.currentOrder.items
-      .filter((item) => item.amount && !item.remove )
+      .filter((item) => item.amount && !item.remove)
       .map((item) => {
         if (!item.remove) {
           return {
@@ -641,7 +706,6 @@ export class OrdersComponent implements OnInit {
       .filter((item) => item.remove)
       .map((item) => item.id);
 
-
     console.log(items);
     console.log(deleteIds);
     if (items.length) {
@@ -650,7 +714,7 @@ export class OrdersComponent implements OnInit {
           items: items,
           notes: this.currentOrder.notes,
           delivery_fees: this.currentOrder.delivery_fees,
-          admin_discount: this.currentOrder.admin_discount,
+          admin_discount: null,
           notify_customer: notifyUser,
           deleted_items: deleteIds,
         })
@@ -674,23 +738,6 @@ export class OrdersComponent implements OnInit {
         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
       }
     return str.join("&");
-  }
-  selectStatus(id, data, indexstatus) {
-    console.log(id, data, indexstatus);
-
-    let index = data.order_status.findIndex((item) => item.id == id);
-    console.log(index);
-
-    if (index !== -1) {
-      data.sub_states = data.order_status[index].sub_states;
-      console.log(data);
-      this.orderId = data.id;
-    }
-    // if (!this.firstTime) {
-    //   $("#confirmOrderStatus").modal("show");
-    //   this.firstTime = false;
-    // }
-    // console.log(this.firstTime);
   }
 
   openPopupConfirmStatus(data, type) {

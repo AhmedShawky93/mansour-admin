@@ -190,6 +190,7 @@
 </div>
 
 <div class="block" *ngIf="order">
+  <h6 class="copy-skus" (click)="copyInputMessage()">Copy skus</h6>
   <div *ngFor="let item of order.items; index as i">
     <div class="block-ratings">
       <p>{{i + 1}}</p>
@@ -264,43 +265,26 @@
 
 <div class="block" *ngIf="order">
   <div class="row">
-
     <div class="col-md-5 ">
-
       <div class="block-item">
         <p>id </p>
         <span>{{order.user.id}}</span>
-
       </div>
-
       <div class="block-item">
         <p>name</p>
         <span>{{order.user.name}}</span>
-
       </div>
-
-
-
     </div>
-
-
     <div class="col-md-2 "></div>
-
-
     <div class="col-md-5 ">
-
       <div class="block-item">
         <p>number</p>
         <span>{{order.user.phone}}</span>
-
       </div>
-
       <div class="block-item">
         <p>email </p>
         <span>{{order.user.email}}</span>
-
       </div>
-
     </div>
     <div class="col-sm-12">
       <div class="block-item">
@@ -308,19 +292,10 @@
         <span>{{order.address.formatted_address}} <a *ngIf="order.address.lat"
             href="https://www.google.com/maps/search/?api=1&query={{order.address.lat}},{{order.address.lng}}"
             target="_blank"><i class="fa fa-external-link"></i></a></span>
-
       </div>
     </div>
-
-
-
-
   </div>
 </div>
-
-
-
-
 <div class="block-title">
   <h4>Billing Details</h4>
 </div>
@@ -340,6 +315,11 @@
       <div class="block-item">
         <p>Remaining</p>
         <span>{{order.remaining}}</span>
+
+      </div>
+      <div class="block-item">
+        <p>admin discount</p>
+        <span>{{(order?.admin_discount) ? order.admin_discount : '-'}}</span>
 
       </div>
 
@@ -374,29 +354,32 @@
   </div>
 </div>
 
-<!-- <div class="block-title">
+<div class="block-title" *ngIf="order?.items[0]?.returned_quantity">
   <h4>Return product </h4>
 </div>
 
-<div class="block" *ngIf="order">
+<div class="block" *ngIf="order?.items[0]?.returned_quantity">
   <div *ngFor="let item of order.items; index as i">
-    <div class="block-ratings">
-      <p>{{i + 1}}</p>
-      <img [src]="item?.product.image" alt="" class="owl-img" width="80">
-      <div class="content">
-        <h4>{{item.product.name}}</h4>
-        <p>{{item.product.sku}}</p>
-      </div>
-    </div>
+    <div *ngIf="item.returned_quantity">
 
-    <div class="qty-item">
-      <p>QTY: {{item.amount}}</p>
-      <span *ngIf="item?.product.discount_price === null">{{item.product.price}} LE</span>
-      <span *ngIf="item?.product.discount_price !== null">{{item.product.discount_price}} LE</span>
+      <div class="block-ratings">
+        <p>{{i + 1}}</p>
+        <img [src]="item?.product.image" alt="" class="owl-img" width="80">
+        <div class="content">
+          <h4>{{item.product.name}}</h4>
+          <p>{{item.product.sku}}</p>
+        </div>
+      </div>
+
+      <div class="qty-item">
+        <p>QTY: {{item.returned_quantity}}</p>
+        <span *ngIf="item?.product.discount_price === null">{{item.product.price}} LE</span>
+        <span *ngIf="item?.product.discount_price !== null">{{item.product.discount_price}} LE</span>
+      </div>
     </div>
   </div>
 
-</div> -->
+</div>
 
 <!-- <div class="block-title">
   <h4>order milestones</h4>
