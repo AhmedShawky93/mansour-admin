@@ -22,6 +22,7 @@ import {
   map,
 } from "rxjs/operators";
 import { CustomerService } from "@app/pages/services/customer.service";
+import { ListsService } from "@app/pages/services/lists.service";
 
 @Component({
   selector: "app-edit-category",
@@ -40,6 +41,7 @@ export class EditOfferComponent implements OnInit {
   customersInput$ = new Subject<String>();
   customersLoading: boolean;
   selectFile: File;
+  lists: any;
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
@@ -47,7 +49,8 @@ export class EditOfferComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private customerService: CustomerService,
     private toastrService: ToastrService,
-    private uploadFile: UploadFilesService
+    private uploadFile: UploadFilesService,
+    private listsService: ListsService
   ) {}
 
   ngOnInit() {
@@ -63,8 +66,14 @@ export class EditOfferComponent implements OnInit {
       customers: [],
       customer_phones: new FormControl(""),
       first_order: new FormControl(false),
+      list_id: new FormControl(),
       typeCustmerSelect: new FormControl("1"),
     });
+
+    this.listsService.getLists({})
+      .subscribe((response: any) => {
+        this.lists = response.data;
+      });
 
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);

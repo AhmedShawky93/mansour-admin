@@ -22,6 +22,7 @@ import {
   tap,
   map,
 } from "rxjs/operators";
+import { ListsService } from "@app/pages/services/lists.service";
 
 @Component({
   selector: "app-add-category",
@@ -53,12 +54,14 @@ export class AddOfferComponent implements OnInit {
   customersInput$ = new Subject<String>();
   customersLoading: boolean;
   selectFile: File;
+  lists: any;
   constructor(
-    private promoadd: PromosService,
+    private promoService: PromosService,
     private toastrService: ToastrService,
     private customerService: CustomerService,
     private router: Router,
-    private uploadFile: UploadFilesService
+    private uploadFile: UploadFilesService,
+    private listsService: ListsService
   ) {}
 
   // add Promo
@@ -73,7 +76,7 @@ export class AddOfferComponent implements OnInit {
     );
     promo.customer_ids = this.newPromo.get("customers").value;
 
-    this.promoadd.createPromos(promo).subscribe((response: any) => {
+    this.promoService.createPromos(promo).subscribe((response: any) => {
       if (response.code == 200) {
         this.router.navigate(["/pages/promocodes"]);
       } else {
@@ -114,6 +117,11 @@ export class AddOfferComponent implements OnInit {
     //     this.customers = respnose.data;
     //   });
 
+    this.listsService.getLists({})
+      .subscribe((response: any) => {
+        this.lists = response.data;
+      });
+
     this.customers$ = concat(
       of([]), // default items
       this.customersInput$.pipe(
@@ -152,6 +160,7 @@ export class AddOfferComponent implements OnInit {
       minimum_amount: new FormControl(""),
       customer_phones: new FormControl(""),
       first_order: new FormControl(false),
+      list_id: new FormControl(),
       typeCustmerSelect: new FormControl("1"),
     });
   }
