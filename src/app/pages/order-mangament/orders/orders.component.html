@@ -358,7 +358,7 @@
 
         <div class="order-list">
           <img src="./assets/img/loading-table.svg" class="img-loading-side-bar-product" *ngIf="loadingProductSideBar">
-          <div class="item" *ngFor="let product of product_list | stringFilter: productTerm">
+          <div class="item" *ngFor="let product of product_list | productFilter: productTerm">
             <div class="float-right">
               <span>
                 <img src="./assets/img/collapse.svg" alt="" (click)="removeAmount(product)" style="cursor: pointer;">

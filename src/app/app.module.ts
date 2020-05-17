@@ -90,6 +90,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { DeliveredPipe } from "./pages/stars/pipes/delivered.pipe";
 import { DeliveryFilterPipe } from "./shared/delivery-filter.pipe";
 import { CustomAdsComponent } from "./pages/store-front/custom-ads/custom-ads.component";
+import { ProductFilterPipe } from "./shared/product-filter.pipe";
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { CustomAdsComponent } from "./pages/store-front/custom-ads/custom-ads.co
     AddStoreComponent,
     PagesComponent,
     StringFilterPipe,
+    ProductFilterPipe,
     DeliveryFilterPipe,
     NotificationFilterPipe,
     GroupByDatePipe,
