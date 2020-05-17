@@ -265,7 +265,10 @@ export class OrdersComponent implements OnInit {
       })
       .subscribe((response: any) => {
         if (response.code === 200) {
+
           $("#confirmOrderStatus").modal("hide");
+          this.filter$.next(this.filter);
+
         }
       });
   }
@@ -712,7 +715,7 @@ export class OrdersComponent implements OnInit {
       this.ordersService
         .updateItems(this.currentOrder.id, {
           items: items,
-          notes: this.currentOrder.notes,
+          admin_notes: this.currentOrder.admin_notes,
           delivery_fees: this.currentOrder.delivery_fees,
           admin_discount: null,
           notify_customer: notifyUser,
