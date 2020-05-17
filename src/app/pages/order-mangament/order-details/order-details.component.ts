@@ -213,9 +213,14 @@ export class OrderDetailsComponent implements OnInit {
   }
   generateSkusToCopy() {
     this.order.items.forEach((element, index) => {
-      if (index > this.order.items.length + 1) {
+      console.log('index ==> ', index + 1)
+      console.log('this.order.items.length ==> ', this.order.items.length )
+      if (index + 1  < this.order.items.length   ) {
+        console.log('if')
         this.textMessage = this.textMessage.concat(element.product.sku + " \n");
       } else {
+        console.log('else')
+
         this.textMessage = this.textMessage.concat(element.product.sku);
       }
     });
