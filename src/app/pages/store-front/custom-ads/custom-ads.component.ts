@@ -181,7 +181,7 @@ export class CustomAdsComponent implements OnInit {
     this.selectedProductId = this.newAdsForm.get('prod').value;
 
     // fill select options
-    if (ad.type == 1 || ad.type == 3) {
+    if (ad.type == 1 || ad.type == 2) {
       this.onCategoryChange(this.category_id);
 
       if (ad.type == 1) {
