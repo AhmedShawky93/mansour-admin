@@ -60,37 +60,40 @@ export class OrderDetailsComponent implements OnInit {
     this.activeRoute.params.subscribe((params) => {
       let id = params["id"];
 
-      this.orderService.getOrder(id).subscribe((response: any) => {
-        this.order = response.data;
-        this.getOrderStates();
-
-        this.order.history.map((state) => {
-          state.name = this.getStateName(state.state_id);
-          state.image = this.getStateImage(state.state_id);
-          return state;
-        });
-
-        const lastCreatedIndex = this.order.history.reduce((a, v, i) => {
-          if (v.state_id == 1) {
-            a = i;
-          }
-
-          return a;
-        });
-        let stepsArray = this.order.history.slice(lastCreatedIndex);
-
-        this.order.showStepper = this.stepperStates.includes(
-          this.order.state_id
-        );
-        this.processing = this.hasState(stepsArray, 2);
-        this.cancelled = this.hasState(stepsArray, 6);
-        this.delivering = this.hasState(stepsArray, 3);
-        this.delivered = this.hasState(stepsArray, 4);
-        this.returned = this.hasState(stepsArray, 7);
-      });
+      this.getOrderDetails(id)
     });
     // this.order.state_id = this.order.previous_state;
     // this.order.sub_state_id = this.order.previous_subState;
+  }
+  getOrderDetails(id){
+    this.orderService.getOrder(id).subscribe((response: any) => {
+      this.order = response.data;
+      this.getOrderStates();
+
+      this.order.history.map((state) => {
+        state.name = this.getStateName(state.state_id);
+        state.image = this.getStateImage(state.state_id);
+        return state;
+      });
+
+      const lastCreatedIndex = this.order.history.reduce((a, v, i) => {
+        if (v.state_id == 1) {
+          a = i;
+        }
+
+        return a;
+      });
+      let stepsArray = this.order.history.slice(lastCreatedIndex);
+
+      this.order.showStepper = this.stepperStates.includes(
+        this.order.state_id
+      );
+      this.processing = this.hasState(stepsArray, 2);
+      this.cancelled = this.hasState(stepsArray, 6);
+      this.delivering = this.hasState(stepsArray, 3);
+      this.delivered = this.hasState(stepsArray, 4);
+      this.returned = this.hasState(stepsArray, 7);
+    });
   }
 
   getStateName(id) {
@@ -181,6 +184,7 @@ export class OrderDetailsComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code === 200) {
           $("#confirmOrderStatus").modal("hide");
+          this.getOrderDetails(this.orderId)
         }
       });
   }
@@ -216,11 +220,8 @@ export class OrderDetailsComponent implements OnInit {
       console.log('index ==> ', index + 1)
       console.log('this.order.items.length ==> ', this.order.items.length )
       if (index + 1  < this.order.items.length   ) {
-        console.log('if')
-        this.textMessage = this.textMessage.concat(element.product.sku + " \n");
+         this.textMessage = this.textMessage.concat(element.product.sku + " \n");
       } else {
-        console.log('else')
-
         this.textMessage = this.textMessage.concat(element.product.sku);
       }
     });

@@ -1,15 +1,19 @@
 <ngx-loading-bar [color]="'#eb1c24'"></ngx-loading-bar>
 <div class="top-table-bar" style="margin-bottom: 30px;">
-
   <div class="row">
     <div class="col-md-3">
       <a class="back-btn" [routerLink]="['/pages/orders']">
-        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a>
+        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a
+      >
     </div>
 
     <div class="col-md-9" *ngIf="order">
-      <button [routerLink]="['/pages/print-receipt',order.id ]"
-        class="float-right btn btn-owls btn-rounded btn-green">print</button>
+      <button
+        [routerLink]="['/pages/print-receipt', order.id]"
+        class="float-right btn btn-owls btn-rounded btn-green"
+      >
+        print
+      </button>
     </div>
   </div>
 </div>
@@ -59,10 +63,10 @@
   <div class="milestones-stepper" *ngIf="order">
     <ul class="row">
       <li class="col active" *ngFor="let state of order.history">
-        <img src="./assets/img/available.svg">
-        <p style="margin-bottom: 0px;">{{state.state?.name}}</p>
-        <p style="margin-top: 3px;">{{state.sub_state?.name}}</p>
-        <span>{{state.created_at | date: "yyyy-MM-dd hh:mm a"}}</span>
+        <img src="./assets/img/available.svg" />
+        <p style="margin-bottom: 0px;">{{ state.state?.name }}</p>
+        <p style="margin-top: 3px;">{{ state.sub_state?.name }}</p>
+        <span>{{ state.created_at | date: "yyyy-MM-dd hh:mm a" }}</span>
       </li>
     </ul>
   </div>
@@ -77,24 +81,44 @@
     <div class="col-3">
       <!-- <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
       <div *ngIf="order.order_status_editable"> -->
-      <select class="owl-input" required name="status" [(ngModel)]="order.state_id"
-        (ngModelChange)="selectStatus($event); order.previous_state = order.state_id;">
+      <select
+        class="owl-input"
+        required
+        name="status"
+        [(ngModel)]="order.state_id"
+        (ngModelChange)="
+          selectStatus($event); order.previous_state = order.state_id
+        "
+      >
         <option value="" selected hidden>Select Status </option>
-        <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}
+        <option value="{{ status.id }}" *ngFor="let status of orderStatus"
+          >{{ status.name }}
         </option>
       </select>
       <!-- </div> -->
     </div>
     <div class="col-3" *ngIf="orderSubStates.length">
-      <select class="owl-input" required name="status" [(ngModel)]="order.sub_state_id">
+      <select
+        class="owl-input"
+        required
+        name="status"
+        [(ngModel)]="order.sub_state_id"
+      >
         <option [value]="null" selected hidden>Select sub Status </option>
-        <option value="{{status.id}}" *ngFor="let status of orderSubStates">{{status.name}}
+        <option value="{{ status.id }}" *ngFor="let status of orderSubStates"
+          >{{ status.name }}
         </option>
       </select>
     </div>
     <div clas="col-3">
-      <button class="float-right btn btn-owls btn-rounded btn-green"
-        (click)="changeStausInOrder(order.state_id, order.sub_state_id, order.id)">Apply</button>
+      <button
+        class="float-right btn btn-owls btn-rounded btn-green"
+        (click)="
+          changeStausInOrder(order.state_id, order.sub_state_id, order.id)
+        "
+      >
+        Apply
+      </button>
     </div>
   </div>
 </div>
@@ -105,124 +129,112 @@
 
 <div class="block" *ngIf="order">
   <div class="row">
-
     <div class="col-md-5">
-
       <div class="block-item">
         <p>order iD</p>
-        <span>{{order.id}}</span>
-
+        <span>{{ order.id }}</span>
       </div>
 
       <div class="block-item">
         <p>request time</p>
-        <span>{{order.created_at |  date: 'd-M-yyyy  h:mm a' }}</span>
-
+        <span>{{ order.created_at | date: "d-M-yyyy  h:mm a" }}</span>
       </div>
 
       <div class="block-item" *ngIf="order.scheduled_at">
         <p>schedule time</p>
-        <span>{{order.scheduled_at |  date: 'd-M-yyyy  h:mm a' }}</span>
+        <span>{{ order.scheduled_at | date: "d-M-yyyy  h:mm a" }}</span>
       </div>
 
       <div class="block-item">
-        <p> delivary man </p>
-        <span *ngIf="order.deliverer">{{order.deliverer?.name}}</span>
+        <p>Branch</p>
+        <span *ngIf="order.deliverer">{{ order.deliverer?.name }}</span>
       </div>
-
-      <div class="block-item">
-        <p>delivary number </p>
-        <span>{{order.deliverer?.phone}}</span>
-      </div>
-
     </div>
 
-    <div class="col-md-2 "></div>
+    <div class="col-md-2"></div>
 
-    <div class="col-md-5 ">
-
-
-
+    <div class="col-md-5">
       <div class="block-item">
-        <p>address </p>
+        <p>address</p>
 
-        <span *ngIf="order.address.district">{{order?.address.district?.name}}, </span>
+        <span *ngIf="order.address.district"
+          >{{ order?.address.district?.name }},
+        </span>
 
-        <span *ngIf="order.address.area">{{order?.address.area?.name}}, </span>
-        <span>{{order?.address.city?.name}}</span>
-
-
+        <span *ngIf="order.address.area"
+          >{{ order?.address.area?.name }},
+        </span>
+        <span>{{ order?.address.city?.name }}</span>
       </div>
 
       <div class="block-item">
-        <p>Delivery time </p>
-        <span *ngIf="order.state_id == 4">{{order.updated_at | date: "mediumTime"}}</span>
+        <p>Delivery time</p>
+        <span *ngIf="order.state_id == 4">{{
+          order.updated_at | date: "mediumTime"
+        }}</span>
       </div>
-
 
       <div class="block-item">
         <p class="pRating">customer rating</p>
         <div class="rate-item">
-          <bar-rating [readOnly]="true" [(rate)]="order.rate" [max]="5"></bar-rating>
+          <bar-rating
+            [readOnly]="true"
+            [(rate)]="order.rate"
+            [max]="5"
+          ></bar-rating>
         </div>
       </div>
-
     </div>
     <div class="col-md-12">
       <div class="block-item">
-        <p>Order Feedback </p>
-        <span>{{order.feedback}}</span>
+        <p>Order Feedback</p>
+        <span>{{ order.feedback }}</span>
       </div>
       <div class="block-item">
-        <p>customer notes </p>
-        <span>{{order.notes}}</span>
+        <p>customer notes</p>
+        <span>{{ order.notes }}</span>
       </div>
     </div>
   </div>
 </div>
 
-
-
-
-
 <div class="block-title">
-  <h4>Product </h4>
+  <h4>Product</h4>
 </div>
 
 <div class="block" *ngIf="order">
   <h6 class="copy-skus" (click)="copyInputMessage()">Copy skus</h6>
   <div *ngFor="let item of order.items; index as i">
     <div class="block-ratings">
-      <p>{{i + 1}}</p>
-      <img [src]="item?.product.image" alt="" class="owl-img" width="80">
+      <p>{{ i + 1 }}</p>
+      <img [src]="item?.product.image" alt="" class="owl-img" width="80" />
       <div class="content">
-        <h4>{{item.product.name}}</h4>
-        <p>{{item.product.sku}}</p>
+        <h4>{{ item.product.name }}</h4>
+        <p>{{ item.product.sku }}</p>
       </div>
     </div>
 
     <div class="qty-item">
-      <p>QTY: {{item.amount}}</p>
-      <span *ngIf="item?.product.discount_price === null">{{item.product.price}} LE</span>
-      <span *ngIf="item?.product.discount_price !== null">{{item.product.discount_price}} LE</span>
+      <p>QTY: {{ item.amount }}</p>
+      <span *ngIf="item?.product.discount_price === null"
+        >{{ item.product.price }} LE</span
+      >
+      <span *ngIf="item?.product.discount_price !== null"
+        >{{ item.product.discount_price }} LE</span
+      >
     </div>
   </div>
-
 </div>
 
-
 <div class="block-title" *ngIf="order && order.schedule">
-  <h4>Recurring </h4>
+  <h4>Recurring</h4>
 </div>
 
 <div class="block" *ngIf="order && order.schedule">
-
   <div class="row">
-
-    <div class="col-md-5 ">
-
+    <div class="col-md-5">
       <div class="block-item">
-        <p>Repeat Every </p>
+        <p>Repeat Every</p>
         <span *ngIf="order.schedule.interval == 1">Day</span>
         <span *ngIf="order.schedule.interval == 2">Week</span>
         <span *ngIf="order.schedule.interval == 3">Month</span>
@@ -230,34 +242,25 @@
 
       <div class="block-item">
         <p>Time</p>
-        <span>{{order.schedule.time}}</span>
+        <span>{{ order.schedule.time }}</span>
       </div>
-
     </div>
 
+    <div class="col-md-2"></div>
 
-    <div class="col-md-2 "></div>
-
-
-    <div class="col-md-5 ">
-
+    <div class="col-md-5">
       <div class="block-item">
         <p>Previous Repeats</p>
-        <span>{{order.reorder_count}}</span>
+        <span>{{ order.reorder_count }}</span>
       </div>
 
       <div class="block-item">
         <p>Next Time</p>
-        <span>{{order.schedule.next_order}}</span>
+        <span>{{ order.schedule.next_order }}</span>
       </div>
-
     </div>
-
   </div>
-
 </div>
-
-
 
 <div class="block-title">
   <h4>customer Details</h4>
@@ -265,33 +268,40 @@
 
 <div class="block" *ngIf="order">
   <div class="row">
-    <div class="col-md-5 ">
+    <div class="col-md-5">
       <div class="block-item">
-        <p>id </p>
-        <span>{{order.user.id}}</span>
+        <p>id</p>
+        <span>{{ order.user.id }}</span>
       </div>
       <div class="block-item">
         <p>name</p>
-        <span>{{order.user.name}}</span>
+        <span>{{ order.user.name }}</span>
       </div>
     </div>
-    <div class="col-md-2 "></div>
-    <div class="col-md-5 ">
+    <div class="col-md-2"></div>
+    <div class="col-md-5">
       <div class="block-item">
         <p>number</p>
-        <span>{{order.user.phone}}</span>
+        <span>{{ order.user.phone }}</span>
       </div>
       <div class="block-item">
-        <p>email </p>
-        <span>{{order.user.email}}</span>
+        <p>email</p>
+        <span>{{ order.user.email }}</span>
       </div>
     </div>
     <div class="col-sm-12">
       <div class="block-item">
-        <p>address </p>
-        <span>{{order.address.formatted_address}} <a *ngIf="order.address.lat"
-            href="https://www.google.com/maps/search/?api=1&query={{order.address.lat}},{{order.address.lng}}"
-            target="_blank"><i class="fa fa-external-link"></i></a></span>
+        <p>address</p>
+        <span
+          >{{ order.address.formatted_address }}
+          <a
+            *ngIf="order.address.lat"
+            href="https://www.google.com/maps/search/?api=1&query={{
+              order.address.lat
+            }},{{ order.address.lng }}"
+            target="_blank"
+            ><i class="fa fa-external-link"></i></a
+        ></span>
       </div>
     </div>
   </div>
@@ -302,114 +312,134 @@
 
 <div class="block" *ngIf="order">
   <div class="row">
-
     <div class="col-md-4">
-
       <div class="block-item">
         <p>Applied Offer</p>
-        <span *ngIf="order.promo">{{order.promo.name}} -{{order.promo.amount}} <span
-            *ngIf="order.promo.type == 2">%</span><span *ngIf="order.promo.type == 1">LE</span></span>
-
+        <span *ngIf="order.promo"
+          >{{ order.promo.name }} -{{ order.promo.amount }}
+          <span *ngIf="order.promo.type == 2">%</span
+          ><span *ngIf="order.promo.type == 1">LE</span></span
+        >
       </div>
 
       <div class="block-item">
         <p>Remaining</p>
-        <span>{{order.remaining}}</span>
-
+        <span>{{ order.remaining }}</span>
       </div>
       <div class="block-item">
         <p>admin discount</p>
-        <span>{{(order?.admin_discount) ? order.admin_discount : '-'}}</span>
-
+        <span>{{ order?.admin_discount ? order.admin_discount : "-" }}</span>
       </div>
 
       <div class="block-item">
         <p>Delivery Fees</p>
-        <span>{{order.delivery_fees}}</span>
-
+        <span>{{ order.delivery_fees }}</span>
       </div>
-
     </div>
 
-    <div class="col-md-4 "></div>
+    <div class="col-md-4"></div>
 
-    <div class="col-md-4 ">
-
+    <div class="col-md-4">
       <div class="block-item">
         <p>Payment Method</p>
-        <span>{{order.payment_method == 1 ? "Cash" : "Visa"}}</span>
+        <span>{{ order.payment_method == 1 ? "Cash" : "Visa" }}</span>
       </div>
 
       <div class="block-item">
         <p>Item Total</p>
-        <span>{{order.invoice.total_amount - order.invoice.discount}}</span>
+        <span>{{ order.invoice.total_amount - order.invoice.discount }}</span>
       </div>
 
       <div class="block-item">
         <p>Grand Total</p>
-        <span>{{order.amount + order.delivery_fees}}</span>
+        <span>{{ order.amount + order.delivery_fees }}</span>
       </div>
-
     </div>
   </div>
 </div>
 
-<div class="block-title" *ngIf="order?.items[0]?.returned_quantity">
-  <h4>Return product </h4>
+<div class="block-title" *ngIf="(order?.items)[0]?.returned_quantity">
+  <h4>Return product</h4>
 </div>
 
-<div class="block" *ngIf="order?.items[0]?.returned_quantity">
+<div class="block" *ngIf="(order?.items)[0]?.returned_quantity">
   <div *ngFor="let item of order.items; index as i">
     <div *ngIf="item.returned_quantity">
-
       <div class="block-ratings">
-        <p>{{i + 1}}</p>
-        <img [src]="item?.product.image" alt="" class="owl-img" width="80">
+        <p>{{ i + 1 }}</p>
+        <img [src]="item?.product.image" alt="" class="owl-img" width="80" />
         <div class="content">
-          <h4>{{item.product.name}}</h4>
-          <p>{{item.product.sku}}</p>
+          <h4>{{ item.product.name }}</h4>
+          <p>{{ item.product.sku }}</p>
         </div>
       </div>
 
       <div class="qty-item">
-        <p>QTY: {{item.returned_quantity}}</p>
-        <span *ngIf="item?.product.discount_price === null">{{item.product.price}} LE</span>
-        <span *ngIf="item?.product.discount_price !== null">{{item.product.discount_price}} LE</span>
+        <p>QTY: {{ item.returned_quantity }}</p>
+        <span *ngIf="item?.product.discount_price === null"
+          >{{ item.product.price }} LE</span
+        >
+        <span *ngIf="item?.product.discount_price !== null"
+          >{{ item.product.discount_price }} LE</span
+        >
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- <div class="block-title">
   <h4>order milestones</h4>
 </div> -->
 
-
-
-<div class="modal fade" id="confirmOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="confirmOrderStatus"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
-        ">Are you sure you want to change Status this order ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center;"
+        >
+          Are you sure you want to change Status this order ?
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <label class="checkup"> notify user
-          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
+        <label class="checkup">
+          notify user
+          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser" />
           <span class="checkmark"></span>
         </label>
       </div>
-      <div class="modal-footer" style="    justify-content: center; ">
-
-        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
-          (click)="confirmChangeStatus(notifyUser)">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
+      <div class="modal-footer" style="justify-content: center;">
+        <button
+          type="button"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+          (click)="confirmChangeStatus(notifyUser)"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-red2"
+        >
+          no
+        </button>
       </div>
-
     </div>
   </div>
 </div>
