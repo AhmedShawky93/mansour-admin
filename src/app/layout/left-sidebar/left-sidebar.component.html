@@ -1,21 +1,44 @@
 <div class="left-sidebar">
   <div class="app-logo">
-    <img src="assets/img/logo.png" alt="" width="132">
+    <img src="assets/img/logo.png" alt="" width="132" />
   </div>
 
-  <nav class=" side-nav accordion-group">
-    <ul class="nav navbar-nav  ">
+  <nav class="side-nav accordion-group">
+    <ul class="nav navbar-nav">
       <li class="side-nav-item" routerLinkActive="active">
         <a routerLink="/pages/home">
-          <i class="icon-None" data-toggle="tooltip" data-placement="right" title="Dashboard"></i>
+          <i
+            class="icon-None"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Dashboard"
+          ></i>
           <span>dashboard</span>
         </a>
       </li>
 
-      <li class="side-nav-item "
-        *ngxPermissionsOnly="['ADMIN', 'View Options', 'View Categories', 'View Products', 'View Brands']">
-        <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-1" aria-controls="submenu-2">
-          <i class="icon-None7" data-toggle="tooltip" data-placement="right" title="Manage Usder"></i>
+      <li
+        class="side-nav-item"
+        *ngxPermissionsOnly="[
+          'ADMIN',
+          'View Options',
+          'View Categories',
+          'View Products',
+          'View Brands'
+        ]"
+      >
+        <a
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#submenu-1"
+          aria-controls="submenu-2"
+        >
+          <i
+            class="icon-None7"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Manage Usder"
+          ></i>
           <span>Inventory</span>
           <i class="fa fa-fw fa-angle-down pull-right"></i>
         </a>
@@ -27,33 +50,55 @@
           </li> -->
           <li *ngxPermissionsOnly="['ADMIN', 'View Categories']">
             <a routerLink="/pages/categories" routerLinkActive="active">
-              categories</a>
+              categories</a
+            >
           </li>
           <li *ngxPermissionsOnly="['ADMIN', 'View Products']">
             <a routerLink="/pages/products" routerLinkActive="active">
-              products</a>
+              products</a
+            >
           </li>
           <li *ngxPermissionsOnly="['ADMIN', 'View Brands']">
-            <a routerLink="/pages/brands" routerLinkActive="active">
-              Brands</a>
+            <a routerLink="/pages/brands" routerLinkActive="active"> Brands</a>
           </li>
           <li *ngxPermissionsOnly="['ADMIN', 'View Lists']">
             <a routerLink="/pages/lists" routerLinkActive="active">
-              Custom Lists</a>
+              Custom Lists</a
+            >
           </li>
         </ul>
       </li>
 
-      <li class="side-nav-item" *ngxPermissionsOnly="['ADMIN', 'View Ads', 'View Slider', 'View Sections']">
-        <a routerLinkActive="active" data-toggle="collapse" data-target="#store-front" aria-controls="submenu-2">
-          <i class="icon-None7" data-toggle="tooltip" data-placement="right" title="Manage Usder"></i>
+      <li
+        class="side-nav-item"
+        *ngxPermissionsOnly="[
+          'ADMIN',
+          'View Ads',
+          'View Slider',
+          'View Sections'
+        ]"
+      >
+        <a
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#store-front"
+          aria-controls="submenu-2"
+        >
+          <i
+            class="icon-None7"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Manage Usder"
+          ></i>
           <span>Store Front</span>
           <i class="fa fa-fw fa-angle-down pull-right"></i>
         </a>
 
         <ul id="store-front" class="collapse">
           <li *ngxPermissionsOnly="['ADMIN', 'View Sections']">
-            <a routerLink="/pages/sections" routerLinkActive="active">Sections</a>
+            <a routerLink="/pages/sections" routerLinkActive="active"
+              >Sections</a
+            >
           </li>
           <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
             <a routerLink="/pages/custom-ads" routerLinkActive="active">Ads</a>
@@ -64,17 +109,21 @@
         </ul>
       </li>
 
-
-      <li class="side-nav-item " routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
+      <li
+        class="side-nav-item"
+        routerLinkActive="active"
+        *ngxPermissionsOnly="['ADMIN', 'View Orders']"
+      >
         <a routerLink="/pages/orders">
-          <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Orders"></i>
+          <i
+            class="icon-None4"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Orders"
+          ></i>
           <span>Orders</span>
         </a>
       </li>
-
-
-
-
       <!-- <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Customers']">
         <a routerLink="/pages/contact-us" routerLinkActive="active">
           <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Contact us"></i>
@@ -82,10 +131,39 @@
         </a>
       </li> -->
 
+      <li
+        class="side-nav-item"
+        routerLinkActive="active"
+        *ngxPermissionsOnly="['ADMIN', 'View Customers']"
+      >
+        <a routerLink="/pages/manage-customer" routerLinkActive="active">
+          <i
+            class="icon-None8"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Customers"
+          ></i>
+          <span>Customers</span>
+        </a>
+      </li>
 
-      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Staff', 'View Cities']">
-        <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-4" aria-controls="submenu-4">
-          <i class="icon-None2" data-toggle="tooltip" data-placement="right" title="Delivery"></i>
+      <li
+        class="side-nav-item"
+        routerLinkActive="active"
+        *ngxPermissionsOnly="['ADMIN', 'View Staff', 'View Cities']"
+      >
+        <a
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#submenu-4"
+          aria-controls="submenu-4"
+        >
+          <i
+            class="icon-None2"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Delivery"
+          ></i>
           <span>Delivery</span>
           <i class="fa fa-fw fa-angle-down pull-right"></i>
         </a>
@@ -97,7 +175,8 @@
           </li> -->
           <li>
             <a routerLink="/pages/branches" routerLinkActive="active">
-              branches </a>
+              branches
+            </a>
           </li>
           <li *ngxPermissionsOnly="['ADMIN', 'View Cities']">
             <a routerLink="/pages/cities" routerLinkActive="active">
@@ -107,8 +186,6 @@
         </ul>
       </li>
 
-
-
       <!-- <li class="side-nav-item">
         <a routerLink="/pages/reporting-center" routerLinkActive="active">
           <i class="icon-None5" data-toggle="tooltip" data-placement="right" title="dashboard"></i>
@@ -116,19 +193,36 @@
         </a>
       </li> -->
 
-
-
-      <li class="side-nav-item" routerLinkActive="active"
-        *ngxPermissionsOnly="['ADMIN', 'View Promos', 'View Ads', 'View Notifications']">
-        <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-6" aria-controls="submenu-6">
-          <i class="icon-None3" data-toggle="tooltip" data-placement="right" title="Marketing"></i>
+      <li
+        class="side-nav-item"
+        routerLinkActive="active"
+        *ngxPermissionsOnly="[
+          'ADMIN',
+          'View Promos',
+          'View Ads',
+          'View Notifications'
+        ]"
+      >
+        <a
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#submenu-6"
+          aria-controls="submenu-6"
+        >
+          <i
+            class="icon-None3"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Marketing"
+          ></i>
           <span>Marketing</span>
           <i class="fa fa-fw fa-angle-down pull-right"></i>
         </a>
         <ul id="submenu-6" class="collapse">
           <li *ngxPermissionsOnly="['ADMIN', 'View Promos']">
             <a routerLink="/pages/promocodes" routerLinkActive="active">
-              promocodes</a>
+              promocodes</a
+            >
           </li>
           <!-- <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
             <a routerLink="/pages/ads" routerLinkActive="active">
@@ -136,9 +230,9 @@
           </li> -->
           <li *ngxPermissionsOnly="['ADMIN', 'View Notifications']">
             <a routerLink="/pages/notifications" routerLinkActive="active">
-              notifications</a>
+              notifications</a
+            >
           </li>
-
         </ul>
       </li>
       <!-- <li class="side-nav-item" routerLinkActive="active"  *ngxPermissionsOnly="['ADMIN', 'View Rewards', 'View Gift Requests']">
@@ -164,27 +258,58 @@
           <span>Medical Prescriptions</span>
         </a>
       </li> -->
-      <li class="side-nav-item " *ngxPermissionsOnly="['ADMIN', 'View Admins']">
-        <a routerLinkActive="active" data-toggle="collapse" data-target="#subAdmins" aria-controls="subAdmins">
-          <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Sub Admins"></i>
+      <li class="side-nav-item" *ngxPermissionsOnly="['ADMIN', 'View Admins']">
+        <a
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#subAdmins"
+          aria-controls="subAdmins"
+        >
+          <i
+            class="icon-None8"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Sub Admins"
+          ></i>
           <span>Sub Admins</span>
           <i class="fa fa-fw fa-angle-down pull-right"></i>
         </a>
 
         <ul id="subAdmins" class="collapse">
           <li>
-            <a routerLink="/pages/sub-admins/admins-roles" routerLinkActive="active">
-              roles</a>
+            <a
+              routerLink="/pages/sub-admins/admins-roles"
+              routerLinkActive="active"
+            >
+              roles</a
+            >
           </li>
           <li>
-            <a routerLink="/pages/sub-admins/admins-users" routerLinkActive="active">
-              Users</a>
+            <a
+              routerLink="/pages/sub-admins/admins-users"
+              routerLinkActive="active"
+            >
+              Users</a
+            >
           </li>
         </ul>
       </li>
-      <li class="side-nav-item " *ngxPermissionsOnly="['ADMIN', 'View Settings']">
-        <a routerLinkActive="active" data-toggle="collapse" data-target="#configuration" aria-controls="configuration">
-          <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Configuration "></i>
+      <li
+        class="side-nav-item"
+        *ngxPermissionsOnly="['ADMIN', 'View Settings']"
+      >
+        <a
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#configuration"
+          aria-controls="configuration"
+        >
+          <i
+            class="icon-None6"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Configuration "
+          ></i>
           <span>configuration </span>
           <i class="fa fa-fw fa-angle-down pull-right"></i>
         </a>
@@ -195,14 +320,17 @@
               <span> settings</span>
             </a>
           </li>
-          <li class="side-nav-item " routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Order States']">
+          <li
+            class="side-nav-item"
+            routerLinkActive="active"
+            *ngxPermissionsOnly="['ADMIN', 'View Order States']"
+          >
             <a routerLink="/pages/order-status">
               <span>Order Status</span>
             </a>
           </li>
         </ul>
       </li>
-
     </ul>
   </nav>
 </div>
