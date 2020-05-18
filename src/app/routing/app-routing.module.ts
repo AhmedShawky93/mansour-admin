@@ -1,3 +1,4 @@
+import { ContactusComponent } from './../pages/contact-us/contact-us.component';
 import { PagesComponent } from "../pages/pages.component";
 import { ResetPasswordComponent } from "../pages/login/reset-password/reset-password.component";
 import { DoneComponent } from "../pages/mangament-users/done/done.component";
@@ -72,11 +73,11 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: { title: "Edit Offers", permissions: {only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home'} },
       },
-      { 
-        path: "ads", 
-        component: adsComponent, 
+      {
+        path: "ads",
+        component: adsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Ads", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'} } 
+        data: { title: "Ads", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'} }
       },
       {
         path: "promocodes/add-offers",
@@ -156,6 +157,11 @@ const routes: Routes = [
         component: CustomAdsComponent,
         canActivate: [NgxPermissionsGuard],
         data: {title: "Custom Ads", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'}}
+      },
+      {
+        path: "contact-us",
+        component: ContactusComponent,
+         data: {title: "contact us"}
       },
       // {
       //   path: "options",

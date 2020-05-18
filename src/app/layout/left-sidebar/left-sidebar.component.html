@@ -71,13 +71,19 @@
           <span>Orders</span>
         </a>
       </li>
+      <li class="side-nav-item " routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
+        <a routerLink="/pages/orders">
+          <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Orders"></i>
+          <span>Orders</span>
+        </a>
+      </li>
 
 
 
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Customers']">
-        <a routerLink="/pages/manage-customer" routerLinkActive="active">
-          <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Customers"></i>
-          <span>Customers</span>
+        <a routerLink="/pages/contact-us" routerLinkActive="active">
+          <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Contact us"></i>
+          <span>Contact us</span>
         </a>
       </li>
 

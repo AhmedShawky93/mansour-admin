@@ -1,0 +1,49 @@
+<div class="top-table-bar">
+  <div class="row">
+    <div class="col-md-7 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm" name="searchTerm">
+      </div>
+    </div>
+
+    <div class="col-md-2 col-sm-1" style="padding-top: 21px;">
+      <label class="container">Hide solved
+        <input type="checkbox"  class="form-control checkbox-style" name="hide_delivered" id="hide_delivered" [value]="1" [(ngModel)]="hideDelivered">
+        <span class="checkmark"></span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table owls-table text-center ">
+    <thead>
+      <tr>
+        <th  scope="col">Name</th>
+        <th  scope="col">Email </th>
+        <th scope="col">Customer Phone</th>
+        <th scope="col">contact  Date</th>
+        <th scope="col">message</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of requests   | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td>{{request.reward.name}}</td>
+        <td>{{request.user.name}}</td>
+        <td>{{request.user.phone}}</td>
+        <td>{{request.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td>
+          <select class="owl-input" name="status" [(ngModel)]="request.status" (change)="changeRequestStatus(request)">
+            <option value="0">Not solved yet/option>
+            <option value="1">solved</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
