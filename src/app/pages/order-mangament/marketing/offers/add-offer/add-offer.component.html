@@ -181,6 +181,13 @@
       </label>
 
       <div class="form-group">
+        <label for="charge">Apply to Custom List Only (optional)</label>
+        <select formControlName="list_id" class="owl-input" [(ngModel)]="promo.list_id">
+          <option *ngFor="let list of lists" value="{{list.id}}">{{list.name_en}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
         <label for="charge">Description </label>
         <textarea name="" style="height: 150px;" class="owl-input" placeholder="type here.." required
           formControlName="description" name="description" [(ngModel)]="promo.description"
