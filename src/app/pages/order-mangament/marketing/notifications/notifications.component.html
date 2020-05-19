@@ -15,7 +15,7 @@
     </div>
     <div class="col-md-4 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-not-charges"> + New notification</button>
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-not-charges" (click)="resetForm()"> + New notification</button>
       </div>
     </div>
 
@@ -84,8 +84,7 @@
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid  notificat-img-style" *ngIf="notific.imageUrl" src="{{notific.imageUrl}}" alt="">
         <img class="owl-img img-fluid" *ngIf="!notific.imageUrl" src="http://via.placeholder.com/328x177" alt="">
-        <input type="file" id="productImg" class="owl-input" placeholder="upload your image" (change)="onimgeSelected(notific, $event)"
-        />
+        <input type="file" id="productImg" class="owl-input" placeholder="upload your image" (change)="onimgeSelected(notific, $event)"/>
         <input type="hidden" [(ngModel)]="notific.image" name="image" formControlName="image">
       </div>
     </div>
