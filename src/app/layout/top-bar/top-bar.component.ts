@@ -8,7 +8,7 @@ import { ActivationEnd } from '@angular/router';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/pairwise';
 import { Observable, interval } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, startWith } from 'rxjs/operators';
 
 declare var jquery: any;
 declare var $: any;
@@ -30,6 +30,7 @@ export class TopBarComponent implements OnInit {
   user: any;
   userUpdate: any;
   initialRequest = true;
+  loading: Boolean = true;
 
   constructor(private auth: AuthService, private router: Router,
     private settingService: SettingService,
@@ -43,8 +44,9 @@ export class TopBarComponent implements OnInit {
 
   ngOnInit() {
     this.pollingData = interval(15000)
-      .pipe(switchMap(() => this.settingService.getNotifications()))
+      .pipe(startWith(0), switchMap(() => this.settingService.getNotifications()))
       .subscribe((response: any) => {
+        this.loading = false;
         this.notificationGroups = response.data.notifications;
         if (!this.initialRequest && this.unread < response.data.unread) {
           this.audioPlayerRef.nativeElement.play();

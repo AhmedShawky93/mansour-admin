@@ -17,15 +17,7 @@
     <div class="col-md-2">
       <select name="" class="owl-input bg-white" [(ngModel)]="filter.state_id" (change)="changePage(p)">
         <option value="">All Orders</option>
-        <option value="1">Created</option>
-        <option value="2">Processing</option>
-        <option value="8">Prepared</option>
-        <option value="3">Delivering</option>
-        <option value="4">Completed</option>
-        <option value="5">Investigating</option>
-        <option value="6">Cancelled</option>
-        <option value="9">Not Paid</option>
-        <option value="7">Returned</option>
+        <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}</option>
       </select>
     </div>
 
@@ -621,7 +613,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
-        ">Are you sure you want to change Status this order ?</h5>
+        ">Are you sure you want to change Status of ({{ordersBulk.length}}) selected orders?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

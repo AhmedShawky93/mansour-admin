@@ -9,7 +9,7 @@ import { ViewSectionComponent } from "./view-section/view-section.component";
 import { RouterModule } from "@angular/router";
 
 const router = [
-  { path: "", component: SectionsComponent, data: { title: "options" } },
+  { path: "", component: SectionsComponent, data: { title: "Sections" } },
 ];
 
 @NgModule({

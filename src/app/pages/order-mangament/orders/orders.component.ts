@@ -90,7 +90,7 @@ export class OrdersComponent implements OnInit {
   loadingProductSideBar: boolean;
   orderSelected: any;
   selectedDistrict: any;
-  ordersBulk: any;
+  ordersBulk: any = [];
   selectAllChecked = false;
   orderSubStates = [];
   errorMessage: string;

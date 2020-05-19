@@ -77,7 +77,7 @@ const routes: Routes = [
         path: "ads",
         component: adsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Ads", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'} }
+        data: { title: "Slider", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'} }
       },
       {
         path: "promocodes/add-offers",
@@ -162,7 +162,7 @@ const routes: Routes = [
         path: "contact-us",
         component: ContactusComponent,
         canActivate: [NgxPermissionsGuard],
-        data: {title: "contact us", permissions: {only: ['ADMIN', 'View Contacts'], redirectTo: '/pages/home'}}
+        data: {title: "Contact Us", permissions: {only: ['ADMIN', 'View Contacts'], redirectTo: '/pages/home'}}
       },
       // {
       //   path: "options",
@@ -210,14 +210,14 @@ const routes: Routes = [
         loadChildren:
           "../pages/order-mangament/inventory/lists/lists.module#ListsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Lists'], redirectTo: '/pages/home'}}
+        data: {title: "Custom Lists", permissions: {only: ['ADMIN', 'View Lists'], redirectTo: '/pages/home'}}
       },
       {
         path: "sections",
         loadChildren:
           "../pages/store-front/sections/sections.module#SectionsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Sections'], redirectTo: '/pages/home'}}
+        data: {title: "Sections", permissions: {only: ['ADMIN', 'View Sections'], redirectTo: '/pages/home'}}
       },
     ],
     canActivate: [AuthGuard],
