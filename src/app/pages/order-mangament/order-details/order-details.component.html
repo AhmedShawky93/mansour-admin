@@ -351,6 +351,11 @@
 
       <div class="block-item">
         <p>Item Total</p>
+        <span>{{ order.invoice.total_amount }}</span>
+      </div>
+
+      <div class="block-item">
+        <p>Discount</p>
         <span>{{ order.invoice.total_amount - order.invoice.discount }}</span>
       </div>
 

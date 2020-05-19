@@ -125,7 +125,7 @@
         <th scope="col"> order time
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
-        <th scope="col"> total amount
+        <th scope="col"> Grand Total
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
         <th scope="col"> First time
@@ -157,7 +157,7 @@
           <span *ngIf="!order.scheduled_at">{{order.created_at | date: 'd-M-yyyy  h:mm a'}}</span>
         </td>
 
-        <td>{{order.amount}}</td>
+        <td>{{order.amount + order.delivery_fees}}</td>
         <td>{{order.user.admin_first_order ? 'No' : 'Yes'}}</td>
         <td>
           <span *ngIf="order.schedule">
