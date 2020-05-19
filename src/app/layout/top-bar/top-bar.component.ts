@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '@app/shared/auth.service';
 import { Router } from '@angular/router';
 import { SettingService } from '@app/pages/services/setting.service';
@@ -23,12 +23,14 @@ export class TopBarComponent implements OnInit {
   pollingData: any;
   unread: any;
   notifToggle = false;
-
+  @ViewChild('notificationAudio') audioPlayerRef: ElementRef;
   notificationGroups = [];
 
   title;
   user: any;
   userUpdate: any;
+  initialRequest = true;
+
   constructor(private auth: AuthService, private router: Router,
     private settingService: SettingService,
     private activatedRoute: ActivatedRoute) {
@@ -44,6 +46,10 @@ export class TopBarComponent implements OnInit {
       .pipe(switchMap(() => this.settingService.getNotifications()))
       .subscribe((response: any) => {
         this.notificationGroups = response.data.notifications;
+        if (!this.initialRequest && this.unread < response.data.unread) {
+          this.audioPlayerRef.nativeElement.play();
+        }
+        this.initialRequest = false;
         this.unread = response.data.unread;
       });
 

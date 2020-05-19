@@ -138,19 +138,24 @@ export class NotificationsComponent implements OnInit {
       this.markFormGroupTouched(this.notificat);
       return;
     }
-    if (!notific.customers && confirm("You didn't specify any customers so this notification will be broadcast to everyone, are you sure you want to proceed?")) {
-      this.notificationService.addNotification(notific)
-        .subscribe((response: any) => {
-          if (response.code == 200) {
-            $("#add-not").removeClass("open-view-vindor-types")
-            this.messages.push(response.data);
-            this.notificat.reset();
-          }
-          else {
-            this.toastrService.error(response.message);
-          }
+    console.log(notific);
+    if (!notific.customers) {
+      if (confirm("You didn't specify any customers so this notification will be broadcast to everyone, are you sure you want to proceed?")) {
+        this.notificationService.addNotification(notific)
+          .subscribe((response: any) => {
+            if (response.code == 200) {
+              $("#add-not").removeClass("open-view-vindor-types")
+              this.messages.push(response.data);
+              this.notificat.reset();
+              this.notific.image = "";
+              this.notific.imageUrl = "";
+            }
+            else {
+              this.toastrService.error(response.message);
+            }
 
-        })
+          })
+      }
     } else {
       this.notificationService.addNotification(notific)
         .subscribe((response: any) => {
@@ -195,5 +200,7 @@ export class NotificationsComponent implements OnInit {
     this.imageViewPopup = img;
   }
 
-
+  resetForm() {
+    this.notific = {}
+  }
 }
