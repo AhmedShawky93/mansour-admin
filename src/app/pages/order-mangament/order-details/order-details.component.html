@@ -326,14 +326,14 @@
         >
       </div>
 
-      <div class="block-item">
+      <!-- <div class="block-item">
         <p>Remaining</p>
         <span>{{ order.remaining }}</span>
       </div>
       <div class="block-item">
         <p>admin discount</p>
         <span>{{ order?.admin_discount ? order.admin_discount : "-" }}</span>
-      </div>
+      </div> -->
 
       <div class="block-item">
         <p>Delivery Fees</p>
@@ -351,18 +351,18 @@
 
       <div class="block-item">
         <p>Item Total</p>
-        <span>{{ order.invoice.total_amount }}</span>
+        <span>{{ order.invoice.total_amount  | number : '1.2-2'}}</span>
       </div>
 
       <div class="block-item">
         <p>Discount</p>
-        <span *ngIf="order.invoice.promo_id">{{ order.invoice.total_amount - order.invoice.discount }}</span>
+        <span *ngIf="order.invoice.promo_id">{{ (order.invoice.total_amount - order.invoice.discount  )| number : '1.2-2'}}</span>
         <span *ngIf="!order.invoice.promo_id">-</span>
       </div>
 
       <div class="block-item">
         <p>Grand Total</p>
-        <span>{{ order.amount + order.delivery_fees }}</span>
+        <span>{{ (order.amount + order.delivery_fees) | number : '1.2-2' }}</span>
       </div>
     </div>
   </div>
