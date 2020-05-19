@@ -187,8 +187,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign order</a>
               <!-- <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a> -->
-              <a class="dropdown-item" (click)="openPopupAction(3, order)"
-                *ngIf="order.state_id !== 4 && order.state_id !== 6 ">Edit order</a>
+              <a class="dropdown-item" (click)="openPopupAction(3, order)">Edit order</a>
               <!-- <a class="dropdown-item" (click)="openPopupAction(5, order)">Return order</a> -->
               <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
                 (click)="openPopupAction(4, order)">Cancel order</a> -->
@@ -640,6 +639,22 @@
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="errorPopup" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">{{errorMessage}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer" style="    justify-content: center; ">
+      </div>
     </div>
   </div>
 </div>
