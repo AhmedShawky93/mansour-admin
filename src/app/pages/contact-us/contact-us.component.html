@@ -34,7 +34,7 @@
         <td>{{request.name}}</td>
         <td>{{request.email}}</td>
         <td>{{request.phone}}</td>
-        <td class="request-message relative">{{request.message | summary : 180}}
+        <td class="request-message relative"> {{request.created_at | date : "yyyy-MM-dd hh:mm a"}}: {{request.message | summary : 180}}
 
           <div class="hover-reason text-left" *ngIf="request.message.length >= 180">
             <div class="head">
