@@ -90,7 +90,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { DeliveredPipe } from "./pages/stars/pipes/delivered.pipe";
 import { DeliveryFilterPipe } from "./shared/delivery-filter.pipe";
 import { CustomAdsComponent } from "./pages/store-front/custom-ads/custom-ads.component";
-import { ProductFilterPipe } from "./shared/product-filter.pipe";
+ import { ProductFilterPipe } from "./shared/product-filter.pipe";
+import { ContactusComponent } from "./pages/contact-us/contact-us.component";
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { ProductFilterPipe } from "./shared/product-filter.pipe";
     ManageCastomerComponent,
     TotalOrdersComponent,
     CustomAdsComponent,
+    ContactusComponent,
     adsComponent,
     OrderDetailsComponent,
     ForgetPasswordComponent,
