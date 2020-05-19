@@ -356,7 +356,8 @@
 
       <div class="block-item">
         <p>Discount</p>
-        <span>{{ order.invoice.total_amount - order.invoice.discount }}</span>
+        <span *ngIf="order.invoice.promo_id">{{ order.invoice.total_amount - order.invoice.discount }}</span>
+        <span *ngIf="!order.invoice.promo_id">-</span>
       </div>
 
       <div class="block-item">

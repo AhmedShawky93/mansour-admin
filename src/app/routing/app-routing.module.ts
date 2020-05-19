@@ -161,7 +161,8 @@ const routes: Routes = [
       {
         path: "contact-us",
         component: ContactusComponent,
-         data: {title: "contact us"}
+        canActivate: [NgxPermissionsGuard],
+        data: {title: "contact us", permissions: {only: ['ADMIN', 'View Contacts'], redirectTo: '/pages/home'}}
       },
       // {
       //   path: "options",
