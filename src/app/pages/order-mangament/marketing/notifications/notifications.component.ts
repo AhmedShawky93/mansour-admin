@@ -145,7 +145,7 @@ export class NotificationsComponent implements OnInit {
           .subscribe((response: any) => {
             if (response.code == 200) {
               $("#add-not").removeClass("open-view-vindor-types")
-              this.messages.push(response.data);
+              this.messages.unshift(response.data);
               this.notificat.reset();
               this.notific.image = "";
               this.notific.imageUrl = "";
@@ -161,7 +161,7 @@ export class NotificationsComponent implements OnInit {
         .subscribe((response: any) => {
           if (response.code == 200) {
             $("#add-not").removeClass("open-view-vindor-types")
-            this.messages.push(response.data);
+            this.messages.unshift(response.data);
             this.notificat.reset();
           }
           else {

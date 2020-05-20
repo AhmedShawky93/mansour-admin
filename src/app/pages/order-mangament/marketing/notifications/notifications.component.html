@@ -7,7 +7,7 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" 
+        <input type="text" class="owl-input owls-search"
         [(ngModel)]="searchTerm"
         name="searchTerm"
         placeholder="search ..." >
@@ -37,13 +37,13 @@
     </thead>
     <tbody>
 
-        <tr *ngFor="let message of messages | notificationFilter: searchTerm | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }"> 
+        <tr *ngFor="let message of messages | notificationFilter: searchTerm | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
             <td>{{message.id}}</td>
             <td>{{message.creator.name}}</td>
            <td>{{message.title}}</td>
             <td>{{message.body}}</td>
             <td>
-              <span *ngIf="message.product"><a [routerLink]="['/pages/products']">{{message.product.name}}</a></span>
+              <span *ngIf="message.product"> {{message.product.name}} </span>
               <span *ngIf="!message.product">-</span>
             </td>
             <td>
@@ -57,7 +57,7 @@
           </tr>
 
 
-      
+
 
     </tbody>
   </table>
@@ -75,7 +75,7 @@
   </div>
 
   <form class="sideform" name="notificationForm"
-  (ngSubmit)="addNotification(notific)" 
+  (ngSubmit)="addNotification(notific)"
   [formGroup]="notificat"  novalidate>
 
     <div class="form-group">
@@ -101,7 +101,7 @@
            <div *ngIf="notificat.controls.notifiName.errors.required">
             Notification Name  is required.
            </div>
-           
+
          </div>
          <!-- End Errors Rolues -->
     </div>
@@ -118,7 +118,7 @@
        <div *ngIf="notificat.controls.notifiContent.errors.required">
         Notification Content  is required.
        </div>
-       
+
      </div>
      <!-- End Errors Rolues -->
     </div>
@@ -171,14 +171,14 @@
 <!-- return for cancel sidebar Popup-->
 <div class="modal fade" id="imagePopUp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style=" width: 200px;height: 200px;" role="document">
-     
+
       <div class="modal-content" *ngIf="imageViewPopup" style="    box-shadow: none;
       width: 200px;
       height: 200px;
       padding: 0px;">
           <div class="modal-header" style="padding: 0px;margin-bottom: 0px;">
               <button type="button" class="close close-popup" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true" 
+                <span aria-hidden="true"
                 style="display: inline-block;text-align: center;position: relative;   left: -5px;
             ">&times;</span>
               </button>
@@ -189,4 +189,3 @@
       </div>
     </div>
   </div>
-  
