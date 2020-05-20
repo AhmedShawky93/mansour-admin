@@ -47,7 +47,7 @@
       <a class="clear-date" href="javascript:void(0)" (click)="clearDateTo()"><i class="icon-Exit"></i></a>
     </div>
 
-    <div class="col-md-3 col-sm-3" style="padding-top: 21px; ">
+    <div class="col-md-12 col-sm-3" style="padding-top: 20px;  padding-bottom: 20px;">
       <label class="container">Hide Scheduled
         <input type="checkbox" class="form-control checkbox-style" name="hide_scheduled" id="hide_scheduled" [value]="1"
           [(ngModel)]="filter.hide_scheduled" (change)="changePage(1)">
@@ -55,21 +55,9 @@
       </label>
       <!-- <label style="color: rgba(0, 61, 97, 0.47);" for="hide_scheduled"></label> -->
     </div>
-    <div class="col-3">
 
-    </div>
-    <div class="col-md-3  col-xs-12 text-right">
-      <div class="form-group">
-        <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportProductsUrl}}">Export
-          Products Sales</a>
-      </div>
-    </div>
-    <div class="col-md-3  col-xs-12 text-right">
-      <div class="form-group">
-        <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">Export
-          Orders </a>
-      </div>
-    </div>
+
+
     <!-- <div class="col-md-3  col-xs-12">
       <div class="form-group">
         <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">Export All Orders</a>
@@ -77,7 +65,7 @@
     </div> -->
 
 
-    <div class="col-3">
+    <div class=" col-md-2  col-xs-6">
       <!-- <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
       <div *ngIf="order.order_status_editable"> -->
       <select class="owl-input" required name="status" [(ngModel)]="state_id"
@@ -88,16 +76,29 @@
       </select>
       <!-- </div> -->
     </div>
-    <div class="col-3" *ngIf="orderSubStates.length">
+    <div class=" col-md-2  col-xs-6" *ngIf="orderSubStates.length">
       <select class="owl-input" required name="status" [(ngModel)]="sub_state_id">
         <option [value]="null" selected hidden>Select sub Status </option>
         <option value="{{status.id}}" *ngFor="let status of orderSubStates">{{status.name}}
         </option>
       </select>
     </div>
-    <div clas="col-3">
-      <button class="float-right btn btn-owls btn-rounded btn-green"
+    <div clas="col-md-2  col-xs-6 ">
+      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
         (click)="changeStausBulkInOrders()">Apply</button>
+    </div>
+    <div   [ngClass]="orderSubStates.length ? 'col-md-2' : 'col-md-4'"></div>
+    <div class="col-md-2  col-xs-6 text-right ">
+      <div class="form-group">
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank" href="{{exportUrl}}">Export
+          Orders </a>
+      </div>
+    </div>
+    <div class="col-md-2   col-xs-6 text-right">
+      <div class="form-group">
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank" href="{{exportProductsUrl}}">Export
+          Products Sales</a>
+      </div>
     </div>
   </div>
 </div>
@@ -490,6 +491,7 @@
       <input type="text" class="owl-input" placeholder="Type.." #notes="ngModel" [(ngModel)]="currentOrder.notes">
 
     </div> -->
+    <p class="text-danger" *ngIf="showErrorItems">{{showErrorItems}}</p>
     <button class="btn btn-owls  btn-rounded btn-green" (click)="updateProducts()">Update Order</button>
 
 

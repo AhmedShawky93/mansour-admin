@@ -540,3 +540,8 @@ table  .checkmark
 {
   top: -9px;
 }
+.w-180px-plr-0 {
+  width: 180px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
