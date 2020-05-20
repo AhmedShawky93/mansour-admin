@@ -48,7 +48,7 @@
             <div class="reason-popup text-left" [hidden]="!admin.showReason">
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this admin?"
                 [(ngModel)]="admin.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!admin.notes"
+              <button class="btn btn-owls btn-rounded btn-green2" [ngClass]="{'not-allowed' : !admin.notes }"   [disabled]="!admin.notes"
                 (click)="submitDeactivate(admin)">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(admin)">cancel</button>

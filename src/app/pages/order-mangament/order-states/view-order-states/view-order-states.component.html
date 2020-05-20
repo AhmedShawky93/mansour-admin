@@ -27,7 +27,7 @@
             <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this sub states?"
               [(ngModel)]="cat.notes"></textarea>
             <button class="btn btn-sm btn-rounded btn-sm btn-green2" [disabled]="!cat.notes"
-              (click)="submitDeactivate(cat)">submit</button>
+              (click)="submitDeactivate(cat)" [ngClass]="{'not-allowed' : !cat.notes }">submit</button>
             <button class="btn btn-sm btn-rounded btn-sm btn-blue2 cancel-check"
               (click)="cancelDeactivate(cat)">cancel</button>
           </div>

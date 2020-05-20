@@ -48,7 +48,7 @@
             <div class="reason-popup text-left" [hidden]="!role.showReason">
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this role?"
                 [(ngModel)]="role.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!role.notes"
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!role.notes" [ngClass]="{'not-allowed' : !role.notes }"
                 (click)="submitDeactivate(role)">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(role)">cancel</button>

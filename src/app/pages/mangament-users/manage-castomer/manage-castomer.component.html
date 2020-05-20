@@ -50,11 +50,11 @@
             <input type="checkbox" value="1" [(ngModel)]="customer.active" (change)="changeActive(customer, $event)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!customer.showReason">
-              <textarea  class="owl-input" placeholder="Why Do yo want to deactivate this customer?" 
+              <textarea  class="owl-input" placeholder="Why Do yo want to deactivate this customer?"
               [(ngModel)]="customer.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!customer.notes" (click)="submitDeactivate(customer)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-green2"  [ngClass]="{'not-allowed' : !customer.notes }"    [disabled]="!customer.notes" (click)="submitDeactivate(customer)">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(customer)">cancel</button>
-              
+
             </div>
             <div class="hover-reason text-left" *ngIf="!customer.active">
               <div class="head">
@@ -94,7 +94,7 @@
         <div class="content">
           <p>{{customer.name}}</p>
           <h5>
-            {{customer.phone}} 
+            {{customer.phone}}
             <span style="cursor: pointer;" class="text-success" *ngIf="customer.phone_verified"><i class="fa fa-check"></i> Verified</span>
             <span (click)="confirmVerifyPhone(customer)" data-toggle="modal" data-target="#verifyPopUp" style="cursor: pointer;" class="text-warning" *ngIf="customer.phone && !customer.phone_verified"><i class="fa fa-exclamation-circle"></i> Not Verified</span>
           </h5>
@@ -156,11 +156,11 @@
           <a [routerLink]="['/pages/orders/order-details', order.id]">
             <h4>Order ID: {{order.id}}</h4>
           </a>
-  
+
           <a [routerLink]="['/pages/orders/order-details', order.id]">
             <i class="fa fa-angle-right"></i>
           </a>
-  
+
           <p>
             <span *ngFor="let product of order.products">{{product.name}}</span>
           </p>
@@ -179,7 +179,7 @@
                   <i class="fa fa-times"></i>
                 </a>
             </div>
-            
+
             <p *ngIf="!point.deleted_at">
               {{point.active ? "Earned" : "Pending"}}
             </p>
@@ -195,11 +195,11 @@
             <p>
               Remaining: {{point.remaining_points}}
             </p>
-              
-            
+
+
           </div>
         </div>
-  
+
       </div>
   </div>
 
