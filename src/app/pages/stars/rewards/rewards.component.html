@@ -45,9 +45,9 @@
           <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="reward.active" (change)="changeActive(reward, $event)">
             <span class="slider round"></span>
-            <div class="reason-popup text-left" [hidden]="!reward.showReason">
+            <div class="reason-popup text-left" [hidden]="!reward.showReason" >
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this reward?" [(ngModel)]="reward.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!reward.notes" (click)="submitDeactivate(reward)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-green2" [ngClass]="{'not-allowed' : !reward.notes }" [disabled]="!reward.notes" (click)="submitDeactivate(reward)">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(reward)">cancel</button>
             </div>
             <div class="hover-reason text-left" *ngIf="!reward.active">
@@ -223,13 +223,13 @@
       <!-- Gift -->
       <div class="form-group">
         <label for="">images</label>
-  
+
         <div class="owls-upload owls-upload3 big">
           <img class="owl-img img-fluid" *ngIf="!addForm.get('image').value" src="http://via.placeholder.com/328x177" alt="">
           <img class="owl-img img-fluid" *ngIf="addForm.get('image').value" [src]="addForm.get('image').value" alt="">
           <input type="file" class="owl-input" placeholder="upload your image" (change)="onImageSelected($event, addForm)" name="image" accept="image/*" />
         </div>
-  
+
         <div *ngIf="addForm.controls.image.invalid && (addForm.controls.image.dirty || addForm.controls.image.touched)"
           class="alert alert-danger">
           <div *ngIf="addForm.controls.image.errors.required">
@@ -253,7 +253,7 @@
       <div class="form-group" *ngIf="addForm.get('amount_type').value == 1">
         <label for="">Amount</label>
         <input type="number" min="0" class="owl-input" placeholder="Amount..." name="amount" formControlName="amount" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
-  
+
         <div *ngIf="addForm.controls.amount.invalid && (addForm.controls.amount.dirty || addForm.controls.amount.touched)" class="alert alert-danger">
           <div *ngIf="addForm.controls.amount.errors.required">
             Amount is required.
@@ -264,7 +264,7 @@
       <div class="form-group" *ngIf="addForm.get('amount_type').value == 2">
         <label for="">Percentage</label>
         <input type="number" min="0" class="owl-input" placeholder="Percentage..." name="amount" formControlName="amount" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
-  
+
         <div *ngIf="addForm.controls.amount.invalid && (addForm.controls.amount.dirty || addForm.controls.amount.touched)" class="alert alert-danger">
           <div *ngIf="addForm.controls.amount.errors.required">
             Percentage is required.
@@ -275,7 +275,7 @@
       <div class="form-group" *ngIf="addForm.get('amount_type').value == 2">
         <label for="">Max Amount</label>
         <input type="number" min="0" class="owl-input" placeholder="Max Amount..." name="max_amount" formControlName="max_amount" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
-  
+
         <div *ngIf="addForm.controls.max_amount.invalid && (addForm.controls.max_amount.dirty || addForm.controls.max_amount.touched)" class="alert alert-danger">
           <div *ngIf="addForm.controls.max_amount.errors.required">
             Max Amount is required.

@@ -71,7 +71,7 @@
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!promo.showReason">
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this promo?" [(ngModel)]="promo.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!promo.notes" (click)="submitDeactivate(promo)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-green2" [ngClass]="{'not-allowed' : !promo.notes }" [disabled]="!promo.notes" (click)="submitDeactivate(promo)">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(promo)">cancel</button>
             </div>
             <div class="hover-reason text-left" *ngIf="!promo.active">

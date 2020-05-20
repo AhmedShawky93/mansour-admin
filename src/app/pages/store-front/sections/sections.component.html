@@ -79,7 +79,7 @@
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this section?"
                 [(ngModel)]="section.notes"></textarea>
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!section.notes"
-                (click)="submitDeactivate(section)">submit</button>
+                (click)="submitDeactivate(section)" [ngClass]="{'not-allowed' : !section.notes }">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(section)">cancel</button>
             </div>

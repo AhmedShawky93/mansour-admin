@@ -66,7 +66,7 @@
                 [(ngModel)]="area.notes"></textarea>
 
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!area.notes"
-                (click)="submitDeactivate(area)">submit</button>
+                (click)="submitDeactivate(area)" [ngClass]="{'not-allowed' : !area.notes }"  > submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(area)">cancel</button>
             </div>

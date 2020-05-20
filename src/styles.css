@@ -1742,3 +1742,7 @@ bar-rating {
 .product-list .ng-select-container {
   height: 200px !important;
 }
+.not-allowed
+{
+  cursor: not-allowed !important;
+}
