@@ -51,17 +51,19 @@
     <h4>notifications</h4>
   </div>
 
-  <div class="not-day" *ngFor="let group of notificationGroups | groupBy: 'created_at' ">
-    <!-- <h5>{{group.key | amTimeAgo}}</h5> -->
-
-    <div class="not-item" *ngFor="let notification of group.value">
-      <small>{{notification.created_at | amDateFormat:'h:mm:ss a'}}</small>
-      <p>{{notification.title}}</p>
-      <span>{{notification.body}}</span>
+  <app-loader *ngIf="loading"></app-loader>
+  <ng-container *ngIf="!loading">
+    <div class="not-day" *ngFor="let group of notificationGroups | groupBy: 'created_at' ">
+      <!-- <h5>{{group.key | amTimeAgo}}</h5> -->
+  
+      <div class="not-item" *ngFor="let notification of group.value">
+        <small>{{notification.created_at | amDateFormat:'h:mm:ss a'}}</small>
+        <p>{{notification.title}}</p>
+        <span>{{notification.body}}</span>
+      </div>
+  
     </div>
-
-  </div>
-
+  </ng-container>
 
 </div>
 

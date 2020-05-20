@@ -90,9 +90,10 @@ export class OrdersComponent implements OnInit {
   loadingProductSideBar: boolean;
   orderSelected: any;
   selectedDistrict: any;
-  ordersBulk: any;
+  ordersBulk: any = [];
   selectAllChecked = false;
   orderSubStates = [];
+  errorMessage: string;
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -234,6 +235,7 @@ export class OrdersComponent implements OnInit {
       }
     }
   }
+
   changeSelectBulk(order) {
     if (order.select) {
       order.select = false;
@@ -241,7 +243,18 @@ export class OrdersComponent implements OnInit {
       order.select = true;
     }
   }
+
+  stateFormValid() {
+    return !!this.state_id;
+  }
+
   changeStausBulkInOrders() {
+    if (!this.stateFormValid()) {
+      this.errorMessage = "Please select a status";
+      $("#errorPopup").modal("show");
+      return;
+    }
+
     this.ordersBulk = this.orders
       .filter((element) => element.select)
       .map((item) => {
@@ -252,9 +265,14 @@ export class OrdersComponent implements OnInit {
         };
       });
 
+    if (!this.ordersBulk.length) {
+      this.errorMessage = "Please select at least 1 order";
+      $("#errorPopup").modal("show");
+      return;
+    }
+
     console.log(this.ordersBulk);
     $("#confirmOrderStatus").modal("show");
-
   }
   confirmChangeStatus(notifyUser) {
     console.log(notifyUser);
