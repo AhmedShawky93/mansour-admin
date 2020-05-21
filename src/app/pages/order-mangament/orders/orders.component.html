@@ -478,8 +478,14 @@
     <div class="form-group">
       <label for=""> delivery fees</label>
       <input type="text" class="owl-input" placeholder="Type.." #delivery_fees="ngModel"
-        [(ngModel)]="currentOrder.delivery_fees">
-
+        [(ngModel)]="currentOrder.delivery_fees" min="0">
+      <div
+        *ngIf="delivery_fees.invalid && (delivery_fees.dirty || delivery_fees.touched)"
+        class="alert alert-danger">
+        <div *ngIf="delivery_fees.errors.min">
+          Delivery fees cannot be less than 0
+        </div>
+      </div>
     </div>
     <!-- <div class="form-group">
       <label for=""> admin discount</label>
