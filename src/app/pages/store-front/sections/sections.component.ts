@@ -162,6 +162,7 @@ export class SectionsComponent implements OnInit {
   closeSideBar() {
     this.toggleAddOption = "out";
     this.viewOptionSidebar = "out";
+    this.currentSection = null;
   }
 
   addOrUpdateOption(data) {
