@@ -94,6 +94,9 @@ export class OrdersComponent implements OnInit {
   selectAllChecked = false;
   orderSubStates = [];
   errorMessage: string;
+  showErrorItems: string;
+  items: any;
+  deleteIds: any;
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -676,9 +679,7 @@ export class OrdersComponent implements OnInit {
     this.product_list = [];
     this.toggleProductSelect();
   }
-  updateProducts() {
-    $("#confirmOrderUpdate").modal("show");
-  }
+
 
   returnProducts() {
     $("#returnOrder").modal("show");
@@ -710,34 +711,41 @@ export class OrdersComponent implements OnInit {
     this.selectedSubcategory = "";
     this.product_list = [];
   }
+  updateProducts() {
+    this.showErrorItems = ""
+    this.items = this.currentOrder.items
+    .filter((item) => item.amount && !item.remove)
+    .map((item) => {
+      if (!item.remove) {
+        return {
+          id: item.id,
+          amount: item.amount,
+        };
+      }
+    });
+  this.deleteIds = this.currentOrder.items
+    .filter((item) => item.remove)
+    .map((item) => item.id);
+    if(this.items.length){
+      $("#confirmOrderUpdate").modal("show");
+    }else {
+      this.showErrorItems = "Order must have at least one item"
+    }
+  }
+
   confirmUpdateProducts(notifyUser) {
-    console.log(this.currentOrder.items);
 
-    const items = this.currentOrder.items
-      .filter((item) => item.amount && !item.remove)
-      .map((item) => {
-        if (!item.remove) {
-          return {
-            id: item.id,
-            amount: item.amount,
-          };
-        }
-      });
-    const deleteIds = this.currentOrder.items
-      .filter((item) => item.remove)
-      .map((item) => item.id);
 
-    console.log(items);
-    console.log(deleteIds);
-    if (items.length) {
+
+    if (this.items.length) {
       this.ordersService
         .updateItems(this.currentOrder.id, {
-          items: items,
+          items: this.items,
           admin_notes: this.currentOrder.admin_notes,
           delivery_fees: this.currentOrder.delivery_fees,
           admin_discount: null,
           notify_customer: notifyUser,
-          deleted_items: deleteIds,
+          deleted_items: this.deleteIds,
         })
         .subscribe((response: any) => {
           if (response.code === 200) {

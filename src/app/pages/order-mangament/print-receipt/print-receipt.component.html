@@ -81,7 +81,7 @@
         <li style="word-break: break-all;">
           <span>Address :</span>{{ order?.address?.address }}
         </li>
-        <li *ngIf="order.address.landmark">
+        <li *ngIf="order?.address?.landmark">
           <span>Landmark :</span>{{ order?.address?.landmark }}
         </li>
 
@@ -117,10 +117,10 @@
 
               <td style="text-align: right; padding-right: 10px !important;">
                 <span *ngIf="item.product?.discount_price === null"
-                  >{{ item.price?.price }}
+                  >{{ item.product?.price }}
                 </span>
                 <span *ngIf="item.product?.discount_price !== null"
-                  >{{ item.price?.discount_price }}
+                  >{{ item.product?.discount_price }}
                 </span>
               </td>
               <td style="text-align: center;">{{ item.amount }}</td>

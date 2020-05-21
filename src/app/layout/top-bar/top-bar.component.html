@@ -2,12 +2,12 @@
   <div class="container-fluid">
 
     <div class="right-part">
-      <div class="dropdown avatar-part float-right" *ngIf="user"> 
+      <div class="dropdown avatar-part float-right" *ngIf="user">
         <img class="img-circle" style="width: 40px;"  *ngIf="user.imageUrl" src="{{user.imageUrl}}"
         >
         <img class="img-circle" style="width: 40px;"  *ngIf="!user.imageUrl" src="assets/img/profile.png"
           alt="Admin Image">
-        <button class="btn btn-secondary dropdown-toggle btn-top" 
+        <button class="btn btn-secondary dropdown-toggle btn-top"
           style=" text-transform: capitalize; "
         type="button" id="dropdownMenuButton" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
@@ -55,18 +55,18 @@
   <ng-container *ngIf="!loading">
     <div class="not-day" *ngFor="let group of notificationGroups | groupBy: 'created_at' ">
       <!-- <h5>{{group.key | amTimeAgo}}</h5> -->
-  
+
       <div class="not-item" *ngFor="let notification of group.value">
         <small>{{notification.created_at | amDateFormat:'h:mm:ss a'}}</small>
         <p>{{notification.title}}</p>
         <span>{{notification.body}}</span>
       </div>
-  
+
     </div>
   </ng-container>
 
 </div>
 
 <audio #notificationAudio>
-  <source src='./assets/audio/sound.mp3' type="audio/mp3">
+  <source src='./assets/audio/notification_web.mp3' type="audio/mp3">
 </audio>
