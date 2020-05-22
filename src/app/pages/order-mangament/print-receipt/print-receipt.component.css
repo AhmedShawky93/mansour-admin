@@ -56,7 +56,7 @@
     font-size: 12px;
 }
 
-tr 
+tr
 {
     vertical-align: text-top !important;
 
@@ -89,7 +89,12 @@ tr td {
     margin-left: 25px;
     font-size: 21px;
 }
-.main-list .row .col-6 
+.main-list .row .col-6
 {
     height: auto;
+}
+.style-w-370px
+{
+  width: 370px;
+  margin: 0px auto;
 }
