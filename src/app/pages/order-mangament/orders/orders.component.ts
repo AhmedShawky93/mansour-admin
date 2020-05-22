@@ -28,8 +28,8 @@ declare var $: any;
 export class OrdersComponent implements OnInit {
   loading: boolean;
   date: any;
-  selectedSubcategory: string;
-  selectedCategory: string;
+  selectedSubcategory = '';
+  selectedCategory = '';
   search: boolean;
   firstTime: boolean = true;
   no_orders: boolean = false;

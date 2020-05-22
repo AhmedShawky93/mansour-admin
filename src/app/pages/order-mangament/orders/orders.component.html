@@ -337,14 +337,17 @@
             <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="productTerm">
           </div>
 
-          <select name="" class="owl-input" (change)="loadSubcategories(selectedCategory)"
-            [(ngModel)]="selectedCategory">
-            <option value="{{cat.id}}" *ngFor="let cat of categories">{{cat.name}}</option>
+          <select  class="owl-input" (change)="loadSubcategories(selectedCategory)"
+            [(ngModel)]="selectedCategory" >
+            <option value="" selected hidden>select category</option>
+            <option [value]="cat.id" *ngFor="let cat of categories">{{cat.name}}</option>
           </select>
 
-          <select name="" class="owl-input" (change)="loadProducts(selectedSubcategory)"
+
+          <select   class="owl-input" (change)="loadProducts(selectedSubcategory)"
             [(ngModel)]="selectedSubcategory">
-            <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}</option>
+            <option value="" selected hidden>select sub Category</option>
+            <option [value]="cat.id" *ngFor="let cat of sub_categories">{{cat.name}}</option>
           </select>
         </div>
 
@@ -368,7 +371,7 @@
 
             <img class="owl-img" src="{{product.image}}" alt="" width="45" height="45">
             <div class="content">
-              <h4 class="relative">{{product.name | summary : 10}}
+              <h4 class="relative">{{product.name | summary : 15}}
                 <div class="hover-reason text-left" *ngIf="product.name.length >= 10">
                   <div class="head">
                     product name
