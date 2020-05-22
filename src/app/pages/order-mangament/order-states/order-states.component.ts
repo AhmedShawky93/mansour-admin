@@ -51,6 +51,7 @@ export class OrderStatesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log("initializing order states");
     $(".switch").on("click", ".slider", function () {
       var then = $(this).siblings(".reason-popup").slideToggle(100);
       $(".reason-popup").not(then).slideUp(50);
@@ -67,7 +68,6 @@ export class OrderStatesComponent implements OnInit {
       },
     });
   }
-  editadmin() {}
 
   viewData(data) {
     console.log(data);

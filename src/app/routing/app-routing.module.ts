@@ -52,9 +52,8 @@ const routes: Routes = [
   {
     path: "pages",
     component: PagesComponent,
-    resolve: {
-      profile: ProfileResolver
-    },
+    canActivate: [AuthGuard],
+    canActivateChild: [NgxPermissionsGuard],
     children: [
       { path: "done", component: DoneComponent },
       // trolly
@@ -199,7 +198,7 @@ const routes: Routes = [
         path: "order-status",
         loadChildren:
           "../pages/order-mangament/order-states/order-states.module#OrderStatesModule",
-        canActivate: [NgxPermissionsGuard],
+        // canActivate: [NgxPermissionsGuard],
         data: {permissions: {only: ['ADMIN', 'View Order States'], redirectTo: '/pages/home'}}
       },
       {
@@ -224,7 +223,7 @@ const routes: Routes = [
         data: {title: "Sections", permissions: {only: ['ADMIN', 'View Sections'], redirectTo: '/pages/home'}}
       },
     ],
-    canActivate: [AuthGuard],
+    
   },
 ];
 
