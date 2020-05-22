@@ -79,7 +79,7 @@
         <td>{{order.id}}</td>
         <td>{{order.created_at | date: 'd-M-yyyy  h:mm a'}}</td>
         <td>{{order.user?.name}} - {{order.user?.phone}}</td>
-        <td>{{order.address?.address}}</td>
+        <td>{{order.address?.formatted_address}}</td>
         <td>{{order.amount}}</td>
 <!--
         <td>
