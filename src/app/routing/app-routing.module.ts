@@ -28,6 +28,7 @@ import { PrintReceiptComponent } from "@app/pages/order-mangament/print-receipt/
 import { BrandsComponent } from "@app/pages/brands/brands.component";
 import { NgxPermissionsGuard } from "ngx-permissions";
 import { CustomAdsComponent } from "@app/pages/store-front/custom-ads/custom-ads.component";
+import { ProfileResolver } from '@app/shared/profile.resolver';
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, data: { title: "Login" } },
@@ -51,6 +52,8 @@ const routes: Routes = [
   {
     path: "pages",
     component: PagesComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [NgxPermissionsGuard],
     children: [
       { path: "done", component: DoneComponent },
       // trolly
@@ -109,7 +112,7 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: { title: "Settings", permissions: {only: ['ADMIN', 'View Settings'], redirectTo: '/pages/home'} },
       },
-      { path: "orders", component: OrdersComponent, data: { title: "Orders", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} } },
+      { path: "orders", component: OrdersComponent, canActivate: [NgxPermissionsGuard], data: { title: "Orders", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} } },
       {
         path: "categories",
         component: CategoriesComponent,
@@ -135,9 +138,9 @@ const routes: Routes = [
       },
       {
         path: "orders/order-details/:id",
-        component: OrderDetailsComponent,  data: {title: "order Details"},
+        component: OrderDetailsComponent,
         canActivate: [NgxPermissionsGuard],
-        // data: { title: "Order Details", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} },
+        data: { title: "Order Details", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} },
       },
       {
         path: "print-receipt/:id",
@@ -195,7 +198,7 @@ const routes: Routes = [
         path: "order-status",
         loadChildren:
           "../pages/order-mangament/order-states/order-states.module#OrderStatesModule",
-        canActivate: [NgxPermissionsGuard],
+        // canActivate: [NgxPermissionsGuard],
         data: {permissions: {only: ['ADMIN', 'View Order States'], redirectTo: '/pages/home'}}
       },
       {
@@ -220,7 +223,7 @@ const routes: Routes = [
         data: {title: "Sections", permissions: {only: ['ADMIN', 'View Sections'], redirectTo: '/pages/home'}}
       },
     ],
-    canActivate: [AuthGuard],
+    
   },
 ];
 

@@ -42,8 +42,7 @@
           <div [formGroupName]='i' class="sub-state">
             <div class="form-group">
               <label for="">Name </label>
-              <input type="text" class="owl-input" placeholder="type here.." name="name" required
-                formControlName="name">
+              <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name">
             </div>
             <div  *ngIf="cityForm.controls.sub_states.controls[i].controls.name.invalid &&
              (cityForm.controls.sub_states.controls[i].controls.name.dirty || cityForm.controls.sub_states.controls[i].controls.name.touched)"
