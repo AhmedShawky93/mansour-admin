@@ -339,13 +339,14 @@
 
           <select  class="owl-input" (change)="loadSubcategories(selectedCategory)"
             [(ngModel)]="selectedCategory" >
-            <option [value]="" selected >select category</option>
+            <option value="" selected hidden>select category</option>
             <option [value]="cat.id" *ngFor="let cat of categories">{{cat.name}}</option>
           </select>
 
+
           <select   class="owl-input" (change)="loadProducts(selectedSubcategory)"
             [(ngModel)]="selectedSubcategory">
-            <option [value]="" selected >select subCategory</option>
+            <option value="" selected hidden>select sub Category</option>
             <option [value]="cat.id" *ngFor="let cat of sub_categories">{{cat.name}}</option>
           </select>
         </div>
