@@ -179,35 +179,6 @@ export class ProductsComponent implements OnInit {
     this.exportUrl = environment.api + "/admin/products/export?token=" + token;
     this.exportStock =   environment.api + "/admin/products/export_prices?token=" + token;
 
-    // this.addProductForm = new FormGroup({
-    //   name: new FormControl("", Validators.required),
-    //   name_ar: new FormControl("", Validators.required),
-    //   description: new FormControl("", [
-    //     Validators.required,
-    //     Validators.minLength(3),
-    //     Validators.maxLength(250),
-    //   ]),
-    //   long_description_en: new FormControl("", []),
-    //   long_description_ar: new FormControl("", []),
-    //   description_ar: new FormControl("", [
-    //     Validators.required,
-    //     Validators.minLength(3),
-    //     Validators.maxLength(250),
-    //   ]),
-    //   price: new FormControl("", Validators.required),
-    //   discount_price: new FormControl("", [
-    //     Validators.max(this.product.price),
-    //     Validators.min(1),
-    //   ]),
-    //   brand_id: new FormControl("", Validators.required),
-    //   main_category: new FormControl("", Validators.required),
-    //   category_id: new FormControl("", Validators.required),
-    //   sku: new FormControl("", Validators.required),
-    //   image: new FormControl("", Validators.required),
-    //   max_per_order: new FormControl(),
-    //   min_days: new FormControl(),
-    //   option_values: new FormControl([]),
-    // });
   }
 
   getProducts() {
