@@ -74,6 +74,13 @@
       <select formControlName="list_id" class="owl-input">
         <option *ngFor="let list of lists" value="{{list.id}}">{{list.name_en}}</option>
       </select>
+      <div
+        *ngIf="sectionForm.controls.list_id.invalid && (sectionForm.controls.list_id.dirty || sectionForm.controls.list_id.touched)"
+        class="alert alert-danger">
+        <div *ngIf="sectionForm.controls.list_id.errors.required">
+          List is required
+        </div>
+      </div>
     </div>
 
     <div class="form-group">

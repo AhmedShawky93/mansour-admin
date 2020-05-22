@@ -15,6 +15,7 @@ import {
   FormBuilder,
   FormControl,
   Validators,
+  AbstractControl,
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { Console } from "@angular/core/src/console";
@@ -43,6 +44,8 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   loading: boolean;
   options: any[];
   option_values: FormArray;
+
+  price: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -88,6 +91,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       price: new FormControl(data ? data.price : "", Validators.required),
       discount_price: new FormControl(data ? data.discount_price : "", [
         Validators.min(1),
+        (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
       brand_id: new FormControl(data ? data.brand_id : ""),
       main_category: new FormControl(

@@ -157,7 +157,7 @@
     <div class="form-group">
       <label for=""> Pricing</label>
       <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
-        formControlName="price" required [min]="1" [max]="1000000">
+        formControlName="price" required [min]="1" [max]="1000000" [(ngModel)]="price">
       <!-- Start  Errors Rolues -->
 
       <div
@@ -183,7 +183,7 @@
         <small> optional</small>
       </label>
       <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
-        formControlName="discount_price" [min]="0" max="{{addProductForm.get('price').value - 0.01}}">
+        formControlName="discount_price" [min]="0">
       <!-- Start  Errors Rolues -->
 
       <div
