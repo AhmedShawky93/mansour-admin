@@ -752,6 +752,12 @@ export class OrdersComponent implements OnInit {
             $("#confirmOrderUpdate").modal("hide");
             $("#view-deactive").toggleClass("open-view-vindor-types");
             this.currentOrder.items = response.data.items;
+
+            let ind = this.orders.findIndex(o => o.id == this.currentOrder.id);
+            if (ind !== -1) {
+              this.orders[ind].amount = +response.data.amount;
+              this.orders[ind].delivery_fees = +response.data.delivery_fees;
+            }
           }
         });
     }
