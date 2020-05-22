@@ -57,11 +57,11 @@
 </div>
 
 
-<div class="block-title">
+<div class="block-title" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
   <h2>new order request</h2>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
   <table class="table owls-table ">
     <thead>
       <tr>

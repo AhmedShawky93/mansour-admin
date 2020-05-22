@@ -30,12 +30,7 @@ export class AppComponent implements OnInit {
     private http: HttpClient
   ) {}
 
-  async ngOnInit() {
-    if (this.auth.isAuthenticated()) {
-      this.auth.setPermissions();
-    }
-    this.permissionsService.addPermission(['ADMIN']);
-    
+  async ngOnInit() {    
 
     this.router.events
       .filter((event) => event instanceof NavigationEnd)
