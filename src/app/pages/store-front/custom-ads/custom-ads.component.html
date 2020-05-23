@@ -231,7 +231,7 @@
       </div>
     </div>
 
-    <div class="form-group" *ngIf="newAdsForm.get('type').value == 3 || newAdsForm.get('type').value == 1">
+    <div class="form-group" *ngIf="newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
       <label for=""> category</label>
       <select type="text" class="owl-input" (change)="onCategoryChange(category_id)" formControlName="category" name="category">
         <option value="" selected>Select Category</option>
@@ -249,7 +249,7 @@
     </div>
 
 
-    <div class="form-group" *ngIf="newAdsForm.get('type').value == 3 || newAdsForm.get('type').value == 1">
+    <div class="form-group" *ngIf="newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
       <label for="">Subcategory</label>
       <select type="text" class="owl-input" (change)="onSubCategoryChange(selectedSubcategory)"
         formControlName="subCategory" name="subCategory">
