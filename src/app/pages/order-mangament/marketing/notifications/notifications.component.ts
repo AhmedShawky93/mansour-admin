@@ -53,12 +53,12 @@ export class NotificationsComponent implements OnInit {
       image: new FormControl('')
     });
 
-    // manage-charges
-    $("body").on("click", ".add-not-charges", function () {
-      $("#add-not").toggleClass("open-view-vindor-types")
-      // $(".left-sidebar").toggleClass("toggle-left-sidebar")
-      // $("i", this).toggleClass(" icon-Exit fa fa-bars");
-    })
+    // // manage-charges
+    // $("body").on("click", ".add-not-charges", function () {
+    //   $("#add-not").toggleClass("open-view-vindor-types")
+    //   // $(".left-sidebar").toggleClass("toggle-left-sidebar")
+    //   // $("i", this).toggleClass(" icon-Exit fa fa-bars");
+    // })
 
     $("#close-vindors3").on("click", function () {
       $("#add-not").removeClass("open-view-vindor-types")
@@ -125,6 +125,9 @@ export class NotificationsComponent implements OnInit {
     );
   }
 
+  openSideBar(){
+      $("#add-not").toggleClass("open-view-vindor-types")
+  }
   notification() {
     this.notificationService.getNotification()
       .subscribe((response: any) => {

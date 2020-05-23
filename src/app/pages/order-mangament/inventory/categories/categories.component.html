@@ -281,16 +281,32 @@
                   (change)="uploadImage(editCatForm.controls.sub_categories.controls[i].controls.image, $event)" />
                 <input type="hidden" formControlName="image">
               </div>
+              <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.image.invalid && (editCatForm.controls.sub_categories.controls[i].controls.image.dirty || editCatForm.controls.sub_categories.controls[i].controls.image.touched)" class="alert alert-danger">
+                <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.image.errors.required">
+                  Image is required.
+                </div>
+              </div>
             </div>
             <div class="col-sm-12  col-lx-6">
               <div class="col-sm-12 m-t-b-8">
                 <label for="">sub category</label>
-                <input type="text" class="owl-input" placeholder="type here" name="subName{{i}}" formControlName="name"
+                <input type="text"
+                class="owl-input" placeholder="type here" name="subName{{i}}" formControlName="name"
                   required>
+                  <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.name.invalid && (editCatForm.controls.sub_categories.controls[i].controls.name.dirty || editCatForm.controls.sub_categories.controls[i].controls.name.touched)" class="alert alert-danger">
+                    <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.name.errors.required">
+                      Name is required.
+                    </div>
+                  </div>
               </div>
               <div class="col-sm-12 m-t-b-8">
                 <label for="">sub category (ar)</label>
                 <input type="text" class="owl-input" placeholder="اسم القسم الفرعي ..." name="subNameAr{{i}" formControlName="name_ar" required>
+                <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.name_ar.invalid && (editCatForm.controls.sub_categories.controls[i].controls.name_ar.dirty || editCatForm.controls.sub_categories.controls[i].controls.name_ar.touched)" class="alert alert-danger">
+                  <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.name_ar.errors.required">
+                    Arabic Name is required.
+                  </div>
+                </div>
                   </div>
                   <!-- <div class="col-12 m-t-b-8">
                     <label> Options Name </label>
@@ -305,23 +321,11 @@
           </div>
         </div>
 
-<div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.name.invalid && (editCatForm.controls.sub_categories.controls[i].controls.name.dirty || editCatForm.controls.sub_categories.controls[i].controls.name.touched)" class="alert alert-danger">
-  <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.name.errors.required">
-    Name is required.
-  </div>
-</div>
 
-<div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.name_ar.invalid && (editCatForm.controls.sub_categories.controls[i].controls.name_ar.dirty || editCatForm.controls.sub_categories.controls[i].controls.name_ar.touched)" class="alert alert-danger">
-  <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.name_ar.errors.required">
-    Arabic Name is required.
-  </div>
-</div>
 
-<div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.image.invalid && (editCatForm.controls.sub_categories.controls[i].controls.image.dirty || editCatForm.controls.sub_categories.controls[i].controls.image.touched)" class="alert alert-danger">
-  <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.image.errors.required">
-    Image is required.
-  </div>
-</div>
+
+
+
 
 <div *ngIf="sub.showError" class="alert alert-danger">
   Image is required.
@@ -464,6 +468,9 @@
                 <input type="file" name="myfile" (change)="uploadImage(categoriesForm.controls.sub_categories.controls[i].controls.image, $event)" />
                 <input type="hidden" formControlName="image">
               </div>
+              <div *ngIf="sub.showError" class="alert alert-danger">
+                Image is required.
+              </div>
             </div>
             <div class="col-sm-12  col-lx-6">
               <div class="row">
@@ -471,10 +478,20 @@
                       <label for="">sub category</label>
                       <input type="text" class="owl-input" placeholder="type here" name="subName{{i}}"
                   formControlName="name" required>
+                  <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.name.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.name.dirty || categoriesForm.controls.sub_categories.controls[i].controls.name.touched)" class="alert alert-danger">
+                    <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.name.errors.required">
+                      Name is required.
+                    </div>
+                  </div>
               </div>
               <div class="col-sm-12 m-t-b-8">
                 <label for="">sub category (ar)</label>
                 <input type="text" class="owl-input" placeholder="اسم القسم الفرعي ..." name="subNameAr{{i}" formControlName="name_ar" required>
+                <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.image.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.image.dirty || categoriesForm.controls.sub_categories.controls[i].controls.image.touched)" class="alert alert-danger">
+                  <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.image.errors.required">
+                    Image is required.
+                  </div>
+                </div>
               </div>
 
               <!-- <div class="col-12 m-t-b-5">
@@ -492,21 +509,11 @@
           <a href="javascript:void(0)" class="remove-sub" (click)="removeSubCategory(image, i)">remove subcategory</a>
         </div>
 
-        <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.name.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.name.dirty || categoriesForm.controls.sub_categories.controls[i].controls.name.touched)" class="alert alert-danger">
-          <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.name.errors.required">
-            Name is required.
-          </div>
-        </div>
 
-        <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.image.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.image.dirty || categoriesForm.controls.sub_categories.controls[i].controls.image.touched)" class="alert alert-danger">
-          <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.image.errors.required">
-            Image is required.
-          </div>
-        </div>
 
-        <div *ngIf="sub.showError" class="alert alert-danger">
-          Image is required.
-        </div>
+
+
+
       </div>
     </div>
 
