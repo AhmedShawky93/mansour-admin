@@ -154,8 +154,14 @@
       <div class="form-group">
         <label for=""> Minimum order </label>
         <input type="number" class="owl-input" id="" placeholder=" max amount" name="minimum_amount"
-          [(ngModel)]="promo.minimum_amount" formControlName="minimum_amount" [max]="10000">
-
+          [(ngModel)]="promo.minimum_amount" formControlName="minimum_amount" [max]="1000000">
+          <div
+            *ngIf="editForm.controls.minimum_amount.invalid && (editForm.controls.minimum_amount.dirty || editForm.controls.minimum_amount.touched)"
+            class="alert alert-danger">
+            <div *ngIf="editForm.controls.minimum_amount.errors.max">
+              Minimum Order Amount Must Be Less than 1000000
+            </div>
+          </div>
       </div>
       <!--END For Max Amount -->
       <label class="checkup">First order only
