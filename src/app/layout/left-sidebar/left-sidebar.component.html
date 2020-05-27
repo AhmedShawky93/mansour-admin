@@ -224,6 +224,11 @@
               promocodes</a
             >
           </li>
+          <li *ngxPermissionsOnly="['ADMIN', 'View Promos']">
+            <a routerLink="/pages/promotions" routerLinkActive="active">
+              Promotions</a
+            >
+          </li>
           <!-- <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
             <a routerLink="/pages/ads" routerLinkActive="active">
               ads</a>

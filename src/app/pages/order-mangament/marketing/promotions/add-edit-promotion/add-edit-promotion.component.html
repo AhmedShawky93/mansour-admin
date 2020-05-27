@@ -1,0 +1,90 @@
+<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+  <div class="head">
+    <span class="close" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>{{promotionData ?  'Edit Promotion' : 'New Promotion' }} </h3>
+  </div>
+
+  <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="promotionForm" novalidate>
+    
+    <div class="form-group">
+      <label for="">Name</label>
+      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name">
+      <div
+        *ngIf="promotionForm.controls.name.invalid && (promotionForm.controls.name.dirty || promotionForm.controls.name.touched)"
+        class="alert alert-danger">
+        <div *ngIf="promotionForm.controls.name.errors.required">
+          Name is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Name (Ar)</label>
+      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_ar">
+
+      <div
+        *ngIf="promotionForm.controls.name_ar.invalid && (promotionForm.controls.name_ar.dirty || promotionForm.controls.name_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="promotionForm.controls.name_ar.errors.required">
+          Name (Ar) is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Discount</label>
+      <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
+        formControlName="discount" [min]="1" [max]="100">
+
+      <div
+        *ngIf="promotionForm.controls.discount.invalid && (promotionForm.controls.discount.dirty || promotionForm.controls.discount.touched)"
+        class="alert alert-danger">
+        <div *ngIf="promotionForm.controls.discount.errors.required">
+          Discount is required.
+        </div>
+        <div *ngIf="promotionForm.controls.discount.errors.min">
+          Discount minimum is 1%.
+        </div>
+        <div *ngIf="promotionForm.controls.discount.errors.max">
+          Discount Maximum is 100% LE.
+        </div>
+        <div *ngIf="promotionForm.controls.discount.errors.pattern">
+          Invalid number format
+        </div>
+      </div>
+      <!-- End Errors Rolues -->
+    </div>
+
+    <div class="form-group">
+      <label for="charge">Brand</label>
+      <ng-select formControlName="brand_id" [items]="brands" bindLabel="name" bindValue="id" placeholder="Enter Brand name">
+      </ng-select>
+    </div>
+
+    <div class="form-group">
+      <div>
+        <mat-form-field>
+          <input [min]="today" matInput placeholder="Valid To" [satDatepicker]="picker" formControlName="expiration_date" name="expiration_date">
+          <sat-datepicker #picker [rangeMode]="false"></sat-datepicker>
+          <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+        </mat-form-field>
+        <div
+          *ngIf="promotionForm.controls.expiration_date.invalid && (promotionForm.controls.expiration_date.dirty || promotionForm.controls.expiration_date.touched)"
+          class="alert alert-danger">
+          <div *ngIf="promotionForm.controls.expiration_date.errors.required">
+            Expiration Date Is Required.
+          </div>
+          <div *ngIf="promotionForm.controls.expiration_date.errors.min">
+            Must be after today
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green">Save</button>
+    </div>
+  </form>
+</div>

@@ -111,7 +111,6 @@ import { ContactusComponent } from "./pages/contact-us/contact-us.component";
     ResetPasswordComponent,
     AddStoreComponent,
     PagesComponent,
-    StringFilterPipe,
     ProductFilterPipe,
     DeliveryFilterPipe,
     NotificationFilterPipe,
