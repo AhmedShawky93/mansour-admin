@@ -1,0 +1,94 @@
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-9 col-sm-12 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search" placeholder="search ...">
+      </div>
+    </div>
+
+
+    <div class="col-md-3  col-xs-12 text-right">
+      <div class="owl-btn-list">
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big w-100" (click)="toggleMenu(null)"
+          style="margin-left: 0px;">+ New Promotion</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="table-responsive text-center">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Discount</th>
+        <th scope="col">Expiration Date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let promotion of promotions | stringFilter: searchTerm | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
+
+        <td class="relative">
+          {{(promotion.name.length >= 25) ? (promotion.name | slice:0:25)+'...' : promotion.name }}
+          <div class="hover-reason text-left" *ngIf="promotion.name.length >= 25">
+            <div class="head">
+              Promotion Name
+            </div>
+            <div class="body">
+              {{promotion.name}}
+            </div>
+          </div>
+
+        </td>
+        <td>
+          {{promotion.brand?.name}}
+        </td>
+        <td>{{promotion.discount}}%</td>
+
+        <td class="hidden">{{promotion.expiration_date | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td>
+
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="toggleMenu(promotion)">
+            <i class="icon-grey"></i>
+          </a>
+
+          <label class="switch">
+            <input type="checkbox" value="1" [(ngModel)]="promotion.active" (change)="changeActive(promotion, $event)">
+            <span class="slider round"></span>
+            <div class="reason-popup text-left" [hidden]="!promotion.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this promotion?"
+                [(ngModel)]="promotion.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!promotion.notes"
+                (click)="submitDeactivate(promotion)" [ngClass]="{'not-allowed' : !promotion.notes }">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(promotion)">cancel</button>
+            </div>
+            <div class="hover-reason text-left" *ngIf="!promotion.active">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{promotion.deactivation_notes}}
+              </div>
+            </div>
+          </label>
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+</div>
+<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
+
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+<app-add-edit-promotion (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="toggleAddOption" [promotionData]="currentPromotion"></app-add-edit-promotion>

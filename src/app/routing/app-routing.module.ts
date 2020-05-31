@@ -222,6 +222,13 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: {title: "Sections", permissions: {only: ['ADMIN', 'View Sections'], redirectTo: '/pages/home'}}
       },
+      {
+        path: "promotions",
+        loadChildren:
+          "../pages/order-mangament/marketing/promotions/promotions.module#PromotionsModule",
+        canActivate: [NgxPermissionsGuard],
+        data: {title: "Promotions", permissions: {only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home'}}
+      }
     ],
     
   },

@@ -500,7 +500,7 @@
 
     </div> -->
     <p class="text-danger" *ngIf="showErrorItems">{{showErrorItems}}</p>
-    <button class="btn btn-owls  btn-rounded btn-green" (click)="updateProducts()">Update Order</button>
+    <button class="btn btn-owls  btn-rounded btn-green" [disabled]="delivery_fees.invalid" (click)="updateProducts()">Update Order</button>
 
 
   </div>
@@ -572,7 +572,7 @@
 
         <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
         ">Are you sure you want to update this order ?</h5>
-        <button type="button" class="close" data-dismiss="confirmOrderUpdate" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

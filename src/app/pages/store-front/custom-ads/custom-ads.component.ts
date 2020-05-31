@@ -168,7 +168,7 @@ export class CustomAdsComponent implements OnInit {
       this.newAdsForm.get('prod').setValue(ad.item_id);
       this.newAdsForm.get('subCategory').setValue(ad.item_data.category_id);
       this.newAdsForm.get('category').setValue(ad.item_data.category.id);
-    } else if (ad.type == 3) {
+    } else if (ad.type == 2) {
       this.newAdsForm.get('subCategory').setValue(ad.item_id);
       this.newAdsForm.get('category').setValue(ad.item_data.parent_id);
     } else if (ad.type == 4) {
@@ -277,7 +277,7 @@ export class CustomAdsComponent implements OnInit {
 
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
-    } else if (ad.type == 3) {
+    } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
       ad.item_id = this.newAdsForm.get("brand").value;

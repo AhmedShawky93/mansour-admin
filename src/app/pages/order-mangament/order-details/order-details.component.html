@@ -221,11 +221,11 @@
 
     <div class="qty-item">
       <p>QTY: {{ item.amount }}</p>
-      <span *ngIf="item?.product.discount_price === null"
-        >{{ item.product.price }} LE</span
+      <span *ngIf="item?.discount_price === null"
+        >{{ item.price }} LE</span
       >
-      <span *ngIf="item?.product.discount_price !== null"
-        >{{ item.product.discount_price }} LE</span
+      <span *ngIf="item?.discount_price !== null"
+        >{{ item.discount_price }} LE</span
       >
     </div>
   </div>

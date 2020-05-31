@@ -61,7 +61,7 @@
 
           <div [formGroupName]="i">
             <img width="60" height="60" class="owl-img"
-              [src]="image.value.url ? image.value.url : 'http://via.placeholder.com/60x60'" alt="">
+              [src]="image.value.urlPath ? image.value.urlPath : 'http://via.placeholder.com/60x60'" alt="">
             <!-- <img width="60" height="60" class="owl-img" *ngIf="image.urlPath " src="{{image.urlPath}}" alt=""> -->
             <input type="file" name="myfile" (change)="onimagesSelected($event, i)" accept="image/*" />
             <i class="icon-Exit" (click)="removeImage(image , i)"></i>
