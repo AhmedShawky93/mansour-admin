@@ -468,8 +468,11 @@
                 <input type="file" name="myfile" (change)="uploadImage(categoriesForm.controls.sub_categories.controls[i].controls.image, $event)" />
                 <input type="hidden" formControlName="image">
               </div>
-              <div *ngIf="sub.showError" class="alert alert-danger">
-                Image is required.
+              <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.image.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.image.dirty || categoriesForm.controls.sub_categories.controls[i].controls.image.touched)" class="alert alert-danger">
+                <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.image.errors.required">
+                  Image is required.
+
+                </div>
               </div>
             </div>
             <div class="col-sm-12  col-lx-6">

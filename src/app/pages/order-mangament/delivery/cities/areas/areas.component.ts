@@ -1,5 +1,7 @@
 import { AreasService } from "@app/pages/services/areas.service";
 import { Component, OnInit } from "@angular/core";
+import {Location} from '@angular/common';
+
 import {
   trigger,
   state,
@@ -44,7 +46,9 @@ export class AreasComponent implements OnInit {
   idParent: any;
   constructor(
     private _areaService: AreasService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private _location: Location
+
   ) {}
 
   ngOnInit() {
@@ -169,5 +173,8 @@ export class AreasComponent implements OnInit {
         area.showReason = 0;
         area.deactivated = 1;
       });
+  }
+  backClicked() {
+    this._location.back();
   }
 }
