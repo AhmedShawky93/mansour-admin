@@ -61,7 +61,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       brand_id: new FormControl(data ? data.brand_id : "", Validators.required),
-      discount: new FormControl(data ? data.discount : "", Validators.required),
+      discount: new FormControl(data ? data.discount : "", [Validators.required, Validators.max(100), Validators.min(0)]),
       expiration_date: new FormControl(data ? data.expiration_date : "", [Validators.required]),
     });
   }
