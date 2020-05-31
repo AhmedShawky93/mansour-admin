@@ -41,7 +41,11 @@
       <tr *ngFor="let area of cities ">
         <td>{{(area.name) ? (area.name) : '-'}}</td>
         <td>{{(area.name_ar) ? (area.name_ar) : '-'}}</td>
-        <td style="cursor: pointer;outline: none;" [routerLink]="[area.id,'districts']">{{area?.districts?.length}}</td>
+        <td  >
+          <span style="text-decoration: underline; cursor: pointer ;outline: none"  [routerLink]="[area.id,'districts']">
+            {{area?.districts?.length}}
+          </span>
+          </td>
         <td>{{(area.delivery_fees) ? (area.delivery_fees) : '-'}}</td>
         <td style="text-align: center">
           <a style="margin-right: 10px" class="table-view open-show" (click)="viewDataInSidebar(area)">
