@@ -33,7 +33,9 @@ export class EditOfferComponent implements OnInit {
   today: Date;
   editDate: any;
   id;
-  promo: any = {};
+  promo: any = {
+    list_id: '',
+  };
   editForm: any;
   promos: any;
   customers: any = [];
@@ -66,7 +68,7 @@ export class EditOfferComponent implements OnInit {
       customers: [],
       customer_phones: new FormControl(""),
       first_order: new FormControl(false),
-      list_id: new FormControl(),
+      list_id: new FormControl(''),
       typeCustmerSelect: new FormControl("1"),
     });
 

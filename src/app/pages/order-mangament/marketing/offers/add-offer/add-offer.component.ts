@@ -45,6 +45,7 @@ export class AddOfferComponent implements OnInit {
     minimum_amount: "",
     customer_phones: "",
     typeCustmerSelect: "1",
+    list_id: '',
     first_order: false,
   };
 
@@ -160,7 +161,7 @@ export class AddOfferComponent implements OnInit {
       minimum_amount: new FormControl(""),
       customer_phones: new FormControl(""),
       first_order: new FormControl(false),
-      list_id: new FormControl(),
+      list_id: new FormControl(''),
       typeCustmerSelect: new FormControl("1"),
     });
   }
