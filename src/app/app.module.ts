@@ -92,6 +92,7 @@ import { DeliveryFilterPipe } from "./shared/delivery-filter.pipe";
 import { CustomAdsComponent } from "./pages/store-front/custom-ads/custom-ads.component";
  import { ProductFilterPipe } from "./shared/product-filter.pipe";
 import { ContactusComponent } from "./pages/contact-us/contact-us.component";
+import { ReportsComponent } from "./pages/reports/reports.component";
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { ContactusComponent } from "./pages/contact-us/contact-us.component";
     CategoryPipe,
     OrderFilterPipe,
     BrandsComponent,
+    ReportsComponent
   ],
   imports: [
     AppRoutingModule,

@@ -29,6 +29,7 @@ import { BrandsComponent } from "@app/pages/brands/brands.component";
 import { NgxPermissionsGuard } from "ngx-permissions";
 import { CustomAdsComponent } from "@app/pages/store-front/custom-ads/custom-ads.component";
 import { ProfileResolver } from '@app/shared/profile.resolver';
+import { ReportsComponent } from '@app/pages/reports/reports.component';
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, data: { title: "Login" } },
@@ -228,6 +229,11 @@ const routes: Routes = [
           "../pages/order-mangament/marketing/promotions/promotions.module#PromotionsModule",
         canActivate: [NgxPermissionsGuard],
         data: {title: "Promotions", permissions: {only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home'}}
+      },
+      {
+        path: "reports",
+        component: ReportsComponent,
+        data: {title: "Reports"}
       }
     ],
     
