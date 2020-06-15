@@ -1,7 +1,7 @@
-<iframe
-    src="https://metabase.misrpharmacy.com/public/dashboard/fa4979d5-263c-4610-ba6a-8dfbcae958dd"
-    frameborder="0"
-    width="800"
-    height="600"
-    allowtransparency
-></iframe>
+<div *ngIf="iframeLoaded">
+    <iframe
+        [src]="iframeUrl"
+        frameborder="0"
+        allowtransparency
+    ></iframe>
+</div>
