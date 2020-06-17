@@ -58,6 +58,10 @@ export class SettingService {
     return this.http.get(this.url + "dashboard");
   }
 
+  reports() {
+    return this.http.get(this.url + "metabase");
+  }
+
   imageload(user) {
     this.imagesEmitter.emit(user)
   }

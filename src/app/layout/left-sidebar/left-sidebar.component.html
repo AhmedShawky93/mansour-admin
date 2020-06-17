@@ -96,9 +96,7 @@
 
         <ul id="store-front" class="collapse">
           <li *ngxPermissionsOnly="['ADMIN', 'View Sections']">
-            <a routerLink="/pages/sections" routerLinkActive="active"
-              >Sections</a
-            >
+            <a routerLink="/pages/sections" routerLinkActive="active">Sections</a>
           </li>
           <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
             <a routerLink="/pages/custom-ads" routerLinkActive="active">Ads</a>
@@ -263,6 +261,15 @@
           <span>Medical Prescriptions</span>
         </a>
       </li> -->
+      <li class="side-nav-item" routerLinkActive="active">
+        <a routerLink="/pages/reports" routerLinkActive="active">
+          <i class="icon-None8"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Reports"></i>
+          <span>Reports</span>
+        </a>
+      </li>
       <li class="side-nav-item" *ngxPermissionsOnly="['ADMIN', 'View Admins']">
         <a
           routerLinkActive="active"
