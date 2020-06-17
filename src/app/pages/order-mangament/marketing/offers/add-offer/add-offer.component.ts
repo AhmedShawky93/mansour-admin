@@ -44,7 +44,7 @@ export class AddOfferComponent implements OnInit {
     id: Number,
     minimum_amount: "",
     customer_phones: "",
-    typeCustmerSelect: "1",
+    target_type: "null",
     list_id: '',
     first_order: false,
   };
@@ -162,11 +162,11 @@ export class AddOfferComponent implements OnInit {
       customer_phones: new FormControl(""),
       first_order: new FormControl(false),
       list_id: new FormControl(''),
-      typeCustmerSelect: new FormControl("1"),
+      target_type: new FormControl("null"),
     });
   }
   typeCustmerSelect(event) {
-    if (this.promo.typeCustmerSelect == "1") {
+    if (this.promo.target_type == "1") {
       this.newPromo.get("customer_phones").setValue("");
       this.promo.customer_phones = "";
     } else {

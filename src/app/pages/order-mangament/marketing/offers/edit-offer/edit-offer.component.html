@@ -21,30 +21,42 @@
 
     <div class="col-md-6">
       <h2>edit promocode</h2>
-      <label for="select_Customers" class="checkup customer">Select Customers
-        <input id="select_Customers" type="radio" name="typeCustmerSelect" formControlName="typeCustmerSelect"
+      <div class="form-group">
+        <label for="charge">Select type Customers</label>
+        <select name="" id="charge" class="owl-input" required name="target_type" formControlName="target_type"
+          [(ngModel)]="promo.target_type" (change)="typeCustmerSelect($event)">
+          <option value="null"  selected>Select type Customers  </option>
+          <option value="1">Select Customers</option>
+          <option value="2">Upload Customers</option>
+        </select>
+      </div>
+      <!-- <label for="select_Customers" class="checkup customer">Select Customers
+        <input id="select_Customers" type="radio" name="typeCustmerSelect" formControlName="target_type"
           [(ngModel)]="promo.typeCustmerSelect" (change)="typeCustmerSelect($event)" [value]="'1'">
         <span class="checkmark"></span>
-      </label>
-      <label for="upload_Customers" class="checkup">Upload Customers
+      </label> -->
+      <!-- <label for="upload_Customers" class="checkup">Upload Customers
         <input type="radio" name="typeCustmerSelect" formControlName="typeCustmerSelect"
           [(ngModel)]="promo.typeCustmerSelect" id="upload_Customers" (change)="typeCustmerSelect($event)"
           [value]="'2'">
         <span class="checkmark"></span>
-      </label>
-      <div class="form-group" style="    overflow: visible; " *ngIf="promo.typeCustmerSelect == '1'">
+      </label> -->
+      <div class="form-group" style="    overflow: visible; " *ngIf="promo.target_type == '1'">
         <label>Customers </label>
         <ng-select [typeahead]="customersInput$" [loading]="customersLoading" [(ngModel)]="promo.customers"
           name="customers" [items]="customers$ | async" bindLabel="name" bindValue="id" [multiple]="true"
           placeholder="Enter Customer name" formControlName="customers">
         </ng-select>
       </div>
-      <div class="form-group" *ngIf="promo.typeCustmerSelect == '2'">
+      <div class="form-group" *ngIf="promo.target_type == '2'">
         <button class=" btn btn-owls import-file btn-rounded btn-green  btn-special owl-input-file inputFile"
           style="overflow: hidden">Import Customers phone
           <input #myInput (change)="onImageSelected(promo.customer_phones, $event)" type="file" class="input-style"
             placeholder="type here " accept=".xlsx, .xls, .csv">
         </button>
+      </div>
+      <div class="sheet-phones" *ngIf="promo.target_type == 2">
+        <span class="view-phone" *ngFor="let list of promo.target_lists">{{list.phone}}</span>
       </div>
 
       <div class="form-group">

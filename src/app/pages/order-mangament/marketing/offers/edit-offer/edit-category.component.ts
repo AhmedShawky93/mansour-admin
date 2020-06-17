@@ -69,7 +69,7 @@ export class EditOfferComponent implements OnInit {
       customer_phones: new FormControl(""),
       first_order: new FormControl(false),
       list_id: new FormControl(''),
-      typeCustmerSelect: new FormControl("1"),
+      target_type: new FormControl("null"),
     });
 
     this.listsService.getLists({})
@@ -84,6 +84,7 @@ export class EditOfferComponent implements OnInit {
       let id = params["id"];
       this.promoService.getPromo(id).subscribe((response: any) => {
         this.promo = response.data;
+
         this.changeTypePromo(this.promo.type)
 
         this.customers$ = concat(
@@ -128,11 +129,21 @@ export class EditOfferComponent implements OnInit {
   }
 
   updatePromo(promo) {
-    console.log(this.editForm.value)
-    console.log(this.editForm.valid)
+
     if (!this.editForm.valid) {
       this.markFormGroupTouched(this.editForm);
       return;
+    }
+    if (this.promo.target_type == "1") {
+      this.editForm.get("customer_phones").setValue("");
+      this.promo.customer_phones = "";
+      promo.customer_phones = "";
+    } else {
+      this.editForm.get("customers").setValue("");
+      this.promo.customers = "";
+      promo.customers = "";
+      promo.targets = ''
+
     }
     promo.expiration_date = moment(this.editForm.get("editDate").value).format(
       "YYYY-MM-DD"
@@ -182,12 +193,12 @@ export class EditOfferComponent implements OnInit {
   }
 
   typeCustmerSelect(event) {
-    if (this.promo.typeCustmerSelect == "1") {
-      this.editForm.get("customer_phones").setValue("");
-      this.promo.customer_phones = "";
-    } else {
-      this.editForm.get("customers").setValue("");
-      this.promo.customers = "";
-    }
+    // if (this.promo.target_type == "1") {
+    //   this.editForm.get("customer_phones").setValue("");
+    //   this.promo.customer_phones = "";
+    // } else {
+    //   this.editForm.get("customers").setValue("");
+    //   this.promo.customers = "";
+    // }
   }
 }
