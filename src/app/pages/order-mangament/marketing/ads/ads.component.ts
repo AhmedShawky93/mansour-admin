@@ -116,9 +116,9 @@ export class adsComponent implements OnInit {
     this.newAdsForm = new FormGroup({
       id: new FormControl(),
       type: new FormControl("", Validators.required),
-      popup: new FormControl(0, Validators.required),
+      popup: new FormControl(0,  ),
       order: new FormControl("", Validators.required),
-      banner_ad: new FormControl(false),
+      banner_ad: new FormControl(0),
       banner_title: new FormControl(""),
       banner_title_ar: new FormControl(""),
       banner_description: new FormControl(""),
@@ -159,9 +159,9 @@ export class adsComponent implements OnInit {
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
       type: new FormControl(ad.type, Validators.required),
-      popup: new FormControl(ad.popup, Validators.required),
+      popup: new FormControl(0),
       order: new FormControl(ad.order, Validators.required),
-      banner_ad: new FormControl(ad.banner_ad),
+      banner_ad: new FormControl(0),
       banner_title: new FormControl(ad.banner_title),
       banner_title_ar: new FormControl(ad.banner_title_ar),
       banner_description: new FormControl(ad.banner_description),
@@ -179,7 +179,7 @@ export class adsComponent implements OnInit {
       category: new FormControl(ad.category_id),
       subCategory: new FormControl(ad.sub_category_id),
       prod: new FormControl(ad.product_id),
-      brand: new FormControl(ad.brand_id),
+      brand: new FormControl(ad.item_id),
     });
 
     this.adCrrentEdit = JSON.parse(JSON.stringify(ad));
@@ -266,7 +266,8 @@ export class adsComponent implements OnInit {
     }
 
     let ad = this.newAdsForm.value;
-
+    ad.popup= 0;
+    ad.banner_ad= 0;
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
     } else if (ad.type == 2) {
@@ -295,7 +296,8 @@ export class adsComponent implements OnInit {
     }
 
     let ad = this.newAdsForm.value;
-
+    ad.popup= 0;
+    ad.banner_ad= 0;
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
     } else if (ad.type == 2) {
