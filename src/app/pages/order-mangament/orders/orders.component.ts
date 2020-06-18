@@ -96,7 +96,11 @@ export class OrdersComponent implements OnInit {
   errorMessage: string;
   showErrorItems: string;
   items: any;
+  status_notes = '';
+  status_notesText = '';
   deleteIds: any;
+  error_status_notes: boolean;
+  orderStatusId: any;
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -258,6 +262,7 @@ export class OrdersComponent implements OnInit {
       return;
     }
 
+
     this.ordersBulk = this.orders
       .filter((element) => element.select)
       .map((item) => {
@@ -278,7 +283,15 @@ export class OrdersComponent implements OnInit {
     $("#confirmOrderStatus").modal("show");
   }
   confirmChangeStatus(notifyUser) {
+    this.error_status_notes = false
     console.log(notifyUser);
+    if (this.orderStatusId == '6') {
+      if (this.status_notes == '') {
+        console.log('data');
+        this.error_status_notes = true
+        return
+      }
+    }
     this.ordersService
       .changeBulkChangeState(this.orderId, {
         orders: this.ordersBulk,
@@ -304,6 +317,7 @@ export class OrdersComponent implements OnInit {
     });
   }
   selectStatus(id) {
+    this.orderStatusId = id;
     let index = this.orderStatus.findIndex((item) => item.id == id);
     console.log(index);
 
@@ -714,21 +728,21 @@ export class OrdersComponent implements OnInit {
   updateProducts() {
     this.showErrorItems = ""
     this.items = this.currentOrder.items
-    .filter((item) => item.amount && !item.remove)
-    .map((item) => {
-      if (!item.remove) {
-        return {
-          id: item.id,
-          amount: item.amount,
-        };
-      }
-    });
-  this.deleteIds = this.currentOrder.items
-    .filter((item) => item.remove)
-    .map((item) => item.id);
-    if(this.items.length){
+      .filter((item) => item.amount && !item.remove)
+      .map((item) => {
+        if (!item.remove) {
+          return {
+            id: item.id,
+            amount: item.amount,
+          };
+        }
+      });
+    this.deleteIds = this.currentOrder.items
+      .filter((item) => item.remove)
+      .map((item) => item.id);
+    if (this.items.length) {
       $("#confirmOrderUpdate").modal("show");
-    }else {
+    } else {
       this.showErrorItems = "Order must have at least one item"
     }
   }

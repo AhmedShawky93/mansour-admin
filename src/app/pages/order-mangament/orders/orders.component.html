@@ -67,8 +67,7 @@
     <div class=" col-md-2  col-xs-6">
       <!-- <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
       <div *ngIf="order.order_status_editable"> -->
-      <select class="owl-input" required name="status" [(ngModel)]="state_id"
-        (ngModelChange)="selectStatus($event) ">
+      <select class="owl-input" required name="status" [(ngModel)]="state_id" (ngModelChange)="selectStatus($event) ">
         <option value="" selected hidden>Select Status </option>
         <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}
         </option>
@@ -86,16 +85,18 @@
       <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
         (click)="changeStausBulkInOrders()">Apply</button>
     </div>
-    <div   [ngClass]="orderSubStates.length ? 'col-md-2' : 'col-md-4'"></div>
+    <div [ngClass]="orderSubStates.length ? 'col-md-2' : 'col-md-4'"></div>
     <div class="col-md-2  col-xs-6 text-right ">
       <div class="form-group">
-        <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank" href="{{exportUrl}}">Export
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
+          href="{{exportUrl}}">Export
           Orders </a>
       </div>
     </div>
     <div class="col-md-2   col-xs-6 text-right">
       <div class="form-group">
-        <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank" href="{{exportProductsUrl}}">Export
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
+          href="{{exportProductsUrl}}">Export
           Products Sales</a>
       </div>
     </div>
@@ -336,15 +337,13 @@
             <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="productTerm">
           </div>
 
-          <select  class="owl-input" (change)="loadSubcategories(selectedCategory)"
-            [(ngModel)]="selectedCategory" >
+          <select class="owl-input" (change)="loadSubcategories(selectedCategory)" [(ngModel)]="selectedCategory">
             <option value="" selected hidden>select category</option>
             <option [value]="cat.id" *ngFor="let cat of categories">{{cat.name}}</option>
           </select>
 
 
-          <select   class="owl-input" (change)="loadProducts(selectedSubcategory)"
-            [(ngModel)]="selectedSubcategory">
+          <select class="owl-input" (change)="loadProducts(selectedSubcategory)" [(ngModel)]="selectedSubcategory">
             <option value="" selected hidden>select sub Category</option>
             <option [value]="cat.id" *ngFor="let cat of sub_categories">{{cat.name}}</option>
           </select>
@@ -472,18 +471,15 @@
     </div>
     <div class="form-group">
       <label for="">Admin notes</label>
-      <textarea  style="height: 130px;" class="owl-input" placeholder="Type.." #admin_notes="ngModel" [(ngModel)]="currentOrder.admin_notes">
+      <textarea style="height: 130px;" class="owl-input" placeholder="Type.." #admin_notes="ngModel"
+        [(ngModel)]="currentOrder.admin_notes">
       </textarea>
-
-
     </div>
     <div class="form-group">
       <label for=""> delivery fees</label>
       <input type="text" class="owl-input" placeholder="Type.." #delivery_fees="ngModel"
         [(ngModel)]="currentOrder.delivery_fees" min="0">
-      <div
-        *ngIf="delivery_fees.invalid && (delivery_fees.dirty || delivery_fees.touched)"
-        class="alert alert-danger">
+      <div *ngIf="delivery_fees.invalid && (delivery_fees.dirty || delivery_fees.touched)" class="alert alert-danger">
         <div *ngIf="delivery_fees.errors.min">
           Delivery fees cannot be less than 0
         </div>
@@ -500,7 +496,8 @@
 
     </div> -->
     <p class="text-danger" *ngIf="showErrorItems">{{showErrorItems}}</p>
-    <button class="btn btn-owls  btn-rounded btn-green" [disabled]="delivery_fees.invalid" (click)="updateProducts()">Update Order</button>
+    <button class="btn btn-owls  btn-rounded btn-green" [disabled]="delivery_fees.invalid"
+      (click)="updateProducts()">Update Order</button>
 
 
   </div>
@@ -633,6 +630,17 @@
           <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
           <span class="checkmark"></span>
         </label>
+        <div class="form-group" *ngIf="orderStatusId == '6'">
+          <label for="">Status notes </label>
+          <textarea style="height: 130px;" class="owl-input" placeholder="Type.."
+          #status_notes="ngModel"    [(ngModel)]="status_notesText">
+          </textarea>
+          <div class="alert-danger" *ngIf="error_status_notes">
+            <span>
+              Cancel notes is required
+            </span>
+          </div>
+        </div>
       </div>
       <div class="modal-footer" style="    justify-content: center; ">
 
