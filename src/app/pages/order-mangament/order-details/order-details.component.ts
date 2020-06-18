@@ -36,6 +36,9 @@ export class OrderDetailsComponent implements OnInit {
   state_id: any;
   sub_state_id: any;
   textMessage = "";
+  orderStatusId: string;
+  status_notesText: string;
+  error_status_notes: boolean;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -44,7 +47,7 @@ export class OrderDetailsComponent implements OnInit {
     private orderService: OrdersService,
     private toastrService: ToastrService,
     private orderStatesService: OrderStatesService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
@@ -65,7 +68,7 @@ export class OrderDetailsComponent implements OnInit {
     // this.order.state_id = this.order.previous_state;
     // this.order.sub_state_id = this.order.previous_subState;
   }
-  getOrderDetails(id){
+  getOrderDetails(id) {
     this.orderService.getOrder(id).subscribe((response: any) => {
       this.order = response.data;
       this.getOrderStates();
@@ -146,6 +149,7 @@ export class OrderDetailsComponent implements OnInit {
     $("#confirmOrderStatus").modal("show");
   }
   selectStatus(id) {
+    this.orderStatusId = id;
     let index = this.orderStatus.findIndex((item) => item.id == id);
     console.log(index);
 
@@ -166,10 +170,20 @@ export class OrderDetailsComponent implements OnInit {
     this.orderStatuId = data;
     this.typeStatusPopup = type;
     $("#confirmOrderStatus").modal("show");
+    this.status_notesText = ''
   }
 
   confirmChangeStatus(notifyUser) {
     console.log(notifyUser);
+    if (this.orderStatusId == '6') {
+      if (this.status_notesText == '') {
+        console.log('if data');
+        this.error_status_notes = true
+        return
+      } else {
+        console.log('else data');
+      }
+    }
     this.orderService
       .changeBulkChangeState(this.orderId, {
         orders: [
@@ -180,6 +194,8 @@ export class OrderDetailsComponent implements OnInit {
           },
         ],
         notify_customer: notifyUser,
+        status_notes: this.status_notesText ? this.status_notesText : ''
+
       })
       .subscribe((response: any) => {
         if (response.code === 200) {
@@ -218,9 +234,9 @@ export class OrderDetailsComponent implements OnInit {
   generateSkusToCopy() {
     this.order.items.forEach((element, index) => {
       console.log('index ==> ', index + 1)
-      console.log('this.order.items.length ==> ', this.order.items.length )
-      if (index + 1  < this.order.items.length   ) {
-         this.textMessage = this.textMessage.concat(element.product.sku + " \n");
+      console.log('this.order.items.length ==> ', this.order.items.length)
+      if (index + 1 < this.order.items.length) {
+        this.textMessage = this.textMessage.concat(element.product.sku + " \n");
       } else {
         this.textMessage = this.textMessage.concat(element.product.sku);
       }

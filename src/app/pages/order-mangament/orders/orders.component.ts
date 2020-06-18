@@ -284,18 +284,21 @@ export class OrdersComponent implements OnInit {
   }
   confirmChangeStatus(notifyUser) {
     this.error_status_notes = false
-    console.log(notifyUser);
+
     if (this.orderStatusId == '6') {
-      if (this.status_notes == '') {
-        console.log('data');
+      if (this.status_notesText == '') {
+        console.log('if data');
         this.error_status_notes = true
         return
+      } else {
+        console.log('else data');
       }
     }
     this.ordersService
       .changeBulkChangeState(this.orderId, {
         orders: this.ordersBulk,
         notify_customer: notifyUser,
+        status_notes: this.status_notesText ? this.status_notesText : ''
       })
       .subscribe((response: any) => {
         if (response.code === 200) {
