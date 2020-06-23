@@ -255,20 +255,25 @@
 
     </div>
 
-    <!-- <div formArrayName="option_values">
+    <div formArrayName="option_values">
 
       <div class="form-group" *ngFor="let option of options; let i = index">
         <span [formGroupName]='i'>
           <label> {{option.name_en}} </label>
-          <select class="owl-input"  name="option" (change)="selectOptionValue(option, $event, i)"
+          <select class="owl-input" name="option" (change)="selectOptionValue(option, $event, i)"
             formControlName="option_value_id">
-            <option [value]="" hidden selected>Select option </option>
+            <option value="" hidden selected>Select option </option>
             <option value="{{value.id}}" *ngFor="let value of option.values">{{value.name_en}}
             </option>
           </select>
+          <div *ngIf="addProductForm.controls.option_values['controls'][i].controls.option_value_id.invalid && (addProductForm.controls.option_values['controls'][i].controls.option_value_id.dirty || addProductForm.controls.option_values['controls'][i].controls.option_value_id.touched)" class="alert alert-danger">
+            <div *ngIf="addProductForm.controls.option_values['controls'][i].controls.option_value_id.errors.required">
+              option is required.
+            </div>
+          </div>
         </span>
       </div>
-    </div> -->
+    </div>
 
     <div class="form-group">
       <label> Brand Name </label>
@@ -290,7 +295,7 @@
 
     <div class="form-group">
       <label for=""> SKU </label>
-      <input type="number" class="owl-input" placeholder="Type SKU.." formControlName="sku" required [min]="1">
+      <input type="text" class="owl-input" placeholder="Type SKU.." formControlName="sku" required [min]="1">
       <!-- Start  Errors Rolues -->
 
       <div
@@ -313,6 +318,11 @@
 
     </div>
 
+    <div class="form-group">
+      <label for=""> Order</label>
+      <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
+
+    </div>
     <div class="form-group">
       <label for="">Max Quantity Per Order</label>
       <input type="number" (change)="onQuantityFieldsChange()" class="owl-input" placeholder="Type.."

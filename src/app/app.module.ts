@@ -1,3 +1,4 @@
+import { GroupsComponent } from './pages/order-mangament/inventory/groups/groups.component';
 import { AuthService } from "@app/shared/auth.service";
 import { AppRoutingModule } from "./routing/app-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -93,6 +94,7 @@ import { CustomAdsComponent } from "./pages/store-front/custom-ads/custom-ads.co
  import { ProductFilterPipe } from "./shared/product-filter.pipe";
 import { ContactusComponent } from "./pages/contact-us/contact-us.component";
 import { ReportsComponent } from "./pages/reports/reports.component";
+import { GroupsPipe } from './pages/order-mangament/inventory/groups/groups.pipe';
 
 @NgModule({
   declarations: [
@@ -132,9 +134,11 @@ import { ReportsComponent } from "./pages/reports/reports.component";
     RequiredIfDirective,
     PrintReceiptComponent,
     CategoryPipe,
+    GroupsPipe,
     OrderFilterPipe,
     BrandsComponent,
-    ReportsComponent
+    ReportsComponent,
+    GroupsComponent
   ],
   imports: [
     AppRoutingModule,

@@ -1,3 +1,4 @@
+import { GroupsComponent } from './../pages/order-mangament/inventory/groups/groups.component';
 import { ContactusComponent } from './../pages/contact-us/contact-us.component';
 import { PagesComponent } from "../pages/pages.component";
 import { ResetPasswordComponent } from "../pages/login/reset-password/reset-password.component";
@@ -168,13 +169,13 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: {title: "Contact Us", permissions: {only: ['ADMIN', 'View Contacts'], redirectTo: '/pages/home'}}
       },
-      // {
-      //   path: "options",
-      //   loadChildren:
-      //     "../pages/order-mangament/inventory/options/options.module#OptionsModule",
-      //   canActivate: [NgxPermissionsGuard],
-      //   data: {permissions: {only: ['ADMIN', 'View Options'], redirectTo: '/pages/home'}}
-      // },
+      {
+        path: "options",
+        loadChildren:
+          "../pages/order-mangament/inventory/options/options.module#OptionsModule",
+        canActivate: [NgxPermissionsGuard],
+        data: {permissions: {only: ['ADMIN', 'View Options'], redirectTo: '/pages/home'}}
+      },
       {
         path: "products",
         loadChildren:
@@ -187,6 +188,12 @@ const routes: Routes = [
         loadChildren: "../pages/access-admins/sub-admin.module#SubAdminModule",
         canActivate: [NgxPermissionsGuard],
         data: {permissions: {only: ['ADMIN', 'View Admins'], redirectTo: '/pages/home'}}
+      },
+      {
+        path: "groups",
+        component: GroupsComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { title: "groups", permissions: {only: ['ADMIN', 'View Groups'], redirectTo: '/pages/home'} },
       },
       {
         path: "cities",
@@ -236,7 +243,7 @@ const routes: Routes = [
         data: {title: "Reports"}
       }
     ],
-    
+
   },
 ];
 

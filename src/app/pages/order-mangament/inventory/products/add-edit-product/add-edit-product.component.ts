@@ -53,7 +53,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     private productsService: ProductsService,
     private _CategoriesService: CategoryService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getCategories();
@@ -108,6 +108,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       max_per_order: new FormControl(data ? data.max_per_order : ""),
       min_days: new FormControl(data ? data.min_days : ""),
       stock_alert: new FormControl(data ? data.stock_alert : ""),
+      order: new FormControl(data ? data.order : ""),
       option_values: this.formBuilder.array([]),
     });
     // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));
@@ -163,7 +164,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   createItemOptions(): FormGroup {
     return this.formBuilder.group({
       option_id: "",
-      option_value_id: "",
+      option_value_id: new FormControl("", Validators.required),
     });
   }
 
