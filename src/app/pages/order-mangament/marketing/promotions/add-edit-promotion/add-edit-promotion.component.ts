@@ -16,6 +16,7 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { PromotionsService } from "@app/pages/services/promotions.service";
 import { BrandsService } from "@app/pages/services/brands.service";
+import * as moment from "moment";
 
 @Component({
   selector: "app-add-edit-promotion",
@@ -61,7 +62,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       brand_id: new FormControl(data ? data.brand_id : "", Validators.required),
-      discount: new FormControl(data ? data.discount : "", [Validators.required, Validators.max(100), Validators.min(0)]),
+      discount: new FormControl(data ? data.discount : "", Validators.required),
       expiration_date: new FormControl(data ? data.expiration_date : "", [Validators.required]),
     });
   }
@@ -76,7 +77,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     if (this.promotionData) {
       // edit
       const data = this.promotionForm.value;
-
+      data.expiration_date  = moment(data.expiration_date).format("YYYY-MM-DD");
       console.log(data);
       if (!this.promotionForm.valid) {
         this.markFormGroupTouched(this.promotionForm);
@@ -100,6 +101,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     } else {
       // add
       const data = this.promotionForm.value;
+      data.expiration_date  = moment(data.expiration_date).format("YYYY-MM-DD");
       console.log(data);
       if (!this.promotionForm.valid) {
         this.markFormGroupTouched(this.promotionForm);
