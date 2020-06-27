@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: "https://api.misrpharmacy.com/api",
+  api: "https://computershopapi.el-dokan.com/api",
 };

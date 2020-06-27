@@ -254,7 +254,7 @@ export class SettingComponent implements OnInit {
       .subscribe((response: any) => {
         this.settings = response.data;
         this.toastrService.success(
-          "misr pharmacy Stars Settings Updated Successfully!"
+          "Computer Shop Stars Settings Updated Successfully!"
         );
         this.starsLoading = false;
       });
