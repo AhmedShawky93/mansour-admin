@@ -176,7 +176,7 @@ export class ProductsComponent implements OnInit {
 
     let token = this.auth.getToken();
 
-    this.exportUrl = environment.api + "/admin/products/export?token=" + token;
+    this.exportUrl = environment.api + "/admin/products/fullExport?token=" + token;
     this.exportStock =   environment.api + "/admin/products/export_prices?token=" + token;
 
   }
