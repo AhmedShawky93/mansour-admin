@@ -39,8 +39,8 @@
       <p>{{currentProduct?.created_at}}</p>
     </div>
 
-    <div>
-      <h5 *ngIf="currentProduct?.description">Short description</h5>
+    <div *ngIf="currentProduct?.description">
+      <h5 >Short description</h5>
       <p [innerHtml]="currentProduct?.description"> </p>
     </div>
     <div *ngIf="currentProduct?.description_a">
