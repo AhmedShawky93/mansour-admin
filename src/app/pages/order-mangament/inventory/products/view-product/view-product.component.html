@@ -40,20 +40,20 @@
     </div>
 
     <div>
-      <h5>Short description</h5>
-      <p>{{currentProduct?.description}}</p>
+      <h5 *ngIf="currentProduct?.description">Short description</h5>
+      <p [innerHtml]="currentProduct?.description"> </p>
     </div>
-    <div>
+    <div *ngIf="currentProduct?.description_a">
       <h5>Short description (Ar)</h5>
-      <p>{{currentProduct?.description_ar}}</p>
+      <p [innerHtml]="currentProduct?.description_ar"></p>
     </div>
-    <div>
+    <div *ngIf="currentProduct?.long_description_en">
       <h5> Long description </h5>
-      <p>{{currentProduct?.description}}</p>
+      <p [innerHtml]="currentProduct?.long_description_en"></p>
     </div>
-    <div>
+    <div *ngIf="currentProduct?.long_description_ar">
       <h5> Long description (Ar)</h5>
-      <p>{{currentProduct?.description_ar}}</p>
+      <p [innerHtml]="currentProduct?.long_description_ar"> </p>
     </div>
     <div>
       <h5>sku</h5>
