@@ -77,7 +77,7 @@ export class ProductsService {
     fd.append("file", file);
 
     return this.http
-      .post(this.url + "/products/fullImport", fd)
+      .post(this.url + "/products/import", fd)
       .catch((error: any) => {
         return Observable.throw(error.error || "file upload error");
       });
@@ -87,7 +87,7 @@ export class ProductsService {
     fd.append("file", file);
 
     return this.http
-      .post(this.url + "/products/import_prices", fd)
+      .post(this.url + "/products/importStocks", fd)
       .catch((error: any) => {
         return Observable.throw(error.error || "file upload error");
       });
