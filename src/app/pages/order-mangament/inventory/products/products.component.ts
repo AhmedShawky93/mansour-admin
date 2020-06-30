@@ -1,3 +1,4 @@
+import { Console } from '@angular/core/src/console';
 import { AddEditProductComponent } from "./add-edit-product/add-edit-product.component";
 import { Component, OnInit } from "@angular/core";
 import { ProductsService } from "@app/pages/services/products.service";
@@ -90,7 +91,7 @@ export class ProductsComponent implements OnInit {
 
   categories: any;
 
-  sub_categories: any[];
+  sub_categories = [];
   options: any[];
   selectFile = null;
   selectImages = null;
@@ -103,6 +104,8 @@ export class ProductsComponent implements OnInit {
   formProduct;
   brands = [];
   newPrdouct;
+  sub_category_id = '';
+  main_category = '';
   updateProductForm;
   filter$ = new Subject();
   loading: boolean;
@@ -119,7 +122,7 @@ export class ProductsComponent implements OnInit {
     private auth: AuthService,
     private formBuilder: FormBuilder,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getCategories();
@@ -176,14 +179,22 @@ export class ProductsComponent implements OnInit {
 
     let token = this.auth.getToken();
 
-    this.exportUrl = environment.api + "/admin/products/export?token=" + token;
-    this.exportStock =   environment.api + "/admin/products/export_prices?token=" + token;
-
+    if (this.sub_category_id) {
+      console.log(this.sub_category_id)
+      this.exportUrl = environment.api + "/admin/products/fullExport?sub_category_id=" + this.sub_category_id + "&token=" + token;
+    } else {
+      this.exportUrl = environment.api + "/admin/products/fullExport?token=" + token;
+      console.log(this.sub_category_id)
+    }
+    this.exportStock = environment.api + "/admin/products/export_prices?token=" + token;
   }
 
   getProducts() {
     this.productsService
-      .getProducts(this.p)
+      .getProducts({
+        page: this.p ? this.p : 1,
+        sub_category_id: this.sub_category_id ? this.sub_category_id : '',
+      })
       .pipe(delay(1000))
       .subscribe((response: any) => {
         this.products = response.data.products;
@@ -193,6 +204,24 @@ export class ProductsComponent implements OnInit {
         });
         this.total = response.data.total;
       });
+  }
+  getProductSubCategory(data) {
+    console.log(data)
+    this.p = 1
+    this.getProducts()
+  }
+  goToLink() {
+    let token = this.auth.getToken();
+    const urlBasic = environment.api + "/admin/products/fullExport?token=" + token;
+    const urlBasicWithsubCategory = environment.api + "/admin/products/fullExport?sub_category_id=" + this.sub_category_id + "&token=" + token;
+    if (this.sub_category_id) {
+      console.log(urlBasicWithsubCategory)
+      window.open(urlBasicWithsubCategory, "_blank");
+    } else {
+      console.log(urlBasic)
+      window.open(urlBasic, "_blank");
+
+    }
   }
 
   changePage(p) {
@@ -380,9 +409,9 @@ export class ProductsComponent implements OnInit {
         //   this.product.imageUrl = response.body.data.filePath;
         //   this.showError = 0;
         // }
+        this.toastrService.success(response.data);
       });
 
-    this.toastrService.success("File uploaded successfully");
     this.importFile.nativeElement.value = "";
   }
   importStock(event) {
@@ -404,6 +433,7 @@ export class ProductsComponent implements OnInit {
 
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
+      console.log(response.data)
       this.categories = response.data;
     });
   }
@@ -415,6 +445,17 @@ export class ProductsComponent implements OnInit {
 
     this.sub_categories = category.sub_categories;
     console.log(this.sub_categories);
+  }
+  selectCategoryFilter(cat_id) {
+    console.log(cat_id)
+    if (cat_id) {
+      let index = this.categories.findIndex((item) => item.id == cat_id);
+      let category = this.categories[index];
+      this.sub_categories = category.sub_categories;
+      console.log(this.sub_categories);
+    } else {
+      this.sub_categories = []
+    }
   }
   selectSubCategoryOption(cat_id) {
     console.log(cat_id);

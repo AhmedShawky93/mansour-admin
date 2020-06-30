@@ -22,10 +22,43 @@
       </div>
     </div>
     <div class="col-md-4 col-sm-12 col-xs-12">
-
+      <div class="row">
+        <div class="col-md-6 col-xs-12">
+          <div class="form-group">
+            <select class="owl-input" name="category" (change)="selectCategoryFilter(main_category)"
+              [(ngModel)]="main_category" required>
+              <option [value]="''" selected>Select Category</option>
+              <ng-container *ngFor="let cat of categories">
+                <option [value]="cat.id">
+                  {{cat.name}}
+                  <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+                </option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+          <div class="form-group">
+            <select class="owl-input" name="subCategory" [(ngModel)]="sub_category_id"
+              (change)="getProductSubCategory(sub_category_id)">
+              <option [value]="''" selected>Select Sub Category</option>
+              <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
+                <span *ngIf="cat.active == 0"> - Deactivate </span>
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-md-8  col-sm-12 col-xs-12">
       <div class="row">
+        <div class="col-md-3  col-xs-12 p-l-r-5">
+          <div class="form-group">
+            <a class=" btn btn-owls btn-rounded btn-green  btn-special" (click)="goToLink()">export
+              CSV</a>
+          </div>
+
+        </div>
         <div class="col-md-3  col-xs-12 p-l-r-5">
           <div class="form-group ">
 
@@ -37,15 +70,8 @@
                 (change)="importExcel($event)">
             </button>
           </div>
-
         </div>
-        <div class="col-md-3  col-xs-12 p-l-r-5">
-          <div class="form-group">
-            <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">export
-              CSV</a>
-          </div>
 
-        </div>
         <div class="col-md-3  col-xs-12 p-l-r-5">
           <div class="form-group ">
 
@@ -123,7 +149,7 @@
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this product?"
                 [(ngModel)]="product.notes"></textarea>
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!product.notes"
-                (click)="submitDeactivate(product)"  [ngClass]="{'not-allowed' : !product.notes }">submit</button>
+                (click)="submitDeactivate(product)" [ngClass]="{'not-allowed' : !product.notes }">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(product)">cancel</button>
             </div>

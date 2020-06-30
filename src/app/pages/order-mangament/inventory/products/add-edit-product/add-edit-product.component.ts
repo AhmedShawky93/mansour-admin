@@ -362,6 +362,8 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   resetForm() {
+    this.categories= []
+    this.sub_categories = []
     console.log("resetting");
     if (this.categories) {
       this.categories.map((c) => {

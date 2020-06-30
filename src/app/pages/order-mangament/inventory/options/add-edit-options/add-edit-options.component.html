@@ -54,6 +54,7 @@
         <option [value]="2">Color code</option>
         <option [value]="3">Image</option>
         <option [value]="4">Product Image</option>
+        <option [value]="5">Input</option>
       </select>
     </div>
     <label class="checkup">appear in search
@@ -64,16 +65,30 @@
     <div formArrayName="values" class="values">
       <div class="value" *ngFor="let item of OptionForm.get('values')['controls']; let i = index">
         <div class="" [formGroupName]="i">
-          <div class="form-group">
+          <div class="form-group" *ngIf="OptionForm.get('type').value !== '5'">
             <label for="">Name (en)</label>
 
             <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_en">
 
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="OptionForm.get('type').value !== '5'">
             <label for="">Name (Ar)</label>
             <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_ar">
           </div>
+
+          <!-- Input Type 5 -->
+          <div class="form-group" *ngIf="OptionForm.get('type').value !== '5'">
+            <label for="">input (en)</label>
+
+            <input type="text" class="owl-input" placeholder="Type.." required formControlName="input_en">
+
+          </div>
+          <div class="form-group" *ngIf="OptionForm.get('type').value !== '5'">
+            <label for="">input (Ar)</label>
+            <input type="text" class="owl-input" placeholder="Type.." required formControlName="input_ar">
+          </div>
+          <!-- Input Type 5 -->
+
           <div class="form-group" *ngIf="OptionForm.get('type').value == '2'">
             <label for="">color_code</label>
             <input type="text" class="owl-input" placeholder="Type.." required formControlName="color_code">
