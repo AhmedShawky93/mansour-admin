@@ -448,7 +448,7 @@ export class ProductsComponent implements OnInit {
         // }
       });
     setTimeout(() => {
-      this.toastrService.success("You’ll receive a notification when the export is ready for download.", 'Your export is now being generated.', {
+      this.toastrService.success("You’ll receive a notification when the import is done", 'Your import is now being generated.', {
         enableHtml: true,
         timeOut: 3000
       });
@@ -471,7 +471,7 @@ export class ProductsComponent implements OnInit {
         // }
       });
     setTimeout(() => {
-      this.toastrService.success("You’ll receive a notification when the export is ready for download.", 'Your export is now being generated.', {
+      this.toastrService.success("You’ll receive a notification when the import is done.", 'Your import is now being generated', {
         enableHtml: true,
         timeOut: 3000
       });

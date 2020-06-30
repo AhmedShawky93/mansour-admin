@@ -122,7 +122,15 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       this.categories[index].selected = true;
       let category = this.categories[index];
       this.sub_categories = category.sub_categories;
+      if (data.options.length) {
+        // this.selectSubCategoryOption(data.category.sub_categories[0].id);
+        this.options = data.options
+        data.options.forEach((element) => {
+          this.addOptions(element);
+          console.log(element)
+        })
 
+      }
 
       if (data.image) {
         console.log("clearValidators");
@@ -173,8 +181,21 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     return this.formBuilder.group({
       option_id: data.id,
       option_value_id: new FormControl(""),
-      input_en: new FormControl(""),
-      input_ar: new FormControl(""),
+      input_en: new FormControl(data ? data.value.input_en : ''),
+      input_ar: new FormControl(data ? data.value.input_ar : ''),
+    });
+  }
+  addOptionsEdit(data): void {
+    this.option_values = this.addProductForm.get("option_values") as FormArray;
+    this.option_values.push(this.createItemOptionsEdit(data));
+  }
+
+  createItemOptionsEdit(data): FormGroup {
+    return this.formBuilder.group({
+      option_id: data.id,
+      option_value_id: new FormControl(""),
+      input_en: new FormControl(data ? data.value.input_en : ''),
+      input_ar: new FormControl(data ? data.value.input_ar : ''),
     });
   }
 
@@ -324,7 +345,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       console.log(this.sub_categories);
     }
   }
-  selectSubCategoryOption(event) {
+  selectSubCategoryOption(id) {
     if (this.option_values) {
 
       while (this.addProductForm.get("option_values").value.length > 0) {
@@ -334,8 +355,8 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     }
     console.log(this.addProductForm.get("option_values"))
 
-    console.log(event.target.value);
-    const cat_id = event.target.value;
+    console.log(id);
+    const cat_id = id
     console.log(this.sub_categories);
     let index = this.sub_categories.findIndex((item) => item.id == cat_id);
     console.log(index);
