@@ -194,7 +194,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   createItemOptionsEdit(data): FormGroup {
     return this.formBuilder.group({
       option_id: data.option.id,
-      option_value_id: new FormControl(data ? data.value.id : ''),
+      option_value_id: new FormControl(''),
       input_en: new FormControl(data ? data.value.input_en : ''),
       input_ar: new FormControl(data ? data.value.input_ar : ''),
     });
