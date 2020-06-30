@@ -42,7 +42,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
   submitting: boolean;
   loading: boolean;
-  options: any[];
+  options = [];
   option_values: FormArray;
 
   price: number;
@@ -124,9 +124,10 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       this.sub_categories = category.sub_categories;
       if (data.options.length) {
         // this.selectSubCategoryOption(data.category.sub_categories[0].id);
-        this.options = data.options
+
         data.options.forEach((element) => {
-          this.addOptions(element);
+          this.options.push(element.option)
+          this.addOptionsEdit(element);
           console.log(element)
         })
 
@@ -180,7 +181,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   createItemOptions(data): FormGroup {
     return this.formBuilder.group({
       option_id: data.id,
-      option_value_id: new FormControl(""),
+      id: new FormControl(data ? data.value.id : ''),
       input_en: new FormControl(data ? data.value.input_en : ''),
       input_ar: new FormControl(data ? data.value.input_ar : ''),
     });
@@ -192,8 +193,8 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
   createItemOptionsEdit(data): FormGroup {
     return this.formBuilder.group({
-      option_id: data.id,
-      option_value_id: new FormControl(""),
+      option_id: data.option.id,
+      option_value_id: new FormControl(data ? data.value.id : ''),
       input_en: new FormControl(data ? data.value.input_en : ''),
       input_ar: new FormControl(data ? data.value.input_ar : ''),
     });

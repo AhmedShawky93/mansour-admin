@@ -80,7 +80,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
-          IImport details
+          Import details
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -88,6 +88,8 @@
       </div>
       <div class="modal-body">
         <p>Total count : {{detailsImport?.total_count}}</p>
+        <p>Total approved count   : {{detailsImport?.total_approved_count}}</p>
+        <p>Total created count : {{detailsImport?.total_created_count}}</p>
         <p>Total updated count : {{detailsImport?.total_updated_count}}</p>
         <p>Total missed count : {{detailsImport?.total_missed_count}}</p>
         <span *ngIf="detailsImport?.missed_details">
