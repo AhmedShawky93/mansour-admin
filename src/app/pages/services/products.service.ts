@@ -89,4 +89,18 @@ export class ProductsService {
         return Observable.throw(error.error || "file upload error");
       });
   }
+  exportFileStocks(url) {
+    return this.http
+      .get(url)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+  exportFileProducts(url) {
+    return this.http
+      .get(url)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
 }

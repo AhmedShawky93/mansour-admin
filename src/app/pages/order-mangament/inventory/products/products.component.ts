@@ -212,16 +212,54 @@ export class ProductsComponent implements OnInit {
   }
   goToLink() {
     let token = this.auth.getToken();
-    const urlBasic = environment.api + "/admin/products/fullExport?token=" + token;
-    const urlBasicWithsubCategory = environment.api + "/admin/products/fullExport?sub_category_id=" + this.sub_category_id + "&token=" + token;
+    const urlBasic = environment.api + "/admin/products/fullExport";
+    const urlBasicWithsubCategory = environment.api + "/admin/products/fullExport?sub_category_id=" + this.sub_category_id;
     if (this.sub_category_id) {
-      console.log(urlBasicWithsubCategory)
-      window.open(urlBasicWithsubCategory, "_blank");
-    } else {
-      console.log(urlBasic)
-      window.open(urlBasic, "_blank");
+      this.productsService.exportFileProducts(urlBasicWithsubCategory).subscribe({
+        next: ((rep: any) => {
+          if (rep.code === 200) {
 
+
+          }
+        })
+      })
+      setTimeout(() => {
+        this.toastrService.success("You’ll receive a notification when the export is ready for download.", ' Your export is now being generated ', {
+          enableHtml: true,
+          timeOut: 3000
+        });
+      }, 500);
+    } else {
+      this.productsService.exportFileProducts(urlBasic).subscribe({
+        next: ((rep: any) => {
+          if (rep.code === 200) {
+
+          }
+        })
+      });
+      setTimeout(() => {
+        this.toastrService.success("You’ll receive a notification when the export is ready for download.", ' Your export is now being generated ', {
+          enableHtml: true,
+          timeOut: 3000
+        });
+      }, 500);
     }
+  }
+  exportStocks() {
+    const exportStock = environment.api + "/admin/products/exportStocks"
+
+    this.productsService.exportFileStocks(exportStock).subscribe({
+      next: ((rep: any) => {
+
+
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success("You’ll receive a notification when the export is ready for download.", ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
   }
 
   changePage(p) {
@@ -400,7 +438,6 @@ export class ProductsComponent implements OnInit {
 
   importExcel(event) {
     this.selectFile = <File>event.target.files[0];
-
     this.productsService
       .uploadFile(this.selectFile)
       .subscribe((response: any) => {
@@ -409,9 +446,13 @@ export class ProductsComponent implements OnInit {
         //   this.product.imageUrl = response.body.data.filePath;
         //   this.showError = 0;
         // }
-        this.toastrService.success(response.data);
       });
-
+    setTimeout(() => {
+      this.toastrService.success("You’ll receive a notification when the export is ready for download.", 'Your export is now being generated.', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
     this.importFile.nativeElement.value = "";
   }
   importStock(event) {
@@ -420,16 +461,25 @@ export class ProductsComponent implements OnInit {
     this.productsService
       .uploadFileStock(this.selectFile)
       .subscribe((response: any) => {
+        if (response.code === 200) {
+
+        }
         // if (response.body) {
         //   this.product.image = response.body.data.name;
         //   this.product.imageUrl = response.body.data.filePath;
         //   this.showError = 0;
         // }
-        this.toastrService.success("File uploaded successfully ");
-        this.importFileStock.nativeElement.value = "";
       });
+    setTimeout(() => {
+      this.toastrService.success("You’ll receive a notification when the export is ready for download.", 'Your export is now being generated.', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
+    this.importFileStock.nativeElement.value = "";
 
   }
+
 
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {

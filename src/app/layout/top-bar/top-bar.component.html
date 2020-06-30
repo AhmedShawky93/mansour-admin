@@ -3,14 +3,11 @@
 
     <div class="right-part">
       <div class="dropdown avatar-part float-right" *ngIf="user">
-        <img class="img-circle" style="width: 40px;"  *ngIf="user.imageUrl" src="{{user.imageUrl}}"
-        >
-        <img class="img-circle" style="width: 40px;"  *ngIf="!user.imageUrl" src="assets/img/profile.png"
+        <img class="img-circle" style="width: 40px;" *ngIf="user.imageUrl" src="{{user.imageUrl}}">
+        <img class="img-circle" style="width: 40px;" *ngIf="!user.imageUrl" src="assets/img/profile.png"
           alt="Admin Image">
-        <button class="btn btn-secondary dropdown-toggle btn-top"
-          style=" text-transform: capitalize; "
-        type="button" id="dropdownMenuButton" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary dropdown-toggle btn-top" style=" text-transform: capitalize; " type="button"
+          id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{user.name }}
         </button>
         <div class="dropdown-menu admin-dropdown row" aria-labelledby="dropdownMenuButton">
@@ -59,7 +56,14 @@
       <div class="not-item" *ngFor="let notification of group.value">
         <small>{{notification.created_at | amDateFormat:'h:mm:ss a'}}</small>
         <p>{{notification.title}}</p>
-        <span>{{notification.body}}</span>
+        <span>{{notification.body}}
+          <span *ngIf="notification?.type == 10">
+            <a (click)="openPopup(notification?.details)" style="color: #009688;cursor: pointer;">here</a>
+          </span>
+          <span *ngIf="notification?.type == 11">
+            <a [href]="notification?.details?.link" [download]="notification?.details?.link">here</a>
+          </span>
+        </span>
       </div>
 
     </div>
@@ -70,3 +74,29 @@
 <audio #notificationAudio>
   <source src='./assets/audio/notification_web.mp3' type="audio/mp3">
 </audio>
+
+<div class="modal fade" id="importDetails" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          IImport details
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Total count : {{detailsImport?.total_count}}</p>
+        <p>Total updated count : {{detailsImport?.total_updated_count}}</p>
+        <p>Total missed count : {{detailsImport?.total_missed_count}}</p>
+        <span *ngIf="detailsImport?.missed_details">
+          <ul>
+            <li *ngFor="let  details of detailsImport.missed_details">{{details}}</li>
+          </ul>
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>

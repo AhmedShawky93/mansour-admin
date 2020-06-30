@@ -31,6 +31,7 @@ export class TopBarComponent implements OnInit {
   userUpdate: any;
   initialRequest = true;
   loading: Boolean = true;
+  detailsImport: any;
 
   constructor(private auth: AuthService, private router: Router,
     private settingService: SettingService,
@@ -94,6 +95,10 @@ export class TopBarComponent implements OnInit {
         this.user = response.data;
         this.user.imageUrl = this.user.image;
       });
+  }
+  openPopup(data) {
+    $("#importDetails").modal("show");
+    this.detailsImport = data;
   }
 
 }
