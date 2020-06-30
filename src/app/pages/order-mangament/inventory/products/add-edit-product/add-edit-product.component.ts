@@ -56,13 +56,15 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
+
+    this.getForm(this.selectProductDataEdit);
+  }
+  ngOnChanges() {
     this.getCategories();
     this.productsService.getBrands().subscribe((response: any) => {
       this.brands = response.data;
     });
-    this.getForm(this.selectProductDataEdit);
-  }
-  ngOnChanges() {
+
     console.log(this.selectProductDataEdit);
     this.getForm(this.selectProductDataEdit);
   }
@@ -138,6 +140,12 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     if (this.selectProductDataEdit == undefined) {
       this.resetForm();
       this.addProductForm.reset();
+      if (this.option_values) {
+        while (this.addProductForm.get("option_values").value.length > 0) {
+          this.option_values.removeAt(0);
+        }
+        this.option_values.reset()
+      }
     }
   }
 
@@ -156,15 +164,17 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     });
   }
 
-  addOptions(): void {
+  addOptions(data): void {
     this.option_values = this.addProductForm.get("option_values") as FormArray;
-    this.option_values.push(this.createItemOptions());
+    this.option_values.push(this.createItemOptions(data));
   }
 
-  createItemOptions(): FormGroup {
+  createItemOptions(data): FormGroup {
     return this.formBuilder.group({
-      option_id: "",
-      option_value_id: new FormControl("", Validators.required),
+      option_id: data.id,
+      option_value_id: new FormControl(""),
+      input_en: new FormControl(""),
+      input_ar: new FormControl(""),
     });
   }
 
@@ -213,6 +223,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   addProducts() {
+    console.log(this.addProductForm.value)
     if (this.selectProductDataEdit) {
       // edit
 
@@ -292,13 +303,18 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
-      this.categories = response.data;
-      this.categories = this.categories.map((c) => {
-        c.selected = false;
-        return c;
-      });
+      if (response.code === 200) {
+        this.categories = response.data;
+        this.categories = this.categories.map((c) => {
+          c.selected = false;
+          return c;
+        });
+        console.log('this.categories  => ', this.categories)
+        console.log('response.data  => ', response.data)
+      }
     });
   }
+
   selectCategory(event) {
     const cat_id = event.target.value;
     let index = this.categories.findIndex((item) => item.id == cat_id);
@@ -309,6 +325,15 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     }
   }
   selectSubCategoryOption(event) {
+    if (this.option_values) {
+
+      while (this.addProductForm.get("option_values").value.length > 0) {
+        this.option_values.removeAt(0);
+      }
+      this.option_values.reset()
+    }
+    console.log(this.addProductForm.get("option_values"))
+
     console.log(event.target.value);
     const cat_id = event.target.value;
     console.log(this.sub_categories);
@@ -319,13 +344,18 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       this.options = this.sub_categories[index].options;
       console.log(this.options);
       this.options.forEach((element) => {
-        this.addOptions();
+        this.addOptions(element);
       });
     }
   }
   selectOptionValue(option, value, index) {
     console.log(option, value, index);
-    this.addProductForm.get("option_values").value[index].option_id = option.id;
+    // this.addProductForm.get("option_values").value[index].option_id = option.id;
+    console.log(this.addProductForm.get("option_values").value);
+  }
+  takeInputId(option, index) {
+    console.log(option, index);
+    // this.addProductForm.get("option_values").value[index].option_id = option.id;
     console.log(this.addProductForm.get("option_values").value);
   }
   onQuantityFieldsChange() {
@@ -362,7 +392,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   resetForm() {
-    this.categories= []
+    this.categories = []
     this.sub_categories = []
     console.log("resetting");
     if (this.categories) {

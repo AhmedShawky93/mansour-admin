@@ -425,10 +425,10 @@ export class ProductsComponent implements OnInit {
         //   this.product.imageUrl = response.body.data.filePath;
         //   this.showError = 0;
         // }
+        this.toastrService.success("File uploaded successfully ");
+        this.importFileStock.nativeElement.value = "";
       });
 
-    this.toastrService.success("File uploaded successfully ");
-    this.importFileStock.nativeElement.value = "";
   }
 
   getCategories() {
