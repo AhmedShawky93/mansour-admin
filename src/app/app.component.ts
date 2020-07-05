@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
       .filter((route) => route.outlet === "primary")
       .mergeMap((route) => route.data)
       .subscribe((event) =>
-        this.title.setTitle("Computer Shop - " + event["title"])
+        this.title.setTitle("Foot loose - " + event["title"])
       );
 
     // make bootstrap as material design
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
 
       $(".flex-nowrap ").niceScroll({
         horizrailenabled: true,
-        cursorcolor: "#535070",
+        cursorcolor: "#ea5859",
       });
 
       $('[data-toggle="tooltip"]').tooltip();

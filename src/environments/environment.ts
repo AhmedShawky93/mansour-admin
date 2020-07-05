@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  api: "https://api.computershopegypt.com/api",
+  api: "https://footlooseapi.el-dokan.com/api",
   // api: "https://dev.soleekhub.com/eldokan/api",
   // https://dev.soleekhub.com/eldokan/public/api/customer/home
 };
