@@ -116,20 +116,20 @@
               </td>
 
               <td style="text-align: right; padding-right: 10px !important;">
-                <span *ngIf="item.product?.discount_price === null"
-                  >{{ item.product?.price }}
+                <span *ngIf="item.discount_price === null"
+                  >{{ item.price }}
                 </span>
-                <span *ngIf="item.product?.discount_price !== null"
-                  >{{ item.product?.discount_price }}
+                <span *ngIf="item.discount_price !== null"
+                  >{{ item.discount_price }}
                 </span>
               </td>
               <td style="text-align: center;">{{ item.amount }}</td>
               <td style="text-align: right; padding-right: 10px !important;">
-                <span *ngIf="item.product?.discount_price === null"
-                  >{{ item.price?.price * item.amount }}
+                <span *ngIf="item.discount_price === null"
+                  >{{ item.price * item.amount }}
                 </span>
-                <span *ngIf="item.product?.discount_price !== null"
-                  >{{ item.price?.discount_price * item.amount }}
+                <span *ngIf="item.discount_price !== null"
+                  >{{ item.discount_price * item.amount }}
                 </span>
               </td>
             </tr>
