@@ -8,7 +8,7 @@
           </div>
           <div class="col right-rec">
             <p class="text-right" style="position: relative; right: 24px;">
-              <i class="fa fa-phone"></i> 010 270 11114 
+              <i class="fa fa-phone"></i> 010 270 11114
             </p>
           </div>
         </div>
@@ -18,27 +18,20 @@
         <div class="row">
           <div class="col-6" style="padding-right: 0px !important;">
             <li class="row" style="margin: 0px !important;">
-              <span style="padding: 0px !important;" class="col-6"
-                >Creation :</span
-              >
-              <span
-                class="col-6"
-                style="
+              <span style="padding: 0px !important;" class="col-6">Creation :</span>
+              <span class="col-6" style="
                   padding: 0px !important;
                   margin-right: 0px;
                   font-size: 11px;
                   width: 120%;
                   font-weight: 500;
-                "
-              >
-                {{ order?.created_at | date: "short" }}</span
-              >
+                ">
+                {{ order?.created_at | date: "short" }}</span>
             </li>
           </div>
           <div class="col-6 text-left">
             <li>
-              <span>Branch :</span
-              >{{
+              <span>Branch :</span>{{
                 order?.deliverer?.name.length > 10
                   ? (order?.deliverer?.name | slice: 0:10)
                   : order?.deliverer?.name
@@ -47,9 +40,7 @@
           </div>
           <div class="col-6">
             <li class="row" style="margin: 0px !important;">
-              <span style="padding: 0px !important;" class="col-6"
-                >Order :</span
-              >
+              <span style="padding: 0px !important;" class="col-6">Order :</span>
               <span class="col-6" style="padding: 0px !important;">{{
                 order?.id
               }}</span>
@@ -69,9 +60,7 @@
           </div>
           <div class="col-6">
             <li class="row" style="margin: 0px !important;">
-              <span style="padding: 0px !important;" class="col-6"
-                >Phone :</span
-              >
+              <span style="padding: 0px !important;" class="col-6">Phone :</span>
               <span class="col-6" style="padding: 0px !important;">{{
                 order?.user?.phone
               }}</span>
@@ -103,7 +92,7 @@
             <th style="width: 160px;">Item</th>
             <th style="text-align: center; width: 70px;">Price</th>
             <th style="text-align: center; padding-right: 12px;">QTY</th>
-            <th style="text-align: center;">Total</th>
+            <!-- <th style="text-align: center;">Total</th> -->
           </thead>
           <tbody>
             <tr *ngFor="let item of order.items">
@@ -113,25 +102,25 @@
                     ? item.product?.name_ar
                     : item.product?.name
                 }}
+                <br>
+                {{'sku: ' + item.sku }}
               </td>
 
               <td style="text-align: right; padding-right: 10px !important;">
-                <span *ngIf="item.discount_price === null"
-                  >{{ item.price }}
+                <span *ngIf="item.discount_price === null">{{ item.price }}
                 </span>
-                <span *ngIf="item.discount_price !== null"
-                  >{{ item.discount_price }}
+                <span *ngIf="item.discount_price !== null">{{ item.discount_price }}
                 </span>
               </td>
               <td style="text-align: center;">{{ item.amount }}</td>
-              <td style="text-align: right; padding-right: 10px !important;">
+              <!-- <td style="text-align: right; padding-right: 10px !important;">
                 <span *ngIf="item.discount_price === null"
                   >{{ item.price * item.amount }}
                 </span>
                 <span *ngIf="item.discount_price !== null"
                   >{{ item.discount_price * item.amount }}
                 </span>
-              </td>
+              </td> -->
             </tr>
 
             <!-- <tr>
@@ -145,86 +134,61 @@
       <hr style="margin-top: 0rem; margin-bottom: 0rem;" />
       <div style="padding: 10px;" *ngIf="order">
         <div class="row">
-          <div
-            class="col-6"
-            style="
+          <div class="col-6" style="
               padding-right: 0px !important;
               font-weight: 600;
               font-size: 11px;
-            "
-          >
+            ">
             <div class="row" style="margin: 0px !important;">
               <span style="padding: 0px !important;" class="col-6">
-                Items Total :</span
-              >
-              <span
-                class="col-6"
-                style="
+                Items Total :</span>
+              <span class="col-6" style="
                   padding: 0px !important;
                   margin-right: 0px;
                   font-size: 11px;
                   width: 120%;
                   font-weight: 600;
-                "
-              >
+                ">
                 {{ order.actual_amount }}
-                <span class="text-right">L.E</span></span
-              >
+                <span class="text-right">L.E</span></span>
             </div>
           </div>
 
-          <div
-            class="col-6"
-            *ngIf="order.discount_amount"
-            style="
+          <div class="col-6" *ngIf="order.discount_amount" style="
               padding-right: 0px !important;
               font-weight: 600;
               font-size: 11px;
-            "
-          >
+            ">
             <div class="row" style="margin: 0px !important;">
               <span style="padding: 0px !important;" class="col-6">
-                Offer :</span
-              >
-              <span
-                class="col-6"
-                style="
+                Offer :</span>
+              <span class="col-6" style="
                   padding: 0px !important;
                   margin-right: 0px;
                   font-size: 11px;
                   width: 120%;
                   font-weight: 600;
-                "
-              >
+                ">
                 -{{ order.actual_amount - order.discount_amount | number }}
-                <span class="text-right">L.E</span></span
-              >
+                <span class="text-right">L.E</span></span>
             </div>
           </div>
-          <div
-            class="col-6"
-            style="
+          <div class="col-6" style="
               padding-right: 0px !important;
               font-weight: 600;
               font-size: 11px;
-            "
-          >
+            ">
             <div class="row" style="margin: 0px !important;">
               <span style="padding: 0px !important;" class="col-6">
-                Delivery Fees :</span
-              >
-              <span
-                class="col-6"
-                style="
+                Delivery Fees :</span>
+              <span class="col-6" style="
                   padding: 0px !important;
                   margin-right: 0px;
                   font-size: 11px;
                   width: 120%;
                   font-weight: 600;
-                "
-                >{{ order.delivery_fees }}
-                <span class="text-right">L.E</span></span
-              >
+                ">{{ order.delivery_fees }}
+                <span class="text-right">L.E</span></span>
             </div>
           </div>
 
