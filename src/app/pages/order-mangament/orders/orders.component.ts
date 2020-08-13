@@ -80,6 +80,7 @@ export class OrdersComponent implements OnInit {
   orderSubStatus: any;
   typeStatusPopup: any;
   notifyUser: boolean = true;
+  subtract_stock: boolean = false;
   idOrder: any;
   orderId: any;
   orderStatuId: any;
@@ -265,14 +266,7 @@ export class OrdersComponent implements OnInit {
 
     this.ordersBulk = this.orders
       .filter((element) => element.select)
-      .map((item) => {
-        return {
-          id: item.id,
-          state_id: this.state_id,
-          sub_state_id: this.sub_state_id,
-        };
-      });
-
+      .map((item) => item.id);
     if (!this.ordersBulk.length) {
       this.errorMessage = "Please select at least 1 order";
       $("#errorPopup").modal("show");
@@ -294,10 +288,14 @@ export class OrdersComponent implements OnInit {
         console.log('else data');
       }
     }
+
     this.ordersService
       .changeBulkChangeState(this.orderId, {
-        orders: this.ordersBulk,
+        order_ids: this.ordersBulk,
+        state_id: this.state_id,
+        sub_state_id: this.sub_state_id,
         notify_customer: notifyUser,
+        subtract_stock: this.subtract_stock,
         status_notes: this.status_notesText ? this.status_notesText : ''
       })
       .subscribe((response: any) => {
