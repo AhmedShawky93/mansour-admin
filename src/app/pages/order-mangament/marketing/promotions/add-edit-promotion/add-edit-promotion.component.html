@@ -85,7 +85,7 @@
 
     <div class="form-group">
       <label for="charge">Custom List</label>
-      <ng-select formControlName="list_id" [items]="lists" bindLabel="name" bindValue="id" placeholder="Enter List name">
+      <ng-select formControlName="list_id" [items]="lists" bindLabel="name_en" bindValue="id" placeholder="Enter List name">
       </ng-select>
       <div
         *ngIf="promotionForm.controls.list_id.invalid && (promotionForm.controls.list_id.dirty || promotionForm.controls.list_id.touched)"

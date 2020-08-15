@@ -68,7 +68,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     this.promotionForm = this.formBuilder.group({
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-      brand_id: new FormControl(data ? data.brand_id : "", Validators.required),
+      // brand_id: new FormControl(data ? data.brand_id : "", Validators.required),
       list_id: new FormControl(data ? data.list_id : "", Validators.required),
       qty: new FormControl(data ? data.qty : "", Validators.required),
       discount_qty: new FormControl(data ? data.discount_qty : "", Validators.required),
