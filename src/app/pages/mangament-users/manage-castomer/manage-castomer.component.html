@@ -99,6 +99,7 @@
             <span (click)="confirmVerifyPhone(customer)" data-toggle="modal" data-target="#verifyPopUp" style="cursor: pointer;" class="text-warning" *ngIf="customer.phone && !customer.phone_verified"><i class="fa fa-exclamation-circle"></i> Not Verified</span>
           </h5>
           <h5>{{customer.email}}</h5>
+          <p style="cursor: pointer" (click)="loginAsCustomer(customer.id)"><i class="fa fa-sign-in"></i>&nbsp;Login as {{customer.name}}</p>
         </div>
         <div class="date">
           {{customer.id}}
