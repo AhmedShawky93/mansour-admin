@@ -151,7 +151,7 @@
         </td>
 
         <td>{{order.amount + order.delivery_fees}}</td>
-        <td>{{order.user.admin_first_order ? 'No' : 'Yes'}}</td>
+        <td>{{order?.user?.admin_first_order ? 'No' : 'Yes'}}</td>
         <td>
           <span *ngIf="order.schedule">
             <span *ngIf="order.schedule.interval == 1">Daily</span>
@@ -166,7 +166,7 @@
           <span *ngIf="order.scheduled_at">Later</span>
         </td>
         <td>
-          {{order.state.name}}
+          {{order?.state?.name}}
         </td>
         <td>
           {{order.sub_state ? order.sub_state?.name : "-"}}
