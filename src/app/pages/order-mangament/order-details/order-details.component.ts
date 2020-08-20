@@ -26,6 +26,7 @@ export class OrderDetailsComponent implements OnInit {
   cancelled = false;
   delivered = false;
   returned = false;
+  subtract_stock: boolean = false;
 
   stepperStates = [1, 2, 3, 4];
   orderId: any;
@@ -186,14 +187,13 @@ export class OrderDetailsComponent implements OnInit {
     }
     this.orderService
       .changeBulkChangeState(this.orderId, {
-        orders: [
-          {
-            id: this.orderId,
-            state_id: this.state_id,
-            sub_state_id: this.sub_state_id,
-          },
-        ],
+
+
+        order_ids: [this.orderId],
+        state_id: this.state_id,
+        sub_state_id: this.sub_state_id,
         notify_customer: notifyUser,
+        subtract_stock: this.subtract_stock,
         status_notes: this.status_notesText ? this.status_notesText : ''
 
       })
