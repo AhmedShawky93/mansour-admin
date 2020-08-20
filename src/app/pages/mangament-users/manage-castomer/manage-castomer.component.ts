@@ -183,6 +183,15 @@ export class ManageCastomerComponent implements OnInit {
       });
   }
 
+  loginAsCustomer(id) {
+    this.cs.getCustomerToken(id)
+      .subscribe((response: any) => {
+        let token = response.data;
+
+        window.open("https://footloose.el-dokan.com/session/signin?token=" + token, "_blank");
+      });
+  }
+
   cancelDeactivate(user) {
     user.active = 1;
     user.notes = '';

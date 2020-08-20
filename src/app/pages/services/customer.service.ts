@@ -63,4 +63,8 @@ export class CustomerService {
     verifyPhone(id) {
         return this.http.post(this.url + "/customers/" + id + "/verify_phone", {})
     }
+
+    getCustomerToken(id) {
+        return this.http.get(this.url + "/customers/" + id + "/token");
+    }
 }
