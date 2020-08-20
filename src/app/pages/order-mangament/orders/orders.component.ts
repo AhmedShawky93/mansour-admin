@@ -298,6 +298,7 @@ export class OrdersComponent implements OnInit {
         subtract_stock: this.subtract_stock,
         status_notes: this.status_notesText ? this.status_notesText : ''
       })
+
       .subscribe((response: any) => {
         if (response.code === 200) {
 

@@ -139,12 +139,12 @@
       <div class="block-item">
         <p>address</p>
 
-        <span *ngIf="order.address.district">{{ order?.address.district?.name }},
+        <span *ngIf="order?.address?.district">{{ order?.address?.district?.name }},
         </span>
 
-        <span *ngIf="order.address.area">{{ order?.address.area?.name }},
+        <span *ngIf="order?.address?.area">{{ order?.address?.area?.name }},
         </span>
-        <span>{{ order?.address.city?.name }}</span>
+        <span>{{ order?.address?.city?.name }}</span>
       </div>
 
       <div class="block-item">
@@ -247,31 +247,31 @@
     <div class="col-md-5">
       <div class="block-item">
         <p>id</p>
-        <span>{{ order.user.id }}</span>
+        <span>{{ order?.user?.id }}</span>
       </div>
       <div class="block-item">
         <p>name</p>
-        <span>{{ order.user.name }}</span>
+        <span>{{ order?.user?.name }}</span>
       </div>
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-6">
       <div class="block-item">
         <p>number</p>
-        <span>{{ order.user.phone }}</span>
+        <span>{{ order?.user?.phone }}</span>
       </div>
       <div class="block-item">
         <p>email</p>
-        <span>{{ order.user.email }}</span>
+        <span>{{ order?.user?.email }}</span>
       </div>
     </div>
     <div class="col-sm-12">
       <div class="block-item">
         <p>address</p>
-        <span>{{ order.address.formatted_address }}
-          <a *ngIf="order.address.lat" href="https://www.google.com/maps/search/?api=1&query={{
-              order.address.lat
-            }},{{ order.address.lng }}" target="_blank"><i class="fa fa-external-link"></i></a></span>
+        <span>{{ order?.address?.formatted_address }}
+          <a *ngIf="order?.address?.lat" href="https://www.google.com/maps/search/?api=1&query={{
+              order?.address?.lat
+            }},{{ order?.address?.lng }}" target="_blank"><i class="fa fa-external-link"></i></a></span>
       </div>
     </div>
   </div>
@@ -373,22 +373,24 @@
         </button>
       </div>
       <div class="modal-body">
-        <label class="checkup">
-          notify user
-          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser" />
+        <label class="checkup"> notify user
+          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
           <span class="checkmark"></span>
         </label>
-
         <div class="form-group" *ngIf="orderStatusId == '6'">
           <label for="">Status notes </label>
-          <textarea style="height: 130px;" class="owl-input" placeholder="Type.."
-          #status_notes="ngModel"    [(ngModel)]="status_notesText">
+          <textarea style="height: 130px;" class="owl-input" placeholder="Type.." #status_notes="ngModel"
+            [(ngModel)]="status_notesText">
           </textarea>
           <div class="alert-danger" *ngIf="error_status_notes">
             <span>
               Cancel notes is required
             </span>
           </div>
+          <label class="checkup"> Return To stock
+            <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock">
+            <span class="checkmark"></span>
+          </label>
         </div>
       </div>
       <div class="modal-footer" style="justify-content: center;">
