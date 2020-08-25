@@ -379,10 +379,10 @@
         </label>
         <div class="form-group" *ngIf="orderStatusId == '6'">
           <label for="">Status notes </label>
-          <textarea style="height: 130px;" class="owl-input" placeholder="Type.." #status_notes="ngModel"
+          <textarea style="height: 130px;margin-bottom: 10px;" class="owl-input" placeholder="Type.." #status_notes="ngModel"
             [(ngModel)]="status_notesText">
           </textarea>
-          <div class="alert-danger" *ngIf="error_status_notes">
+          <div style="margin-bottom: 10px;" class="alert-danger" *ngIf="error_status_notes">
             <span>
               Cancel notes is required
             </span>

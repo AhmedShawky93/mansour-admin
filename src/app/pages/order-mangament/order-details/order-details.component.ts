@@ -177,7 +177,8 @@ export class OrderDetailsComponent implements OnInit {
   confirmChangeStatus(notifyUser) {
     console.log(notifyUser);
     if (this.orderStatusId == '6') {
-      if (this.status_notesText == '') {
+      console.log(this.status_notesText)
+      if (this.status_notesText == '' || this.status_notesText == undefined) {
         console.log('if data');
         this.error_status_notes = true
         return
@@ -187,8 +188,6 @@ export class OrderDetailsComponent implements OnInit {
     }
     this.orderService
       .changeBulkChangeState(this.orderId, {
-
-
         order_ids: [this.orderId],
         state_id: this.state_id,
         sub_state_id: this.sub_state_id,
@@ -200,6 +199,7 @@ export class OrderDetailsComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code === 200) {
           $("#confirmOrderStatus").modal("hide");
+          this.status_notesText = '';
           this.getOrderDetails(this.orderId)
         }
       });
