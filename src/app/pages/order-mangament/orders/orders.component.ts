@@ -280,7 +280,7 @@ export class OrdersComponent implements OnInit {
     this.error_status_notes = false
 
     if (this.orderStatusId == '6') {
-      if (this.status_notesText == '') {
+      if (this.status_notesText == '' || this.status_notesText == undefined) {
         console.log('if data');
         this.error_status_notes = true
         return
@@ -301,7 +301,7 @@ export class OrdersComponent implements OnInit {
 
       .subscribe((response: any) => {
         if (response.code === 200) {
-
+          this.status_notesText = '';
           $("#confirmOrderStatus").modal("hide");
           this.filter$.next(this.filter);
 
