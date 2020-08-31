@@ -35,7 +35,7 @@
       <tr
         *ngFor="let admin of admins  | paginate: { id: 'p1', itemsPerPage: 10,currentPage: p, totalItems: admins.length }">
         <td scope="row"> {{admin.name}} </td>
-        <td scope="row"> {{admin.created_at}} </td>
+        <td scope="row"> {{admin.created_at | date : "yyyy-MM-dd hh:mm a"}} </td>
         <td><span *ngIf="admin.roles.length">{{admin.roles[0].name}}</span></td>
         <td>{{admin.email}}</td>
         <td>

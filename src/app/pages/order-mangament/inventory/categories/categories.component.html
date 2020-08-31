@@ -42,7 +42,7 @@
         <td>{{category.order}}</td>
         <td style="
         text-align:center;">{{category.sub_categories.length }}</td>
-        <td class="hidden">{{category.created_at}}</td>
+        <td class="hidden">{{category.created_at  | date : "yyyy-MM-dd hh:mm a"}}</td>
         <td>{{category.creator?.name}}</td>
         <td>
           <a href="javascript:void(0)" class="table-view view-c" (click)="viewCategory(category)">
@@ -99,7 +99,20 @@
     </div>
     <div>
       <h5>Arabic name</h5>
-      <p>{{currentCategory.name_en}}</p>
+      <p>{{currentCategory.name_ar}}</p>
+    </div>
+    <div>
+      <h5>English Description</h5>
+      <p>{{currentCategory.description}}</p>
+    </div>
+    <div>
+      <h5>Arabic Description</h5>
+      <p>{{currentCategory.description_ar}}</p>
+    </div>
+
+    <div>
+      <h5>total products </h5>
+      <p>{{currentCategory.products_count}}</p>
     </div>
 
     <div>
@@ -131,15 +144,7 @@
       </div>
     </div>
 
-    <div>
-      <h5>description</h5>
-      <p>{{currentCategory.description}}</p>
-    </div>
 
-    <div>
-      <h5>total products </h5>
-      <p>{{currentCategory.products_count}}</p>
-    </div>
 
   </div>
 </div>

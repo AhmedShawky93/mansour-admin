@@ -35,7 +35,7 @@
       <tr
         *ngFor="let admin of admins">
         <td scope="row"> {{admin.name}} </td>
-        <td scope="row"> {{admin.created_at}} </td>
+        <td scope="row"> {{admin.created_at | date : "yyyy-MM-dd hh:mm a"}} </td>
         <td>{{admin.permissions?.length}}</td>
         <td>{{admin.email }}</td>
         <td>
