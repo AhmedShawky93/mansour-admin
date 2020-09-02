@@ -307,13 +307,13 @@
         <div class="box-col" *ngFor="let item of order?.items">
           <div class="value-col" style=" direction: ltr;">
             <p>
-              {{ item.product.discount_price ?  (item.product.discount_price)  + ' EGP' : '-'}}
+              {{ item.discount_price ?  (item.discount_price)  + ' EGP' : '-'}}
             </p>
 
           </div>
           <div class="value-col" style=" direction: ltr;">
             <p>
-              {{item.product?.price }} EGP
+              {{item?.price }} EGP
             </p>
           </div>
 

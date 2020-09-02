@@ -140,6 +140,8 @@ tr td {
 }
 .table-product .box-col {
   text-align: center;
+  page-break-inside: avoid ;
+
 }
 
 .table-product .box-col .name-col {
@@ -161,6 +163,8 @@ tr td {
   vertical-align: top;
   border-bottom: 1px solid #888;
   padding: 5px;
+  page-break-inside: avoid !important;
+
 }
 .table-product .box-col .value-col p {
   margin-bottom: 0px;
@@ -202,4 +206,10 @@ tr td {
 }
 .info p.text-ar {
   text-align: right;
+}
+@media print
+{
+    div {
+        page-break-inside: avoid !important;
+    }
 }
