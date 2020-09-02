@@ -1,100 +1,205 @@
 * {
-    text-transform: capitalize
+  text-transform: capitalize;
 }
 
 .receipt {
-    margin-top: 100px;
-    border: 1px solid #ddd
+  margin-top: 100px;
+  border: 1px solid #ddd;
 }
 
 .receipt .head {
-    margin-top: 10px;
-    padding: 0px 10px;
-    margin-bottom: 0px;
-
+  margin-top: 10px;
+  padding: 0px 10px;
+  margin-bottom: 0px;
 }
 
 .right-rec p {
-    font-size: 20px;
-    color: #000000;
+  font-size: 20px;
+  color: #000000;
 }
 
 .right-rec p i {
-    margin-right: 6px;
-    color: #a3a3a3
+  margin-right: 6px;
+  color: #a3a3a3;
 }
 
 .main-list {
-    padding: 10px;
-    border-bottom: 1px solid #979797;
-    margin-bottom: 0px !important
+  padding: 10px;
+  border-bottom: 1px solid #979797;
+  margin-bottom: 0px !important;
 }
 
 .main-list li span {
-    display: inline-block;
-    width: 67px;
-    margin-right: 7px;
-    text-align: left;
-    font-size: 12px;
-    font-weight: 500;
+  display: inline-block;
+  width: 67px;
+  margin-right: 7px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .main-list li {
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
-    font-weight: normal;
-    color: #000000;
-    text-transform: capitalize;
-    display: block;
-    margin-bottom: 0px;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #000000;
+  text-transform: capitalize;
+  display: block;
+  margin-bottom: 0px;
 }
 
 .bottom-list li span {
-    width: 65px;
-    margin-right: 24px;
-    text-align: left;
-    font-size: 12px;
+  width: 65px;
+  margin-right: 24px;
+  text-align: left;
+  font-size: 12px;
 }
 
-tr
-{
-    vertical-align: text-top !important;
-
+tr {
+  vertical-align: text-top !important;
 }
 tr td {
-
-    padding: 2px 0 !important;
-    background-color: #fbfbfb !important;
-    font-weight: bold;
-    font-size: 12px;
+  padding: 2px 0 !important;
+  background-color: #fbfbfb !important;
+  font-weight: bold;
+  font-size: 12px;
 }
 
-
-
 .footer {
-    height: 40px;
-    line-height: 40px;
-    background-color: rgba(85, 126, 150, 0.05);
+  height: 40px;
+  line-height: 40px;
+  background-color: rgba(85, 126, 150, 0.05);
 }
 
 .footer p {
-    text-transform: capitalize;
-    font-size: 15px;
-    color: #000000;
-    font-weight: bold;
-    font-size: 21px;
+  text-transform: capitalize;
+  font-size: 15px;
+  color: #000000;
+  font-weight: bold;
+  font-size: 21px;
 }
 
 .footer p span {
-    margin-left: 25px;
-    font-size: 21px;
+  margin-left: 25px;
+  font-size: 21px;
 }
-.main-list .row .col-6
-{
-    height: auto;
+.main-list .row .col-6 {
+  height: auto;
 }
-.style-w-370px
-{
+.style-w-370px {
   width: 370px;
   margin: 0px auto;
+}
+/* new desgin */
+.print {
+  margin-bottom: 25px;
+}
+.client-details {
+  border: 1px solid #888;
+  margin-top: 30px;
+  text-align: center;
+  overflow: hidden;
+}
+.client-details .row .col-5 {
+  border-bottom: 1px solid #888;
+}
+.client-details .row .col-7 {
+  border-bottom: 1px solid #888;
+}
+.client-details .row .col-5 {
+  border-bottom: 1px solid #888;
+}
+.client-details .row .col-5.title-text {
+  border-right: 1px solid #888;
+}
+.client-details .row .col-5 div p {
+  margin-bottom: 0px;
+  height: 40px;
+  line-height: 40px;
+}
+.client-details .row .col-7 div p {
+  margin-bottom: 0px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.client-details .row .col-6 div p {
+  height: 40px;
+  margin-bottom: 0px;
+  line-height: 40px;
+}
+.img-logo {
+  width: 80%;
+  margin-top: 50px;
+}
+.table-product {
+  margin-top: 10px;
+  border: 1px solid #888;
+  margin-bottom: 40px;
+  direction: rtl;
+}
+.table-product .box-col {
+  text-align: center;
+}
+
+.table-product .box-col .name-col {
+  padding: 15px 5px;
+  border-bottom: 1px solid #888;
+  border-left: 1px solid #888;
+
+  width: 12.5%;
+  display: inline-block;
+  text-align: center;
+  font-size: 12px;
+
+}
+.table-product .box-col .value-col {
+  height: 120px;
+  width: 12.5%;
+  display: inline-block;
+  border-left: 1px solid #888;
+  vertical-align: top;
+  border-bottom: 1px solid #888;
+  padding: 5px;
+}
+.table-product .box-col .value-col p {
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+.box-price {
+  border-top: 1px solid #888;
+}
+.box-price .name-price {
+  width: 12.5%;
+  text-align: center;
+  display: inline-block;
+}
+.box-price .value-price {
+  width: 12.5%;
+  text-align: center;
+  display: inline-block;
+  border-left: 1px solid #888;
+  padding: 10px;
+}
+
+.payment-method {
+  border: 1px solid #888;
+  padding: 13px 10px;
+  text-align: center;
+  margin-bottom: 16px;
+  margin-top: -23px;
+}
+.payment-method p {
+  margin-bottom: 0px;
+}
+.info {
+  border: 1px solid #888;
+  margin-top: 26px;
+  padding: 20px;
+}
+.info p {
+  font-size: 14px;
+}
+.info p.text-ar {
+  text-align: right;
 }
