@@ -9,17 +9,17 @@ import { OrdersService } from '@app/pages/services/orders.service';
   styleUrls: ['./print-receipt.component.css']
 })
 export class PrintReceiptComponent implements OnInit {
-  order: any =[
+  order: any = [
     {
-      id :'',
+      id: '',
       user: {
         name: ''
       }
 
     }
-   
+
   ];
-  
+
   item: any;
 
   constructor(private router: Router, private activeRoute: ActivatedRoute, private orderService: OrdersService) { }
@@ -28,11 +28,11 @@ export class PrintReceiptComponent implements OnInit {
 
     this.activeRoute.params.subscribe((params) => {
       let id = params['id'];
-      
+
       this.orderService.getOrderPrint(id)
         .subscribe((response: any) => {
           this.order = response.data;
-         
+
         })
     });
   }

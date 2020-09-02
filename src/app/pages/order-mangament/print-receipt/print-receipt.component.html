@@ -304,7 +304,7 @@
           </div>
 
         </div>
-        <div class="box-col" *ngFor="let item of order?.items">
+        <div class="box-col" *ngFor="let item of order?.items;let i = index">
           <div class="value-col" style=" direction: ltr;">
             <p>
               {{ item.discount_price ?  (item.discount_price)  + ' EGP' : '-'}}
@@ -351,6 +351,7 @@
           <div class="value-col" style="border-left: none;">
             <img [src]="item.product.image" alt="" height="100" style="width: 90%;object-fit: contain;">
           </div>
+          <div style="page-break-inside: avoid;page-break-before: always;" *ngIf="i+1 == 10 "></div>
         </div>
         <div class="box-price">
           <div class="value-price" style="direction: ltr;">{{order?.actual_amount}} EGP</div>
@@ -374,7 +375,7 @@
         </div>
       </div>
       <div class="payment-method">
-        <p>Payment method (طريقة الدفع) : <span>{{order.payment_method == 1 ? 'Cash on delivery' : 'Visa'}}</span>
+        <p>Payment method (طريقة الدفع) : <span>{{order?.payment_method == 1 ? 'Cash on delivery' : 'Visa'}}</span>
         </p>
       </div>
       <div class="info-user">
@@ -382,7 +383,7 @@
           <div class="name-price">Client Name</div>
 
           <div class="value-price" style="direction: ltr;border-right: 1px solid #888;width:87.5%;text-align: left;">
-            {{order?.user.name}} </div>
+            {{order?.user?.name}} </div>
         </div>
         <div class="box-price" style="   border-left: 1px solid #888;   ">
           <div class="name-price">Client phone</div>
