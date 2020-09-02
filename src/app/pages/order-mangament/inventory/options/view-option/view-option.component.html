@@ -18,7 +18,7 @@
 
     <div>
       <h5>Creation Date</h5>
-      <p>{{dataView?.created_at}}</p>
+      <p>{{dataView?.created_at | date : "yyyy-MM-dd hh:mm a"}} </p>
     </div>
 
     <div>
@@ -33,14 +33,25 @@
     <div>
       <h5>Options</h5>
 
+      <!-- <ul class="list-group " *ngIf="dataView?.values">
+        <li class="list-group-item text-secondary p-1" *ngFor="let value of  dataView?.values">
+         {{value.name_en}}
+          <div class="details-price" *ngIf="value.image">
+            <img src="{{value?.image}}" alt="" class=" owl-img img-fluid ">
+          </div>
+        </li>
+
+      </ul> -->
+
       <p *ngIf="dataView?.values">
         <span *ngFor="let value of  dataView?.values">
-          <span>{{value.name_en}}</span>
+          <span class="d-block">{{value.name_en}}</span>
           <div class="details-price" *ngIf="value.image">
             <img src="{{value?.image}}" alt="" class=" owl-img img-fluid ">
           </div>
         </span>
       </p>
+
     </div>
   </div>
 </div>
