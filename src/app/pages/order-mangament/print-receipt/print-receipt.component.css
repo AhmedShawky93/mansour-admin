@@ -140,7 +140,7 @@ tr td {
 }
 .table-product .box-col {
   text-align: center;
-  page-break-inside: avoid ;
+  page-break-inside: auto ;
 
 }
 
@@ -163,7 +163,7 @@ tr td {
   vertical-align: top;
   border-bottom: 1px solid #888;
   padding: 5px;
-  page-break-inside: avoid !important;
+  page-break-inside: auto !important;
 
 }
 .table-product .box-col .value-col p {
@@ -210,6 +210,6 @@ tr td {
 @media print
 {
     div {
-        page-break-inside: avoid !important;
+        page-break-inside: auto !important;
     }
 }
