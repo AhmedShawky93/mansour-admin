@@ -100,24 +100,29 @@ tr td {
   text-align: center;
   overflow: hidden;
 }
-.client-details .row .col-5 {
-  border-bottom: 1px solid #888;
-}
 .client-details .row .col-7 {
   border-bottom: 1px solid #888;
 }
 .client-details .row .col-5 {
   border-bottom: 1px solid #888;
 }
-.client-details .row .col-5.title-text {
+.client-details .row .col-7 {
+  border-bottom: 1px solid #888;
+}
+.client-details .row .col-7.title-text {
   border-right: 1px solid #888;
+}
+.client-details .row .col-7 div p {
+  margin-bottom: 0px;
+  height: 40px;
+  line-height: 40px;
 }
 .client-details .row .col-5 div p {
   margin-bottom: 0px;
   height: 40px;
   line-height: 40px;
 }
-.client-details .row .col-7 div p {
+.client-details .row .col-5 div p {
   margin-bottom: 0px;
   height: 40px;
   line-height: 40px;
@@ -129,8 +134,8 @@ tr td {
   line-height: 40px;
 }
 .img-logo {
-  width: 80%;
-  margin-top: 50px;
+  width: 50%;
+  margin-top: 31px;
 }
 .table-product {
   margin-top: 10px;
@@ -140,8 +145,7 @@ tr td {
 }
 .table-product .box-col {
   text-align: center;
-  page-break-inside: avoid ;
-
+  page-break-inside: avoid;
 }
 
 .table-product .box-col .name-col {
@@ -153,7 +157,6 @@ tr td {
   display: inline-block;
   text-align: center;
   font-size: 12px;
-
 }
 .table-product .box-col .value-col {
   height: 120px;
@@ -164,7 +167,6 @@ tr td {
   border-bottom: 1px solid #888;
   padding: 5px;
   page-break-inside: avoid !important;
-
 }
 .table-product .box-col .value-col p {
   margin-bottom: 0px;
@@ -177,6 +179,8 @@ tr td {
   width: 12.5%;
   text-align: center;
   display: inline-block;
+  text-align: left;
+  padding-left: 15px;
 }
 .box-price .value-price {
   width: 12.5%;
@@ -207,9 +211,8 @@ tr td {
 .info p.text-ar {
   text-align: right;
 }
-@media print
-{
-    div {
-        page-break-inside: avoid !important;
-    }
+@media print {
+  div {
+    page-break-inside: avoid !important;
+  }
 }
