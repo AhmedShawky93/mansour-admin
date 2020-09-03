@@ -1740,16 +1740,16 @@ bar-rating {
 .not-allowed {
   cursor: not-allowed !important;
 }
-<<<<<<< HEAD
+
 
 .cdk-overlay-container
 {
   z-index: 99999 !important
 }
-=======
+
 @media print {
   .main-content {
     margin-left: 0px !important;
   }
 }
->>>>>>> master
+
