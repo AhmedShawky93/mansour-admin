@@ -617,7 +617,7 @@
 
 <div class="modal fade" id="confirmOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
+    <div class="modal-content" *ngIf="stateForm">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
         ">Are you sure you want to change Status of ({{ordersBulk.length}}) selected orders?</h5>
@@ -625,29 +625,94 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <label class="checkup"> notify user
-          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
-          <span class="checkmark"></span>
-        </label>
-        <div class="form-group" *ngIf="orderStatusId == '6'">
-          <label for="">Status notes </label>
-          <textarea style="height: 130px;" class="owl-input" placeholder="Type.." #status_notes="ngModel"
-            [(ngModel)]="status_notesText">
-          </textarea>
-          <div class="alert-danger" *ngIf="error_status_notes">
-            <span>
-              Cancel notes is required
-            </span>
-          </div>
-          <label class="checkup"> Return To stock
-            <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock">
+
+      <form action="" [formGroup]="stateForm">
+        <div class="modal-body" *ngIf="orderStatusId !== '8'">
+          <label class="checkup"> notify user
+            <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
             <span class="checkmark"></span>
           </label>
+          <div class="form-group" *ngIf="orderStatusId == '6'">
+            <label for="">Status notes </label>
+            <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="status_notes">
+            </textarea>
+            <div
+              *ngIf="stateForm.controls.status_notes.invalid && (stateForm.controls.status_notes.dirty || stateForm.controls.status_notes.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.status_notes.errors.required">
+                Status notes is required.
+              </div>
+            </div>
+            <label class="checkup"> Return To stock
+              <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock" formControlName="subtract_stock">
+              <span class="checkmark"></span>
+            </label>
+          </div>
         </div>
-      </div>
-      <div class="modal-footer" style="    justify-content: center; ">
+  
+        <div class="modal-body" *ngIf="orderStatusId == '8'">
+          <div class="form-group">
+            <select name="" class="owl-input bg-white" formControlName="branch_id">
+              <option value="">Select pickup Location</option>
+              <option value="{{branch.id}}" *ngFor="let branch of branches">{{branch.name}}</option>
+            </select>
+            <div
+              *ngIf="stateForm.controls.branch_id.invalid && (stateForm.controls.branch_id.dirty || stateForm.controls.branch_id.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.branch_id.errors.required">
+                Branch is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <select name="" class="owl-input bg-white" formControlName="shipping_method">
+              <option value="" disabled selected>Select Company Shipping</option>
+              <option value="1">Internal</option>
+              <option value="2">Mylerz</option>
+              <option value="3">Aramex</option>
+            </select>
+            <div
+              *ngIf="stateForm.controls.shipping_method.invalid && (stateForm.controls.shipping_method.dirty || stateForm.controls.shipping_method.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.shipping_method.errors.required">
+                Shipping Method is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group w-60">
+            <mat-form-field>
+              <input matInput #mdate placeholder="Date " [satDatepicker]="picker2" [value]="date" formControlName="pickup_date">
+              <sat-datepicker #picker2 [rangeMode]="false">
+              </sat-datepicker>
+              <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+            </mat-form-field>
+            <div
+              *ngIf="stateForm.controls.pickup_date.invalid && (stateForm.controls.pickup_date.dirty || stateForm.controls.pickup_date.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.pickup_date.errors.required">
+                Pickup Date is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group w-40">
+            <input class="form-control" type="time" formControlName="pickup_time">
+            <div
+              *ngIf="stateForm.controls.pickup_time.invalid && (stateForm.controls.pickup_time.dirty || stateForm.controls.pickup_time.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.pickup_time.errors.required">
+                Pickup time is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="">Shipping Notes</label>
+            <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="shipping_notes">
+            </textarea>
+          </div>
+        </div>
+      </form>
 
+      <div class="modal-footer" style="    justify-content: center; ">
         <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
           (click)="confirmChangeStatus(notifyUser)">Yes</button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>

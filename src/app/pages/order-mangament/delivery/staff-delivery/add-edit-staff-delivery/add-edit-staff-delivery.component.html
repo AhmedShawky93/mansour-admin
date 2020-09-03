@@ -71,13 +71,11 @@
         <!-- End Errors Rolues -->
       </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label> districts </label>
       <ng-select name="bransName" [items]="districts" bindLabel="name" bindValue="id" [multiple]="true"
         placeholder=" Select districts" formControlName="districts_id" required>
       </ng-select>
-      <!-- Start  Errors Rolues -->
-
       <div
         *ngIf="OptionForm.controls.districts_id.invalid && (OptionForm.controls.districts_id.dirty || OptionForm.controls.districts_id.touched)"
         class="alert alert-danger">
@@ -86,8 +84,7 @@
           Select districts
         </div>
       </div>
-      <!-- End Errors Rolues -->
-    </div>
+    </div> -->
     <div class="form-sidebar-btns">
       <button class="btn btn-owls btn-rounded btn-green">Save</button>
     </div>

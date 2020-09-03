@@ -16,6 +16,8 @@ import { Subject } from "rxjs";
 import { tap, switchMap } from "rxjs/operators";
 import { AuthService } from "@app/shared/auth.service";
 import { environment } from "@env/environment";
+import { DeliveryService } from "@app/pages/services/delivery.service";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 declare var jquery: any;
 declare var $: any;
@@ -102,6 +104,9 @@ export class OrdersComponent implements OnInit {
   deleteIds: any;
   error_status_notes: boolean;
   orderStatusId: any;
+  branches: any = [];
+  stateForm: FormGroup;
+
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -110,7 +115,8 @@ export class OrdersComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private _areaService: AreasService,
-    private orderStatesService: OrderStatesService
+    private orderStatesService: OrderStatesService,
+    private deliveryService: DeliveryService
   ) {
     this.titleService.setTitle("Orders");
   }
@@ -224,7 +230,39 @@ export class OrdersComponent implements OnInit {
     this.productsUrl =
       environment.api + "/admin/products/export_sales?token=" + token;
     this.exportProductsUrl = this.productsUrl;
+
+    this.deliveryService.getAllDeliverers()
+      .subscribe((response: any) => {
+        this.branches = response.data;
+      });
+
+    
   }
+
+  setupStateForm() {
+    this.stateForm = new FormGroup({
+      status_notes: new FormControl(),
+      order_ids: new FormControl(this.ordersBulk),
+      state_id: new FormControl(this.orderStatusId),
+      sub_state_id: new FormControl(this.sub_state_id),
+      pickup_date: new FormControl(),
+      pickup_time: new FormControl(),
+      shipping_notes: new FormControl(),
+      shipping_method: new FormControl(''),
+      branch_id: new FormControl(''),
+      subtract_stock: new FormControl(),
+    });
+
+    if (this.orderStatusId == 8) {
+      this.stateForm.get('pickup_date').setValidators([Validators.required]);
+      this.stateForm.get('pickup_time').setValidators([Validators.required]);
+      this.stateForm.get('branch_id').setValidators([Validators.required]);
+      this.stateForm.get('shipping_method').setValidators([Validators.required]);
+    } else if (this.orderStatusId == 6) {
+      this.stateForm.get('status_notes').setValidators([Validators.required]);
+    }
+  }
+
   selectAll() {
     this.ordersBulk = [];
     if (this.orders.length) {
@@ -274,31 +312,35 @@ export class OrdersComponent implements OnInit {
     }
 
     console.log(this.ordersBulk);
+    this.setupStateForm();
     $("#confirmOrderStatus").modal("show");
   }
-  confirmChangeStatus(notifyUser) {
-    this.error_status_notes = false
 
-    if (this.orderStatusId == '6') {
-      if (this.status_notesText == '' || this.status_notesText == undefined) {
-        console.log('if data');
-        this.error_status_notes = true
-        return
-      } else {
-        console.log('else data');
-      }
+  confirmChangeStatus(notifyUser) {
+    // this.error_status_notes = false
+
+    // if (this.orderStatusId == '6') {
+    //   if (this.status_notesText == '' || this.status_notesText == undefined) {
+    //     console.log('if data');
+    //     this.error_status_notes = true
+    //     return
+    //   } else {
+    //     console.log('else data');
+    //   }
+    // }
+
+    if (!this.stateForm.valid) {
+      return this.markFormGroupTouched(this.stateForm);
+    }
+
+    let data = this.stateForm.value;
+    if (data.state_id == 8) {
+      data.pickup_date = moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
+      data.shipping_method = +data.shipping_method;
     }
 
     this.ordersService
-      .changeBulkChangeState(this.orderId, {
-        order_ids: this.ordersBulk,
-        state_id: this.state_id,
-        sub_state_id: this.sub_state_id,
-        notify_customer: notifyUser,
-        subtract_stock: this.subtract_stock,
-        status_notes: this.status_notesText ? this.status_notesText : ''
-      })
-
+      .changeBulkChangeState(this.orderId, data)
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.status_notesText = '';
@@ -917,5 +959,15 @@ export class OrdersComponent implements OnInit {
   closeSideBar() {
     $("#view-deactive").removeClass("open-view-vindor-types");
     $("#view-side-bar-return-order").removeClass("open-view-vindor-types");
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object).values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

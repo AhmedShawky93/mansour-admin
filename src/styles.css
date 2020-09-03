@@ -1746,3 +1746,8 @@ bar-rating {
 {
   cursor: not-allowed !important;
 }
+
+.cdk-overlay-container
+{
+  z-index: 99999 !important
+}

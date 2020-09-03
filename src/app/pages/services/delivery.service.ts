@@ -19,6 +19,14 @@ export class DeliveryService {
                 return Observable.throw(error.error || 'Server error');
             })
     }
+
+    getAllDeliverers() {
+        return this.http.get(this.url + "/deliverers/all")
+            .catch((error: any) => {
+                return Observable.throw(error.error || 'Server error');
+            })
+    }
+
     getDeliverersId(id) {
         return this.http.get(this.url + "/deliverers/" + id)
             .catch((error: any) => {

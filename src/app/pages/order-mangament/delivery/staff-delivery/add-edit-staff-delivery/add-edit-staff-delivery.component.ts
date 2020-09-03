@@ -73,10 +73,10 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
         data ? data.delivererProfile.area.id : "",
         Validators.required
       ),
-      districts_id: new FormControl(
-        data ? data.delivererProfile.districts.map((p) => p.id) : [],
-        Validators.required
-      ),
+      // districts_id: new FormControl(
+      //   data ? data.delivererProfile.districts.map((p) => p.id) : [],
+      //   Validators.required
+      // ),
     });
     if (data) {
       this.selectCity(data.delivererProfile.city.id);
