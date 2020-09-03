@@ -32,7 +32,9 @@ export class PrintReceiptComponent implements OnInit {
       this.orderService.getOrderPrint(id)
         .subscribe((response: any) => {
           this.order = response.data;
-
+          setTimeout(() => {
+            window.print()
+          }, 200);
         })
     });
   }
