@@ -34,7 +34,7 @@ export class PrintReceiptComponent implements OnInit {
           this.order = response.data;
           setTimeout(() => {
             window.print()
-          }, 200);
+          }, 800);
         })
     });
   }
