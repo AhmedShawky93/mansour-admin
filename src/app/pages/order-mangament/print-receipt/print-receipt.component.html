@@ -346,7 +346,7 @@
             </p>
           </div>
           <div class="value-col" style="border-left: none;">
-            <img [src]="item.product.image" alt="" height="100" style="width: 90%;object-fit: contain;">
+            <img [src]="item.product.image" onError="this.src='./assets/img/placeholder200.jpg';" default="./assets/img/placeholder200.jpg" alt="" height="100" style="width: 90%;object-fit: contain;">
           </div>
           <div style="page-break-inside: avoid;page-break-before: always;" *ngIf="i+1 == 10 "></div>
         </div>
