@@ -34,14 +34,53 @@
     </div>
 
     <div class="form-group">
-      <label for="">Purchase Quantity</label>
+      <label for="charge">List 1</label>
+      <ng-select formControlName="list_id" [items]="lists" bindLabel="name_en" bindValue="id" placeholder="Enter List name">
+      </ng-select>
+      <div
+        *ngIf="promotionForm.controls.list_id.invalid && (promotionForm.controls.list_id.dirty || promotionForm.controls.list_id.touched)"
+        class="alert alert-danger">
+        <div *ngIf="promotionForm.controls.list_id.errors.required">
+          List 1 is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Quantity 1</label>
       <input type="number" class="owl-input" placeholder="Type.." required formControlName="qty">
 
       <div
         *ngIf="promotionForm.controls.qty.invalid && (promotionForm.controls.qty.dirty || promotionForm.controls.qty.touched)"
         class="alert alert-danger">
         <div *ngIf="promotionForm.controls.qty.errors.required">
-          Purchase Quantity is required.
+          Quantity 1 is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="charge">List 2</label>
+      <ng-select formControlName="target_list_id" [items]="lists" bindLabel="name_en" bindValue="id" placeholder="Enter List name">
+      </ng-select>
+      <div
+        *ngIf="promotionForm.controls.target_list_id.invalid && (promotionForm.controls.target_list_id.dirty || promotionForm.controls.target_list_id.touched)"
+        class="alert alert-danger">
+        <div *ngIf="promotionForm.controls.target_list_id.errors.required">
+          List 2 is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Quantity 1</label>
+      <input type="number" class="owl-input" placeholder="Type.." required formControlName="qty2">
+
+      <div
+        *ngIf="promotionForm.controls.qty2.invalid && (promotionForm.controls.qty2.dirty || promotionForm.controls.qty2.touched)"
+        class="alert alert-danger">
+        <div *ngIf="promotionForm.controls.qty2.errors.required">
+          Quantity 2 is required.
         </div>
       </div>
     </div>
@@ -81,32 +120,6 @@
         </div>
       </div>
       <!-- End Errors Rolues -->
-    </div>
-
-    <div class="form-group">
-      <label for="charge">Custom List</label>
-      <ng-select formControlName="list_id" [items]="lists" bindLabel="name_en" bindValue="id" placeholder="Enter List name">
-      </ng-select>
-      <div
-        *ngIf="promotionForm.controls.list_id.invalid && (promotionForm.controls.list_id.dirty || promotionForm.controls.list_id.touched)"
-        class="alert alert-danger">
-        <div *ngIf="promotionForm.controls.list_id.errors.required">
-          List is required.
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="charge">Target List</label>
-      <ng-select formControlName="target_list_id" [items]="lists" bindLabel="name_en" bindValue="id" placeholder="Enter List name">
-      </ng-select>
-      <div
-        *ngIf="promotionForm.controls.target_list_id.invalid && (promotionForm.controls.target_list_id.dirty || promotionForm.controls.target_list_id.touched)"
-        class="alert alert-danger">
-        <div *ngIf="promotionForm.controls.target_list_id.errors.required">
-          List is required.
-        </div>
-      </div>
     </div>
 
     <!-- <div class="form-group">
