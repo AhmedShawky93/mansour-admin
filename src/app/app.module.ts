@@ -95,6 +95,7 @@ import { CustomAdsComponent } from "./pages/store-front/custom-ads/custom-ads.co
 import { ContactusComponent } from "./pages/contact-us/contact-us.component";
 import { ReportsComponent } from "./pages/reports/reports.component";
 import { GroupsPipe } from './pages/order-mangament/inventory/groups/groups.pipe';
+import { OrdersDeliveryComponent } from './pages/order-mangament/orders-delivery/orders-delivery.component';
 
 @NgModule({
   declarations: [
@@ -138,7 +139,8 @@ import { GroupsPipe } from './pages/order-mangament/inventory/groups/groups.pipe
     OrderFilterPipe,
     BrandsComponent,
     ReportsComponent,
-    GroupsComponent
+    GroupsComponent,
+    OrdersDeliveryComponent
   ],
   imports: [
     AppRoutingModule,

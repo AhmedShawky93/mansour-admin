@@ -132,7 +132,21 @@
           <span>Contact us</span>
         </a>
       </li>
-
+      <li
+        class="side-nav-item"
+        routerLinkActive="active"
+        *ngxPermissionsOnly="['ADMIN', 'View Orders Delivery']"
+      >
+        <a routerLink="/pages/orders-delivery">
+          <i
+            class="icon-None4"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Order delivery"
+          ></i>
+          <span> Orders delivery</span>
+        </a>
+      </li>
       <li
         class="side-nav-item"
         routerLinkActive="active"
