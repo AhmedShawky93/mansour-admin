@@ -144,4 +144,17 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
+
+  getOrderPickups() {
+    return this.http.get(this.url + "/pickups").catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  getOrderPickup(id) {
+    return this.http.get(this.url + "/pickups/" + id).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
 }

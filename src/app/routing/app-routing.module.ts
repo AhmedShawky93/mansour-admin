@@ -31,6 +31,8 @@ import { NgxPermissionsGuard } from "ngx-permissions";
 import { CustomAdsComponent } from "@app/pages/store-front/custom-ads/custom-ads.component";
 import { ProfileResolver } from '@app/shared/profile.resolver';
 import { ReportsComponent } from '@app/pages/reports/reports.component';
+import { OrdersDeliveryComponent } from '@app/pages/order-mangament/orders-delivery/orders-delivery.component';
+import { OrderDeliveryDetailsComponent } from '@app/pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, data: { title: "Login" } },
@@ -115,6 +117,8 @@ const routes: Routes = [
         data: { title: "Settings", permissions: {only: ['ADMIN', 'View Settings'], redirectTo: '/pages/home'} },
       },
       { path: "orders", component: OrdersComponent, canActivate: [NgxPermissionsGuard], data: { title: "Orders", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} } },
+      { path: "orders-delivery", component: OrdersDeliveryComponent, canActivate: [NgxPermissionsGuard], data: { title: "Orders Delivery", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} } },
+      { path: "orders-delivery/details/:id", component: OrderDeliveryDetailsComponent, canActivate: [NgxPermissionsGuard], data: { title: "Details", permissions: {only: ['ADMIN', 'View Details'], redirectTo: '/pages/home'} } },
       {
         path: "categories",
         component: CategoriesComponent,

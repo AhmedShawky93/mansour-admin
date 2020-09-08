@@ -1,0 +1,83 @@
+<ngx-loading-bar [color]="'#eb1c24'"></ngx-loading-bar>
+<div class="top-table-bar" style="margin-bottom: 30px;">
+  <div class="row">
+    <div class="col-md-3">
+      <a class="back-btn" [routerLink]="['/pages/orders-delivery']">
+        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a>
+    </div>
+
+    <div class="col-md-9" *ngIf="order">
+
+    </div>
+  </div>
+</div>
+
+
+<div class="block-title">
+  <h4>General Info </h4>
+</div>
+
+<div class="block" *ngIf="pickup">
+  <div class="row">
+    <div class="col-md-5">
+      <!-- <div class="block-item">
+        <p> Company Name</p>
+        <span>Name</span>
+      </div> -->
+
+      <div class="block-item">
+        <p> Shipping Method </p>
+        <span [ngSwitch]="pickup.shipping_method">
+          <span *ngSwitchCase="1">Internal</span>
+          <span *ngSwitchCase="2">Mylerz</span>
+          <span *ngSwitchCase="3">Aramex</span>
+        </span>
+      </div>
+
+      <div class="block-item">
+        <p>Creation Date</p>
+        <span>{{ pickup.created_at | date: "d-M-yyyy  h:mm a" }}</span>
+      </div>
+
+      <div class="block-item">
+        <p>Pickup Date</p>
+        <span>{{ pickup.pickup_date | date: "d-M-yyyy  h:mm a" }}</span>
+      </div>
+
+      <div class="block-item">
+        <p>Notes</p>
+        <span>{{ pickup.notes }}</span>
+      </div>
+
+
+    </div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-5">
+
+    </div>
+
+
+  </div>
+</div>
+
+<div class="block-title">
+  <h4>Order</h4>
+</div>
+
+<div class="block" *ngIf="pickup">
+  <!-- <h6 class="copy-skus" (click)="copyInputMessage()">Print</h6> -->
+  <div *ngFor="let order of pickup.order_pickups; index as i">
+    <div class="block-ratings">
+      <p><a [routerLink]="['/pages/orders/order-details', order.order.id]">{{ order.order.id }}</a></p>
+      <div class="content">
+        <h4>{{order.order.customer?.name}}</h4>
+        <p>{{order.order.address?.formatted_address}}</p>
+      </div>
+    </div>
+
+    <div style="display: inline-block;" *ngIf="order.shipment_url">
+      <p><a href="{{order.shipment_url}}" target="_blank">Policy</a></p>
+    </div>
+  </div>
+</div>
