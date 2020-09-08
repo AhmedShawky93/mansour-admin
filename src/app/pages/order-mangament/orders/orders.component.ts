@@ -962,6 +962,7 @@ export class OrdersComponent implements OnInit {
           console.log(this.areaList, "else");
         }
       }
+
       this.filter.customer_city_ids = [cityId]
     } else {
       this.filter.customer_city_ids = []
