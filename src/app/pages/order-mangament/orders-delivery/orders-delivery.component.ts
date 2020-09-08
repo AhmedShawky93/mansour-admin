@@ -101,6 +101,7 @@ export class OrdersDeliveryComponent implements OnInit {
   deleteIds: any;
   error_status_notes: boolean;
   orderStatusId: any;
+  pickups: any = [];
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -115,8 +116,6 @@ export class OrdersDeliveryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCities();
-    this.getOrderStates();
     $(".payment-open").on("click", function () {
       $(".payment-area").slideToggle(100);
     });
@@ -188,41 +187,10 @@ export class OrdersDeliveryComponent implements OnInit {
     //     this.total = response.data.total;
     //   });
 
-    this.filter$
-      .debounceTime(400)
-      .pipe(
-        tap((e) => ((this.loading = true), (this.no_orders = false))),
-        switchMap((filter) => this.filterOrders())
-      )
+    this.ordersService.getOrderPickups()
       .subscribe((response: any) => {
-        this.loading = false;
-
-        this.orders = response.data.orders;
-        this.total = response.data.total;
-        if (this.orders.length == 0) {
-          this.no_orders = true;
-        } else {
-          this.orders.forEach((element) => {
-            element.select = false;
-          });
-        }
-        console.log(this.total);
-        if (this.total === 0) {
-          this.p = 1;
-        }
+        this.pickups = response.data;
       });
-
-    this.filter$.next(this.filter);
-
-    this.catService.getCategories().subscribe((response: any) => {
-      this.categories = response.data;
-    });
-
-    let token = this.auth.getToken();
-    this.exportUrl = environment.api + "/admin/orders/export?token=" + token;
-    this.productsUrl =
-      environment.api + "/admin/products/export_sales?token=" + token;
-    this.exportProductsUrl = this.productsUrl;
   }
   selectAll() {
     this.ordersBulk = [];
@@ -243,82 +211,7 @@ export class OrdersDeliveryComponent implements OnInit {
     }
   }
 
-  changeSelectBulk(order) {
-    if (order.select) {
-      order.select = false;
-    } else {
-      order.select = true;
-    }
-  }
 
-  stateFormValid() {
-    return !!this.state_id;
-  }
-
-  changeStausBulkInOrders() {
-    if (!this.stateFormValid()) {
-      this.errorMessage = "Please select a status";
-      $("#errorPopup").modal("show");
-      return;
-    }
-
-
-    this.ordersBulk = this.orders
-      .filter((element) => element.select)
-      .map((item) => {
-        return {
-          id: item.id,
-          state_id: this.state_id,
-          sub_state_id: this.sub_state_id,
-        };
-      });
-
-    if (!this.ordersBulk.length) {
-      this.errorMessage = "Please select at least 1 order";
-      $("#errorPopup").modal("show");
-      return;
-    }
-
-    console.log(this.ordersBulk);
-    $("#confirmOrderStatus").modal("show");
-  }
-  confirmChangeStatus(notifyUser) {
-    this.error_status_notes = false
-
-    if (this.orderStatusId == '6') {
-      if (this.status_notesText == '') {
-        console.log('if data');
-        this.error_status_notes = true
-        return
-      } else {
-        console.log('else data');
-      }
-    }
-    this.ordersService
-      .changeBulkChangeState(this.orderId, {
-        orders: this.ordersBulk,
-        notify_customer: notifyUser,
-        status_notes: this.status_notesText ? this.status_notesText : ''
-      })
-      .subscribe((response: any) => {
-        if (response.code === 200) {
-
-          $("#confirmOrderStatus").modal("hide");
-          this.filter$.next(this.filter);
-
-        }
-      });
-  }
-  getOrderStates() {
-    this.orderStatesService.getOrderEditableStatus().subscribe({
-      next: (response: any) => {
-        if (response.code === 200) {
-          this.orderStatus = response.data;
-          // this.selectStatus(this.order.state_id);
-        }
-      },
-    });
-  }
   selectStatus(id) {
     this.orderStatusId = id;
     let index = this.orderStatus.findIndex((item) => item.id == id);
