@@ -40,6 +40,11 @@
       </div>
 
       <div class="block-item">
+        <p>Pickup Date</p>
+        <span>{{ pickup.pickup_date | date: "d-M-yyyy  h:mm a" }}</span>
+      </div>
+
+      <div class="block-item">
         <p>Notes</p>
         <span>{{ pickup.notes }}</span>
       </div>
@@ -64,14 +69,14 @@
   <!-- <h6 class="copy-skus" (click)="copyInputMessage()">Print</h6> -->
   <div *ngFor="let order of pickup.order_pickups; index as i">
     <div class="block-ratings">
-      <p>{{ i + 1 }}</p>
+      <p><a [routerLink]="['/pages/orders/order-details', order.order.id]">{{ order.order.id }}</a></p>
       <div class="content">
         <h4>{{order.order.customer?.name}}</h4>
         <p>{{order.order.address?.formatted_address}}</p>
       </div>
     </div>
 
-    <div style="display: inline-block;">
+    <div style="display: inline-block;" *ngIf="order.shipment_url">
       <p><a href="{{order.shipment_url}}" target="_blank">Policy</a></p>
     </div>
   </div>

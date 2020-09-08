@@ -48,6 +48,7 @@
         <th scope="col"> Company name</th>
         <th scope="col"> Count orders</th>
         <th scope="col">Creation Date</th>
+        <th scope="col">Notes</th>
         <th style="text-align: center;" scope="col"> Actions </th>
 
       </tr>
@@ -70,6 +71,23 @@
         </td>
 
         <td>{{pickup.created_at}}</td>
+
+        <td class="request-message relative">
+
+          <div *ngIf="pickup.notes">
+            {{(pickup.notes.length  >= 30 ) ? (pickup.notes | summary : 30 ) : pickup.notes }}
+
+            <div class="hover-reason text-left" *ngIf="pickup.notes && pickup.notes.length >= 30">
+              <div class="head">
+                notes
+              </div>
+              <div class="body">
+                {{pickup.notes}}
+              </div>
+            </div>
+          </div>
+
+        </td>
 
         <td>
           <a [routerLink]="['details', pickup.id]"
