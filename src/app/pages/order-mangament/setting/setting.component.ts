@@ -143,7 +143,7 @@ export class SettingComponent implements OnInit {
         } else {
           this.toastrService.error(response.message);
         }
-        
+
       });
   }
 
@@ -237,9 +237,11 @@ export class SettingComponent implements OnInit {
     this.settingService
       .updateSystemSettings(this.systemForm.value)
       .subscribe((response: any) => {
-        this.settings = response.data;
-        this.toastrService.success("System Settings Updated Successfully!");
-        this.systemLoading = false;
+        if(response.code ==200 ){
+          this.settings = response.data;
+          this.toastrService.success("System Settings Updated Successfully!");
+          this.systemLoading = false;
+        }
       });
   }
 
