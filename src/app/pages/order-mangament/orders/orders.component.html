@@ -61,9 +61,21 @@
       <div class="form-group">
         <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">Export All Orders</a>
       </div>
+
     </div> -->
-
-
+    <div class="col-md-2" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_city_ids" (ngModelChange)="selectCity($event)">
+        <option value="">Select City</option>
+        <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+      </select>
+    </div>
+    <div class="col-md-2" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_area_ids" (ngModelChange)="selectArea($event)">
+        <option value="">Select Area </option>
+        <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
+      </select>
+    </div>
+    <div class="col-12"></div>
     <div class=" col-md-2  col-xs-6">
       <!-- <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
       <div *ngIf="order.order_status_editable"> -->
@@ -649,7 +661,7 @@
             </label>
           </div>
         </div>
-  
+
         <div class="modal-body" *ngIf="orderStatusId == '8'">
           <div class="form-group">
             <select name="" class="owl-input bg-white" formControlName="branch_id">
@@ -681,7 +693,8 @@
           </div>
           <div class="form-group w-60">
             <mat-form-field>
-              <input matInput #mdate placeholder="Date " [satDatepicker]="picker2" [value]="date" formControlName="pickup_date">
+              <input matInput #mdate placeholder="Date " [satDatepicker]="picker2" [value]="date"
+                formControlName="pickup_date">
               <sat-datepicker #picker2 [rangeMode]="false">
               </sat-datepicker>
               <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>

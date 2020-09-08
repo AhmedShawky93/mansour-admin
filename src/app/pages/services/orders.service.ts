@@ -24,9 +24,7 @@ export class OrdersService {
 
   filterOrders(data, p = 1) {
     data.page = p;
-    return this.http.get(this.url + "/orders/filter", {
-      params: data,
-    });
+    return this.http.post(this.url + "/orders/filter", data);
   }
 
   getOrderPrint(id) {
