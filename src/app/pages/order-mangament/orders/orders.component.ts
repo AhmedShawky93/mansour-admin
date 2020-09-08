@@ -62,6 +62,8 @@ export class OrdersComponent implements OnInit {
     state_id: "",
     date_from: "",
     date_to: "",
+    customer_city_ids: [],
+    customer_area_ids: [],
     hide_scheduled: 1,
   };
 
@@ -106,6 +108,7 @@ export class OrdersComponent implements OnInit {
   orderStatusId: any;
   branches: any = [];
   stateForm: FormGroup;
+  areaListSearch: any[];
 
   constructor(
     private ordersService: OrdersService,
@@ -236,7 +239,7 @@ export class OrdersComponent implements OnInit {
         this.branches = response.data;
       });
 
-    
+
   }
 
   setupStateForm() {
@@ -390,7 +393,6 @@ export class OrdersComponent implements OnInit {
     this.p = p;
     console.log(this.filter);
 
-    // this.filterOrders(p);
     this.filter$.next(this.filter);
   }
 
@@ -942,6 +944,30 @@ export class OrdersComponent implements OnInit {
     }
     this.districts = [];
   }
+  public selectCity(cityId) {
+    console.log(' cityId===>',cityId)
+    this.filter.customer_city_ids = []
+    this.filter.customer_area_ids = []
+
+    const index = this.cities.findIndex((item) => item.id == cityId);
+    if (index !== -1) {
+      if (this.cities[index].areas.length) {
+        this.areaListSearch = this.cities[index].areas;
+        console.log(this.areaList, "if");
+      } else {
+        this.areaListSearch = [];
+        this.areaListSearch.push(this.cities[index]);
+        console.log(this.areaList, "else");
+      }
+    }else {}
+    this.filter.customer_city_ids = [cityId]
+    this.changePage(1);
+  }
+  selectArea(areaId) {
+    this.filter.customer_area_ids = [areaId]
+    this.changePage(1);
+  }
+
   public getDistrict(district) {
     const index = this.areaList.findIndex((item) => item.id == district);
     // this.selectedDistrict = district;
