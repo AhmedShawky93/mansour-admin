@@ -1741,10 +1741,8 @@ bar-rating {
   cursor: not-allowed !important;
 }
 
-
-.cdk-overlay-container
-{
-  z-index: 99999 !important
+.cdk-overlay-container {
+  z-index: 99999 !important;
 }
 
 @media print {
@@ -1753,7 +1751,10 @@ bar-rating {
   }
 }
 
-.toast-container .toast
-{
+.toast-container .toast {
   opacity: 1 !important;
+}
+
+.toast-success {
+  background-color: #51a351 !important;
 }
