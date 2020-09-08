@@ -1753,3 +1753,7 @@ bar-rating {
   }
 }
 
+.toast-container .toast
+{
+  opacity: 1 !important;
+}
