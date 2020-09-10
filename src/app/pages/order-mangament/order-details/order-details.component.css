@@ -287,3 +287,9 @@ p.pRating {
 .form-edit-price .form-group {
   margin-bottom: 0px !important;
 }
+
+.line-through {
+  text-decoration: line-through;
+  margin-right: 15px;
+
+}
