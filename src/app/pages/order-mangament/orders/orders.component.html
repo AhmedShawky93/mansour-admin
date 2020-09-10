@@ -64,13 +64,15 @@
 
     </div> -->
     <div class="col-md-2" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_city_ids" (ngModelChange)="selectCity($event)">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_city_ids"
+        (ngModelChange)="selectCity($event)">
         <option value="">Select City</option>
         <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
       </select>
     </div>
     <div class="col-md-2" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_area_ids" (ngModelChange)="selectArea($event)">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_area_ids"
+        (ngModelChange)="selectArea($event)">
         <option value="">Select Area </option>
         <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
       </select>
@@ -700,8 +702,8 @@
           </div>
           <div class="form-group w-60">
             <mat-form-field>
-              <input matInput #mdate placeholder="Date " [satDatepicker]="picker2" [value]="date"
-                formControlName="pickup_date">
+              <input matInput #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
+                [value]="date" formControlName="pickup_date">
               <sat-datepicker #picker2 [rangeMode]="false">
               </sat-datepicker>
               <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
@@ -714,7 +716,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group w-40">
+          <!-- <div class="form-group w-40">
             <input class="form-control" type="time" formControlName="pickup_time">
             <div
               *ngIf="stateForm.controls.pickup_time.invalid && (stateForm.controls.pickup_time.dirty || stateForm.controls.pickup_time.touched)"
@@ -723,6 +725,14 @@
                 Pickup time is required.
               </div>
             </div>
+          </div> -->
+          <div class="form-group w-40">
+            <label for=""> Time</label>
+            <input formControlName="pickup_time" type="text" id="pickup_time" class="owl-input" name="pickup_time"
+              [ngxTimepicker]="openPickerTime">
+            <ngx-material-timepicker [minutesGap]="5" #openPickerTime></ngx-material-timepicker>
+
+
           </div>
           <div class="form-group">
             <label for="">Shipping Notes</label>

@@ -1758,3 +1758,16 @@ bar-rating {
 .toast-success {
   background-color: #51a351 !important;
 }
+
+.timepicker__header {
+  background-color: #ea5959 !important;
+}
+.clock-face__number > span.active {
+  background-color: #ea5959 !important;
+}
+.clock-face__clock-hand {
+  background-color: #ea5959 !important;
+}
+.timepicker-button {
+  color: #ea5959 !important;
+}
