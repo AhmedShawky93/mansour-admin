@@ -157,4 +157,16 @@ export class OrdersService {
     });
   }
 
+  updateItemPrice(id, product_id, data) {
+    return this.http.post(this.url + "/orders/" + id + "/update_item_price/" + product_id, data).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  updateInvoiceDiscount(id, data) {
+    return this.http.post(this.url + "/orders/" + id + "/update_invoice_discount/", data).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
 }

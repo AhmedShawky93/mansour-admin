@@ -40,6 +40,9 @@ export class OrderDetailsComponent implements OnInit {
   orderStatusId: string;
   status_notesText: string;
   error_status_notes: boolean;
+  discount: any;
+  currentItem: any;
+  invoiceDiscount: any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -149,6 +152,7 @@ export class OrderDetailsComponent implements OnInit {
     this.orderId = id;
     $("#confirmOrderStatus").modal("show");
   }
+
   selectStatus(id) {
     this.orderStatusId = id;
     let index = this.orderStatus.findIndex((item) => item.id == id);
@@ -206,15 +210,33 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   openEditPriceProduct(product) {
-    console.log(product);
+    this.currentItem = product;
+    this.discount = product.discount_price;
     $("#orderChangePriceAndDiscount").modal("show");
-
   }
+
+  submitItemUpdate() {
+    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, {discount_price: this.discount, notify_customer: this.notifyUser})
+      .subscribe((response: any) => {
+        this.discount = null;
+        $("#orderChangePriceAndDiscount").modal("hide");
+      });
+  }
+
   openEditPriceTotal(product) {
     console.log(product);
+    this.discount = this.order.invoice.total_amount - this.order.invoice.discount
     $("#orderChangePriceTotal").modal("show");
-
   }
+
+  submitIinvoiceUpdate() {
+    this.orderService.updateInvoiceDiscount(this.order.id, {discount: this.invoiceDiscount, notify_customer: this.notifyUser})
+      .subscribe((response: any) => {
+        this.invoiceDiscount = null;
+        $("#orderChangePriceTotal").modal("hide");
+      });
+  }
+
   getOrderStates() {
     this.orderStatesService.getOrderEditableStatus().subscribe({
       next: (response: any) => {
@@ -225,6 +247,7 @@ export class OrderDetailsComponent implements OnInit {
       },
     });
   }
+
   copyInputMessage() {
     this.textMessage = "";
     const selBox = document.createElement("textarea");
@@ -241,6 +264,7 @@ export class OrderDetailsComponent implements OnInit {
     document.body.removeChild(selBox);
     this.toastrService.success("copied");
   }
+
   generateSkusToCopy() {
     this.order.items.forEach((element, index) => {
       console.log('index ==> ', index + 1)

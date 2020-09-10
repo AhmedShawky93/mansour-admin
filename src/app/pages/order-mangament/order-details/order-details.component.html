@@ -428,17 +428,15 @@
       <div class="modal-body">
 
         <form class="form-edit-price">
-          <div class="form-group">
-            <label for=""> Pricing</label>
+          <!-- <div class="form-group"> -->
+            <!-- <label for=""> Pricing</label>
             <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input input-price" placeholder="Type.."
               required [min]="1" [max]="1000000">
-          </div>
+          </div> -->
 
           <div class="form-group">
-            <label for=""> Discount Price
-              <small> optional</small>
-            </label>
-            <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.." [min]="0">
+            <label for="">Discount Price</label>
+            <input type="number" name="discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.." [min]="0" [(ngModel)]="discount">
           </div>
 
         </form>
@@ -449,7 +447,7 @@
 
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitItemUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
@@ -473,17 +471,12 @@
       <div class="modal-body">
 
         <form class="form-edit-price">
-          <!-- <div class="form-group">
-            <label for=""> Pricing</label>
-            <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input input-price" placeholder="Type.."
-              required [min]="1" [max]="1000000">
-          </div> -->
 
           <div class="form-group">
-            <label for=""> Discount Price
+            <label for=""> Discount
               <small> optional</small>
             </label>
-            <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.." [min]="0">
+            <input type="number" name="invoice_discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.." [min]="0" [(ngModel)]="invoiceDiscount">
           </div>
 
         </form>
@@ -494,7 +487,7 @@
 
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitInvoiceUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
