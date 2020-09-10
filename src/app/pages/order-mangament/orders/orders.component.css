@@ -545,3 +545,7 @@ table  .checkmark
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
+
+.img-disabled {
+  opacity: 0.5;
+}

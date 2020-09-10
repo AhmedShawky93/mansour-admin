@@ -12,12 +12,13 @@ import "rxjs/add/operator/map";
 import * as moment from "moment";
 
 import { Title } from "@angular/platform-browser";
-import { Subject } from "rxjs";
-import { tap, switchMap } from "rxjs/operators";
+import { Subject, Observable, concat, of } from "rxjs";
+import { tap, switchMap, debounceTime, distinctUntilChanged, catchError, map } from "rxjs/operators";
 import { AuthService } from "@app/shared/auth.service";
 import { environment } from "@env/environment";
 import { DeliveryService } from "@app/pages/services/delivery.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { ProductsService } from "@app/pages/services/products.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -110,6 +111,13 @@ export class OrdersComponent implements OnInit {
   stateForm: FormGroup;
   areaListSearch: any[];
 
+  products: any = [];
+  products$: Observable<any>;
+  productsInput$ = new Subject<String>();
+  productsLoading: boolean;
+  selectedProduct: any;
+  stateSubmitting: boolean = false;
+
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -119,7 +127,8 @@ export class OrdersComponent implements OnInit {
     private router: Router,
     private _areaService: AreasService,
     private orderStatesService: OrderStatesService,
-    private deliveryService: DeliveryService
+    private deliveryService: DeliveryService,
+    private productService: ProductsService
   ) {
     this.titleService.setTitle("Orders");
   }
@@ -239,7 +248,28 @@ export class OrdersComponent implements OnInit {
         this.branches = response.data;
       });
 
-
+    this.products$ = concat(
+      this.productsInput$.pipe(
+        debounceTime(700),
+        distinctUntilChanged(),
+        tap(() => (this.productsLoading = true)),
+        switchMap((term) =>
+          this.productService.searchProductVariants({ q: term }, 1).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.productsLoading = false)),
+            map((response: any) => {
+              this.products = response.data.products;
+              return response.data.products.map((p) => {
+                return {
+                  id: p.id,
+                  name: p.sku + ": " + p.name,
+                };
+              });
+            })
+          )
+        )
+      )
+    );
   }
 
   setupStateForm() {
@@ -342,6 +372,7 @@ export class OrdersComponent implements OnInit {
       data.shipping_method = +data.shipping_method;
     }
 
+    this.stateSubmitting = true
     this.ordersService
       .changeBulkChangeState(this.orderId, data)
       .subscribe((response: any) => {
@@ -349,8 +380,11 @@ export class OrdersComponent implements OnInit {
           this.status_notesText = '';
           $("#confirmOrderStatus").modal("hide");
           this.filter$.next(this.filter);
-
+        } else {
+          this.toasterService.error(response.message, "Error");
         }
+
+        this.stateSubmitting = false
       });
   }
   getOrderStates() {
@@ -432,6 +466,29 @@ export class OrdersComponent implements OnInit {
       });
     }
     this.showDelete = !this.showDelete;
+  }
+
+  addProductToOrder() {
+    if (this.selectedProduct) {
+      let exists = this.currentOrder.items.findIndex(i => i.id == this.selectedProduct);
+
+      if (exists !== -1) {
+        return;
+      }
+   
+      let ind = this.products.findIndex(p => p.id == this.selectedProduct);
+      if (ind !== -1) {
+        let item = {
+          id: this.products[ind].id,
+          amount: 1,
+          product: this.products[ind]
+        }
+        // let product = this.products[ind];
+        // product.amount = 1;
+        this.currentOrder.items.push(item);
+        this.selectedProduct = null;
+      }
+    }
   }
 
   showAmount(order) {
@@ -653,10 +710,9 @@ export class OrdersComponent implements OnInit {
 
   addAmountOldItem(product) {
     console.log(product);
-    // if (product.quantity < product.amount) {
-    product.amount++;
-    // console.log(product, "if");
-    // }
+    if (product.amount < product.product.stock) {
+      product.amount++;
+    }
   }
   removeAmountOldItem(product) {
     console.log(product);

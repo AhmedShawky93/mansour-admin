@@ -345,11 +345,17 @@
             <i class="icon-Exit"></i>
           </div>
           <div class="left-addon">
-            <i class="fa fa-search"></i>
-            <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="productTerm">
+            <!-- <i class="fa fa-search"></i>
+            <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="productTerm"> -->
+            <label for="amount">Search</label>
+            <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
+              bindLabel="name" bindValue="id" placeholder="Enter Product name" [(ngModel)]="selectedProduct">
+            </ng-select>
           </div>
 
-          <select class="owl-input" (change)="loadSubcategories(selectedCategory)" [(ngModel)]="selectedCategory">
+          <button type="button" class="add-item-btn btn-success" (click)="addProductToOrder()">Add Product</button>
+
+          <!-- <select class="owl-input" (change)="loadSubcategories(selectedCategory)" [(ngModel)]="selectedCategory">
             <option value="" selected hidden>select category</option>
             <option [value]="cat.id" *ngFor="let cat of categories">{{cat.name}}</option>
           </select>
@@ -358,7 +364,7 @@
           <select class="owl-input" (change)="loadProducts(selectedSubcategory)" [(ngModel)]="selectedSubcategory">
             <option value="" selected hidden>select sub Category</option>
             <option [value]="cat.id" *ngFor="let cat of sub_categories">{{cat.name}}</option>
-          </select>
+          </select> -->
         </div>
 
         <div class="order-list">
@@ -451,12 +457,13 @@
           </span>
           <b>{{item.amount}}</b>
           <span>
-            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItem(item)">
+            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItem(item)" [ngClass]="{'img-disabled': item.amount >= item.product.stock}">
           </span>
         </span>
         <h4 class="relative">
           <span style="width: 270px; display: inline-block;" *ngIf="item.product">
-            {{(item.product.name.length > 26) ? (item.product.name | summary :  25) : item.product.name}}
+            {{(item.product.name.length > 26) ? (item.product.name | summary :  25) : item.product.name}} <br>
+            <span style="font-size: 13px; color: #557e96">{{item.product.sku}}</span>
           </span>
           <span style="width: 270px; display: inline-block;" *ngIf="!item.product">
             {{(item.name.length > 26) ? (item.name | summary :  25) : item.name}}
@@ -725,10 +732,10 @@
         </div>
       </form>
 
-      <div class="modal-footer" style="    justify-content: center; ">
-        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
-          (click)="confirmChangeStatus(notifyUser)">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
+          (click)="confirmChangeStatus(notifyUser)" [appLoading]="stateSubmitting">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">No</button>
       </div>
 
     </div>
