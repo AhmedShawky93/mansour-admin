@@ -196,8 +196,8 @@
 
     <div class="qty-item">
       <p>QTY: {{ item.amount }}</p>
-      <span *ngIf="item?.discount_price === null">{{ item.price }} LE</span>
-      <span *ngIf="item?.discount_price !== null">{{ item.discount_price }} LE</span>
+      <span [ngClass]="item?.product.discount_price !== null ? 'line-through':''">{{ item.product.price }} LE</span>
+      <span *ngIf="item?.product.discount_price !== null" style="color: #ea5859 ;">{{ item.product.discount_price }} LE</span>
       <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
         <i class="icon-grey edit-price"></i>
       </a>
@@ -429,14 +429,15 @@
 
         <form class="form-edit-price">
           <!-- <div class="form-group"> -->
-            <!-- <label for=""> Pricing</label>
+          <!-- <label for=""> Pricing</label>
             <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input input-price" placeholder="Type.."
               required [min]="1" [max]="1000000">
           </div> -->
 
           <div class="form-group">
             <label for="">Discount Price</label>
-            <input type="number" name="discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.." [min]="0" [(ngModel)]="discount">
+            <input type="number" name="discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
+              [min]="0" [(ngModel)]="discount">
           </div>
 
         </form>
@@ -476,7 +477,8 @@
             <label for=""> Discount
               <small> optional</small>
             </label>
-            <input type="number" name="invoice_discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.." [min]="0" [(ngModel)]="invoiceDiscount">
+            <input type="number" name="invoice_discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input"
+              placeholder="Type.." [min]="0" [(ngModel)]="invoiceDiscount">
           </div>
 
         </form>
