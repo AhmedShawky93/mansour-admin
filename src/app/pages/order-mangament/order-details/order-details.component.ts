@@ -218,6 +218,7 @@ export class OrderDetailsComponent implements OnInit {
   submitItemUpdate() {
     this.orderService.updateItemPrice(this.order.id, this.currentItem.id, {discount_price: this.discount, notify_customer: this.notifyUser})
       .subscribe((response: any) => {
+        this.currentItem.discount_price = this.discount;
         this.discount = null;
         $("#orderChangePriceAndDiscount").modal("hide");
       });
@@ -226,7 +227,6 @@ export class OrderDetailsComponent implements OnInit {
   openEditPriceTotal(product) {
     console.log(product);
     this.discount = this.order.invoice.total_amount - this.order.invoice.discount
-    this.currentItem.discount_price = this.discount;
     $("#orderChangePriceTotal").modal("show");
   }
 
