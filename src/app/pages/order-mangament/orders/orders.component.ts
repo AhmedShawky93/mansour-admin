@@ -65,6 +65,12 @@ export class OrdersComponent implements OnInit {
     customer_city_ids: [],
     customer_area_ids: [],
     hide_scheduled: 1,
+
+    customer_name: "",
+    customer_email: "",
+    customer_phone: "",
+    payment_method: null,
+
   };
 
   p = 1;
@@ -414,12 +420,12 @@ export class OrdersComponent implements OnInit {
 
   clearDateFrom() {
     this.filter.date_from = "";
-    this.changePage(1);
+    // this.changePage(1);
   }
 
   clearDateTo() {
     this.filter.date_to = "";
-    this.changePage(1);
+    // this.changePage(1);
   }
 
   changePage(p) {
@@ -474,7 +480,7 @@ export class OrdersComponent implements OnInit {
       if (exists !== -1) {
         return;
       }
-   
+
       let ind = this.products.findIndex(p => p.id == this.selectedProduct);
       if (ind !== -1) {
         let item = {
@@ -1024,11 +1030,11 @@ export class OrdersComponent implements OnInit {
       this.areaListSearch = [];
 
     }
-    this.changePage(1);
+    // this.changePage(1);
   }
   selectArea(areaId) {
     this.filter.customer_area_ids = [areaId]
-    this.changePage(1);
+    // this.changePage(1);
   }
 
   public getDistrict(district) {
