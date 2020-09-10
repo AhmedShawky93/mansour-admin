@@ -205,6 +205,16 @@ export class OrderDetailsComponent implements OnInit {
       });
   }
 
+  openEditPriceProduct(product) {
+    console.log(product);
+    $("#orderChangePriceAndDiscount").modal("show");
+
+  }
+  openEditPriceTotal(product) {
+    console.log(product);
+    $("#orderChangePriceTotal").modal("show");
+
+  }
   getOrderStates() {
     this.orderStatesService.getOrderEditableStatus().subscribe({
       next: (response: any) => {

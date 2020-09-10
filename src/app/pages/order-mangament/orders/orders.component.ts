@@ -1,6 +1,5 @@
 import { AreasService } from "@app/pages/services/areas.service";
 import { Router } from "@angular/router";
-import { Console } from "@angular/core/src/console";
 import { OrderStatesService } from "./../../services/order-states.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { OrdersService } from "@app/pages/services/orders.service";
@@ -1001,22 +1000,30 @@ export class OrdersComponent implements OnInit {
     this.districts = [];
   }
   public selectCity(cityId) {
-    console.log(' cityId===>',cityId)
-    this.filter.customer_city_ids = []
-    this.filter.customer_area_ids = []
+    if (cityId) {
 
-    const index = this.cities.findIndex((item) => item.id == cityId);
-    if (index !== -1) {
-      if (this.cities[index].areas.length) {
-        this.areaListSearch = this.cities[index].areas;
-        console.log(this.areaList, "if");
-      } else {
-        this.areaListSearch = [];
-        this.areaListSearch.push(this.cities[index]);
-        console.log(this.areaList, "else");
+      console.log(' cityId===>', cityId)
+      this.filter.customer_city_ids = []
+      this.filter.customer_area_ids = []
+
+      const index = this.cities.findIndex((item) => item.id == cityId);
+      if (index !== -1) {
+        if (this.cities[index].areas.length) {
+          this.areaListSearch = this.cities[index].areas;
+          console.log(this.areaList, "if");
+        } else {
+          this.areaListSearch = [];
+          this.areaListSearch.push(this.cities[index]);
+          console.log(this.areaList, "else");
+        }
       }
-    }else {}
-    this.filter.customer_city_ids = [cityId]
+
+      this.filter.customer_city_ids = [cityId]
+    } else {
+      this.filter.customer_city_ids = []
+      this.areaListSearch = [];
+
+    }
     this.changePage(1);
   }
   selectArea(areaId) {
