@@ -1,6 +1,5 @@
 import { AreasService } from "@app/pages/services/areas.service";
 import { Router } from "@angular/router";
-import { Console } from "@angular/core/src/console";
 import { OrderStatesService } from "./../../services/order-states.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { OrdersService } from "@app/pages/services/orders.service";
