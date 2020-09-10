@@ -226,13 +226,15 @@ export class OrderDetailsComponent implements OnInit {
   openEditPriceTotal(product) {
     console.log(product);
     this.discount = this.order.invoice.total_amount - this.order.invoice.discount
+    this.currentItem.discount_price = this.discount;
     $("#orderChangePriceTotal").modal("show");
   }
 
-  submitIinvoiceUpdate() {
+  submitInvoiceUpdate() {
     this.orderService.updateInvoiceDiscount(this.order.id, {discount: this.invoiceDiscount, notify_customer: this.notifyUser})
       .subscribe((response: any) => {
         this.invoiceDiscount = null;
+        this.order.invoice.discoutn = this.invoiceDiscount;
         $("#orderChangePriceTotal").modal("hide");
       });
   }

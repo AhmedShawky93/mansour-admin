@@ -325,8 +325,8 @@
       <div class="block-item">
         <p>Discount</p>
         <span
-          *ngIf="order.invoice.promo_id">{{ (order.invoice.total_amount - order.invoice.discount  )| number : '1.2-2'}}</span>
-        <span *ngIf="!order.invoice.promo_id">-</span>
+          *ngIf="order.invoice.discount_price !== null">{{ (order.invoice.total_amount - order.invoice.discount  )| number : '1.2-2'}}</span>
+        <span *ngIf="!order.invoice.discount_price !== null">-</span>
         <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
           <i class="icon-grey edit-price"></i>
         </a>
