@@ -1771,3 +1771,15 @@ bar-rating {
 .timepicker-button {
   color: #ea5959 !important;
 }
+
+.datepicker .mat-form-field-flex {
+  background: #fff;
+  padding: 0 10px;
+  height: 48px;
+  border: 1px solid #f4f4f4 !important;
+  color: rgba(0, 61, 97, 0.47);
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  height: 0px !important;
+}

@@ -16,9 +16,17 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="customer name" [(ngModel)]="filter.customer_name"
-          >
-          <!-- (keydown)="changePage(1)" -->
+        <input type="text" class="owl-input owls-search" placeholder="Order id" [(ngModel)]="filter.ids">
+        <!-- (keydown)="changePage(1)" -->
+      </div>
+    </div>
+    <div class="col-md-4" style="margin-bottom:10px;">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="Customer name" [(ngModel)]="filter.customer_name">
+        <!-- (keydown)="changePage(1)" -->
       </div>
     </div>
     <div class="col-md-4">
@@ -28,7 +36,7 @@
         </span>
         <input type="text" class="owl-input owls-search" placeholder="customer email"
           [(ngModel)]="filter.customer_email">
-          <!--  (keydown)="changePage(1)" -->
+        <!--  (keydown)="changePage(1)" -->
       </div>
     </div>
     <div class="col-md-4">
@@ -37,69 +45,76 @@
           <i class="fa fa-search"></i>
         </span>
         <input type="text" class="owl-input owls-search" placeholder="customer phone"
-          [(ngModel)]="filter.customer_phone" >
-          <!-- (keydown)="changePage(1)" -->
+          [(ngModel)]="filter.customer_phone">
+        <!-- (keydown)="changePage(1)" -->
       </div>
     </div>
 
-    <div class="col-md-4" style="margin-bottom: 10px;">
+    <!-- <div class="col-md-4" style="margin-bottom: 10px;">
       <select name="" class="owl-input bg-white" [(ngModel)]="filter.payment_method">
         <option [value]="null" disabled hidden>Select payment method</option>
         <option [value]="0">All</option>
         <option [value]="1"> Cash </option>
         <option [value]="2"> Visa </option>
       </select>
-      <!-- (change)="changePage(1)" -->
-    </div>
-    <div class="col-md-4">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.state_id" >
-        <option value="">All Orders</option>
-        <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}</option>
-      </select>
-      <!-- (change)="changePage(p)" -->
-    </div>
-    <div class="col-md-2" style="margin-bottom: 20px;">
+     </div> -->
+
+    <div class="col-md-4" style="margin-bottom: 20px;">
       <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_city_ids"
         (ngModelChange)="selectCity($event)">
         <option value="">Select City</option>
         <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
       </select>
     </div>
-    <div class="col-md-2" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_area_ids"
+    <div class="col-md-4" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white"  [(ngModel)]="filter.customer_area_ids"
         (ngModelChange)="selectArea($event)">
         <option value="">Select Area </option>
         <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
       </select>
     </div>
     <div class="col-md-2 col-sm-10">
-      <mat-form-field>
-        <input matInput #mdate placeholder="Date From" [satDatepicker]="picker2" [value]="date"
-          [(ngModel)]="filter.date_from" >
-          <!-- (dateChange)="changePage(1)" -->
-        <sat-datepicker #picker2 [rangeMode]="false">
+      <mat-form-field class="datepicker">
+        <input matInput #mdate placeholder="Date From"  readonly (click)="pickerFrom.open()" [satDatepicker]="pickerFrom" [value]="date"
+          [(ngModel)]="filter.date_from">
+        <!-- (dateChange)="changePage(1)" -->
+        <sat-datepicker #pickerFrom [rangeMode]="false">
         </sat-datepicker>
-        <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+        <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="col-md-1 col-sm-1">
-      <a class="clear-date" href="javascript:void(0)" (click)="clearDateFrom()"><i class="icon-Exit"></i></a>
-    </div>
-
     <div class="col-md-2 col-sm-10">
-      <mat-form-field>
-        <input matInput #mdate placeholder="Date To" [satDatepicker]="pickerTo" [value]="date"
-          [(ngModel)]="filter.date_to" >
-          <!-- (dateChange)="changePage(1)" -->
+      <mat-form-field class="datepicker">
+        <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo" [value]="date"
+          [(ngModel)]="filter.date_to">
+        <!-- (dateChange)="changePage(1)" -->
         <sat-datepicker #pickerTo [rangeMode]="false">
         </sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="col-md-1 col-sm-1">
-      <a class="clear-date" href="javascript:void(0)" (click)="clearDateTo()"><i class="icon-Exit"></i></a>
+    <div class="col-md-4">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.state_id">
+        <option value="">Select Status </option>
+        <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}</option>
+      </select>
+      <!-- (change)="changePage(p)" -->
     </div>
+    <!-- <div class="col-md-1 col-sm-1">
+      <a class="clear-date" href="javascript:void(0)" (click)="clearDateFrom()"><i class="icon-Exit"></i></a>
+    </div> -->
+
+
+    <!-- <div class="col-md-1 col-sm-1">
+      <a class="clear-date" href="javascript:void(0)" (click)="clearDateTo()"><i class="icon-Exit"></i></a>
+    </div> -->
     <div class="col-md-4  col-xs-6 "></div>
+    <div class="col-md-8  col-xs-6 "></div>
+    <div class="col-md-2  col-xs-6 ">
+      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
+      style="background: #eee !important;color: #eb1c24  !important;"
+        (click)="ClearSearch()">Clear</button>
+    </div>
     <div class="col-md-2  col-xs-6 ">
       <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
         (click)="changePage(1)">Search</button>
@@ -125,12 +140,12 @@
 
 
   </div>
-  <div class="row" >
+  <div class="row">
     <div class=" col-md-2  col-xs-6">
       <!-- <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
         <div *ngIf="order.order_status_editable"> -->
       <select class="owl-input" required name="status" [(ngModel)]="state_id" (ngModelChange)="selectStatus($event) ">
-        <option value="" selected  >Select Status </option>
+        <option value="" selected>Select Status </option>
         <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}
         </option>
       </select>
@@ -751,7 +766,7 @@
             </div>
           </div>
           <div class="form-group w-60">
-            <mat-form-field>
+            <mat-form-field >
               <input matInput #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
                 [value]="date" formControlName="pickup_date">
               <sat-datepicker #picker2 [rangeMode]="false">
