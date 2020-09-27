@@ -33,6 +33,13 @@ export class ProductsService {
     });
   }
 
+  searchProductVariants(data, p = 1) {
+    data.page = p;
+    return this.http.get(this.url + "/products/searchVariants", {
+      params: data,
+    });
+  }
+
   creatProduct(product) {
     return this.http
       .post(this.url + "/products", product)
