@@ -1043,7 +1043,12 @@ export class OrdersComponent implements OnInit {
     // this.changePage(1);
   }
   selectArea(areaId) {
-    this.filter.customer_area_ids = [areaId]
+    if (areaId) {
+      this.filter.customer_area_ids = [areaId]
+    } else {
+      this.filter.customer_area_ids = [areaId]
+
+    }
     // this.changePage(1);
   }
 

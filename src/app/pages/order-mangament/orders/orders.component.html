@@ -73,7 +73,7 @@
         <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
       </select>
     </div>
-    <div class="col-md-2 col-sm-10">
+    <div class="col-md-4 col-sm-10">
       <mat-form-field class="datepicker">
         <input matInput #mdate placeholder="Date From"  readonly (click)="pickerFrom.open()" [satDatepicker]="pickerFrom" [value]="date"
           [(ngModel)]="filter.date_from">
@@ -83,7 +83,7 @@
         <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="col-md-2 col-sm-10">
+    <div class="col-md-4 col-sm-10">
       <mat-form-field class="datepicker">
         <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo" [value]="date"
           [(ngModel)]="filter.date_to">
@@ -108,7 +108,7 @@
     <!-- <div class="col-md-1 col-sm-1">
       <a class="clear-date" href="javascript:void(0)" (click)="clearDateTo()"><i class="icon-Exit"></i></a>
     </div> -->
-    <div class="col-md-4  col-xs-6 "></div>
+    <!-- <div class="col-md-4  col-xs-6 "></div> -->
     <div class="col-md-8  col-xs-6 "></div>
     <div class="col-md-2  col-xs-6 ">
       <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
