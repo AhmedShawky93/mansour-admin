@@ -370,7 +370,7 @@ export class OrdersComponent implements OnInit {
       data.pickup_date = moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
       data.shipping_method = +data.shipping_method;
     }
-
+    data.state_id = +data.state_id;
     this.stateSubmitting = true
     this.ordersService
       .changeBulkChangeState(this.orderId, data)
