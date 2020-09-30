@@ -1,8 +1,8 @@
 <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
 <div class="top-table-bar">
 
-  <div class="row">
-    <div class="col-md-4">
+  <div class="row" style="border: 1px solid #dbdbdb;  margin-bottom: 24px; padding: 20px 0;  border-radius: 10px;">
+    <!-- <div class="col-md-4">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
@@ -10,39 +10,114 @@
         <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="filter.term"
           (keydown)="changePage(1)">
       </div>
+    </div> -->
+    <div class="col-md-4" style="margin-bottom:10px;">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="Order id" [(ngModel)]="filter.ids">
+        <!-- (keydown)="changePage(1)" -->
+      </div>
+    </div>
+    <div class="col-md-4" style="margin-bottom:10px;">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="Customer name" [(ngModel)]="filter.customer_name">
+        <!-- (keydown)="changePage(1)" -->
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="customer email"
+          [(ngModel)]="filter.customer_email">
+        <!--  (keydown)="changePage(1)" -->
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="customer phone"
+          [(ngModel)]="filter.customer_phone">
+        <!-- (keydown)="changePage(1)" -->
+      </div>
     </div>
 
-    <div class="col-md-2">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.state_id" (change)="changePage(p)">
-        <option value="">All Orders</option>
-        <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}</option>
+    <!-- <div class="col-md-4" style="margin-bottom: 10px;">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.payment_method">
+        <option [value]="null" disabled hidden>Select payment method</option>
+        <option [value]="0">All</option>
+        <option [value]="1"> Cash </option>
+        <option [value]="2"> Visa </option>
+      </select>
+     </div> -->
+
+    <div class="col-md-4" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_city_ids"
+        (ngModelChange)="selectCity($event)">
+        <option value="">Select City</option>
+        <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
       </select>
     </div>
-
-    <div class="col-md-2 col-sm-10">
-      <mat-form-field>
-        <input matInput #mdate placeholder="Date From" [satDatepicker]="picker2" [value]="date"
-          [(ngModel)]="filter.date_from" (dateChange)="changePage(1)">
-        <sat-datepicker #picker2 [rangeMode]="false">
+    <div class="col-md-4" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white"  [(ngModel)]="filter.customer_area_ids"
+        (ngModelChange)="selectArea($event)">
+        <option value="">Select Area </option>
+        <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
+      </select>
+    </div>
+    <div class="col-md-4 col-sm-10">
+      <mat-form-field class="datepicker">
+        <input matInput #mdate placeholder="Date From"  readonly (click)="pickerFrom.open()" [satDatepicker]="pickerFrom" [value]="date"
+          [(ngModel)]="filter.date_from">
+        <!-- (dateChange)="changePage(1)" -->
+        <sat-datepicker #pickerFrom [rangeMode]="false">
         </sat-datepicker>
-        <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+        <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="col-md-1 col-sm-1" style="max-width: 70px;">
-      <a class="clear-date" href="javascript:void(0)" (click)="clearDateFrom()"><i class="icon-Exit"></i></a>
-    </div>
-
-    <div class="col-md-2 col-sm-10">
-      <mat-form-field>
-        <input matInput #mdate placeholder="Date To" [satDatepicker]="pickerTo" [value]="date"
-          [(ngModel)]="filter.date_to" (dateChange)="changePage(1)">
+    <div class="col-md-4 col-sm-10">
+      <mat-form-field class="datepicker">
+        <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo" [value]="date"
+          [(ngModel)]="filter.date_to">
+        <!-- (dateChange)="changePage(1)" -->
         <sat-datepicker #pickerTo [rangeMode]="false">
         </sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="col-md-1 col-sm-1" style="max-width: 70px;">
+    <div class="col-md-4">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.state_id">
+        <option value="">Select Status </option>
+        <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}</option>
+      </select>
+      <!-- (change)="changePage(p)" -->
+    </div>
+    <!-- <div class="col-md-1 col-sm-1">
+      <a class="clear-date" href="javascript:void(0)" (click)="clearDateFrom()"><i class="icon-Exit"></i></a>
+    </div> -->
+
+
+    <!-- <div class="col-md-1 col-sm-1">
       <a class="clear-date" href="javascript:void(0)" (click)="clearDateTo()"><i class="icon-Exit"></i></a>
+    </div> -->
+    <!-- <div class="col-md-4  col-xs-6 "></div> -->
+    <div class="col-md-8  col-xs-6 "></div>
+    <div class="col-md-2  col-xs-6 ">
+      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
+      style="background: #eee !important;color: #eb1c24  !important;"
+        (click)="ClearSearch()">Clear</button>
+    </div>
+    <div class="col-md-2  col-xs-6 ">
+      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
+        (click)="changePage(1)">Search</button>
     </div>
 
     <!-- <div class="col-md-12 col-sm-3" style="padding-top: 20px;  padding-bottom: 20px;">
@@ -61,26 +136,16 @@
       </div>
 
     </div> -->
-    <div class="col-md-2" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_city_ids"
-        (ngModelChange)="selectCity($event)">
-        <option value="">Select City</option>
-        <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
-      </select>
-    </div>
-    <div class="col-md-2" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_area_ids"
-        (ngModelChange)="selectArea($event)">
-        <option value="">Select Area </option>
-        <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
-      </select>
-    </div>
-    <div class="col-12"></div>
+
+
+
+  </div>
+  <div class="row">
     <div class=" col-md-2  col-xs-6">
       <!-- <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
-      <div *ngIf="order.order_status_editable"> -->
+        <div *ngIf="order.order_status_editable"> -->
       <select class="owl-input" required name="status" [(ngModel)]="state_id" (ngModelChange)="selectStatus($event) ">
-        <option value="" selected hidden>Select Status </option>
+        <option value="" selected>Select Status </option>
         <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}
         </option>
       </select>
@@ -348,8 +413,9 @@
             <!-- <i class="fa fa-search"></i>
             <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="productTerm"> -->
             <label for="amount">Search</label>
-            <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
-              bindLabel="name" bindValue="id" placeholder="Enter Product name" [(ngModel)]="selectedProduct">
+            <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products"
+              [items]="products$ | async" bindLabel="name" bindValue="id" placeholder="Enter Product name"
+              [(ngModel)]="selectedProduct">
             </ng-select>
           </div>
 
@@ -457,7 +523,8 @@
           </span>
           <b>{{item.amount}}</b>
           <span>
-            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItem(item)" [ngClass]="{'img-disabled': item.amount >= item.product.stock}">
+            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItem(item)"
+              [ngClass]="{'img-disabled': item.amount >= item.product.stock}">
           </span>
         </span>
         <h4 class="relative">
@@ -699,7 +766,7 @@
             </div>
           </div>
           <div class="form-group w-60">
-            <mat-form-field>
+            <mat-form-field >
               <input matInput #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
                 [value]="date" formControlName="pickup_date">
               <sat-datepicker #picker2 [rangeMode]="false">
@@ -720,7 +787,8 @@
             <input formControlName="pickup_time" type="text" id="pickup_time" class="owl-input" name="pickup_time"
               [ngxTimepicker]="openPickerTime">
             <ngx-material-timepicker [minutesGap]="5" #openPickerTime></ngx-material-timepicker>
-            <div *ngIf="stateForm.controls.pickup_time.invalid && (stateForm.controls.pickup_time.dirty || stateForm.controls.pickup_time.touched)"
+            <div
+              *ngIf="stateForm.controls.pickup_time.invalid && (stateForm.controls.pickup_time.dirty || stateForm.controls.pickup_time.touched)"
               class="alert alert-danger">
               <div *ngIf="stateForm.controls.pickup_time.errors.required">
                 Pickup time is required.

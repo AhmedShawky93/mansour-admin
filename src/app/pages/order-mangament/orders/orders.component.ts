@@ -65,6 +65,12 @@ export class OrdersComponent implements OnInit {
     customer_city_ids: [],
     customer_area_ids: [],
     hide_scheduled: 1,
+    ids: [],
+    customer_name: "",
+    customer_email: "",
+    customer_phone: "",
+    payment_method: null,
+
   };
 
   p = 1;
@@ -271,6 +277,23 @@ export class OrdersComponent implements OnInit {
     );
   }
 
+  ClearSearch() {
+    this.filter = {
+      term: "",
+      state_id: "",
+      date_from: "",
+      date_to: "",
+      customer_city_ids: [],
+      customer_area_ids: [],
+      hide_scheduled: 1,
+      ids: [],
+      customer_name: "",
+      customer_email: "",
+      customer_phone: "",
+      payment_method: null,
+    };
+    this.changePage(1)
+  }
   setupStateForm() {
     this.stateForm = new FormGroup({
       status_notes: new FormControl(),
@@ -412,16 +435,6 @@ export class OrdersComponent implements OnInit {
     // console.log(this.firstTime);
   }
 
-  clearDateFrom() {
-    this.filter.date_from = "";
-    this.changePage(1);
-  }
-
-  clearDateTo() {
-    this.filter.date_to = "";
-    this.changePage(1);
-  }
-
   changePage(p) {
     this.p = p;
     console.log(this.filter);
@@ -440,6 +453,9 @@ export class OrdersComponent implements OnInit {
 
     if (this.filter.date_to) {
       this.filter.date_to = moment(this.filter.date_to).format("YYYY-MM-DD");
+    }
+    if (typeof this.filter.ids === 'string' || this.filter.ids instanceof String) {
+      this.filter.ids = [this.filter.ids]
     }
     // console.log(this.serialize(this.filter));
     this.exportProductsUrl =
@@ -474,7 +490,7 @@ export class OrdersComponent implements OnInit {
       if (exists !== -1) {
         return;
       }
-   
+
       let ind = this.products.findIndex(p => p.id == this.selectedProduct);
       if (ind !== -1) {
         let item = {
@@ -1024,11 +1040,16 @@ export class OrdersComponent implements OnInit {
       this.areaListSearch = [];
 
     }
-    this.changePage(1);
+    // this.changePage(1);
   }
   selectArea(areaId) {
-    this.filter.customer_area_ids = [areaId]
-    this.changePage(1);
+    if (areaId) {
+      this.filter.customer_area_ids = [areaId]
+    } else {
+      this.filter.customer_area_ids = [areaId]
+
+    }
+    // this.changePage(1);
   }
 
   public getDistrict(district) {

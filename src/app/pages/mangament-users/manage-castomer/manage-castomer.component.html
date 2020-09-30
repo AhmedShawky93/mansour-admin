@@ -2,15 +2,69 @@
 <div class="top-table-bar">
 
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-3">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm" (keyup)="searchCustomers(searchTerm)">
+        <input type="text" class="owl-input owls-search" placeholder="search by name" [(ngModel)]="filter.name">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search by phone" [(ngModel)]="filter.phone">
+      </div>
+    </div>
+    <div class="col-md-3" style="margin-bottom: 10px;">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search by id" [(ngModel)]="filter.ids">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" class="owl-input owls-search" placeholder="search by email" [(ngModel)]="filter.email">
       </div>
     </div>
 
+    <div class="col-md-3" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.active" (ngModelChange)="selectCity($event)">
+        <option value="" selected hidden>Select Status Custumer</option>
+        <option value="1">Active</option>
+        <option value="2">InActive</option>
+      </select>
+    </div>
+    <div class="col-md-3" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.city_ids" (ngModelChange)="selectCity($event)">
+        <option value="">Select City</option>
+        <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+      </select>
+    </div>
+
+    <div class="col-md-3" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.area_ids" (ngModelChange)="selectArea($event)">
+        <option value="">Select Area </option>
+        <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
+      </select>
+    </div>
+
+    <div class="col-md-3  col-xs-6 ">
+      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
+        (click)="searchInCustomers()">Search</button>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-9"></div>
     <div class="col-md-3 text-right">
       <div class="owl-btn-list">
         <a target="_blank" href="{{exportUrl}}" class="btn btn-owls btn-rounded btn-blue2">Export to CSV</a>
@@ -50,10 +104,12 @@
             <input type="checkbox" value="1" [(ngModel)]="customer.active" (change)="changeActive(customer, $event)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!customer.showReason">
-              <textarea  class="owl-input" placeholder="Why Do yo want to deactivate this customer?"
-              [(ngModel)]="customer.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2"  [ngClass]="{'not-allowed' : !customer.notes }"    [disabled]="!customer.notes" (click)="submitDeactivate(customer)">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(customer)">cancel</button>
+              <textarea class="owl-input" placeholder="Why Do yo want to deactivate this customer?"
+                [(ngModel)]="customer.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [ngClass]="{'not-allowed' : !customer.notes }"
+                [disabled]="!customer.notes" (click)="submitDeactivate(customer)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(customer)">cancel</button>
 
             </div>
             <div class="hover-reason text-left" *ngIf="!customer.active">
@@ -95,11 +151,15 @@
           <p>{{customer.name}}</p>
           <h5>
             {{customer.phone}}
-            <span style="cursor: pointer;" class="text-success" *ngIf="customer.phone_verified"><i class="fa fa-check"></i> Verified</span>
-            <span (click)="confirmVerifyPhone(customer)" data-toggle="modal" data-target="#verifyPopUp" style="cursor: pointer;" class="text-warning" *ngIf="customer.phone && !customer.phone_verified"><i class="fa fa-exclamation-circle"></i> Not Verified</span>
+            <span style="cursor: pointer;" class="text-success" *ngIf="customer.phone_verified"><i
+                class="fa fa-check"></i> Verified</span>
+            <span (click)="confirmVerifyPhone(customer)" data-toggle="modal" data-target="#verifyPopUp"
+              style="cursor: pointer;" class="text-warning" *ngIf="customer.phone && !customer.phone_verified"><i
+                class="fa fa-exclamation-circle"></i> Not Verified</span>
           </h5>
           <h5>{{customer.email}}</h5>
-          <p style="cursor: pointer" (click)="loginAsCustomer(customer.id)"><i class="fa fa-sign-in"></i>&nbsp;Login as {{customer.name}}</p>
+          <p style="cursor: pointer" (click)="loginAsCustomer(customer.id)"><i class="fa fa-sign-in"></i>&nbsp;Login as
+            {{customer.name}}</p>
         </div>
         <div class="date">
           {{customer.id}}
@@ -114,7 +174,9 @@
         <i *ngIf="customer.addresses.length > 0 && hide" class="fa fa-angle-down"></i> <i *ngIf="customer.addresses.length > 0 && show" class="fa fa-angle-up"></i>
       </p> -->
       <div>
-        <p *ngFor="let address of customer.addresses; index as i">{{address.formatted_address}}  <a *ngIf="address.lat" href="https://www.google.com/maps/search/?api=1&query={{address.lat}},{{address.lng}}" target="_blank"><i class="fa fa-external-link"></i></a></p>
+        <p *ngFor="let address of customer.addresses; index as i">{{address.formatted_address}} <a *ngIf="address.lat"
+            href="https://www.google.com/maps/search/?api=1&query={{address.lat}},{{address.lng}}" target="_blank"><i
+              class="fa fa-external-link"></i></a></p>
       </div>
     </div>
 
@@ -134,7 +196,7 @@
     </div>
 
     <div *ngIf="!customer.active">
-        <h5>Deactivation reason</h5>
+      <h5>Deactivation reason</h5>
       <div class="reason-text">
         <div class="inner">
           <p>
@@ -211,7 +273,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="currentPoints">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to cancel {{currentPoints.remaining_points}} points?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">are you sure to cancel {{currentPoints.remaining_points}} points?
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -219,7 +282,8 @@
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2" (click)="cancelPoints()">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2"
+          (click)="cancelPoints()">Yes</button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">No</button>
       </div>
     </div>
@@ -230,7 +294,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="customer">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to verify {{customer.phone}} for {{customer.name}}?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">are you sure to verify {{customer.phone}} for {{customer.name}}?
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -238,7 +303,8 @@
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2" (click)="verifyPhone()">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2"
+          (click)="verifyPhone()">Yes</button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">No</button>
       </div>
     </div>
