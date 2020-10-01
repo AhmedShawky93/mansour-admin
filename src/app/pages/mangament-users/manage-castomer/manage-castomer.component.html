@@ -2,7 +2,7 @@
 <div class="top-table-bar">
 
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-9">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
@@ -10,7 +10,7 @@
         <input type="text" class="owl-input owls-search" placeholder="search by name" [(ngModel)]="filter.name">
       </div>
     </div>
-    <div class="col-md-3">
+    <!-- <div class="col-md-3">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
@@ -25,17 +25,17 @@
         </span>
         <input type="text" class="owl-input owls-search" placeholder="search by id" [(ngModel)]="filter.ids">
       </div>
-    </div>
-    <div class="col-md-3">
+    </div> -->
+    <!-- <div class="col-md-3">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
         <input type="text" class="owl-input owls-search" placeholder="search by email" [(ngModel)]="filter.email">
       </div>
-    </div>
+    </div> -->
 
-    <div class="col-md-3" style="margin-bottom: 20px;">
+    <!-- <div class="col-md-3" style="margin-bottom: 20px;">
       <select name="" class="owl-input bg-white" [(ngModel)]="filter.active" (ngModelChange)="selectCity($event)">
         <option value="" selected hidden>Select Status Custumer</option>
         <option value="1">Active</option>
@@ -54,7 +54,7 @@
         <option value="">Select Area </option>
         <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
       </select>
-    </div>
+    </div> -->
 
     <div class="col-md-3  col-xs-6 ">
       <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
