@@ -196,8 +196,8 @@
 
     <div class="qty-item">
       <p>QTY: {{ item.amount }}</p>
-      <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }} LE</span>
-      <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }} LE</span>
+      <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }} EGP</span>
+      <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }} EGP</span>
       <!-- <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
         <i class="icon-grey edit-price"></i>
       </a> -->
@@ -291,7 +291,7 @@
       <div class="block-item">
         <p>Applied Offer</p>
         <span *ngIf="order.promo">{{ order.promo.name }} -{{ order.promo.amount }}
-          <span *ngIf="order.promo.type == 2">%</span><span *ngIf="order.promo.type == 1">LE</span></span>
+          <span *ngIf="order.promo.type == 2">%</span><span *ngIf="order.promo.type == 1">EGP</span></span>
       </div>
 
       <!-- <div class="block-item">
@@ -357,8 +357,8 @@
 
       <div class="qty-item">
         <p>QTY: {{ item.returned_quantity }}</p>
-        <span *ngIf="item?.product.discount_price === null">{{ item.product.price }} LE</span>
-        <span *ngIf="item?.product.discount_price !== null">{{ item.product.discount_price }} LE</span>
+        <span *ngIf="item?.product.discount_price === null">{{ item.product.price }} EGP</span>
+        <span *ngIf="item?.product.discount_price !== null">{{ item.product.discount_price }} EGP</span>
       </div>
     </div>
   </div>

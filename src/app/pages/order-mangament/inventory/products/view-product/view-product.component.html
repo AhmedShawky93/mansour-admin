@@ -11,10 +11,10 @@
       <img src="{{currentProduct?.image}}" alt="" class=" owl-img img-fluid ">
 
       <div class="s-price" [ngClass]="{'discount': currentProduct.discount_price}">
-        {{currentProduct?.price}}LE
+        {{currentProduct?.price}}EGP
       </div>
       <div class="s-price btn-green right" *ngIf="currentProduct.discount_price">
-        {{currentProduct?.discount_price}}LE
+        {{currentProduct?.discount_price}}EGP
       </div>
     </div>
 
