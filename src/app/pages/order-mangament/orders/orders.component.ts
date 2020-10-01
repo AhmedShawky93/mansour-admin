@@ -1046,7 +1046,8 @@ export class OrdersComponent implements OnInit {
     if (areaId) {
       this.filter.customer_area_ids = [areaId]
     } else {
-      this.filter.customer_area_ids = [areaId]
+      // this.filter.customer_area_ids = [areaId]
+      this.filter.customer_area_ids = []
 
     }
     // this.changePage(1);

@@ -1783,3 +1783,11 @@ bar-rating {
 .mat-form-field-appearance-legacy .mat-form-field-underline {
   height: 0px !important;
 }
+
+
+.mat-calendar-body-selected
+{
+
+  background-color: #eb1c24 !important;
+
+}
