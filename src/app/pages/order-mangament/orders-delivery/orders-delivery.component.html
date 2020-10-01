@@ -4,11 +4,11 @@
   <div class="row">
     <div class="col-md-7">
       <div class="left-search">
-        <span>
+        <!-- <span>
           <i class="fa fa-search"></i>
         </span>
         <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="filter.term"
-          (keydown)="changePage(1)">
+          (keydown)="changePage(1)"> -->
       </div>
     </div>
 
@@ -40,52 +40,60 @@
 </div>
 
 <div class="table-responsive">
-  <table class="table owls-table" *ngIf="orders.length">
+  <table class="table owls-table" *ngIf="pickups.length">
     <thead>
       <tr>
 
         <th scope="col"> Id </th>
         <th scope="col"> Company name</th>
         <th scope="col"> Count orders</th>
-        <th style="text-align: center;" scope="col"> Status </th>
+        <th scope="col">Creation Date</th>
+        <th scope="col">Notes</th>
+        <th style="text-align: center;" scope="col"> Actions </th>
 
-        <th scope="col" style="width:100px">actions</th>
       </tr>
     </thead>
     <tbody>
 
-      <tr
-        *ngFor="let order of orders | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let i = index">
+      <tr *ngFor="let pickup of pickups | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let i = index">
 
-        <td scope="row">{{order.id}}</td>
-        <td>{{order.user?.name}}</td>
+        <td scope="row">{{pickup.id}}</td>
         <td>
-          <span *ngIf="order.scheduled_at">{{order.scheduled_at | date: 'd-M-yyyy  h:mm a'}}</span>
-          <span *ngIf="!order.scheduled_at">{{order.created_at | date: 'd-M-yyyy  h:mm a'}}</span>
+          <span [ngSwitch]="pickup.shipping_method">
+            <span *ngSwitchCase="1">Internal</span>
+            <span *ngSwitchCase="2">Mylerz</span>
+            <span *ngSwitchCase="3">Aramex</span>
+          </span>
         </td>
 
-
         <td>
-          {{order.state.name}}
+          {{pickup.order_pickups.length}}
         </td>
 
-        <td style="width:100px">
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" (click)="openPopupAction(2, order)">Order details</a>
-              <a class="dropdown-item" (click)="openPopupAction(4, order)">Cancel order</a>
-              <!-- <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a> -->
-              <!-- <a class="dropdown-item" (click)="openPopupAction(5, order)">Return order</a> -->
-              <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
-                (click)="openPopupAction(4, order)">Cancel order</a> -->
+        <td>{{pickup.created_at}}</td>
+
+        <td class="request-message relative">
+
+          <div *ngIf="pickup.notes">
+            {{(pickup.notes.length  >= 30 ) ? (pickup.notes | summary : 30 ) : pickup.notes }}
+
+            <div class="hover-reason text-left" *ngIf="pickup.notes && pickup.notes.length >= 30">
+              <div class="head">
+                notes
+              </div>
+              <div class="body">
+                {{pickup.notes}}
+              </div>
             </div>
           </div>
 
+        </td>
 
+        <td>
+          <a [routerLink]="['details', pickup.id]"
+           class="toggle-view-category table-view">
+            <i class="icon-View" ></i>
+          </a>
         </td>
 
       </tr>
@@ -94,413 +102,4 @@
   </table>
   <h4 class="text-center" *ngIf="no_orders">There are no Orders</h4>
 </div>
-<pagination-controls (pageChange)="changePage($event)"></pagination-controls>
-
-
-
-<!-- cancel  Popup-->
-<div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">are you sure to cancel this order?
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer" style="justify-content: center;
-      ">
-        <button type="button" class="btn-owls btn-rounded btn-green  btn-blue2" (click)="cancelOrder()">Yes</button>
-        <button type="button" data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-<!-- return for cancel sidebar Popup-->
-<div class="modal fade" id="removePopUp3" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to return this order ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-owls btn-rounded  btn-green btn-blue2" (click)="returnOrder()">Return
-          Order</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2 ">close </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="form-sidebar view-vindor-types" id="view-deactive">
-  <div class="head" *ngIf="currentOrder">
-    <span class="close" id="close-vindors4" (click)="closeSideBar()">
-      <i class="icon-Exit"></i>
-    </span>
-    <h3>Order #{{currentOrder.id}}</h3>
-  </div>
-
-  <div class=" details details-2" *ngIf="currentOrder">
-
-    <div>
-      <button class="add-item-btn" (click)="toggleProductSelect()"
-        *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5">
-        + Add New Product</button>
-
-      <div class="add-prod">
-
-        <div class="head">
-          <div class="close" (click)="toggleProductSelect()">
-            <i class="icon-Exit"></i>
-          </div>
-          <div class="left-addon">
-            <i class="fa fa-search"></i>
-            <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="productTerm">
-          </div>
-
-          <select class="owl-input" (change)="loadSubcategories(selectedCategory)" [(ngModel)]="selectedCategory">
-            <option value="" selected hidden>select category</option>
-            <option [value]="cat.id" *ngFor="let cat of categories">{{cat.name}}</option>
-          </select>
-
-
-          <select class="owl-input" (change)="loadProducts(selectedSubcategory)" [(ngModel)]="selectedSubcategory">
-            <option value="" selected hidden>select sub Category</option>
-            <option [value]="cat.id" *ngFor="let cat of sub_categories">{{cat.name}}</option>
-          </select>
-        </div>
-
-        <div class="order-list">
-          <img src="./assets/img/loading-table.svg" class="img-loading-side-bar-product" *ngIf="loadingProductSideBar">
-          <div class="item" *ngFor="let product of product_list | productFilter: productTerm">
-            <div class="float-right">
-              <span>
-                <img src="./assets/img/collapse.svg" alt="" (click)="removeAmount(product)" style="cursor: pointer;">
-              </span>
-              <b>{{product.amount}}</b>
-              <span>
-                <img src="./assets/img/Expand.svg" alt="" (click)="addAmount(product)" style="cursor: pointer;">
-              </span>
-              <img src="./assets/img/available.svg" style="
-              position: absolute;
-              left: 30px;
-              top: 30px;
-          " alt="" *ngIf="product.amount > 0">
-            </div>
-
-            <img class="owl-img" src="{{product.image}}" alt="" width="45" height="45">
-            <div class="content">
-              <h4 class="relative">{{product.name | summary : 15}}
-                <div class="hover-reason text-left" *ngIf="product.name.length >= 10">
-                  <div class="head">
-                    product name
-                  </div>
-                  <div class="body">
-                    {{product.name}}
-                  </div>
-                </div>
-              </h4>
-              <span>{{product.price}}L.E</span>
-
-            </div>
-          </div>
-
-        </div>
-
-        <!-- <button class="btn btn-owls  btn-rounded btn-green" (click)="addProducts()">add</button> -->
-      </div>
-
-
-      <div class="btn-group"
-        *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5">
-        <button class="btn btn-owls  btn-rounded btn-green" *ngIf="currentOrder.state_id == 5"
-          (click)="proceedOrder(currentOrder)">Proceed</button>
-        <!-- <button data-toggle="modal" data-target="#removePopUp" class="btn btn-owls  btn-rounded btn-red2"
-          (click)="promtCancel(currentOrder)">cancel</button> -->
-      </div>
-
-      <!-- <div class="btn-group" *ngIf="currentOrder.state_id == 8 || currentOrder.state_id == 3">
-        <button data-toggle="modal" data-target="#removePopUp3" class="btn btn-owls  btn-rounded btn-green"
-          (click)="promtReturn(currentOrder)">return</button>
-      </div> -->
-
-
-    </div>
-
-    <div class="order-report">
-
-      <div *ngIf="currentOrder.state_id == 1 || currentOrder.state_id == 2 || currentOrder.state_id == 5">
-        <i class="fa fa-trash trash-side" *ngIf="!showDelete" (click)="toggleDelete()"></i>
-      </div>
-
-
-      <!-- <div *ngIf="hide">
-        <p>Order Report -
-          <span>{{currentOrder.created_at | amTimeAgo}}</span>
-        </p>
-      </div> -->
-
-      <div class="delete-dets" *ngIf="showDelete">
-        <div class="div">
-          <!-- <span class="delete" (click)="deleteItems()" *ngIf="getDeleteCount() > 0">delete</span> -->
-          <span class="cancel" (click)="toggleDelete()">cancel</span>
-        </div>
-        <p><span>({{getDeleteCount()}})</span> selected </p>
-      </div>
-    </div>
-    <div class="order-list">
-
-      <div class="item" *ngFor="let item of currentOrder.items; index as i">
-        <img class="owl-img" src="{{item.product.image}}" alt="" width="45" height="45">
-        <!-- <img *ngIf="!item.missing" src="./assets/img/available.svg" alt="">
-        <img *ngIf="item.missing" src="./assets/img/unavailable.svg" alt=""> -->
-        <span class="quantity-item">
-          <span>
-            <img src="./assets/img/collapse.svg" alt="" (click)="removeAmountOldItem(item)">
-          </span>
-          <b>{{item.amount}}</b>
-          <span>
-            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItem(item)">
-          </span>
-        </span>
-        <h4 class="relative">
-          <span style="width: 270px; display: inline-block;" *ngIf="item.product">
-            {{(item.product.name.length > 26) ? (item.product.name | summary :  25) : item.product.name}}
-          </span>
-          <span style="width: 270px; display: inline-block;" *ngIf="!item.product">
-            {{(item.name.length > 26) ? (item.name | summary :  25) : item.name}}
-          </span>
-          <!-- x{{item.amount}} -->
-          <div class="hover-reason text-left" *ngIf="item.product.name.length >= 25">
-            <div class="head">
-              product name
-            </div>
-            <div class="body" *ngIf="item?.product">
-              {{item.product.name}}
-            </div>
-            <div class="body" *ngIf="!item?.product">
-              {{item.name}}
-            </div>
-          </div>
-
-        </h4>
-        <label class="checkup" *ngIf="showDelete">
-          <input type="checkbox" checked="checked" [(ngModel)]="item.remove" name="remove{{i}}">
-          <span class="checkmark"></span>
-        </label>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="">Admin notes</label>
-      <textarea style="height: 130px;" class="owl-input" placeholder="Type.." #admin_notes="ngModel"
-        [(ngModel)]="currentOrder.admin_notes">
-      </textarea>
-    </div>
-    <div class="form-group">
-      <label for=""> delivery fees</label>
-      <input type="text" class="owl-input" placeholder="Type.." #delivery_fees="ngModel"
-        [(ngModel)]="currentOrder.delivery_fees" min="0">
-      <div *ngIf="delivery_fees.invalid && (delivery_fees.dirty || delivery_fees.touched)" class="alert alert-danger">
-        <div *ngIf="delivery_fees.errors.min">
-          Delivery fees cannot be less than 0
-        </div>
-      </div>
-    </div>
-    <!-- <div class="form-group">
-      <label for=""> admin discount</label>
-      <input type="text" class="owl-input" placeholder="Type.." #admin_discount="ngModel"
-        [(ngModel)]="currentOrder.admin_discount">
-    </div> -->
-    <!-- <div class="form-group">
-      <label for=""> notes</label>
-      <input type="text" class="owl-input" placeholder="Type.." #notes="ngModel" [(ngModel)]="currentOrder.notes">
-
-    </div> -->
-    <p class="text-danger" *ngIf="showErrorItems">{{showErrorItems}}</p>
-    <button class="btn btn-owls  btn-rounded btn-green" [disabled]="delivery_fees.invalid"
-      (click)="updateProducts()">Update Order</button>
-
-
-  </div>
-</div>
-
-<div class="form-sidebar view-vindor-types" id="view-side-bar-return-order">
-  <div class="head" *ngIf="currentOrder">
-    <span class="close" id="close-vindors4" (click)="closeSideBar()">
-      <i class="icon-Exit"></i>
-    </span>
-    <h3>Order #{{currentOrder.id}}</h3>
-  </div>
-
-  <div class=" details details-2" *ngIf="currentOrder">
-
-    <div class="order-list">
-
-      <div class="item" *ngFor="let item of currentOrder.items; index as i">
-        <img class="owl-img" src="{{item.product.image}}" alt="" width="45" height="45">
-        <!-- <img *ngIf="!item.missing" src="./assets/img/available.svg" alt="">
-        <img *ngIf="item.missing" src="./assets/img/unavailable.svg" alt=""> -->
-        <span class="quantity-item" *ngIf="item.retrun">
-          <span>
-            <img src="./assets/img/collapse.svg" alt="" (click)="removeAmountOldItemReturn(item)">
-          </span>
-          <b>{{item.quantity}}</b>
-          <span>
-            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItemReturn(item)">
-          </span>
-        </span>
-        <h4 class="relative">
-          <span style="width: 270px; display: inline-block;" *ngIf="item.product">
-            {{(item.product.name.length > 26) ? (item.product.name | summary :  25) : item.product.name}}
-          </span>
-          <span style="width: 270px; display: inline-block;" *ngIf="!item.product">
-            {{(item.name.length > 26) ? (item.name | summary :  25) : item.name}}
-          </span>
-          <!-- x{{item.amount}} -->
-          <div class="hover-reason text-left" *ngIf="item.product.name.length >= 25">
-            <div class="head">
-              product name
-            </div>
-            <div class="body" *ngIf="item?.product">
-              {{item.product.name}}
-            </div>
-            <div class="body" *ngIf="!item?.product">
-              {{item.name}}
-            </div>
-          </div>
-
-        </h4>
-        <label class="checkup">
-          <input type="checkbox" checked="checked" [(ngModel)]="item.retrun" name="remove{{i}}">
-          <span class="checkmark"></span>
-        </label>
-      </div>
-    </div>
-    <!-- <button class="btn btn-owls  btn-rounded btn-green" (click)="returnProducts()">Return Order</button> -->
-
-
-  </div>
-</div>
-
-
-<div class="modal fade" id="confirmOrderUpdate" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
-        ">Are you sure you want to update this order ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <label class="checkup"> notify user
-          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
-          <span class="checkmark"></span>
-        </label>
-      </div>
-      <div class="modal-footer" style="    justify-content: center; ">
-
-        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
-          (click)="confirmUpdateProducts(notifyUser)">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="returnOrder" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
-        ">Are you sure you want to return items in this order ?</h5>
-        <button type="button" class="close" data-dismiss="returnOrder" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <!-- <div class="modal-body">
-        <label class="checkup"> notify user
-          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
-          <span class="checkmark"></span>
-        </label>
-      </div> -->
-      <div class="modal-footer" style="    justify-content: center; ">
-
-        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
-          (click)="returnItemsProducts()">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="confirmOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
-        ">Are you sure you want to change Status of ({{ordersBulk.length}}) selected orders?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <label class="checkup"> notify user
-          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
-          <span class="checkmark"></span>
-        </label>
-        <div class="form-group" *ngIf="orderStatusId == '6'">
-          <label for="">Status notes </label>
-          <textarea style="height: 130px;" class="owl-input" placeholder="Type.." #status_notes="ngModel"
-            [(ngModel)]="status_notesText">
-          </textarea>
-          <div class="alert-danger" *ngIf="error_status_notes">
-            <span>
-              Cancel notes is required
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer" style="    justify-content: center; ">
-
-        <button type="button" class="btn-owls btn-rounded btn-green   btn-blue2"
-          (click)="confirmChangeStatus(notifyUser)">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">no </button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="errorPopup" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">{{errorMessage}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer" style="    justify-content: center; ">
-      </div>
-    </div>
-  </div>
-</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

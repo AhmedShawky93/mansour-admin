@@ -96,6 +96,7 @@ import { ContactusComponent } from "./pages/contact-us/contact-us.component";
 import { ReportsComponent } from "./pages/reports/reports.component";
 import { GroupsPipe } from './pages/order-mangament/inventory/groups/groups.pipe';
 import { OrdersDeliveryComponent } from './pages/order-mangament/orders-delivery/orders-delivery.component';
+import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
 
 @NgModule({
   declarations: [
@@ -140,7 +141,8 @@ import { OrdersDeliveryComponent } from './pages/order-mangament/orders-delivery
     BrandsComponent,
     ReportsComponent,
     GroupsComponent,
-    OrdersDeliveryComponent
+    OrdersDeliveryComponent,
+    OrderDeliveryDetailsComponent
   ],
   imports: [
     AppRoutingModule,

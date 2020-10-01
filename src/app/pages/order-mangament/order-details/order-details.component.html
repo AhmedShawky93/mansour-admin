@@ -187,7 +187,7 @@
   <div *ngFor="let item of order.items; index as i">
     <div class="block-ratings">
       <p>{{ i + 1 }}</p>
-      <img [src]="item?.product.image" alt="" class="owl-img" width="80"/>
+      <img [src]="item?.product.image" alt="" class="owl-img" width="80" />
       <div class="content">
         <h4>{{ item.product.name }}</h4>
         <p>{{ item.product.sku }}</p>
@@ -196,8 +196,11 @@
 
     <div class="qty-item">
       <p>QTY: {{ item.amount }}</p>
-      <span *ngIf="item?.discount_price === null">{{ item.price }} LE</span>
-      <span *ngIf="item?.discount_price !== null">{{ item.discount_price }} LE</span>
+      <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }} LE</span>
+      <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }} LE</span>
+      <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
+        <i class="icon-grey edit-price"></i>
+      </a>
     </div>
   </div>
 </div>
@@ -268,10 +271,12 @@
     <div class="col-sm-12">
       <div class="block-item">
         <p>address</p>
+
         <span>{{ order?.address?.formatted_address }}
-          <a *ngIf="order?.address?.lat" href="https://www.google.com/maps/search/?api=1&query={{
+          <!-- <a *ngIf="order?.address?.lat" href="https://www.google.com/maps/search/?api=1&query={{
               order?.address?.lat
-            }},{{ order?.address?.lng }}" target="_blank"><i class="fa fa-external-link"></i></a></span>
+            }},{{ order?.address?.lng }}" target="_blank"><i class="fa fa-external-link"></i></a> -->
+        </span>
       </div>
     </div>
   </div>
@@ -319,9 +324,11 @@
 
       <div class="block-item">
         <p>Discount</p>
-        <span
-          *ngIf="order.invoice.promo_id">{{ (order.invoice.total_amount - order.invoice.discount  )| number : '1.2-2'}}</span>
-        <span *ngIf="!order.invoice.promo_id">-</span>
+        <span *ngIf="order.invoice.discount_price !== null">-{{ (order.invoice.total_amount - order.invoice.discount  )| number : '1.2-2'}}</span>
+        <span *ngIf="!order.invoice.discount_price === null">-</span>
+        <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
+          <i class="icon-grey edit-price"></i>
+        </a>
       </div>
 
       <div class="block-item">
@@ -379,8 +386,8 @@
         </label>
         <div class="form-group" *ngIf="orderStatusId == '6'">
           <label for="">Status notes </label>
-          <textarea style="height: 130px;margin-bottom: 10px;" class="owl-input" placeholder="Type.." #status_notes="ngModel"
-            [(ngModel)]="status_notesText">
+          <textarea style="height: 130px;margin-bottom: 10px;" class="owl-input" placeholder="Type.."
+            #status_notes="ngModel" [(ngModel)]="status_notesText">
           </textarea>
           <div style="margin-bottom: 10px;" class="alert-danger" *ngIf="error_status_notes">
             <span>
@@ -396,6 +403,92 @@
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green btn-blue2"
           (click)="confirmChangeStatus(notifyUser)">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="orderChangePriceAndDiscount" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Are you sure you want to change price Or discount ?
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-edit-price">
+          <!-- <div class="form-group"> -->
+          <!-- <label for=""> Pricing</label>
+            <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input input-price" placeholder="Type.."
+              required [min]="1" [max]="1000000">
+          </div> -->
+
+          <div class="form-group">
+            <label for="">Discount Price</label>
+            <input type="number" name="discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
+              [min]="0" [(ngModel)]="discount">
+          </div>
+
+        </form>
+        <label class="checkup"> notify user
+          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
+          <span class="checkmark"></span>
+        </label>
+
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitItemUpdate()">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="orderChangePriceTotal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Are you sure you want to change price Or discount ?
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-edit-price">
+
+          <div class="form-group">
+            <label for=""> Discount
+              <small> optional</small>
+            </label>
+            <input type="number" name="invoice_discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input"
+              placeholder="Type.." [min]="0" [(ngModel)]="invoiceDiscount">
+          </div>
+
+        </form>
+        <label class="checkup"> notify user
+          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
+          <span class="checkmark"></span>
+        </label>
+
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitInvoiceUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">

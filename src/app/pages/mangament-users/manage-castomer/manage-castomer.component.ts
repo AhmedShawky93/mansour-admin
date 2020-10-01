@@ -1,3 +1,4 @@
+import { AreasService } from '@app/pages/services/areas.service';
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '@app/pages/services/customer.service';
 declare var jquery: any;
@@ -22,15 +23,30 @@ export class ManageCastomerComponent implements OnInit {
   total = 0;
 
   p = 1;
+  filter = {
+    ids: [],
+    name: "",
+    email: "",
+    phone: "",
+    area_ids: [],
+    city_ids: [],
+    active: null,
+    page: "1"
 
+  }
   customer;
   currentPoints: any;
   customerLoading: boolean;
+  cities: any;
+  areaList: any;
+  areaListSearch: any[];
 
-  constructor(private cs: CustomerService, private auth: AuthService) { }
+
+  constructor(private cs: CustomerService, private auth: AuthService, private _areaService: AreasService,
+  ) { }
 
   ngOnInit() {
-
+    this.getCities()
 
     $('.table').on('click', '.toggle-vindor-view', function () {
       $('#view-active').toggleClass('open-view-vindor-types');
@@ -67,21 +83,75 @@ export class ManageCastomerComponent implements OnInit {
     this.loadCustomers();
   }
 
+  getCities() {
+    this._areaService.getCities().subscribe((response: any) => {
+      if (response.code === 200) {
+        this.cities = response.data;
+      }
+    });
+  }
+
+  public selectCity(cityId) {
+    if (cityId) {
+
+      console.log(' cityId===>', cityId)
+      this.filter.city_ids = []
+      this.filter.area_ids = []
+
+      const index = this.cities.findIndex((item) => item.id == cityId);
+      if (index !== -1) {
+        if (this.cities[index].areas.length) {
+          this.areaListSearch = this.cities[index].areas;
+          console.log(this.areaList, "if");
+        } else {
+          this.areaListSearch = [];
+          this.areaListSearch.push(this.cities[index]);
+          console.log(this.areaList, "else");
+        }
+      }
+
+      this.filter.city_ids = [cityId]
+    } else {
+      this.filter.city_ids = []
+      this.areaListSearch = [];
+
+    }
+    // this.changePage(1);
+  }
+  selectArea(areaId) {
+    this.filter.area_ids = [areaId]
+    // this.changePage(1);
+  }
+
   toggleShow() {
     this.show = !this.show;
     this.hide = !this.hide;
   }
 
   changePage(p) {
-    this.cs.getCustomers(p)
+    this.p
+    this.cs.getCustomers(this.filter)
       .subscribe((data: any) => {
         this.p = p;
         this.customers = data.data.customers;
       });
   }
+  searchInCustomers() {
+    this.filter.page = "1";
+    this.cs.getCustomers(this.filter)
+      .subscribe((response: any) => {
+        this.customers = response.data.customers;
+        this.customers.map(user => {
+          user.age = this.calculateAge(new Date(user.birthdate));
+          user.deactivated = !user.active;
+          return user;
+        });
+        this.total = response.data.total;
+      });
+  }
 
   loadCustomers() {
-    this.cs.getCustomers(1)
+    this.cs.getCustomers(this.filter)
       .subscribe((response: any) => {
         this.customers = response.data.customers;
         this.customers.map(user => {
@@ -198,7 +268,7 @@ export class ManageCastomerComponent implements OnInit {
     user.showReason = 0;
   }
 
-  activateUser (user) {
+  activateUser(user) {
     this.cs.activateCustomer(user.id)
       .subscribe((data: any) => {
         user.active = 1;
@@ -214,7 +284,7 @@ export class ManageCastomerComponent implements OnInit {
 
   submitDeactivate(user) {
     user.active = 0;
-    this.cs.deactivateCustomer(user.id, {deactivation_notes: user.notes})
+    this.cs.deactivateCustomer(user.id, { deactivation_notes: user.notes })
       .subscribe((data: any) => {
         user.active = 0;
         user.deactivation_notes = user.notes;

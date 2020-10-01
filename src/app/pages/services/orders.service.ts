@@ -24,9 +24,7 @@ export class OrdersService {
 
   filterOrders(data, p = 1) {
     data.page = p;
-    return this.http.get(this.url + "/orders/filter", {
-      params: data,
-    });
+    return this.http.post(this.url + "/orders/filter", data);
   }
 
   getOrderPrint(id) {
@@ -146,4 +144,29 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
+
+  getOrderPickups() {
+    return this.http.get(this.url + "/pickups").catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  getOrderPickup(id) {
+    return this.http.get(this.url + "/pickups/" + id).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  updateItemPrice(id, product_id, data) {
+    return this.http.post(this.url + "/orders/" + id + "/update_item_price/" + product_id, data).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  updateInvoiceDiscount(id, data) {
+    return this.http.post(this.url + "/orders/" + id + "/update_invoice_discount/", data).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
 }

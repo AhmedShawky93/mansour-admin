@@ -1339,7 +1339,7 @@ input::-webkit-inner-spin-button {
 }
 
 .add-prod .order-list {
-  height: 300px;
+  /* height: 300px; */
   overflow-y: auto;
   margin-bottom: 27px;
 }
@@ -1741,10 +1741,8 @@ bar-rating {
   cursor: not-allowed !important;
 }
 
-
-.cdk-overlay-container
-{
-  z-index: 99999 !important
+.cdk-overlay-container {
+  z-index: 99999 !important;
 }
 
 @media print {
@@ -1753,3 +1751,35 @@ bar-rating {
   }
 }
 
+.toast-container .toast {
+  opacity: 1 !important;
+}
+
+.toast-success {
+  background-color: #51a351 !important;
+}
+
+.timepicker__header {
+  background-color: #ea5959 !important;
+}
+.clock-face__number > span.active {
+  background-color: #ea5959 !important;
+}
+.clock-face__clock-hand {
+  background-color: #ea5959 !important;
+}
+.timepicker-button {
+  color: #ea5959 !important;
+}
+
+.datepicker .mat-form-field-flex {
+  background: #fff;
+  padding: 0 10px;
+  height: 48px;
+  border: 1px solid #f4f4f4 !important;
+  color: rgba(0, 61, 97, 0.47);
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  height: 0px !important;
+}
