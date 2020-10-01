@@ -198,9 +198,9 @@
       <p>QTY: {{ item.amount }}</p>
       <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }} LE</span>
       <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }} LE</span>
-      <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
+      <!-- <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
         <i class="icon-grey edit-price"></i>
-      </a>
+      </a> -->
     </div>
   </div>
 </div>
@@ -324,11 +324,11 @@
 
       <div class="block-item">
         <p>Discount</p>
-        <span *ngIf="order.invoice.discount_price !== null">-{{ (order.invoice.total_amount - order.invoice.discount  )| number : '1.2-2'}}</span>
-        <span *ngIf="!order.invoice.discount_price === null">-</span>
-        <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
+        <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount  )| number : '1.2-2'}}</span>
+        <span *ngIf="!order.invoice.discount === null">-</span>
+        <!-- <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
           <i class="icon-grey edit-price"></i>
-        </a>
+        </a> -->
       </div>
 
       <div class="block-item">
