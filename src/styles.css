@@ -257,7 +257,7 @@ label {
 
 .toggle-left-sidebar .side-nav-item:hover i,
 .toggle-left-sidebar .side-nav-item.active i {
-  color: #ea5859 !important;
+  color: #e4002c !important;
 }
 
 .toggle-left-sidebar .app-logo {
@@ -483,13 +483,13 @@ textarea.owl-input {
 
 .btn-blue2 {
   color: #fff !important;
-  background: #ea5859 !important;
+  background: #e4002c !important;
   font-size: 14px !important;
   line-height: 36px;
 }
 
 .btn-blue {
-  background: #ea5859 !important;
+  background: #e4002c !important;
   color: #fff !important;
   font-size: 14px !important;
   line-height: 36px;
@@ -791,7 +791,7 @@ textarea.owl-input {
 /* When the checkbox is checked, add a blue background */
 
 .checkup input:checked ~ .checkmark {
-  background-color: #ea5859;
+  background-color: #e4002c;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -840,7 +840,7 @@ textarea.owl-input {
 }
 
 .ngx-pagination .current {
-  background-color: #ea5859 !important;
+  background-color: #e4002c !important;
   border-radius: 50%;
   width: 44px;
   height: 44px;
@@ -865,7 +865,7 @@ a.btn {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #ea5859;
+  background-color: #e4002c;
 }
 
 /* Rounded sliders */
@@ -1088,11 +1088,11 @@ a.btn {
 /* .modal-footer{justify-content: flex-start !important;} */
 
 .tooltip > .tooltip-inner {
-  background-image: linear-gradient(-134deg, #ea5859 0%, #ea5859 100%);
+  background-image: linear-gradient(-134deg, #e4002c 0%, #e4002c 100%);
 }
 
 .tooltip > .tooltip-arrow {
-  background-image: linear-gradient(-134deg, #ea5859 0%, #ea5859 100%);
+  background-image: linear-gradient(-134deg, #e4002c 0%, #e4002c 100%);
 }
 
 .bs-tooltip-auto[x-placement^="right"] .arrow:before,
@@ -1638,7 +1638,7 @@ bar-rating {
 
   .left-sidebar .side-nav-item:hover i,
   .left-sidebar .side-nav-item.active i {
-    color: #ea5859 !important;
+    color: #e4002c !important;
   }
 
   .left-sidebar .app-logo {

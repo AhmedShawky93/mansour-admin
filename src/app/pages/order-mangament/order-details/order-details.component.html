@@ -197,7 +197,7 @@
     <div class="qty-item">
       <p>QTY: {{ item.amount }}</p>
       <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }} EGP</span>
-      <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }} EGP</span>
+      <span *ngIf="item?.discount_price !== null" style="color: #e4002c ;">{{ item.discount_price }} EGP</span>
       <!-- <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
         <i class="icon-grey edit-price"></i>
       </a> -->

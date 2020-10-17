@@ -450,7 +450,7 @@ a.clear-date {
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #ea5859;
+  background-color: #e4002c;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
