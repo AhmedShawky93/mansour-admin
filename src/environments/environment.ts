@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  api: "https://api-staging.footloosestores.com/api",
-  // api: "http://soleek-lap.test/footloose-backend/public/api",
+  api: "https://api.uwahuegypt.com/api",
+  // api: "http://soleek-lap.test/Uwahue Egypt-backend/public/api",
   // https://dev.soleekhub.com/eldokan/public/api/customer/home
 };

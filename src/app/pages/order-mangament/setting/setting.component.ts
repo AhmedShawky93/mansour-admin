@@ -256,7 +256,7 @@ export class SettingComponent implements OnInit {
       .subscribe((response: any) => {
         this.settings = response.data;
         this.toastrService.success(
-          "Foot loose Stars Settings Updated Successfully!"
+          "Uwahue Egypt Stars Settings Updated Successfully!"
         );
         this.starsLoading = false;
       });

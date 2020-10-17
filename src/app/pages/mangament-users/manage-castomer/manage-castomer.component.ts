@@ -258,7 +258,7 @@ export class ManageCastomerComponent implements OnInit {
       .subscribe((response: any) => {
         let token = response.data;
 
-        window.open("https://footloose.el-dokan.com/session/signin?token=" + token, "_blank");
+        window.open("https://Uwahue Egypt.el-dokan.com/session/signin?token=" + token, "_blank");
       });
   }
 
