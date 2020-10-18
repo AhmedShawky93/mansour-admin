@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
       .filter((route) => route.outlet === "primary")
       .mergeMap((route) => route.data)
       .subscribe((event) =>
-        this.title.setTitle("Uwahue Egypt - " + event["title"])
+        this.title.setTitle("Mobilaty - " + event["title"])
       );
 
     // make bootstrap as material design

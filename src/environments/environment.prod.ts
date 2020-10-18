@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: "https://api.uwahuegypt.com/api",
+  api: "https://mobilatyapi.el-dokan.com/api",
 };

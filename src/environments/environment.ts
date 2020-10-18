@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  api: "https://api.uwahuegypt.com/api",
-  // api: "http://soleek-lap.test/Uwahue Egypt-backend/public/api",
+  api: "https://mobilatyapi.el-dokan.com/api",
+  // api: "http://soleek-lap.test/Mobilaty-backend/public/api",
   // https://dev.soleekhub.com/eldokan/public/api/customer/home
 };
