@@ -304,6 +304,7 @@ export class OrdersComponent implements OnInit {
       pickup_time: new FormControl(),
       shipping_notes: new FormControl(),
       shipping_method: new FormControl(''),
+      aramex_account_number: new FormControl(''),
       branch_id: new FormControl(''),
       subtract_stock: new FormControl(),
     });
@@ -313,6 +314,7 @@ export class OrdersComponent implements OnInit {
       this.stateForm.get('pickup_time').setValidators([Validators.required]);
       this.stateForm.get('branch_id').setValidators([Validators.required]);
       this.stateForm.get('shipping_method').setValidators([Validators.required]);
+      this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
     } else if (this.orderStatusId == 6) {
       this.stateForm.get('status_notes').setValidators([Validators.required]);
     }
