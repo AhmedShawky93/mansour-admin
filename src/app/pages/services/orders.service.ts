@@ -169,4 +169,10 @@ export class OrdersService {
     });
   }
 
+  cancelPickup(id) {
+    return this.http.post(this.url + "/orders/cancel-pickup/" + id, {cancelled_reason: "Default"}).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
 }

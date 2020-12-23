@@ -94,6 +94,11 @@
            class="toggle-view-category table-view">
             <i class="icon-View" ></i>
           </a>
+          <a *ngIf="pickup.status == 1" href="javascript:void(0)"
+            data-toggle="modal" data-target="#removePopUp" (click)="promtCancel(pickup)"
+            class="toggle-view-category table-remove">
+            <i class="icon-Exit"></i>
+          </a>
         </td>
 
       </tr>
@@ -103,3 +108,24 @@
   <h4 class="text-center" *ngIf="no_orders">There are no Orders</h4>
 </div>
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+<!-- cancel  Popup-->
+<div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">are you sure to cancel this pickup?
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-owls btn-rounded btn-green  btn-blue2" (click)="cancelPickup()">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
+      </div>
+    </div>
+  </div>
+</div>
