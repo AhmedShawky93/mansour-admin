@@ -372,7 +372,12 @@
         </div>
       </div>
       <div class="payment-method">
-        <p>Payment method (طريقة الدفع) : <span>{{order?.payment_method == 1 ? 'Cash on delivery' : 'Visa'}}</span>
+        <p>Payment method (طريقة الدفع) :
+          <span *ngIf="order.payment_method == 1">Cash</span>
+          <span *ngIf="order.payment_method == 2">Accept</span>
+          <span *ngIf="order.payment_method == 3">ValU</span>
+          <!-- <span *ngIf="order.payment_method == 4">UPG</span> -->
+          <span *ngIf="order.payment_method == 5">Premium</span>
         </p>
       </div>
       <div class="info-user">
