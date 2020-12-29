@@ -366,3 +366,8 @@ bar-rating {
 .p-l-r-5 {
   padding: 0 5px 0 !important;
 }
+.back-arrow{
+  color: #003c62;
+  font-weight: 500;
+  cursor: pointer;
+}

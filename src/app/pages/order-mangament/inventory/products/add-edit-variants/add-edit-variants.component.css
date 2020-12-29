@@ -1,0 +1,131 @@
+:host {
+  background: #ffffff;
+  color: #fff;
+  position: absolute;
+  right: auto;
+  top: 0;
+  left: 0px;
+  bottom: 0;
+  width: 435px;
+  z-index: 5;
+  height: 100%;
+  min-height: 100vh;
+  overflow: auto;
+  overflow-x: hidden;
+  box-shadow: 0 12px 54px 0 rgba(6, 40, 59, .1);
+
+}
+
+.view-vindor-types {
+  width: 435px;
+  left: auto;
+}
+
+.form-group label {
+  display: block
+}
+
+.img-loading {
+  position: absolute;
+  left: 25%;
+  top: 25%;
+  width: 50%;
+  height: 50%;
+}
+
+
+.form-group textarea {
+  height: 120px;
+}
+
+.owls-upload3 {
+  display: inline-block;
+  margin: 10px 5px;
+  width: 70px !important;
+  height: 70px;
+  padding: 0;
+  background-color: transparent;
+}
+
+.owls-upload3 input[type=file] {
+  top: 0;
+  width: 70px;
+  height: 70px;
+  left: 1px;
+}
+
+.owls-upload3 i {
+  position: absolute;
+  top: 6px;
+  right: 7px;
+}
+
+.owls-upload3.big {
+  width: auto !important;
+  height: auto;
+
+}
+
+
+.owls-upload3.big input[type=file] {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  left: 1px;
+}
+
+.flex-nowrap {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 0 30px 0;
+}
+
+.thumbnails {
+  margin-top: -11px;
+}
+
+.thumbnails .thum {
+  display: inline-block;
+  margin: 0 3px 15px;
+}
+
+.add-img span {
+  font-size: 14px;
+  color: rgba(0, 61, 97, 0.64);
+  font-weight: 500;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.btn-special {
+  display: block;
+  width: 190px;
+}
+
+.owl-btn-list .btn.w-100 {
+  margin-left: 0;
+  width: 100% !important;
+}
+
+.inputFile {
+  position: relative;
+
+}
+
+.owl-input-file {
+  background-image: none
+}
+
+.input-style {
+  position: absolute;
+  top: 0px;
+  opacity: 0;
+}
+
+.group-block{
+  border-radius: 5px;
+  box-shadow: lightgray 0 0 5px 0;
+  margin: 15px 0;
+  padding: 5px;
+}

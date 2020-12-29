@@ -1,0 +1,7 @@
+    <div class="image-uploader form-group" [formGroup]="myForm" [ngStyle]="{height: height, width:width}">
+      <img *ngIf="loading" class="uploading-spinner" src="./assets/img/Spinner-loading.svg">
+      <embed *ngIf="isPdf"  [src]="trustURL(imageUrl)" type="application/pdf"/>
+      <img *ngIf="!isPdf" class="bordered-img" [src]="imageUrl ? imageUrl : fallbackImage" alt="" >
+      <input  (input)="onImageSelected($event)" accept="image/*" name="uploader" type="file"/>
+      <input class="input-wrapper" [formControlName]="formControlChildName"  name="uploaderwraper" type="text"/>
+    </div>
