@@ -875,6 +875,7 @@ export class OrdersComponent implements OnInit {
         .updateItems(this.currentOrder.id, {
           items: this.items,
           admin_notes: this.currentOrder.admin_notes,
+          notes: this.currentOrder.notes,
           delivery_fees: this.currentOrder.delivery_fees,
           admin_discount: null,
           notify_customer: notifyUser,
