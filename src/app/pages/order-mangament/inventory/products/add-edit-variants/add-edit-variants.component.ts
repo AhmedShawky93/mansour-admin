@@ -1,0 +1,216 @@
+import {Component, EventEmitter, Input, OnInit, OnChanges, Output} from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UploadFilesService} from '@app/pages/services/upload-files.service';
+import {ProductsService} from '@app/pages/services/products.service';
+import {CategoryService} from '@app/pages/services/category.service';
+import {ToastrService} from 'ngx-toastr';
+import {OptionsService} from '@app/pages/services/options.service';
+
+@Component({
+  selector: 'app-add-edit-variants',
+  templateUrl: './add-edit-variants.component.html',
+  styleUrls: ['./add-edit-variants.component.css']
+})
+export class AddEditVariantsComponent implements OnInit, OnChanges {
+  @Output() closeSideBarEmit = new EventEmitter();
+  @Output() dataProductEmit = new EventEmitter();
+  @Input() selectVariant;
+  @Input() parentProduct;
+
+  submitting: boolean;
+  variantForm: FormGroup;
+  options: FormArray;
+  addSubImages: FormArray;
+  price: any;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private uploadFile: UploadFilesService,
+    private productsService: ProductsService,
+    private _CategoriesService: CategoryService,
+    private toasterService: ToastrService,
+    private optionsService: OptionsService
+  ) { }
+
+  ngOnInit() {
+  }
+  ngOnChanges() {
+    console.log('parentProduct', this.parentProduct);
+    console.log('selectedVariant', this.selectVariant);
+    this.setForm(this.selectVariant);
+    this.setData(this.selectVariant);
+  }
+  closeSideBar() {
+    this.variantForm.reset();
+    this.closeSideBarEmit.emit();
+  }
+  setForm(data) {
+    this.variantForm = this.formBuilder.group({
+      image: new FormControl(data ? data.image : '', Validators.required),
+      images: this.formBuilder.array( []),
+      name: new FormControl(data ? data.name : '', Validators.required),
+      name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
+      description: new FormControl(data ? data.description : '', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(250),
+      ]),
+      description_ar: new FormControl(data ? data.description_ar : '', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(250),
+      ]),
+      long_description_en: new FormControl(data ? data.long_description_en : ''),
+      long_description_ar: new FormControl(data ? data.long_description_ar : ''),
+      price: new FormControl(data ? data.price : '', Validators.required),
+      discount_price: new FormControl(data ? data.discount_price : '', [
+        Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
+      ]),
+      default_variant: new FormControl(data ? data.default_variant : 0),
+      stock: new FormControl(data ? data.stock : 0, Validators.required),
+      stock_alert: new FormControl(data ? data.stock_alert : ''),
+      sku: new FormControl(data ? data.sku : '', Validators.required),
+      options: this.formBuilder.array( []),
+    });
+  }
+  setData(data) {
+    this.addVariantOptionsToForm();
+    if (data) {
+      data.images.forEach(img => {
+        this.addImage(img);
+      });
+    }
+  }
+  formValidator() {
+    console.log('this.variantForm', this.variantForm.value);
+    if (!this.variantForm.valid) {
+      this.markFormGroupTouched(this.variantForm);
+      return false;
+    } else { return true; }
+  }
+  formControlValidator(controlName, err) {
+    if (this.variantForm.controls[controlName].touched && this.variantForm.controls[controlName].dirty) {
+      if (this.variantForm.controls[controlName].errors) {
+        return  this.variantForm.controls[controlName].errors[err];
+      }
+    }
+  }
+  formGroupControlsValidator(formGroup, controlName , err) {
+    if (formGroup.controls[controlName].touched && formGroup.controls[controlName].dirty) {
+      if (formGroup.controls[controlName].errors) {
+        return  formGroup.controls[controlName].errors[err];
+      }
+    }
+  }
+  private markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object)
+      .values(formGroup.controls)
+      .forEach((control: FormGroup, ind) => {
+        control.markAsTouched();
+        control.markAsDirty();
+        if (control.controls) {
+          this.markFormGroupTouched(control);
+        }
+      });
+  }
+  createVariantOption(item): FormGroup {
+    if ( item.type === '4') {
+      return this.formBuilder.group({
+        optionData: item,
+        option_id: new FormControl(item.id, [Validators.required]),
+        option_value_id: new FormControl( (item.selectedValue) ? item.selectedValue.id : '', [Validators.required]),
+        option_image: new FormControl((item.selectedValue) ? item.selectedValue.image : '', [Validators.required])
+      });
+    } else if ( item.type === '5') {
+      return this.formBuilder.group({
+        optionData: item,
+        option_id: new FormControl(item.id, [Validators.required]),
+        option_value_id: new FormControl( (item.selectedValue) ? item.selectedValue.id : ''),
+        input_ar: new FormControl((item.selectedValue) ? item.selectedValue.input_ar : '', [Validators.required]),
+        input_en: new FormControl((item.selectedValue) ? item.selectedValue.input_en : '', [Validators.required])
+      });
+    } else {
+      return this.formBuilder.group({
+        optionData: item,
+        option_id: new FormControl(item.id, Validators.required),
+        option_value_id: new FormControl( (item.selectedValue) ? item.selectedValue.id : '', [Validators.required])
+      });
+    }
+
+  }
+  addVariantOptionsToForm() {
+    if (this.parentProduct && !this.selectVariant) {
+      /*Case Create New*/
+      this.parentProduct.product_variant_options.forEach(item => {
+        this.options = this.variantForm.get('options') as FormArray;
+        this.options.push(this.createVariantOption(item));
+      });
+    } else if ( this.parentProduct && this.selectVariant ) {
+      /*Case Update*/
+      const selectedOptions =  this.selectVariant.product_variant_options.map(data => {
+        return {option: data.option , selectedValue: data.values[0]};
+      });
+
+      this.parentProduct.product_variant_options.forEach(item => {
+        debugger
+        const selected = selectedOptions.find(op => op.option.id === item.id);
+        item['selectedValue'] = selected.selectedValue;
+        this.options = this.variantForm.get('options') as FormArray;
+        this.options.push(this.createVariantOption(item));
+      });
+    }
+  }
+  addImage(data: any = null) {
+      this.addSubImages = this.variantForm.get('images') as FormArray;
+      this.addSubImages.push(this.createImageFormControl(data));
+  }
+  createImageFormControl(data): FormGroup {
+      return this.formBuilder.group({
+        url: new FormControl(data ? data.url : ''),
+      });
+  }
+  createProduct(product) {
+    this.submitting = true;
+    this.productsService.creatProductVariant(this.parentProduct.id, product).subscribe((response: any) => {
+      if (response.code === 200) {
+        this.dataProductEmit.emit(response.data);
+        this.closeSideBar();
+      } else {
+        this.toasterService.error(response.message);
+      }
+      this.submitting = false;
+    });
+  }
+  updateProduct(product) {
+    this.submitting = true;
+    this.productsService.updateProductVariant(this.parentProduct.id, this.selectVariant.id, product)
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          this.dataProductEmit.emit(response.data);
+          this.closeSideBar();
+        } else {
+          this.toasterService.error(response.message);
+        }
+        this.submitting = false;
+      });
+  }
+  mappingDataForSaving() {
+    const data = this.variantForm.value;
+    data.options.forEach(item => {
+      delete item.optionData;
+    });
+    return data;
+  }
+  save() {
+    /*Check Is Valid Form Data & Fire Validation*/
+    if (this.formValidator()) {
+      if (!this.selectVariant) {
+        /*Case Create*/
+        this.createProduct(this.mappingDataForSaving());
+      } else {
+        /*Case Update*/
+        this.updateProduct(this.mappingDataForSaving());
+      }
+    }
+  }
+}

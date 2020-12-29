@@ -1,0 +1,213 @@
+<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+  <div class="head">
+    <span (click)="closeSideBar()" class="close">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>{{selectVariant ? 'Edit Variant' : 'New Variant' }} </h3>
+  </div>
+  <form (ngSubmit)="save()" [formGroup]="variantForm" class="sideform" novalidate>
+
+    <div class="form-group">
+      <label>Image</label>
+      <div class="d-flex justify-content-center flex-column">
+        <app-image-uploader [fileUrl]="variantForm.value?.image" [formControlChildName]="'image'"
+                            [myForm]="variantForm" class="w-100"
+                            height="240px"
+                            width="100%">
+        </app-image-uploader>
+        <div *ngIf="formControlValidator('image','required')" class="text-danger">
+          Image Is Required
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="add-img" (click)="addImage()">
+        <img src="assets/img/Expand.svg" alt="add image">
+        <span>add image</span>
+      </div>
+      <div formArrayName="images">
+        <div class="owls-upload owls-upload3"
+             *ngFor="let image of variantForm.get('images')['controls']; let i = index">
+
+          <div [formGroupName]="i">
+            <app-image-uploader [fileUrl]="image?.value.url" [formControlChildName]="'url'"
+                                [myForm]="image" class="w-100"
+                                height="60px"
+                                width="60px">
+            </app-image-uploader>
+            <!--<i class="icon-Exit" (click)="removeImage(image , i)"></i>-->
+          </div>
+          <div *ngIf="formGroupControlsValidator(image,'url','required')" class="alert alert-danger">
+            Image Is Required
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label> Name</label>
+      <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
+      <div *ngIf="formControlValidator('name','required')" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Name (Ar)</label>
+      <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
+      <div *ngIf="formControlValidator('name_ar','required')" class="alert alert-danger">
+        Name (Ar) is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="owl-input" formControlName="description" laceholder="type" maxlength="250" required></textarea>
+      <div *ngIf="formControlValidator('description','required')" class="alert alert-danger">
+        Description is required.
+      </div>
+      <div *ngIf="formControlValidator('description','minlength')" class="alert alert-danger">
+        Description is too short.
+      </div>
+      <div *ngIf="formControlValidator('description','maxlength')" class="alert alert-danger">
+        Description is too long.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Description (Ar)</label>
+      <textarea class="owl-input" formControlName="description_ar" maxlength="250" placeholder="type"
+                required></textarea>
+      <div *ngIf="formControlValidator('description_ar','required')" class="alert alert-danger">
+        Description is required.
+      </div>
+      <div *ngIf="formControlValidator('description_ar','minlength')" class="alert alert-danger">
+        Description is too short.
+      </div>
+      <div *ngIf="formControlValidator('description_ar','maxlength')" class="alert alert-danger">
+        Description is too long.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label> Long description</label>
+      <textarea class="owl-input" formControlName="long_description_en" placeholder="type"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Long description (Ar)</label>
+      <textarea class="owl-input" formControlName="long_description_ar" placeholder="type"></textarea>
+    </div>
+
+
+    <div class="form-group">
+      <label>Stock</label>
+      <input [min]="0" class="owl-input" formControlName="stock" maxlength="6"
+             onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' placeholder="Stock"
+             type="text">
+      <div *ngIf="formControlValidator('stock','required')" class="alert alert-danger">
+        Stock is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label> Pricing</label>
+      <input [(ngModel)]="price" [max]="1000000" [min]="1" class="owl-input"
+             formControlName="price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." required type="number">
+      <div *ngIf="formControlValidator('price','required')" class="alert alert-danger">
+        Pricing is required.
+      </div>
+      <div *ngIf="formControlValidator('price','min')" class="alert alert-danger">
+        Price minimum is 1 LE.
+      </div>
+      <div *ngIf="formControlValidator('price','max')" class="alert alert-danger">
+        Price Maximum is 1000000 LE.
+      </div>
+      <div *ngIf="formControlValidator('price','pattern')" class="alert alert-danger">
+        Invalid number format
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label> Discount Price
+        <small> optional</small>
+      </label>
+      <input [min]="0" class="owl-input" formControlName="discount_price" pattern="[0-9]+(\.[0-9][0-9]?)?"
+             placeholder="Type.." type="number">
+      <div *ngIf="formControlValidator('discount_price','min')" class="alert alert-danger">
+        Discount price can't be a negative value
+      </div>
+      <div *ngIf="formControlValidator('discount_price','max')" class="alert alert-danger">
+        Discount Price must be less than the price
+      </div>
+      <div *ngIf="formControlValidator('discount_price','pattern')" class="alert alert-danger">
+        Invalid number format
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label> SKU </label>
+      <input [min]="1" class="owl-input" formControlName="sku" placeholder="Type SKU.." required type="text">
+      <div *ngIf="formControlValidator('sku','required')" class="alert alert-danger">
+        Sku Is Required
+      </div>
+      <div *ngIf="formControlValidator('sku','min')" class="alert alert-danger">
+        Sku Must Be Numbers Only
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Stock notification limit </label>
+      <input class="owl-input" formControlName="stock_alert" placeholder="Type.." type="number">
+    </div>
+
+    <div class="form-group">
+      <div *ngFor="let formGroupItem of variantForm.get('options')['controls']; let i = index;" formArrayName="options">
+        <div [formGroupName]="i" class="mt-2 group-block">
+
+          <label class="my-2">{{formGroupItem?.controls['optionData']?.value?.name_en}}</label>
+
+          <select class="owl-input" formControlName="option_value_id">
+            <option hidden selected value="">Select Value</option>
+            <option *ngFor="let val of formGroupItem?.controls['optionData']?.value?.values" value="{{val.id}}">
+              {{val.name_en}}
+            </option>
+          </select>
+          <div *ngIf="formGroupControlsValidator(formGroupItem,'option_value_id','required')" class="alert alert-danger">
+            Value Is Required
+          </div>
+
+          <div *ngIf="formGroupItem.controls['optionData']?.value?.type == 4"
+               class="d-flex justify-content-center flex-column mt-2">
+            <app-image-uploader [fileUrl]="selectVariant?.image" [formControlChildName]="'option_image'"
+                                [myForm]="formGroupItem" class="w-100"
+                                height="240px"
+                                width="100%">
+            </app-image-uploader>
+            <div *ngIf="formGroupControlsValidator(formGroupItem,'option_image','required')" class="alert alert-danger">
+              Image Is Required
+            </div>
+          </div>
+
+          <div *ngIf="formGroupItem.controls['optionData']?.value?.type == 5"
+               class="d-flex justify-content-center flex-column mt-2">
+            <input class="owl-input" formControlName="input_ar" placeholder="Input AR" type="text">
+            <input class="owl-input" formControlName="input_en" placeholder="Input EN" type="text">
+            <div *ngIf="formGroupControlsValidator(formGroupItem,'input_ar','required')" class="alert alert-danger">
+              Input AR Is Required
+            </div>
+            <div *ngIf="formGroupControlsValidator(formGroupItem,'input_en','required')" class="alert alert-danger">
+              Input EN Is Required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <pre class="text-dark">{{variantForm.value | json}}</pre>-->
+    <div class="form-sidebar-btns">
+      <button [appLoading]="submitting" class="btn btn-owls btn-rounded btn-green">Save</button>
+    </div>
+  </form>
+
+</div>
+
