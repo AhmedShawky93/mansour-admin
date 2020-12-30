@@ -97,11 +97,12 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       keywords: new FormControl(
         data ? data.keywords : ""
       ),
-      price: new FormControl(data ? data.price : "", Validators.required),
+      /*price: new FormControl(data ? data.price : "", Validators.required),
+
       discount_price: new FormControl(data ? data.discount_price : "", [
         Validators.min(1),
         (control: AbstractControl) => Validators.max(this.price)(control)
-      ]),
+      ]),*/
       brand_id: new FormControl(data ? data.brand_id : ""),
       main_category: new FormControl(
         data && data.category ? data.category.id : ""

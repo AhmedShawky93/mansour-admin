@@ -154,15 +154,15 @@
         <!--<a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
           <i class="icon-View"></i>
         </a>-->
-        <a (click)="getProductsVariants(product)" class="table-view open-show" style="margin-right: 10px">
+        <a (click)="getProductsVariants(product)" class="table-view open-show mx-1">
           <i class="icon-View"></i>
         </a>
 
-        <a (click)="edit(product)" class="table-view edit-product" href="javascript:void(0)">
+        <a (click)="edit(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
           <i class="icon-grey"></i>
         </a>
-        <a (click)="clone(product)" class="table-view edit-product" href="javascript:void(0)">
-          <i class="icon-grey"></i>
+        <a (click)="clone(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="fa fa-copy"></i>
         </a>
         <label class="switch">
           <input (change)="changeActive(product)" [(ngModel)]="product.active" type="checkbox" value="1">
