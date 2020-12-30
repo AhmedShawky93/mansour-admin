@@ -347,8 +347,15 @@
     <div class="form-group">
       <label for=""> Order</label>
       <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
-
     </div>
+
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+      <label class="container">Pre-Order
+        <input type="checkbox"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
+        <span class="checkmark"></span>
+      </label>
+    </div>
+
     <div class="form-group">
       <label for="">Max Quantity Per Order</label>
       <input type="number" (change)="onQuantityFieldsChange()" class="owl-input" placeholder="Type.."

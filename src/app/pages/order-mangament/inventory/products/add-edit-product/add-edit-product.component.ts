@@ -111,6 +111,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         Validators.required
       ),
       stock: new FormControl(data ? data.stock : 0, Validators.required),
+      preorder: new FormControl(data ? data.preorder : 0),
       sku: new FormControl(data ? data.sku : "", Validators.required),
       image: new FormControl(data ? data.image : "", Validators.required),
       images: this.formBuilder.array(data ? data.images : []),
