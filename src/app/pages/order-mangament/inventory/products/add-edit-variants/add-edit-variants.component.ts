@@ -68,6 +68,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       ]),
       default_variant: new FormControl(data ? data.default_variant : 0),
       stock: new FormControl(data ? data.stock : 0, Validators.required),
+      weight: new FormControl(data ? data.weight : 0, Validators.required),
       stock_alert: new FormControl(data ? data.stock_alert : ''),
       sku: new FormControl(data ? data.sku : '', Validators.required),
       options: this.formBuilder.array( []),

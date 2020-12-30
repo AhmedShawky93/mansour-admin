@@ -161,6 +161,9 @@
         <a (click)="edit(product)" class="table-view edit-product" href="javascript:void(0)">
           <i class="icon-grey"></i>
         </a>
+        <a (click)="clone(product)" class="table-view edit-product" href="javascript:void(0)">
+          <i class="icon-grey"></i>
+        </a>
         <label class="switch">
           <input (change)="changeActive(product)" [(ngModel)]="product.active" type="checkbox" value="1">
           <span class="slider round"></span>
@@ -224,3 +227,31 @@
   [parentProduct]="selectedMainProduct"
   [selectVariant]="selectedProductVariantData">
 </app-add-edit-variants>
+
+<div class="modal fade" id="cloneProduct" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Clone Product
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        Are you sure you want to clone the product ({{currentProduct?.sku}}) ?
+
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmClone()">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

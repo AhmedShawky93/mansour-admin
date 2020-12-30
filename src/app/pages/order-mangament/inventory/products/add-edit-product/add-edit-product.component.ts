@@ -76,19 +76,26 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       description: new FormControl(data ? data.description : "", [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(250),
+        Validators.minLength(3)
       ]),
       description_ar: new FormControl(data ? data.description_ar : "", [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(250),
+        Validators.minLength(3)
       ]),
       long_description_en: new FormControl(
         data ? data.long_description_en : ""
       ),
       long_description_ar: new FormControl(
         data ? data.long_description_ar : ""
+      ),
+      meta_title: new FormControl(
+        data ? data.meta_title : ""
+      ),
+      meta_description: new FormControl(
+        data ? data.meta_description : ""
+      ),
+      keywords: new FormControl(
+        data ? data.keywords : ""
       ),
       price: new FormControl(data ? data.price : "", Validators.required),
       discount_price: new FormControl(data ? data.discount_price : "", [

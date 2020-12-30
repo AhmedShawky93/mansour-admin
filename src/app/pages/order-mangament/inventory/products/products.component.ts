@@ -692,4 +692,28 @@ export class ProductsComponent implements OnInit, OnChanges {
       }
     });
   }
+
+  clone(product) {
+    this.currentProduct = product
+    $("#cloneProduct").modal("show");
+  }
+
+  confirmClone() {
+    this.productsService.clone(this.currentProduct.id)
+      .subscribe((response: any) => {
+        if (response.code == 200) {
+          this.toastrService.success("Product Clone Successfully", 'Success', {
+            enableHtml: true,
+            timeOut: 3000
+          });
+          $("#cloneProduct").modal("hide");
+          this.filter$.next(this.filter);
+        } else {
+          this.toastrService.error(response.message, 'Error Occured', {
+            enableHtml: true,
+            timeOut: 3000
+          });
+        }
+      });
+  }
 }

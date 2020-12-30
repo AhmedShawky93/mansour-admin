@@ -146,6 +146,16 @@
     </div>
 
     <div class="form-group">
+      <label>Weight</label>
+      <input [min]="0" class="owl-input" formControlName="weight" maxlength="6"
+             onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' placeholder="Weight"
+             type="text">
+      <div *ngIf="formControlValidator('weight','required')" class="alert alert-danger">
+        Weight is required
+      </div>
+    </div>
+
+    <div class="form-group">
       <label> SKU </label>
       <input [min]="1" class="owl-input" formControlName="sku" placeholder="Type SKU.." required type="text">
       <div *ngIf="formControlValidator('sku','required')" class="alert alert-danger">

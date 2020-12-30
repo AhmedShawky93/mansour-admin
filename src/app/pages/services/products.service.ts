@@ -121,4 +121,12 @@ export class ProductsService {
         return Observable.throw(error.error || 'Server error');
       });
   }
+
+  clone(id) {
+    return this.http
+      .post(this.url + '/products/' + id + '/clone', {})
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      });
+  }
 }
