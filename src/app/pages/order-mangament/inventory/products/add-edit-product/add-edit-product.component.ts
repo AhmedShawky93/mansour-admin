@@ -98,7 +98,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       min_days: new FormControl(data ? data.min_days : ''),
       /*stock_alert: new FormControl(data ? data.stock_alert : ''),*/
       order: new FormControl(data ? data.order : ''),
-      /*option_values: this.formBuilder.array([]),*/
+      option_values: this.formBuilder.array([]),
       discount_start_date: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[0] : '', []),
       start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
@@ -120,13 +120,13 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
       }
 
-      if (data.image) {
+      /*if (data.image) {
         console.log('clearValidators');
         this.addProductForm.get('image').clearValidators();
         // this.addProductForm.get("image").patchValue(data.image);
         this.addProductForm.get('image').updateValueAndValidity();
         this.addProductForm.updateValueAndValidity();
-      }
+      }*/
 
     }
   }
@@ -139,11 +139,13 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     const category = this.categories[index];
     this.sub_categories = category.sub_categories;
 
-    const op_cat_id = data.optional_category.id;
+    const op_cat_id = (data.optional_category) ? data.optional_category.id : null;
     const op_cat_index = this.optionalCategories.findIndex((item) => item.id === op_cat_id);
-    this.optionalCategories[index].selected = true;
-    const optionalCategory = this.optionalCategories[op_cat_index];
-    this.optionalSubCategories = optionalCategory.sub_categories;
+    if (op_cat_index !== -1) {
+      this.optionalCategories[index].selected = true;
+      const optionalCategory = this.optionalCategories[op_cat_index];
+      this.optionalSubCategories = optionalCategory.sub_categories;
+    }
   }
   closeSideBar() {
     this.closeSideBarEmit.emit();
@@ -350,7 +352,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   selectSubCategoryOption(id) {
-    /*if (this.option_values) {
+    if (this.option_values) {
 
       while (this.addProductForm.get('option_values').value.length > 0) {
         this.option_values.removeAt(0);
@@ -371,7 +373,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       this.options.forEach((element) => {
         this.addOptions(element);
       });
-    }*/
+    }
   }
 
   selectOptionalCategory(event) {

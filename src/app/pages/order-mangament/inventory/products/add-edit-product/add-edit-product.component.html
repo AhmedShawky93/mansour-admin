@@ -267,8 +267,7 @@
       </div>
       <div class="form-group">
         <label>Optional Sub Category</label>
-        <select class="owl-input" formControlName="optional_sub_category_id"  name="optionalSubCategory"
-                (change)="selectSubCategoryOption($event.target.value)">
+        <select class="owl-input" formControlName="optional_sub_category_id"  name="optionalSubCategory">
           <option value="" selected hidden>Select Sub Category</option>
           <option value="{{cat.id}}" *ngFor="let cat of optionalSubCategories">{{cat.name}}
             <span *ngIf="cat.active == 0"> - Deactivate </span>
@@ -278,7 +277,7 @@
 
     </div>
 
-    <!--<div formArrayName="option_values">
+    <div formArrayName="option_values">
 
       <div class="form-group" *ngFor="let option of options; let i = index">
         <span [formGroupName]='i'>
@@ -312,7 +311,7 @@
           </div>
         </span>
       </div>
-    </div>-->
+    </div>
 
     <div class="form-group">
       <label> Brand Name </label>
@@ -494,7 +493,7 @@
       </div>
     </div>
 
-    <pre>{{addProductForm.value | json}}</pre>
+    <!--<pre>{{addProductForm.value | json}}</pre>-->
     <div class="form-sidebar-btns">
       <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
     </div>
