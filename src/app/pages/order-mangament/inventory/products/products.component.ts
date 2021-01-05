@@ -402,7 +402,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     if (index !== -1) {
       this.products[index] = data;
     } else {
-      this.products.push(data);
+      this.products.unshift(data);
     }
   }
 

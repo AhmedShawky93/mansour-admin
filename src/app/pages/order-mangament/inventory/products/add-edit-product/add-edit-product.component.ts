@@ -98,7 +98,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       images: this.formBuilder.array(data ? data.images : []),*/
       max_per_order: new FormControl(data ? data.max_per_order : ''),
       min_days: new FormControl(data ? data.min_days : ''),
-      /*stock_alert: new FormControl(data ? data.stock_alert : ''),*/
+      stock_alert: new FormControl(data ? data.stock_alert : ''),
       order: new FormControl(data ? data.order : ''),
       option_values: this.formBuilder.array([]),
       discount_start_date: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[0] : '', []),
@@ -128,7 +128,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
           element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
           this.options.push(element.option);
           this.addOptionsEdit(element);
-          console.log('element' , element);
+          console.log('element Option>>' , element);
         });
 
       }
@@ -240,6 +240,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
   createItemOptions(data): FormGroup {
     return this.formBuilder.group({
+      type:  new FormControl( (data) ? data.type : ''),
       option_id: new FormControl( (data) ? data.id : '') ,
       name_en: new FormControl( (data) ? data.name_en : ''),
       optionValues: new FormControl( (data) ? data.values : ''),
@@ -254,12 +255,13 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
   createItemOptionsEdit(data): FormGroup {
     return this.formBuilder.group({
+      type:  new FormControl( (data) ? data.option.type : ''),
       option_id: new FormControl( (data) ? data.option.id : ''),
       name_en: new FormControl( (data) ? data.option.name_en : ''),
       optionValues: new FormControl( (data) ? data.option.values : ''),
       option_value_id: new FormControl( (data) ? data.value.id : ''),
-      input_en: new FormControl((data && data.value.name_en)  ? data.value.name_en : ''),
-      input_ar: new FormControl((data && data.value.name_ar) ? data.value.name_ar : ''),
+      input_en: new FormControl((data && data.value.input_en)  ? data.value.input_en : ''),
+      input_ar: new FormControl((data && data.value.input_ar) ? data.value.input_ar : ''),
     });
   }
 
