@@ -207,8 +207,8 @@
 
           <div *ngIf="formGroupItem.controls['optionData']?.value?.type == 5"
                class="d-flex justify-content-center flex-column mt-2">
-            <input class="owl-input" formControlName="input_ar" placeholder="Input AR" type="text">
-            <input class="owl-input" formControlName="input_en" placeholder="Input EN" type="text">
+            <input class="owl-input my-1" formControlName="input_ar" placeholder="Input AR" type="text">
+            <input class="owl-input my-1" formControlName="input_en" placeholder="Input EN" type="text">
             <div *ngIf="formGroupControlsValidator(formGroupItem,'input_ar','required')" class="alert alert-danger">
               Input AR Is Required
             </div>
