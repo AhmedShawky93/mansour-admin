@@ -200,6 +200,23 @@
       &lt;!&ndash; End Errors Rolues &ndash;&gt;
     </div>-->
 
+    <div class="form-group mt-2">
+      <div class="form-group">
+        <label> Product Options </label>
+        <ng-select [closeOnSelect]="false" class="owl-input"
+                   [items]="allOptions" [multiple]="true"
+                   formControlName="product_variant_options"
+                   bindLabel="name_en"
+                   bindValue="id"
+                   name="productVariantOptions"
+                   placeholder="Select Options">
+        </ng-select>
+        <div *ngIf="formControlValidator(addProductForm,'product_variant_options','required')" class="text-danger">
+          Field Is Required
+        </div>
+      </div>
+
+    </div>
 
     <div class="category-list">
 
@@ -277,7 +294,7 @@
 
     </div>
 
-    <div formArrayName="option_values">
+    <!--<div formArrayName="option_values">
 
       <div class="form-group" *ngFor="let option of options; let i = index">
         <span [formGroupName]='i'>
@@ -311,6 +328,40 @@
           </div>
         </span>
       </div>
+    </div>-->
+
+    <div>
+      <div  formArrayName="option_values" class="form-group" *ngFor="let option of addProductForm.get('option_values')['controls']; let i = index">
+        <span [formGroupName]='i'>
+          <div class="" *ngIf="option?.type != '5'">
+            <label> {{option?.controls['name_en']?.value}} </label>
+            <select class="owl-input" name="option" (change)="selectOptionValue(option, $event, i)" formControlName="option_value_id">
+              <option value="" hidden selected>Select option </option>
+              <!--<option value="{{value.id}}" *ngFor="let value of option?.values">{{value.name_en}}</option>-->
+              <option *ngFor="let val of option?.controls['optionValues']?.value" value="{{val.id}}">
+                {{val.name_en}}
+              </option>
+            </select>
+             <div
+               *ngIf="addProductForm.controls.option_values?.controls[i]?.controls?.option_value_id?.invalid && (addProductForm.controls?.option_values?.controls[i].controls?.option_value_id?.dirty || addProductForm.controls.option_values?.controls[i].controls?.option_value_id?.touched)"
+               class="alert alert-danger">
+               <div
+                 *ngIf="addProductForm.controls.option_values?.controls[i]?.controls?.option_value_id?.errors?.required">
+                 option is required.
+               </div>
+             </div>
+          </div>
+          <div class="" *ngIf="option?.type == '5'">
+            <label> {{option?.controls['name_en']?.value}} </label>
+            <div class="form-group">
+              <input type="text" class="owl-input" (click)="takeInputId(option, i)" placeholder="English" formControlName="input_en">
+            </div>
+            <div class="form-group">
+              <input type="text"   class="owl-input" placeholder="Arabic" formControlName="input_ar">
+            </div>
+          </div>
+        </span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -319,7 +370,6 @@
         placeholder="Enter Brand name" formControlName="brand_id">
       </ng-select>
       <!-- Start  Errors Rolues -->
-
       <div
         *ngIf="addProductForm.controls.brand_id.invalid && (addProductForm.controls.brand_id.dirty || addProductForm.controls.brand_id.touched)"
         class="alert alert-danger">

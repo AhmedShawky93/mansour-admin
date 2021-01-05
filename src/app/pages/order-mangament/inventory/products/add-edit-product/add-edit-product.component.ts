@@ -6,6 +6,7 @@ import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validat
 import {ToastrService} from 'ngx-toastr';
 import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
+import {OptionsService} from '@app/pages/services/options.service';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -34,20 +35,21 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   loading: boolean;
   options = [];
   option_values: FormArray;
-
   price: number;
+  allOptions: Array<any> = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private uploadFile: UploadFilesService,
     private productsService: ProductsService,
     private _CategoriesService: CategoryService,
+    private optionsService: OptionsService,
     private toastrService: ToastrService
   ) {
   }
 
   ngOnInit() {
-
+    this.getAllOptions();
     this.getForm(this.selectProductDataEdit);
   }
 
@@ -88,7 +90,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       main_category: new FormControl(data && data.category ? data.category.id : ''),
       category_id: new FormControl(data ? data.category_id : '', Validators.required),
       optional_category: new FormControl(data && data.optional_category ? data.optional_category.id : ''),
-      optional_sub_category_id: new FormControl(data ? data.optional_sub_category_id : ''),
+      optional_sub_category_id: new FormControl(data && data.optional_sub_category_id ? data.optional_sub_category_id : ''),
       /*stock: new FormControl(data ? data.stock : 0, Validators.required),*/
       preorder: new FormControl(data ? data.preorder : 0),
       sku: new FormControl(data ? data.sku : '', Validators.required),
@@ -103,6 +105,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
+      product_variant_options: new FormControl((data) ? data.product_variant_options.map(item => item.id) : '', Validators.required)
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
     // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));
 
@@ -110,12 +113,22 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
       this.setCategoriesData(data);
 
-      if (data.options.length) {
+      /*if (data.options.length) {
         // this.selectSubCategoryOption(data.category.sub_categories[0].id);
         data.options.forEach((element) => {
           this.options.push(element.option);
           this.addOptionsEdit(element);
           console.log(element);
+        });
+
+      }*/
+
+      if (data.options.length) {
+        data.options.forEach((element) => {
+          element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
+          this.options.push(element.option);
+          this.addOptionsEdit(element);
+          console.log('element' , element);
         });
 
       }
@@ -129,6 +142,20 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       }*/
 
     }
+  }
+
+  getAllOptions() {
+    this.optionsService.getOptions({})
+      .subscribe(
+        res => {
+          if (res['code'] === 200) {
+            this.allOptions = res['data'];
+            console.log('allOptions', this.allOptions);
+          } else {
+            this.toastrService.error(res['message']);
+          }
+        }
+      );
   }
 
   setCategoriesData(data) {
@@ -147,9 +174,11 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       this.optionalSubCategories = optionalCategory.sub_categories;
     }
   }
+
   closeSideBar() {
     this.closeSideBarEmit.emit();
-    if (this.selectProductDataEdit == undefined) {
+    this.addProductForm.reset();
+    /*if (this.selectProductDataEdit == undefined) {
       this.resetForm();
       this.addProductForm.reset();
       if (this.option_values) {
@@ -158,7 +187,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         }
         this.option_values.reset();
       }
-    }
+    }*/
   }
 
   addImage(): void {
@@ -176,7 +205,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     });
   }
 
-  addOptions(data): void {
+/*  addOptions(data): void {
     this.option_values = this.addProductForm.get('option_values') as FormArray;
     this.option_values.push(this.createItemOptions(data));
   }
@@ -185,6 +214,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     return this.formBuilder.group({
       option_id: data.id,
       id: new FormControl(''),
+      option_value_id: new FormControl(''),
       input_en: new FormControl(''),
       input_ar: new FormControl(''),
     });
@@ -201,6 +231,35 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       option_value_id: new FormControl(''),
       input_en: new FormControl(data ? data.value.input_en : ''),
       input_ar: new FormControl(data ? data.value.input_ar : ''),
+    });
+  }*/
+
+  addOptions(data): void {
+    this.option_values = this.addProductForm.get('option_values') as FormArray;
+    this.option_values.push(this.createItemOptions(data));
+  }
+  createItemOptions(data): FormGroup {
+    return this.formBuilder.group({
+      option_id: new FormControl( (data) ? data.id : '') ,
+      name_en: new FormControl( (data) ? data.name_en : ''),
+      optionValues: new FormControl( (data) ? data.values : ''),
+      option_value_id: new FormControl(''),
+      input_en: new FormControl(''),
+      input_ar: new FormControl(''),
+    });
+  }
+  addOptionsEdit(data): void {
+    this.option_values = this.addProductForm.get('option_values') as FormArray;
+    this.option_values.push(this.createItemOptionsEdit(data));
+  }
+  createItemOptionsEdit(data): FormGroup {
+    return this.formBuilder.group({
+      option_id: new FormControl( (data) ? data.option.id : ''),
+      name_en: new FormControl( (data) ? data.option.name_en : ''),
+      optionValues: new FormControl( (data) ? data.option.values : ''),
+      option_value_id: new FormControl( (data) ? data.value.id : ''),
+      input_en: new FormControl((data && data.value.name_en)  ? data.value.name_en : ''),
+      input_ar: new FormControl((data && data.value.name_ar) ? data.value.name_ar : ''),
     });
   }
 
@@ -254,10 +313,12 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       // edit
 
       const product = this.addProductForm.value;
-      product.image = this.imageUrl;
-      console.log(product);
+
+
+      /*product.image = this.imageUrl;*/
+      /*console.log(product);*/
       this.formatDateForSaving(product, this.addProductForm);
-      if (product.image) {
+      /*if (product.image) {
         console.log('clearValidators');
         this.addProductForm.get('image').clearValidators();
         this.addProductForm.get('image').updateValueAndValidity();
@@ -268,13 +329,17 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         // this.addProductForm.get("image").patchValue(data.image);
         this.addProductForm.get('image').updateValueAndValidity();
         this.addProductForm.updateValueAndValidity();
-      }
+      }*/
       console.log(this.addProductForm.value);
       console.log(this.addProductForm.valid);
       if (!this.addProductForm.valid) {
         this.markFormGroupTouched(this.addProductForm);
         return;
       }
+      product.option_values.forEach(item => {
+        delete item.optionValues;
+        delete item.name_en;
+      });
       this.submitting = true;
       this.productsService
         .updateProduct(this.selectProductDataEdit.id, product)
@@ -293,14 +358,20 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       const product = this.addProductForm.value;
       product.image = this.imageUrl;
       delete product.main_category;
-      console.log(this.addProductForm.value);
-      console.log(this.addProductForm.valid);
+      /*console.log(this.addProductForm.value);
+      console.log(this.addProductForm.valid);*/
       this.formatDateForSaving(product, this.addProductForm);
+
       if (this.addProductForm.invalid) {
         this.markFormGroupTouched(this.addProductForm);
         console.log(this.addProductForm.errors);
         return;
       }
+      product.option_values.forEach(item => {
+        delete item.optionValues;
+        delete item.name_en;
+      });
+
       this.submitting = true;
 
       this.productsService.creatProduct(product).subscribe((response: any) => {
@@ -359,17 +430,15 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       }
       this.option_values.reset();
     }
-    console.log(this.addProductForm.get('option_values'));
+    /*console.log(this.addProductForm.get('option_values'));
 
-    console.log(id);
+    console.log(id);*/
     const cat_id = Number(id);
-    console.log(this.sub_categories);
+    /*console.log("this.sub_categories", this.sub_categories);*/
     const index = this.sub_categories.findIndex((item) => item.id === cat_id);
-    console.log(index);
     if (index !== -1) {
-      console.log(index);
       this.options = this.sub_categories[index].options;
-      console.log(this.options);
+      console.log('This Options >>>>', this.options);
       this.options.forEach((element) => {
         this.addOptions(element);
       });
@@ -426,6 +495,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       data.discount_start_date = null;
     }
   }
+
   selectOptionValue(option, value, index) {
     console.log(option, value, index);
     // this.addProductForm.get("option_values").value[index].option_id = option.id;
