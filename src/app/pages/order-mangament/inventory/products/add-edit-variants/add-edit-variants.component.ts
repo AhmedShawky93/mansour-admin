@@ -5,6 +5,8 @@ import {ProductsService} from '@app/pages/services/products.service';
 import {CategoryService} from '@app/pages/services/category.service';
 import {ToastrService} from 'ngx-toastr';
 import {OptionsService} from '@app/pages/services/options.service';
+import {DateLessThan} from '@app/shared/date-range-validation';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-edit-variants',
@@ -78,7 +80,11 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       /*stock_alert: new FormControl(data ? data.stock_alert : ''),*/
       sku: new FormControl(data ? data.sku : '', Validators.required),
       options: this.formBuilder.array([]),
-    });
+      discount_start_date: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[0] : '', []),
+      start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
+      discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
+      expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
+    }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
   }
 
   setData(data) {
@@ -208,7 +214,26 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     data.options.forEach(item => {
       delete item.optionData;
     });
+    this.formatDateForSaving(data, this.variantForm);
     return data;
+  }
+
+  formatDateForSaving(data, form) {
+    if (data.discount_end_date) {
+      data.discount_end_date = moment(form.get('discount_end_date').value).format('YYYY-MM-DD');
+      data.discount_end_date = data.discount_end_date + ' ' + form.get('expiration_time').value;
+      data.discount_end_date = moment(data.discount_end_date).format('YYYY-MM-DD HH:mm');
+    } else {
+      data.discount_end_date = null;
+    }
+
+    if (data.discount_start_date) {
+      data.discount_start_date = moment(form.get('discount_start_date').value).format('YYYY-MM-DD');
+      data.discount_start_date = data.discount_start_date + ' ' + form.get('start_time').value;
+      data.discount_start_date = moment(data.discount_start_date).format('YYYY-MM-DD HH:mm');
+    } else {
+      data.discount_start_date = null;
+    }
   }
 
   save() {

@@ -101,12 +101,12 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       stock_alert: new FormControl(data ? data.stock_alert : ''),
       order: new FormControl(data ? data.order : ''),
       option_values: this.formBuilder.array([]),
-      discount_start_date: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[0] : '', []),
+      /*discount_start_date: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[0] : '', []),
       start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
-      expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
+      expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),*/
       product_variant_options: new FormControl((data) ? data.product_variant_options.map(item => item.id) : '', Validators.required)
-    }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
+    });
     // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));
 
     if (data) {
@@ -319,7 +319,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
       /*product.image = this.imageUrl;*/
       /*console.log(product);*/
-      this.formatDateForSaving(product, this.addProductForm);
+      /*this.formatDateForSaving(product, this.addProductForm);*/
       /*if (product.image) {
         console.log('clearValidators');
         this.addProductForm.get('image').clearValidators();
@@ -362,7 +362,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       delete product.main_category;
       /*console.log(this.addProductForm.value);
       console.log(this.addProductForm.valid);*/
-      this.formatDateForSaving(product, this.addProductForm);
+      /*this.formatDateForSaving(product, this.addProductForm);*/
 
       if (this.addProductForm.invalid) {
         this.markFormGroupTouched(this.addProductForm);
@@ -480,7 +480,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     }*/
   }
 
-  formatDateForSaving(data, form) {
+  /*formatDateForSaving(data, form) {
     if (data.discount_end_date) {
       data.discount_end_date = moment(form.get('discount_end_date').value).format('YYYY-MM-DD');
       data.discount_end_date = data.discount_end_date + ' ' + form.get('expiration_time').value;
@@ -496,7 +496,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     } else {
       data.discount_start_date = null;
     }
-  }
+  }*/
 
   selectOptionValue(option, value, index) {
     console.log(option, value, index);
