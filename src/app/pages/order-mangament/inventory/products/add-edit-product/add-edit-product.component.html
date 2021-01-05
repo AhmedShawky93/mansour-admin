@@ -221,7 +221,7 @@
     <div class="category-list">
 
       <div class="form-group">
-        <label for="">Category</label>
+        <label>Category</label>
         <select class="owl-input" name="category" (change)="selectCategory($event)" formControlName="main_category"
           required>
           <option value="" selected hidden>Select Category</option>
@@ -244,8 +244,9 @@
         </div>
         <!-- End Errors Rolues -->
       </div>
+
       <div class="form-group">
-        <label for="">Sub Category</label>
+        <label>Sub Category</label>
         <select class="owl-input" formControlName="category_id" required name="subCategory"
           (change)="selectSubCategoryOption($event.target.value)">
           <option value="" selected hidden>Select Sub Category</option>
@@ -271,7 +272,7 @@
     <div class="category-list" *ngIf="addProductForm.value.category_id">
 
       <div class="form-group">
-        <label for="">Optional Category</label>
+        <label>Optional Category</label>
         <select class="owl-input" name="category" (change)="selectOptionalCategory($event)" formControlName="optional_category">
           <option value="" selected hidden>Select Category</option>
           <ng-container *ngFor="let cat of optionalCategories">
@@ -282,6 +283,7 @@
           </ng-container>
         </select>
       </div>
+
       <div class="form-group">
         <label>Optional Sub Category</label>
         <select class="owl-input" formControlName="optional_sub_category_id"  name="optionalSubCategory">
@@ -419,7 +421,7 @@
 
     <div class="group-box mt-2">
       <div class="form-group">
-        <label for=""> Discount Price
+        <label> Discount Price
           <small> optional</small>
         </label>
         <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
@@ -500,7 +502,7 @@
     </div>
 
     <div class="form-group">
-      <label for=""> Order</label>
+      <label> Order</label>
       <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
     </div>
 
@@ -512,7 +514,7 @@
     </div>
 
     <div class="form-group">
-      <label for="">Max Quantity Per Order</label>
+      <label>Max Quantity Per Order</label>
       <input type="number" (change)="onQuantityFieldsChange()" class="owl-input" placeholder="Type.."
         formControlName="max_per_order">
       <div
@@ -526,7 +528,7 @@
     </div>
 
     <div class="form-group">
-      <label for="">Mimum Quantity Days</label>
+      <label>Mimum Quantity Days</label>
       <input type="number" (change)="onQuantityFieldsChange()" class="owl-input" placeholder="Type.."
         formControlName="min_days">
 

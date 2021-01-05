@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-9 col-sm-12 col-xs-12">
+    <div class="col-md-6 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
@@ -21,13 +21,18 @@
                type="text">
       </div>
     </div>
-
-
     <div class="col-md-3  col-xs-12 text-right">
       <div class="owl-btn-list">
         <button (click)="createNew()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center" *ngIf="!selectedMainProduct">+ New product</div>
           <div class="text-center" *ngIf="selectedMainProduct">+ New Variant</div>
+        </button>
+      </div>
+    </div>
+    <div class="col-md-3  col-xs-12 text-right">
+      <div class="owl-btn-list" *ngIf="!selectedMainProduct">
+        <button (click)="NewProductWithVariant()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+          <div class="text-center">+ Product With Variant</div>
         </button>
       </div>
     </div>
@@ -227,6 +232,13 @@
   [parentProduct]="selectedMainProduct"
   [selectVariant]="selectedProductVariantData">
 </app-add-edit-variants>
+
+<app-add-product-variants
+  (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)"
+  [@slideInOut]="toggleProductVariant"
+  [selectVariant]="selectedProductVariantData">
+</app-add-product-variants>
 
 <div class="modal fade" id="cloneProduct" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

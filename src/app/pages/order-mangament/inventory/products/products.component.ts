@@ -76,13 +76,14 @@ export class ProductsComponent implements OnInit, OnChanges {
   viewProductSidebar = 'out';
 
   toggleVariant: string;
+  toggleProductVariant: string;
   viewVariantSidebar: string;
 
   selectProductData: any;
   selectProductDataView: any;
 
   selectedProductVariantData: any;
-
+  selectedProductVariantBoth: any;
   categories: any;
 
   sub_categories = [];
@@ -117,6 +118,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   ) {
     this.search = debounce(this.search, 700);
     this.toggleVariant = 'out';
+    this.toggleProductVariant = 'out';
     this.viewVariantSidebar = 'out';
   }
 
@@ -367,6 +369,11 @@ export class ProductsComponent implements OnInit, OnChanges {
     }
   }
 
+  NewProductWithVariant() {
+    this.selectedProductVariantBoth = null;
+    this.viewProductSidebar = 'out';
+    this.toggleProductVariant = 'in';
+  }
   edit(data) {
     if (this.selectedMainProduct) {
       this.toggleEditVariantMenu(data);
@@ -395,6 +402,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.toggleAddProduct = 'out';
     this.toggleVariant = 'out';
     this.viewProductSidebar = 'out';
+    this.toggleProductVariant = 'out';
   }
 
   addOrUpdateProduct(data) {
