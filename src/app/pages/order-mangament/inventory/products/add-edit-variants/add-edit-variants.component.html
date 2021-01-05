@@ -145,7 +145,7 @@
       </div>
     </div>
 
-    <div class="form-group" *ngIf="parentProduct.preorder">
+    <div class="form-group" *ngIf="parentProduct?.preorder">
       <label>Pre-order Pricing</label>
       <input [(ngModel)]="price" class="owl-input"
              formControlName="preorder_price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
