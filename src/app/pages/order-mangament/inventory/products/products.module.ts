@@ -13,6 +13,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AddEditVariantsComponent } from './add-edit-variants/add-edit-variants.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {MatIconModule} from '@angular/material';
+import {AddProductVariantsComponent} from '@app/pages/order-mangament/inventory/products/add-product-variants/add-product-variants.component';
 
 
 const router = [
@@ -35,7 +36,8 @@ const router = [
     ProductsComponent,
     ViewProductComponent,
     AddEditProductComponent,
-    AddEditVariantsComponent
+    AddEditVariantsComponent,
+    AddProductVariantsComponent
   ],
 })
 export class ProductsModule {}

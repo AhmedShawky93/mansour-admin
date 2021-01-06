@@ -1,10 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, OnChanges, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UploadFilesService} from '@app/pages/services/upload-files.service';
 import {ProductsService} from '@app/pages/services/products.service';
 import {CategoryService} from '@app/pages/services/category.service';
 import {ToastrService} from 'ngx-toastr';
 import {OptionsService} from '@app/pages/services/options.service';
+import {DateLessThan} from '@app/shared/date-range-validation';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-edit-variants',
@@ -30,24 +32,28 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     private _CategoriesService: CategoryService,
     private toasterService: ToastrService,
     private optionsService: OptionsService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
   }
+
   ngOnChanges() {
     console.log('parentProduct', this.parentProduct);
     console.log('selectedVariant', this.selectVariant);
     this.setForm(this.selectVariant);
     this.setData(this.selectVariant);
   }
+
   closeSideBar() {
     this.variantForm.reset();
     this.closeSideBarEmit.emit();
   }
+
   setForm(data) {
     this.variantForm = this.formBuilder.group({
       image: new FormControl(data ? data.image : '', Validators.required),
-      images: this.formBuilder.array( []),
+      images: this.formBuilder.array([]),
       name: new FormControl(data ? data.name : '', Validators.required),
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
       description: new FormControl(data ? data.description : '', [
@@ -71,11 +77,16 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       preorder: new FormControl(data ? data.preorder : 0),
       preorder_price: new FormControl(data ? data.preorder_price : 0),
       weight: new FormControl(data ? data.weight : 0, Validators.required),
-      stock_alert: new FormControl(data ? data.stock_alert : ''),
+      /*stock_alert: new FormControl(data ? data.stock_alert : ''),*/
       sku: new FormControl(data ? data.sku : '', Validators.required),
-      options: this.formBuilder.array( []),
-    });
+      options: this.formBuilder.array([]),
+      discount_start_date: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[0] : '', []),
+      start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
+      discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
+      expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
+    }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
   }
+
   setData(data) {
     this.addVariantOptionsToForm();
     if (data) {
@@ -84,51 +95,46 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       });
     }
   }
+
   formValidator() {
     console.log('this.variantForm', this.variantForm.value);
     if (!this.variantForm.valid) {
       this.markFormGroupTouched(this.variantForm);
       return false;
-    } else { return true; }
+    } else {
+      return true;
+    }
   }
+
   formControlValidator(controlName, err) {
     if (this.variantForm.controls[controlName].touched && this.variantForm.controls[controlName].dirty) {
       if (this.variantForm.controls[controlName].errors) {
-        return  this.variantForm.controls[controlName].errors[err];
+        return this.variantForm.controls[controlName].errors[err];
       }
     }
   }
-  formGroupControlsValidator(formGroup, controlName , err) {
+
+  formGroupControlsValidator(formGroup, controlName, err) {
     if (formGroup.controls[controlName].touched && formGroup.controls[controlName].dirty) {
       if (formGroup.controls[controlName].errors) {
-        return  formGroup.controls[controlName].errors[err];
+        return formGroup.controls[controlName].errors[err];
       }
     }
   }
-  private markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object)
-      .values(formGroup.controls)
-      .forEach((control: FormGroup, ind) => {
-        control.markAsTouched();
-        control.markAsDirty();
-        if (control.controls) {
-          this.markFormGroupTouched(control);
-        }
-      });
-  }
+
   createVariantOption(item): FormGroup {
-    if ( item.type === '4') {
+    if (item.type === '4') {
       return this.formBuilder.group({
         optionData: item,
         option_id: new FormControl(item.id, [Validators.required]),
-        option_value_id: new FormControl( (item.selectedValue) ? item.selectedValue.id : '', [Validators.required]),
+        option_value_id: new FormControl((item.selectedValue) ? item.selectedValue.id : '', [Validators.required]),
         option_image: new FormControl((item.selectedValue) ? item.selectedValue.image : '', [Validators.required])
       });
-    } else if ( item.type === '5') {
+    } else if (item.type === '5') {
       return this.formBuilder.group({
         optionData: item,
         option_id: new FormControl(item.id, [Validators.required]),
-        option_value_id: new FormControl( (item.selectedValue) ? item.selectedValue.id : ''),
+        option_value_id: new FormControl((item.selectedValue) ? item.selectedValue.id : ''),
         input_ar: new FormControl((item.selectedValue) ? item.selectedValue.input_ar : '', [Validators.required]),
         input_en: new FormControl((item.selectedValue) ? item.selectedValue.input_en : '', [Validators.required])
       });
@@ -136,11 +142,12 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       return this.formBuilder.group({
         optionData: item,
         option_id: new FormControl(item.id, Validators.required),
-        option_value_id: new FormControl( (item.selectedValue) ? item.selectedValue.id : '', [Validators.required])
+        option_value_id: new FormControl((item.selectedValue) ? item.selectedValue.id : '', [Validators.required])
       });
     }
 
   }
+
   addVariantOptionsToForm() {
     if (this.parentProduct && !this.selectVariant) {
       /*Case Create New*/
@@ -148,14 +155,13 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         this.options = this.variantForm.get('options') as FormArray;
         this.options.push(this.createVariantOption(item));
       });
-    } else if ( this.parentProduct && this.selectVariant ) {
+    } else if (this.parentProduct && this.selectVariant) {
       /*Case Update*/
-      const selectedOptions =  this.selectVariant.product_variant_options.map(data => {
-        return {option: data.option , selectedValue: data.values[0]};
+      const selectedOptions = this.selectVariant.product_variant_options.map(data => {
+        return {option: data.option, selectedValue: data.values[0]};
       });
 
       this.parentProduct.product_variant_options.forEach(item => {
-        debugger
         const selected = selectedOptions.find(op => op.option.id === item.id);
         item['selectedValue'] = selected.selectedValue;
         this.options = this.variantForm.get('options') as FormArray;
@@ -163,27 +169,32 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       });
     }
   }
+
   addImage(data: any = null) {
-      this.addSubImages = this.variantForm.get('images') as FormArray;
-      this.addSubImages.push(this.createImageFormControl(data));
+    this.addSubImages = this.variantForm.get('images') as FormArray;
+    this.addSubImages.push(this.createImageFormControl(data));
   }
+
   createImageFormControl(data): FormGroup {
-      return this.formBuilder.group({
-        url: new FormControl(data ? data.url : ''),
-      });
-  }
-  createProduct(product) {
-    this.submitting = true;
-    this.productsService.creatProductVariant(this.parentProduct.id, product).subscribe((response: any) => {
-      if (response.code === 200) {
-        this.dataProductEmit.emit(response.data);
-        this.closeSideBar();
-      } else {
-        this.toasterService.error(response.message);
-      }
-      this.submitting = false;
+    return this.formBuilder.group({
+      url: new FormControl(data ? data.url : ''),
     });
   }
+
+  createProduct(product) {
+    this.submitting = true;
+    this.productsService.creatProductVariant(this.parentProduct.id, product)
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          this.dataProductEmit.emit(response.data);
+          this.closeSideBar();
+        } else {
+          this.toasterService.error(response.message);
+        }
+        this.submitting = false;
+      });
+  }
+
   updateProduct(product) {
     this.submitting = true;
     this.productsService.updateProductVariant(this.parentProduct.id, this.selectVariant.id, product)
@@ -197,13 +208,34 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         this.submitting = false;
       });
   }
+
   mappingDataForSaving() {
     const data = this.variantForm.value;
     data.options.forEach(item => {
       delete item.optionData;
     });
+    this.formatDateForSaving(data, this.variantForm);
     return data;
   }
+
+  formatDateForSaving(data, form) {
+    if (data.discount_end_date) {
+      data.discount_end_date = moment(form.get('discount_end_date').value).format('YYYY-MM-DD');
+      data.discount_end_date = data.discount_end_date + ' ' + form.get('expiration_time').value;
+      data.discount_end_date = moment(data.discount_end_date).format('YYYY-MM-DD HH:mm');
+    } else {
+      data.discount_end_date = null;
+    }
+
+    if (data.discount_start_date) {
+      data.discount_start_date = moment(form.get('discount_start_date').value).format('YYYY-MM-DD');
+      data.discount_start_date = data.discount_start_date + ' ' + form.get('start_time').value;
+      data.discount_start_date = moment(data.discount_start_date).format('YYYY-MM-DD HH:mm');
+    } else {
+      data.discount_start_date = null;
+    }
+  }
+
   save() {
     /*Check Is Valid Form Data & Fire Validation*/
     if (this.formValidator()) {
@@ -215,5 +247,17 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         this.updateProduct(this.mappingDataForSaving());
       }
     }
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object)
+      .values(formGroup.controls)
+      .forEach((control: FormGroup, ind) => {
+        control.markAsTouched();
+        control.markAsDirty();
+        if (control.controls) {
+          this.markFormGroupTouched(control);
+        }
+      });
   }
 }
