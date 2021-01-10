@@ -702,7 +702,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   clone(product) {
-    this.currentProduct = product
+    this.currentProduct = product;
     $("#cloneProduct").modal("show");
   }
 
@@ -714,8 +714,9 @@ export class ProductsComponent implements OnInit, OnChanges {
             enableHtml: true,
             timeOut: 3000
           });
+          this.addOrUpdateProduct(response.data);
           $("#cloneProduct").modal("hide");
-          this.filter$.next(this.filter);
+          /*this.filter$.next(this.filter);*/
         } else {
           this.toastrService.error(response.message, 'Error Occured', {
             enableHtml: true,
