@@ -371,3 +371,10 @@ bar-rating {
   font-weight: 500;
   cursor: pointer;
 }
+
+
+.fixed-table-scroll{
+  max-height: 46.5vh;
+  overflow-y: scroll;
+}
+

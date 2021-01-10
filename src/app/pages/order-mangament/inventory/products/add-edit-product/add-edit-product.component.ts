@@ -93,7 +93,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       optional_sub_category_id: new FormControl(data && data.optional_sub_category_id ? data.optional_sub_category_id : ''),
       /*stock: new FormControl(data ? data.stock : 0, Validators.required),*/
       preorder: new FormControl(data ? data.preorder : 0),
-      preorder_price: new FormControl(data ? data.preorder_price : 0, Validators.required),
+      /*preorder_price: new FormControl(data ? data.preorder_price : 0, Validators.required),*/
       sku: new FormControl(data ? data.sku : '', Validators.required),
       /*image: new FormControl(data ? data.image : '', Validators.required),
       images: this.formBuilder.array(data ? data.images : []),*/
