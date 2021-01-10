@@ -98,6 +98,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       ]),
       long_description_en: new FormControl(''),
       long_description_ar: new FormControl(''),
+      meta_title: new FormControl(''),
+      meta_description: new FormControl( ''),
       price: new FormControl('', Validators.required),
       discount_price: new FormControl('', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
