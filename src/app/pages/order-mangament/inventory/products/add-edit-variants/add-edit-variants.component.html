@@ -219,8 +219,14 @@
     </div>
     <div class="form-group" *ngIf="parentProduct?.preorder">
       <label>Pre-order Pricing</label>
-      <input [(ngModel)]="price" class="owl-input"
+      <input class="owl-input"
              formControlName="preorder_price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
+      <div *ngIf="formControlValidator('preorder_price','required')" class="alert alert-danger">
+        Pre-order Pricing is required.
+      </div>
+      <div *ngIf="formControlValidator('preorder_price','pattern')" class="alert alert-danger">
+        Invalid number format
+      </div>
     </div>
 
     <div class="form-group">

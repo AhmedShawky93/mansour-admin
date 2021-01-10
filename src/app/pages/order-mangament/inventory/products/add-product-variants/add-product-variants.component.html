@@ -249,9 +249,21 @@
 
     <div class="form-group my-4">
       <label class="container">Pre-Order
-        <input type="checkbox"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
+        <input type="checkbox" (change)="changeValidation()"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
         <span class="checkmark"></span>
       </label>
+    </div>
+
+    <div *ngIf="componentForm.value.preorder" class="form-group">
+      <label>Pre-order Pricing</label>
+      <input class="owl-input"
+             formControlName="preorder_price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
+      <div *ngIf="formControlValidator('preorder_price','required')" class="alert alert-danger">
+        Pre-order Pricing is required.
+      </div>
+      <div *ngIf="formControlValidator('preorder_price','pattern')" class="alert alert-danger">
+        Invalid number format
+      </div>
     </div>
 
     <div class="form-group">
@@ -408,11 +420,7 @@
       </div>
     </div>-->
 
-    <div *ngIf="parentProduct?.preorder" class="form-group">
-      <label>Pre-order Pricing</label>
-      <input [(ngModel)]="price" class="owl-input"
-             formControlName="preorder_price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
-    </div>
+
 
     <div class="form-group">
       <label>Weight</label>
@@ -484,6 +492,7 @@
         </div>
       </div>
     </div>
+    <pre>{{componentForm.valid}}</pre>
     <!-- <pre class="text-dark">{{componentForm.value | json}}</pre>-->
     <div class="form-sidebar-btns">
       <button [appLoading]="submitting" class="btn btn-owls btn-rounded btn-green">Save</button>

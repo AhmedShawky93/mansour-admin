@@ -89,6 +89,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
 
   setData(data) {
     this.addVariantOptionsToForm();
+    this.changeValidation();
     if (data) {
       data.images.forEach(img => {
         this.addImage(img);
@@ -119,6 +120,16 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       if (formGroup.controls[controlName].errors) {
         return formGroup.controls[controlName].errors[err];
       }
+    }
+  }
+
+  changeValidation() {
+    if (this.variantForm.value.preorder) {
+      this.variantForm.get('preorder_price').setValidators([Validators.required]);
+      this.variantForm.get('preorder_price').updateValueAndValidity();
+    } else if (!this.variantForm.value.preorder) {
+      this.variantForm.get('preorder_price').clearValidators();
+      this.variantForm.get('preorder_price').updateValueAndValidity();
     }
   }
 
