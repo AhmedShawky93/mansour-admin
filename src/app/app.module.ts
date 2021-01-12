@@ -97,6 +97,7 @@ import { ReportsComponent } from "./pages/reports/reports.component";
 import { GroupsPipe } from './pages/order-mangament/inventory/groups/groups.pipe';
 import { OrdersDeliveryComponent } from './pages/order-mangament/orders-delivery/orders-delivery.component';
 import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
+import {AngularEditorModule} from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -175,7 +176,8 @@ import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-de
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
     SharedModule,
-    NgxPermissionsModule.forRoot()
+    NgxPermissionsModule.forRoot(),
+    AngularEditorModule
   ],
   providers: [
     {
