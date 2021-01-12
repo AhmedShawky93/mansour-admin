@@ -1,6 +1,6 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 
-<div class="top-table-bar">
+<div class="top-table-bar my-2 py-0 px-2">
   <div class="row mb-2">
     <div *ngIf="selectedMainProduct" class="col-lg-12">
       <div (click)="backToProducts()" class="d-inline-flex back-arrow ">
@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-sm-12 col-xs-12">
+    <div class="col-md-9 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
@@ -23,19 +23,25 @@
     </div>
     <div class="col-md-3  col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button (click)="createNew()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+        <!--<button (click)="createNew()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center" *ngIf="!selectedMainProduct">+ New product</div>
           <div class="text-center" *ngIf="selectedMainProduct">+ New Variant</div>
+        </button>-->
+        <button (click)="createNew()" *ngIf="selectedMainProduct" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+          <div class="text-center" *ngIf="selectedMainProduct">+ New Variant</div>
+        </button>
+        <button (click)="NewProductWithVariant()"  *ngIf="!selectedMainProduct" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+          <div class="text-center">+ Product With Variant</div>
         </button>
       </div>
     </div>
-    <div class="col-md-3  col-xs-12 text-right">
+    <!--<div class="col-md-3  col-xs-12 text-right">
       <div class="owl-btn-list" *ngIf="!selectedMainProduct">
         <button (click)="NewProductWithVariant()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center">+ Product With Variant</div>
         </button>
       </div>
-    </div>
+    </div>-->
     <div class="col-md-4 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
       <div class="row">
         <div class="col-md-6 col-xs-12">
@@ -116,7 +122,7 @@
     <h5>Main Product: {{selectedMainProduct.name}}</h5>
   </div>
 </div>
-<div class="table-responsive text-center">
+<div class="table-responsive text-center fixed-table-scroll">
   <table class="table owls-table">
     <thead>
     <tr>

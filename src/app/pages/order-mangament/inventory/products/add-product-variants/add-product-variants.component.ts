@@ -98,6 +98,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       ]),
       long_description_en: new FormControl(''),
       long_description_ar: new FormControl(''),
+      meta_title: new FormControl(''),
+      meta_description: new FormControl( ''),
       price: new FormControl('', Validators.required),
       discount_price: new FormControl('', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
@@ -272,6 +274,16 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     }
   }
 
+  changeValidation() {
+    if (this.componentForm.value.preorder) {
+      this.componentForm.get('preorder_price').setValidators([Validators.required]);
+      this.componentForm.get('preorder_price').updateValueAndValidity();
+    } else if (!this.componentForm.value.preorder) {
+      this.componentForm.get('preorder_price').clearValidators();
+      this.componentForm.get('preorder_price').updateValueAndValidity();
+    }
+  }
+
   createVariantOption(item): FormGroup {
     if (item.type === '4') {
       return this.formBuilder.group({
@@ -352,6 +364,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           this.mainProduct = response.data;
           this.createVariantProduct();
         } else {
+          this.spinner.hide();
           this.toasterService.error(response.message);
         }
         this.submitting = false;
@@ -400,6 +413,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           this.spinner.hide();
           this.closeSideBar();
         } else {
+          this.spinner.hide();
           this.toasterService.error(response.message);
         }
         this.submitting = false;
@@ -414,7 +428,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     }
   }
 
-  private markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object)
       .values(formGroup.controls)
       .forEach((control: FormGroup, ind) => {

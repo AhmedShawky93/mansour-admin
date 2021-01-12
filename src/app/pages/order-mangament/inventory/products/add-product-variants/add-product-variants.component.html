@@ -27,10 +27,10 @@
     <div class="form-group mt-2">
       <div class="form-group">
         <label> Product Options </label>
-        <ng-select [closeOnSelect]="false"
+        <ng-select (close)="buildVariantsOptions()"
+                   [closeOnSelect]="false"
                    [items]="allOptions"
                    [multiple]="true"
-                   (close)="buildVariantsOptions()"
                    bindLabel="name_en"
                    class="owl-input"
                    formControlName="product_variant_options"
@@ -72,7 +72,8 @@
 
       <div class="form-group">
         <label>Sub Category</label>
-        <select (change)="selectSubCategoryOption($event.target.value)" class="owl-input" formControlName="category_id" name="subCategory"
+        <select (change)="selectSubCategoryOption($event.target.value)" class="owl-input" formControlName="category_id"
+                name="subCategory"
                 required>
           <option hidden selected value="">Select Sub Category</option>
           <option *ngFor="let cat of sub_categories" value="{{cat.id}}">{{cat.name}}
@@ -119,12 +120,13 @@
 
     </div>
 
-    <div  formArrayName="option_values" class="form-group" *ngFor="let option of componentForm.get('option_values')['controls']; let i = index">
+    <div *ngFor="let option of componentForm.get('option_values')['controls']; let i = index" class="form-group"
+         formArrayName="option_values">
         <span [formGroupName]='i'>
-          <div class="" *ngIf="option?.value.type != '5'">
+          <div *ngIf="option?.value.type != '5'" class="">
             <label> {{option?.controls['name_en']?.value}} </label>
-            <select class="owl-input" name="option"  formControlName="option_value_id">
-              <option value="" hidden selected>Select option </option>
+            <select class="owl-input" formControlName="option_value_id" name="option">
+              <option hidden selected value="">Select option </option>
               <!--<option value="{{value.id}}" *ngFor="let value of option?.values">{{value.name_en}}</option>-->
               <option *ngFor="let val of option?.controls['optionValues']?.value" value="{{val.id}}">
                 {{val.name_en}}
@@ -139,13 +141,13 @@
                </div>
              </div>
           </div>
-          <div class="" *ngIf="option?.value.type == '5'">
+          <div *ngIf="option?.value.type == '5'" class="">
             <label> {{option?.controls['name_en']?.value}} </label>
             <div class="form-group">
-              <input type="text" class="owl-input"  placeholder="English" formControlName="input_en">
+              <input class="owl-input" formControlName="input_en" placeholder="English" type="text">
             </div>
             <div class="form-group">
-              <input type="text"   class="owl-input" placeholder="Arabic" formControlName="input_ar">
+              <input class="owl-input" formControlName="input_ar" placeholder="Arabic" type="text">
             </div>
           </div>
         </span>
@@ -153,8 +155,8 @@
 
     <div class="form-group">
       <label> Brand Name </label>
-      <ng-select name="bransName" [items]="brands" bindLabel="name" bindValue="id" [multiple]="false"
-                 placeholder="Enter Brand name" formControlName="brand_id">
+      <ng-select [items]="brands" [multiple]="false" bindLabel="name" bindValue="id" formControlName="brand_id"
+                 name="bransName" placeholder="Enter Brand name">
       </ng-select>
       <!-- Start  Errors Rolues -->
       <div
@@ -191,8 +193,8 @@
         </div>
         <div class="row">
           <div class="col-12 col-md-6">
-            <app-generic-date-picker [myForm]="componentForm"
-                                     [formControlChildName]="'discount_start_date'"
+            <app-generic-date-picker [formControlChildName]="'discount_start_date'"
+                                     [myForm]="componentForm"
                                      [placeholder]="'Start Date'"
             >
             </app-generic-date-picker>
@@ -217,8 +219,8 @@
         </div>
         <div class="row">
           <div class="col-12 col-md-6">
-            <app-generic-date-picker [myForm]="componentForm"
-                                     [formControlChildName]="'discount_end_date'"
+            <app-generic-date-picker [formControlChildName]="'discount_end_date'"
+                                     [myForm]="componentForm"
                                      [placeholder]="'Expiration Date'"
             >
             </app-generic-date-picker>
@@ -244,20 +246,33 @@
 
     <div class="form-group">
       <label> Order</label>
-      <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
+      <input class="owl-input" formControlName="order" placeholder="Type.." type="number">
     </div>
 
     <div class="form-group my-4">
       <label class="container">Pre-Order
-        <input type="checkbox"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
+        <input (change)="changeValidation()" [value]="1" class="form-control checkbox-style" formControlName="preorder"
+               id="preorder" name="preorder" type="checkbox">
         <span class="checkmark"></span>
       </label>
     </div>
 
+    <div *ngIf="componentForm.value.preorder" class="form-group">
+      <label>Pre-order Pricing</label>
+      <input class="owl-input"
+             formControlName="preorder_price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
+      <div *ngIf="formControlValidator('preorder_price','required')" class="alert alert-danger">
+        Pre-order Pricing is required.
+      </div>
+      <div *ngIf="formControlValidator('preorder_price','pattern')" class="alert alert-danger">
+        Invalid number format
+      </div>
+    </div>
+
     <div class="form-group">
       <label>Max Quantity Per Order</label>
-      <input type="number" (change)="onQuantityFieldsChange()" class="owl-input" placeholder="Type.."
-             formControlName="max_per_order">
+      <input (change)="onQuantityFieldsChange()" class="owl-input" formControlName="max_per_order" placeholder="Type.."
+             type="number">
       <div
         *ngIf="componentForm.controls.max_per_order.invalid && (componentForm.controls.max_per_order.dirty || componentForm.controls.max_per_order.touched)"
         class="alert alert-danger">
@@ -270,8 +285,8 @@
 
     <div class="form-group">
       <label>Minimum Quantity Days</label>
-      <input type="number" (change)="onQuantityFieldsChange()" class="owl-input" placeholder="Type.."
-             formControlName="min_days">
+      <input (change)="onQuantityFieldsChange()" class="owl-input" formControlName="min_days" placeholder="Type.."
+             type="number">
 
       <div
         *ngIf="componentForm.controls.min_days.invalid && (componentForm.controls.min_days.dirty || componentForm.controls.min_days.touched)"
@@ -281,8 +296,6 @@
         </div>
       </div>
     </div>
-
-
 
 
     <!--Variants-->
@@ -299,6 +312,7 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <div (click)="addImage()" class="add-img">
         <img alt="add image" src="assets/img/Expand.svg">
@@ -362,6 +376,15 @@
       <textarea class="owl-input" formControlName="long_description_ar" placeholder="type"></textarea>
     </div>
 
+    <div class="form-group">
+      <label>Meta Title</label>
+      <textarea class="owl-input" formControlName="meta_title" placeholder="type"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Meta Description</label>
+      <textarea class="owl-input" formControlName="meta_description" placeholder="type"></textarea>
+    </div>
 
     <div class="form-group">
       <label>Stock</label>
@@ -407,12 +430,6 @@
         Invalid number format
       </div>
     </div>-->
-
-    <div *ngIf="parentProduct?.preorder" class="form-group">
-      <label>Pre-order Pricing</label>
-      <input [(ngModel)]="price" class="owl-input"
-             formControlName="preorder_price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
-    </div>
 
     <div class="form-group">
       <label>Weight</label>
@@ -484,6 +501,7 @@
         </div>
       </div>
     </div>
+    <!--<pre>{{componentForm.valid}}</pre>-->
     <!-- <pre class="text-dark">{{componentForm.value | json}}</pre>-->
     <div class="form-sidebar-btns">
       <button [appLoading]="submitting" class="btn btn-owls btn-rounded btn-green">Save</button>
