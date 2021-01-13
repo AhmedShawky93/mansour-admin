@@ -238,7 +238,7 @@
               </p>
             </div>
           </div>
-          <div class="col-7 title-text">
+          <!-- <div class="col-7 title-text">
             <div>
               <p>
                 Phone number
@@ -252,7 +252,7 @@
                 01018908206
               </p>
             </div>
-          </div>
+          </div> -->
           <!-- <div class="col-5 title-text">
             <div>
               <p>
@@ -303,21 +303,21 @@
           <!-- <div class="name-col">
             سعر الوحدة
           </div> -->
+          <!-- <div class="name-col">
+            Color<br>
+            (اللون)
+          </div> -->
           <div class="name-col">
             Quantity <br>
             (الكمية)
           </div>
           <div class="name-col">
+            Serial Number <br>
+            (رقم المسلسل)
+          </div>
+          <div class="name-col">
             Name <br>
             (الاسم)
-          </div>
-          <div class="name-col">
-            Color<br>
-            (اللون)
-          </div>
-          <div class="name-col">
-            Size<br>
-            (المقاس)
           </div>
           <div class="name-col">
             Sku<br>
@@ -336,11 +336,11 @@
             </p>
 
           </div>
-          <div class="value-col" style=" direction: ltr;">
+          <!-- <div class="value-col" style=" direction: ltr;">
             <p>
               {{item?.price }} EGP
             </p>
-          </div>
+          </div> -->
 
           <!-- <div class="value-col">
             <p>
@@ -349,23 +349,22 @@
           </div> -->
           <div class="value-col">
             <p>
+              {{item?.price }} EGP
+            </p>
+          </div>
+          <div class="value-col">
+            <p>
               {{ item?.amount }}
             </p>
-
+          </div>
+          <div class="value-col">
+            <p>
+              {{ item.serial_number || "-"}}
+            </p>
           </div>
           <div class="value-col">
             <p>
               {{ item.product?.name}}
-            </p>
-          </div>
-          <div class="value-col">
-            <p>
-              {{item.options[0].values[0].name }}
-            </p>
-          </div>
-          <div class="value-col">
-            <p>
-              {{item.options[1].values[0].name }}
             </p>
           </div>
           <div class="value-col">

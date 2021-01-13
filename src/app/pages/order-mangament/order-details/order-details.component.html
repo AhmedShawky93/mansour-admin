@@ -191,6 +191,12 @@
       <div class="content">
         <h4>{{ item.product.name }}</h4>
         <p>{{ item.product.sku }}</p>
+        <p>
+          Serial Number: {{ item.serial_number || "-" }}
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditSerialNumber(item)">
+            <i class="icon-grey edit-price"></i>
+          </a>
+        </p>
       </div>
     </div>
 
@@ -493,6 +499,46 @@
       </div>
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitInvoiceUpdate()">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="orderChangeSerial" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Update Item Serial Number
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-edit-price">
+          <!-- <div class="form-group"> -->
+          <!-- <label for=""> Pricing</label>
+            <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input input-price" placeholder="Type.."
+              required [min]="1" [max]="1000000">
+          </div> -->
+
+          <div class="form-group">
+            <label for="">Serial Number</label>
+            <input type="text" name="serial_number" class="owl-input" placeholder="Type.." [(ngModel)]="serialNumber">
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitItemSerialUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">

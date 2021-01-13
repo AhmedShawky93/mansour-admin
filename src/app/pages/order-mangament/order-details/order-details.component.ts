@@ -43,6 +43,7 @@ export class OrderDetailsComponent implements OnInit {
   discount: any;
   currentItem: any;
   invoiceDiscount: any;
+  serialNumber: any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -215,12 +216,38 @@ export class OrderDetailsComponent implements OnInit {
     $("#orderChangePriceAndDiscount").modal("show");
   }
 
+  openEditSerialNumber(product) {
+    this.currentItem = product;
+    this.serialNumber = this.currentItem.serial_number;
+    $("#orderChangeSerial").modal("show");
+  }
+
   submitItemUpdate() {
     this.orderService.updateItemPrice(this.order.id, this.currentItem.id, {discount_price: this.discount, notify_customer: this.notifyUser})
       .subscribe((response: any) => {
         this.currentItem.discount_price = this.discount;
         this.discount = null;
         $("#orderChangePriceAndDiscount").modal("hide");
+      });
+  }
+
+  submitItemSerialUpdate() {
+    let data = {
+      items: [
+        {
+          id: this.currentItem.id,
+          serial_number: this.serialNumber
+        }
+      ]
+    }
+    this.orderService.updateSerial(this.order.id, data)
+      .subscribe((response: any) => {
+        if (response.code == 200) {
+          this.currentItem.serial_number = this.serialNumber;
+          $("#orderChangeSerial").modal("hide");
+        } else {
+          this.toastrService.error(response.message, "Error");
+        }
       });
   }
 

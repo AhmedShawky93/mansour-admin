@@ -169,6 +169,12 @@ export class OrdersService {
     });
   }
 
+  updateSerial(id, data) {
+    return this.http.post(this.url + "/orders/" + id + "/edit_order_items_serial_number", data).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
   cancelPickup(id) {
     return this.http.post(this.url + "/orders/cancel-pickup/" + id, {cancelled_reason: "Default"}).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
