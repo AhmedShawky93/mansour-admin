@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "6.1.0",
     "@angular/router": "6.1.0",
     "@fortawesome/fontawesome-free": "^5.14.0",
+    "@kolkov/angular-editor": "^0.15.6",
     "@ng-select/ng-select": "^1.6.3",
     "@ngx-loading-bar/http-client": "^2.2.0",
     "@types/lodash": "4.14.150",

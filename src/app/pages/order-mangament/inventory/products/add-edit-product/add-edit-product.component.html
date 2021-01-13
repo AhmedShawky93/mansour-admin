@@ -335,6 +335,7 @@
     <div>
       <div  formArrayName="option_values" class="form-group" *ngFor="let option of addProductForm.get('option_values')['controls']; let i = index">
         <span [formGroupName]='i'>
+
           <div class="" *ngIf="option?.value.type != '5'">
             <label> {{option?.controls['name_en']?.value}} </label>
             <select class="owl-input" name="option" (change)="selectOptionValue(option, $event, i)" formControlName="option_value_id">
@@ -353,14 +354,21 @@
                </div>
              </div>
           </div>
+
           <div class="" *ngIf="option?.value.type == '5'">
             <label> {{option?.controls['name_en']?.value}} </label>
-            <div class="form-group">
+             <div class="form-group w-100 mt-2">
+              <angular-editor [id]="i" formControlName="input_ar" [config]="editorConfig" [placeholder]="'Arabic'"></angular-editor>
+            </div>
+            <div class="form-group w-100 mt-2">
+              <angular-editor [id]="i" formControlName="input_en" [config]="editorConfig" [placeholder]="'English'"></angular-editor>
+            </div>
+            <!--<div class="form-group">
               <input type="text" class="owl-input" (click)="takeInputId(option, i)" placeholder="English" formControlName="input_en">
             </div>
             <div class="form-group">
               <input type="text"   class="owl-input" placeholder="Arabic" formControlName="input_ar">
-            </div>
+            </div>-->
           </div>
         </span>
       </div>

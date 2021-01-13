@@ -8,6 +8,7 @@ import {OptionsService} from '@app/pages/services/options.service';
 import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {AngularEditorConfig} from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-add-product-variants',
@@ -36,6 +37,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   allOptions: Array<any> = [];
   selectedVariantsOptions: Array<any>;
   mainProduct: any;
+  editorConfig: AngularEditorConfig;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,6 +48,30 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     private optionsService: OptionsService,
     private spinner: NgxSpinnerService
   ) {
+    this.editorConfig = {
+      editable: true,
+      spellcheck: true,
+      height: '175px',
+      minHeight: '5rem',
+      placeholder: 'Enter text here...',
+      translate: 'no',
+      uploadUrl: 'v1/images', // if needed
+      customClasses: [ // optional
+        {
+          name: 'quote',
+          class: 'quote',
+        },
+        {
+          name: 'redText',
+          class: 'redText'
+        },
+        {
+          name: 'titleText',
+          class: 'titleText',
+          tag: 'h1',
+        },
+      ]
+    };
   }
 
   ngOnInit() {

@@ -14,6 +14,7 @@ import { AddEditVariantsComponent } from './add-edit-variants/add-edit-variants.
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {MatIconModule} from '@angular/material';
 import {AddProductVariantsComponent} from '@app/pages/order-mangament/inventory/products/add-product-variants/add-product-variants.component';
+import {AngularEditorModule} from '@kolkov/angular-editor';
 
 
 const router = [
@@ -21,17 +22,18 @@ const router = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(router),
-    NgxPaginationModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    SharedModule,
-    NgxSpinnerModule,
-    MatIconModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(router),
+        NgxPaginationModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        SharedModule,
+        NgxSpinnerModule,
+        MatIconModule,
+        AngularEditorModule,
+    ],
   declarations: [
     ProductsComponent,
     ViewProductComponent,

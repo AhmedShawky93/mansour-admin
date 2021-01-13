@@ -62,7 +62,9 @@
 
     <div class="form-group">
       <label>Description</label>
-      <textarea class="owl-input" formControlName="description" laceholder="type" maxlength="250" required></textarea>
+      <!--<textarea class="owl-input" formControlName="description" laceholder="type" maxlength="250" required></textarea>-->
+      <angular-editor [id]="'description'" formControlName="description" [config]="editorConfig" required></angular-editor>
+
       <div *ngIf="formControlValidator('description','required')" class="alert alert-danger">
         Description is required.
       </div>
@@ -76,8 +78,10 @@
 
     <div class="form-group">
       <label>Description (Ar)</label>
-      <textarea class="owl-input" formControlName="description_ar" maxlength="250" placeholder="type"
-                required></textarea>
+      <!--<textarea class="owl-input" formControlName="description_ar" maxlength="250" placeholder="type"
+                required></textarea>-->
+      <angular-editor [id]="'description_ar'" formControlName="description_ar" [config]="editorConfig" required></angular-editor>
+
       <div *ngIf="formControlValidator('description_ar','required')" class="alert alert-danger">
         Description is required.
       </div>
@@ -91,12 +95,14 @@
 
     <div class="form-group">
       <label> Long description</label>
-      <textarea class="owl-input" formControlName="long_description_en" placeholder="type"></textarea>
+      <!--<textarea class="owl-input" formControlName="long_description_en" placeholder="type"></textarea>-->
+      <angular-editor [id]="'long_description_en'" formControlName="long_description_en" [config]="editorConfig"></angular-editor>
     </div>
 
     <div class="form-group">
       <label>Long description (Ar)</label>
-      <textarea class="owl-input" formControlName="long_description_ar" placeholder="type"></textarea>
+      <!--<textarea class="owl-input" formControlName="long_description_ar" placeholder="type"></textarea>-->
+      <angular-editor [id]="'long_description_ar'" formControlName="long_description_ar" [config]="editorConfig"></angular-editor>
     </div>
 
 

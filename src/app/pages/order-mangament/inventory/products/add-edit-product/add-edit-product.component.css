@@ -201,3 +201,7 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
+.form-group{
+  color: initial !important;
+}

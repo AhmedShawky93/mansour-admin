@@ -7,6 +7,7 @@ import {ToastrService} from 'ngx-toastr';
 import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {OptionsService} from '@app/pages/services/options.service';
+import {AngularEditorConfig} from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -30,13 +31,14 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   optionalSubCategories: any;
   optionalCategoryId: any;
   brands: any;
-
   submitting: boolean;
   loading: boolean;
   options = [];
   option_values: FormArray;
   price: number;
   allOptions: Array<any> = [];
+  editorConfig: AngularEditorConfig;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,6 +48,30 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     private optionsService: OptionsService,
     private toastrService: ToastrService
   ) {
+    this.editorConfig = {
+      editable: true,
+      spellcheck: true,
+      height: '175px',
+      minHeight: '5rem',
+      placeholder: 'Enter text here...',
+      translate: 'no',
+      uploadUrl: 'v1/images', // if needed
+      customClasses: [ // optional
+        {
+          name: 'quote',
+          class: 'quote',
+        },
+        {
+          name: 'redText',
+          class: 'redText'
+        },
+        {
+          name: 'titleText',
+          class: 'titleText',
+          tag: 'h1',
+        },
+      ]
+    };
   }
 
   ngOnInit() {
