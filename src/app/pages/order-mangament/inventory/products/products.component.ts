@@ -106,6 +106,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     q: '',
     page: 1,
   };
+  website_url: any;
 
   constructor(
     private productsService: ProductsService,
@@ -187,6 +188,8 @@ export class ProductsComponent implements OnInit, OnChanges {
       console.log(this.sub_category_id);
     }
     this.exportStock = environment.api + '/admin/products/export_prices?token=' + token;
+
+    this.website_url = environment.website_url;
   }
 
   search() {

@@ -313,6 +313,12 @@
         <p>Delivery Fees</p>
         <span>{{ order.delivery_fees }}</span>
       </div>
+
+      <div class="block-item">
+        <p>Shipment AWB</p>
+        <span *ngIf="order.shipped_data"><a href="{{order.shipped_data?.shipment_url}}" target="_blank">{{ order.shipped_data?.shipping_id }}</a></span>
+        <span *ngIf="!order.shipped_data">-</span>
+      </div>
     </div>
 
     <div class="col-md-4"></div>

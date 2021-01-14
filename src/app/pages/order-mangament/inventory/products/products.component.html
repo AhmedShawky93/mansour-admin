@@ -129,6 +129,7 @@
       <th scope="col">SKU</th>
       <th scope="col">product name</th>
       <th *ngIf="!selectedMainProduct" scope="col">category > subcat</th>
+      <th *ngIf="selectedMainProduct" scope="col">Last Editor</th>
       <!-- <th  scope="col" class="hidden">creator</th> -->
       <th scope="col">Stock
       </th>
@@ -157,6 +158,9 @@
         <br>
         {{product?.category?.sub_categories[0]?.name}}
       </td>
+      <td *ngIf="selectedMainProduct">
+        {{product?.last_editor?.name}}
+      </td>
       <!-- <td class="hidden">{{product.creator?.name}}</td> -->
       <td class="hidden">{{product.stock ? product.stock : '0'}}</td>
       <!--<td>{{product.price}}</td>
@@ -174,6 +178,9 @@
         </a>
         <a (click)="clone(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
           <i class="fa fa-copy"></i>
+        </a>
+        <a *ngIf="selectedMainProduct" target="_blank" class="table-view edit-product mx-1" href="{{website_url + '/products/' + product.name + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
+          <i class="fa fa-external-link"></i>
         </a>
         <label class="switch">
           <input (change)="changeActive(product)" [(ngModel)]="product.active" type="checkbox" value="1">
