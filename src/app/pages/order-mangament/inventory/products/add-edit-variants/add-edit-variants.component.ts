@@ -80,6 +80,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   setForm(data) {
     this.variantForm = this.formBuilder.group({
       image: new FormControl(data ? data.image : '', Validators.required),
+      video: new FormControl(data ? data.video : ''),
       images: this.formBuilder.array([]),
       name: new FormControl(data ? data.name : '', Validators.required),
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),

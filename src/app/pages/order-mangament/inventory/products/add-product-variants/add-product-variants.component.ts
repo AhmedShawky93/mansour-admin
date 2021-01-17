@@ -109,6 +109,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       product_variant_options: new FormControl('', Validators.required),
 
       image: new FormControl('', Validators.required),
+      video: new FormControl(''),
       images: this.formBuilder.array([]),
       name: new FormControl('', Validators.required),
       name_ar: new FormControl('', Validators.required),
@@ -415,6 +416,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       expiration_time: product.expiration_time,
       start_time: product.start_time,
       image: product.image,
+      video: product.video,
       images: product.images,
       long_description_ar: product.long_description_ar,
       long_description_en: product.long_description_en,

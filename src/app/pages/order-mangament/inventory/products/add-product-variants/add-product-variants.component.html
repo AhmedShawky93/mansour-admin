@@ -344,6 +344,11 @@
     </div>
 
     <div class="form-group">
+      <label> Video (optional) </label>
+      <input class="owl-input" formControlName="video" placeholder="Type..." type="text">
+    </div>
+
+    <div class="form-group">
       <label>Description</label>
       <!--<textarea class="owl-input" formControlName="description" laceholder="type" maxlength="250" required></textarea>-->
       <angular-editor [id]="'description'" formControlName="description" [config]="editorConfig" required></angular-editor>
