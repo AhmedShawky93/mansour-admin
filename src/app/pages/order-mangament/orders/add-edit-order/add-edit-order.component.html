@@ -1,0 +1,104 @@
+<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+  <div class="head">
+    <span class="close" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>Create Order</h3>
+  </div>
+
+  <form class="sideform" (ngSubmit)="submitOrder()" [formGroup]="orderForm" novalidate>
+
+    <div class="form-group">
+      <label for="amount">Customer</label>
+      <ng-select (change)="selectCustomerAddresses()" [typeahead]="customersInput$" [loading]="customersLoading" name="customers" [items]="customers$ | async"
+        bindLabel="name" bindValue="id" placeholder="Enter Customer name" formControlName="user_id">
+      </ng-select>
+      <div *ngIf="formControlValidator(orderForm, 'user_id', 'required')" class="alert alert-danger">
+        Customer is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Address</label>
+      <select name="address_id" class="owl-input bg-white" formControlName="address_id">
+        <option value="" disabled selected>Select Address</option>
+        <option value="{{address.id}}" *ngFor="let address of addresses">{{address.formatted_address}}</option>
+      </select>
+      <div *ngIf="formControlValidator(orderForm, 'address_id', 'required')" class="alert alert-danger">
+        Address is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Payment Method</label>
+      <select name="payment_method" class="owl-input bg-white" formControlName="payment_method">
+        <option value="" disabled selected>Select Payment Method</option>
+        <option value="1">Cash</option>
+        <option value="2">Visa</option>
+      </select>
+      <div *ngIf="formControlValidator(orderForm, 'payment_method', 'required')" class="alert alert-danger">
+        Payment Method is required.
+      </div>
+    </div>
+
+    <div class="form-group" formArrayName="items">
+      <label for="amount">Products</label>
+      <div *ngFor='let item of orderForm.get("items").controls; let i = index'>
+        <div [formGroupName]="i">
+          <ng-select [typeahead]="products[i].productsInput$" [loading]="products[i].productsLoading" name="products" [items]="products[i].products$ | async"
+            bindLabel="name" bindValue="id" placeholder="Enter Customer name" formControlName="id">
+          </ng-select>
+
+          <div *ngIf="formControlValidator(orderForm.get('items').controls[i], 'id', 'required')" class="alert alert-danger">
+            Product is required.
+          </div>
+
+          <div class="form-group">
+            <label for="">Amount</label>
+            <input type="text" class="owl-input" placeholder="Type.." min="1" formControlName="amount">
+          </div>
+
+          <div *ngIf="formControlValidator(orderForm.get('items').controls[i], 'amount', 'required')" class="alert alert-danger">
+            Amount is required.
+          </div>
+
+          <a href="javascript:void(0)" class="add-sub" (click)="removeProduct(i)">-Remove Product</a>
+        </div>
+      </div>
+      
+    </div>
+
+    <a href="javascript:void(0)" class="add-sub" (click)="addProduct()">+New Product</a>
+
+    <div *ngIf="formControlValidator(orderForm, 'items', 'required')" class="alert alert-danger">
+      Items is required.
+    </div>
+
+    <div class="form-group">
+      <label for="">Admin notes</label>
+      <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="admin_notes">
+      </textarea>
+    </div>
+    <div class="form-group">
+      <label for="">Notes</label>
+      <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="notes">
+      </textarea>
+    </div>
+
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+      <label class="container">Overwrite Delivery Fees
+        <input type="checkbox"  class="form-control checkbox-style" name="overwrite_fees" id="overwrite_fees" [value]="1" formControlName="overwrite_fees">
+        <span class="checkmark"></span>
+      </label>
+    </div>
+
+    <div class="form-group" *ngIf="orderForm.get('overwrite_fees').value">
+      <label for="">Delivery fees</label>
+      <input type="text" class="owl-input" placeholder="Type.." min="0" formControlName="delivery_fees">
+    </div>
+
+    <button class="btn btn-owls btn-rounded btn-green">Submit</button>
+    {{orderForm.value | json}}
+  </form>
+
+</div>

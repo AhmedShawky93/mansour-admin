@@ -18,6 +18,7 @@ import { environment } from "@env/environment";
 import { DeliveryService } from "@app/pages/services/delivery.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
+import { animate, state, style, transition, trigger } from "@angular/animations";
 
 declare var jquery: any;
 declare var $: any;
@@ -26,6 +27,24 @@ declare var $: any;
   selector: "app-orders",
   templateUrl: "./orders.component.html",
   styleUrls: ["./orders.component.css"],
+  animations: [
+    trigger('slideInOut', [
+      state(
+        'in',
+        style({
+          transform: 'translate3d(0px, 0, 0)',
+        })
+      ),
+      state(
+        'out',
+        style({
+          transform: 'translate3d(-100%, 0, 0)',
+        })
+      ),
+      transition('in => out', animate('300ms ease-in-out')),
+      transition('out => in', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class OrdersComponent implements OnInit {
   loading: boolean;
@@ -122,6 +141,8 @@ export class OrdersComponent implements OnInit {
   productsLoading: boolean;
   selectedProduct: any;
   stateSubmitting: boolean = false;
+  toggleAddOrder: string = 'out';
+  selectedOrder: any;
 
   constructor(
     private ordersService: OrdersService,
@@ -1070,9 +1091,20 @@ export class OrdersComponent implements OnInit {
       }
     }
   }
-  closeSideBar() {
+
+  createOrder() {
+    this.selectedOrder = null;
+    // this.viewOrderSidebar = 'out';
+    this.toggleAddOrder = 'in';
+  }
+
+  closeSideBar(data = null) {
     $("#view-deactive").removeClass("open-view-vindor-types");
     $("#view-side-bar-return-order").removeClass("open-view-vindor-types");
+    this.toggleAddOrder = 'out';
+    if (data) {
+      this.filter$.next(this.filter);
+    }
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {

@@ -98,6 +98,7 @@ import { GroupsPipe } from './pages/order-mangament/inventory/groups/groups.pipe
 import { OrdersDeliveryComponent } from './pages/order-mangament/orders-delivery/orders-delivery.component';
 import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
+import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-order/add-edit-order.component';
 
 @NgModule({
   declarations: [
@@ -143,7 +144,8 @@ import {AngularEditorModule} from '@kolkov/angular-editor';
     ReportsComponent,
     GroupsComponent,
     OrdersDeliveryComponent,
-    OrderDeliveryDetailsComponent
+    OrderDeliveryDetailsComponent,
+    AddEditOrderComponent
   ],
   imports: [
     AppRoutingModule,

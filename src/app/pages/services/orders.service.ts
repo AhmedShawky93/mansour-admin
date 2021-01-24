@@ -39,8 +39,15 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
+  
   getOrder(id) {
     return this.http.get(this.url + "/orders/" + id).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  createOrder(data) {
+    return this.http.post(this.url + "/orders", data).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
     });
   }

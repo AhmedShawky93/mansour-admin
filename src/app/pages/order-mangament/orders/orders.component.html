@@ -162,7 +162,12 @@
       <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
         (click)="changeStausBulkInOrders()">Apply</button>
     </div>
-    <div [ngClass]="orderSubStates.length ? 'col-md-2' : 'col-md-4'"></div>
+    <!-- <div [ngClass]="orderSubStates.length ? 'col-md-2' : 'col-md-4'"></div> -->
+    <div class="col-md-2  col-xs-6 text-right ">
+      <div class="form-group">
+        <button class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" href="" (click)="createOrder()">Create Order </button>
+      </div>
+    </div> 
     <div class="col-md-2  col-xs-6 text-right ">
       <div class="form-group">
         <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
@@ -849,3 +854,11 @@
     </div>
   </div>
 </div>
+
+<app-add-edit-order
+  #orderForm
+  (closeSideBarEmit)="closeSideBar($event)"
+  (dataOrderEmit)="addOrUpdateOrder($event)"
+  [@slideInOut]="toggleAddOrder"
+  [selectedOrder]="selectedOrder">
+</app-add-edit-order>
