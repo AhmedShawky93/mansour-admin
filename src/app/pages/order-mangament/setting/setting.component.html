@@ -321,6 +321,16 @@
 
         <div class="col-md-4">
           <div class="form-group">
+            <label for="">Maximum COD Amount</label>
+            <input formControlName="except_cod_amount" min="0" type="number" id="except_cod_amount" class="owl-input"
+              name="except_cod_amount"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46" />
+            <small id="except_cod_amount_help" class="form-text text-muted">Orders with amount above this number cannot use COD payment</small>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
             <label for="">Opening Time</label>
             <input formControlName="open_time" type="text" id="open_time" class="owl-input" name="open_time"
               [ngxTimepicker]="openPicker">

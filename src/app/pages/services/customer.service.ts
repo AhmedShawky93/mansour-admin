@@ -14,7 +14,7 @@ export class CustomerService {
   }
 
   getCustomers(data) {
-    return this.http.post(this.url + "/customers", data)
+    return this.http.get(this.url + "/customers")
       .catch((error: any) => {
         return Observable.throw(error.error || 'Server error');
       })
@@ -30,6 +30,34 @@ export class CustomerService {
 
   getCustomer(id) {
     return this.http.get(this.url + "/customers/" + id)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
+  createCustomer(data) {
+    return this.http.post(this.url + "/customers", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
+  updateCustomer(id, data) {
+    return this.http.post(this.url + "/customers/" + id, data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
+  createAddress(customer_id, data) {
+    return this.http.post(this.url + "/customers/" + customer_id + "/address", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
+  updateAddress(customer_id, address_id, data) {
+    return this.http.post(this.url + "/customers/" + customer_id + "/address/" + address_id, data)
       .catch((error: any) => {
         return Observable.throw(error.error || 'Server error');
       })

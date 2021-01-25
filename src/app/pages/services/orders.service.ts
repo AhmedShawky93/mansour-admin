@@ -39,6 +39,7 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
+
   getOrder(id) {
     return this.http.get(this.url + "/orders/" + id).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
@@ -52,6 +53,12 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
+  createOrder(data) {
+    return this.http.post(this.url + "/orders", data).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
   getAvailableDeliverers(id) {
     return this.http
       .get(this.url + "/orders/" + id + "/available_deliverers")
@@ -71,6 +78,14 @@ export class OrdersService {
   cancelOrder(id) {
     return this.http
       .post(this.url + "/orders/" + id + "/cancel", {})
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+
+  updateAddress(id, data) {
+    return this.http
+      .post(this.url + "/orders/" + id + "/edit_address", data)
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });
@@ -172,6 +187,18 @@ export class OrdersService {
 
   updateInvoiceDiscount(id, data) {
     return this.http.post(this.url + "/orders/" + id + "/update_invoice_discount/", data).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  updateSerial(id, data) {
+    return this.http.post(this.url + "/orders/" + id + "/edit_order_items_serial_number", data).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  cancelPickup(id) {
+    return this.http.post(this.url + "/orders/cancel-pickup/" + id, {cancelled_reason: "Default"}).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
     });
   }

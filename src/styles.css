@@ -1791,3 +1791,21 @@ bar-rating {
   background-color: #eb1c24 !important;
 
 }
+
+.group-box{
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: lightgray 0 0 5px 0;
+}
+.group-box{
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: lightgray 0 0 5px 0;
+  margin: 15px 0;
+  padding: 5px;
+}
+.group-box .title{
+  font-size: 14px;
+  color: rgba(0, 61, 97, 0.64);
+  font-weight: 500;
+}

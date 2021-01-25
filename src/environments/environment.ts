@@ -6,6 +6,7 @@
 export const environment = {
   production: false,
   api: "https://mobilatyapi.el-dokan.com/api",
+  website_url: "https://mobilaty.el-dokan.com",
   // api: "http://soleek-lap.test/Mobilaty-backend/public/api",
   // https://dev.soleekhub.com/eldokan/public/api/customer/home
 };

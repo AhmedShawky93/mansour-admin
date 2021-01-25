@@ -73,11 +73,12 @@
       <div class="content">
         <h4>{{order.order.customer?.name}}</h4>
         <p>{{order.order.address?.formatted_address}}</p>
+        <p><strong>Status:</strong> {{order.update_description}}</p>
       </div>
     </div>
 
     <div style="display: inline-block;" *ngIf="order.shipment_url">
-      <p><a href="{{order.shipment_url}}" target="_blank">Policy</a></p>
+      <p><a href="{{order.shipment_url}}" target="_blank">AWB</a></p>
     </div>
   </div>
 </div>

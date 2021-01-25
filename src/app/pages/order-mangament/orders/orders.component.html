@@ -168,7 +168,12 @@
       <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
         (click)="changeStausBulkInOrders()">Apply</button>
     </div>
-    <div [ngClass]="orderSubStates.length ? 'col-md-2' : 'col-md-4'"></div>
+    <!-- <div [ngClass]="orderSubStates.length ? 'col-md-2' : 'col-md-4'"></div> -->
+    <div class="col-md-2  col-xs-6 text-right ">
+      <div class="form-group">
+        <button class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" href="" (click)="createOrder()">Create Order </button>
+      </div>
+    </div> 
     <div class="col-md-2  col-xs-6 text-right ">
       <div class="form-group">
         <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
@@ -255,7 +260,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign order</a>
               <!-- <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a> -->
-              <!-- <a class="dropdown-item" (click)="openPopupAction(3, order)">Edit order</a> -->
+              <a class="dropdown-item" (click)="openPopupAction(3, order)">Edit order</a>
               <!-- <a class="dropdown-item" (click)="openPopupAction(5, order)">Return order</a> -->
               <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
                 (click)="openPopupAction(4, order)">Cancel order</a> -->
@@ -561,6 +566,12 @@
       </textarea>
     </div>
     <div class="form-group">
+      <label for="">Notes</label>
+      <textarea style="height: 130px;" class="owl-input" placeholder="Type.." #notes="ngModel"
+        [(ngModel)]="currentOrder.notes">
+      </textarea>
+    </div>
+    <div class="form-group">
       <label for=""> delivery fees</label>
       <input type="text" class="owl-input" placeholder="Type.." #delivery_fees="ngModel"
         [(ngModel)]="currentOrder.delivery_fees" min="0">
@@ -778,6 +789,20 @@
               </div>
             </div>
           </div>
+          <div class="form-group">
+            <select name="" class="owl-input bg-white" formControlName="aramex_account_number" *ngIf="stateForm.controls.shipping_method.value == 3">
+              <option value="" disabled selected>Select Aramex Account</option>
+              <option value="1">Account 1</option>
+              <option value="2">Account 2</option>
+            </select>
+            <div
+              *ngIf="stateForm.controls.aramex_account_number.invalid && (stateForm.controls.aramex_account_number.dirty || stateForm.controls.aramex_account_number.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.aramex_account_number.errors.required">
+                Aramex Account is required.
+              </div>
+            </div>
+          </div>
           <div class="form-group w-60">
             <mat-form-field>
               <input matInput #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
@@ -842,3 +867,11 @@
     </div>
   </div>
 </div>
+
+<app-add-edit-order
+  #orderForm
+  (closeSideBarEmit)="closeSideBar($event)"
+  (dataOrderEmit)="addOrUpdateOrder($event)"
+  [@slideInOut]="toggleAddOrder"
+  [selectedOrder]="selectedOrder">
+</app-add-edit-order>

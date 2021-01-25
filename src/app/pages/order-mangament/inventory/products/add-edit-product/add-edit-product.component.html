@@ -36,7 +36,7 @@
       <!-- End Errors Rolues -->
     </div>
 
-    <div class="form-group">
+  <!--  <div class="form-group">
       <label for="">images</label>
       <div class="owls-upload owls-upload3 big" style="
       width: 100% !important;
@@ -45,10 +45,10 @@
         height: 100%;
         object-fit: contain;">
         <img src="./assets/img/Spinner-loading.svg" *ngIf="loading" class="img-loading">
-        <!-- <img class="owl-img img-fluid" *ngIf="product.imageUrl" [src]="product.imageUrl" alt=""> -->
+        &lt;!&ndash; <img class="owl-img img-fluid" *ngIf="product.imageUrl" [src]="product.imageUrl" alt=""> &ndash;&gt;
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onimgeSelected(addProductForm,$event)" name="image" accept="image/*" />
-        <!-- <i class="icon-Exit" (click)="product.imageUrl = ''; product.image = ''"></i> -->
+        &lt;!&ndash; <i class="icon-Exit" (click)="product.imageUrl = ''; product.image = ''"></i> &ndash;&gt;
       </div>
       <div class="add-img" (click)="addImage()">
         <img src="assets/img/Expand.svg" alt="add image">
@@ -62,7 +62,7 @@
           <div [formGroupName]="i">
             <img width="60" height="60" class="owl-img"
               [src]="image.value.urlPath ? image.value.urlPath : 'http://via.placeholder.com/60x60'" alt="">
-            <!-- <img width="60" height="60" class="owl-img" *ngIf="image.urlPath " src="{{image.urlPath}}" alt=""> -->
+            &lt;!&ndash; <img width="60" height="60" class="owl-img" *ngIf="image.urlPath " src="{{image.urlPath}}" alt=""> &ndash;&gt;
             <input type="file" name="myfile" (change)="onimagesSelected($event, i)" accept="image/*" />
             <i class="icon-Exit" (click)="removeImage(image , i)"></i>
           </div>
@@ -78,12 +78,12 @@
           Image is required.
         </div>
       </div>
-    </div>
+    </div>-->
 
-    <div class="form-group">
+    <!--<div class="form-group">
       <label for="">description</label>
-      <textarea class="owl-input" maxlength="250" laceholder="type" formControlName="description" required></textarea>
-      <!-- Start  Errors Rolues -->
+      <textarea class="owl-input" laceholder="type" formControlName="description" required></textarea>
+      &lt;!&ndash; Start  Errors Rolues &ndash;&gt;
 
       <div
         *ngIf="addProductForm.controls.description.invalid && (addProductForm.controls.description.dirty || addProductForm.controls.description.touched)"
@@ -94,18 +94,15 @@
         <div *ngIf="addProductForm.controls.description.errors.minlength">
           Description is too short.
         </div>
-        <div *ngIf="addProductForm.controls.description.errors.maxlength">
-          Description is too long.
-        </div>
       </div>
-      <!-- End Errors Rolues -->
+      &lt;!&ndash; End Errors Rolues &ndash;&gt;
     </div>
 
     <div class="form-group">
       <label for="">description (Ar)</label>
-      <textarea class="owl-input" maxlength="250" placeholder="type" formControlName="description_ar"
+      <textarea class="owl-input" placeholder="type" formControlName="description_ar"
         required></textarea>
-      <!-- Start  Errors Rolues -->
+      &lt;!&ndash; Start  Errors Rolues &ndash;&gt;
 
       <div
         *ngIf="addProductForm.controls.description_ar.invalid && (addProductForm.controls.description_ar.dirty || addProductForm.controls.description_ar.touched)"
@@ -116,12 +113,10 @@
         <div *ngIf="addProductForm.controls.description_ar.errors.minlength">
           Description is too short.
         </div>
-        <div *ngIf="addProductForm.controls.description_ar.errors.maxlength">
-          Description is too long.
-        </div>
       </div>
-      <!-- End Errors Rolues -->
+      &lt;!&ndash; End Errors Rolues &ndash;&gt;
     </div>
+
     <div class="form-group">
       <label for=""> Long description</label>
       <textarea class="owl-input" placeholder="type" formControlName="long_description_en"></textarea>
@@ -133,6 +128,7 @@
       <textarea class="owl-input" placeholder="type" formControlName="long_description_ar"></textarea>
 
     </div>
+
     <div class="form-group">
       <label for="">Stock
       </label>
@@ -146,19 +142,20 @@
         <div *ngIf="addProductForm.controls.stock.errors.required">
           Stock is required
         </div>
-        <!-- <div *ngIf="addProductForm.controls.stock.errors.min">
+        &lt;!&ndash; <div *ngIf="addProductForm.controls.stock.errors.min">
           Stock can't be a negative value
-        </div> -->
+        </div> &ndash;&gt;
 
       </div>
-    </div>
+    </div>-->
 
 
-    <div class="form-group">
+
+    <!--<div class="form-group">
       <label for=""> Pricing</label>
       <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
         formControlName="price" required [min]="1" [max]="1000000" [(ngModel)]="price">
-      <!-- Start  Errors Rolues -->
+      &lt;!&ndash; Start  Errors Rolues &ndash;&gt;
 
       <div
         *ngIf="addProductForm.controls.price.invalid && (addProductForm.controls.price.dirty || addProductForm.controls.price.touched)"
@@ -176,7 +173,7 @@
           Invalid number format
         </div>
       </div>
-      <!-- End Errors Rolues -->
+      &lt;!&ndash; End Errors Rolues &ndash;&gt;
     </div>
     <div class="form-group">
       <label for=""> Discount Price
@@ -184,7 +181,7 @@
       </label>
       <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
         formControlName="discount_price" [min]="0">
-      <!-- Start  Errors Rolues -->
+      &lt;!&ndash; Start  Errors Rolues &ndash;&gt;
 
       <div
         *ngIf="addProductForm.controls.discount_price.invalid && (addProductForm.controls.discount_price.dirty || addProductForm.controls.discount_price.touched)"
@@ -200,14 +197,31 @@
           Invalid number format
         </div>
       </div>
-      <!-- End Errors Rolues -->
-    </div>
+      &lt;!&ndash; End Errors Rolues &ndash;&gt;
+    </div>-->
 
+    <div class="form-group mt-2">
+      <div class="form-group">
+        <label> Product Options </label>
+        <ng-select [closeOnSelect]="false" class="owl-input"
+                   [items]="allOptions" [multiple]="true"
+                   formControlName="product_variant_options"
+                   bindLabel="name_en"
+                   bindValue="id"
+                   name="productVariantOptions"
+                   placeholder="Select Options">
+        </ng-select>
+        <div *ngIf="formControlValidator(addProductForm,'product_variant_options','required')" class="text-danger">
+          Field Is Required
+        </div>
+      </div>
+
+    </div>
 
     <div class="category-list">
 
       <div class="form-group">
-        <label for="">Category</label>
+        <label>Category</label>
         <select class="owl-input" name="category" (change)="selectCategory($event)" formControlName="main_category"
           required>
           <option value="" selected hidden>Select Category</option>
@@ -230,8 +244,9 @@
         </div>
         <!-- End Errors Rolues -->
       </div>
+
       <div class="form-group">
-        <label for="">Sub Category</label>
+        <label>Sub Category</label>
         <select class="owl-input" formControlName="category_id" required name="subCategory"
           (change)="selectSubCategoryOption($event.target.value)">
           <option value="" selected hidden>Select Sub Category</option>
@@ -252,27 +267,53 @@
         <!-- End Errors Rolues -->
       </div>
 
+    </div>
+
+    <div class="category-list" *ngIf="addProductForm.value.category_id">
+
+      <div class="form-group">
+        <label>Optional Category</label>
+        <select class="owl-input" name="category" (change)="selectOptionalCategory($event)" formControlName="optional_category">
+          <option value="" selected hidden>Select Category</option>
+          <ng-container *ngFor="let cat of optionalCategories">
+            <option value="{{cat.id}}" *ngIf="addProductForm.get('optional_category').value == cat.id || !cat.selected">
+              {{cat.name}}
+              <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+            </option>
+          </ng-container>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Optional Sub Category</label>
+        <select class="owl-input" formControlName="optional_sub_category_id"  name="optionalSubCategory">
+          <option value="" selected hidden>Select Sub Category</option>
+          <option value="{{cat.id}}" *ngFor="let cat of optionalSubCategories">{{cat.name}}
+            <span *ngIf="cat.active == 0"> - Deactivate </span>
+          </option>
+        </select>
+      </div>
 
     </div>
 
-    <div formArrayName="option_values">
+    <!--<div formArrayName="option_values">
 
       <div class="form-group" *ngFor="let option of options; let i = index">
         <span [formGroupName]='i'>
-          <div class="" *ngIf="option.type != '5'">
+          <div class="" *ngIf="option?.type != '5'">
 
-            <label> {{option.name_en}} </label>
+            <label> {{option?.name_en}} </label>
             <select class="owl-input" name="option" (change)="selectOptionValue(option, $event, i)"
               formControlName="option_value_id">
               <option value="" hidden selected>Select option </option>
-              <option value="{{value.id}}" *ngFor="let value of option.values">{{value.name_en}}
+              <option value="{{value.id}}" *ngFor="let value of option?.values">{{value?.name_en}}
               </option>
             </select>
             <div
-              *ngIf="addProductForm.controls.option_values['controls'][i].controls.option_value_id.invalid && (addProductForm.controls.option_values['controls'][i].controls.option_value_id.dirty || addProductForm.controls.option_values['controls'][i].controls.option_value_id.touched)"
+              *ngIf="addProductForm.controls.option_values['controls'][i].controls?.option_value_id.invalid && (addProductForm.controls.option_values['controls'][i].controls?.option_value_id.dirty || addProductForm.controls.option_values['controls'][i].controls?.option_value_id.touched)"
               class="alert alert-danger">
               <div
-                *ngIf="addProductForm.controls.option_values['controls'][i].controls.option_value_id.errors.required">
+                *ngIf="addProductForm.controls.option_values['controls'][i].controls?.option_value_id.errors.required">
                 option is required.
               </div>
             </div>
@@ -289,6 +330,48 @@
           </div>
         </span>
       </div>
+    </div>-->
+
+    <div>
+      <div  formArrayName="option_values" class="form-group" *ngFor="let option of addProductForm.get('option_values')['controls']; let i = index">
+        <span [formGroupName]='i'>
+
+          <div class="" *ngIf="option?.value.type != '5'">
+            <label> {{option?.controls['name_en']?.value}} </label>
+            <select class="owl-input" name="option" (change)="selectOptionValue(option, $event, i)" formControlName="option_value_id">
+              <option value="" hidden selected>Select option </option>
+              <!--<option value="{{value.id}}" *ngFor="let value of option?.values">{{value.name_en}}</option>-->
+              <option *ngFor="let val of option?.controls['optionValues']?.value" value="{{val.id}}">
+                {{val.name_en}}
+              </option>
+            </select>
+             <div
+               *ngIf="addProductForm.controls.option_values?.controls[i]?.controls?.option_value_id?.invalid && (addProductForm.controls?.option_values?.controls[i].controls?.option_value_id?.dirty || addProductForm.controls.option_values?.controls[i].controls?.option_value_id?.touched)"
+               class="alert alert-danger">
+               <div
+                 *ngIf="addProductForm.controls.option_values?.controls[i]?.controls?.option_value_id?.errors?.required">
+                 option is required.
+               </div>
+             </div>
+          </div>
+
+          <div class="" *ngIf="option?.value.type == '5'">
+            <label> {{option?.controls['name_en']?.value}} </label>
+             <div class="form-group w-100 mt-2">
+              <angular-editor [id]="i" formControlName="input_ar" [config]="editorConfig" [placeholder]="'Arabic'"></angular-editor>
+            </div>
+            <div class="form-group w-100 mt-2">
+              <angular-editor [id]="i" formControlName="input_en" [config]="editorConfig" [placeholder]="'English'"></angular-editor>
+            </div>
+            <!--<div class="form-group">
+              <input type="text" class="owl-input" (click)="takeInputId(option, i)" placeholder="English" formControlName="input_en">
+            </div>
+            <div class="form-group">
+              <input type="text"   class="owl-input" placeholder="Arabic" formControlName="input_ar">
+            </div>-->
+          </div>
+        </span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -297,7 +380,6 @@
         placeholder="Enter Brand name" formControlName="brand_id">
       </ng-select>
       <!-- Start  Errors Rolues -->
-
       <div
         *ngIf="addProductForm.controls.brand_id.invalid && (addProductForm.controls.brand_id.dirty || addProductForm.controls.brand_id.touched)"
         class="alert alert-danger">
@@ -328,19 +410,132 @@
       <!-- End Errors Rolues -->
     </div>
 
-    <div class="form-group">
-      <label for="">Stock notification limit </label>
-      <input type="number" class="owl-input" placeholder="Type.." formControlName="stock_alert">
-
+    <!--<div class="form-group">
+      <label for="">Meta Title</label>
+      <textarea class="owl-input" placeholder="type" formControlName="meta_title"></textarea>
     </div>
 
     <div class="form-group">
-      <label for=""> Order</label>
+      <label for="">Meta Description</label>
+      <textarea class="owl-input" placeholder="type" formControlName="meta_description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="">Meta Keywords</label>
+      <textarea class="owl-input" placeholder="type" formControlName="keywords"></textarea>
+    </div>-->
+
+
+
+   <!-- <div class="group-box mt-2">
+      <div class="form-group">
+        <label> Discount Price
+          <small> optional</small>
+        </label>
+        <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
+               formControlName="discount_price" [min]="0">
+        &lt;!&ndash; Start  Errors Rolues &ndash;&gt;
+
+        <div
+          *ngIf="addProductForm.controls.discount_price.invalid && (addProductForm.controls.discount_price.dirty || addProductForm.controls.discount_price.touched)"
+          class="alert alert-danger">
+
+          <div *ngIf="addProductForm.controls.discount_price.errors.min">
+            Discount price can't be a negative value
+          </div>
+          <div *ngIf="addProductForm.controls.discount_price.errors.max">
+            Discount Price must be less than the price
+          </div>
+          <div *ngIf="addProductForm.controls.discount_price.errors.pattern">
+            Invalid number format
+          </div>
+        </div>
+        &lt;!&ndash; End Errors Rolues &ndash;&gt;
+      </div>
+      <div>
+        <div class="title">
+          Start Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="addProductForm"
+                                     [formControlChildName]="'discount_start_date'"
+                                     [placeholder]="'Start Date'"
+            >
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator(addProductForm,'discount_start_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'start_time'"
+                                     [myForm]="addProductForm"
+                                     [placeholder]="'Pick Time'"
+            ></app-generic-time-picker>
+            <div *ngIf="formControlValidator(addProductForm,'start_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          Expiration Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="addProductForm"
+                                     [formControlChildName]="'discount_end_date'"
+                                     [placeholder]="'Expiration Date'"
+            >
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator(addProductForm,'discount_end_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+            <div *ngIf="formControlValidator(addProductForm,'discount_end_date','dateRang')" class="text-danger">
+              Expiration Date Must Be Greater Than Start Date
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'expiration_time'"
+                                     [myForm]="addProductForm"
+                                     [placeholder]="'Pick Time'"
+            ></app-generic-time-picker>
+            <div *ngIf="formControlValidator(addProductForm,'expiration_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <div class="form-group">
+      <label> Order</label>
       <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
-
     </div>
+
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+      <label class="container">Pre-Order
+        <input type="checkbox"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
+        <span class="checkmark"></span>
+      </label>
+    </div>
+
+    <!--<div *ngIf="addProductForm.value.preorder" class="form-group">
+      <label>Pre-order Pricing</label>
+      <input [(ngModel)]="price" class="owl-input"
+             formControlName="preorder_price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
+      <div *ngIf="formControlValidator(addProductForm,'preorder_price','required')" class="alert alert-danger">
+        Pre-order Pricing is required.
+      </div>
+      <div *ngIf="formControlValidator(addProductForm, 'preorder_price','pattern')" class="alert alert-danger">
+        Invalid number format
+      </div>
+    </div>-->
+
+
     <div class="form-group">
-      <label for="">Max Quantity Per Order</label>
+      <label>Max Quantity Per Order</label>
       <input type="number" (change)="onQuantityFieldsChange()" class="owl-input" placeholder="Type.."
         formControlName="max_per_order">
       <div
@@ -354,7 +549,7 @@
     </div>
 
     <div class="form-group">
-      <label for="">Mimum Quantity Days</label>
+      <label>Mimum Quantity Days</label>
       <input type="number" (change)="onQuantityFieldsChange()" class="owl-input" placeholder="Type.."
         formControlName="min_days">
 
@@ -367,6 +562,11 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label>Stock notification limit </label>
+      <input type="number" class="owl-input" placeholder="Type.." formControlName="stock_alert">
+    </div>
+    <!--<pre>{{addProductForm.value | json}}</pre>-->
     <div class="form-sidebar-btns">
       <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
     </div>

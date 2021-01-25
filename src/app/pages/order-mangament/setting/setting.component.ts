@@ -187,6 +187,7 @@ export class SettingComponent implements OnInit {
         this.systemForm = new FormGroup(
           {
             min_order_amount: new FormControl(this.settings.min_order_amount),
+            except_cod_amount: new FormControl(this.settings.except_cod_amount),
             off_time: new FormControl(this.settings.off_time),
             open_time: new FormControl(this.settings.open_time),
           },

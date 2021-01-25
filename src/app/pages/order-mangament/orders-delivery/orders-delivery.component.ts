@@ -102,6 +102,7 @@ export class OrdersDeliveryComponent implements OnInit {
   error_status_notes: boolean;
   orderStatusId: any;
   pickups: any = [];
+  currentPickup: any;
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -362,21 +363,21 @@ export class OrdersDeliveryComponent implements OnInit {
       });
   }
 
-  promtCancel(order) {
-    this.order = order;
+  promtCancel(pickup) {
+    this.currentPickup = pickup;
   }
 
-  cancelOrder() {
-    this.ordersService.cancelOrder(this.order.id).subscribe((response: any) => {
+  cancelPickup() {
+    this.ordersService.cancelPickup(this.currentPickup.id).subscribe((response: any) => {
       if (response.code === 200) {
-        const ind = this.orders.findIndex((item) => item.id === this.order.id);
+        // const ind = this.orders.findIndex((item) => item.id === this.order.id);
 
-        if (ind !== -1) {
-          this.orders[ind] = response.data;
-        }
+        // if (ind !== -1) {
+        //   this.orders[ind] = response.data;
+        // }
 
         if (this.currentOrder) {
-          this.currentOrder.state_id = 6;
+          this.currentOrder.status = 3;
         }
 
         $("#removePopUp").modal("hide");

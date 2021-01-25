@@ -191,16 +191,22 @@
       <div class="content">
         <h4>{{ item.product.name }}</h4>
         <p>{{ item.product.sku }}</p>
+        <p>
+          Serial Number: {{ item.serial_number || "-" }}
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditSerialNumber(item)">
+            <i class="icon-grey edit-price"></i>
+          </a>
+        </p>
       </div>
     </div>
 
     <div class="qty-item">
       <p>QTY: {{ item.amount }}</p>
       <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }} EGP</span>
-      <span *ngIf="item?.discount_price !== null" style="color: #e4002c ;">{{ item.discount_price }} EGP</span>
-      <!-- <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
+      <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }} EGP</span>
+      <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
         <i class="icon-grey edit-price"></i>
-      </a> -->
+      </a>
     </div>
   </div>
 </div>
@@ -277,6 +283,9 @@
               order?.address?.lat
             }},{{ order?.address?.lng }}" target="_blank"><i class="fa fa-external-link"></i></a> -->
         </span>
+        <a (click)="editAddress(order)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="icon-grey"></i>
+        </a>
       </div>
     </div>
   </div>
@@ -307,6 +316,12 @@
         <p>Delivery Fees</p>
         <span>{{ order.delivery_fees }}</span>
       </div>
+
+      <div class="block-item">
+        <p>Shipment AWB</p>
+        <span *ngIf="order.shipped_data"><a href="{{order.shipped_data?.shipment_url}}" target="_blank">{{ order.shipped_data?.shipping_id }}</a></span>
+        <span *ngIf="!order.shipped_data">-</span>
+      </div>
     </div>
 
     <div class="col-md-4"></div>
@@ -314,7 +329,11 @@
     <div class="col-md-4">
       <div class="block-item">
         <p>Payment Method</p>
-        <span>{{ order.payment_method == 1 ? "Cash" : "Visa" }}</span>
+        <span *ngIf="order.payment_method == 1">Cash</span>
+        <span *ngIf="order.payment_method == 2">Accept</span>
+        <span *ngIf="order.payment_method == 3">ValU</span>
+        <!-- <span *ngIf="order.payment_method == 4">Miza</span> -->
+        <span *ngIf="order.payment_method == 5">Premium</span>
       </div>
 
       <div class="block-item">
@@ -326,9 +345,9 @@
         <p>Discount</p>
         <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount  )| number : '1.2-2'}}</span>
         <span *ngIf="!order.invoice.discount === null">-</span>
-        <!-- <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
+        <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
           <i class="icon-grey edit-price"></i>
-        </a> -->
+        </a>
       </div>
 
       <div class="block-item">
@@ -519,3 +538,51 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="orderChangeSerial" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Update Item Serial Number
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-edit-price">
+          <!-- <div class="form-group"> -->
+          <!-- <label for=""> Pricing</label>
+            <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input input-price" placeholder="Type.."
+              required [min]="1" [max]="1000000">
+          </div> -->
+
+          <div class="form-group">
+            <label for="">Serial Number</label>
+            <input type="text" name="serial_number" class="owl-input" placeholder="Type.." [(ngModel)]="serialNumber">
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitItemSerialUpdate()">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-add-edit-address
+  #addressForm
+  (closeModalEmit)="closeAddressModal($event)"
+  (dataAddressEmit)="addOrUpdateAddress($event)"
+  [selectedAddress]="selectedAddress"
+  [selectedOrder]="selectedOrder">
+</app-add-edit-address>

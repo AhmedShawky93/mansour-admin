@@ -1,0 +1,65 @@
+<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+  <div class="head">
+    <span class="close" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>Create Customer</h3>
+  </div>
+
+  <form class="sideform" (ngSubmit)="submitCustomer()" [formGroup]="customerForm" novalidate>
+
+    <div class="form-group">
+      <label for="">Name</label>
+      <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name">
+      
+      <div *ngIf="formControlValidator(customerForm, 'name', 'required')" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Last Name</label>
+      <input type="text" class="owl-input" name="last_name" placeholder="Type here..." formControlName="last_name">
+      
+      <div *ngIf="formControlValidator(customerForm, 'last_name', 'required')" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">email address </label>
+      <input type="email" class="owl-input" name="email" placeholder="Type here..." formControlName="email">
+      
+      <div *ngIf="formControlValidator(customerForm, 'email', 'required')" class="alert alert-danger">
+        Email is required.
+      </div>
+      <div *ngIf="formControlValidator(customerForm, 'email', 'email')" class="alert alert-danger">
+        Not a valid email format.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Phone</label>
+      <input type="text" class="owl-input" name="phone" placeholder="Type here..." formControlName="phone">
+      
+      <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
+        Phone is required.
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for=""> password</label>
+      <input type="password" class="owl-input" name="customer_password" placeholder="Type here..." formControlName="password">
+      
+      <div *ngIf="formControlValidator(customerForm, 'password', 'required')" class="alert alert-danger">
+        Password is required.
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-owls btn-rounded btn-green">save</button>
+    </div>
+  </form>
+
+</div>

@@ -12,6 +12,7 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { CategoryService } from "@app/pages/services/category.service";
 import { BrandsService } from "@app/pages/services/brands.service";
+import { ListsService } from "@app/pages/services/lists.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -55,13 +56,15 @@ export class adsComponent implements OnInit {
   selectedProductId: any;
   brand_id: any;
   currentAd: any;
+  lists: any = [];
 
   constructor(
     private adsService: AdsService,
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
     private _CategoriesService: CategoryService,
-    private brandsService: BrandsService
+    private brandsService: BrandsService,
+    private listsService: ListsService
   ) {}
 
   ngOnInit() {
@@ -112,6 +115,7 @@ export class adsComponent implements OnInit {
     this.getAds();
     this.getCategories();
     this.getBrands();
+    this.getLists();
 
     this.newAdsForm = new FormGroup({
       id: new FormControl(),
@@ -125,6 +129,7 @@ export class adsComponent implements OnInit {
       banner_description_ar: new FormControl(""),
       category: new FormControl(""),
       subCategory: new FormControl(""),
+      list_id: new FormControl(""),
       prod: new FormControl(""),
       image: new FormControl("", Validators.required),
       image_ar: new FormControl("", Validators.required),
@@ -145,6 +150,13 @@ export class adsComponent implements OnInit {
       });
       this.total = this.ads.length;
     });
+  }
+
+  getLists() {
+    this.listsService.getLists({})
+      .subscribe((response: any) => {
+        this.lists = response.data;
+      })
   }
 
   onFormSubmit(form: FormGroup) {
@@ -176,6 +188,7 @@ export class adsComponent implements OnInit {
         ad.image_ar ? ad.image_web_ar : "",
         Validators.required
       ),
+      list_id: new FormControl(ad.list_id),
       category: new FormControl(ad.category_id),
       subCategory: new FormControl(ad.sub_category_id),
       prod: new FormControl(ad.product_id),
@@ -207,13 +220,22 @@ export class adsComponent implements OnInit {
       form.get("subCategory").setValidators([Validators.required]);
       form.get("prod").setValidators([Validators.required]);
       form.get("brand").clearValidators();
+      form.get("list_id").clearValidators();
     } else if (form.get("type").value == 2) {
       form.get("category").setValidators([Validators.required]);
       form.get("subCategory").setValidators([Validators.required]);
       form.get("prod").clearValidators();
       form.get("brand").clearValidators();
+      form.get("list_id").clearValidators();
     } else if (form.get("type").value == 4) {
       form.get("brand").setValidators([Validators.required]);
+      form.get("category").clearValidators();
+      form.get("subCategory").clearValidators();
+      form.get("prod").clearValidators();
+      form.get("list_id").clearValidators();
+    } else if (form.get("type").value == 5) {
+      form.get("list_id").setValidators([Validators.required]);
+      form.get("brand").clearValidators();
       form.get("category").clearValidators();
       form.get("subCategory").clearValidators();
       form.get("prod").clearValidators();
@@ -222,8 +244,10 @@ export class adsComponent implements OnInit {
       form.get("category").clearValidators();
       form.get("subCategory").clearValidators();
       form.get("prod").clearValidators();
+      form.get("list_id").clearValidators();
     }
 
+    form.get("list_id").updateValueAndValidity();
     form.get("category").updateValueAndValidity();
     form.get("subCategory").updateValueAndValidity();
     form.get("prod").updateValueAndValidity();
@@ -274,6 +298,8 @@ export class adsComponent implements OnInit {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
       ad.item_id = this.newAdsForm.get("brand").value;
+    } else if (ad.type == 5) {
+      ad.item_id = this.newAdsForm.get("list_id").value;
     }
 
     this.adsService.creatAds(ad).subscribe((response: any) => {
@@ -304,6 +330,8 @@ export class adsComponent implements OnInit {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
       ad.item_id = this.newAdsForm.get("brand").value;
+    } else if (ad.type == 5) {
+      ad.item_id = this.newAdsForm.get("list_id").value;
     }
 
     this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {

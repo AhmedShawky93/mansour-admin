@@ -198,6 +198,34 @@
           <div class="col-7 title-text">
             <div>
               <p>
+                Commercial Record (سجل تجارى)
+              </p>
+            </div>
+          </div>
+          <div class="col-5">
+            <div>
+              <p>
+                81624
+              </p>
+            </div>
+          </div>
+          <div class="col-7 title-text">
+            <div>
+              <p>
+                Tax Card (بطاقة ضريبية)
+              </p>
+            </div>
+          </div>
+          <div class="col-5">
+            <div>
+              <p>
+                672-533-367
+              </p>
+            </div>
+          </div>
+          <div class="col-7 title-text">
+            <div>
+              <p>
                 Order id
                 (رقم الفاتورة)
               </p>
@@ -210,7 +238,7 @@
               </p>
             </div>
           </div>
-          <div class="col-7 title-text">
+          <!-- <div class="col-7 title-text">
             <div>
               <p>
                 Phone number
@@ -224,7 +252,7 @@
                 01018908206
               </p>
             </div>
-          </div>
+          </div> -->
           <!-- <div class="col-5 title-text">
             <div>
               <p>
@@ -275,21 +303,21 @@
           <!-- <div class="name-col">
             سعر الوحدة
           </div> -->
+          <!-- <div class="name-col">
+            Color<br>
+            (اللون)
+          </div> -->
           <div class="name-col">
             Quantity <br>
             (الكمية)
           </div>
           <div class="name-col">
+            Serial Number <br>
+            (رقم المسلسل)
+          </div>
+          <div class="name-col">
             Name <br>
             (الاسم)
-          </div>
-          <div class="name-col">
-            Color<br>
-            (اللون)
-          </div>
-          <div class="name-col">
-            Size<br>
-            (المقاس)
           </div>
           <div class="name-col">
             Sku<br>
@@ -308,11 +336,11 @@
             </p>
 
           </div>
-          <div class="value-col" style=" direction: ltr;">
+          <!-- <div class="value-col" style=" direction: ltr;">
             <p>
               {{item?.price }} EGP
             </p>
-          </div>
+          </div> -->
 
           <!-- <div class="value-col">
             <p>
@@ -321,23 +349,22 @@
           </div> -->
           <div class="value-col">
             <p>
+              {{item?.price }} EGP
+            </p>
+          </div>
+          <div class="value-col">
+            <p>
               {{ item?.amount }}
             </p>
-
+          </div>
+          <div class="value-col">
+            <p>
+              {{ item.serial_number || "-"}}
+            </p>
           </div>
           <div class="value-col">
             <p>
               {{ item.product?.name}}
-            </p>
-          </div>
-          <div class="value-col">
-            <p>
-              {{item.options[0].values[0].name }}
-            </p>
-          </div>
-          <div class="value-col">
-            <p>
-              {{item.options[1].values[0].name }}
             </p>
           </div>
           <div class="value-col">
@@ -372,7 +399,12 @@
         </div>
       </div>
       <div class="payment-method">
-        <p>Payment method (طريقة الدفع) : <span>{{order?.payment_method == 1 ? 'Cash on delivery' : 'Visa'}}</span>
+        <p>Payment method (طريقة الدفع) :
+          <span *ngIf="order.payment_method == 1">Cash</span>
+          <span *ngIf="order.payment_method == 2">Accept</span>
+          <span *ngIf="order.payment_method == 3">ValU</span>
+          <!-- <span *ngIf="order.payment_method == 4">UPG</span> -->
+          <span *ngIf="order.payment_method == 5">Premium</span>
         </p>
       </div>
       <div class="info-user">
@@ -405,24 +437,16 @@
       </div>
       <div class="info">
         <p>
-          You can exchange or return the items within 14 days with original receipt.
-          Items must be in brand-new condition, unused and with original tags attached.
-          Discounted and promotion items can be exchanged only and not returned.
-          Warning: Avoid exposing CROCS products to direct sunlight or extreme heat for a long time to prevent it from
-          damage.
-          For any inquiries or requests please contact our customer service at:
-          Mobile: 010 676 007 70
-          Email: support@mobilaty.com.eg
-          Thanks for shopping at Mobilaty website!
+          You can exchange or return the items within 30 days with original receipt. Items must be in brand-new condition, Unused and with original tags attached. For any inquiries or requests please contact our customer service at:
+          HotLine: 19853
+          Email: online@mobilaty.com
+          Thanks for shopping at Mobilaty!
         </p>
-        <p class="text-ar">يمكنك إستبدال أو إسترجاع المنتج خلال 14 يوم بشرط وجود فاتورة الشراء والمنتج في حالته الأصليه،
-          غير مستخدم
-          ومتصل به الكارت الأصلي للمنتج.
-          المنتجات المباعة وقت العروض أو التخفيضات يمكن إستبدالها فقط وليس إرجاعها.
-          تحذير: تجنب تعريض منتجات كروكس لأشعة الشمس المباشرة أو الحرارة العالية لمدة طويلة لكي لا يتلف المنتج. <br>
+        <p class="text-ar">يمكنك استبدال أو إرجاع المنتجات في غضون 30 يومًا مع الإيصال الأصلي. يجب أن تكون المنتجات في حالة جديدة تمامًا وغير مستخدمة ومرفقة بعلامات أصلية. لأية استفسارات أو طلبات ،<br>
           لأي إستفسارات برجاء الإتصال بنا على خدمة العملاء على:<br>
-          تليفون: 70 007 676 010<br>
-          support@mobilaty.com.eg : بريد إلكتروني<br>
+          الخط الساخن: 19853   <br>
+          online@mobilaty.com : بريد إلكتروني<br>
+          شكرا على لتسوقك علي موبيلاتي!
         </p>
       </div>
     </div>

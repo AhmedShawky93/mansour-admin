@@ -1,32 +1,53 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 
-<div class="top-table-bar">
-
+<div class="top-table-bar my-2 py-0 px-2">
+  <div class="row mb-2">
+    <div *ngIf="selectedMainProduct" class="col-lg-12">
+      <div (click)="backToProducts()" class="d-inline-flex back-arrow ">
+        <mat-icon class="mx-2">arrow_back_ios</mat-icon>
+        <p>Back</p>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-9 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" class="owl-input owls-search"
-          placeholder="search ...">
+        <!--<input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" class="owl-input owls-search"
+          placeholder="search ...">-->
+        <input (input)="search()" [(ngModel)]="searchValue" class="owl-input owls-search" placeholder="search ..."
+               type="text">
       </div>
     </div>
-
-
     <div class="col-md-3  col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100" (click)="toggleMenuNew(null)"> +
-          New
-          product</button>
+        <!--<button (click)="createNew()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+          <div class="text-center" *ngIf="!selectedMainProduct">+ New product</div>
+          <div class="text-center" *ngIf="selectedMainProduct">+ New Variant</div>
+        </button>-->
+        <button (click)="createNew()" *ngIf="selectedMainProduct" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+          <div class="text-center" *ngIf="selectedMainProduct">+ New Variant</div>
+        </button>
+        <button (click)="NewProductWithVariant()"  *ngIf="!selectedMainProduct" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+          <div class="text-center">+ Product With Variant</div>
+        </button>
       </div>
     </div>
-    <div class="col-md-4 col-sm-12 col-xs-12">
+    <!--<div class="col-md-3  col-xs-12 text-right">
+      <div class="owl-btn-list" *ngIf="!selectedMainProduct">
+        <button (click)="NewProductWithVariant()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+          <div class="text-center">+ Product With Variant</div>
+        </button>
+      </div>
+    </div>-->
+    <div class="col-md-4 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
       <div class="row">
         <div class="col-md-6 col-xs-12">
           <div class="form-group">
-            <select class="owl-input" name="category" (change)="selectCategoryFilter(main_category)"
-              [(ngModel)]="main_category" required>
+            <select (change)="selectCategoryFilter(main_category)" [(ngModel)]="main_category" class="owl-input"
+                    name="category" required>
               <option [value]="''" selected>Select Category</option>
               <ng-container *ngFor="let cat of categories">
                 <option [value]="cat.id">
@@ -39,10 +60,10 @@
         </div>
         <div class="col-md-6 col-xs-12">
           <div class="form-group">
-            <select class="owl-input" name="subCategory" [(ngModel)]="sub_category_id"
-              (change)="getProductSubCategory(sub_category_id)">
+            <select (change)="getProductSubCategory(sub_category_id)" [(ngModel)]="sub_category_id" class="owl-input"
+                    name="subCategory">
               <option [value]="''" selected>Select Sub Category</option>
-              <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
+              <option *ngFor="let cat of sub_categories" value="{{cat.id}}">{{cat.name}}
                 <span *ngIf="cat.active == 0"> - Deactivate </span>
               </option>
             </select>
@@ -50,11 +71,11 @@
         </div>
       </div>
     </div>
-    <div class="col-md-8  col-sm-12 col-xs-12">
+    <div class="col-md-8  col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
       <div class="row">
         <div class="col-md-3  col-xs-12 p-l-r-5">
           <div class="form-group">
-            <a class=" btn btn-owls btn-rounded btn-green  btn-special" (click)="goToLink()">export
+            <a (click)="goToLink()" class=" btn btn-owls btn-rounded btn-green  btn-special">export
               CSV</a>
           </div>
 
@@ -64,10 +85,10 @@
 
 
             <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile"
-              style="overflow: hidden">Import
+                    style="overflow: hidden">Import
               CSV
-              <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
-                (change)="importExcel($event)">
+              <input #myInput (change)="importExcel($event)" accept=".xlsx, .xls, .csv" class="input-style" placeholder="type here "
+                     type="file">
             </button>
           </div>
         </div>
@@ -77,17 +98,17 @@
 
 
             <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile"
-              style="overflow: hidden">Import
+                    style="overflow: hidden">Import
               Stock
-              <input #myInputStock type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
-                (change)="importStock($event)">
+              <input #myInputStock (change)="importStock($event)" accept=".xlsx, .xls, .csv" class="input-style" placeholder="type here "
+                     type="file">
             </button>
           </div>
 
         </div>
         <div class="col-md-3  col-xs-12 p-l-r-5">
           <div class="form-group">
-            <a class=" btn btn-owls btn-rounded btn-green  btn-special" (click)="exportStocks()">export
+            <a (click)="exportStocks()" class=" btn btn-owls btn-rounded btn-green  btn-special">export
               Stocks</a>
           </div>
 
@@ -96,86 +117,166 @@
     </div>
   </div>
 </div>
-
-<div class="table-responsive text-center">
+<div class="row mb-3">
+  <div *ngIf="selectedMainProduct" class="col-lg-8">
+    <h5>Main Product: {{selectedMainProduct.name}}</h5>
+  </div>
+</div>
+<div class="table-responsive text-center fixed-table-scroll">
   <table class="table owls-table">
     <thead>
-      <tr>
-        <th scope="col">SKU</th>
-        <th scope="col">product name</th>
-        <th scope="col">category > subcat</th>
-        <!-- <th  scope="col" class="hidden">creator</th> -->
-        <th scope="col">Stock
-        </th>
-        <th scope="col">main price </th>
-        <th scope="col">discount price</th>
-        <th scope="col">action</th>
-      </tr>
+    <tr>
+      <th scope="col">SKU</th>
+      <th scope="col">product name</th>
+      <th *ngIf="!selectedMainProduct" scope="col">category > subcat</th>
+      <th *ngIf="selectedMainProduct" scope="col">Last Editor</th>
+      <!-- <th  scope="col" class="hidden">creator</th> -->
+      <th scope="col">Stock
+      </th>
+      <!--<th scope="col">main price</th>
+      <th scope="col">discount price</th>-->
+      <th scope="col">action</th>
+    </tr>
     </thead>
     <tbody>
 
-      <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
-        <td>{{product.sku}}</td>
-        <td class="relative">{{product.name | summary : 25 }}
-          <div class="hover-reason text-left" *ngIf="product.name.length >= 25">
+    <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
+      <td>{{product.sku}}</td>
+      <td class="relative">{{product.name | summary : 25 }}
+        <div *ngIf="product.name.length >= 25" class="hover-reason text-left">
+          <div class="head">
+            product name
+          </div>
+          <div class="body">
+            {{product.name}}
+          </div>
+        </div>
+
+      </td>
+      <td *ngIf="!selectedMainProduct">
+        {{product?.category?.name}} >
+        <br>
+        {{product?.category?.sub_categories[0]?.name}}
+      </td>
+      <td *ngIf="selectedMainProduct">
+        {{product?.last_editor?.name}}
+      </td>
+      <!-- <td class="hidden">{{product.creator?.name}}</td> -->
+      <td class="hidden">{{product.stock ? product.stock : '0'}}</td>
+      <!--<td>{{product.price}}</td>
+      <td>{{product.discount_price ? product.discount_price : "-"}}</td>-->
+      <td>
+        <!--<a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
+          <i class="icon-View"></i>
+        </a>-->
+        <a (click)="getProductsVariants(product)" class="table-view open-show mx-1">
+          <i class="icon-View"></i>
+        </a>
+
+        <a (click)="edit(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="icon-grey"></i>
+        </a>
+        <a (click)="clone(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="fa fa-copy"></i>
+        </a>
+        <a *ngIf="selectedMainProduct" target="_blank" class="table-view edit-product mx-1" href="{{website_url + '/products/' + product.name + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
+          <i class="fa fa-external-link"></i>
+        </a>
+        <label class="switch">
+          <input (change)="changeActive(product)" [(ngModel)]="product.active" type="checkbox" value="1">
+          <span class="slider round"></span>
+          <div [hidden]="!product.showReason" class="reason-popup text-left">
+              <textarea [(ngModel)]="product.notes" class="owl-input" name=""
+                        placeholder="Why Do yo want to deactivate this product?"></textarea>
+            <button (click)="submitDeactivate(product)" [disabled]="!product.notes"
+                    [ngClass]="{'not-allowed' : !product.notes }" class="btn btn-owls btn-rounded btn-green2">submit
+            </button>
+            <button (click)="cancelDeactivate(product)"
+                    class="btn btn-owls btn-rounded btn-blue2 cancel-check">cancel
+            </button>
+          </div>
+          <div *ngIf="!product.active" class="hover-reason text-left">
             <div class="head">
-              product name
+              Deactivation Notes
             </div>
             <div class="body">
-              {{product.name}}
+              {{product.deactivation_notes}}
             </div>
           </div>
-
-        </td>
-        <td>{{product.category.name}} >
-          <br> {{product.category.sub_categories[0].name}}</td>
-        <!-- <td class="hidden">{{product.creator?.name}}</td> -->
-        <td class="hidden">{{product.stock ?  product.stock : '0'}}</td>
-        <td>{{product.price}}</td>
-        <td>{{product.discount_price ? product.discount_price : "-"}}</td>
-        <td>
-          <a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
-            <i class="icon-View"></i>
-          </a>
-
-
-          <a href="javascript:void(0)" class="table-view edit-product" (click)="toggleMenu(product)">
-            <i class="icon-grey"></i>
-          </a>
-          <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="product.active" (change)="changeActive(product, $event)">
-            <span class="slider round"></span>
-            <div class="reason-popup text-left" [hidden]="!product.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this product?"
-                [(ngModel)]="product.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!product.notes"
-                (click)="submitDeactivate(product)" [ngClass]="{'not-allowed' : !product.notes }">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(product)">cancel</button>
-            </div>
-            <div class="hover-reason text-left" *ngIf="!product.active">
-              <div class="head">
-                Deactivation Notes
-              </div>
-              <div class="body">
-                {{product.deactivation_notes}}
-              </div>
-            </div>
-          </label>
-        </td>
-      </tr>
+        </label>
+      </td>
+    </tr>
 
 
     </tbody>
   </table>
 </div>
-<pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+
+
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer"
+><p style="color: white"> Loading... </p>
+</ngx-spinner>
+
+<!--
+<ngx-spinner bdColor = "rgba(0,0,0,0)" size = "large" color = "#2dacbb" type = "timer" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+-->
+
+<pagination-controls (pageChange)="pagination($event)"></pagination-controls>
 
 
 <!-- view product -->
 <app-view-product (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewProductSidebar"
-  [selectProductDataEdit]="selectProductDataView"></app-view-product>
+                  [selectProductDataEdit]="selectProductDataView"></app-view-product>
 
 
-<app-add-edit-product (dataProductEmit)="addOrUpdateProduct($event)" (closeSideBarEmit)="closeSideBar()"
-  [@slideInOut]="toggleAddProduct" [selectProductDataEdit]="selectProductData" #productForm></app-add-edit-product>
+<app-add-edit-product
+  #productForm
+  (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)"
+  [@slideInOut]="toggleAddProduct"
+  [selectProductDataEdit]="selectProductData">
+</app-add-edit-product>
+
+<app-add-edit-variants
+  #productVariantsForm
+  (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)"
+  [@slideInOut]="toggleVariant"
+  [parentProduct]="selectedMainProduct"
+  [selectVariant]="selectedProductVariantData">
+</app-add-edit-variants>
+
+<app-add-product-variants
+  (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)"
+  [@slideInOut]="toggleProductVariant"
+  [selectVariant]="selectedProductVariantData">
+</app-add-product-variants>
+
+<div class="modal fade" id="cloneProduct" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Clone Product
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        Are you sure you want to clone the product ({{currentProduct?.sku}}) ?
+
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmClone()">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

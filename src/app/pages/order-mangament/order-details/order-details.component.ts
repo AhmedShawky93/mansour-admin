@@ -47,6 +47,9 @@ export class OrderDetailsComponent implements OnInit {
   cancelReason: number;
   cancelReasonError: boolean;
   stateSubmitting: boolean = false;
+  serialNumber: any;
+  selectedAddress: any;
+  selectedOrder: any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -223,12 +226,38 @@ export class OrderDetailsComponent implements OnInit {
     $("#orderChangePriceAndDiscount").modal("show");
   }
 
+  openEditSerialNumber(product) {
+    this.currentItem = product;
+    this.serialNumber = this.currentItem.serial_number;
+    $("#orderChangeSerial").modal("show");
+  }
+
   submitItemUpdate() {
     this.orderService.updateItemPrice(this.order.id, this.currentItem.id, {discount_price: this.discount, notify_customer: this.notifyUser})
       .subscribe((response: any) => {
         this.currentItem.discount_price = this.discount;
         this.discount = null;
         $("#orderChangePriceAndDiscount").modal("hide");
+      });
+  }
+
+  submitItemSerialUpdate() {
+    let data = {
+      items: [
+        {
+          id: this.currentItem.id,
+          serial_number: this.serialNumber
+        }
+      ]
+    }
+    this.orderService.updateSerial(this.order.id, data)
+      .subscribe((response: any) => {
+        if (response.code == 200) {
+          this.currentItem.serial_number = this.serialNumber;
+          $("#orderChangeSerial").modal("hide");
+        } else {
+          this.toastrService.error(response.message, "Error");
+        }
       });
   }
 
@@ -285,5 +314,20 @@ export class OrderDetailsComponent implements OnInit {
         this.textMessage = this.textMessage.concat(element.product.sku);
       }
     });
+  }
+
+  editAddress(order) {
+    this.selectedAddress = order.address;
+    this.selectedOrder = order;
+    $("#addressModal").modal("show");
+  }
+
+  closeAddressModal(data) {
+    this.selectedAddress = null;
+    this.selectedOrder = null;
+    $("#addressModal").modal("hide");
+    if (data) {
+      this.order.address = data.address;
+    }
   }
 }

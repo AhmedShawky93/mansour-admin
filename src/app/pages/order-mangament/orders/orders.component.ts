@@ -18,6 +18,7 @@ import { environment } from "@env/environment";
 import { DeliveryService } from "@app/pages/services/delivery.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
+import { animate, state, style, transition, trigger } from "@angular/animations";
 
 declare var jquery: any;
 declare var $: any;
@@ -26,6 +27,24 @@ declare var $: any;
   selector: "app-orders",
   templateUrl: "./orders.component.html",
   styleUrls: ["./orders.component.css"],
+  animations: [
+    trigger('slideInOut', [
+      state(
+        'in',
+        style({
+          transform: 'translate3d(0px, 0, 0)',
+        })
+      ),
+      state(
+        'out',
+        style({
+          transform: 'translate3d(-100%, 0, 0)',
+        })
+      ),
+      transition('in => out', animate('300ms ease-in-out')),
+      transition('out => in', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class OrdersComponent implements OnInit {
   loading: boolean;
@@ -124,6 +143,8 @@ export class OrdersComponent implements OnInit {
   stateSubmitting: boolean = false;
   cancelReasons: any;
   cancelReasonError: boolean;
+  toggleAddOrder: string = 'out';
+  selectedOrder: any;
 
   constructor(
     private ordersService: OrdersService,
@@ -312,6 +333,7 @@ export class OrdersComponent implements OnInit {
       pickup_time: new FormControl(),
       shipping_notes: new FormControl(),
       shipping_method: new FormControl(''),
+      aramex_account_number: new FormControl(''),
       branch_id: new FormControl(''),
       subtract_stock: new FormControl(),
     });
@@ -321,6 +343,7 @@ export class OrdersComponent implements OnInit {
       this.stateForm.get('pickup_time').setValidators([Validators.required]);
       this.stateForm.get('branch_id').setValidators([Validators.required]);
       this.stateForm.get('shipping_method').setValidators([Validators.required]);
+      this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
     } else if (this.orderStatusId == 6) {
       this.stateForm.get('status_notes').setValidators([Validators.required]);
       this.stateForm.get('cancellation_id').setValidators([Validators.required]);
@@ -889,6 +912,7 @@ export class OrdersComponent implements OnInit {
         .updateItems(this.currentOrder.id, {
           items: this.items,
           admin_notes: this.currentOrder.admin_notes,
+          notes: this.currentOrder.notes,
           delivery_fees: this.currentOrder.delivery_fees,
           admin_discount: null,
           notify_customer: notifyUser,
@@ -1083,9 +1107,20 @@ export class OrdersComponent implements OnInit {
       }
     }
   }
-  closeSideBar() {
+
+  createOrder() {
+    this.selectedOrder = null;
+    // this.viewOrderSidebar = 'out';
+    this.toggleAddOrder = 'in';
+  }
+
+  closeSideBar(data = null) {
     $("#view-deactive").removeClass("open-view-vindor-types");
     $("#view-side-bar-return-order").removeClass("open-view-vindor-types");
+    this.toggleAddOrder = 'out';
+    if (data) {
+      this.filter$.next(this.filter);
+    }
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
