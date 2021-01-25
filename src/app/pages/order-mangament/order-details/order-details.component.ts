@@ -43,6 +43,10 @@ export class OrderDetailsComponent implements OnInit {
   discount: any;
   currentItem: any;
   invoiceDiscount: any;
+  cancelReasons = [];
+  cancelReason:  string;
+  cancelReasonError: boolean;
+  stateSubmitting: boolean = false;
   serialNumber: any;
   selectedAddress: any;
   selectedOrder: any;
@@ -72,6 +76,10 @@ export class OrderDetailsComponent implements OnInit {
 
       this.getOrderDetails(id)
     });
+    this.orderService.cancelReasons()
+      .subscribe((response: any) => {
+        this.cancelReasons = response.data;
+      });
     // this.order.state_id = this.order.previous_state;
     // this.order.sub_state_id = this.order.previous_subState;
   }
@@ -184,13 +192,14 @@ export class OrderDetailsComponent implements OnInit {
   confirmChangeStatus(notifyUser) {
     console.log(notifyUser);
     if (this.orderStatusId == '6') {
+      console.log('this.cancelReason ==>', this.cancelReason)
       console.log(this.status_notesText)
       if (this.status_notesText == '' || this.status_notesText == undefined) {
-        console.log('if data');
         this.error_status_notes = true
         return
-      } else {
-        console.log('else data');
+      } else if (this.cancelReason == '' || this.cancelReason == undefined) {
+        this.cancelReasonError = true
+        return
       }
     }
     this.orderService
@@ -200,8 +209,8 @@ export class OrderDetailsComponent implements OnInit {
         sub_state_id: this.sub_state_id,
         notify_customer: notifyUser,
         subtract_stock: this.subtract_stock,
-        status_notes: this.status_notesText ? this.status_notesText : ''
-
+        status_notes: this.status_notesText ? this.status_notesText : '',
+        cancellation_id: this.cancelReason
       })
       .subscribe((response: any) => {
         if (response.code === 200) {
@@ -225,7 +234,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   submitItemUpdate() {
-    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, {discount_price: this.discount, notify_customer: this.notifyUser})
+    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, { discount_price: this.discount, notify_customer: this.notifyUser })
       .subscribe((response: any) => {
         this.currentItem.discount_price = this.discount;
         this.discount = null;
@@ -260,7 +269,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   submitInvoiceUpdate() {
-    this.orderService.updateInvoiceDiscount(this.order.id, {discount: this.invoiceDiscount, notify_customer: this.notifyUser})
+    this.orderService.updateInvoiceDiscount(this.order.id, { discount: this.invoiceDiscount, notify_customer: this.notifyUser })
       .subscribe((response: any) => {
         this.invoiceDiscount = null;
         this.order.invoice.discoutn = this.invoiceDiscount;
@@ -272,6 +281,8 @@ export class OrderDetailsComponent implements OnInit {
     this.orderStatesService.getOrderEditableStatus().subscribe({
       next: (response: any) => {
         if (response.code === 200) {
+        console.log("🚀 ~ file: order-details.component.ts ~ line 284 ~ OrderDetailsComponent ~ confirmChangeStatus ~ this.cancelReason", this.cancelReason)
+        console.log("🚀 ~ file: order-details.component.ts ~ line 284 ~ OrderDetailsComponent ~ confirmChangeStatus ~ this.cancelReason", this.cancelReason)
           this.orderStatus = response.data;
           this.selectStatus(this.order.state_id);
         }
