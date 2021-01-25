@@ -5,11 +5,30 @@ declare var jquery: any;
 declare var $: any;
 import { environment } from '@env/environment';
 import { AuthService } from '@app/shared/auth.service';
+import { animate, state, style, transition, trigger } from "@angular/animations";
 
 @Component({
   selector: 'app-manage-castomer',
   templateUrl: './manage-castomer.component.html',
-  styleUrls: ['./manage-castomer.component.css']
+  styleUrls: ['./manage-castomer.component.css'],
+  animations: [
+    trigger('slideInOut', [
+      state(
+        'in',
+        style({
+          transform: 'translate3d(0px, 0, 0)',
+        })
+      ),
+      state(
+        'out',
+        style({
+          transform: 'translate3d(-100%, 0, 0)',
+        })
+      ),
+      transition('in => out', animate('300ms ease-in-out')),
+      transition('out => in', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class ManageCastomerComponent implements OnInit {
   show = false;
@@ -40,6 +59,8 @@ export class ManageCastomerComponent implements OnInit {
   cities: any;
   areaList: any;
   areaListSearch: any[];
+  toggleAddCustomer: string = 'out';
+  selectedCustomer: any;
 
 
   constructor(private cs: CustomerService, private auth: AuthService, private _areaService: AreasService,
@@ -129,7 +150,7 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   changePage(p) {
-    this.p
+    this.p = p;
     this.cs.getCustomers(this.filter)
       .subscribe((data: any) => {
         this.p = p;
@@ -291,5 +312,40 @@ export class ManageCastomerComponent implements OnInit {
         user.showReason = 0;
         user.deactivated = 1;
       });
+  }
+
+  editCustomer(customer) {
+    this.selectedCustomer = customer;
+
+    this.toggleAddCustomer = 'in';
+  }
+
+  createCustomer() {
+    this.selectedCustomer = null;
+    // this.viewCustomerSidebar = 'out';
+    this.toggleAddCustomer = 'in';
+  }
+
+  closeSideBar(data = null) {
+    this.selectedCustomer = null;
+    $("#view-deactive").removeClass("open-view-vindor-types");
+    $("#view-side-bar-return-order").removeClass("open-view-vindor-types");
+    this.toggleAddCustomer = 'out';
+    if (data) {
+      this.changePage(this.p);
+    }
+  }
+
+  addOrUpdateCustomer(data) {
+    this.selectedCustomer = null;
+    if (data) {
+      let ind = this.customers.findIndex(c => c.id == data.id)
+
+      if (ind !== -1) {
+        this.customers[ind] = data;
+      } else {
+        this.customers.unshift(data);
+      }
+    }
   }
 }

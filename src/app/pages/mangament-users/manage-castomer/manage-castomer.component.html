@@ -64,7 +64,12 @@
   </div>
   <div class="row">
 
-    <div class="col-md-9"></div>
+    <div class="col-md-6"></div>
+    <div class="col-md-3 text-right">
+      <div class="owl-btn-list">
+        <button (click)="createCustomer()" class="btn btn-owls btn-rounded btn-blue2">+New Customer</button>
+      </div>
+    </div>
     <div class="col-md-3 text-right">
       <div class="owl-btn-list">
         <a target="_blank" href="{{exportUrl}}" class="btn btn-owls btn-rounded btn-blue2">Export to CSV</a>
@@ -98,6 +103,10 @@
         <td>
           <a href="javascript:void(0)" class=" toggle-vindor-view table-view" (click)="viewCustomer(customer)">
             <i class="icon-View"></i>
+          </a>
+
+          <a (click)="editCustomer(customer)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="icon-grey"></i>
           </a>
 
           <label class="switch">
@@ -310,3 +319,11 @@
     </div>
   </div>
 </div>
+
+<app-add-edit-customer
+  #customerForm
+  (closeSideBarEmit)="closeSideBar($event)"
+  (dataCustomerEmit)="addOrUpdateCustomer($event)"
+  [@slideInOut]="toggleAddCustomer"
+  [selectedCustomer]="selectedCustomer">
+</app-add-edit-customer>
