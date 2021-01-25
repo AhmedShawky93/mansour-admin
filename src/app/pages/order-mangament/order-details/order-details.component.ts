@@ -43,6 +43,10 @@ export class OrderDetailsComponent implements OnInit {
   discount: any;
   currentItem: any;
   invoiceDiscount: any;
+  cancelReasons = [];
+  cancelReason: number;
+  cancelReasonError: boolean;
+  stateSubmitting: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -68,6 +72,10 @@ export class OrderDetailsComponent implements OnInit {
       let id = params["id"];
 
       this.getOrderDetails(id)
+    });
+    this.orderService.cancelReasons()
+    .subscribe((response: any) => {
+      this.cancelReasons = response.data;
     });
     // this.order.state_id = this.order.previous_state;
     // this.order.sub_state_id = this.order.previous_subState;

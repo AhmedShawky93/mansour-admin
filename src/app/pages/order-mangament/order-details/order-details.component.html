@@ -380,29 +380,50 @@
         </button>
       </div>
       <div class="modal-body">
-        <label class="checkup"> notify user
-          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
+        <label class="checkup">
+          notify user
+          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser" />
           <span class="checkmark"></span>
         </label>
+
         <div class="form-group" *ngIf="orderStatusId == '6'">
-          <label for="">Status notes </label>
-          <textarea style="height: 130px;margin-bottom: 10px;" class="owl-input" placeholder="Type.."
-            #status_notes="ngModel" [(ngModel)]="status_notesText">
+          <label for="">Cancellation Reason</label>
+          <select name="" class="owl-input bg-white" [(ngModel)]="cancelReason">
+            <option value="{{reason.id}}" *ngFor="let reason of cancelReasons">{{reason.text}}</option>
+          </select>
+          <div class="alert-danger" *ngIf="cancelReasonError">
+            <span>
+              Cancel reason is required
+            </span>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="orderStatusId == '6'">
+          <label for="">Cancellation Notes</label>
+          <textarea style="height: 130px;" class="owl-input" placeholder="Type.." #status_notes="ngModel"
+            [(ngModel)]="status_notesText">
           </textarea>
-          <div style="margin-bottom: 10px;" class="alert-danger" *ngIf="error_status_notes">
+          <div class="alert-danger" *ngIf="error_status_notes">
+            <span>
+              Cancel reason is required
+            </span>
+          </div>
+        </div>
+
+        <!-- <div class="form-group" *ngIf="orderStatusId == '6'">
+          <label for="">Status notes </label>
+          <textarea style="height: 130px;" class="owl-input" placeholder="Type.."
+          #status_notes="ngModel"  [(ngModel)]="status_notesText">
+          </textarea>
+          <div class="alert-danger" *ngIf="error_status_notes">
             <span>
               Cancel notes is required
             </span>
           </div>
-          <label class="checkup"> Return To stock
-            <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock">
-            <span class="checkmark"></span>
-          </label>
-        </div>
+        </div> -->
       </div>
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green btn-blue2"
-          (click)="confirmChangeStatus(notifyUser)">
+          (click)="confirmChangeStatus(notifyUser)" [appLoading]="stateSubmitting">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">

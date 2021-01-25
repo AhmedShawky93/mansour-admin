@@ -67,16 +67,23 @@
       </select>
     </div>
     <div class="col-md-4" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white"  [(ngModel)]="filter.customer_area_ids"
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.customer_area_ids"
         (ngModelChange)="selectArea($event)">
         <option value="">Select Area </option>
         <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
       </select>
     </div>
+    <div class="col-md-4">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.payment_method">
+        <option [value]="null">Select Payment Method </option>
+        <option [value]="1">Cash</option>
+        <option [value]="2">Credit card</option>
+      </select>
+    </div>
     <div class="col-md-4 col-sm-10">
       <mat-form-field class="datepicker">
-        <input matInput #mdate placeholder="Date From"  readonly (click)="pickerFrom.open()" [satDatepicker]="pickerFrom" [value]="date"
-          [(ngModel)]="filter.date_from">
+        <input matInput #mdate placeholder="Date From" readonly (click)="pickerFrom.open()" [satDatepicker]="pickerFrom"
+          [value]="date" [(ngModel)]="filter.date_from">
         <!-- (dateChange)="changePage(1)" -->
         <sat-datepicker #pickerFrom [rangeMode]="false">
         </sat-datepicker>
@@ -85,15 +92,15 @@
     </div>
     <div class="col-md-4 col-sm-10">
       <mat-form-field class="datepicker">
-        <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo" [value]="date"
-          [(ngModel)]="filter.date_to">
+        <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo"
+          [value]="date" [(ngModel)]="filter.date_to">
         <!-- (dateChange)="changePage(1)" -->
         <sat-datepicker #pickerTo [rangeMode]="false">
         </sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" style="margin-bottom: 20px;">
       <select name="" class="owl-input bg-white" [(ngModel)]="filter.state_id">
         <option value="">Select Status </option>
         <option value="{{status.id}}" *ngFor="let status of orderStatus">{{status.name}}</option>
@@ -112,8 +119,7 @@
     <div class="col-md-8  col-xs-6 "></div>
     <div class="col-md-2  col-xs-6 ">
       <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
-      style="background: #eee !important;color: #eb1c24  !important;"
-        (click)="ClearSearch()">Clear</button>
+        style="background: #eee !important;color: #eb1c24  !important;" (click)="ClearSearch()">Clear</button>
     </div>
     <div class="col-md-2  col-xs-6 ">
       <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
@@ -200,7 +206,7 @@
         </th>
         <th scope="col"> First time
         </th>
-        <th>Recurring</th>
+        <th>Payment Method </th>
         <th style="text-align: center;" scope="col"> status
         </th>
         <th scope="col"> sub status </th>
@@ -223,24 +229,16 @@
         <td scope="row">{{order.id}}</td>
         <td>{{order.user?.name}}</td>
         <td>
-          <span *ngIf="order.scheduled_at">{{order.scheduled_at | date: 'd-M-yyyy  h:mm a'}}</span>
-          <span *ngIf="!order.scheduled_at">{{order.created_at | date: 'd-M-yyyy  h:mm a'}}</span>
+          <span *ngIf="order.scheduled_at">{{order.scheduled_at | date: 'd-M-yyyy h:mm a'}}</span>
+          <span *ngIf="!order.scheduled_at">{{order.created_at | date: 'd-M-yyyy h:mm a'}}</span>
         </td>
 
         <td>{{order.amount + order.delivery_fees}}</td>
         <td>{{order?.user?.admin_first_order ? 'No' : 'Yes'}}</td>
         <td>
-          <span *ngIf="order.schedule">
-            <span *ngIf="order.schedule.interval == 1">Daily</span>
-            <span *ngIf="order.schedule.interval == 2">Weekly</span>
-            <span *ngIf="order.schedule.interval == 3">Monthly</span>
+          <span>
+            {{order.payment_method == 1 ? 'Cash':'Credit card'}}
           </span>
-          <span *ngIf="order.parent_id">
-            <a [routerLink]="['/pages/orders/order-details', order.parent_id]"
-              class="table-view">{{order.parent_id}}</a>
-          </span>
-          <span *ngIf="!order.schedule && !order.parent_id && !order.scheduled_at">-</span>
-          <span *ngIf="order.scheduled_at">Later</span>
         </td>
         <td>
           {{order?.state?.name}}
@@ -314,7 +312,8 @@
                       <h5 class="">{{user?.name}}</h5>
                       <span>{{user.deliverer_profile.city.name}}<span
                           *ngIf="user.deliverer_profile.area">,{{user.deliverer_profile.area.name}}</span><span
-                          *ngIf="user.deliverer_profile.districts">,{{(user.deliverer_profile.district_names | slice:0:20) + "..."}}</span></span>
+                          *ngIf="user.deliverer_profile.districts">,{{(user.deliverer_profile.district_names |
+                          slice:0:20) + "..."}}</span></span>
                     </div>
                   </li>
 
@@ -529,11 +528,11 @@
         </span>
         <h4 class="relative">
           <span style="width: 270px; display: inline-block;" *ngIf="item.product">
-            {{(item.product.name.length > 26) ? (item.product.name | summary :  25) : item.product.name}} <br>
+            {{(item.product.name.length > 26) ? (item.product.name | summary : 25) : item.product.name}} <br>
             <span style="font-size: 13px; color: #557e96">{{item.product.sku}}</span>
           </span>
           <span style="width: 270px; display: inline-block;" *ngIf="!item.product">
-            {{(item.name.length > 26) ? (item.name | summary :  25) : item.name}}
+            {{(item.name.length > 26) ? (item.name | summary : 25) : item.name}}
           </span>
           <!-- x{{item.amount}} -->
           <div class="hover-reason text-left" *ngIf="item.product.name.length >= 25">
@@ -616,10 +615,10 @@
         </span>
         <h4 class="relative">
           <span style="width: 270px; display: inline-block;" *ngIf="item.product">
-            {{(item.product.name.length > 26) ? (item.product.name | summary :  25) : item.product.name}}
+            {{(item.product.name.length > 26) ? (item.product.name | summary : 25) : item.product.name}}
           </span>
           <span style="width: 270px; display: inline-block;" *ngIf="!item.product">
-            {{(item.name.length > 26) ? (item.name | summary :  25) : item.name}}
+            {{(item.name.length > 26) ? (item.name | summary : 25) : item.name}}
           </span>
           <!-- x{{item.amount}} -->
           <div class="hover-reason text-left" *ngIf="item.product.name.length >= 25">
@@ -715,9 +714,23 @@
       <form action="" [formGroup]="stateForm">
         <div class="modal-body" *ngIf="orderStatusId !== '8'">
           <label class="checkup"> notify user
-            <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
+            <input type="checkbox" checked="checked" [(ngModel)]="notifyUser" [ngModelOptions]="{standalone: true}">
             <span class="checkmark"></span>
           </label>
+          <div class="form-group" *ngIf="orderStatusId == '6'">
+            <label for="">Cancellation Reason</label>
+            <select name="" class="owl-input bg-white" formControlName="cancellation_id">
+              <option value="{{reason.id}}" *ngFor="let reason of cancelReasons">{{reason.text}}</option>
+            </select>
+            <div
+              *ngIf="stateForm.controls.cancellation_id.invalid &&
+              (stateForm.controls.cancellation_id.dirty || stateForm.controls.cancellation_id.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.cancellation_id.errors.required">
+                Cancel Reason is required.
+              </div>
+            </div>
+          </div>
           <div class="form-group" *ngIf="orderStatusId == '6'">
             <label for="">Status notes </label>
             <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="status_notes">
@@ -755,7 +768,7 @@
               <option value="" disabled selected>Select Company Shipping</option>
               <option value="1">Internal</option>
               <!-- <option value="2">Mylerz</option> -->
-              <option value="3">Aramex</option>
+              <!-- <option value="3">Aramex</option> -->
             </select>
             <div
               *ngIf="stateForm.controls.shipping_method.invalid && (stateForm.controls.shipping_method.dirty || stateForm.controls.shipping_method.touched)"
@@ -766,7 +779,7 @@
             </div>
           </div>
           <div class="form-group w-60">
-            <mat-form-field >
+            <mat-form-field>
               <input matInput #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
                 [value]="date" formControlName="pickup_date">
               <sat-datepicker #picker2 [rangeMode]="false">

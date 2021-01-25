@@ -45,6 +45,13 @@ export class OrdersService {
     });
   }
 
+  cancelReasons() {
+    return this.http
+      .get(this.url + "/order_cancellation_reasons")
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
   getAvailableDeliverers(id) {
     return this.http
       .get(this.url + "/orders/" + id + "/available_deliverers")
