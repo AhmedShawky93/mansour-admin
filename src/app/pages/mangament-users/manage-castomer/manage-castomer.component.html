@@ -183,10 +183,17 @@
         <i *ngIf="customer.addresses.length > 0 && hide" class="fa fa-angle-down"></i> <i *ngIf="customer.addresses.length > 0 && show" class="fa fa-angle-up"></i>
       </p> -->
       <div>
-        <p *ngFor="let address of customer.addresses; index as i">{{address.formatted_address}} <a *ngIf="address.lat"
-            href="https://www.google.com/maps/search/?api=1&query={{address.lat}},{{address.lng}}" target="_blank"><i
-              class="fa fa-external-link"></i></a></p>
+        <p *ngFor="let address of customer.addresses; index as i">
+          {{address.formatted_address}}
+          <a *ngIf="address.lat"
+            href="https://www.google.com/maps/search/?api=1&query={{address.lat}},{{address.lng}}" target="_blank"><i class="fa fa-external-link"></i>
+          </a>
+          <a (click)="editAddress(customer, address)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="icon-grey"></i>
+          </a>
+        </p>
       </div>
+      <a href="javascript:void(0)" (click)="createAddress(customer)">+New Address</a>
     </div>
 
     <div>
@@ -327,3 +334,11 @@
   [@slideInOut]="toggleAddCustomer"
   [selectedCustomer]="selectedCustomer">
 </app-add-edit-customer>
+
+<app-add-edit-address
+  #addressForm
+  (closeModalEmit)="closeAddressModal($event)"
+  (dataAddressEmit)="addOrUpdateAddress($event)"
+  [selectedAddress]="selectedAddress"
+  [selectedCustomer]="selectedCustomer">
+</app-add-edit-address>

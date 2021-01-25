@@ -61,6 +61,7 @@ export class ManageCastomerComponent implements OnInit {
   areaListSearch: any[];
   toggleAddCustomer: string = 'out';
   selectedCustomer: any;
+  selectedAddress: any;
 
 
   constructor(private cs: CustomerService, private auth: AuthService, private _areaService: AreasService,
@@ -347,5 +348,34 @@ export class ManageCastomerComponent implements OnInit {
         this.customers.unshift(data);
       }
     }
+  }
+
+  createAddress(customer) {
+    this.selectedCustomer = customer;
+    this.selectedAddress = null;
+    $("#addressModal").modal("show");
+  }
+
+  editAddress(customer, address) {
+    this.selectedCustomer = customer;
+    this.selectedAddress = address;
+    $("#addressModal").modal("show");
+  }
+
+  closeAddressModal(data) {
+    if (data) {
+      if (this.selectedAddress) {
+        let ind = this.customer.addresses.findIndex(a => a.id == this.selectedAddress.id);
+        if (ind !== -1) {
+          this.customer.addresses.splice(ind, 1);
+          this.customer.addresses.push(data)
+        }
+      } else {
+        this.customer.addresses.push(data);
+      }
+    }
+
+    this.selectedAddress = null;
+    $("#addressModal").modal("hide");
   }
 }

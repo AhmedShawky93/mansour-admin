@@ -49,6 +49,20 @@ export class CustomerService {
       })
   }
 
+  createAddress(customer_id, data) {
+    return this.http.post(this.url + "/customers/" + customer_id + "/address", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
+  updateAddress(customer_id, address_id, data) {
+    return this.http.post(this.url + "/customers/" + customer_id + "/address/" + address_id, data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
   searchCustomers(q) {
     return this.http.get(this.url + "/customers/search?q=" + q)
       .catch((error: any) => {

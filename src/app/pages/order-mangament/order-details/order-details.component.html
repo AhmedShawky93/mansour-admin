@@ -283,6 +283,9 @@
               order?.address?.lat
             }},{{ order?.address?.lng }}" target="_blank"><i class="fa fa-external-link"></i></a> -->
         </span>
+        <a (click)="editAddress(order)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="icon-grey"></i>
+        </a>
       </div>
     </div>
   </div>
@@ -554,3 +557,11 @@
     </div>
   </div>
 </div>
+
+<app-add-edit-address
+  #addressForm
+  (closeModalEmit)="closeAddressModal($event)"
+  (dataAddressEmit)="addOrUpdateAddress($event)"
+  [selectedAddress]="selectedAddress"
+  [selectedOrder]="selectedOrder">
+</app-add-edit-address>

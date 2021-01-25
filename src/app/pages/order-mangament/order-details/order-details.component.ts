@@ -44,6 +44,8 @@ export class OrderDetailsComponent implements OnInit {
   currentItem: any;
   invoiceDiscount: any;
   serialNumber: any;
+  selectedAddress: any;
+  selectedOrder: any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -304,5 +306,20 @@ export class OrderDetailsComponent implements OnInit {
         this.textMessage = this.textMessage.concat(element.product.sku);
       }
     });
+  }
+
+  editAddress(order) {
+    this.selectedAddress = order.address;
+    this.selectedOrder = order;
+    $("#addressModal").modal("show");
+  }
+
+  closeAddressModal(data) {
+    this.selectedAddress = null;
+    this.selectedOrder = null;
+    $("#addressModal").modal("hide");
+    if (data) {
+      this.order.address = data.address;
+    }
   }
 }

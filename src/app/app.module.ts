@@ -100,6 +100,7 @@ import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-de
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-order/add-edit-order.component';
 import { AddEditCustomerComponent } from './pages/mangament-users/manage-castomer/add-edit-customer/add-edit-customer.component';
+import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
 
 @NgModule({
   declarations: [
@@ -147,7 +148,8 @@ import { AddEditCustomerComponent } from './pages/mangament-users/manage-castome
     OrdersDeliveryComponent,
     OrderDeliveryDetailsComponent,
     AddEditOrderComponent,
-    AddEditCustomerComponent
+    AddEditCustomerComponent,
+    AddEditAddressComponent
   ],
   imports: [
     AppRoutingModule,

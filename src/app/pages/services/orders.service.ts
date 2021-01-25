@@ -76,6 +76,14 @@ export class OrdersService {
       });
   }
 
+  updateAddress(id, data) {
+    return this.http
+      .post(this.url + "/orders/" + id + "/edit_address", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+
   updatePaidAmount(id, data) {
     return this.http
       .post(this.url + "/orders/" + id + "/update_payment", data)
