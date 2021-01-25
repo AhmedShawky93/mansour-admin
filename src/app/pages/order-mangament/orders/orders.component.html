@@ -173,7 +173,7 @@
       <div class="form-group">
         <button class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" href="" (click)="createOrder()">Create Order </button>
       </div>
-    </div> 
+    </div>
     <div class="col-md-2  col-xs-6 text-right ">
       <div class="form-group">
         <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
@@ -732,6 +732,7 @@
           <div class="form-group" *ngIf="orderStatusId == '6'">
             <label for="">Cancellation Reason</label>
             <select name="" class="owl-input bg-white" formControlName="cancellation_id">
+              <option [value]="'placeholder'" selected hidden>Select Cancellation Reason</option>
               <option value="{{reason.id}}" *ngFor="let reason of cancelReasons">{{reason.text}}</option>
             </select>
             <div

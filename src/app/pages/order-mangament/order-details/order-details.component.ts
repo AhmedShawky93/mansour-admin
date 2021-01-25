@@ -44,7 +44,7 @@ export class OrderDetailsComponent implements OnInit {
   currentItem: any;
   invoiceDiscount: any;
   cancelReasons = [];
-  cancelReason:  string;
+  cancelReason: string = '';
   cancelReasonError: boolean;
   stateSubmitting: boolean = false;
   serialNumber: any;
@@ -78,7 +78,7 @@ export class OrderDetailsComponent implements OnInit {
     });
     this.orderService.cancelReasons()
       .subscribe((response: any) => {
-        this.cancelReasons = response.data;
+        this.cancelReasons = response.data.filter(item => item.user_type == 'admin')
       });
     // this.order.state_id = this.order.previous_state;
     // this.order.sub_state_id = this.order.previous_subState;
@@ -281,8 +281,8 @@ export class OrderDetailsComponent implements OnInit {
     this.orderStatesService.getOrderEditableStatus().subscribe({
       next: (response: any) => {
         if (response.code === 200) {
-        console.log("🚀 ~ file: order-details.component.ts ~ line 284 ~ OrderDetailsComponent ~ confirmChangeStatus ~ this.cancelReason", this.cancelReason)
-        console.log("🚀 ~ file: order-details.component.ts ~ line 284 ~ OrderDetailsComponent ~ confirmChangeStatus ~ this.cancelReason", this.cancelReason)
+          console.log("🚀 ~ file: order-details.component.ts ~ line 284 ~ OrderDetailsComponent ~ confirmChangeStatus ~ this.cancelReason", this.cancelReason)
+          console.log("🚀 ~ file: order-details.component.ts ~ line 284 ~ OrderDetailsComponent ~ confirmChangeStatus ~ this.cancelReason", this.cancelReason)
           this.orderStatus = response.data;
           this.selectStatus(this.order.state_id);
         }

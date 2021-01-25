@@ -166,7 +166,8 @@ export class OrdersComponent implements OnInit {
     this.getOrderStates();
     this.ordersService.cancelReasons()
       .subscribe((response: any) => {
-        this.cancelReasons = response.data;
+        this.cancelReasons = response.data.filter(item => item.user_type == 'admin')
+
       });
 
     $(".payment-open").on("click", function () {
@@ -325,7 +326,7 @@ export class OrdersComponent implements OnInit {
   setupStateForm() {
     this.stateForm = new FormGroup({
       status_notes: new FormControl(),
-      cancellation_id: new FormControl(),
+      cancellation_id: new FormControl('placeholder'),
       order_ids: new FormControl(this.ordersBulk),
       state_id: new FormControl(this.orderStatusId),
       sub_state_id: new FormControl(this.sub_state_id),
