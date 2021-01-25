@@ -407,7 +407,7 @@
 
         <div class="form-group" *ngIf="orderStatusId == '6'">
           <label for="">Cancellation Reason</label>
-          <select name="" class="owl-input bg-white" [(ngModel)]="cancelReason">
+          <select name="" class="owl-input bg-white" [(ngModel)]="cancelReason" >
             <option value="{{reason.id}}" *ngFor="let reason of cancelReasons">{{reason.text}}</option>
           </select>
           <div class="alert-danger" *ngIf="cancelReasonError">
