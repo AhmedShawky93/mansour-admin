@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormArray, Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CustomerService } from '@app/pages/services/customer.service';
@@ -13,7 +13,7 @@ import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } f
   templateUrl: './add-edit-order.component.html',
   styleUrls: ['./add-edit-order.component.css']
 })
-export class AddEditOrderComponent implements OnInit {
+export class AddEditOrderComponent implements OnInit, OnChanges {
 
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataProductEmit = new EventEmitter();
@@ -33,8 +33,72 @@ export class AddEditOrderComponent implements OnInit {
   constructor(private customerService: CustomerService, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) { }
 
   ngOnInit() {
+    this.setupForm(this.selectedOrder);
+  }
+
+  ngOnChanges() {
+    this.setupForm(this.selectedOrder);
+  }
+
+  setupForm(data) {
+    this.deleted_items = [];
+    this.orderForm = new FormGroup({
+      user_id: new FormControl(data ? data.user.id : '', Validators.required),
+      address_id: new FormControl(data ? data.address.id : '', Validators.required),
+      payment_method: new FormControl(data ? data.payment_method : '', Validators.required),
+      items: new FormArray([], Validators.required),
+      notes: new FormControl(data ? data.notes : ''),
+      admin_notes: new FormControl(data ? data.admin_notes : ''),
+      overwrite_fees: new FormControl(0),
+      delivery_fees: new FormControl(data ? data.delivery_fees : ''),
+    });
+
+    if (data) {
+      this.addresses = data.user.addresses;
+    
+      data.items.forEach(item => {
+        let productsInput$ = new Subject<String>();
+        let productsLoading = false;
+        let products$ = concat(
+          of([{
+            id: item.id,
+            name: item.product.sku + ": " + item.product.name
+          }]), // default items
+          productsInput$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            tap(() => (productsLoading = true)),
+            switchMap((term) =>
+              this.productService.searchProducts({ q: term, variant: 1 }, 1).pipe(
+                catchError(() => of([])), // empty list on error
+                tap(() => (productsLoading = false)),
+                map((response: any) => {
+                  return response.data.products.map((p) => {
+                    return {
+                      id: p.id,
+                      name: p.sku + ": " + p.name,
+                    };
+                  });
+                })
+              )
+            )
+          )
+        );
+        this.products.push({
+          products$: products$,
+          productsInput$: productsInput$,
+          productsLoading: productsLoading
+        });
+
+        (this.orderForm.get('items') as FormArray).push(new FormGroup({
+          id: new FormControl(item.id, Validators.required),
+          amount: new FormControl(item.amount, Validators.required)
+        }))
+      });
+    }
+
     this.customers$ = concat(
-      of([]), // default items
+      of(data ? [data.user] : []), // default items
       this.customersInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
@@ -54,17 +118,6 @@ export class AddEditOrderComponent implements OnInit {
         ))
       )
     );
-
-    this.orderForm = new FormGroup({
-      user_id: new FormControl('', Validators.required),
-      address_id: new FormControl('', Validators.required),
-      payment_method: new FormControl('', Validators.required),
-      items: new FormArray([], Validators.required),
-      notes: new FormControl(''),
-      admin_notes: new FormControl(''),
-      overwrite_fees: new FormControl(0),
-      delivery_fees: new FormControl(0),
-    });
   }
 
   addProduct() {
@@ -104,7 +157,13 @@ export class AddEditOrderComponent implements OnInit {
     }))
   }
 
-  removeProduct(index) {
+  get productsData() { return <FormArray>this.orderForm.get('items'); }
+
+  removeProduct(index, product_id) {
+    console.log(product_id);
+
+    this.deleted_items.push(product_id);
+
     this.products.splice(index, 1);
 
     (this.orderForm.get("items") as FormArray).removeAt(index);
@@ -130,15 +189,29 @@ export class AddEditOrderComponent implements OnInit {
 
     let order = this.orderForm.value;
     console.log(order);
-    this.ordersService.createOrder(order)
-      .subscribe((response: any) => {
-        console.log(response);
-        if (response.code == 200) {
-          this.closeSideBar(response.data);
-        } else {
-          this.toastrService.error(response.message, "Error");       
-        }
-      });
+
+    if (this.selectedOrder) {
+      order.deleted_items = this.deleted_items;
+      this.ordersService.updateItems(this.selectedOrder.id, order)
+        .subscribe((response: any) => {
+          console.log(response);
+          if (response.code == 200) {
+            this.closeSideBar(response.data);
+          } else {
+            this.toastrService.error(response.message, "Error");       
+          }
+        });
+    } else {
+      this.ordersService.createOrder(order)
+        .subscribe((response: any) => {
+          console.log(response);
+          if (response.code == 200) {
+            this.closeSideBar(response.data);
+          } else {
+            this.toastrService.error(response.message, "Error");       
+          }
+        });
+    }
   }
 
   closeSideBar(data = null) {

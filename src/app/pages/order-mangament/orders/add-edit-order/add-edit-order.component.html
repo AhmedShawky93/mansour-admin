@@ -8,7 +8,7 @@
 
   <form class="sideform" (ngSubmit)="submitOrder()" [formGroup]="orderForm" novalidate>
 
-    <div class="form-group">
+    <div class="form-group" [hidden]="this.selectedOrder">
       <label for="amount">Customer</label>
       <ng-select (change)="selectCustomerAddresses()" [typeahead]="customersInput$" [loading]="customersLoading" name="customers" [items]="customers$ | async"
         bindLabel="name" bindValue="id" placeholder="Enter Customer name" formControlName="user_id">
@@ -16,6 +16,11 @@
       <div *ngIf="formControlValidator(orderForm, 'user_id', 'required')" class="alert alert-danger">
         Customer is required.
       </div>
+    </div>
+
+    <div class="form-group" *ngIf="this.selectedOrder">
+      <label for="">Customer</label>
+      <input type="text" class="owl-input" placeholder="Type.." readonly value="{{this.selectedOrder.user.name}}">
     </div>
 
     <div class="form-group">
@@ -43,10 +48,10 @@
 
     <div class="form-group" formArrayName="items">
       <label for="amount">Products</label>
-      <div *ngFor='let item of orderForm.get("items").controls; let i = index'>
+      <div *ngFor='let item of productsData.controls; let i = index'>
         <div [formGroupName]="i">
           <ng-select [typeahead]="products[i].productsInput$" [loading]="products[i].productsLoading" name="products" [items]="products[i].products$ | async"
-            bindLabel="name" bindValue="id" placeholder="Enter Customer name" formControlName="id">
+            bindLabel="name" bindValue="id" placeholder="Enter Product name" formControlName="id">
           </ng-select>
 
           <div *ngIf="formControlValidator(orderForm.get('items').controls[i], 'id', 'required')" class="alert alert-danger">
@@ -62,7 +67,7 @@
             Amount is required.
           </div>
 
-          <a href="javascript:void(0)" class="add-sub" (click)="removeProduct(i)">-Remove Product</a>
+          <a href="javascript:void(0)" class="add-sub" (click)="removeProduct(i, item.get('id').value)">-Remove Product</a>
         </div>
       </div>
       

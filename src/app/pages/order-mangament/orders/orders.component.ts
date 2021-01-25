@@ -1098,6 +1098,12 @@ export class OrdersComponent implements OnInit {
     this.toggleAddOrder = 'in';
   }
 
+  editOrder(order) {
+    this.selectedOrder = order;
+    // this.viewOrderSidebar = 'out';
+    this.toggleAddOrder = 'in';
+  }
+
   closeSideBar(data = null) {
     $("#view-deactive").removeClass("open-view-vindor-types");
     $("#view-side-bar-return-order").removeClass("open-view-vindor-types");

@@ -9,7 +9,7 @@ import { AddEditCustomerComponent } from './mangament-users/manage-castomer/add-
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [AddEditOrderComponent, AddEditAddressComponent, AddEditCustomerComponent],
+  declarations: [],
   providers: [CustomerService],
 })
 export class PagesModule {}
