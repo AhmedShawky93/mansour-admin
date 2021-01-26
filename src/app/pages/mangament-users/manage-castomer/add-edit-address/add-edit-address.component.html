@@ -1,0 +1,99 @@
+<div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          <span>{{selectedAddress ? 'Edit' : 'Add'}} Address</span>
+          <span *ngIf="selectedCustomer"> for {{selectedCustomer.name}}</span>
+          <span *ngIf="selectedOrder"> for order #{{selectedOrder.id}}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form action="" [formGroup]="addressForm" (submit)="submitAddress()">
+
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="">Name</label>
+            <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name">
+            
+            <div *ngIf="formControlValidator(addressForm, 'name', 'required')" class="alert alert-danger">
+              Name is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">Full Address</label>
+            <input type="text" class="owl-input" name="address" placeholder="Type here..." formControlName="address">
+            
+            <div *ngIf="formControlValidator(addressForm, 'address', 'required')" class="alert alert-danger">
+              Full address is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="amount">City</label>
+            <select name="city_id" class="owl-input bg-white" formControlName="city_id" (change)="onCitySelected()">
+              <option value="" disabled selected>Select City</option>
+              <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+            </select>
+            <div *ngIf="formControlValidator(addressForm, 'city_id', 'required')" class="alert alert-danger">
+              City is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="amount">Area</label>
+            <select name="area_id" class="owl-input bg-white" formControlName="area_id">
+              <option value="" disabled selected>Select Area</option>
+              <option value="{{area.id}}" *ngFor="let area of areas">{{area.name}}</option>
+            </select>
+            <div *ngIf="formControlValidator(addressForm, 'area_id', 'required')" class="alert alert-danger">
+              Area is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">apartment</label>
+            <input type="text" class="owl-input" name="apartment" placeholder="Type here..." formControlName="apartment">
+            
+            <div *ngIf="formControlValidator(addressForm, 'apartment', 'required')" class="alert alert-danger">
+              Apartment is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">Floor</label>
+            <input type="text" class="owl-input" name="floor" placeholder="Type here..." formControlName="floor">
+            
+            <div *ngIf="formControlValidator(addressForm, 'floor', 'required')" class="alert alert-danger">
+              Floor is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">Landmark (optional)</label>
+            <input type="text" class="owl-input" name="landmark" placeholder="Type here..." formControlName="landmark">
+          </div>
+
+          <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+            <label class="container">Set Default Address
+              <input type="checkbox"  class="form-control checkbox-style" name="primary" id="primary" [value]="1" formControlName="primary">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+          <button class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;">Save</button>
+        </div>
+      </form>
+
+      
+
+    </div>
+  </div>
+</div>

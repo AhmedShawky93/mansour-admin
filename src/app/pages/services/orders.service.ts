@@ -39,8 +39,22 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
+
   getOrder(id) {
     return this.http.get(this.url + "/orders/" + id).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  cancelReasons() {
+    return this.http
+      .get(this.url + "/order_cancellation_reasons")
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+  createOrder(data) {
+    return this.http.post(this.url + "/orders", data).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
     });
   }
@@ -64,6 +78,14 @@ export class OrdersService {
   cancelOrder(id) {
     return this.http
       .post(this.url + "/orders/" + id + "/cancel", {})
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+
+  updateAddress(id, data) {
+    return this.http
+      .post(this.url + "/orders/" + id + "/edit_address", data)
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });

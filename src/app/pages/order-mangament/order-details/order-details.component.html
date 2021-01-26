@@ -63,6 +63,7 @@
         <p style="margin-bottom: 0px;">{{ state.state?.name }}</p>
         <p style="margin-top: 3px;" *ngIf="state.sub_state?.name">{{ state.sub_state?.name }}</p>
         <p style="margin-top: 3px;" *ngIf="state.user?.name">{{ state.user?.name }}</p>
+        <p style="margin-top: 3px;" *ngIf="order?.cancellation_reason">Cancellation reason : {{ order?.cancellation_reason.text }}</p>
         <p style="margin-top: 3px;" *ngIf="state?.status_notes">Note : {{ state?.status_notes }}</p>
         <span>{{ state.created_at | date: "yyyy-MM-dd hh:mm a" }}</span>
       </li>
@@ -119,12 +120,12 @@
 
       <div class="block-item">
         <p>request time</p>
-        <span>{{ order.created_at | date: "d-M-yyyy  h:mm a" }}</span>
+        <span>{{ order.created_at | date: "d-M-yyyy h:mm a" }}</span>
       </div>
 
       <div class="block-item" *ngIf="order.scheduled_at">
         <p>schedule time</p>
-        <span>{{ order.scheduled_at | date: "d-M-yyyy  h:mm a" }}</span>
+        <span>{{ order.scheduled_at | date: "d-M-yyyy h:mm a" }}</span>
       </div>
 
       <div class="block-item">
@@ -151,7 +152,7 @@
         <p>Delivery time</p>
         <span *ngIf="order.state_id == 4">{{
           order.updated_at | date: "mediumTime"
-        }}</span>
+          }}</span>
       </div>
 
       <div class="block-item">
@@ -283,6 +284,9 @@
               order?.address?.lat
             }},{{ order?.address?.lng }}" target="_blank"><i class="fa fa-external-link"></i></a> -->
         </span>
+        <a (click)="editAddress(order)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="icon-grey"></i>
+        </a>
       </div>
     </div>
   </div>
@@ -316,7 +320,8 @@
 
       <div class="block-item">
         <p>Shipment AWB</p>
-        <span *ngIf="order.shipped_data"><a href="{{order.shipped_data?.shipment_url}}" target="_blank">{{ order.shipped_data?.shipping_id }}</a></span>
+        <span *ngIf="order.shipped_data"><a href="{{order.shipped_data?.shipment_url}}" target="_blank">{{
+            order.shipped_data?.shipping_id }}</a></span>
         <span *ngIf="!order.shipped_data">-</span>
       </div>
     </div>
@@ -335,12 +340,13 @@
 
       <div class="block-item">
         <p>Item Total</p>
-        <span>{{ order.invoice.total_amount  | number : '1.2-2'}}</span>
+        <span>{{ order.invoice.total_amount | number : '1.2-2'}}</span>
       </div>
 
       <div class="block-item">
         <p>Discount</p>
-        <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount  )| number : '1.2-2'}}</span>
+        <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount )| number
+          : '1.2-2'}}</span>
         <span *ngIf="!order.invoice.discount === null">-</span>
         <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
           <i class="icon-grey edit-price"></i>
@@ -396,29 +402,55 @@
         </button>
       </div>
       <div class="modal-body">
-        <label class="checkup"> notify user
-          <input type="checkbox" checked="checked" [(ngModel)]="notifyUser">
+        <label class="checkup">
+          notify user
+          <input type="checkbox" checked="checked" name="notifyUser" [(ngModel)]="notifyUser" />
           <span class="checkmark"></span>
         </label>
+
         <div class="form-group" *ngIf="orderStatusId == '6'">
-          <label for="">Status notes </label>
-          <textarea style="height: 130px;margin-bottom: 10px;" class="owl-input" placeholder="Type.."
-            #status_notes="ngModel" [(ngModel)]="status_notesText">
+          <label for="">Cancellation Reason</label>
+          <select name="" class="owl-input bg-white" [(ngModel)]="cancelReason">
+            <option [value]="''" selected hidden>Select Cancellation Reason</option>
+            <option value="{{reason.id}}" *ngFor="let reason of cancelReasons">{{reason.text}}</option>
+          </select>
+          <div class="alert-danger" *ngIf="cancelReasonError">
+            <span>
+              Cancel reason is required
+            </span>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="orderStatusId == '6'">
+          <label for="">Cancellation Notes</label>
+          <textarea style="height: 130px;" class="owl-input" placeholder="Type.." #status_notes="ngModel"
+            [(ngModel)]="status_notesText">
           </textarea>
-          <div style="margin-bottom: 10px;" class="alert-danger" *ngIf="error_status_notes">
+          <div class="alert-danger" *ngIf="error_status_notes">
+            <span>
+              Cancel reason is required
+            </span>
+          </div>
+          <label class="checkup"> Return To stock
+            <input type="checkbox" checked="checked" name="subtract_stock" [(ngModel)]="subtract_stock">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+
+        <!-- <div class="form-group" *ngIf="orderStatusId == '6'">
+          <label for="">Status notes </label>
+          <textarea style="height: 130px;" class="owl-input" placeholder="Type.."
+          #status_notes="ngModel"  [(ngModel)]="status_notesText">
+          </textarea>
+          <div class="alert-danger" *ngIf="error_status_notes">
             <span>
               Cancel notes is required
             </span>
           </div>
-          <label class="checkup"> Return To stock
-            <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock">
-            <span class="checkmark"></span>
-          </label>
-        </div>
+        </div> -->
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2"
-          (click)="confirmChangeStatus(notifyUser)">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmChangeStatus(notifyUser)"
+          [appLoading]="stateSubmitting">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
@@ -554,3 +586,7 @@
     </div>
   </div>
 </div>
+
+<app-add-edit-address #addressForm (closeModalEmit)="closeAddressModal($event)" [selectedAddress]="selectedAddress"
+  [selectedOrder]="selectedOrder">
+</app-add-edit-address>

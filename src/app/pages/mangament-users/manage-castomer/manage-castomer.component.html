@@ -64,7 +64,12 @@
   </div>
   <div class="row">
 
-    <div class="col-md-9"></div>
+    <div class="col-md-6"></div>
+    <div class="col-md-3 text-right">
+      <div class="owl-btn-list">
+        <button (click)="createCustomer()" class="btn btn-owls btn-rounded btn-blue2">+New Customer</button>
+      </div>
+    </div>
     <div class="col-md-3 text-right">
       <div class="owl-btn-list">
         <a target="_blank" href="{{exportUrl}}" class="btn btn-owls btn-rounded btn-blue2">Export to CSV</a>
@@ -98,6 +103,10 @@
         <td>
           <a href="javascript:void(0)" class=" toggle-vindor-view table-view" (click)="viewCustomer(customer)">
             <i class="icon-View"></i>
+          </a>
+
+          <a (click)="editCustomer(customer)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="icon-grey"></i>
           </a>
 
           <label class="switch">
@@ -174,10 +183,17 @@
         <i *ngIf="customer.addresses.length > 0 && hide" class="fa fa-angle-down"></i> <i *ngIf="customer.addresses.length > 0 && show" class="fa fa-angle-up"></i>
       </p> -->
       <div>
-        <p *ngFor="let address of customer.addresses; index as i">{{address.formatted_address}} <a *ngIf="address.lat"
-            href="https://www.google.com/maps/search/?api=1&query={{address.lat}},{{address.lng}}" target="_blank"><i
-              class="fa fa-external-link"></i></a></p>
+        <p *ngFor="let address of customer.addresses; index as i">
+          {{address.formatted_address}}
+          <a *ngIf="address.lat"
+            href="https://www.google.com/maps/search/?api=1&query={{address.lat}},{{address.lng}}" target="_blank"><i class="fa fa-external-link"></i>
+          </a>
+          <a (click)="editAddress(customer, address)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="icon-grey"></i>
+          </a>
+        </p>
       </div>
+      <a href="javascript:void(0)" (click)="createAddress(customer)">+New Address</a>
     </div>
 
     <div>
@@ -310,3 +326,18 @@
     </div>
   </div>
 </div>
+
+<app-add-edit-customer
+  #customerForm
+  (closeSideBarEmit)="closeSideBar($event)"
+  (dataCustomerEmit)="addOrUpdateCustomer($event)"
+  [@slideInOut]="toggleAddCustomer"
+  [selectedCustomer]="selectedCustomer">
+</app-add-edit-customer>
+
+<app-add-edit-address
+  #addressForm
+  (closeModalEmit)="closeAddressModal($event)"
+  [selectedAddress]="selectedAddress"
+  [selectedCustomer]="selectedCustomer">
+</app-add-edit-address>

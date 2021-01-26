@@ -18,6 +18,7 @@ import { environment } from "@env/environment";
 import { DeliveryService } from "@app/pages/services/delivery.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
+import { animate, state, style, transition, trigger } from "@angular/animations";
 
 declare var jquery: any;
 declare var $: any;
@@ -26,6 +27,24 @@ declare var $: any;
   selector: "app-orders",
   templateUrl: "./orders.component.html",
   styleUrls: ["./orders.component.css"],
+  animations: [
+    trigger('slideInOut', [
+      state(
+        'in',
+        style({
+          transform: 'translate3d(0px, 0, 0)',
+        })
+      ),
+      state(
+        'out',
+        style({
+          transform: 'translate3d(-100%, 0, 0)',
+        })
+      ),
+      transition('in => out', animate('300ms ease-in-out')),
+      transition('out => in', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class OrdersComponent implements OnInit {
   loading: boolean;
@@ -122,6 +141,10 @@ export class OrdersComponent implements OnInit {
   productsLoading: boolean;
   selectedProduct: any;
   stateSubmitting: boolean = false;
+  cancelReasons: any;
+  cancelReasonError: boolean;
+  toggleAddOrder: string = 'out';
+  selectedOrder: any;
 
   constructor(
     private ordersService: OrdersService,
@@ -141,6 +164,12 @@ export class OrdersComponent implements OnInit {
   ngOnInit() {
     this.getCities();
     this.getOrderStates();
+    this.ordersService.cancelReasons()
+      .subscribe((response: any) => {
+        this.cancelReasons = response.data.filter(item => item.user_type == 'admin')
+
+      });
+
     $(".payment-open").on("click", function () {
       $(".payment-area").slideToggle(100);
     });
@@ -297,6 +326,7 @@ export class OrdersComponent implements OnInit {
   setupStateForm() {
     this.stateForm = new FormGroup({
       status_notes: new FormControl(),
+      cancellation_id: new FormControl('placeholder'),
       order_ids: new FormControl(this.ordersBulk),
       state_id: new FormControl(this.orderStatusId),
       sub_state_id: new FormControl(this.sub_state_id),
@@ -317,6 +347,7 @@ export class OrdersComponent implements OnInit {
       this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
     } else if (this.orderStatusId == 6) {
       this.stateForm.get('status_notes').setValidators([Validators.required]);
+      this.stateForm.get('cancellation_id').setValidators([Validators.required]);
     }
   }
 
@@ -386,16 +417,23 @@ export class OrdersComponent implements OnInit {
     //   }
     // }
 
+    console.log(this.stateForm.value)
     if (!this.stateForm.valid) {
       return this.markFormGroupTouched(this.stateForm);
     }
-
     let data = this.stateForm.value;
     if (data.state_id == 8) {
       data.pickup_date = moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
       data.shipping_method = +data.shipping_method;
     }
+    // if (this.orderStatusId == '6') {
+    //   if (!this.status_notesText) {
+    //     this.error_status_notes = true
+    //     return
+    //   }
+    // }
     data.state_id = +data.state_id;
+    data.notify_customer = this.notifyUser;
     this.stateSubmitting = true
     this.ordersService
       .changeBulkChangeState(this.orderId, data)
@@ -1070,9 +1108,26 @@ export class OrdersComponent implements OnInit {
       }
     }
   }
-  closeSideBar() {
+
+  createOrder() {
+    this.selectedOrder = null;
+    // this.viewOrderSidebar = 'out';
+    this.toggleAddOrder = 'in';
+  }
+
+  editOrder(order) {
+    this.selectedOrder = order;
+    // this.viewOrderSidebar = 'out';
+    this.toggleAddOrder = 'in';
+  }
+
+  closeSideBar(data = null) {
     $("#view-deactive").removeClass("open-view-vindor-types");
     $("#view-side-bar-return-order").removeClass("open-view-vindor-types");
+    this.toggleAddOrder = 'out';
+    if (data) {
+      this.filter$.next(this.filter);
+    }
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
