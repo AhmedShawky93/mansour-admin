@@ -521,6 +521,31 @@
       </label>
     </div>
 
+    <div class="form-group">
+      <label>Type</label>
+      <select class="owl-input" formControlName="type" name="type">
+        <option value="" selected hidden>Select Product Type</option>
+        <option value="1">Regular Product</option>
+        <option value="2">Bundle Product</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+      <label class="container">Has Own Stock
+        <input type="checkbox"  class="form-control checkbox-style" name="has_stock" id="has_stock" [value]="1" formControlName="has_stock">
+        <span class="checkmark"></span>
+      </label>
+      <p class="text-muted">Checking this optional will reduce stocks from this sku directly</p>
+    </div>
+
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+      <label class="container">Bundled Checkout
+        <input type="checkbox"  class="form-control checkbox-style" name="bundle_checkout" id="bundle_checkout" [value]="1" formControlName="bundle_checkout">
+        <span class="checkmark"></span>
+      </label>
+      <p class="text-muted">Checking this optional will display only one product in the invoice</p>
+    </div>
+
     <!--<div *ngIf="addProductForm.value.preorder" class="form-group">
       <label>Pre-order Pricing</label>
       <input [(ngModel)]="price" class="owl-input"

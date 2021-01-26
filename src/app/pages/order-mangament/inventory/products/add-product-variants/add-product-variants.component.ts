@@ -133,10 +133,14 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       ]),
       default_variant: new FormControl(0),
       stock: new FormControl(0, Validators.required),
-      preorder_price: new FormControl(0),
+      // preorder_price: new FormControl(0),
       weight: new FormControl(0, Validators.required),
       sku: new FormControl('', Validators.required),
       options: this.formBuilder.array([]),
+      type: new FormControl('', Validators.required),
+      has_stock: new FormControl(),
+      bundle_checkout: new FormControl(),
+      bundle_products_ids: new FormControl(),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
   }
 
@@ -302,13 +306,13 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   changeValidation() {
-    if (this.componentForm.value.preorder) {
-      this.componentForm.get('preorder_price').setValidators([Validators.required]);
-      this.componentForm.get('preorder_price').updateValueAndValidity();
-    } else if (!this.componentForm.value.preorder) {
-      this.componentForm.get('preorder_price').clearValidators();
-      this.componentForm.get('preorder_price').updateValueAndValidity();
-    }
+    // if (this.componentForm.value.preorder) {
+    //   this.componentForm.get('preorder_price').setValidators([Validators.required]);
+    //   this.componentForm.get('preorder_price').updateValueAndValidity();
+    // } else if (!this.componentForm.value.preorder) {
+    //   this.componentForm.get('preorder_price').clearValidators();
+    //   this.componentForm.get('preorder_price').updateValueAndValidity();
+    // }
   }
 
   createVariantOption(item): FormGroup {
@@ -378,7 +382,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       preorder: product.preorder,
       product_variant_options: product.product_variant_options.map(item => item.id),
       sku: product.sku,
-      stock_alert: product.stock_alert
+      stock_alert: product.stock_alert,
+      type: product.type,
+      has_stock: product.has_stock,
+      bundle_checkout: product.bundle_checkout
     };
     return data;
   }
@@ -423,11 +430,12 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       name: product.name,
       name_ar: product.name_ar,
       options: product.options,
-      preorder_price: product.preorder_price,
+      // preorder_price: product.preorder_price,
       price: product.price,
       sku: product.sku + '_variant',
       stock: product.stock,
       weight: product.weight,
+      bundle_products_ids: product.bundle_products_ids,
     };
     return data;
   }
@@ -454,6 +462,16 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       this.spinner.show();
       this.createMainProduct();
     }
+  }
+
+  onTypeChanged() {
+    if (this.componentForm.value.type == 2) {
+      this.componentForm.get('bundle_products_ids').setValidators([Validators.required]);
+    } else {
+      this.componentForm.get('bundle_products_ids').clearValidators();
+    }
+
+    this.componentForm.get('bundle_products_ids').updateValueAndValidity();
   }
 
   markFormGroupTouched(formGroup: FormGroup) {

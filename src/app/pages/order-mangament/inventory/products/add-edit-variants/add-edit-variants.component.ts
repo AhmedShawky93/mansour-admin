@@ -8,6 +8,9 @@ import {OptionsService} from '@app/pages/services/options.service';
 import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
+import { Observable, Subject, concat, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-add-edit-variants',
@@ -27,6 +30,10 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   price: any;
   editorConfig: AngularEditorConfig;
 
+  products: any = [];
+  products$: Observable<any>;
+  productsInput$ = new Subject<String>();
+  productsLoading: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -86,13 +93,9 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
       description: new FormControl(data ? data.description : '', [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(250),
       ]),
       description_ar: new FormControl(data ? data.description_ar : '', [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(250),
       ]),
       long_description_en: new FormControl(data ? data.long_description_en : ''),
       long_description_ar: new FormControl(data ? data.long_description_ar : ''),
@@ -103,6 +106,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
       default_variant: new FormControl(data ? data.default_variant : 0),
+      bundle_products_ids: new FormControl(data ? data.bundleProducts.map(bp => bp.id) : []),
       stock: new FormControl(data ? data.stock : 0, Validators.required),
       preorder: new FormControl(data ? data.preorder : 0),
       preorder_price: new FormControl(data ? data.preorder_price : 0),
@@ -115,6 +119,37 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
+
+    let bundleProducts = [];
+    if (data && data.bundleProducts) {
+      bundleProducts = data.bundleProducts.map(bp => {
+        return {
+          id: bp.id,
+          name: bp.sku + ": " + bp.name
+        }
+      })
+    }
+    console.log("BP: ", bundleProducts);
+    this.products$ = concat(
+      of(bundleProducts), // default items
+      this.productsInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => this.productsLoading = true),
+        switchMap(term => this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
+          catchError(() => of([])), // empty list on error
+          tap(() => this.productsLoading = false),
+          map((response: any) => {
+            return response.data.products.map(p => {
+              return {
+                id: p.id,
+                name: p.sku + ": " + p.name
+              }
+            })
+          })
+        ))
+      )
+    );
   }
 
   setData(data) {

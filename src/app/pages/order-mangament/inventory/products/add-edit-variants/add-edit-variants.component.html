@@ -251,6 +251,13 @@
     </div>
 
     <div class="form-group">
+      <label>Bundle Products</label>
+      <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
+        bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name" formControlName="bundle_products_ids">
+      </ng-select>
+    </div>
+
+    <div class="form-group">
       <label>Weight</label>
       <input [min]="0" class="owl-input" formControlName="weight" maxlength="6"
              onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' placeholder="Weight"
