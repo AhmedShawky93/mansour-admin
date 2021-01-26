@@ -87,7 +87,7 @@ export class EditOfferComponent implements OnInit {
       this.promoService.getPromo(id).subscribe((response: any) => {
         this.promo = response.data;
         setTimeout(() => {
-          this.editForm.get('payment_methods').setValue(response.data.payment_methods.map(item => item.id) )
+          this.editForm.get('payment_methods').setValue(response.data.payment_methods.filter(item => item.active == '1').map(item => item.id) )
         },);
         this.changeTypePromo(this.promo.type)
 
@@ -136,8 +136,7 @@ export class EditOfferComponent implements OnInit {
     this.promoService.getPaymentMethods()
       .subscribe((rep) => {
         if (rep.code === 200) {
-          this.paymentMethods = rep.data;
-
+          this.paymentMethods = rep.data.filter(item => item.active == '1');
         }
       })
   }

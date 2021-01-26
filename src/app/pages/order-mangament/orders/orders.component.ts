@@ -1,3 +1,4 @@
+import { PromosService } from './../../services/promos.service';
 import { AreasService } from "@app/pages/services/areas.service";
 import { Router } from "@angular/router";
 import { OrderStatesService } from "./../../services/order-states.service";
@@ -146,6 +147,7 @@ export class OrdersComponent implements OnInit {
   cancelReasonError: boolean;
   toggleAddOrder: string = 'out';
   selectedOrder: any;
+  paymentMethods: any;
 
   constructor(
     private ordersService: OrdersService,
@@ -157,7 +159,9 @@ export class OrdersComponent implements OnInit {
     private _areaService: AreasService,
     private orderStatesService: OrderStatesService,
     private deliveryService: DeliveryService,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private promoService: PromosService,
+
   ) {
     this.titleService.setTitle("Orders");
   }
@@ -165,6 +169,7 @@ export class OrdersComponent implements OnInit {
   ngOnInit() {
     this.getCities();
     this.getOrderStates();
+    this.getPaymentMethods()
     this.ordersService.cancelReasons()
       .subscribe((response: any) => {
         this.cancelReasons = response.data.filter(item => item.user_type == 'admin')
@@ -307,6 +312,14 @@ export class OrdersComponent implements OnInit {
     );
   }
 
+  getPaymentMethods() {
+    this.promoService.getPaymentMethods()
+      .subscribe((rep) => {
+        if (rep.code === 200) {
+          this.paymentMethods = rep.data.filter(item => item.active == '1');
+        }
+      })
+  }
   ClearSearch() {
     this.filter = {
       term: "",

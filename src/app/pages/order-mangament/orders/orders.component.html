@@ -76,8 +76,7 @@
     <div class="col-md-4">
       <select name="" class="owl-input bg-white" [(ngModel)]="filter.payment_method">
         <option [value]="null">Select Payment Method </option>
-        <option [value]="1">Cash</option>
-        <option [value]="2">Credit card</option>
+        <option [value]="payment.id" *ngFor="let payment of paymentMethods">{{payment.name}}</option>
       </select>
     </div>
     <div class="col-md-4 col-sm-10">

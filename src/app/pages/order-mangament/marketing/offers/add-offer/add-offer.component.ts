@@ -48,7 +48,7 @@ export class AddOfferComponent implements OnInit {
     list_id: '',
     first_order: false,
   };
-  paymentMethods:any;
+  paymentMethods: any;
   newPromo;
   customers: any = [];
   customers$: Observable<any>;
@@ -63,7 +63,7 @@ export class AddOfferComponent implements OnInit {
     private router: Router,
     private uploadFile: UploadFilesService,
     private listsService: ListsService
-  ) {}
+  ) { }
 
   // add Promo
   addpromo(promo) {
@@ -169,12 +169,11 @@ export class AddOfferComponent implements OnInit {
     this.getPaymentMethods()
   }
 
-  getPaymentMethods(){
+  getPaymentMethods() {
     this.promoService.getPaymentMethods()
       .subscribe((rep) => {
-        if(rep.code === 200){
-          this.paymentMethods = rep.data;
-          console.log('this.paymentMethods ===>', this.paymentMethods)
+        if (rep.code === 200) {
+          this.paymentMethods = rep.data.filter(item => item.active == '1');
         }
       })
   }
