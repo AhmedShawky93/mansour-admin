@@ -180,6 +180,17 @@
         <input type="checkbox" formControlName="first_order" [(ngModel)]="promo.first_order">
         <span class="checkmark"></span>
       </label>
+      <div class="form-group" style="
+      overflow: visible;
+      height: auto;
+      width: auto;">
+        <label> Payment Methods </label>
+        <ng-select [closeOnSelect]="false"   [items]="paymentMethods" [multiple]="true"
+          formControlName="payment_methods" [(ngModel)]="promo.payment_methods"  bindLabel="name" bindValue="id" name="payment_method"
+          placeholder="Select Payment Methods">
+        </ng-select>
+
+      </div>
       <div class="form-group">
         <label for="charge">Description </label>
         <textarea name="" style="height: 150px;" class="owl-input" placeholder="type here.."

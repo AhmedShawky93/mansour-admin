@@ -63,7 +63,8 @@
         <p style="margin-bottom: 0px;">{{ state.state?.name }}</p>
         <p style="margin-top: 3px;" *ngIf="state.sub_state?.name">{{ state.sub_state?.name }}</p>
         <p style="margin-top: 3px;" *ngIf="state.user?.name">{{ state.user?.name }}</p>
-        <p style="margin-top: 3px;" *ngIf="order?.cancellation_reason">Cancellation reason : {{ order?.cancellation_reason.text }}</p>
+        <p style="margin-top: 3px;" *ngIf="order?.cancellation_reason">Cancellation reason : {{
+          order?.cancellation_reason.text }}</p>
         <p style="margin-top: 3px;" *ngIf="state?.status_notes">Note : {{ state?.status_notes }}</p>
         <span>{{ state.created_at | date: "yyyy-MM-dd hh:mm a" }}</span>
       </li>
@@ -276,6 +277,10 @@
       </div>
     </div>
     <div class="col-sm-12">
+      <div class="block-item">
+        <p> Order source</p>
+        <span>{{ order?.user_agent}}</span>
+      </div>
       <div class="block-item">
         <p>address</p>
 

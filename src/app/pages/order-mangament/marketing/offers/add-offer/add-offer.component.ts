@@ -48,7 +48,7 @@ export class AddOfferComponent implements OnInit {
     list_id: '',
     first_order: false,
   };
-
+  paymentMethods:any;
   newPromo;
   customers: any = [];
   customers$: Observable<any>;
@@ -156,6 +156,7 @@ export class AddOfferComponent implements OnInit {
       promotype: new FormControl("", Validators.required),
       amount: new FormControl("", Validators.required),
       max_amount: new FormControl(""),
+      payment_methods: new FormControl(""),
       date: new FormControl("", Validators.required),
       customers: new FormControl(),
       minimum_amount: new FormControl(""),
@@ -164,6 +165,18 @@ export class AddOfferComponent implements OnInit {
       list_id: new FormControl(''),
       target_type: new FormControl("null"),
     });
+
+    this.getPaymentMethods()
+  }
+
+  getPaymentMethods(){
+    this.promoService.getPaymentMethods()
+      .subscribe((rep) => {
+        if(rep.code === 200){
+          this.paymentMethods = rep.data;
+          console.log('this.paymentMethods ===>', this.paymentMethods)
+        }
+      })
   }
   typeCustmerSelect(event) {
     if (this.promo.target_type == "1") {

@@ -25,7 +25,7 @@
         <label for="charge">Select type Customers</label>
         <select name="" id="charge" class="owl-input" required name="target_type" formControlName="target_type"
           [(ngModel)]="promo.target_type" (change)="typeCustmerSelect($event)">
-          <option value="null"  selected>Select type Customers  </option>
+          <option value="null" selected>Select type Customers </option>
           <option value="1">Select Customers</option>
           <option value="2">Upload Customers</option>
         </select>
@@ -97,7 +97,7 @@
       </div>
 
       <div class="form-group">
-        <label for="charge">promocode type </label>
+        <label for="charge">Promocode type </label>
         <select name="" id="charge" class="owl-input" required name="promoCodeType" formControlName="promotype"
           [(ngModel)]="promo.type" (change)="changeTypePromo($event)">
           <option value="" disabled selected>Select PromoCode Type</option>
@@ -119,7 +119,7 @@
 
       <div class="form-group icon-le" *ngIf="promo.type === '1' ">
         <!--Start For Amount -->
-        <label for=""> amount </label>
+        <label for=""> Amount </label>
         <input type="number" class="owl-input" id="" placeholder="Type Amount" name="amount" [(ngModel)]="promo.amount"
           required [min]="1" formControlName="amount" [max]="10000">
         <!-- Start  Errors Rolues -->
@@ -127,7 +127,7 @@
           *ngIf="newPromo.controls.amount.invalid && (newPromo.controls.amount.dirty || newPromo.controls.amount.touched)"
           class="alert alert-danger">
           <div *ngIf="newPromo.controls.amount.errors.required">
-            amount Is Required.
+            Amount Is Required.
           </div>
           <div *ngIf="newPromo.controls.amount.errors.min">
             Minimum amount 1
@@ -141,7 +141,7 @@
       </div>
       <div class="form-group icon-per" *ngIf="promo.type === '2' ">
         <!--Start For max Amount -->
-        <label for="">percentage </label>
+        <label for="">Percentage </label>
         <input type="number" class="owl-input" id="" placeholder="Type percentage" name="amount"
           [(ngModel)]="promo.amount" required [min]="1" formControlName="amount" [max]="100">
         <!-- Start  Errors Rolues -->
@@ -149,13 +149,13 @@
           *ngIf="newPromo.controls.amount.invalid && (newPromo.controls.amount.dirty || newPromo.controls.amount.touched)"
           class="alert alert-danger">
           <div *ngIf="newPromo.controls.amount.errors.required">
-            percentage Is Required.
+            Percentage Is Required.
           </div>
           <div *ngIf="newPromo.controls.amount.errors.min">
             Minimum percentage 1%
           </div>
           <div *ngIf="newPromo.controls.amount.errors.max">
-            max percentage 100 %
+            Max percentage 100 %
           </div>
         </div>
         <!--END For max Amount -->
@@ -181,14 +181,15 @@
         <label for=""> Minimum order </label>
         <input type="number" class="owl-input" id="" placeholder="Minimum order" name="minimum_amount"
           [(ngModel)]="promo.minimum_amount" formControlName="minimum_amount" [max]="1000000">
-          <div
-            *ngIf="newPromo.controls.minimum_amount.invalid && (newPromo.controls.minimum_amount.dirty || newPromo.controls.minimum_amount.touched)"
-            class="alert alert-danger">
-            <div *ngIf="newPromo.controls.minimum_amount.errors.max">
-              Minimum Order Amount Must Be Less than 1000000
-            </div>
+        <div
+          *ngIf="newPromo.controls.minimum_amount.invalid && (newPromo.controls.minimum_amount.dirty || newPromo.controls.minimum_amount.touched)"
+          class="alert alert-danger">
+          <div *ngIf="newPromo.controls.minimum_amount.errors.max">
+            Minimum Order Amount Must Be Less than 1000000
           </div>
+        </div>
       </div>
+
       <!--END For Max Amount -->
       <label class="checkup">First order only
         <input type="checkbox" formControlName="first_order" [(ngModel)]="promo.first_order">
@@ -198,11 +199,21 @@
       <div class="form-group">
         <label for="charge">Apply to Custom List Only (optional)</label>
         <select formControlName="list_id" class="owl-input" [(ngModel)]="promo.list_id">
-          <option  [value]="''" selected>select list</option>
+          <option [value]="''" selected>select list</option>
           <option *ngFor="let list of lists" value="{{list.id}}">{{list.name_en}}</option>
         </select>
       </div>
+      <div class="form-group" style="
+      overflow: visible;
+      height: auto;
+      width: auto;">
+        <label> Payment Methods </label>
+        <ng-select [closeOnSelect]="false"   [items]="paymentMethods" [multiple]="true"
+          formControlName="payment_methods" [(ngModel)]="promo.payment_methods"  bindLabel="name" bindValue="id" name="payment_method"
+          placeholder="Select Payment Methods">
+        </ng-select>
 
+      </div>
       <div class="form-group">
         <label for="charge">Description </label>
         <textarea name="" style="height: 150px;" class="owl-input" placeholder="type here.." required

@@ -107,6 +107,15 @@
       </select>
       <!-- (change)="changePage(p)" -->
     </div>
+    <div class="col-md-4" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.user_agent">
+        <option value="">Select  Order source</option>
+        <option [value]="'web'" >Web</option>
+        <option [value]="'android'" >Android</option>
+        <option [value]="'ios'" >Ios</option>
+      </select>
+      <!-- (change)="changePage(p)" -->
+    </div>
     <!-- <div class="col-md-1 col-sm-1">
       <a class="clear-date" href="javascript:void(0)" (click)="clearDateFrom()"><i class="icon-Exit"></i></a>
     </div> -->
@@ -214,7 +223,7 @@
         <th>Payment Method </th>
         <th style="text-align: center;" scope="col"> status
         </th>
-        <th scope="col"> sub status </th>
+        <th scope="col">Order source</th>
 
         <th scope="col">actions</th>
         <th scope="col"></th>
@@ -249,7 +258,7 @@
           {{order?.state?.name}}
         </td>
         <td>
-          {{order.sub_state ? order.sub_state?.name : "-"}}
+          {{order.user_agent ? (order.user_agent | uppercase) : "-"}}
         </td>
         <td>
           <div class="dropdown">

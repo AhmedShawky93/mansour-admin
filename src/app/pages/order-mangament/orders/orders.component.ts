@@ -89,6 +89,7 @@ export class OrdersComponent implements OnInit {
     customer_email: "",
     customer_phone: "",
     payment_method: null,
+    user_agent:"",
 
   };
 
@@ -319,6 +320,7 @@ export class OrdersComponent implements OnInit {
       customer_name: "",
       customer_email: "",
       customer_phone: "",
+      user_agent:"",
       payment_method: null,
     };
     this.changePage(1)
