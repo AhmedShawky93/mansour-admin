@@ -428,13 +428,13 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   changeValidation() {
-    if (this.addProductForm.value.preorder) {
-      this.addProductForm.get('preorder_price').setValidators([Validators.required]);
-      this.addProductForm.get('preorder_price').updateValueAndValidity();
-    } else if (!this.addProductForm.value.preorder) {
-      this.addProductForm.get('preorder_price').clearValidators();
-      this.addProductForm.get('preorder_price').updateValueAndValidity();
-    }
+    // if (this.addProductForm.value.preorder) {
+    //   this.addProductForm.get('preorder_price').setValidators([Validators.required]);
+    //   this.addProductForm.get('preorder_price').updateValueAndValidity();
+    // } else if (!this.addProductForm.value.preorder) {
+    //   this.addProductForm.get('preorder_price').clearValidators();
+    //   this.addProductForm.get('preorder_price').updateValueAndValidity();
+    // }
   }
 
   getCategories() {

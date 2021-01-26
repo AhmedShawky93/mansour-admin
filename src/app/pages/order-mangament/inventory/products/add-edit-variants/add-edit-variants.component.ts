@@ -109,7 +109,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       bundle_products_ids: new FormControl(data ? data.bundleProducts.map(bp => bp.id) : []),
       stock: new FormControl(data ? data.stock : 0, Validators.required),
       preorder: new FormControl(data ? data.preorder : 0),
-      preorder_price: new FormControl(data ? data.preorder_price : 0),
+      // preorder_price: new FormControl(data ? data.preorder_price : 0),
       weight: new FormControl(data ? data.weight : 0, Validators.required),
       /*stock_alert: new FormControl(data ? data.stock_alert : ''),*/
       sku: new FormControl(data ? data.sku : '', Validators.required),
@@ -189,13 +189,13 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   }
 
   changeValidation() {
-    if (this.variantForm.value.preorder) {
-      this.variantForm.get('preorder_price').setValidators([Validators.required]);
-      this.variantForm.get('preorder_price').updateValueAndValidity();
-    } else if (!this.variantForm.value.preorder) {
-      this.variantForm.get('preorder_price').clearValidators();
-      this.variantForm.get('preorder_price').updateValueAndValidity();
-    }
+    // if (this.variantForm.value.preorder) {
+    //   this.variantForm.get('preorder_price').setValidators([Validators.required]);
+    //   this.variantForm.get('preorder_price').updateValueAndValidity();
+    // } else if (!this.variantForm.value.preorder) {
+    //   this.variantForm.get('preorder_price').clearValidators();
+    //   this.variantForm.get('preorder_price').updateValueAndValidity();
+    // }
   }
 
   createVariantOption(item): FormGroup {
