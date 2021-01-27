@@ -400,7 +400,7 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  removePickupId(id){
+  removePickupId(id) {
     this.countPickupOrder('remove', id)
 
   }
@@ -429,9 +429,6 @@ export class OrdersComponent implements OnInit {
       return;
     }
 
-    if (this.orderSelectedPickup.length) {
-
-    }
     if (this.orderSelectedPickup.length) {
       this.ordersBulk = this.orderSelectedPickup
     } else {
@@ -496,7 +493,7 @@ export class OrdersComponent implements OnInit {
       });
   }
   confirmPickupOrders() {
-    const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup'));
+    const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup')) ?  JSON.parse(localStorage.getItem('orderPickup')) : [];
     if (orderPickupIds.length) {
       this.orderStatusId = '8'
       this.state_id = '8'

@@ -202,7 +202,7 @@
 
 <div class="">
   <span class="count-pickup" (click)='confirmPickupOrders()'>
-    {{orderSelectedPickup.length}} Pickup
+    {{orderSelectedPickup?.length ?  orderSelectedPickup?.length : 0}} Pickup
   </span>
 </div>
 <div class="table-responsive">
