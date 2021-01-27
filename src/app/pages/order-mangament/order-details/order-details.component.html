@@ -7,9 +7,11 @@
     </div>
 
     <div class="col-md-9" *ngIf="order">
-      <button [routerLink]="['/pages/print-receipt', order.id]" class="float-right btn btn-owls btn-rounded btn-green">
-        print
-      </button>
+
+      <button [routerLink]="['/pages/print-receipt', order.id]" class="float-right btn btn-owls btn-rounded btn-green"
+        style="margin: 0px 10px;  "> print </button>
+      <button  (click)="addToPickup(order.id)" class="float-right btn btn-owls btn-rounded btn-green">
+        Add To Pickup </button>
     </div>
   </div>
 </div>

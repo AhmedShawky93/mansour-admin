@@ -333,4 +333,16 @@ export class OrderDetailsComponent implements OnInit {
       this.order.address = data.address;
     }
   }
+  addToPickup(id) {
+    const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup'));
+    const orderIndexPickup = orderPickupIds.findIndex(item => item == id);
+    if (orderIndexPickup == -1) {
+      orderPickupIds.push(id);
+      localStorage.setItem('orderPickup', JSON.stringify(orderPickupIds));
+      this.toastrService.success('Order Is Added');
+
+    } else {
+      this.toastrService.error('Order Is Already exists');
+    }
+  }
 }

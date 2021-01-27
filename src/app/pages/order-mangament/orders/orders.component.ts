@@ -90,7 +90,7 @@ export class OrdersComponent implements OnInit {
     customer_email: "",
     customer_phone: "",
     payment_method: null,
-    user_agent:"",
+    user_agent: "",
 
   };
 
@@ -148,6 +148,7 @@ export class OrdersComponent implements OnInit {
   toggleAddOrder: string = 'out';
   selectedOrder: any;
   paymentMethods: any;
+  orderSelectedPickup = [];
 
   constructor(
     private ordersService: OrdersService,
@@ -167,6 +168,7 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.orderSelectedPickup = JSON.parse(localStorage.getItem('orderPickup'));
     this.getCities();
     this.getOrderStates();
     this.getPaymentMethods()
@@ -246,7 +248,6 @@ export class OrdersComponent implements OnInit {
     //     this.orders = response.data.orders;
     //     this.total = response.data.total;
     //   });
-
     this.filter$
       .debounceTime(400)
       .pipe(
@@ -333,7 +334,7 @@ export class OrdersComponent implements OnInit {
       customer_name: "",
       customer_email: "",
       customer_phone: "",
-      user_agent:"",
+      user_agent: "",
       payment_method: null,
     };
     this.changePage(1)
@@ -373,13 +374,15 @@ export class OrdersComponent implements OnInit {
         this.orders.forEach((element) => {
           element.select = true;
           this.selectAllChecked = true;
-          console.log("selectAllChecked ==>", this.selectAllChecked);
+          this.countPickupOrder('add', element.id)
+
+
         });
       } else {
         this.orders.forEach((element) => {
           element.select = false;
           this.selectAllChecked = false;
-          console.log("selectAllChecked ==>", this.selectAllChecked);
+          this.countPickupOrder('remove', element.id)
         });
       }
     }
@@ -388,9 +391,31 @@ export class OrdersComponent implements OnInit {
   changeSelectBulk(order) {
     if (order.select) {
       order.select = false;
+      this.countPickupOrder('remove', order.id)
     } else {
       order.select = true;
+      this.countPickupOrder('add', order.id)
+
     }
+
+  }
+
+  removePickupId(id){
+    this.countPickupOrder('remove', id)
+
+  }
+  countPickupOrder(type, id) {
+    const orderIndexPickup = this.orderSelectedPickup.findIndex(item => item == id);
+    if (type == 'add') {
+      if (orderIndexPickup == -1) {
+        this.orderSelectedPickup.push(id);
+      }
+    } else {
+      if (orderIndexPickup !== -1) {
+        this.orderSelectedPickup.splice(orderIndexPickup, 1)
+      }
+    }
+    localStorage.setItem('orderPickup', JSON.stringify(this.orderSelectedPickup))
   }
 
   stateFormValid() {
@@ -404,14 +429,20 @@ export class OrdersComponent implements OnInit {
       return;
     }
 
+    if (this.orderSelectedPickup.length) {
 
-    this.ordersBulk = this.orders
-      .filter((element) => element.select)
-      .map((item) => item.id);
-    if (!this.ordersBulk.length) {
-      this.errorMessage = "Please select at least 1 order";
-      $("#errorPopup").modal("show");
-      return;
+    }
+    if (this.orderSelectedPickup.length) {
+      this.ordersBulk = this.orderSelectedPickup
+    } else {
+      this.ordersBulk = this.orders
+        .filter((element) => element.select)
+        .map((item) => item.id);
+      if (!this.ordersBulk.length) {
+        this.errorMessage = "Please select at least 1 order";
+        $("#errorPopup").modal("show");
+        return;
+      }
     }
 
     console.log(this.ordersBulk);
@@ -463,6 +494,16 @@ export class OrdersComponent implements OnInit {
 
         this.stateSubmitting = false
       });
+  }
+  confirmPickupOrders() {
+    const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup'));
+    if (orderPickupIds.length) {
+      this.orderStatusId = '8'
+      this.state_id = '8'
+      this.changeStausBulkInOrders()
+    } else {
+      this.toasterService.error('Please Select Orders First');
+    }
   }
   getOrderStates() {
     this.orderStatesService.getOrderEditableStatus().subscribe({
