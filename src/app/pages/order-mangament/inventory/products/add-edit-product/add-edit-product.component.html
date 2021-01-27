@@ -514,11 +514,68 @@
       <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
     </div>
 
-    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
-      <label class="container">Pre-Order
-        <input type="checkbox"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
-        <span class="checkmark"></span>
-      </label>
+    <div class="group-box mt-2">
+
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+        <label class="container">Pre-Order
+          <input type="checkbox"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+
+      <div *ngIf="addProductForm.get('preorder').value">
+        <div class="title">
+          Start Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="addProductForm"
+                                     [formControlChildName]="'preorder_start_date'"
+                                     [placeholder]="'Start Date'"
+            >
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator(addProductForm, 'preorder_start_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'start_time'"
+                                     [myForm]="addProductForm"
+                                     [placeholder]="'Pick Time'"
+            ></app-generic-time-picker>
+            <div *ngIf="formControlValidator(addProductForm, 'start_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+        <div class="title">
+          Expiration Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="addProductForm"
+                                     [formControlChildName]="'preorder_end_date'"
+                                     [placeholder]="'Expiration Date'"
+            >
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator(addProductForm, 'preorder_end_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+            <!-- <div *ngIf="formControlValidator('preorder_end_date','dateRang')" class="text-danger">
+              Expiration Date Must Be Greater Than Start Date
+            </div> -->
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'expiration_time'"
+                                     [myForm]="addProductForm"
+                                     [placeholder]="'Pick Time'"
+            ></app-generic-time-picker>
+            <div *ngIf="formControlValidator(addProductForm, 'expiration_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="form-group">

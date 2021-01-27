@@ -119,6 +119,10 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       optional_sub_category_id: new FormControl(data && data.optional_sub_category_id ? data.optional_sub_category_id : ''),
       /*stock: new FormControl(data ? data.stock : 0, Validators.required),*/
       preorder: new FormControl(data ? data.preorder : 0),
+      preorder_start_date: new FormControl((data && data.preorder_start_date) ? data.preorder_start_date.split(' ')[0] : '', []),
+      start_time: new FormControl((data && data.preorder_start_date) ? data.preorder_start_date.split(' ')[1] : '00:00:00', []),
+      preorder_end_date: new FormControl((data && data.preorder_end_date) ? data.preorder_end_date.split(' ')[0] : '', []),
+      expiration_time: new FormControl((data && data.preorder_end_date) ? data.preorder_end_date.split(' ')[1] : '00:00:00', []),
       /*preorder_price: new FormControl(data ? data.preorder_price : 0, Validators.required),*/
       sku: new FormControl(data ? data.sku : '', Validators.required),
       /*image: new FormControl(data ? data.image : '', Validators.required),
@@ -372,6 +376,22 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         delete item.optionValues;
         delete item.name_en;
       });
+      console.log(product);
+      if (product.preorder_end_date) {
+        product.preorder_end_date = moment(this.addProductForm.get('preorder_end_date').value).format('YYYY-MM-DD');
+        product.preorder_end_date = product.preorder_end_date + ' ' + this.addProductForm.get('expiration_time').value;
+        product.preorder_end_date = moment(product.preorder_end_date).format('YYYY-MM-DD HH:mm');
+      } else {
+        product.preorder_end_date = null;
+      }
+  
+      if (product.preorder_start_date) {
+        product.preorder_start_date = moment(this.addProductForm.get('preorder_start_date').value).format('YYYY-MM-DD');
+        product.preorder_start_date = product.preorder_start_date + ' ' + this.addProductForm.get('start_time').value;
+        product.preorder_start_date = moment(product.preorder_start_date).format('YYYY-MM-DD HH:mm');
+      } else {
+        product.preorder_start_date = null;
+      }
       this.submitting = true;
       this.productsService
         .updateProduct(this.selectProductDataEdit.id, product)
@@ -403,6 +423,22 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         delete item.optionValues;
         delete item.name_en;
       });
+
+      if (product.preorder_end_date) {
+        product.preorder_end_date = moment(this.addProductForm.get('preorder_end_date').value).format('YYYY-MM-DD');
+        product.preorder_end_date = product.preorder_end_date + ' ' + this.addProductForm.get('expiration_time').value;
+        product.preorder_end_date = moment(product.preorder_end_date).format('YYYY-MM-DD HH:mm');
+      } else {
+        product.preorder_end_date = null;
+      }
+  
+      if (product.preorder_start_date) {
+        product.preorder_start_date = moment(this.addProductForm.get('preorder_start_date').value).format('YYYY-MM-DD');
+        product.preorder_start_date = product.preorder_start_date + ' ' + this.addProductForm.get('start_time').value;
+        product.preorder_start_date = moment(product.preorder_start_date).format('YYYY-MM-DD HH:mm');
+      } else {
+        product.preorder_start_date = null;
+      }
 
       this.submitting = true;
 

@@ -97,6 +97,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       optional_category: new FormControl(''),
       optional_sub_category_id: new FormControl(''),
       preorder: new FormControl(0),
+      preorder_start_date: new FormControl('', []),
+      preorder_start_time: new FormControl('00:00:00', []),
+      preorder_end_date: new FormControl('', []),
+      preorder_expiration_time: new FormControl('00:00:00', []),
       max_per_order: new FormControl(''),
       min_days: new FormControl(''),
       stock_alert: new FormControl(''),
@@ -368,6 +372,22 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       delete item.name_en;
     });
 
+    if (product.preorder_end_date) {
+      product.preorder_end_date = moment(this.componentForm.get('preorder_end_date').value).format('YYYY-MM-DD');
+      product.preorder_end_date = product.preorder_end_date + ' ' + this.componentForm.get('preorder_expiration_time').value;
+      product.preorder_end_date = moment(product.preorder_end_date).format('YYYY-MM-DD HH:mm');
+    } else {
+      product.preorder_end_date = null;
+    }
+
+    if (product.preorder_start_date) {
+      product.preorder_start_date = moment(this.componentForm.get('preorder_start_date').value).format('YYYY-MM-DD');
+      product.preorder_start_date = product.preorder_start_date + ' ' + this.componentForm.get('preorder_start_time').value;
+      product.preorder_start_date = moment(product.preorder_start_date).format('YYYY-MM-DD HH:mm');
+    } else {
+      product.preorder_start_date = null;
+    }
+
     const data = {
       brand_id: product.brand_id,
       category_id: product.category_id,
@@ -385,7 +405,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       stock_alert: product.stock_alert,
       type: product.type,
       has_stock: product.has_stock,
-      bundle_checkout: product.bundle_checkout
+      bundle_checkout: product.bundle_checkout,
+      preorder_start_date: product.preorder_start_date,
+      preorder_end_date: product.preorder_end_date,
     };
     return data;
   }
