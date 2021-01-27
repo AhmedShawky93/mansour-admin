@@ -255,15 +255,71 @@
       <input class="owl-input" formControlName="order" placeholder="Type.." type="number">
     </div>
 
-    <div class="form-group my-4">
-      <label class="container">Pre-Order
-        <input (change)="changeValidation()" [value]="1" class="form-control checkbox-style" formControlName="preorder"
-               id="preorder" name="preorder" type="checkbox">
-        <span class="checkmark"></span>
-      </label>
+    <div class="group-box mt-2">
+
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+        <label class="container">Pre-Order
+          <input type="checkbox"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+
+      <div *ngIf="componentForm.get('preorder').value">
+        <div class="title">
+          Start Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="componentForm"
+                                     [formControlChildName]="'preorder_start_date'"
+                                     [placeholder]="'Start Date'"
+            >
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator('preorder_start_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'preorder_start_time'"
+                                     [myForm]="componentForm"
+                                     [placeholder]="'Pick Time'"
+            ></app-generic-time-picker>
+            <div *ngIf="formControlValidator('preorder_start_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+        <div class="title">
+          Expiration Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="componentForm"
+                                     [formControlChildName]="'preorder_end_date'"
+                                     [placeholder]="'Expiration Date'"
+            >
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator('preorder_end_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+            <!-- <div *ngIf="formControlValidator('preorder_end_date','dateRang')" class="text-danger">
+              Expiration Date Must Be Greater Than Start Date
+            </div> -->
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'preorder_expiration_time'"
+                                     [myForm]="componentForm"
+                                     [placeholder]="'Pick Time'"
+            ></app-generic-time-picker>
+            <div *ngIf="formControlValidator('preorder_expiration_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div *ngIf="componentForm.value.preorder" class="form-group">
+    <!-- <div *ngIf="componentForm.value.preorder" class="form-group">
       <label>Pre-order Pricing</label>
       <input class="owl-input"
              formControlName="preorder_price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
@@ -272,6 +328,53 @@
       </div>
       <div *ngIf="formControlValidator('preorder_price','pattern')" class="alert alert-danger">
         Invalid number format
+      </div>
+    </div> -->
+
+    <div class="form-group">
+      <label>Type</label>
+      <select class="owl-input" formControlName="type" name="type" (change)="onTypeChanged()">
+        <option value="" selected hidden>Select Product Type</option>
+        <option value="1">Regular Product</option>
+        <option value="2">Bundle Product</option>
+      </select>
+      <div *ngIf="componentForm.controls.type.invalid && (componentForm.controls.type.dirty || componentForm.controls.type.touched)"
+          class="alert alert-danger">
+        <div *ngIf="componentForm.controls.type.errors.required">
+          Please select a type
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="componentForm.value.type == 2">
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+        <label class="container">Has Own Stock
+          <input type="checkbox"  class="form-control checkbox-style" name="has_stock" id="has_stock" [value]="1" formControlName="has_stock">
+          <span class="checkmark"></span>
+        </label>
+        <p class="text-muted">Checking this optional will reduce stocks from this sku directly</p>
+      </div>
+  
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+        <label class="container">Bundled Checkout
+          <input type="checkbox"  class="form-control checkbox-style" name="bundle_checkout" id="bundle_checkout" [value]="1" formControlName="bundle_checkout">
+          <span class="checkmark"></span>
+        </label>
+        <p class="text-muted">Checking this optional will display only one product in the invoice</p>
+      </div>
+  
+      <div class="form-group">
+        <label>Bundle Products</label>
+        <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
+          bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name" formControlName="bundle_products_ids">
+        </ng-select>
+        <div *ngIf="componentForm.controls.bundle_products_ids.invalid && (componentForm.controls.bundle_products_ids.dirty || componentForm.controls.bundle_products_ids.touched)"
+          class="alert alert-danger">
+
+          <div *ngIf="componentForm.controls.bundle_products_ids.errors.required">
+            Please add bundle products
+          </div>
+        </div>
       </div>
     </div>
 
