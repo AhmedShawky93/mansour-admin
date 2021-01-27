@@ -247,8 +247,7 @@
 
       <div class="form-group">
         <label>Sub Category</label>
-        <select class="owl-input" formControlName="category_id" required name="subCategory"
-          (change)="selectSubCategoryOption($event.target.value)">
+        <select class="owl-input" formControlName="category_id" required name="subCategory">
           <option value="" selected hidden>Select Sub Category</option>
           <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
             <span *ngIf="cat.active == 0"> - Deactivate </span>

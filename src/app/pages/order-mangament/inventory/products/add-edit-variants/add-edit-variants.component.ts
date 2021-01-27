@@ -35,6 +35,11 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   productsInput$ = new Subject<String>();
   productsLoading: boolean;
 
+  attribute_options = [];
+  option_values: FormArray;
+  allOptions: Array<any> = [];
+  categories = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private uploadFile: UploadFilesService,
@@ -70,6 +75,8 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.getCategories();
+    this.getAllOptions();
   }
 
   ngOnChanges() {
@@ -118,7 +125,21 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
+      option_values: this.formBuilder.array([]),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
+
+    if (data) {
+      if (data.options.length) {
+        data.options.forEach((element) => {
+          element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
+          this.attribute_options.push(element.option);
+          this.addOptionsEdit(element);
+          console.log('element Option>>' , element);
+        });
+      }
+    } else {
+      
+    }
 
     let bundleProducts = [];
     if (data && data.bundleProducts) {
@@ -150,6 +171,32 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         ))
       )
     );
+  }
+
+  getCategories() {
+    this._CategoriesService.getCategories().subscribe((response: any) => {
+      if (response.code === 200) {
+        this.categories = response.data;
+        this.categories = this.categories.map((c) => {
+          c.selected = false;
+          return c;
+        });
+      }
+    });
+  }
+
+  getAllOptions() {
+    this.optionsService.getOptions({})
+      .subscribe(
+        res => {
+          if (res['code'] === 200) {
+            this.allOptions = res['data'];
+            console.log('allOptions', this.allOptions);
+          } else {
+            this.toasterService.error(res['message']);
+          }
+        }
+      );
   }
 
   setData(data) {
@@ -244,6 +291,53 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         this.options.push(this.createVariantOption(item));
       });
     }
+  }
+
+  selectSubCategoryOption(category_id, subcategory_id) {
+    
+    const index = this.categories.findIndex((item) => item.id === category_id);
+    if (index !== -1) {
+      let ind = this.categories[index].sub_categories.findIndex(c => c.id == subcategory_id);
+      if (ind !== -1) {
+        this.attribute_options = this.categories[index].sub_categories[ind].options;
+        console.log('This Options >>>>', this.options);
+        this.attribute_options.forEach((element) => {
+          this.addOptions(element);
+        });
+      }
+    }
+  }
+
+  addOptions(data): void {
+    this.option_values = this.variantForm.get('option_values') as FormArray;
+    this.option_values.push(this.createItemOptions(data));
+  }
+  createItemOptions(data): FormGroup {
+    return this.formBuilder.group({
+      type:  new FormControl( (data) ? data.type : ''),
+      option_id: new FormControl( (data) ? data.id : '') ,
+      name_en: new FormControl( (data) ? data.name_en : ''),
+      optionValues: new FormControl( (data) ? data.values : ''),
+      option_value_id: new FormControl(''),
+      input_en: new FormControl(''),
+      input_ar: new FormControl(''),
+    });
+  }
+
+  addOptionsEdit(data): void {
+    this.option_values = this.variantForm.get('option_values') as FormArray;
+    this.option_values.push(this.createItemOptionsEdit(data));
+  }
+  createItemOptionsEdit(data): FormGroup {
+    return this.formBuilder.group({
+      type:  new FormControl( (data) ? data.option.type : ''),
+      option_id: new FormControl( (data) ? data.option.id : ''),
+      name_en: new FormControl( (data) ? data.option.name_en : ''),
+      optionValues: new FormControl( (data) ? data.option.values : ''),
+      option_value_id: new FormControl( (data) ? data.value.id : ''),
+      input_en: new FormControl((data && data.value.input_en)  ? data.value.input_en : ''),
+      input_ar: new FormControl((data && data.value.input_ar) ? data.value.input_ar : ''),
+    });
   }
 
   addImage(data: any = null) {
