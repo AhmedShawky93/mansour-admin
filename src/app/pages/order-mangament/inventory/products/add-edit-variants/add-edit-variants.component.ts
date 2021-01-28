@@ -283,10 +283,12 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       const selectedOptions = this.selectVariant.product_variant_options.map(data => {
         return {option: data.option, selectedValue: data.values[0]};
       });
-
+      console.log(selectedOptions);
       this.parentProduct.product_variant_options.forEach(item => {
         const selected = selectedOptions.find(op => op.option.id === item.id);
-        item['selectedValue'] = selected.selectedValue;
+        if (selected) {
+          item['selectedValue'] = selected.selectedValue;
+        }
         this.options = this.variantForm.get('options') as FormArray;
         this.options.push(this.createVariantOption(item));
       });
