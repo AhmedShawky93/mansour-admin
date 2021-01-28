@@ -338,11 +338,11 @@
     <div class="col-md-4">
       <div class="block-item">
         <p>Payment Method</p>
-        <span *ngIf="order.payment_method == 1">Cash</span>
-        <span *ngIf="order.payment_method == 2">Accept</span>
-        <span *ngIf="order.payment_method == 3">ValU</span>
+        <span>{{order.payment_method_object.name}}</span>
+        <!-- <span *ngIf="order.payment_method == 2">Accept</span> -->
+        <!-- <span *ngIf="order.payment_method == 3">ValU</span> -->
         <!-- <span *ngIf="order.payment_method == 4">Miza</span> -->
-        <span *ngIf="order.payment_method == 5">Premium</span>
+        <!-- <span *ngIf="order.payment_method == 5">Premium</span> -->
       </div>
 
       <div class="block-item">

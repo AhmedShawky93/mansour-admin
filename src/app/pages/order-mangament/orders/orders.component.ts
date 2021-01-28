@@ -360,7 +360,7 @@ export class OrdersComponent implements OnInit {
       this.stateForm.get('pickup_time').setValidators([Validators.required]);
       this.stateForm.get('branch_id').setValidators([Validators.required]);
       this.stateForm.get('shipping_method').setValidators([Validators.required]);
-      // this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
+      this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
     } else if (this.orderStatusId == 6) {
       this.stateForm.get('status_notes').setValidators([Validators.required]);
       this.stateForm.get('cancellation_id').setValidators([Validators.required]);
@@ -480,25 +480,48 @@ export class OrdersComponent implements OnInit {
     data.state_id = +data.state_id;
     data.notify_customer = this.notifyUser;
     this.stateSubmitting = true
-    this.ordersService
-      .changeBulkChangeState(this.orderId, data)
-      .subscribe((response: any) => {
-        if (response.code === 200) {
-          this.status_notesText = '';
-          $("#confirmOrderStatus").modal("hide");
-          this.filter$.next(this.filter);
+    if (data.state_id == 8) { // new api shipment
+      this.ordersService
+        .createPickup(this.orderId, data)
+        .subscribe((response: any) => {
+          if (response.code === 200) {
+            this.status_notesText = '';
+            $("#confirmOrderStatus").modal("hide");
+            this.filter$.next(this.filter);
 
-          if (data.state_id == 8) {
-            this.orderSelectedPickup = []
-            localStorage.setItem('orderPickup', JSON.stringify(this.orderSelectedPickup))
+            if (data.state_id == 8) {
+              this.orderSelectedPickup = []
+              localStorage.setItem('orderPickup', JSON.stringify(this.orderSelectedPickup))
 
+            }
+          } else {
+            this.toasterService.error(response.message, "Error");
           }
-        } else {
-          this.toasterService.error(response.message, "Error");
-        }
 
-        this.stateSubmitting = false
-      });
+          this.stateSubmitting = false
+        });
+    } else {
+      this.ordersService
+        .changeBulkChangeState(this.orderId, data)
+        .subscribe((response: any) => {
+          if (response.code === 200) {
+            this.status_notesText = '';
+            $("#confirmOrderStatus").modal("hide");
+            this.filter$.next(this.filter);
+
+            if (data.state_id == 8) {
+              this.orderSelectedPickup = []
+              localStorage.setItem('orderPickup', JSON.stringify(this.orderSelectedPickup))
+
+            }
+          } else {
+            this.toasterService.error(response.message, "Error");
+          }
+
+          this.stateSubmitting = false
+        });
+    }
+
   }
   confirmPickupOrders() {
     const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup')) ? JSON.parse(localStorage.getItem('orderPickup')) : [];
