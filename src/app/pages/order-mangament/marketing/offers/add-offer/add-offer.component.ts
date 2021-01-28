@@ -113,6 +113,7 @@ export class AddOfferComponent implements OnInit {
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);
 
+
     // this.customerService.getCustomersSimple()
     //   .subscribe((respnose: any) => {
     //     this.customers = respnose.data;
