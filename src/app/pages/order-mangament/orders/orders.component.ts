@@ -360,7 +360,7 @@ export class OrdersComponent implements OnInit {
       this.stateForm.get('pickup_time').setValidators([Validators.required]);
       this.stateForm.get('branch_id').setValidators([Validators.required]);
       this.stateForm.get('shipping_method').setValidators([Validators.required]);
-      this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
+      // this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
     } else if (this.orderStatusId == 6) {
       this.stateForm.get('status_notes').setValidators([Validators.required]);
       this.stateForm.get('cancellation_id').setValidators([Validators.required]);
@@ -460,6 +460,8 @@ export class OrdersComponent implements OnInit {
     //   }
     // }
 
+
+
     console.log(this.stateForm.value)
     if (!this.stateForm.valid) {
       return this.markFormGroupTouched(this.stateForm);
@@ -485,6 +487,12 @@ export class OrdersComponent implements OnInit {
           this.status_notesText = '';
           $("#confirmOrderStatus").modal("hide");
           this.filter$.next(this.filter);
+
+          if (data.state_id == 8) {
+            this.orderSelectedPickup = []
+            localStorage.setItem('orderPickup', JSON.stringify(this.orderSelectedPickup))
+
+          }
         } else {
           this.toasterService.error(response.message, "Error");
         }
@@ -493,7 +501,7 @@ export class OrdersComponent implements OnInit {
       });
   }
   confirmPickupOrders() {
-    const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup')) ?  JSON.parse(localStorage.getItem('orderPickup')) : [];
+    const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup')) ? JSON.parse(localStorage.getItem('orderPickup')) : [];
     if (orderPickupIds.length) {
       this.orderStatusId = '8'
       this.state_id = '8'
