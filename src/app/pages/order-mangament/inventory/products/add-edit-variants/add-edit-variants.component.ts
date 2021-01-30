@@ -108,7 +108,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       long_description_ar: new FormControl(data ? data.long_description_ar : ''),
       meta_title: new FormControl(data ? data.meta_title : ''),
       meta_description: new FormControl(data ? data.meta_description : ''),
-      price: new FormControl(data ? data.price : '', Validators.required),
+      price: new FormControl(data ? data.price : '', this.parentProduct && this.parentProduct.available_soon ? [] : Validators.required),
       discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),

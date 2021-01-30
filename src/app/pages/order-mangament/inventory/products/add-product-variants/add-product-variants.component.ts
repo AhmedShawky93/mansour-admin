@@ -101,6 +101,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       preorder_start_time: new FormControl('00:00:00', []),
       preorder_end_date: new FormControl('', []),
       preorder_expiration_time: new FormControl('00:00:00', []),
+      available_soon: new FormControl(),
       max_per_order: new FormControl(''),
       min_days: new FormControl(''),
       stock_alert: new FormControl(''),
@@ -400,6 +401,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       optional_sub_category_id: product.optional_sub_category_id,
       order: product.order,
       preorder: product.preorder,
+      available_soon: product.available_soon,
       product_variant_options: product.product_variant_options.map(item => item.id),
       sku: product.sku,
       stock_alert: product.stock_alert,
@@ -495,6 +497,16 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     }
 
     this.componentForm.get('bundle_products_ids').updateValueAndValidity();
+  }
+
+  onAvailableChange() {
+    if (this.componentForm.value.available_soon) {
+      this.componentForm.get('price').setValidators([Validators.required]);
+    } else {
+      this.componentForm.get('price').clearValidators();
+    }
+
+    this.componentForm.get('price').updateValueAndValidity();
   }
 
   markFormGroupTouched(formGroup: FormGroup) {

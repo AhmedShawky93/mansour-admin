@@ -134,7 +134,7 @@
     <div class="form-group">
       <label> Pricing</label>
       <input [(ngModel)]="price" [max]="1000000" [min]="1" class="owl-input"
-             formControlName="price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." required type="number">
+             formControlName="price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
       <div *ngIf="formControlValidator('price','required')" class="alert alert-danger">
         Pricing is required.
       </div>
@@ -292,7 +292,7 @@
       </div>
     </div> -->
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="parentProduct?.type == 2">
       <label>Bundle Products</label>
       <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
         bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name" formControlName="bundle_products_ids">

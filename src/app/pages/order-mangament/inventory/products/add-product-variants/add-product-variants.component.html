@@ -319,6 +319,14 @@
       </div>
     </div>
 
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+      <label class="container">Available Soon
+        <input type="checkbox"  class="form-control checkbox-style" name="available_soon" id="available_soon" [value]="1" formControlName="available_soon" (change)="onAvailableChange()">
+        <span class="checkmark"></span>
+      </label>
+      <p class="text-muted">Checking this optional will make product viewable only and cannot be purchased</p>
+    </div>
+
     <!-- <div *ngIf="componentForm.value.preorder" class="form-group">
       <label>Pre-order Pricing</label>
       <input class="owl-input"
