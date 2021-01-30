@@ -247,8 +247,7 @@
 
       <div class="form-group">
         <label>Sub Category</label>
-        <select class="owl-input" formControlName="category_id" required name="subCategory"
-          (change)="selectSubCategoryOption($event.target.value)">
+        <select class="owl-input" formControlName="category_id" required name="subCategory">
           <option value="" selected hidden>Select Sub Category</option>
           <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
             <span *ngIf="cat.active == 0"> - Deactivate </span>
@@ -514,11 +513,103 @@
       <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
     </div>
 
+    <div class="group-box mt-2">
+
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+        <label class="container">Pre-Order
+          <input type="checkbox"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+
+      <div *ngIf="addProductForm.get('preorder').value">
+        <div class="title">
+          Start Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="addProductForm"
+                                     [formControlChildName]="'preorder_start_date'"
+                                     [placeholder]="'Start Date'"
+            >
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator(addProductForm, 'preorder_start_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'start_time'"
+                                     [myForm]="addProductForm"
+                                     [placeholder]="'Pick Time'"
+            ></app-generic-time-picker>
+            <div *ngIf="formControlValidator(addProductForm, 'start_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+        <div class="title">
+          Expiration Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="addProductForm"
+                                     [formControlChildName]="'preorder_end_date'"
+                                     [placeholder]="'Expiration Date'"
+            >
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator(addProductForm, 'preorder_end_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+            <!-- <div *ngIf="formControlValidator('preorder_end_date','dateRang')" class="text-danger">
+              Expiration Date Must Be Greater Than Start Date
+            </div> -->
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'expiration_time'"
+                                     [myForm]="addProductForm"
+                                     [placeholder]="'Pick Time'"
+            ></app-generic-time-picker>
+            <div *ngIf="formControlValidator(addProductForm, 'expiration_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
-      <label class="container">Pre-Order
-        <input type="checkbox"  class="form-control checkbox-style" name="preorder" id="preorder" [value]="1" formControlName="preorder">
+      <label class="container">Available Soon
+        <input type="checkbox"  class="form-control checkbox-style" name="available_soon" id="available_soon" [value]="1" formControlName="available_soon">
         <span class="checkmark"></span>
       </label>
+      <p class="text-muted">Checking this optional will make product viewable only and cannot be purchased</p>
+    </div>
+
+    <div class="form-group">
+      <label>Type</label>
+      <select class="owl-input" formControlName="type" name="type">
+        <option value="" selected hidden>Select Product Type</option>
+        <option value="1">Regular Product</option>
+        <option value="2">Bundle Product</option>
+      </select>
+    </div>
+
+    <div *ngIf="addProductForm.value.type == 2">
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+        <label class="container">Has Own Stock
+          <input type="checkbox"  class="form-control checkbox-style" name="has_stock" id="has_stock" [value]="1" formControlName="has_stock">
+          <span class="checkmark"></span>
+        </label>
+        <p class="text-muted">Checking this optional will reduce stocks from this sku directly</p>
+      </div>
+  
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+        <label class="container">Bundled Checkout
+          <input type="checkbox"  class="form-control checkbox-style" name="bundle_checkout" id="bundle_checkout" [value]="1" formControlName="bundle_checkout">
+          <span class="checkmark"></span>
+        </label>
+        <p class="text-muted">Checking this optional will display only one product in the invoice</p>
+      </div>
     </div>
 
     <!--<div *ngIf="addProductForm.value.preorder" class="form-group">
@@ -533,6 +624,12 @@
       </div>
     </div>-->
 
+    <div class="form-group">
+      <label>Related Products</label>
+      <ng-select [typeahead]="relatedProductsInput$" [loading]="relatedProductsLoading" name="relatedProducts" [items]="relatedProducts$ | async"
+        bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name" formControlName="related_ids">
+      </ng-select>
+    </div>
 
     <div class="form-group">
       <label>Max Quantity Per Order</label>

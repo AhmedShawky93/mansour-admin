@@ -32,6 +32,7 @@ export class AddEditCustomerComponent implements OnInit {
       email: new FormControl(data ? data.email : '', [Validators.required, Validators.email]),
       phone: new FormControl(data ? data.phone : '', Validators.required),
       password: new FormControl('', this.selectedCustomer ? [] : Validators.required),
+      closed_payment_methods: new FormControl(data ? data.closed_payment_methods.map(c => c.id) : []),
     });
   }
 
