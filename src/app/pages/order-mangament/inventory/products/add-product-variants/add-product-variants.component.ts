@@ -414,7 +414,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       optional_sub_category_id: product.optional_sub_category_id,
       order: product.order,
       preorder: product.preorder,
-      available_soon: product.available_soon,
+      available_soon: !!product.available_soon,
       product_variant_options: product.product_variant_options.map(item => item.id),
       sku: product.sku,
       stock_alert: product.stock_alert,

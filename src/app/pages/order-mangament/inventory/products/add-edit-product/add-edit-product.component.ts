@@ -433,6 +433,9 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       } else {
         product.preorder_start_date = null;
       }
+
+      product.available_soon = !!product.available_soon;
+      
       this.submitting = true;
       this.productsService
         .updateProduct(this.selectProductDataEdit.id, product)
@@ -480,6 +483,8 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       } else {
         product.preorder_start_date = null;
       }
+
+      product.available_soon = !!product.available_soon;
 
       this.submitting = true;
 
