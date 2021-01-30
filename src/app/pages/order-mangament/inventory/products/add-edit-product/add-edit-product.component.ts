@@ -8,6 +8,8 @@ import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {OptionsService} from '@app/pages/services/options.service';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
+import { Observable, Subject, concat, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -38,6 +40,11 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   price: number;
   allOptions: Array<any> = [];
   editorConfig: AngularEditorConfig;
+
+  relatedProducts: any = [];
+  relatedProducts$: Observable<any>;
+  relatedProductsInput$ = new Subject<String>();
+  relatedProductsLoading: boolean;
 
 
   constructor(
@@ -135,6 +142,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       type: new FormControl(data ? data.type : '', Validators.required),
       has_stock: new FormControl(data ? data.has_stock : ''),
       bundle_checkout: new FormControl(data ? data.bundle_checkout : ''),
+      related_ids: new FormControl(data ? data.relatedProducts.map(rp => rp.id) : ''),
       option_values: this.formBuilder.array([]),
       /*discount_start_date: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[0] : '', []),
       start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
@@ -168,6 +176,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
       }
 
+      
       /*if (data.image) {
         console.log('clearValidators');
         this.addProductForm.get('image').clearValidators();
@@ -177,6 +186,37 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       }*/
 
     }
+
+    let relatedProducts = [];
+    if (data && data.relatedProducts) {
+      relatedProducts = data.relatedProducts.map(bp => {
+        return {
+          id: bp.id,
+          name: bp.sku + ": " + bp.name
+        }
+      })
+    }
+    console.log("RP: ", relatedProducts);
+    this.relatedProducts$ = concat(
+      of(relatedProducts), // default items
+      this.relatedProductsInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => this.relatedProductsLoading = true),
+        switchMap(term => this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
+          catchError(() => of([])), // empty list on error
+          tap(() => this.relatedProductsLoading = false),
+          map((response: any) => {
+            return response.data.products.map(p => {
+              return {
+                id: p.id,
+                name: p.sku + ": " + p.name
+              }
+            })
+          })
+        ))
+      )
+    );
   }
 
   getAllOptions() {

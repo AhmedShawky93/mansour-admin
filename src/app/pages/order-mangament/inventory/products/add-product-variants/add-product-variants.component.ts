@@ -9,6 +9,8 @@ import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
+import { Observable, Subject, concat, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-product-variants',
@@ -38,6 +40,16 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   selectedVariantsOptions: Array<any>;
   mainProduct: any;
   editorConfig: AngularEditorConfig;
+
+  relatedProducts: any = [];
+  relatedProducts$: Observable<any>;
+  relatedProductsInput$ = new Subject<String>();
+  relatedProductsLoading: boolean;
+
+  products: any = [];
+  products$: Observable<any>;
+  productsInput$ = new Subject<String>();
+  productsLoading: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -146,6 +158,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       has_stock: new FormControl(),
       bundle_checkout: new FormControl(),
       bundle_products_ids: new FormControl(),
+      related_ids: new FormControl(),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
   }
 

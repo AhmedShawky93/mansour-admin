@@ -401,6 +401,13 @@
     </div>
 
     <div class="form-group">
+      <label>Related Products</label>
+      <ng-select [typeahead]="relatedProductsInput$" [loading]="relatedProductsLoading" name="relatedProducts" [items]="relatedProducts$ | async"
+        bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name" formControlName="related_ids">
+      </ng-select>
+    </div>
+
+    <div class="form-group">
       <label>Minimum Quantity Days</label>
       <input (change)="onQuantityFieldsChange()" class="owl-input" formControlName="min_days" placeholder="Type.."
              type="number">
