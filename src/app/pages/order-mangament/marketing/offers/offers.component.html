@@ -148,6 +148,11 @@
       <h5>description</h5>
       <p>{{viewPromo.description}}</p>
     </div>
+    <div>
+      <h5>Payment Methods</h5>
+      <p *ngFor="let paymentMethod of viewPromo.payment_methods"
+      style="margin-bottom: 0px;">{{paymentMethod.name}} {{paymentMethod.active ? '': '- Deactivate '}}</p>
+    </div>
 
 
   </div>

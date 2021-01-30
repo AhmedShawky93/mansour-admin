@@ -1,3 +1,4 @@
+import { PromosService } from './../../services/promos.service';
 import { AreasService } from "@app/pages/services/areas.service";
 import { Router } from "@angular/router";
 import { OrderStatesService } from "./../../services/order-states.service";
@@ -89,6 +90,7 @@ export class OrdersComponent implements OnInit {
     customer_email: "",
     customer_phone: "",
     payment_method: null,
+    user_agent: "",
 
   };
 
@@ -145,6 +147,10 @@ export class OrdersComponent implements OnInit {
   cancelReasonError: boolean;
   toggleAddOrder: string = 'out';
   selectedOrder: any;
+  paymentMethods: any;
+  orderSelectedPickup = [];
+  enableSubmitPickupOrder: boolean;
+  today: Date;
 
   constructor(
     private ordersService: OrdersService,
@@ -156,14 +162,20 @@ export class OrdersComponent implements OnInit {
     private _areaService: AreasService,
     private orderStatesService: OrderStatesService,
     private deliveryService: DeliveryService,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private promoService: PromosService,
+
   ) {
     this.titleService.setTitle("Orders");
   }
 
   ngOnInit() {
+    this.today = new Date();
+    this.today.setDate(this.today.getDate() - 1);
+    this.orderSelectedPickup = JSON.parse(localStorage.getItem('orderPickup'));
     this.getCities();
     this.getOrderStates();
+    this.getPaymentMethods()
     this.ordersService.cancelReasons()
       .subscribe((response: any) => {
         this.cancelReasons = response.data.filter(item => item.user_type == 'admin')
@@ -240,7 +252,6 @@ export class OrdersComponent implements OnInit {
     //     this.orders = response.data.orders;
     //     this.total = response.data.total;
     //   });
-
     this.filter$
       .debounceTime(400)
       .pipe(
@@ -306,6 +317,14 @@ export class OrdersComponent implements OnInit {
     );
   }
 
+  getPaymentMethods() {
+    this.promoService.getPaymentMethods()
+      .subscribe((rep) => {
+        if (rep.code === 200) {
+          this.paymentMethods = rep.data.filter(item => item.active == '1');
+        }
+      })
+  }
   ClearSearch() {
     this.filter = {
       term: "",
@@ -319,6 +338,7 @@ export class OrdersComponent implements OnInit {
       customer_name: "",
       customer_email: "",
       customer_phone: "",
+      user_agent: "",
       payment_method: null,
     };
     this.changePage(1)
@@ -358,13 +378,15 @@ export class OrdersComponent implements OnInit {
         this.orders.forEach((element) => {
           element.select = true;
           this.selectAllChecked = true;
-          console.log("selectAllChecked ==>", this.selectAllChecked);
+          // this.countPickupOrder('add', element.id)
+
+
         });
       } else {
         this.orders.forEach((element) => {
           element.select = false;
           this.selectAllChecked = false;
-          console.log("selectAllChecked ==>", this.selectAllChecked);
+          // this.countPickupOrder('remove', element.id)
         });
       }
     }
@@ -373,9 +395,18 @@ export class OrdersComponent implements OnInit {
   changeSelectBulk(order) {
     if (order.select) {
       order.select = false;
+      // this.countPickupOrder('remove', order.id)
     } else {
       order.select = true;
+      // this.countPickupOrder('add', order.id)
+
     }
+
+  }
+
+  removePickupId(id) {
+    this.countPickupOrder('remove', id)
+
   }
 
   stateFormValid() {
@@ -383,13 +414,16 @@ export class OrdersComponent implements OnInit {
   }
 
   changeStausBulkInOrders() {
+    this.enableSubmitPickupOrder = false;
     if (!this.stateFormValid()) {
       this.errorMessage = "Please select a status";
       $("#errorPopup").modal("show");
       return;
     }
 
-
+    // if (this.orderSelectedPickup.length) {
+    //   this.ordersBulk = this.orderSelectedPickup
+    // } else {
     this.ordersBulk = this.orders
       .filter((element) => element.select)
       .map((item) => item.id);
@@ -398,10 +432,89 @@ export class OrdersComponent implements OnInit {
       $("#errorPopup").modal("show");
       return;
     }
+    // }
 
     console.log(this.ordersBulk);
     this.setupStateForm();
     $("#confirmOrderStatus").modal("show");
+  }
+
+  changePickupInOrders() {
+    this.enableSubmitPickupOrder = false;
+    if (!this.stateFormValid()) {
+      this.errorMessage = "Please select a status";
+      $("#errorPopup").modal("show");
+      return;
+    }
+
+    if (this.orderSelectedPickup.length) {
+      this.ordersBulk = this.orderSelectedPickup
+    } else {
+      this.ordersBulk = this.orders
+        .filter((element) => element.select)
+        .map((item) => item.id);
+      if (!this.ordersBulk.length) {
+        this.errorMessage = "Please select at least 1 order";
+        $("#errorPopup").modal("show");
+        return;
+      }
+    }
+
+    console.log(this.ordersBulk);
+    this.setupStateForm();
+    $("#confirmOrderPickup").modal("show");
+  }
+
+  confirmPickup(notifyUser) {
+    console.log(this.stateForm.value)
+    if (!this.stateForm.valid) {
+      return this.markFormGroupTouched(this.stateForm);
+    }
+    let data = this.stateForm.value;
+    data.pickup_date = moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
+    data.shipping_method = +data.shipping_method;
+    data.state_id = +data.state_id;
+    data.notify_customer = this.notifyUser;
+    this.stateSubmitting = true
+    this.ordersService
+      .createPickup(this.orderId, data)
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          this.status_notesText = '';
+          $("#confirmOrderPickup").modal("hide");
+          this.filter$.next(this.filter);
+          this.orderSelectedPickup = []
+          localStorage.setItem('orderPickup', JSON.stringify(this.orderSelectedPickup))
+        } else {
+          this.toasterService.error(response.message, "Error");
+        }
+        this.stateSubmitting = false
+      });
+  }
+
+  confirmPickupOrders() {
+    this.enableSubmitPickupOrder = true;
+    const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup')) ? JSON.parse(localStorage.getItem('orderPickup')) : [];
+    if (orderPickupIds.length) {
+      this.orderStatusId = '8'
+      this.state_id = '8'
+      this.changePickupInOrders()
+    } else {
+      this.toasterService.error('Please Select Orders First');
+    }
+  }
+  countPickupOrder(type, id) {
+    const orderIndexPickup = this.orderSelectedPickup.findIndex(item => item == id);
+    if (type == 'add') {
+      if (orderIndexPickup == -1) {
+        this.orderSelectedPickup.push(id);
+      }
+    } else {
+      if (orderIndexPickup !== -1) {
+        this.orderSelectedPickup.splice(orderIndexPickup, 1)
+      }
+    }
+    localStorage.setItem('orderPickup', JSON.stringify(this.orderSelectedPickup))
   }
 
   confirmChangeStatus(notifyUser) {
@@ -417,6 +530,14 @@ export class OrdersComponent implements OnInit {
     //   }
     // }
 
+
+    if (this.stateForm.get('shipping_method').value !== '3') {
+      this.stateForm.get('aramex_account_number').setValidators([]);
+      this.stateForm.get('aramex_account_number').updateValueAndValidity()
+    }else {
+      this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
+      this.stateForm.get('aramex_account_number').updateValueAndValidity()
+    }
     console.log(this.stateForm.value)
     if (!this.stateForm.valid) {
       return this.markFormGroupTouched(this.stateForm);
@@ -442,13 +563,17 @@ export class OrdersComponent implements OnInit {
           this.status_notesText = '';
           $("#confirmOrderStatus").modal("hide");
           this.filter$.next(this.filter);
+
         } else {
           this.toasterService.error(response.message, "Error");
         }
 
         this.stateSubmitting = false
       });
+
+
   }
+
   getOrderStates() {
     this.orderStatesService.getOrderEditableStatus().subscribe({
       next: (response: any) => {

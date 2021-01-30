@@ -44,6 +44,7 @@ export class EditOfferComponent implements OnInit {
   customersLoading: boolean;
   selectFile: File;
   lists: any;
+  paymentMethods: any;
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
@@ -53,7 +54,7 @@ export class EditOfferComponent implements OnInit {
     private toastrService: ToastrService,
     private uploadFile: UploadFilesService,
     private listsService: ListsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.editForm = this._formBuilder.group({
@@ -70,8 +71,9 @@ export class EditOfferComponent implements OnInit {
       first_order: new FormControl(false),
       list_id: new FormControl(''),
       target_type: new FormControl("null"),
+      payment_methods:new FormControl(''),
     });
-
+    this.getPaymentMethods()
     this.listsService.getLists({})
       .subscribe((response: any) => {
         this.lists = response.data;
@@ -84,7 +86,9 @@ export class EditOfferComponent implements OnInit {
       let id = params["id"];
       this.promoService.getPromo(id).subscribe((response: any) => {
         this.promo = response.data;
-
+        setTimeout(() => {
+          this.editForm.get('payment_methods').setValue(response.data.payment_methods.filter(item => item.active == '1').map(item => item.id) )
+        },);
         this.changeTypePromo(this.promo.type)
 
         this.customers$ = concat(
@@ -128,6 +132,14 @@ export class EditOfferComponent implements OnInit {
     });
   }
 
+  getPaymentMethods() {
+    this.promoService.getPaymentMethods()
+      .subscribe((rep) => {
+        if (rep.code === 200) {
+          this.paymentMethods = rep.data.filter(item => item.active == '1');
+        }
+      })
+  }
   updatePromo(promo) {
 
     if (!this.editForm.valid) {

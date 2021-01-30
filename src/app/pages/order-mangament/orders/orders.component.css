@@ -543,3 +543,33 @@ table .checkmark {
 }
 
 
+.count-pickup {
+  min-width: 150px;
+  display: inline-block;
+  height: 40px;
+  border: 1px solid #eb1c24;
+  border-radius: 5px;
+  line-height: 37px;
+  padding: 0 10px;
+  margin-bottom: 20px;
+  background: #eee;
+  color: #eb1c24;
+  cursor: pointer;
+  text-align: center;
+}
+.pickup-ids
+{
+  padding: 24px 24px 0;
+  border-bottom: 0;
+}
+.pickup-ids .pickup-id {
+  min-width: 70px;
+  display: inline-block;
+  height: 30px;
+  line-height: 31px;
+  background: #eee;
+  border-radius: 7px;
+  padding: 0 5px;
+  margin: 0px 6px 6px 0px;
+
+}

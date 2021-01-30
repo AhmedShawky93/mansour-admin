@@ -7,9 +7,11 @@
     </div>
 
     <div class="col-md-9" *ngIf="order">
-      <button [routerLink]="['/pages/print-receipt', order.id]" class="float-right btn btn-owls btn-rounded btn-green">
-        print
-      </button>
+
+      <button [routerLink]="['/pages/print-receipt', order.id]" class="float-right btn btn-owls btn-rounded btn-green"
+        style="margin: 0px 10px;  "> print </button>
+      <button  (click)="addToPickup(order.id)" class="float-right btn btn-owls btn-rounded btn-green">
+        Add To Pickup </button>
     </div>
   </div>
 </div>
@@ -63,7 +65,8 @@
         <p style="margin-bottom: 0px;">{{ state.state?.name }}</p>
         <p style="margin-top: 3px;" *ngIf="state.sub_state?.name">{{ state.sub_state?.name }}</p>
         <p style="margin-top: 3px;" *ngIf="state.user?.name">{{ state.user?.name }}</p>
-        <p style="margin-top: 3px;" *ngIf="order?.cancellation_reason">Cancellation reason : {{ order?.cancellation_reason.text }}</p>
+        <p style="margin-top: 3px;" *ngIf="order?.cancellation_reason">Cancellation reason : {{
+          order?.cancellation_reason.text }}</p>
         <p style="margin-top: 3px;" *ngIf="state?.status_notes">Note : {{ state?.status_notes }}</p>
         <span>{{ state.created_at | date: "yyyy-MM-dd hh:mm a" }}</span>
       </li>
@@ -277,6 +280,10 @@
     </div>
     <div class="col-sm-12">
       <div class="block-item">
+        <p> Order source</p>
+        <span>{{ order?.user_agent}}</span>
+      </div>
+      <div class="block-item">
         <p>address</p>
 
         <span>{{ order?.address?.formatted_address }}
@@ -331,11 +338,11 @@
     <div class="col-md-4">
       <div class="block-item">
         <p>Payment Method</p>
-        <span *ngIf="order.payment_method == 1">Cash</span>
-        <span *ngIf="order.payment_method == 2">Accept</span>
-        <span *ngIf="order.payment_method == 3">ValU</span>
+        <span>{{order.payment_method_object.name}}</span>
+        <!-- <span *ngIf="order.payment_method == 2">Accept</span> -->
+        <!-- <span *ngIf="order.payment_method == 3">ValU</span> -->
         <!-- <span *ngIf="order.payment_method == 4">Miza</span> -->
-        <span *ngIf="order.payment_method == 5">Premium</span>
+        <!-- <span *ngIf="order.payment_method == 5">Premium</span> -->
       </div>
 
       <div class="block-item">
