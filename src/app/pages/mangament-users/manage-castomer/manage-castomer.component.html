@@ -41,25 +41,39 @@
         <option value="1">Active</option>
         <option value="2">InActive</option>
       </select>
+    </div> -->
+    
+    <div class="col-md-3  col-xs-6 ">
+      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
+        (click)="searchInCustomers()">Search</button>
     </div>
+
     <div class="col-md-3" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.city_ids" (ngModelChange)="selectCity($event)">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.city_id" (ngModelChange)="selectCity($event)">
         <option value="">Select City</option>
         <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
       </select>
     </div>
 
     <div class="col-md-3" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.area_ids" (ngModelChange)="selectArea($event)">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.area_id" (ngModelChange)="selectArea($event)">
         <option value="">Select Area </option>
         <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
       </select>
-    </div> -->
-
-    <div class="col-md-3  col-xs-6 ">
-      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
-        (click)="searchInCustomers()">Search</button>
     </div>
+
+    <div class="col-md-3">
+      <div class="left-search">
+        <input type="number" class="owl-input owls-search" placeholder="Orders From" [(ngModel)]="filter.no_orders_from" (change)="changePage(1)">
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="left-search">
+        <input type="number" class="owl-input owls-search" placeholder="Orders To" [(ngModel)]="filter.no_orders_to" (change)="changePage(1)">
+      </div>
+    </div>
+    
 
   </div>
   <div class="row">
