@@ -48,7 +48,7 @@ export class AddOfferComponent implements OnInit {
     list_id: '',
     first_order: false,
   };
-
+  paymentMethods: any;
   newPromo;
   customers: any = [];
   customers$: Observable<any>;
@@ -63,7 +63,7 @@ export class AddOfferComponent implements OnInit {
     private router: Router,
     private uploadFile: UploadFilesService,
     private listsService: ListsService
-  ) {}
+  ) { }
 
   // add Promo
   addpromo(promo) {
@@ -113,6 +113,7 @@ export class AddOfferComponent implements OnInit {
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);
 
+
     // this.customerService.getCustomersSimple()
     //   .subscribe((respnose: any) => {
     //     this.customers = respnose.data;
@@ -156,6 +157,7 @@ export class AddOfferComponent implements OnInit {
       promotype: new FormControl("", Validators.required),
       amount: new FormControl("", Validators.required),
       max_amount: new FormControl(""),
+      payment_methods: new FormControl(""),
       date: new FormControl("", Validators.required),
       customers: new FormControl(),
       minimum_amount: new FormControl(""),
@@ -164,6 +166,17 @@ export class AddOfferComponent implements OnInit {
       list_id: new FormControl(''),
       target_type: new FormControl("null"),
     });
+
+    this.getPaymentMethods()
+  }
+
+  getPaymentMethods() {
+    this.promoService.getPaymentMethods()
+      .subscribe((rep) => {
+        if (rep.code === 200) {
+          this.paymentMethods = rep.data.filter(item => item.active == '1');
+        }
+      })
   }
   typeCustmerSelect(event) {
     if (this.promo.target_type == "1") {

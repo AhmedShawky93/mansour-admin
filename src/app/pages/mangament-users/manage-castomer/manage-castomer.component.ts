@@ -42,13 +42,13 @@ export class ManageCastomerComponent implements OnInit {
   total = 0;
 
   p = 1;
-  filter = {
+  filter: any = {
     ids: [],
     name: "",
     email: "",
     phone: "",
-    area_ids: [],
-    city_ids: [],
+    area_id: [],
+    city_id: [],
     active: null,
     page: "1"
 
@@ -117,8 +117,8 @@ export class ManageCastomerComponent implements OnInit {
     if (cityId) {
 
       console.log(' cityId===>', cityId)
-      this.filter.city_ids = []
-      this.filter.area_ids = []
+      this.filter.city_id = []
+      this.filter.area_id = []
 
       const index = this.cities.findIndex((item) => item.id == cityId);
       if (index !== -1) {
@@ -132,17 +132,18 @@ export class ManageCastomerComponent implements OnInit {
         }
       }
 
-      this.filter.city_ids = [cityId]
+      this.filter.city_id = cityId
     } else {
-      this.filter.city_ids = []
+      this.filter.city_id = []
       this.areaListSearch = [];
 
     }
-    // this.changePage(1);
+    this.changePage(1);
   }
+
   selectArea(areaId) {
-    this.filter.area_ids = [areaId]
-    // this.changePage(1);
+    this.filter.area_id = areaId
+    this.changePage(1);
   }
 
   toggleShow() {
@@ -151,13 +152,16 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   changePage(p) {
+    console.log(this.filter);
     this.p = p;
+    this.filter.page = this.p;
     this.cs.getCustomers(this.filter)
       .subscribe((data: any) => {
         this.p = p;
         this.customers = data.data.customers;
       });
   }
+
   searchInCustomers() {
     this.filter.page = "1";
     this.cs.getCustomers(this.filter)

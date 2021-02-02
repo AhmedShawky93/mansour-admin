@@ -159,6 +159,14 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
+  createPickup(id, data) {
+    return this.http
+      .post(this.url + "/orders/shipments/Aramex/create/pickup", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+
   changeSubStatus(id, data) {
     return this.http
       .post(this.url + "/orders/" + id + "/change_sub_state", data)

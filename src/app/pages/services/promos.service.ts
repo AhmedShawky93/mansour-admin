@@ -35,6 +35,14 @@ export class PromosService {
         return Observable.throw(error.error || "promos Error");
       });
   }
+
+  getPaymentMethods() {
+    return this.http
+      .get<any>(this.url + "/payment_methods")
+      .catch((error: any) => {
+        return Observable.throw(error.error || "payment methods Error");
+      });
+  }
   // update Promos
   updatePromos(promo) {
     return this.http

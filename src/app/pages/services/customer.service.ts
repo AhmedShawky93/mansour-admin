@@ -14,7 +14,7 @@ export class CustomerService {
   }
 
   getCustomers(data) {
-    return this.http.get(this.url + "/customers")
+    return this.http.post(this.url + "/customers/search", data)
       .catch((error: any) => {
         return Observable.throw(error.error || 'Server error');
       })
