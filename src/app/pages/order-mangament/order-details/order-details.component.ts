@@ -54,6 +54,8 @@ export class OrderDetailsComponent implements OnInit {
   shipmentForm: FormGroup;
   available_pickups: any = [];
   branches: any = [];
+  today: Date;
+  date: Date;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -66,6 +68,9 @@ export class OrderDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.today = new Date();
+    this.today.setDate(this.today.getDate() - 1);
+
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ["", Validators.required],
     });
