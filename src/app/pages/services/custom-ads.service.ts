@@ -30,14 +30,14 @@ export class CustomAdsService {
   creatAds(ad) {
     return this.http.post(this.url + 'custom-ads', ad)
       .catch((error: any) => {
-        return Observable.throw(error.error || 'error ads')
-      })
+        return Observable.throw(error.error || 'error ads');
+      });
   }
   updateAds(id, data) {
     return this.http.put(this.url + 'custom-ads/' + id, data)
       .catch((error: any) => {
-        return Observable.throw(error.error || 'error ads')
-      })
+        return Observable.throw(error.error || 'error ads');
+      });
   }
 
   activateAd(id) {

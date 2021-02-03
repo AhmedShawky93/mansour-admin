@@ -118,11 +118,16 @@
 
     <div>
       <div>
-        <h5>Image ًWeb</h5>
+        <h5>Image Web</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image_web}}" alt="">
       </div>
     </div>
-
+    <div>
+      <div>
+        <h5>Image Web (AR)</h5>
+        <img class="owl-img img-fluid" src="{{currentAd.image_web_ar}}" alt="">
+      </div>
+    </div>
 
     <div>
       <h5>Name</h5>
@@ -151,7 +156,7 @@
     <span class="close" id="close-vindors2">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{newAdsForm.get('id').value ? "Edit" : "New"}} Ad</h3>
+    <h3>{{(newAdsForm.value.id != null) ? "Edit" : "New"}} Ad</h3>
   </div>
 
   <form class="sideform" [formGroup]="newAdsForm" (ngSubmit)="onFormSubmit(newAdsForm)" novalidate>
@@ -175,6 +180,7 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <label for="">Image (Ar)</label>
 
@@ -215,7 +221,7 @@
       </div>
     </div>
 
-    <!--<div class="form-group">
+    <div class="form-group">
       <label>Image Web (Ar)</label>
 
       <div class="owls-upload owls-upload3 big">
@@ -233,7 +239,7 @@
           Image web (Ar) Is Required.
         </div>
       </div>
-    </div>-->
+    </div>
 
     <div class="form-group" *ngIf="newAdsForm?.value?.dev_key && newAdsForm?.value?.id === 0">
       <label>Color</label>
@@ -359,7 +365,7 @@
 
 
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green">{{newAdsForm.get('id').value ? "Update" : "Add"}} </button>
+      <button class="btn btn-owls btn-rounded btn-green">{{(newAdsForm.value.id != null) ? "Update" : "Add"}} </button>
     </div>
   </form>
 </div>

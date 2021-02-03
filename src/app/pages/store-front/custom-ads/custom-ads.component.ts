@@ -125,7 +125,7 @@ export class CustomAdsComponent implements OnInit {
       image_en: new FormControl('', Validators.required),
       image_ar: new FormControl('', Validators.required),
       image_web: new FormControl('', Validators.required),
-      /*image_web_ar: new FormControl('', Validators.required),*/
+      image_web_ar: new FormControl('', Validators.required),
       dev_key: new FormControl('', Validators.required),
       brand: new FormControl(),
     });
@@ -145,7 +145,8 @@ export class CustomAdsComponent implements OnInit {
   }
 
   onFormSubmit(form: FormGroup) {
-    if (form.get('id').value) {
+    debugger
+    if (this.newAdsForm.value.id != null) {
       this.updateAd();
     } else {
       this.createAd();
@@ -163,7 +164,7 @@ export class CustomAdsComponent implements OnInit {
       image_en: new FormControl(ad.image_en, Validators.required),
       image_ar: new FormControl(ad.image_ar, Validators.required),
       image_web: new FormControl((ad.image_web) ? ad.image_web : '', Validators.required),
-      /*image_web_ar: new FormControl((ad.image_web_ar) ? ad.image_web_ar : '', Validators.required),*/
+      image_web_ar: new FormControl((ad.image_web_ar) ? ad.image_web_ar : '', Validators.required),
       dev_key: new FormControl(ad.dev_key, Validators.required),
       category: new FormControl(),
       subCategory: new FormControl(),
@@ -242,6 +243,7 @@ export class CustomAdsComponent implements OnInit {
   }
 
   createAd() {
+    debugger
     console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
@@ -271,6 +273,7 @@ export class CustomAdsComponent implements OnInit {
   }
 
   updateAd() {
+    debugger
     console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
