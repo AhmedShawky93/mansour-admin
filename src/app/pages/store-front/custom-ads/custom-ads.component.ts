@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { AdsService } from "@app/pages/services/ads.service";
-import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import { Component, OnInit } from '@angular/core';
+import { AdsService } from '@app/pages/services/ads.service';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
 import {
   FormGroup,
   FormBuilder,
@@ -8,18 +8,18 @@ import {
   FormControl,
   NgForm,
   ValidationErrors,
-} from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
-import { CategoryService } from "@app/pages/services/category.service";
-import { BrandsService } from "@app/pages/services/brands.service";
-import { CustomAdsService } from "@app/pages/services/custom-ads.service";
+} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { CategoryService } from '@app/pages/services/category.service';
+import { BrandsService } from '@app/pages/services/brands.service';
+import { CustomAdsService } from '@app/pages/services/custom-ads.service';
 
 declare var jquery: any;
 declare var $: any;
 @Component({
-  selector: "app-custom-ads",
-  templateUrl: "./custom-ads.component.html",
-  styleUrls: ["./custom-ads.component.css"],
+  selector: 'app-custom-ads',
+  templateUrl: './custom-ads.component.html',
+  styleUrls: ['./custom-ads.component.css'],
 })
 export class CustomAdsComponent implements OnInit {
   category_id: any;
@@ -41,10 +41,10 @@ export class CustomAdsComponent implements OnInit {
   ads = [];
 
   ad: any = {
-    type: "",
-    image: "",
-    image_ar: "",
-    item_id: "",
+    type: '',
+    image: '',
+    image_ar: '',
+    item_id: '',
   };
 
   selectFile = null;
@@ -66,48 +66,48 @@ export class CustomAdsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    $(".owls-table").on("click", ".toggle-view-category", function () {
-      $("#view-category").toggleClass("open-view-vindor-types");
+    $('.owls-table').on('click', '.toggle-view-category', function () {
+      $('#view-category').toggleClass('open-view-vindor-types');
     });
 
     // add new side bar
-    $(".add-new").on("click", function () {
-      $("#add-ads").toggleClass("open-view-vindor-types");
+    $('.add-new').on('click', function () {
+      $('#add-ads').toggleClass('open-view-vindor-types');
     });
 
     // add edit side bar
     // $(".table").on("click", ".open-edit", function () {
     //   $("#edit-ads").toggleClass("open-view-vindor-types")
     // });
-    $(".open-edit").on("click", function () {
-      $("#edit-ads").toggleClass("open-view-vindor-types");
+    $('.open-edit').on('click', function () {
+      $('#edit-ads').toggleClass('open-view-vindor-types');
     });
 
     // view side bar
-    $(".table").on("click", ".view-ads", function () {
-      $("#view-ads").toggleClass("open-view-vindor-types");
+    $('.table').on('click', '.view-ads', function () {
+      $('#view-ads').toggleClass('open-view-vindor-types');
     });
 
     // close
-    $("#view-category").on("click", "#close-vindors1", function () {
-      $("#view-category").removeClass("open-view-vindor-types");
+    $('#view-category').on('click', '#close-vindors1', function () {
+      $('#view-category').removeClass('open-view-vindor-types');
     });
 
-    $("#close-vindors2").on("click", function () {
-      $("#add-ads").removeClass("open-view-vindor-types");
+    $('#close-vindors2').on('click', function () {
+      $('#add-ads').removeClass('open-view-vindor-types');
     });
 
-    $("#close-vindors3").on("click", function () {
-      $("#edit-ads").removeClass("open-view-vindor-types");
+    $('#close-vindors3').on('click', function () {
+      $('#edit-ads').removeClass('open-view-vindor-types');
     });
 
-    $("#close-view").on("click", function () {
-      $("#view-ads").removeClass("open-view-vindor-types");
+    $('#close-view').on('click', function () {
+      $('#view-ads').removeClass('open-view-vindor-types');
     });
 
-    $(".switch").on("click", ".slider", function () {
-      const then = $(this).siblings(".reason-popup").slideToggle(100);
-      $(".reason-popup").not(then).slideUp(50);
+    $('.switch').on('click', '.slider', function () {
+      const then = $(this).siblings('.reason-popup').slideToggle(100);
+      $('.reason-popup').not(then).slideUp(50);
     });
 
     this.getAds();
@@ -116,18 +116,21 @@ export class CustomAdsComponent implements OnInit {
 
     this.newAdsForm = new FormGroup({
       id: new FormControl(),
-      name_en: new FormControl("", Validators.required),
-      name_ar: new FormControl("", Validators.required),
-      type: new FormControl("", Validators.required),
-      category: new FormControl(""),
-      subCategory: new FormControl(""),
-      prod: new FormControl(""),
-      image_en: new FormControl("", Validators.required),
-      image_ar: new FormControl("", Validators.required),
+      name_en: new FormControl('', Validators.required),
+      name_ar: new FormControl('', Validators.required),
+      type: new FormControl('', Validators.required),
+      category: new FormControl(''),
+      subCategory: new FormControl(''),
+      prod: new FormControl(''),
+      image_en: new FormControl('', Validators.required),
+      image_ar: new FormControl('', Validators.required),
+      image_web: new FormControl('', Validators.required),
+      image_web_ar: new FormControl('', Validators.required),
+      dev_key: new FormControl('', Validators.required),
       brand: new FormControl(),
     });
 
-    this.ad.popup = "";
+    this.ad.popup = '';
   }
 
   getAds() {
@@ -142,7 +145,8 @@ export class CustomAdsComponent implements OnInit {
   }
 
   onFormSubmit(form: FormGroup) {
-    if (form.get("id").value) {
+    debugger
+    if (this.newAdsForm.value.id != null) {
       this.updateAd();
     } else {
       this.createAd();
@@ -150,7 +154,8 @@ export class CustomAdsComponent implements OnInit {
   }
 
   editAd(ad) {
-    console.log(ad)
+    debugger;
+    console.log(ad);
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
       type: new FormControl(ad.type, Validators.required),
@@ -158,11 +163,14 @@ export class CustomAdsComponent implements OnInit {
       name_ar: new FormControl(ad.name_ar, Validators.required),
       image_en: new FormControl(ad.image_en, Validators.required),
       image_ar: new FormControl(ad.image_ar, Validators.required),
+      image_web: new FormControl((ad.image_web) ? ad.image_web : '', Validators.required),
+      image_web_ar: new FormControl((ad.image_web_ar) ? ad.image_web_ar : '', Validators.required),
+      dev_key: new FormControl(ad.dev_key, Validators.required),
       category: new FormControl(),
       subCategory: new FormControl(),
       prod: new FormControl(),
       brand: new FormControl(),
-      dev_key: new FormControl(ad.dev_key)
+      /*dev_key: new FormControl(ad.dev_key)*/
     });
     if (ad.type == 1) {
       this.newAdsForm.get('prod').setValue(ad.item_id);
@@ -193,32 +201,32 @@ export class CustomAdsComponent implements OnInit {
   }
 
   onAdTypeChanged(form: FormGroup) {
-    if (form.get("type").value == 1) {
-      form.get("category").setValidators([Validators.required]);
-      form.get("subCategory").setValidators([Validators.required]);
-      form.get("prod").setValidators([Validators.required]);
-      form.get("brand").clearValidators();
-    } else if (form.get("type").value == 3) {
-      form.get("category").setValidators([Validators.required]);
-      form.get("subCategory").setValidators([Validators.required]);
-      form.get("prod").clearValidators();
-      form.get("brand").clearValidators();
-    } else if (form.get("type").value == 4) {
-      form.get("brand").setValidators([Validators.required]);
-      form.get("category").clearValidators();
-      form.get("subCategory").clearValidators();
-      form.get("prod").clearValidators();
+    if (form.get('type').value == 1) {
+      form.get('category').setValidators([Validators.required]);
+      form.get('subCategory').setValidators([Validators.required]);
+      form.get('prod').setValidators([Validators.required]);
+      form.get('brand').clearValidators();
+    } else if (form.get('type').value == 3) {
+      form.get('category').setValidators([Validators.required]);
+      form.get('subCategory').setValidators([Validators.required]);
+      form.get('prod').clearValidators();
+      form.get('brand').clearValidators();
+    } else if (form.get('type').value == 4) {
+      form.get('brand').setValidators([Validators.required]);
+      form.get('category').clearValidators();
+      form.get('subCategory').clearValidators();
+      form.get('prod').clearValidators();
     } else {
-      form.get("brand").clearValidators();
-      form.get("category").clearValidators();
-      form.get("subCategory").clearValidators();
-      form.get("prod").clearValidators();
+      form.get('brand').clearValidators();
+      form.get('category').clearValidators();
+      form.get('subCategory').clearValidators();
+      form.get('prod').clearValidators();
     }
 
-    form.get("category").updateValueAndValidity();
-    form.get("subCategory").updateValueAndValidity();
-    form.get("prod").updateValueAndValidity();
-    form.get("brand").updateValueAndValidity();
+    form.get('category').updateValueAndValidity();
+    form.get('subCategory').updateValueAndValidity();
+    form.get('prod').updateValueAndValidity();
+    form.get('brand').updateValueAndValidity();
   }
 
   viewAd(ad) {
@@ -229,34 +237,31 @@ export class CustomAdsComponent implements OnInit {
     this.selectFile = <File>event.target.files[0];
     this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {
       if (response.body) {
-        if (type == "image_en") {
-          form.get("image_en").setValue(response.body.data.filePath);
-        } else {
-          form.get("image_ar").setValue(response.body.data.filePath);
-        }
+        form.get(type).setValue(response.body.data.filePath);
       }
     });
   }
 
   createAd() {
+    debugger
     console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
     }
 
-    let ad = this.newAdsForm.value;
+    const ad = this.newAdsForm.value;
 
     if (ad.type == 1) {
-      ad.item_id = this.newAdsForm.get("prod").value;
+      ad.item_id = this.newAdsForm.get('prod').value;
     } else if (ad.type == 2) {
-      ad.item_id = this.newAdsForm.get("subCategory").value;
+      ad.item_id = this.newAdsForm.get('subCategory').value;
     } else if (ad.type == 4) {
-      ad.item_id = this.newAdsForm.get("brand").value;
+      ad.item_id = this.newAdsForm.get('brand').value;
     }
 
     this.adsService.creatAds(ad).subscribe((response: any) => {
       if (response.code == 200) {
-        $("#add-ads").removeClass("open-view-vindor-types");
+        $('#add-ads').removeClass('open-view-vindor-types');
         this.newAdsForm.reset();
         const ad = response.data;
         ad.deactivated = 0;
@@ -268,24 +273,25 @@ export class CustomAdsComponent implements OnInit {
   }
 
   updateAd() {
+    debugger
     console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
     }
 
-    let ad = this.newAdsForm.value;
+    const ad = this.newAdsForm.value;
 
     if (ad.type == 1) {
-      ad.item_id = this.newAdsForm.get("prod").value;
+      ad.item_id = this.newAdsForm.get('prod').value;
     } else if (ad.type == 2) {
-      ad.item_id = this.newAdsForm.get("subCategory").value;
+      ad.item_id = this.newAdsForm.get('subCategory').value;
     } else if (ad.type == 4) {
-      ad.item_id = this.newAdsForm.get("brand").value;
+      ad.item_id = this.newAdsForm.get('brand').value;
     }
 
     this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {
       if (response.code == 200) {
-        $("#add-ads").removeClass("open-view-vindor-types");
+        $('#add-ads').removeClass('open-view-vindor-types');
 
         const ind = this.ads.findIndex((item) => {
           return item.id == ad.id;
@@ -320,7 +326,7 @@ export class CustomAdsComponent implements OnInit {
   }
 
   onCategoryChange(cat_id) {
-    let category_id = this.newAdsForm.get("category").value;
+    const category_id = this.newAdsForm.get('category').value;
     console.log(category_id, this.categories);
     const index = this.categories.findIndex((item) => item.id == category_id);
     const category = this.categories[index];
@@ -329,7 +335,7 @@ export class CustomAdsComponent implements OnInit {
   }
 
   onSubCategoryChange(catId) {
-    let subcategory_id = this.newAdsForm.get("subCategory").value;
+    const subcategory_id = this.newAdsForm.get('subCategory').value;
     console.log(subcategory_id);
     this._CategoriesService
       .getProducts(subcategory_id)
@@ -360,12 +366,12 @@ export class CustomAdsComponent implements OnInit {
     if (ad.active) {
       // currently checked
       ad.showReason = 0;
-      ad.notes = "";
+      ad.notes = '';
       if (ad.deactivated) {
         this.adsService.activateAd(ad.id).subscribe((data: any) => {
           ad.active = 1;
-          ad.notes = "";
-          ad.deactivation_notes = "";
+          ad.notes = '';
+          ad.deactivation_notes = '';
           ad.deactivated = 0;
         });
       }
@@ -377,7 +383,7 @@ export class CustomAdsComponent implements OnInit {
 
   cancelDeactivate(ad) {
     ad.active = 1;
-    ad.notes = "";
+    ad.notes = '';
     ad.showReason = 0;
   }
 

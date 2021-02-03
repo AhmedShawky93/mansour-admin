@@ -55,8 +55,8 @@
 
 
 
-          <!-- <label class="switch" *ngIf="!ad.banner_ad">
-            <input type="checkbox" value="1" [(ngModel)]="ad.active" (change)="changeActive(ad, $event)">
+           <label class="switch" *ngIf="!ad.banner_ad && ad.id === 0">
+            <input type="checkbox" value="1" [(ngModel)]="ad.active" (change)="changeActive(ad)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!ad.showReason">
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this ad?"
@@ -74,7 +74,7 @@
                 {{ad.deactivation_notes}}
               </div>
             </div>
-          </label> -->
+          </label>
         </td>
       </tr>
 
@@ -117,6 +117,19 @@
     </div>
 
     <div>
+      <div>
+        <h5>Image Web</h5>
+        <img class="owl-img img-fluid" src="{{currentAd.image_web}}" alt="">
+      </div>
+    </div>
+    <div>
+      <div>
+        <h5>Image Web (AR)</h5>
+        <img class="owl-img img-fluid" src="{{currentAd.image_web_ar}}" alt="">
+      </div>
+    </div>
+
+    <div>
       <h5>Name</h5>
       <p>{{currentAd.name_en}}</p>
     </div>
@@ -143,7 +156,7 @@
     <span class="close" id="close-vindors2">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{newAdsForm.get('id').value ? "Edit" : "New"}} Ad</h3>
+    <h3>{{(newAdsForm.value.id != null) ? "Edit" : "New"}} Ad</h3>
   </div>
 
   <form class="sideform" [formGroup]="newAdsForm" (ngSubmit)="onFormSubmit(newAdsForm)" novalidate>
@@ -167,6 +180,7 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <label for="">Image (Ar)</label>
 
@@ -187,6 +201,57 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label >Image Web</label>
+
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value" src="{{newAdsForm.get('image_web').value}}"
+             alt="">
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value" src="http://via.placeholder.com/328x177"
+             alt="">
+        <input type="file"  class="owl-input" placeholder="upload your image"
+               (change)="onImageSelected(newAdsForm, $event, 'image_web')" accept="image/*" />
+      </div>
+      <div
+        *ngIf="newAdsForm.controls.image_web.invalid && (newAdsForm.controls.image_web.dirty || newAdsForm.controls.image_web.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.image_web.errors.required">
+          Image Is Required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Image Web (Ar)</label>
+
+      <div class="owls-upload owls-upload3 big">
+        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web_ar').value"
+             src="{{newAdsForm.get('image_web_ar').value}}" alt="">
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web_ar').value"
+             src="http://via.placeholder.com/328x177" alt="">
+        <input type="file"  class="owl-input" placeholder="upload your image"
+               (change)="onImageSelected(newAdsForm, $event, 'image_web_ar')" accept="image/*" />
+      </div>
+      <div
+        *ngIf="newAdsForm.controls.image_web_ar.invalid && (newAdsForm.controls.image_web_ar.dirty || newAdsForm.controls.image_ar.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.image_web_ar.errors.required">
+          Image web (Ar) Is Required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="newAdsForm?.value?.dev_key && newAdsForm?.value?.id === 0">
+      <label>Color</label>
+      <input type="text" class="owl-input" formControlName="dev_key" name="dev_key" placeholder="Type here...">
+      <div
+        *ngIf="newAdsForm.controls.dev_key.invalid && (newAdsForm.controls.dev_key.dirty || newAdsForm.controls.dev_key.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.dev_key.errors.required">
+          Color is required.
+        </div>
+      </div>
+    </div>
     <div class="form-group">
       <label for="amount">Name</label>
       <input type="text" class="owl-input" formControlName="name_en" name="name_en" placeholder="Type here...">
@@ -297,8 +362,10 @@
       </div>
     </div>
 
+
+
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green">{{newAdsForm.get('id').value ? "Update" : "Add"}} </button>
+      <button class="btn btn-owls btn-rounded btn-green">{{(newAdsForm.value.id != null) ? "Update" : "Add"}} </button>
     </div>
   </form>
 </div>
