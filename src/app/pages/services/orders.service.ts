@@ -211,4 +211,15 @@ export class OrdersService {
     });
   }
 
+  getAvailablePickups() {
+    return this.http.get(this.url + "/orders/shipments/Aramex/available_pickups").catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
+  createShipment(data) {
+    return this.http.post(this.url + "/orders/shipments/Aramex/create/shipment", data).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
 }
