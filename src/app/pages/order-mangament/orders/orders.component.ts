@@ -350,12 +350,12 @@ export class OrdersComponent implements OnInit {
       order_ids: new FormControl(this.ordersBulk),
       state_id: new FormControl(this.orderStatusId),
       sub_state_id: new FormControl(this.sub_state_id),
-      pickup_date: new FormControl(),
-      pickup_time: new FormControl(),
+      pickup_date: new FormControl(new Date()),
+      pickup_time: new FormControl('00:00'),
       shipping_notes: new FormControl(),
-      shipping_method: new FormControl(''),
-      aramex_account_number: new FormControl(''),
-      branch_id: new FormControl(''),
+      shipping_method: new FormControl(3),
+      aramex_account_number: new FormControl(1),
+      branch_id: new FormControl(this.branches.length ? this.branches[0].id : ''),
       subtract_stock: new FormControl(),
     });
 
