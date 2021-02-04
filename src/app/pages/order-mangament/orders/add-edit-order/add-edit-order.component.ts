@@ -55,7 +55,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
     if (data) {
       this.addresses = data.user.addresses;
-    
+      console.log(this.addresses);
       data.items.forEach(item => {
         let productsInput$ = new Subject<String>();
         let productsLoading = false;

@@ -1249,6 +1249,7 @@ export class OrdersComponent implements OnInit {
   closeSideBar(data = null) {
     $("#view-deactive").removeClass("open-view-vindor-types");
     $("#view-side-bar-return-order").removeClass("open-view-vindor-types");
+    this.selectedOrder = null;
     this.toggleAddOrder = 'out';
     if (data) {
       this.filter$.next(this.filter);
