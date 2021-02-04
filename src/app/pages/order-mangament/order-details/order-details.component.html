@@ -649,7 +649,7 @@
         <div class="modal-body">
           <div class="form-group">
             <select name="" class="owl-input bg-white" required formControlName="branch_id">
-              <option value="" hidden selected>Select pickup Location</option>
+              <!-- <option value="" hidden selected>Select pickup Location</option> -->
               <option value="{{branch.id}}" *ngFor="let branch of branches">{{branch.name}}</option>
             </select>
             <div

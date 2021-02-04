@@ -223,9 +223,8 @@
         <th scope="col"> Grand Total
           <!-- <i class="fa fa-angle-down"></i> -->
         </th>
-        <th scope="col"> First time
-        </th>
         <th>Payment Method </th>
+        <th>Transaction ID</th>
         <th style="text-align: center;" scope="col"> status
         </th>
         <th scope="col">Order source</th>
@@ -253,11 +252,13 @@
         </td>
 
         <td>{{order.amount + order.delivery_fees}}</td>
-        <td>{{order?.user?.admin_first_order ? 'No' : 'Yes'}}</td>
         <td>
           <span>
             {{order.payment_method_object.name}}
           </span>
+        </td>
+        <td>
+          {{order?.transaction_id || '-'}}
         </td>
         <td>
           {{order?.state?.name}}

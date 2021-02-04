@@ -6,6 +6,8 @@ import { ActivatedRoute } from "@angular/router";
 import { OrdersService } from "@app/pages/services/orders.service";
 import { ToastrService } from "ngx-toastr";
 import { DeliveryService } from "@app/pages/services/delivery.service";
+import * as moment from "moment";
+
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -127,6 +129,7 @@ export class OrderDetailsComponent implements OnInit {
     this.deliveryService.getAllDeliverers()
       .subscribe((response: any) => {
         this.branches = response.data;
+        this.resetShipmentForm();
       });
 
     this.orderService.getAvailablePickups()
@@ -134,14 +137,19 @@ export class OrderDetailsComponent implements OnInit {
         this.available_pickups = response.data;
       })
 
+    this.resetShipmentForm();
+
+  }
+
+  resetShipmentForm() {
     this.shipmentForm = new FormGroup({
-      pickup_date: new FormControl(),
-      pickup_time: new FormControl(),
+      pickup_date: new FormControl(new Date()),
+      pickup_time: new FormControl('00:00'),
       pickup_guid: new FormControl(),
       shipping_notes: new FormControl(),
-      shipping_method: new FormControl(''),
-      aramex_account_number: new FormControl(''),
-      branch_id: new FormControl('')
+      shipping_method: new FormControl(3),
+      aramex_account_number: new FormControl(1),
+      branch_id: new FormControl(this.branches.length ? this.branches[0].id : '')
     });
   }
 
@@ -385,7 +393,7 @@ export class OrderDetailsComponent implements OnInit {
 
   createShipment() {
     $("#shipmentModal").modal("show");
-    this.shipmentForm.reset();
+    this.resetShipmentForm();
   }
 
   submitShipment() {
@@ -394,7 +402,7 @@ export class OrderDetailsComponent implements OnInit {
     shipment.order_id = this.order.id;
 
     this.stateSubmitting = true
-
+    shipment.pickup_date = moment(shipment.pickup_date).format("YYYY-MM-DD") + " " + shipment.pickup_time;
     this.orderService.createShipment(shipment)
       .subscribe((response: any) => {
         this.stateSubmitting = false;
@@ -402,7 +410,7 @@ export class OrderDetailsComponent implements OnInit {
         if (response.code == 200) {
           this.order.shipments.push(response.data);
           $("#shipmentModal").modal("hide");
-          this.shipmentForm.reset();
+          this.resetShipmentForm();
         } else {
           this.toastrService.error('Error Creating Shipment', 'Error');
         }
