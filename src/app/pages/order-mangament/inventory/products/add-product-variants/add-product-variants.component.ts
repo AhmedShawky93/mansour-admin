@@ -160,6 +160,52 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       bundle_products_ids: new FormControl(),
       related_ids: new FormControl(),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
+
+    this.products$ = concat(
+      of(), // default items
+      this.productsInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => (this.productsLoading = true)),
+        switchMap((term) =>
+          this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.productsLoading = false)),
+            map((response: any) => {
+              return response.data.products.map((p) => {
+                return {
+                  id: p.id,
+                  name: p.sku + ": " + p.name,
+                };
+              });
+            })
+          )
+        )
+      )
+    );
+
+    this.relatedProducts$ = concat(
+      of(), // default items
+      this.relatedProductsInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => (this.relatedProductsLoading = true)),
+        switchMap((term) =>
+          this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.relatedProductsLoading = false)),
+            map((response: any) => {
+              return response.data.products.map((p) => {
+                return {
+                  id: p.id,
+                  name: p.sku + ": " + p.name,
+                };
+              });
+            })
+          )
+        )
+      )
+    );
   }
 
   getAllOptions() {
