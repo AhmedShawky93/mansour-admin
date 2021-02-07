@@ -133,12 +133,12 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(250),
+        // Validators.maxLength(250),
       ]),
       description_ar: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(250),
+        // Validators.maxLength(250),
       ]),
       long_description_en: new FormControl(''),
       long_description_ar: new FormControl(''),
