@@ -273,7 +273,7 @@
       <div class="form-group">
         <label>Optional Category</label>
         <select class="owl-input" name="category" (change)="selectOptionalCategory($event)" formControlName="optional_category">
-          <option value="" selected hidden>Select Category</option>
+          <option value="" selected>Select Category</option>
           <ng-container *ngFor="let cat of optionalCategories">
             <option value="{{cat.id}}" *ngIf="addProductForm.get('optional_category').value == cat.id || !cat.selected">
               {{cat.name}}
@@ -286,7 +286,7 @@
       <div class="form-group">
         <label>Optional Sub Category</label>
         <select class="owl-input" formControlName="optional_sub_category_id"  name="optionalSubCategory">
-          <option value="" selected hidden>Select Sub Category</option>
+          <option value="" selected>Select Sub Category</option>
           <option value="{{cat.id}}" *ngFor="let cat of optionalSubCategories">{{cat.name}}
             <span *ngIf="cat.active == 0"> - Deactivate </span>
           </option>
