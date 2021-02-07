@@ -343,6 +343,14 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.addVariantOptionsToForm();
   }
 
+  removeOption(data) {
+    (<FormArray>this.componentForm.controls.options).removeAt(
+      this.componentForm.controls.options.value.findIndex(
+        (option) => option.optionData.id === data.value.id
+      )
+    );
+  }
+
   formValidator() {
     if (!this.componentForm.valid) {
       this.markFormGroupTouched(this.componentForm);
