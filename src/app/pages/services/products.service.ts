@@ -129,4 +129,12 @@ export class ProductsService {
         return Observable.throw(error.error || 'Server error');
       });
   }
+
+  deleteProduct(id) {
+    return this.http
+      .post(this.url + "/products/" + id + "/delete", {})
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
 }

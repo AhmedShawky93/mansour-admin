@@ -437,6 +437,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         } else {
           this.spinner.hide();
           this.toasterService.error(response.message);
+          // this.productsService.deleteProduct()
         }
         this.submitting = false;
       });
@@ -489,6 +490,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         } else {
           this.spinner.hide();
           this.toasterService.error(response.message);
+          this.productsService.deleteProduct(this.mainProduct.id)
         }
         this.submitting = false;
       });
