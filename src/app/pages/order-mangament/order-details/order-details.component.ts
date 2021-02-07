@@ -1,10 +1,13 @@
 import { OrderStatesService } from "./../../services/order-states.service";
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import { OrdersService } from "@app/pages/services/orders.service";
 import { ToastrService } from "ngx-toastr";
+import { DeliveryService } from "@app/pages/services/delivery.service";
+import * as moment from "moment";
+
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -50,6 +53,11 @@ export class OrderDetailsComponent implements OnInit {
   serialNumber: any;
   selectedAddress: any;
   selectedOrder: any;
+  shipmentForm: FormGroup;
+  available_pickups: any = [];
+  branches: any = [];
+  today: Date;
+  date: Date;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -57,10 +65,14 @@ export class OrderDetailsComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private orderService: OrdersService,
     private toastrService: ToastrService,
-    private orderStatesService: OrderStatesService
+    private orderStatesService: OrderStatesService,
+    private deliveryService: DeliveryService
   ) { }
 
   ngOnInit() {
+    this.today = new Date();
+    this.today.setDate(this.today.getDate() - 1);
+
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ["", Validators.required],
     });
@@ -83,6 +95,7 @@ export class OrderDetailsComponent implements OnInit {
     // this.order.state_id = this.order.previous_state;
     // this.order.sub_state_id = this.order.previous_subState;
   }
+
   getOrderDetails(id) {
     this.orderService.getOrder(id).subscribe((response: any) => {
       this.order = response.data;
@@ -111,6 +124,32 @@ export class OrderDetailsComponent implements OnInit {
       this.delivering = this.hasState(stepsArray, 3);
       this.delivered = this.hasState(stepsArray, 4);
       this.returned = this.hasState(stepsArray, 7);
+    });
+
+    this.deliveryService.getAllDeliverers()
+      .subscribe((response: any) => {
+        this.branches = response.data;
+        this.resetShipmentForm();
+      });
+
+    this.orderService.getAvailablePickups()
+      .subscribe((response: any) => {
+        this.available_pickups = response.data;
+      })
+
+    this.resetShipmentForm();
+
+  }
+
+  resetShipmentForm() {
+    this.shipmentForm = new FormGroup({
+      pickup_date: new FormControl(new Date()),
+      pickup_time: new FormControl('00:00'),
+      pickup_guid: new FormControl(),
+      shipping_notes: new FormControl(),
+      shipping_method: new FormControl(3),
+      aramex_account_number: new FormControl(1),
+      branch_id: new FormControl(this.branches.length ? this.branches[0].id : '')
     });
   }
 
@@ -350,5 +389,31 @@ export class OrderDetailsComponent implements OnInit {
       this.toastrService.success('Order Is Added');
     }
 
+  }
+
+  createShipment() {
+    $("#shipmentModal").modal("show");
+    this.resetShipmentForm();
+  }
+
+  submitShipment() {
+    let shipment = this.shipmentForm.value;
+
+    shipment.order_id = this.order.id;
+
+    this.stateSubmitting = true
+    shipment.pickup_date = moment(shipment.pickup_date).format("YYYY-MM-DD") + " " + shipment.pickup_time;
+    this.orderService.createShipment(shipment)
+      .subscribe((response: any) => {
+        this.stateSubmitting = false;
+
+        if (response.code == 200) {
+          this.order.shipments.push(response.data);
+          $("#shipmentModal").modal("hide");
+          this.resetShipmentForm();
+        } else {
+          this.toastrService.error('Error Creating Shipment', 'Error');
+        }
+      });
   }
 }

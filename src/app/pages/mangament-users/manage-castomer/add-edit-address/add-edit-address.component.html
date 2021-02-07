@@ -26,12 +26,35 @@
           </div>
 
           <div class="form-group">
-            <label for="">Full Address</label>
+            <label for="">Building</label>
+            <input type="text" class="owl-input" name="floor" placeholder="Type here..." formControlName="floor">
+            
+            <div *ngIf="formControlValidator(addressForm, 'floor', 'required')" class="alert alert-danger">
+              Building is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">Street</label>
             <input type="text" class="owl-input" name="address" placeholder="Type here..." formControlName="address">
             
             <div *ngIf="formControlValidator(addressForm, 'address', 'required')" class="alert alert-danger">
-              Full address is required.
+              Street is required.
             </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">apartment</label>
+            <input type="text" class="owl-input" name="apartment" placeholder="Type here..." formControlName="apartment">
+            
+            <div *ngIf="formControlValidator(addressForm, 'apartment', 'required')" class="alert alert-danger">
+              Apartment is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">Landmark (optional)</label>
+            <input type="text" class="owl-input" name="landmark" placeholder="Type here..." formControlName="landmark">
           </div>
 
           <div class="form-group">
@@ -54,29 +77,6 @@
             <div *ngIf="formControlValidator(addressForm, 'area_id', 'required')" class="alert alert-danger">
               Area is required.
             </div>
-          </div>
-
-          <div class="form-group">
-            <label for="">apartment</label>
-            <input type="text" class="owl-input" name="apartment" placeholder="Type here..." formControlName="apartment">
-            
-            <div *ngIf="formControlValidator(addressForm, 'apartment', 'required')" class="alert alert-danger">
-              Apartment is required.
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="">Floor</label>
-            <input type="text" class="owl-input" name="floor" placeholder="Type here..." formControlName="floor">
-            
-            <div *ngIf="formControlValidator(addressForm, 'floor', 'required')" class="alert alert-danger">
-              Floor is required.
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="">Landmark (optional)</label>
-            <input type="text" class="owl-input" name="landmark" placeholder="Type here..." formControlName="landmark">
           </div>
 
           <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
