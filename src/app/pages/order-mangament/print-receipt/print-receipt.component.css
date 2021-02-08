@@ -223,3 +223,6 @@ tr td {
 
   }
 }
+.word-break-all{
+  word-break: break-all;
+}
