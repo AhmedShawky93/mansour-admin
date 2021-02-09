@@ -33,7 +33,7 @@
       <tr *ngFor="let ad of ads | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
         <td>{{ad.id}}</td>
         <td>
-          <P *ngIf="ad.type == 1"> product </P>
+          <P *ngIf="ad.type == 1"> Product </P>
           <P *ngIf="ad.type == 2"> Category </P>
           <P *ngIf="ad.type == 3"> Medical </P>
           <P *ngIf="ad.type == 4"> Brand </P>
