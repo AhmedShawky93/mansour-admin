@@ -825,7 +825,8 @@
             <label for="">Pickup ID (optional)</label>
             <select name="" class="owl-input bg-white" formControlName="pickup_guid">
               <option value="" selected>Select pickup</option>
-              <option value="{{pickup.shipping_guid}}" *ngFor="let pickup of available_pickups">{{pickup.pickup_time | date: 'd-M-yyyy h:mm a'}} - {{pickup.shipping_guid}}</option>
+              <option value="{{pickup.shipping_guid}}" *ngFor="let pickup of available_pickups">{{pickup.pickup_time |
+                date: 'd-M-yyyy h:mm a'}} - {{pickup.shipping_guid}}</option>
             </select>
           </div>
           <!-- <div class="form-group w-60">
@@ -869,6 +870,7 @@
           </div>
         </div>
       </form>
+
 
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
@@ -982,8 +984,8 @@
           </div>
           <div class="form-group w-60">
             <mat-form-field>
-              <input matInput [min]="today" #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
-                [value]="date" formControlName="pickup_date">
+              <input matInput [min]="today" #mdate placeholder="Date " readonly (click)="picker2.open()"
+                [satDatepicker]="picker2" [value]="date" formControlName="pickup_date">
               <sat-datepicker #picker2 [rangeMode]="false">
               </sat-datepicker>
               <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
