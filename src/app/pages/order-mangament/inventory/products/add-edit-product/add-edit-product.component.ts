@@ -10,6 +10,7 @@ import {OptionsService} from '@app/pages/services/options.service';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import { Observable, Subject, concat, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import {environment} from '@env/environment';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -60,24 +61,18 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       spellcheck: true,
       height: '175px',
       minHeight: '5rem',
+      maxHeight: 'auto',
+      width: '100%',
+      translate: 'yes',
+      enableToolbar: true,
+      showToolbar: true,
       placeholder: 'Enter text here...',
-      translate: 'no',
-      uploadUrl: 'v1/images', // if needed
-      customClasses: [ // optional
-        {
-          name: 'quote',
-          class: 'quote',
-        },
-        {
-          name: 'redText',
-          class: 'redText'
-        },
-        {
-          name: 'titleText',
-          class: 'titleText',
-          tag: 'h1',
-        },
-      ]
+      defaultParagraphSeparator: '',
+      defaultFontName: '',
+      defaultFontSize: '',
+      sanitize: true,
+      toolbarPosition: 'top',
+      /*uploadUrl: environment.api + '/admin/upload',*/
     };
   }
 
@@ -176,7 +171,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
       }
 
-      
+
       /*if (data.image) {
         console.log('clearValidators');
         this.addProductForm.get('image').clearValidators();
@@ -425,7 +420,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       } else {
         product.preorder_end_date = null;
       }
-  
+
       if (product.preorder_start_date) {
         product.preorder_start_date = moment(this.addProductForm.get('preorder_start_date').value).format('YYYY-MM-DD');
         product.preorder_start_date = product.preorder_start_date + ' ' + this.addProductForm.get('start_time').value;
@@ -435,7 +430,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       }
 
       product.available_soon = !!product.available_soon;
-      
+
       this.submitting = true;
       this.productsService
         .updateProduct(this.selectProductDataEdit.id, product)
@@ -475,7 +470,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       } else {
         product.preorder_end_date = null;
       }
-  
+
       if (product.preorder_start_date) {
         product.preorder_start_date = moment(this.addProductForm.get('preorder_start_date').value).format('YYYY-MM-DD');
         product.preorder_start_date = product.preorder_start_date + ' ' + this.addProductForm.get('start_time').value;
