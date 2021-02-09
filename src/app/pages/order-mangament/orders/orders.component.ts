@@ -364,8 +364,8 @@ export class OrdersComponent implements OnInit {
     });
 
     if (this.orderStatusId == 8) {
-      this.stateForm.get("pickup_date").setValidators([Validators.required]);
-      this.stateForm.get("pickup_time").setValidators([Validators.required]);
+      // this.stateForm.get("pickup_date").setValidators([Validators.required]);
+      // this.stateForm.get("pickup_time").setValidators([Validators.required]);
       this.stateForm.get("branch_id").setValidators([Validators.required]);
       this.stateForm
         .get("shipping_method")
