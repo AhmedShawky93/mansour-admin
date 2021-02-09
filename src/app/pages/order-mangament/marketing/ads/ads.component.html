@@ -33,10 +33,11 @@
       <tr *ngFor="let ad of ads | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
         <td>{{ad.id}}</td>
         <td>
-          <P *ngIf="ad.type == 1"> product </P>
+          <P *ngIf="ad.type == 1"> Product </P>
           <P *ngIf="ad.type == 2"> Category </P>
           <P *ngIf="ad.type == 3"> Medical </P>
           <P *ngIf="ad.type == 4"> Brand </P>
+          <P *ngIf="ad.type == 5"> Custom list </P>
 
         </td>
         <td>
@@ -65,8 +66,8 @@
             <div class="reason-popup text-left" [hidden]="!ad.showReason">
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this ad?"
                 [(ngModel)]="ad.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!ad.notes"
-                (click)="submitDeactivate(ad)" [ngClass]="{'not-allowed' : !ad.notes }">submit</button>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!ad.notes" (click)="submitDeactivate(ad)"
+                [ngClass]="{'not-allowed' : !ad.notes }">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(ad)">cancel</button>
             </div>
@@ -169,7 +170,7 @@
         *ngIf="newAdsForm.controls.image.invalid && (newAdsForm.controls.image.dirty || newAdsForm.controls.image.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.image.errors.required">
-          Image  Mobile Is Required.
+          Image Mobile Is Required.
         </div>
       </div>
     </div>
@@ -196,10 +197,10 @@
       <label for="">Image Web</label>
 
       <div class="owls-upload owls-upload3 big">
-        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value" src="{{newAdsForm.get('image_web').value}}"
-          alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value" src="http://via.placeholder.com/1400x500"
-          alt="">
+        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value"
+          src="{{newAdsForm.get('image_web').value}}" alt="">
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value"
+          src="http://via.placeholder.com/1400x500" alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelectedWeb(newAdsForm, $event, 'image')" accept="image/*" />
       </div>
@@ -226,7 +227,7 @@
         *ngIf="newAdsForm.controls.image_web_ar.invalid && (newAdsForm.controls.image_web_ar.dirty || newAdsForm.controls.image_web_ar.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.image_web_ar.errors.required">
-          Image  Web (Ar) Is Required.
+          Image Web (Ar) Is Required.
         </div>
       </div>
     </div>

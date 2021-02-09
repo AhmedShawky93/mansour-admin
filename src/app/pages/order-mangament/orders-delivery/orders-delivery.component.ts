@@ -375,10 +375,11 @@ export class OrdersDeliveryComponent implements OnInit {
         // if (ind !== -1) {
         //   this.orders[ind] = response.data;
         // }
-
         if (this.currentOrder) {
           this.currentOrder.status = 3;
         }
+        // To Hide Remove pickup
+        this.currentPickup.status = 3;
 
         $("#removePopUp").modal("hide");
       }

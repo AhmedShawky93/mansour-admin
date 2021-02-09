@@ -140,7 +140,7 @@
             </div>
           </div>
         </label>
-        <p>•  {{cat.group[0] ? cat.group[0].name_en  + ' > ' : ' -  > '}}   {{cat.name}} </p>
+        <p>•  {{(cat?.group && cat?.group.length) ? cat?.group[0]?.name_en  + ' > ' : ' -  > '}}   {{cat.name}} </p>
       </div>
     </div>
 
