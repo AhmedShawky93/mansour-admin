@@ -562,10 +562,11 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   onAvailableChange() {
+    console.log(this.componentForm.value.available_soon);
     if (this.componentForm.value.available_soon) {
-      this.componentForm.get('price').setValidators([Validators.required]);
+      this.componentForm.get("price").clearValidators();
     } else {
-      this.componentForm.get('price').clearValidators();
+      this.componentForm.get('price').setValidators([Validators.required]);
     }
 
     this.componentForm.get('price').updateValueAndValidity();
