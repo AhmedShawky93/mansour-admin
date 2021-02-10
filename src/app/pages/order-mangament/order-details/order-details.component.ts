@@ -231,7 +231,6 @@ export class OrderDetailsComponent implements OnInit {
   confirmChangeStatus(notifyUser) {
     console.log(notifyUser);
     if (this.orderStatusId == '6') {
-      console.log('this.cancelReason ==>', this.cancelReason)
       console.log(this.status_notesText)
       if (this.status_notesText == '' || this.status_notesText == undefined) {
         this.error_status_notes = true
@@ -320,8 +319,6 @@ export class OrderDetailsComponent implements OnInit {
     this.orderStatesService.getOrderEditableStatus().subscribe({
       next: (response: any) => {
         if (response.code === 200) {
-          console.log("🚀 ~ file: order-details.component.ts ~ line 284 ~ OrderDetailsComponent ~ confirmChangeStatus ~ this.cancelReason", this.cancelReason)
-          console.log("🚀 ~ file: order-details.component.ts ~ line 284 ~ OrderDetailsComponent ~ confirmChangeStatus ~ this.cancelReason", this.cancelReason)
           this.orderStatus = response.data;
           this.selectStatus(this.order.state_id);
         }

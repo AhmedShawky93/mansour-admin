@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import { Observable, Subject, concat, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import {environment} from '@env/environment';
 
 
 @Component({
@@ -53,24 +54,18 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       spellcheck: true,
       height: '175px',
       minHeight: '5rem',
+      maxHeight: 'auto',
+      width: '100%',
+      translate: 'yes',
+      enableToolbar: true,
+      showToolbar: true,
       placeholder: 'Enter text here...',
-      translate: 'no',
-      uploadUrl: 'v1/images', // if needed
-      customClasses: [ // optional
-        /*{
-          name: 'quote',
-          class: 'quote',
-        },
-        {
-          name: 'redText',
-          class: 'redText'
-        },
-        {
-          name: 'titleText',
-          class: 'titleText',
-          tag: 'h1',
-        },*/
-      ]
+      defaultParagraphSeparator: '',
+      defaultFontName: '',
+      defaultFontSize: '',
+      sanitize: true,
+      toolbarPosition: 'top',
+      /*uploadUrl: environment.api + '/admin/upload',*/
     };
   }
 
@@ -138,7 +133,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         });
       }
     } else {
-      
+
     }
 
     let bundleProducts = [];
@@ -298,7 +293,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   }
 
   selectSubCategoryOption(category_id, subcategory_id) {
-    
+
     const index = this.categories.findIndex((item) => item.id === category_id);
     if (index !== -1) {
       let ind = this.categories[index].sub_categories.findIndex(c => c.id == subcategory_id);
