@@ -28,6 +28,7 @@
       <div class="form-group">
         <label> Product Options </label>
         <ng-select (close)="buildVariantsOptions()"
+                   (remove)="removeOption($event)"
                    [closeOnSelect]="false"
                    [items]="allOptions"
                    [multiple]="true"

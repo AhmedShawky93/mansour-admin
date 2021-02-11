@@ -11,6 +11,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import { Observable, Subject, concat, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import {environment} from '@env/environment';
 
 @Component({
   selector: 'app-add-product-variants',
@@ -40,12 +41,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   selectedVariantsOptions: Array<any>;
   mainProduct: any;
   editorConfig: AngularEditorConfig;
-
   relatedProducts: any = [];
   relatedProducts$: Observable<any>;
   relatedProductsInput$ = new Subject<String>();
   relatedProductsLoading: boolean;
-
   products: any = [];
   products$: Observable<any>;
   productsInput$ = new Subject<String>();
@@ -65,24 +64,18 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       spellcheck: true,
       height: '175px',
       minHeight: '5rem',
+      maxHeight: 'auto',
+      width: '100%',
+      translate: 'yes',
+      enableToolbar: true,
+      showToolbar: true,
       placeholder: 'Enter text here...',
-      translate: 'no',
-      uploadUrl: 'v1/images', // if needed
-      customClasses: [ // optional
-        {
-          name: 'quote',
-          class: 'quote',
-        },
-        {
-          name: 'redText',
-          class: 'redText'
-        },
-        {
-          name: 'titleText',
-          class: 'titleText',
-          tag: 'h1',
-        },
-      ]
+      defaultParagraphSeparator: '',
+      defaultFontName: '',
+      defaultFontSize: '',
+      sanitize: true,
+      toolbarPosition: 'top',
+      /*uploadUrl: environment.api + '/admin/upload',*/
     };
   }
 
@@ -343,6 +336,14 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.addVariantOptionsToForm();
   }
 
+  removeOption(data) {
+    (<FormArray>this.componentForm.controls.options).removeAt(
+      this.componentForm.controls.options.value.findIndex(
+        (option) => option.optionData.id === data.value.id
+      )
+    );
+  }
+
   formValidator() {
     if (!this.componentForm.valid) {
       this.markFormGroupTouched(this.componentForm);
@@ -561,10 +562,11 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   onAvailableChange() {
+    console.log(this.componentForm.value.available_soon);
     if (this.componentForm.value.available_soon) {
-      this.componentForm.get('price').setValidators([Validators.required]);
+      this.componentForm.get("price").clearValidators();
     } else {
-      this.componentForm.get('price').clearValidators();
+      this.componentForm.get('price').setValidators([Validators.required]);
     }
 
     this.componentForm.get('price').updateValueAndValidity();

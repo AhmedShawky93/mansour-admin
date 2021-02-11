@@ -277,6 +277,7 @@
               <!-- <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a> -->
               <!-- <a class="dropdown-item" (click)="openPopupAction(3, order)">Edit order</a> -->
               <a class="dropdown-item" (click)="editOrder(order)">Edit order</a>
+              <a class="dropdown-item" (click)="addToPickup(order.id)">Add to Pickup</a>
               <!-- <a class="dropdown-item" (click)="openPopupAction(5, order)">Return order</a> -->
               <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
                 (click)="openPopupAction(4, order)">Cancel order</a> -->
@@ -820,7 +821,15 @@
               </div>
             </div>
           </div>
-          <div class="form-group w-60">
+          <div class="form-group">
+            <label for="">Pickup ID (optional)</label>
+            <select name="" class="owl-input bg-white" formControlName="pickup_guid">
+              <option value="" selected>Select pickup</option>
+              <option value="{{pickup.shipping_guid}}" *ngFor="let pickup of available_pickups">{{pickup.pickup_time |
+                date: 'd-M-yyyy h:mm a'}} - {{pickup.shipping_guid}}</option>
+            </select>
+          </div>
+          <!-- <div class="form-group w-60">
             <mat-form-field>
               <input matInput [min]="today"  #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
                 [value]="date" formControlName="pickup_date">
@@ -853,7 +862,7 @@
               </div>
             </div>
 
-          </div>
+          </div> -->
           <div class="form-group">
             <label for="">Shipping Notes</label>
             <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="shipping_notes">
@@ -861,6 +870,7 @@
           </div>
         </div>
       </form>
+
 
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
@@ -974,8 +984,8 @@
           </div>
           <div class="form-group w-60">
             <mat-form-field>
-              <input matInput [min]="today" #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
-                [value]="date" formControlName="pickup_date">
+              <input matInput [min]="today" #mdate placeholder="Date " readonly (click)="picker2.open()"
+                [satDatepicker]="picker2" [value]="date" formControlName="pickup_date">
               <sat-datepicker #picker2 [rangeMode]="false">
               </sat-datepicker>
               <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>

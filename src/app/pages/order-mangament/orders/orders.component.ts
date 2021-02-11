@@ -29,29 +29,29 @@ declare var $: any;
   templateUrl: "./orders.component.html",
   styleUrls: ["./orders.component.css"],
   animations: [
-    trigger('slideInOut', [
+    trigger("slideInOut", [
       state(
-        'in',
+        "in",
         style({
-          transform: 'translate3d(0px, 0, 0)',
+          transform: "translate3d(0px, 0, 0)",
         })
       ),
       state(
-        'out',
+        "out",
         style({
-          transform: 'translate3d(-100%, 0, 0)',
+          transform: "translate3d(-100%, 0, 0)",
         })
       ),
-      transition('in => out', animate('300ms ease-in-out')),
-      transition('out => in', animate('300ms ease-in-out')),
+      transition("in => out", animate("300ms ease-in-out")),
+      transition("out => in", animate("300ms ease-in-out")),
     ]),
   ],
 })
 export class OrdersComponent implements OnInit {
   loading: boolean;
   date: any;
-  selectedSubcategory = '';
-  selectedCategory = '';
+  selectedSubcategory = "";
+  selectedCategory = "";
   search: boolean;
   firstTime: boolean = true;
   no_orders: boolean = false;
@@ -91,7 +91,6 @@ export class OrdersComponent implements OnInit {
     customer_phone: "",
     payment_method: null,
     user_agent: "",
-
   };
 
   p = 1;
@@ -128,14 +127,15 @@ export class OrdersComponent implements OnInit {
   errorMessage: string;
   showErrorItems: string;
   items: any;
-  status_notes = '';
-  status_notesText = '';
+  status_notes = "";
+  status_notesText = "";
   deleteIds: any;
   error_status_notes: boolean;
   orderStatusId: any;
   branches: any = [];
   stateForm: FormGroup;
   areaListSearch: any[];
+  available_pickups: any[];
 
   products: any = [];
   products$: Observable<any>;
@@ -145,7 +145,7 @@ export class OrdersComponent implements OnInit {
   stateSubmitting: boolean = false;
   cancelReasons: any;
   cancelReasonError: boolean;
-  toggleAddOrder: string = 'out';
+  toggleAddOrder: string = "out";
   selectedOrder: any;
   paymentMethods: any;
   orderSelectedPickup = [];
@@ -163,8 +163,7 @@ export class OrdersComponent implements OnInit {
     private orderStatesService: OrderStatesService,
     private deliveryService: DeliveryService,
     private productService: ProductsService,
-    private promoService: PromosService,
-
+    private promoService: PromosService
   ) {
     this.titleService.setTitle("Orders");
   }
@@ -172,15 +171,15 @@ export class OrdersComponent implements OnInit {
   ngOnInit() {
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);
-    this.orderSelectedPickup = JSON.parse(localStorage.getItem('orderPickup'));
+    this.orderSelectedPickup = JSON.parse(localStorage.getItem("orderPickup"));
     this.getCities();
     this.getOrderStates();
-    this.getPaymentMethods()
-    this.ordersService.cancelReasons()
-      .subscribe((response: any) => {
-        this.cancelReasons = response.data.filter(item => item.user_type == 'admin')
-
-      });
+    this.getPaymentMethods();
+    this.ordersService.cancelReasons().subscribe((response: any) => {
+      this.cancelReasons = response.data.filter(
+        (item) => item.user_type == "admin"
+      );
+    });
 
     $(".payment-open").on("click", function () {
       $(".payment-area").slideToggle(100);
@@ -288,10 +287,9 @@ export class OrdersComponent implements OnInit {
       environment.api + "/admin/products/export_sales?token=" + token;
     this.exportProductsUrl = this.productsUrl;
 
-    this.deliveryService.getAllDeliverers()
-      .subscribe((response: any) => {
-        this.branches = response.data;
-      });
+    this.deliveryService.getAllDeliverers().subscribe((response: any) => {
+      this.branches = response.data;
+    });
 
     this.products$ = concat(
       this.productsInput$.pipe(
@@ -315,15 +313,18 @@ export class OrdersComponent implements OnInit {
         )
       )
     );
+
+    this.ordersService.getAvailablePickups().subscribe((response: any) => {
+      this.available_pickups = response.data;
+    });
   }
 
   getPaymentMethods() {
-    this.promoService.getPaymentMethods()
-      .subscribe((rep) => {
-        if (rep.code === 200) {
-          this.paymentMethods = rep.data.filter(item => item.active == '1');
-        }
-      })
+    this.promoService.getPaymentMethods().subscribe((rep) => {
+      if (rep.code === 200) {
+        this.paymentMethods = rep.data.filter((item) => item.active == "1");
+      }
+    });
   }
   ClearSearch() {
     this.filter = {
@@ -341,33 +342,42 @@ export class OrdersComponent implements OnInit {
       user_agent: "",
       payment_method: null,
     };
-    this.changePage(1)
+    this.changePage(1);
   }
   setupStateForm() {
     this.stateForm = new FormGroup({
       status_notes: new FormControl(),
-      cancellation_id: new FormControl('placeholder'),
+      pickup_guid: new FormControl(),
+      cancellation_id: new FormControl("placeholder"),
       order_ids: new FormControl(this.ordersBulk),
       state_id: new FormControl(this.orderStatusId),
       sub_state_id: new FormControl(this.sub_state_id),
       pickup_date: new FormControl(new Date()),
-      pickup_time: new FormControl('00:00'),
+      pickup_time: new FormControl("00:00"),
       shipping_notes: new FormControl(),
       shipping_method: new FormControl(3),
       aramex_account_number: new FormControl(1),
-      branch_id: new FormControl(this.branches.length ? this.branches[0].id : ''),
+      branch_id: new FormControl(
+        this.branches.length ? this.branches[0].id : ""
+      ),
       subtract_stock: new FormControl(),
     });
 
     if (this.orderStatusId == 8) {
-      this.stateForm.get('pickup_date').setValidators([Validators.required]);
-      this.stateForm.get('pickup_time').setValidators([Validators.required]);
-      this.stateForm.get('branch_id').setValidators([Validators.required]);
-      this.stateForm.get('shipping_method').setValidators([Validators.required]);
-      this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
+      // this.stateForm.get("pickup_date").setValidators([Validators.required]);
+      // this.stateForm.get("pickup_time").setValidators([Validators.required]);
+      this.stateForm.get("branch_id").setValidators([Validators.required]);
+      this.stateForm
+        .get("shipping_method")
+        .setValidators([Validators.required]);
+      this.stateForm
+        .get("aramex_account_number")
+        .setValidators([Validators.required]);
     } else if (this.orderStatusId == 6) {
-      this.stateForm.get('status_notes').setValidators([Validators.required]);
-      this.stateForm.get('cancellation_id').setValidators([Validators.required]);
+      this.stateForm.get("status_notes").setValidators([Validators.required]);
+      this.stateForm
+        .get("cancellation_id")
+        .setValidators([Validators.required]);
     }
   }
 
@@ -379,8 +389,6 @@ export class OrdersComponent implements OnInit {
           element.select = true;
           this.selectAllChecked = true;
           // this.countPickupOrder('add', element.id)
-
-
         });
       } else {
         this.orders.forEach((element) => {
@@ -399,14 +407,11 @@ export class OrdersComponent implements OnInit {
     } else {
       order.select = true;
       // this.countPickupOrder('add', order.id)
-
     }
-
   }
 
   removePickupId(id) {
-    this.countPickupOrder('remove', id)
-
+    this.countPickupOrder("remove", id);
   }
 
   stateFormValid() {
@@ -448,7 +453,7 @@ export class OrdersComponent implements OnInit {
     }
 
     if (this.orderSelectedPickup.length) {
-      this.ordersBulk = this.orderSelectedPickup
+      this.ordersBulk = this.orderSelectedPickup;
     } else {
       this.ordersBulk = this.orders
         .filter((element) => element.select)
@@ -466,55 +471,66 @@ export class OrdersComponent implements OnInit {
   }
 
   confirmPickup(notifyUser) {
-    console.log(this.stateForm.value)
+    console.log(this.stateForm.value);
     if (!this.stateForm.valid) {
       return this.markFormGroupTouched(this.stateForm);
     }
     let data = this.stateForm.value;
-    data.pickup_date = moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
+    data.pickup_date =
+      moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
     data.shipping_method = +data.shipping_method;
     data.state_id = +data.state_id;
     data.notify_customer = this.notifyUser;
-    this.stateSubmitting = true
+    this.stateSubmitting = true;
     this.ordersService
       .createPickup(this.orderId, data)
       .subscribe((response: any) => {
         if (response.code === 200) {
-          this.status_notesText = '';
+          this.status_notesText = "";
           $("#confirmOrderPickup").modal("hide");
           this.filter$.next(this.filter);
-          this.orderSelectedPickup = []
-          localStorage.setItem('orderPickup', JSON.stringify(this.orderSelectedPickup))
+          this.orderSelectedPickup = [];
+          localStorage.setItem(
+            "orderPickup",
+            JSON.stringify(this.orderSelectedPickup)
+          );
         } else {
           this.toasterService.error(response.message, "Error");
         }
-        this.stateSubmitting = false
+        this.stateSubmitting = false;
       });
   }
 
   confirmPickupOrders() {
     this.enableSubmitPickupOrder = true;
-    const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup')) ? JSON.parse(localStorage.getItem('orderPickup')) : [];
+    const orderPickupIds = JSON.parse(localStorage.getItem("orderPickup"))
+      ? JSON.parse(localStorage.getItem("orderPickup"))
+      : [];
     if (orderPickupIds.length) {
-      this.orderStatusId = '8'
-      this.state_id = '8'
-      this.changePickupInOrders()
+      this.orderStatusId = "8";
+      this.state_id = "8";
+      this.changePickupInOrders();
     } else {
-      this.toasterService.error('Please Select Orders First');
+      this.toasterService.error("Please Select Orders First");
     }
   }
   countPickupOrder(type, id) {
-    const orderIndexPickup = this.orderSelectedPickup.findIndex(item => item == id);
-    if (type == 'add') {
+    const orderIndexPickup = this.orderSelectedPickup.findIndex(
+      (item) => item == id
+    );
+    if (type == "add") {
       if (orderIndexPickup == -1) {
         this.orderSelectedPickup.push(id);
       }
     } else {
       if (orderIndexPickup !== -1) {
-        this.orderSelectedPickup.splice(orderIndexPickup, 1)
+        this.orderSelectedPickup.splice(orderIndexPickup, 1);
       }
     }
-    localStorage.setItem('orderPickup', JSON.stringify(this.orderSelectedPickup))
+    localStorage.setItem(
+      "orderPickup",
+      JSON.stringify(this.orderSelectedPickup)
+    );
   }
 
   confirmChangeStatus(notifyUser) {
@@ -530,21 +546,23 @@ export class OrdersComponent implements OnInit {
     //   }
     // }
 
-
-    if (this.stateForm.get('shipping_method').value !== '3') {
-      this.stateForm.get('aramex_account_number').setValidators([]);
-      this.stateForm.get('aramex_account_number').updateValueAndValidity()
-    }else {
-      this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
-      this.stateForm.get('aramex_account_number').updateValueAndValidity()
+    if (this.stateForm.get("shipping_method").value !== "3") {
+      this.stateForm.get("aramex_account_number").setValidators([]);
+      this.stateForm.get("aramex_account_number").updateValueAndValidity();
+    } else {
+      this.stateForm
+        .get("aramex_account_number")
+        .setValidators([Validators.required]);
+      this.stateForm.get("aramex_account_number").updateValueAndValidity();
     }
-    console.log(this.stateForm.value)
+    console.log(this.stateForm.value);
     if (!this.stateForm.valid) {
       return this.markFormGroupTouched(this.stateForm);
     }
     let data = this.stateForm.value;
     if (data.state_id == 8) {
-      data.pickup_date = moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
+      data.pickup_date =
+        moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
       data.shipping_method = +data.shipping_method;
     }
     // if (this.orderStatusId == '6') {
@@ -555,23 +573,20 @@ export class OrdersComponent implements OnInit {
     // }
     data.state_id = +data.state_id;
     data.notify_customer = this.notifyUser;
-    this.stateSubmitting = true
+    this.stateSubmitting = true;
     this.ordersService
       .changeBulkChangeState(this.orderId, data)
       .subscribe((response: any) => {
         if (response.code === 200) {
-          this.status_notesText = '';
+          this.status_notesText = "";
           $("#confirmOrderStatus").modal("hide");
           this.filter$.next(this.filter);
-
         } else {
           this.toasterService.error(response.message, "Error");
         }
 
-        this.stateSubmitting = false
+        this.stateSubmitting = false;
       });
-
-
   }
 
   getOrderStates() {
@@ -619,8 +634,11 @@ export class OrdersComponent implements OnInit {
     if (this.filter.date_to) {
       this.filter.date_to = moment(this.filter.date_to).format("YYYY-MM-DD");
     }
-    if (typeof this.filter.ids === 'string' || this.filter.ids instanceof String) {
-      this.filter.ids = [this.filter.ids]
+    if (
+      typeof this.filter.ids === "string" ||
+      this.filter.ids instanceof String
+    ) {
+      this.filter.ids = [this.filter.ids];
     }
     // console.log(this.serialize(this.filter));
     this.exportProductsUrl =
@@ -650,19 +668,21 @@ export class OrdersComponent implements OnInit {
 
   addProductToOrder() {
     if (this.selectedProduct) {
-      let exists = this.currentOrder.items.findIndex(i => i.id == this.selectedProduct);
+      let exists = this.currentOrder.items.findIndex(
+        (i) => i.id == this.selectedProduct
+      );
 
       if (exists !== -1) {
         return;
       }
 
-      let ind = this.products.findIndex(p => p.id == this.selectedProduct);
+      let ind = this.products.findIndex((p) => p.id == this.selectedProduct);
       if (ind !== -1) {
         let item = {
           id: this.products[ind].id,
           amount: 1,
-          product: this.products[ind]
-        }
+          product: this.products[ind],
+        };
         // let product = this.products[ind];
         // product.amount = 1;
         this.currentOrder.items.push(item);
@@ -976,7 +996,6 @@ export class OrdersComponent implements OnInit {
     this.toggleProductSelect();
   }
 
-
   returnProducts() {
     $("#returnOrder").modal("show");
   }
@@ -1008,7 +1027,7 @@ export class OrdersComponent implements OnInit {
     this.product_list = [];
   }
   updateProducts() {
-    this.showErrorItems = ""
+    this.showErrorItems = "";
     this.items = this.currentOrder.items
       .filter((item) => item.amount && !item.remove)
       .map((item) => {
@@ -1025,14 +1044,11 @@ export class OrdersComponent implements OnInit {
     if (this.items.length) {
       $("#confirmOrderUpdate").modal("show");
     } else {
-      this.showErrorItems = "Order must have at least one item"
+      this.showErrorItems = "Order must have at least one item";
     }
   }
 
   confirmUpdateProducts(notifyUser) {
-
-
-
     if (this.items.length) {
       this.ordersService
         .updateItems(this.currentOrder.id, {
@@ -1050,7 +1066,9 @@ export class OrdersComponent implements OnInit {
             $("#view-deactive").toggleClass("open-view-vindor-types");
             this.currentOrder.items = response.data.items;
 
-            let ind = this.orders.findIndex(o => o.id == this.currentOrder.id);
+            let ind = this.orders.findIndex(
+              (o) => o.id == this.currentOrder.id
+            );
             if (ind !== -1) {
               this.orders[ind].amount = +response.data.amount;
               this.orders[ind].delivery_fees = +response.data.delivery_fees;
@@ -1183,10 +1201,9 @@ export class OrdersComponent implements OnInit {
   }
   public selectCity(cityId) {
     if (cityId) {
-
-      console.log(' cityId===>', cityId)
-      this.filter.customer_city_ids = []
-      this.filter.customer_area_ids = []
+      console.log(" cityId===>", cityId);
+      this.filter.customer_city_ids = [];
+      this.filter.customer_area_ids = [];
 
       const index = this.cities.findIndex((item) => item.id == cityId);
       if (index !== -1) {
@@ -1200,21 +1217,19 @@ export class OrdersComponent implements OnInit {
         }
       }
 
-      this.filter.customer_city_ids = [cityId]
+      this.filter.customer_city_ids = [cityId];
     } else {
-      this.filter.customer_city_ids = []
+      this.filter.customer_city_ids = [];
       this.areaListSearch = [];
-
     }
     // this.changePage(1);
   }
   selectArea(areaId) {
     if (areaId) {
-      this.filter.customer_area_ids = [areaId]
+      this.filter.customer_area_ids = [areaId];
     } else {
       // this.filter.customer_area_ids = [areaId]
-      this.filter.customer_area_ids = []
-
+      this.filter.customer_area_ids = [];
     }
     // this.changePage(1);
   }
@@ -1237,22 +1252,43 @@ export class OrdersComponent implements OnInit {
   createOrder() {
     this.selectedOrder = null;
     // this.viewOrderSidebar = 'out';
-    this.toggleAddOrder = 'in';
+    this.toggleAddOrder = "in";
   }
 
   editOrder(order) {
     this.selectedOrder = order;
     // this.viewOrderSidebar = 'out';
-    this.toggleAddOrder = 'in';
+    this.toggleAddOrder = "in";
   }
 
   closeSideBar(data = null) {
     $("#view-deactive").removeClass("open-view-vindor-types");
     $("#view-side-bar-return-order").removeClass("open-view-vindor-types");
     this.selectedOrder = null;
-    this.toggleAddOrder = 'out';
+    this.toggleAddOrder = "out";
     if (data) {
       this.filter$.next(this.filter);
+    }
+  }
+
+  addToPickup(id) {
+    const orderPickupIds = JSON.parse(localStorage.getItem("orderPickup"))
+      ? JSON.parse(localStorage.getItem("orderPickup"))
+      : [];
+    if (orderPickupIds.length) {
+      const orderIndexPickup = orderPickupIds.findIndex((item) => item == id);
+      if (orderIndexPickup == -1) {
+        orderPickupIds.push(id);
+        localStorage.setItem("orderPickup", JSON.stringify(orderPickupIds));
+        this.orderSelectedPickup.push(id);
+        this.toasterService.success("Order Is Added");
+      } else {
+        this.toasterService.error("Order Is Already exists");
+      }
+    } else {
+      localStorage.setItem("orderPickup", JSON.stringify([id]));
+      this.orderSelectedPickup.push(id);
+      this.toasterService.success("Order Is Added");
     }
   }
 

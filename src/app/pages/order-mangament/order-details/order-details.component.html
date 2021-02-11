@@ -62,12 +62,13 @@
     <ul class="row">
       <li class="col active" *ngFor="let state of order.history">
         <img src="./assets/img/available.svg" />
-        <p style="margin-bottom: 0px;">{{ state.state?.name }}</p>
-        <p style="margin-top: 3px;" *ngIf="state.sub_state?.name">{{ state.sub_state?.name }}</p>
-        <p style="margin-top: 3px;" *ngIf="state.user?.name">{{ state.user?.name }}</p>
-        <p style="margin-top: 3px;" *ngIf="order?.cancellation_reason">Cancellation reason : {{
-          order?.cancellation_reason.text }}</p>
-        <p style="margin-top: 3px;" *ngIf="state?.status_notes">Note : {{ state?.status_notes }}</p>
+        <p class="mb-0">{{ state.state?.name }}</p>
+        <p class="mb-0 mt-2" *ngIf="state.sub_state?.name">{{ state.sub_state?.name }}</p>
+        <p class="mb-0 mt-2" *ngIf="state.user?.name">{{ state.user?.name }}</p>
+        <p class="mb-0 mt-2" *ngIf="order?.cancellation_reason">
+          Cancellation reason : {{order?.cancellation_reason.text }}
+        </p>
+        <p class="mb-0 mt-2" style="margin-top: 3px;" *ngIf="state?.status_notes">Note : {{ state?.status_notes }}</p>
         <span>{{ state.created_at | date: "yyyy-MM-dd hh:mm a" }}</span>
       </li>
     </ul>
@@ -375,7 +376,7 @@
 <div class="block" *ngIf="order">
   <div class="row">
     <button (click)="createShipment()" class="float-right btn btn-owls btn-rounded btn-green">
-      Create Shipment 
+      Create Shipment
     </button>
     <div class="table-responsive">
       <table class="table owls-table" *ngIf="order">
@@ -390,7 +391,7 @@
           </tr>
         </thead>
         <tbody>
-    
+
           <tr *ngFor="let shipment of order.shipments; let i = index">
             <td>{{ shipment.shipping_id }}</td>
             <td>{{ shipment.pickup?.shipping_guid }}</td>
@@ -399,7 +400,7 @@
             <td>{{ shipment.update_description }}</td>
             <td><a href="{{shipment.shipment_url}}" target="_blank">AWB</a></td>
           </tr>
-    
+
         </tbody>
       </table>
       <h4 class="text-center" *ngIf="no_orders">There are no Orders</h4>
@@ -694,7 +695,7 @@
               <option value="{{pickup.shipping_guid}}" *ngFor="let pickup of available_pickups">{{pickup.pickup_time | date: 'd-M-yyyy h:mm a'}} - {{pickup.shipping_guid}}</option>
             </select>
           </div>
-          <div class="form-group w-60">
+          <!-- <div class="form-group w-60">
             <mat-form-field>
               <input matInput [min]="today"  #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
                 [value]="date" formControlName="pickup_date" required>
@@ -727,7 +728,7 @@
               </div>
             </div>
 
-          </div>
+          </div> -->
           <div class="form-group">
             <label for="">Shipping Notes</label>
             <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="shipping_notes">

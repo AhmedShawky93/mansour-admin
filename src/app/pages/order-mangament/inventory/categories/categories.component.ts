@@ -222,9 +222,9 @@ export class CategoriesComponent implements OnInit {
     this._CategoriesService
       .updateCategory(category.id, category)
       .subscribe((response: any) => {
-        if (response.code) {
+        if (response.code === 200) {
           $("#edit-cat").toggleClass("open-view-vindor-types");
-          let category = response.data;
+          const category = response.data;
           category.deactivated = !category.active;
 
           category.sub_categories.map((cat) => {
@@ -233,9 +233,10 @@ export class CategoriesComponent implements OnInit {
           });
 
           this.currentCategory = category;
-          let ind = this.categories.findIndex((item) => item.id == category.id);
+          const ind = this.categories.findIndex((item) => item.id == category.id);
           if (ind !== -1) {
             this.categories[ind] = category;
+            this.categories.splice(ind, 1, category);
           }
           (this.newCategory.name = ""), (this.newCategory.description = "");
         } else {
