@@ -72,7 +72,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       defaultFontSize: '',
       sanitize: true,
       toolbarPosition: 'top',
-      /*uploadUrl: environment.api + '/admin/upload',*/
+      uploadUrl: environment.api + '/admin/upload_ckeditor',
     };
   }
 
