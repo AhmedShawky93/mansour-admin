@@ -111,7 +111,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
       default_variant: new FormControl(data ? data.default_variant : 0),
-      bundle_products_ids: new FormControl(data ? data.bundleProducts.map(bp => bp.id) : []),
+      bundle_products_ids: new FormControl((data && data.bundleProducts) ? data.bundleProducts.map(bp => bp.id) : []),
       stock: new FormControl(data ? data.stock : 0, Validators.required),
       preorder: new FormControl(data ? data.preorder : 0),
       // preorder_price: new FormControl(data ? data.preorder_price : 0),
