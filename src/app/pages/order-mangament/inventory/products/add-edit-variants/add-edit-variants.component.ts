@@ -8,8 +8,8 @@ import {OptionsService} from '@app/pages/services/options.service';
 import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
-import { Observable, Subject, concat, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import {Observable, Subject, concat, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
 import {environment} from '@env/environment';
 
 
@@ -78,6 +78,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     console.log('parentProduct', this.parentProduct);
     console.log('selectedVariant', this.selectVariant);
     this.setForm(this.selectVariant);
+    this.mergeData(this.selectVariant);
     this.setData(this.selectVariant);
   }
 
@@ -103,6 +104,8 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       long_description_ar: new FormControl(data ? data.long_description_ar : ''),
       meta_title: new FormControl(data ? data.meta_title : ''),
       meta_description: new FormControl(data ? data.meta_description : ''),
+      meta_title_ar: new FormControl(data ? data.meta_title_ar : ''),
+      meta_description_ar: new FormControl(data ? data.meta_description_ar : ''),
       price: new FormControl(data ? data.price : '', this.parentProduct && this.parentProduct.available_soon ? [] : Validators.required),
       discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
@@ -122,50 +125,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
       option_values: this.formBuilder.array([]),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
-
-    if (data) {
-      if (data.options.length) {
-        data.options.forEach((element) => {
-          element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
-          this.attribute_options.push(element.option);
-          this.addOptionsEdit(element);
-          console.log('element Option>>' , element);
-        });
-      }
-    } else {
-
-    }
-
-    let bundleProducts = [];
-    if (data && data.bundleProducts) {
-      bundleProducts = data.bundleProducts.map(bp => {
-        return {
-          id: bp.id,
-          name: bp.sku + ": " + bp.name
-        }
-      })
-    }
-    console.log("BP: ", bundleProducts);
-    this.products$ = concat(
-      of(bundleProducts), // default items
-      this.productsInput$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        tap(() => this.productsLoading = true),
-        switchMap(term => this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
-          catchError(() => of([])), // empty list on error
-          tap(() => this.productsLoading = false),
-          map((response: any) => {
-            return response.data.products.map(p => {
-              return {
-                id: p.id,
-                name: p.sku + ": " + p.name
-              }
-            })
-          })
-        ))
-      )
-    );
   }
 
   getCategories() {
@@ -192,6 +151,52 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
           }
         }
       );
+  }
+
+  mergeData(data) {
+    if (data) {
+      if (data.options.length) {
+        data.options.forEach((element) => {
+          element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
+          this.attribute_options.push(element.option);
+          this.addOptionsEdit(element);
+          console.log('element Option>>', element);
+        });
+      }
+    } else {
+
+    }
+
+    let bundleProducts = [];
+    if (data && data.bundleProducts) {
+      bundleProducts = data.bundleProducts.map(bp => {
+        return {
+          id: bp.id,
+          name: bp.sku + ': ' + bp.name
+        };
+      });
+    }
+    console.log('BP: ', bundleProducts);
+    this.products$ = concat(
+      of(bundleProducts), // default items
+      this.productsInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => this.productsLoading = true),
+        switchMap(term => this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
+          catchError(() => of([])), // empty list on error
+          tap(() => this.productsLoading = false),
+          map((response: any) => {
+            return response.data.products.map(p => {
+              return {
+                id: p.id,
+                name: p.sku + ': ' + p.name
+              };
+            });
+          })
+        ))
+      )
+    );
   }
 
   setData(data) {
@@ -296,7 +301,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
 
     const index = this.categories.findIndex((item) => item.id === category_id);
     if (index !== -1) {
-      let ind = this.categories[index].sub_categories.findIndex(c => c.id == subcategory_id);
+      const ind = this.categories[index].sub_categories.findIndex(c => c.id == subcategory_id);
       if (ind !== -1) {
         this.attribute_options = this.categories[index].sub_categories[ind].options;
         console.log('This Options >>>>', this.options);
@@ -311,12 +316,13 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     this.option_values = this.variantForm.get('option_values') as FormArray;
     this.option_values.push(this.createItemOptions(data));
   }
+
   createItemOptions(data): FormGroup {
     return this.formBuilder.group({
-      type:  new FormControl( (data) ? data.type : ''),
-      option_id: new FormControl( (data) ? data.id : '') ,
-      name_en: new FormControl( (data) ? data.name_en : ''),
-      optionValues: new FormControl( (data) ? data.values : ''),
+      type: new FormControl((data) ? data.type : ''),
+      option_id: new FormControl((data) ? data.id : ''),
+      name_en: new FormControl((data) ? data.name_en : ''),
+      optionValues: new FormControl((data) ? data.values : ''),
       option_value_id: new FormControl(''),
       input_en: new FormControl(''),
       input_ar: new FormControl(''),
@@ -327,14 +333,15 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     this.option_values = this.variantForm.get('option_values') as FormArray;
     this.option_values.push(this.createItemOptionsEdit(data));
   }
+
   createItemOptionsEdit(data): FormGroup {
     return this.formBuilder.group({
-      type:  new FormControl( (data) ? data.option.type : ''),
-      option_id: new FormControl( (data) ? data.option.id : ''),
-      name_en: new FormControl( (data) ? data.option.name_en : ''),
-      optionValues: new FormControl( (data) ? data.option.values : ''),
-      option_value_id: new FormControl( (data) ? data.value.id : ''),
-      input_en: new FormControl((data && data.value.input_en)  ? data.value.input_en : ''),
+      type: new FormControl((data) ? data.option.type : ''),
+      option_id: new FormControl((data) ? data.option.id : ''),
+      name_en: new FormControl((data) ? data.option.name_en : ''),
+      optionValues: new FormControl((data) ? data.option.values : ''),
+      option_value_id: new FormControl((data) ? data.value.id : ''),
+      input_en: new FormControl((data && data.value.input_en) ? data.value.input_en : ''),
       input_ar: new FormControl((data && data.value.input_ar) ? data.value.input_ar : ''),
     });
   }

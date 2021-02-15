@@ -1,8 +1,8 @@
 import {ProductsService} from '@app/pages/services/products.service';
 import {CategoryService} from '@app/pages/services/category.service';
 import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output,} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators,} from '@angular/forms';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, } from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
@@ -89,6 +89,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
     console.log(this.selectProductDataEdit);
     this.getForm(this.selectProductDataEdit);
+    this.setData(this.selectProductDataEdit);
   }
 
   getForm(data) {
@@ -143,10 +144,27 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),*/
-      product_variant_options: new FormControl((data) ? data.product_variant_options.map(item => item.id) : '', Validators.required)
+      product_variant_options: new FormControl((data) ? data.product_variant_options.map(item => item.id) : '', [])
     });
     // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));
 
+
+  }
+
+  getAllOptions() {
+    this.optionsService.getOptions({})
+      .subscribe(
+        res => {
+          if (res['code'] === 200) {
+            this.allOptions = res['data'];
+            console.log('allOptions', this.allOptions);
+          } else {
+            this.toastrService.error(res['message']);
+          }
+        }
+      );
+  }
+  setData(data) {
     if (data) {
 
       this.setCategoriesData(data);
@@ -187,11 +205,11 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       relatedProducts = data.relatedProducts.map(bp => {
         return {
           id: bp.id,
-          name: bp.sku + ": " + bp.name
-        }
-      })
+          name: bp.sku + ': ' + bp.name
+        };
+      });
     }
-    console.log("RP: ", relatedProducts);
+    console.log('RP: ', relatedProducts);
     this.relatedProducts$ = concat(
       of(relatedProducts), // default items
       this.relatedProductsInput$.pipe(
@@ -205,29 +223,14 @@ export class AddEditProductComponent implements OnInit, OnChanges {
             return response.data.products.map(p => {
               return {
                 id: p.id,
-                name: p.sku + ": " + p.name
-              }
-            })
+                name: p.sku + ': ' + p.name
+              };
+            });
           })
         ))
       )
     );
   }
-
-  getAllOptions() {
-    this.optionsService.getOptions({})
-      .subscribe(
-        res => {
-          if (res['code'] === 200) {
-            this.allOptions = res['data'];
-            console.log('allOptions', this.allOptions);
-          } else {
-            this.toastrService.error(res['message']);
-          }
-        }
-      );
-  }
-
   setCategoriesData(data) {
     this.imageUrl = data.image;
     const cat_id = data.category.id;
@@ -348,7 +351,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     if (event.target.value) {
       this.loading = true;
       const selectFile = <File>event.target.files[0];
-      var reader = new FileReader();
+      const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (_event) => {
         this.imageUrl = reader.result;
@@ -651,7 +654,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   toggleCategorySelectedState(category_id, selected) {
-    let ind = this.categories.findIndex((c) => c.id == category_id);
+    const ind = this.categories.findIndex((c) => c.id == category_id);
 
     if (ind !== -1) {
       this.categories[ind].selected = selected;

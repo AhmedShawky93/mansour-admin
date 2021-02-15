@@ -381,7 +381,7 @@
         </label>
         <p class="text-muted">Checking this optional will reduce stocks from this sku directly</p>
       </div>
-  
+
       <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
         <label class="container">Bundled Checkout
           <input type="checkbox"  class="form-control checkbox-style" name="bundle_checkout" id="bundle_checkout" [value]="1" formControlName="bundle_checkout">
@@ -389,7 +389,7 @@
         </label>
         <p class="text-muted">Checking this optional will display only one product in the invoice</p>
       </div>
-  
+
       <div class="form-group">
         <label>Bundle Products</label>
         <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
@@ -537,6 +537,16 @@
     <div class="form-group">
       <label>Meta Description</label>
       <textarea class="owl-input" formControlName="meta_description" placeholder="type"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Meta Title (AR)</label>
+      <textarea class="owl-input" formControlName="meta_title_ar" placeholder="type"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Meta Description (AR)</label>
+      <textarea class="owl-input" formControlName="meta_description_ar" placeholder="type"></textarea>
     </div>
 
     <div class="form-group">
