@@ -75,7 +75,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       defaultFontSize: '',
       sanitize: true,
       toolbarPosition: 'top',
-      /*uploadUrl: environment.api + '/admin/upload',*/
+      uploadUrl: environment.api + '/admin/upload_ckeditor',
     };
   }
 
@@ -87,6 +87,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.setForm();
+    this.mergeData();
   }
 
   closeSideBar() {
@@ -116,7 +117,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       start_time: new FormControl('00:00:00', []),
       discount_end_date: new FormControl('', []),
       expiration_time: new FormControl('00:00:00', []),
-      product_variant_options: new FormControl('', Validators.required),
+      product_variant_options: new FormControl('', []),
 
       image: new FormControl('', Validators.required),
       video: new FormControl(''),
@@ -137,6 +138,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       long_description_ar: new FormControl(''),
       meta_title: new FormControl(''),
       meta_description: new FormControl( ''),
+      meta_title_ar: new FormControl(''),
+      meta_description_ar: new FormControl( ''),
       price: new FormControl('', Validators.required),
       discount_price: new FormControl('', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
@@ -154,6 +157,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       related_ids: new FormControl(),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
 
+  }
+
+  mergeData() {
     this.products$ = concat(
       of(), // default items
       this.productsInput$.pipe(
@@ -168,7 +174,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
               return response.data.products.map((p) => {
                 return {
                   id: p.id,
-                  name: p.sku + ": " + p.name,
+                  name: p.sku + ': ' + p.name,
                 };
               });
             })
@@ -191,7 +197,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
               return response.data.products.map((p) => {
                 return {
                   id: p.id,
-                  name: p.sku + ": " + p.name,
+                  name: p.sku + ': ' + p.name,
                 };
               });
             })
@@ -462,7 +468,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       order: product.order,
       preorder: product.preorder,
       available_soon: !!product.available_soon,
-      product_variant_options: product.product_variant_options.map(item => item.id),
+      product_variant_options: (product.product_variant_options.length) ? product.product_variant_options.map(item => item.id) : '',
       sku: product.sku,
       stock_alert: product.stock_alert,
       type: product.type,
@@ -514,6 +520,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       long_description_en: product.long_description_en,
       name: product.name,
       name_ar: product.name_ar,
+      meta_title: product.meta_title,
+      meta_description: product.meta_description,
+      meta_title_ar: product.meta_title_ar,
+      meta_description_ar: product.meta_description_ar,
       options: product.options,
       option_values: product.option_values,
       // preorder_price: product.preorder_price,
@@ -537,7 +547,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         } else {
           this.spinner.hide();
           this.toasterService.error(response.message);
-          this.productsService.deleteProduct(this.mainProduct.id)
+          this.productsService.deleteProduct(this.mainProduct.id);
         }
         this.submitting = false;
       });
@@ -564,7 +574,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   onAvailableChange() {
     console.log(this.componentForm.value.available_soon);
     if (this.componentForm.value.available_soon) {
-      this.componentForm.get("price").clearValidators();
+      this.componentForm.get('price').clearValidators();
     } else {
       this.componentForm.get('price').setValidators([Validators.required]);
     }
