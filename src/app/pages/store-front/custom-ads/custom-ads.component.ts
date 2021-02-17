@@ -315,6 +315,10 @@ export class CustomAdsComponent implements OnInit {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
       ad.item_id = this.newAdsForm.get("brand").value;
+    } else if (ad.type == 5) {
+      ad.item_id = this.newAdsForm.get("list_id").value;
+    } else if (ad.type == 6) {
+      ad.item_id = this.newAdsForm.get("category").value;
     }
 
     this.adsService.creatAds(ad).subscribe((response: any) => {
@@ -345,6 +349,10 @@ export class CustomAdsComponent implements OnInit {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
       ad.item_id = this.newAdsForm.get("brand").value;
+    } else if (ad.type == 5) {
+      ad.item_id = this.newAdsForm.get("list_id").value;
+    } else if (ad.type == 6) {
+      ad.item_id = this.newAdsForm.get("category").value;
     }
 
     this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {

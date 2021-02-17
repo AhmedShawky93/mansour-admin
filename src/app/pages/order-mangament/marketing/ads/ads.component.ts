@@ -323,6 +323,8 @@ export class adsComponent implements OnInit {
       ad.item_id = this.newAdsForm.get("brand").value;
     } else if (ad.type == 5) {
       ad.item_id = this.newAdsForm.get("list_id").value;
+    } else if (ad.type == 6) {
+      ad.item_id = this.newAdsForm.get("category").value;
     }
 
     this.adsService.creatAds(ad).subscribe((response: any) => {
@@ -355,6 +357,8 @@ export class adsComponent implements OnInit {
       ad.item_id = this.newAdsForm.get("brand").value;
     } else if (ad.type == 5) {
       ad.item_id = this.newAdsForm.get("list_id").value;
+    } else if (ad.type == 6) {
+      ad.item_id = this.newAdsForm.get("category").value;
     }
 
     this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {
