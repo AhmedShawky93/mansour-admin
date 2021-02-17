@@ -288,11 +288,14 @@
       <label for=""> type</label>
       <select type="text" class="owl-input" formControlName="type" name="type" (change)="onAdTypeChanged(newAdsForm)">
         <option value="" selected disabled>Select Type</option>
+        <option value="">None</option>
         <option value="1">product</option>
         <option value="2">Subcategory</option>
         <!-- <option value="3">Medical </option> -->
         <option value="4">Brand</option>
         <option value="5">Custom List</option>
+        <option value="6">Category</option>
+        <option value="7">Link</option>
       </select>
       <div
         *ngIf="newAdsForm.controls.type.invalid && (newAdsForm.controls.type.dirty || newAdsForm.controls.type.touched)"
@@ -303,7 +306,19 @@
       </div>
     </div>
 
-    <div class="form-group" *ngIf="newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
+    <div class="form-group" *ngIf="newAdsForm.get('type').value == 7">
+      <label for="amount">Link</label>
+      <input type="text" class="owl-input" formControlName="link" name="link" placeholder="Type here...">
+      <div
+        *ngIf="newAdsForm.controls.link.invalid && (newAdsForm.controls.link.dirty || newAdsForm.controls.link.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.link.errors.required">
+          Link is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="newAdsForm.get('type').value == 6 || newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
       <label for=""> category</label>
       <select type="text" class="owl-input" (change)="onCategoryChange(category_id)" formControlName="category"
         name="category">
