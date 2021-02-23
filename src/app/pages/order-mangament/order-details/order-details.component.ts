@@ -1,6 +1,6 @@
 import { OrderStatesService } from "./../../services/order-states.service";
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import { OrdersService } from "@app/pages/services/orders.service";
@@ -19,9 +19,12 @@ export class OrderDetailsComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+  SerialNumberForm: FormGroup;
+  // serials: FormArray;
   isOptional = false;
   notifyUser: boolean = true;
 
+  amount: number;
   order;
 
   processing = false;
@@ -58,7 +61,9 @@ export class OrderDetailsComponent implements OnInit {
   branches: any = [];
   today: Date;
   date: Date;
-
+  SerialNumberArr: any;
+  allSerialNumber: any;
+  submitted:boolean = false;
   constructor(
     private _formBuilder: FormBuilder,
     private router: Router,
@@ -70,6 +75,7 @@ export class OrderDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);
 
@@ -94,7 +100,27 @@ export class OrderDetailsComponent implements OnInit {
       });
     // this.order.state_id = this.order.previous_state;
     // this.order.sub_state_id = this.order.previous_subState;
+    this.SerialNumberForm = this._formBuilder.group({
+      serials: new FormArray([])
+    })
   }
+
+
+  get serialNumberFormGroub() { return this.SerialNumberForm.controls; }
+  get serialsFormArr() { return this.serialNumberFormGroub.serials as FormArray; }
+
+  getDynamicFormControlSerialNumberNames() {
+    for (let i = this.serialsFormArr.length; i < this.amount; i++) {
+      this.serialsFormArr.push(this._formBuilder.group({
+        name: new FormControl('', Validators.required),
+      }));
+    }
+  }
+
+
+
+
+
 
   getOrderDetails(id) {
     this.orderService.getOrder(id).subscribe((response: any) => {
@@ -206,11 +232,8 @@ export class OrderDetailsComponent implements OnInit {
   selectStatus(id) {
     this.orderStatusId = id;
     let index = this.orderStatus.findIndex((item) => item.id == id);
-    console.log(index);
-
     if (index !== -1) {
       this.orderSubStates = this.orderStatus[index].sub_states;
-      console.log(this.orderSubStates);
     }
     // if (!this.firstTime) {
     //   $("#confirmOrderStatus").modal("show");
@@ -266,9 +289,20 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   openEditSerialNumber(product) {
-    this.currentItem = product;
-    this.serialNumber = this.currentItem.serial_number;
     $("#orderChangeSerial").modal("show");
+    this.serialNumberFormGroub.serials = new FormArray([]);
+    this.currentItem = product;
+    this.amount = product.amount;
+    if(product.serial_number != null){
+      let x = product.serial_number.split(",");
+      for (let i = 0; i < x.length; i++) {
+        this.serialsFormArr.push(this._formBuilder.group({
+          name: new FormControl(x[i], Validators.required),
+        }));
+      }
+    }else if(product.serial_number == null){
+      this.getDynamicFormControlSerialNumberNames();
+    }
   }
 
   submitItemUpdate() {
@@ -281,27 +315,31 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   submitItemSerialUpdate() {
-    let data = {
-      items: [
-        {
-          id: this.currentItem.id,
-          serial_number: this.serialNumber
-        }
-      ]
+    if (this.serialNumberFormGroub.serials.valid) {
+      this.submitted = true;
+      this.allSerialNumber = this.SerialNumberForm.get('serials').value;
+      this.allSerialNumber = this.allSerialNumber.map((res) => this.allSerialNumber = res.name)
+      let data = {
+        id: this.currentItem.id,
+        serial_number: this.allSerialNumber
+      }
+      this.orderService.updateSerial(this.order.id, data)
+        .subscribe((response: any) => {
+          if (response.code == 200) {
+            let oneProduct = this.order.items.find(item => item.id == this.currentItem.id);
+            oneProduct.serial_number = data.serial_number.toString();
+            this.toastrService.success("successfully");
+            $("#orderChangeSerial").modal("hide");
+          } else {
+            this.toastrService.error(response.message, "Error");
+          }
+        });
+    }else{
+      this.markFormGroupTouched(this.SerialNumberForm);
     }
-    this.orderService.updateSerial(this.order.id, data)
-      .subscribe((response: any) => {
-        if (response.code == 200) {
-          this.currentItem.serial_number = this.serialNumber;
-          $("#orderChangeSerial").modal("hide");
-        } else {
-          this.toastrService.error(response.message, "Error");
-        }
-      });
   }
 
   openEditPriceTotal(product) {
-    console.log(product);
     this.discount = this.order.invoice.total_amount - this.order.invoice.discount
     $("#orderChangePriceTotal").modal("show");
   }
@@ -410,6 +448,17 @@ export class OrderDetailsComponent implements OnInit {
           this.resetShipmentForm();
         } else {
           this.toastrService.error('Error Creating Shipment', 'Error');
+        }
+      });
+  }
+  private markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object)
+      .values(formGroup.controls)
+      .forEach((control: FormGroup, ind) => {
+        control.markAsTouched();
+        control.markAsDirty();
+        if (control.controls) {
+          this.markFormGroupTouched(control);
         }
       });
   }
