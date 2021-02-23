@@ -89,6 +89,7 @@ export class OrdersComponent implements OnInit {
     customer_name: "",
     customer_email: "",
     customer_phone: "",
+    shipping_id: "",
     payment_method: null,
     user_agent: "",
   };
@@ -339,6 +340,7 @@ export class OrdersComponent implements OnInit {
       customer_name: "",
       customer_email: "",
       customer_phone: "",
+      shipping_id: "",
       user_agent: "",
       payment_method: null,
     };

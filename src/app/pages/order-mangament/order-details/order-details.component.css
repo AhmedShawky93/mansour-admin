@@ -5,7 +5,9 @@
   padding: 30px;
   position: relative;
 }
-
+.invalid-serials{
+  color: red;
+}
 .copy-skus {
   position: absolute;
   right: 0px;
@@ -269,9 +271,7 @@ p.pRating {
   top: -19px;
 }
 
-.owl-input {
-  margin-bottom: 50px;
-}
+
 
 .edit-price {
   position: relative;
