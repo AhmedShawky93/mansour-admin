@@ -134,7 +134,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       max_per_order: new FormControl(data ? data.max_per_order : ''),
       min_days: new FormControl(data ? data.min_days : ''),
       stock_alert: new FormControl(data ? data.stock_alert : ''),
-      order: new FormControl(data ? data.order : ''),
       type: new FormControl(data ? data.type : '', Validators.required),
       has_stock: new FormControl(data ? data.has_stock : ''),
       bundle_checkout: new FormControl(data ? data.bundle_checkout : ''),

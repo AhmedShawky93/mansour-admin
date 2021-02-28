@@ -465,7 +465,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       // option_values: product.option_values,
       optional_category: product.optional_category,
       optional_sub_category_id: product.optional_sub_category_id,
-      order: product.order,
       preorder: product.preorder,
       available_soon: !!product.available_soon,
       product_variant_options: (product.product_variant_options.length) ? product.product_variant_options.map(item => item.id) : '',
@@ -516,6 +515,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       image: product.image,
       video: product.video,
       images: product.images,
+      order: product.order,
       long_description_ar: product.long_description_ar,
       long_description_en: product.long_description_en,
       name: product.name,
@@ -592,5 +592,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           this.markFormGroupTouched(control);
         }
       });
+  }
+
+
+  removeImage(index) {
+    this.addSubImages.removeAt(index);
   }
 }

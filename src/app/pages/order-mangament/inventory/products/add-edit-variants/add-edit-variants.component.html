@@ -35,7 +35,7 @@
                                 height="60px"
                                 width="60px">
             </app-image-uploader>
-            <!--<i class="icon-Exit" (click)="removeImage(image , i)"></i>-->
+            <i class="icon-Exit" (click)="removeImage(i)" *ngIf='image'></i>
           </div>
           <div *ngIf="formGroupControlsValidator(image,'url','required')" class="alert alert-danger">
             Image Is Required
@@ -328,6 +328,10 @@
       <div *ngIf="formControlValidator('sku','min')" class="alert alert-danger">
         Sku Must Be Numbers Only
       </div>
+    </div>
+    <div class="form-group">
+      <label> Order</label>
+      <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
     </div>
 
     <!--<div class="form-group">
