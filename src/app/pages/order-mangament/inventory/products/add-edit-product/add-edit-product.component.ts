@@ -1,16 +1,16 @@
-import {ProductsService} from '@app/pages/services/products.service';
-import {CategoryService} from '@app/pages/services/category.service';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, } from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
-import {DateLessThan} from '@app/shared/date-range-validation';
+import { ProductsService } from '@app/pages/services/products.service';
+import { CategoryService } from '@app/pages/services/category.service';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { DateLessThan } from '@app/shared/date-range-validation';
 import * as moment from 'moment';
-import {OptionsService} from '@app/pages/services/options.service';
-import {AngularEditorConfig} from '@kolkov/angular-editor';
+import { OptionsService } from '@app/pages/services/options.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Observable, Subject, concat, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
-import {environment} from '@env/environment';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -156,7 +156,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         res => {
           if (res['code'] === 200) {
             this.allOptions = res['data'];
-            console.log('allOptions', this.allOptions);
+            // console.log('allOptions', this.allOptions);
           } else {
             this.toastrService.error(res['message']);
           }
@@ -183,7 +183,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
           element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
           this.options.push(element.option);
           this.addOptionsEdit(element);
-          console.log('element Option>>' , element);
+          console.log('element Option>>', element);
         });
 
       }
@@ -215,7 +215,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         debounceTime(200),
         distinctUntilChanged(),
         tap(() => this.relatedProductsLoading = true),
-        switchMap(term => this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
+        switchMap(term => this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
           catchError(() => of([])), // empty list on error
           tap(() => this.relatedProductsLoading = false),
           map((response: any) => {
@@ -277,34 +277,34 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     });
   }
 
-/*  addOptions(data): void {
-    this.option_values = this.addProductForm.get('option_values') as FormArray;
-    this.option_values.push(this.createItemOptions(data));
-  }
+  /*  addOptions(data): void {
+      this.option_values = this.addProductForm.get('option_values') as FormArray;
+      this.option_values.push(this.createItemOptions(data));
+    }
 
-  createItemOptions(data): FormGroup {
-    return this.formBuilder.group({
-      option_id: data.id,
-      id: new FormControl(''),
-      option_value_id: new FormControl(''),
-      input_en: new FormControl(''),
-      input_ar: new FormControl(''),
-    });
-  }
+    createItemOptions(data): FormGroup {
+      return this.formBuilder.group({
+        option_id: data.id,
+        id: new FormControl(''),
+        option_value_id: new FormControl(''),
+        input_en: new FormControl(''),
+        input_ar: new FormControl(''),
+      });
+    }
 
-  addOptionsEdit(data): void {
-    this.option_values = this.addProductForm.get('option_values') as FormArray;
-    this.option_values.push(this.createItemOptionsEdit(data));
-  }
+    addOptionsEdit(data): void {
+      this.option_values = this.addProductForm.get('option_values') as FormArray;
+      this.option_values.push(this.createItemOptionsEdit(data));
+    }
 
-  createItemOptionsEdit(data): FormGroup {
-    return this.formBuilder.group({
-      option_id: data.option.id,
-      option_value_id: new FormControl(''),
-      input_en: new FormControl(data ? data.value.input_en : ''),
-      input_ar: new FormControl(data ? data.value.input_ar : ''),
-    });
-  }*/
+    createItemOptionsEdit(data): FormGroup {
+      return this.formBuilder.group({
+        option_id: data.option.id,
+        option_value_id: new FormControl(''),
+        input_en: new FormControl(data ? data.value.input_en : ''),
+        input_ar: new FormControl(data ? data.value.input_ar : ''),
+      });
+    }*/
 
   addOptions(data): void {
     this.option_values = this.addProductForm.get('option_values') as FormArray;
@@ -312,10 +312,10 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
   createItemOptions(data): FormGroup {
     return this.formBuilder.group({
-      type:  new FormControl( (data) ? data.type : ''),
-      option_id: new FormControl( (data) ? data.id : '') ,
-      name_en: new FormControl( (data) ? data.name_en : ''),
-      optionValues: new FormControl( (data) ? data.values : ''),
+      type: new FormControl((data) ? data.type : ''),
+      option_id: new FormControl((data) ? data.id : ''),
+      name_en: new FormControl((data) ? data.name_en : ''),
+      optionValues: new FormControl((data) ? data.values : ''),
       option_value_id: new FormControl(''),
       input_en: new FormControl(''),
       input_ar: new FormControl(''),
@@ -327,12 +327,12 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
   createItemOptionsEdit(data): FormGroup {
     return this.formBuilder.group({
-      type:  new FormControl( (data) ? data.option.type : ''),
-      option_id: new FormControl( (data) ? data.option.id : ''),
-      name_en: new FormControl( (data) ? data.option.name_en : ''),
-      optionValues: new FormControl( (data) ? data.option.values : ''),
-      option_value_id: new FormControl( (data) ? data.value.id : ''),
-      input_en: new FormControl((data && data.value.input_en)  ? data.value.input_en : ''),
+      type: new FormControl((data) ? data.option.type : ''),
+      option_id: new FormControl((data) ? data.option.id : ''),
+      name_en: new FormControl((data) ? data.option.name_en : ''),
+      optionValues: new FormControl((data) ? data.option.values : ''),
+      option_value_id: new FormControl((data) ? data.value.id : ''),
+      input_en: new FormControl((data && data.value.input_en) ? data.value.input_en : ''),
       input_ar: new FormControl((data && data.value.input_ar) ? data.value.input_ar : ''),
     });
   }
