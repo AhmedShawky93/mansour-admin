@@ -1,17 +1,18 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {ProductsService} from '@app/pages/services/products.service';
-import {CategoryService} from '@app/pages/services/category.service';
-import {ToastrService} from 'ngx-toastr';
-import {OptionsService} from '@app/pages/services/options.service';
-import {DateLessThan} from '@app/shared/date-range-validation';
+import { DraftProductService } from './../../../../services/draft-product.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { ProductsService } from '@app/pages/services/products.service';
+import { CategoryService } from '@app/pages/services/category.service';
+import { ToastrService } from 'ngx-toastr';
+import { OptionsService } from '@app/pages/services/options.service';
+import { DateLessThan } from '@app/shared/date-range-validation';
 import * as moment from 'moment';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {AngularEditorConfig} from '@kolkov/angular-editor';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Observable, Subject, concat, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
-import {environment} from '@env/environment';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-add-product-variants',
@@ -49,6 +50,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   products$: Observable<any>;
   productsInput$ = new Subject<String>();
   productsLoading: boolean;
+  dataDraftProduct = localStorage.getItem('draftProduct') ? JSON.parse(localStorage.getItem('draftProduct')) : null
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,7 +59,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     private categoriesService: CategoryService,
     private toasterService: ToastrService,
     private optionsService: OptionsService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private draftProductService: DraftProductService
   ) {
     this.editorConfig = {
       editable: true,
@@ -85,9 +88,42 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.getBrands();
   }
 
+
+  SetDraftProduct(data) {
+    this.draftProductService.SetDraftProduct(data)
+    this.dataDraftProduct = data;
+    this.toasterService.success('Product added to draft')
+
+  }
+  // beforeGetDataDraft() {
+  //   const old_data = this.draftProductService.SetDraftProduct(data)
+
+  //   this.dataDraftProduct.
+  //     if(this.dataDraftProduct.id == )
+  // }
+  clearDraftProduct() {
+    this.draftProductService.clearDraftProduct();
+    this.dataDraftProduct = null;
+    this.toasterService.success('Product removed to draft')
+  }
+
   ngOnChanges() {
     this.setForm();
     this.mergeData();
+    setTimeout(() => {
+      if (this.dataDraftProduct !== null) {
+        const data = this.dataDraftProduct;
+        this.componentForm.patchValue(data);
+        this.selectCategory(data.main_category)
+        this.selectSubCategoryOption(data.category_id);
+        // if (data.option_values.length) {
+        //   data.option_values.forEach(element => {
+        //     console.log("🚀 ~ file: add-product-variants.component.ts ~ line 122 ~ AddProductVariantsComponent ~ element", element)
+        //     this.addOptions(element)
+        //   });
+        // }
+      }
+    }, 3000);
   }
 
   closeSideBar() {
@@ -95,7 +131,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.closeSideBarEmit.emit();
   }
 
-  setForm() {
+  setForm(data?) {
     this.componentForm = this.formBuilder.group({
       brand_id: new FormControl(''),
       main_category: new FormControl(''),
@@ -137,9 +173,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       long_description_en: new FormControl(''),
       long_description_ar: new FormControl(''),
       meta_title: new FormControl(''),
-      meta_description: new FormControl( ''),
+      meta_description: new FormControl(''),
       meta_title_ar: new FormControl(''),
-      meta_description_ar: new FormControl( ''),
+      meta_description_ar: new FormControl(''),
       price: new FormControl('', Validators.required),
       discount_price: new FormControl('', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
@@ -155,7 +191,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       bundle_checkout: new FormControl(),
       bundle_products_ids: new FormControl(),
       related_ids: new FormControl(),
-    }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
+    }, { validator: DateLessThan('discount_start_date', 'discount_end_date') });
 
   }
 
@@ -252,19 +288,20 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   createItemOptions(data): FormGroup {
+    console.log("🚀 ~ file: add-product-variants.component.ts ~ line 292  option_value_id ", data.option_value_id)
     return this.formBuilder.group({
       type: new FormControl((data) ? data.type : ''),
       option_id: new FormControl((data) ? data.id : ''),
       name_en: new FormControl((data) ? data.name_en : ''),
       optionValues: new FormControl((data) ? data.values : ''),
-      option_value_id: new FormControl(''),
+      option_value_id: new FormControl((data.option_value_id) ? data.option_value_id : ""),
       input_en: new FormControl(''),
       input_ar: new FormControl(''),
     });
   }
 
-  selectCategory(event) {
-    const cat_id = Number(event.target.value);
+  selectCategory(id) {
+    const cat_id = Number(id);
     const index = this.categories.findIndex((item) => item.id === cat_id);
     if (index !== -1) {
       const category = this.categories[index];
@@ -433,7 +470,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   mappingMainProductData() {
-    const product = {...this.componentForm.value};
+    const product = { ...this.componentForm.value };
     product.option_values.forEach(item => {
       delete item.optionValues;
       delete item.name_en;
@@ -496,7 +533,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   mappingVariantData() {
-    const product = {...this.componentForm.value};
+    const product = { ...this.componentForm.value };
 
     product.options.forEach(item => {
       delete item.optionData;

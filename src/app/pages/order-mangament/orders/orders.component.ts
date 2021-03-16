@@ -376,7 +376,7 @@ export class OrdersComponent implements OnInit {
         .get("aramex_account_number")
         .setValidators([Validators.required]);
     } else if (this.orderStatusId == 6) {
-      this.stateForm.get("status_notes").setValidators([Validators.required]);
+      // this.stateForm.get("status_notes").setValidators([Validators.required]);
       this.stateForm
         .get("cancellation_id")
         .setValidators([Validators.required]);
