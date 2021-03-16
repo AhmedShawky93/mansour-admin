@@ -519,7 +519,7 @@ export class OrderDetailsComponent implements OnInit {
       this.stateForm.get('shipping_method').setValidators([Validators.required]);
       this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
     } else if (Number(this.orderStatusId) === 6) {
-      this.stateForm.get('status_notes').setValidators([Validators.required]);
+      // this.stateForm.get('status_notes').setValidators([Validators.required]);
       this.stateForm.get('cancellation_id').setValidators([Validators.required]);
     }
   }

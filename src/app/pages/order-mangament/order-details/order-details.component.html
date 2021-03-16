@@ -544,13 +544,13 @@
             <label for="">Status notes </label>
             <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="status_notes">
             </textarea>
-            <div
+            <!-- <div
               *ngIf="stateForm.controls.status_notes.invalid && (stateForm.controls.status_notes.dirty || stateForm.controls.status_notes.touched)"
               class="alert alert-danger">
               <div *ngIf="stateForm.controls.status_notes.errors.required">
                 Status notes is required.
               </div>
-            </div>
+            </div> -->
             <label class="checkup"> Return To stock
               <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock" formControlName="subtract_stock">
               <span class="checkmark"></span>
