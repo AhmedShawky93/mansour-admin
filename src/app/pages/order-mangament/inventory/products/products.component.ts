@@ -1,20 +1,20 @@
-import {AddEditProductComponent} from './add-edit-product/add-edit-product.component';
-import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {ProductsService} from '@app/pages/services/products.service';
-import {CategoryService} from '@app/pages/services/category.service';
+import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { ProductsService } from '@app/pages/services/products.service';
+import { CategoryService } from '@app/pages/services/category.service';
 import 'rxjs/add/operator/take';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {environment} from '@env/environment';
-import {AuthService} from '@app/shared/auth.service';
-import {ToastrService} from 'ngx-toastr';
-import {animate, state, style, transition, trigger,} from '@angular/animations';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { environment } from '@env/environment';
+import { AuthService } from '@app/shared/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { animate, state, style, transition, trigger, } from '@angular/animations';
 
-import {FormBuilder, FormControl, FormGroup, Validators,} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
 import 'rxjs/Rx';
-import {Subject} from 'rxjs/Rx';
-import {tap} from 'rxjs/operators';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {debounce} from 'lodash';
+import { Subject } from 'rxjs/Rx';
+import { tap } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { debounce } from 'lodash';
 
 declare var jquery: any;
 declare var $: any;
@@ -123,7 +123,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.viewVariantSidebar = 'out';
   }
 
-  addCustomUser = (term) => ({id: term, name: term});
+  addCustomUser = (term) => ({ id: term, name: term });
 
   ngOnInit() {
     this.getCategories();
@@ -194,12 +194,12 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   search() {
     this.p = 1;
-    this.getProducts(this.selectedMainProduct , this.searchValue);
+    this.getProducts(this.selectedMainProduct, this.searchValue);
   }
 
   pagination(page) {
     this.p = page;
-    this.getProducts(this.selectedMainProduct , this.searchValue);
+    this.getProducts(this.selectedMainProduct, this.searchValue);
   }
 
   getProducts(product: any = null, search: any = null) {
@@ -235,7 +235,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.viewProduct(product);
     } else {
       this.p = 1;
-      this.filter = {q: '', page: 1};
+      this.filter = { q: '', page: 1 };
       this.searchValue = '';
       this.getProducts(product);
     }
@@ -245,7 +245,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.searchValue = '';
     this.selectedMainProduct = null;
     this.p = 1;
-    this.filter = {q: '', page: 1};
+    this.filter = { q: '', page: 1 };
     this.getProducts();
   }
 
@@ -353,13 +353,13 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   toggleMenu(data) {
     console.log('toggleMenu');
-    this.selectProductData = {...data};
+    this.selectProductData = { ...data };
     this.viewProductSidebar = 'out';
     this.toggleAddProduct = 'in';
   }
 
   toggleEditVariantMenu(data) {
-    this.selectedProductVariantData = {...data};
+    this.selectedProductVariantData = { ...data };
     this.viewProductSidebar = 'out';
     this.toggleVariant = 'in';
   }
@@ -557,7 +557,7 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
-      console.log(response.data);
+      // console.log(response.data);
       this.categories = response.data;
     });
   }
@@ -678,7 +678,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   submitDeactivate(product) {
     product.active = 0;
     this.productsService
-      .deactivateProduct(product.id, {deactivation_notes: product.notes})
+      .deactivateProduct(product.id, { deactivation_notes: product.notes })
       .subscribe((data: any) => {
         product.active = 0;
         product.deactivation_notes = product.notes;
