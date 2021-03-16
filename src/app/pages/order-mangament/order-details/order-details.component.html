@@ -529,7 +529,7 @@
           <div class="form-group" *ngIf="orderStatusId == '6'">
             <label for="">Cancellation Reason</label>
             <select name="" class="owl-input bg-white" formControlName="cancellation_id">
-              <option [value]="'placeholder'" selected hidden>Select Cancellation Reason</option>
+              <option [value]="'placeholder'" hidden>Select Cancellation Reason</option>
               <option value="{{reason.id}}" *ngFor="let reason of cancelReasons">{{reason.text}}</option>
             </select>
             <div *ngIf="stateForm.controls.cancellation_id.invalid &&

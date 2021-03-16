@@ -350,7 +350,7 @@ export class OrdersComponent implements OnInit {
     this.stateForm = new FormGroup({
       status_notes: new FormControl(),
       pickup_guid: new FormControl(),
-      cancellation_id: new FormControl("placeholder"),
+      cancellation_id: new FormControl(null, Validators.required),
       order_ids: new FormControl(this.ordersBulk),
       state_id: new FormControl(this.orderStatusId),
       sub_state_id: new FormControl(this.sub_state_id),
@@ -1294,10 +1294,10 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  private markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
-
+      control.markAsDirty();
       if (control.controls) {
         this.markFormGroupTouched(control);
       }

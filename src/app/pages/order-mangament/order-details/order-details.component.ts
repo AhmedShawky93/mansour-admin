@@ -290,6 +290,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   confirmChangeStatus(notifyUser) {
+    this.markFormGroupTouched(this.stateForm)
     if (this.stateForm.get('shipping_method').value !== '3') {
       this.stateForm.get('aramex_account_number').setValidators([]);
       this.stateForm.get('aramex_account_number').updateValueAndValidity();
@@ -499,7 +500,7 @@ export class OrderDetailsComponent implements OnInit {
     this.stateForm = new FormGroup({
       status_notes: new FormControl(),
       pickup_guid: new FormControl(),
-      cancellation_id: new FormControl('placeholder'),
+      cancellation_id: new FormControl(null, Validators.required),
       order_ids: new FormControl([this.orderId]),
       state_id: new FormControl(this.orderStatusId),
       sub_state_id: new FormControl(this.sub_state_id),
@@ -524,7 +525,7 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
 
-  private markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object)
       .values(formGroup.controls)
       .forEach((control: FormGroup, ind) => {
