@@ -438,8 +438,9 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       });
   }
 
-
   removeImage(index) {
+    this.addSubImages = this.variantForm.get('images') as FormArray;
     this.addSubImages.removeAt(index);
+    this.variantForm.updateValueAndValidity();
   }
 }

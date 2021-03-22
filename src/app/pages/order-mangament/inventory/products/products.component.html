@@ -238,6 +238,7 @@
 </app-add-edit-product>
 
 <app-add-edit-variants
+  *ngIf="toggleVariant"
   #productVariantsForm
   (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)"

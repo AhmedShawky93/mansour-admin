@@ -23,7 +23,7 @@
         <img src="assets/img/Expand.svg" alt="add image">
         <span>add image</span>
       </div>
-      <div formArrayName="images">
+      <div formArrayName="images" *ngIf="variantForm.get('images')['controls'].length">
         <div class="owls-upload owls-upload3"
           *ngFor="let image of variantForm.get('images')['controls']; let i = index">
 
