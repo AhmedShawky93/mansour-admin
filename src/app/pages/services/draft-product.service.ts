@@ -10,6 +10,7 @@ export class DraftProductService {
     this.draftProducts = this.getDraftProducts() || [];
   }
   SetDraftProduct(product) {
+    this.draftProducts = this.getDraftProducts();
     debugger
     const idx = this.draftProducts.findIndex(data => data.id === product.id);
     if (idx !== -1) {
@@ -17,8 +18,8 @@ export class DraftProductService {
     } else {
       product.id = this.uniqueID();
       this.draftProducts.push(product);
-      localStorage.setItem('draftProduct', JSON.stringify(this.draftProducts));
     }
+    localStorage.setItem('draftProduct', JSON.stringify(this.draftProducts));
   }
   clearDraftProduct(product) {
     const idx = this.draftProducts.findIndex(data => data.id === product.id);
