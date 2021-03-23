@@ -95,6 +95,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     setTimeout(() => {
       if (this.dataDraftProduct) {
         const data = this.dataDraftProduct;
+
         //this.componentForm.patchValue(data);
         this.selectCategory(data.main_category);
         this.selectSubCategoryOption(data.category_id);
@@ -108,24 +109,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     }, 3000);
   }
 
-  SetDraftProduct(event) {
-    event.stopPropagation();
-    const data = {...this.componentForm.value};
-    data.id = this.selectedProduct.id;
-    data.relatedProducts = this.relatedProducts;
-    data.isDraft = true;
-    this.draftProductService.SetDraftProduct(data);
-    this.dataDraftProduct = data;
-    this.dataProductEmit.emit(data);
-    this.closeSideBar();
-    this.toasterService.success('Product added to draft');
-  }
 
-  clearDraftProduct() {
-    this.draftProductService.clearDraftProduct(this.selectedProduct);
-    this.dataDraftProduct = null;
-    this.toasterService.success('Product removed to draft');
-  }
 
   closeSideBar() {
     this.componentForm.reset();
@@ -246,6 +230,30 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         )
       )
     );
+  }
+
+  SetDraftProduct(event) {
+    event.stopPropagation();
+    debugger
+    const data = {...this.componentForm.value};
+    data.id = this.selectedProduct.id;
+    data.relatedProducts = this.relatedProducts.filter(item => {
+      if (data.related_ids.includes(item.id)) {
+        return data;
+      }
+    });
+    data.isDraft = true;
+    this.draftProductService.SetDraftProduct(data);
+    this.dataDraftProduct = data;
+    this.dataProductEmit.emit(data);
+    this.closeSideBar();
+    this.toasterService.success('Product added to draft');
+  }
+
+  clearDraftProduct() {
+    this.draftProductService.clearDraftProduct(this.selectedProduct);
+    this.dataDraftProduct = null;
+    this.toasterService.success('Product removed to draft');
   }
 
   getAllOptions() {
