@@ -215,16 +215,15 @@ export class ProductsComponent implements OnInit, OnChanges {
     if (this.route.snapshot.queryParams.search && !this.selectedMainProduct) {
       this.searchValue = this.route.snapshot.queryParams.search;
     }
+    if (this.route.snapshot.queryParams.parent_id){
+      this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name}
+      this.getProducts(this.selectedMainProduct, this.searchValue);
+    }
     if (this.route.snapshot.queryParams.main_category) {
       this.main_category = this.route.snapshot.queryParams.main_category;
       this.selectCategoryFilter(this.main_category, true)
     }
-    if (this.route.snapshot.queryParams.parent_id){
-      this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name}
-      this.getProducts(this.selectedMainProduct, this.searchValue);
-    }else{
-      this.getProducts();
-    }
+    this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null);
   }
 
   setRoute() {
@@ -318,8 +317,8 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.searchValueProduct = this.searchValue;
       this.searchValue = '';
       this.selectedMainProduct = product;
-      this.getProducts(product);
       this.setRoute();
+      this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null);
     }
   }
 
@@ -676,7 +675,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.sub_categories = [];
       this.sub_category_id = ''
     }
-    this.getProducts();
+    // this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null);
     this.setRoute();
   }
 
