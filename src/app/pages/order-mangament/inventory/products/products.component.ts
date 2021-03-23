@@ -126,7 +126,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.viewVariantSidebar = 'out';
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.getRoutes(event);
+        this.getRoutes();
       }
     })
   }
@@ -211,6 +211,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     }
     if (this.route.snapshot.queryParams.main_category) {
       this.main_category = this.route.snapshot.queryParams.main_category;
+      this.selectCategoryFilter(this.main_category)
     }
     this.getProducts();
   }
