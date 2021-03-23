@@ -11,29 +11,29 @@ import { RouterModule } from '@angular/router';
 import { ViewProductComponent } from './view-product/view-product.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AddEditVariantsComponent } from './add-edit-variants/add-edit-variants.component';
-import {NgxSpinnerModule} from 'ngx-spinner';
-import {MatIconModule} from '@angular/material';
-import {AddProductVariantsComponent} from '@app/pages/order-mangament/inventory/products/add-product-variants/add-product-variants.component';
-import {AngularEditorModule} from '@kolkov/angular-editor';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatIconModule } from '@angular/material';
+import { AddProductVariantsComponent } from '@app/pages/order-mangament/inventory/products/add-product-variants/add-product-variants.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 const router = [
-  { path: '', component: ProductsComponent, canActivate: [NgxPermissionsGuard], data: { title: 'Products', permissions: {only: ['ADMIN', 'View Products'], redirectTo: '/pages/home'} } },
+  { path: '', component: ProductsComponent, canActivate: [NgxPermissionsGuard], data: { title: 'Products', permissions: { only: ['ADMIN', 'View Products'], redirectTo: '/pages/home' } } },
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(router),
-        NgxPaginationModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        SharedModule,
-        NgxSpinnerModule,
-        MatIconModule,
-        AngularEditorModule,
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(router),
+    NgxPaginationModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    SharedModule,
+    NgxSpinnerModule,
+    MatIconModule,
+    AngularEditorModule,
+  ],
   declarations: [
     ProductsComponent,
     ViewProductComponent,
@@ -42,4 +42,4 @@ const router = [
     AddProductVariantsComponent
   ],
 })
-export class ProductsModule {}
+export class ProductsModule { }

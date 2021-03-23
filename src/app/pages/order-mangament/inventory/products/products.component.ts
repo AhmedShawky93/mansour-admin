@@ -15,6 +15,7 @@ import { Subject } from 'rxjs/Rx';
 import { tap } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounce } from 'lodash';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 declare var jquery: any;
 declare var $: any;
@@ -115,19 +116,26 @@ export class ProductsComponent implements OnInit, OnChanges {
     private auth: AuthService,
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.search = debounce(this.search, 700);
     this.toggleVariant = 'out';
     this.toggleProductVariant = 'out';
     this.viewVariantSidebar = 'out';
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.getRoutes(event);
+      }
+    })
   }
 
   addCustomUser = (term) => ({ id: term, name: term });
 
   ngOnInit() {
     this.getCategories();
-    this.getProducts();
+    // this.getProducts();
     this.productsService.getBrands().subscribe((response: any) => {
       this.brands = response.data;
     });
@@ -181,19 +189,58 @@ export class ProductsComponent implements OnInit, OnChanges {
     const token = this.auth.getToken();
 
     if (this.sub_category_id) {
-      console.log(this.sub_category_id);
+      // console.log(this.sub_category_id);
       this.exportUrl = environment.api + '/admin/products/fullExport?sub_category_id=' + this.sub_category_id + '&token=' + token;
     } else {
       this.exportUrl = environment.api + '/admin/products/fullExport?token=' + token;
-      console.log(this.sub_category_id);
+      // console.log(this.sub_category_id);
     }
     this.exportStock = environment.api + '/admin/products/export_prices?token=' + token;
 
     this.website_url = environment.website_url;
+
+  }
+
+  getRoutes() {
+    // this.route.snapshot.queryParams
+    if (this.route.snapshot.queryParams.pages) {
+      this.p = this.route.snapshot.queryParams.pages;
+    }
+    if (this.route.snapshot.queryParams.search && !this.selectedMainProduct) {
+      this.searchValue = this.route.snapshot.queryParams.search;
+    }
+    if (this.route.snapshot.queryParams.main_category) {
+      this.main_category = this.route.snapshot.queryParams.main_category;
+    }
+    this.getProducts();
+  }
+
+  setRoute() {
+    let params = { search: '', main_category: null, sub_category_id: null, page: 1 }
+    if (this.searchValue != '') {
+      params.search = this.searchValue
+    }
+    if (this.main_category) {
+      params.main_category = this.main_category
+    }
+    if (this.sub_category_id && this.sub_category_id != '') {
+      params.sub_category_id = this.sub_category_id
+    }
+    if (this.p != 1) {
+      params.page = this.p
+    }
+
+    this.router.navigate([],
+      {
+        relativeTo: this.route,
+        queryParams: params,
+        queryParamsHandling: 'merge'
+      });
   }
 
   search() {
     this.p = 1;
+    this.setRoute();
     this.getProducts(this.selectedMainProduct, this.searchValue);
   }
 
@@ -214,7 +261,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       })
       .subscribe((response: any) => {
         this.products = response.data.products;
-        console.log('products', this.products.length);
+        // console.log('products', this.products.length);
         this.products = this.products.map((item) => {
           item.deactivated = !item.active;
           return item;
@@ -225,7 +272,8 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   getProductSubCategory(data) {
-    console.log(data);
+    // console.log(data);
+    this.setRoute()
     this.p = 1;
     this.getProducts();
   }
@@ -305,7 +353,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   changePage(p) {
     this.p = p;
     this.filter.page = p;
-    console.log(this.filter);
+    // console.log(this.filter);
     this.filter$.next(this.filter);
   }
 
@@ -344,7 +392,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     console.log('viewProduct');
     this.currentProduct = product;
 
-    console.log(product);
+    // console.log(product);
     this.selectProductDataView = null;
     this.selectProductDataView = product;
     this.toggleAddProduct = 'out';
@@ -352,7 +400,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   toggleMenu(data) {
-    console.log('toggleMenu');
+    // console.log('toggleMenu');
     this.selectProductData = { ...data };
     this.viewProductSidebar = 'out';
     this.toggleAddProduct = 'in';
@@ -386,7 +434,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   toggleMenuNew(data) {
-    console.log('toggleMenuNew');
+    // console.log('toggleMenuNew');
     this.productForm.resetForm();
     this.selectProductData = null;
     this.selectProductData = data;
@@ -454,8 +502,8 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   addProducts(product) {
     product.option_values = this.product.option_values;
-    console.log(product);
-    console.log(this.product);
+    // console.log(product);
+    // console.log(this.product);
     if (!this.addProductForm.valid) {
       this.markFormGroupTouched(this.addProductForm);
       return;
@@ -491,7 +539,7 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   updateProduct(product) {
     product.option_values = this.product.option_values;
-    console.log(product);
+    // console.log(product);
     this.productsService
       .updateProduct(product.id, product)
       .subscribe((response: any) => {
@@ -559,6 +607,10 @@ export class ProductsComponent implements OnInit, OnChanges {
     this._CategoriesService.getCategories().subscribe((response: any) => {
       // console.log(response.data);
       this.categories = response.data;
+      if (this.route.snapshot.queryParams.sub_category_id) {
+        this.selectCategoryFilter(this.main_category);
+        this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
+      }
     });
   }
 
@@ -568,35 +620,37 @@ export class ProductsComponent implements OnInit, OnChanges {
     const category = this.categories[index];
 
     this.sub_categories = category.sub_categories;
-    console.log(this.sub_categories);
+    // console.log(this.sub_categories);
   }
 
   selectCategoryFilter(cat_id) {
-    console.log(cat_id);
+    // console.log(cat_id);
     if (cat_id) {
       const index = this.categories.findIndex((item) => item.id == cat_id);
       const category = this.categories[index];
       this.sub_categories = category.sub_categories;
-      console.log(this.sub_categories);
+      // console.log(this.sub_categories);
     } else {
       this.sub_categories = [];
+      this.sub_category_id = ''
     }
+    this.setRoute();
   }
 
   selectSubCategoryOption(cat_id) {
-    console.log(cat_id);
-    console.log(this.sub_categories);
+    // console.log(cat_id);
+    // console.log(this.sub_categories);
     const index = this.sub_categories.findIndex(
       (item) => item.parent_id == cat_id
     );
-    console.log(index);
+    // console.log(index);
 
     this.options = this.sub_categories[index].options;
-    console.log(this.options);
+    // console.log(this.options);
   }
 
   selectOptionValue(option, value, index) {
-    console.log(option, value, index);
+    // console.log(option, value, index);
     if (this.product.option_values) {
       const indexOption = this.product.option_values.findIndex(
         (item) => item.option_id == option.id
