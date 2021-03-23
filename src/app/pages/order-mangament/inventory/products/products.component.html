@@ -140,7 +140,7 @@
     </thead>
     <tbody>
 
-    <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
+    <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let idx = index;">
       <td>{{product.sku}}</td>
       <td class="relative">{{product.name | summary : 25 }}
         <div *ngIf="product.name.length >= 25" class="hover-reason text-left">
@@ -165,7 +165,7 @@
       <td class="hidden">{{product.stock ? product.stock : '0'}}</td>
       <!--<td>{{product.price}}</td>
       <td>{{product.discount_price ? product.discount_price : "-"}}</td>-->
-      <td>
+      <td *ngIf="!product.isDraft">
         <!--<a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
           <i class="icon-View"></i>
         </a>-->
@@ -205,6 +205,14 @@
           </div>
         </label>
       </td>
+      <td *ngIf="product.isDraft">
+        <a (click)="editDraftProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="icon-grey"></i>
+        </a>
+        <a (click)="removeDraftProduct(product, idx)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="fa fa-trash"></i>
+        </a>
+      </td>
     </tr>
 
 
@@ -238,7 +246,7 @@
 </app-add-edit-product>
 
 <app-add-edit-variants
-  *ngIf="toggleVariant"
+  *ngIf="toggleVariant === 'in'"
   #productVariantsForm
   (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)"
@@ -248,10 +256,11 @@
 </app-add-edit-variants>
 
 <app-add-product-variants
+  *ngIf="toggleProductVariant === 'in'"
   (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)"
   [@slideInOut]="toggleProductVariant"
-  [selectVariant]="selectedProductVariantData">
+  [selectedProduct]="selectedProductVariantBoth">
 </app-add-product-variants>
 
 <div class="modal fade" id="cloneProduct" tabindex="-1" role="dialog" aria-hidden="true">

@@ -16,6 +16,7 @@ import { tap } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounce } from 'lodash';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {DraftProductService} from '@app/pages/services/draft-product.service';
 
 declare var jquery: any;
 declare var $: any;
@@ -120,7 +121,9 @@ export class ProductsComponent implements OnInit, OnChanges {
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toasterService: ToastrService,
+    private draftProductService: DraftProductService
   ) {
     this.search = debounce(this.search, 700);
     this.toggleVariant = 'out';
@@ -131,7 +134,7 @@ export class ProductsComponent implements OnInit, OnChanges {
         console.log(event);
         this.getRoutes();
       }
-    })
+    });
   }
 
   addCustomUser = (term) => ({ id: term, name: term });
@@ -281,8 +284,22 @@ export class ProductsComponent implements OnInit, OnChanges {
           return item;
         });
         this.total = response.data.total;
+        this.setDraftProducts();
         this.spinner.hide();
       });
+  }
+
+  setDraftProducts() {
+    if (!this.selectedMainProduct) {
+      const drafts = this.draftProductService.getDraftProducts();
+      if (drafts.length) {
+        drafts.forEach(item => {
+          item.isDraft = true;
+        });
+        this.products.unshift(...drafts);
+        this.total = this.total + drafts.length;
+      }
+    }
   }
 
   getProductSubCategory(data) {
@@ -438,11 +455,14 @@ export class ProductsComponent implements OnInit, OnChanges {
     }
   }
 
-  NewProductWithVariant() {
-    this.selectedProductVariantBoth = null;
-    this.viewProductSidebar = 'out';
+  NewProductWithVariant(data) {
+    this.selectedProductVariantBoth = data;
     this.toggleProductVariant = 'in';
+    this.viewProductSidebar = 'out';
+    this.toggleVariant = 'out';
+    this.toggleAddProduct = 'out';
   }
+
   edit(data) {
     if (this.selectedMainProduct) {
       this.toggleEditVariantMenu(data);
@@ -619,7 +639,6 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.importFileStock.nativeElement.value = '';
 
   }
-
 
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
@@ -805,5 +824,15 @@ export class ProductsComponent implements OnInit, OnChanges {
           });
         }
       });
+  }
+
+  removeDraftProduct(product, idx) {
+    this.draftProductService.clearDraftProduct(product);
+    this.products.splice(idx , 1);
+    this.toasterService.success('Draft Product Removed Successfully');
+  }
+
+  editDraftProduct(product) {
+    this.NewProductWithVariant(product);
   }
 }

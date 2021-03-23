@@ -1,17 +1,39 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 
 export class DraftProductService {
-
-  constructor() { }
-  SetDraftProduct(data) {
-    localStorage.setItem('draftProduct', JSON.stringify(data))
+  draftProducts: Array<any>;
+  constructor() {
+    this.draftProducts = this.getDraftProducts() || [];
   }
-  clearDraftProduct() {
-    localStorage.setItem('draftProduct', JSON.stringify(null))
-
+  SetDraftProduct(product) {
+    debugger
+    const idx = this.draftProducts.findIndex(data => data.id === product.id);
+    if (idx !== -1) {
+      this.draftProducts.splice(idx, 1, product);
+    } else {
+      product.id = this.uniqueID();
+      this.draftProducts.push(product);
+      localStorage.setItem('draftProduct', JSON.stringify(this.draftProducts));
+    }
+  }
+  clearDraftProduct(product) {
+    const idx = this.draftProducts.findIndex(data => data.id === product.id);
+    if (idx !== -1) {
+      this.draftProducts.splice(idx, 1);
+      localStorage.setItem('draftProduct', JSON.stringify(this.draftProducts));
+    }
+  }
+  getDraftProducts() {
+   return JSON.parse(localStorage.getItem('draftProduct')) || [];
+  }
+  uniqueID () {
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return `_${Math.random().toString(36).substr(2, 9)}`;
   }
 }
