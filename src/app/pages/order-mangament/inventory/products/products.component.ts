@@ -227,7 +227,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   setRoute() {
-    let params = { search: '', main_category: null, sub_category_id: null, page: 1, parent_id: null, parent_name: null }
+    const params = { search: '', main_category: null, sub_category_id: null, page: 1, parent_id: null, parent_name: null }
     if (this.searchValue != '' && !this.selectedMainProduct) {
       params.search = this.searchValue
     }
