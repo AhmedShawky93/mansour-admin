@@ -214,10 +214,11 @@ export class ProductsComponent implements OnInit, OnChanges {
     if (this.route.snapshot.queryParams.search && !this.selectedMainProduct) {
       this.searchValue = this.route.snapshot.queryParams.search;
     }
-    if (this.route.snapshot.queryParams.parent_id){
+    debugger
+    if (this.route.snapshot.queryParams.parent_id && !this.selectedMainProduct){
       this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name}
-    }else{
-      this.selectedMainProduct = null
+    } else if (!this.route.snapshot.queryParams.parent_id && this.selectedMainProduct){
+      this.selectedMainProduct = null;
     }
     if (this.route.snapshot.queryParams.main_category) {
       this.main_category = this.route.snapshot.queryParams.main_category;
