@@ -10,7 +10,7 @@ import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
-import {Observable, Subject, concat, of} from 'rxjs';
+import {Observable, combineLatest, Subject, concat, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
 import {environment} from '@env/environment';
 
@@ -48,6 +48,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   relatedProductsLoading: boolean;
   products: any = [];
   products$: Observable<any>;
+  allOptions$: Observable<Object>;
+  categories$: Observable<Object>;
+  brands$: Observable<any>;
   productsInput$ = new Subject<String>();
   productsLoading: boolean;
   dataDraftProduct: any;
@@ -62,7 +65,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     private spinner: NgxSpinnerService,
     private draftProductService: DraftProductService
   ) {
-    //this.dataDraftProduct = this.draftProductService.getDraftProducts() || null;
+    this.allOptions$ = this.optionsService.getOptions();
+    this.categories$ = this.categoriesService.getCategories();
+    this.brands$ = this.productsService.getBrands();
     this.editorConfig = {
       editable: true,
       spellcheck: true,
@@ -84,32 +89,29 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.getAllOptions();
-    this.getCategories();
-    this.getBrands();
+    this.getInitialData();
   }
+
 
   ngOnChanges() {
     this.setForm(this.selectedProduct);
     this.mergeData();
-    setTimeout(() => {
-      if (this.dataDraftProduct) {
-        const data = this.dataDraftProduct;
-
-        //this.componentForm.patchValue(data);
-        this.selectCategory(data.main_category);
-        this.selectSubCategoryOption(data.category_id);
-        // if (data.option_values.length) {
-        //   data.option_values.forEach(element => {
-        //     console.log("🚀 ~ file: add-product-variants.component.ts ~ line 122 ~ AddProductVariantsComponent ~ element", element)
-        //     this.addOptions(element)
-        //   });
-        // }
-      }
-    }, 3000);
   }
 
-
+  getInitialData() {
+    this.spinner.show();
+    combineLatest(this.allOptions$, this.categories$, this.brands$)
+      .subscribe(
+        ([options, categories, brands]) => {
+          this.getAllOptions(options);
+          this.getCategories(categories);
+          this.getBrands(brands);
+          this.setData(this.selectedProduct);
+          this.spinner.hide();
+        },
+        () => this.spinner.hide()
+      );
+  }
 
   closeSideBar() {
     this.componentForm.reset();
@@ -232,9 +234,16 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     );
   }
 
+  setData(data) {
+    if (data) {
+      this.selectCategory(data.main_category);
+      this.selectSubCategoryOption(data.category_id);
+      this.selectOptionalCategory(data.optional_category);
+    }
+  }
+
   SetDraftProduct(event) {
     event.stopPropagation();
-    debugger
     const data = {...this.componentForm.value};
     data.id = this.selectedProduct.id;
     data.relatedProducts = this.relatedProducts.filter(item => {
@@ -256,43 +265,32 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.toasterService.success('Product removed to draft');
   }
 
-  getAllOptions() {
-    this.optionsService.getOptions({})
-      .subscribe(
-        res => {
-          if (res['code'] === 200) {
-            this.allOptions = res['data'];
-            console.log('allOptions', this.allOptions);
-          } else {
-            this.toasterService.error(res['message']);
-          }
-        }
-      );
+  getAllOptions(res) {
+    if (res['code'] === 200) {
+      this.allOptions = res['data'];
+      console.log('allOptions', this.allOptions);
+    } else {
+      this.toasterService.error(res['message']);
+    }
   }
 
-  getCategories() {
-    this.categoriesService.getCategories()
-      .subscribe((response: any) => {
-        if (response.code === 200) {
-          this.categories = response.data;
-          this.optionalCategories = response.data;
-          this.categories = this.categories.map((c) => {
-            c.selected = false;
-            return c;
-          });
-          this.optionalCategories = this.optionalCategories.map((c) => {
-            c.selected = false;
-            return c;
-          });
-        }
+  getCategories(response: any) {
+    if (response.code === 200) {
+      this.categories = response.data;
+      this.optionalCategories = response.data;
+      this.categories = this.categories.map((c) => {
+        c.selected = false;
+        return c;
       });
+      this.optionalCategories = this.optionalCategories.map((c) => {
+        c.selected = false;
+        return c;
+      });
+    }
   }
 
-  getBrands() {
-    this.productsService.getBrands()
-      .subscribe((response: any) => {
-        this.brands = response.data;
-      });
+  getBrands(response: any) {
+    this.brands = response.data;
   }
 
   addOptions(data): void {
@@ -341,8 +339,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     }
   }
 
-  selectOptionalCategory(event) {
-    const cat_id = Number(event.target.value);
+  selectOptionalCategory(id) {
+    const cat_id = Number(id);
     const index = this.optionalCategories.findIndex((item) => item.id === cat_id);
     if (index !== -1) {
       const optionalCategory = this.optionalCategories[index];

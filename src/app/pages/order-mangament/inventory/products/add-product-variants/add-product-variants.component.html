@@ -90,7 +90,7 @@
 
       <div class="form-group">
         <label>Optional Category</label>
-        <select (change)="selectOptionalCategory($event)" class="owl-input" formControlName="optional_category"
+        <select (change)="selectOptionalCategory($event.target.value)" class="owl-input" formControlName="optional_category"
           name="category">
           <option selected value="">Select Category</option>
           <ng-container *ngFor="let cat of optionalCategories">
@@ -106,8 +106,8 @@
         <label>Optional Sub Category</label>
         <select class="owl-input" formControlName="optional_sub_category_id" name="optionalSubCategory">
           <option selected value="">Select Sub Category</option>
-          <option *ngFor="let cat of optionalSubCategories" value="{{cat.id}}">{{cat.name}}
-            <span *ngIf="cat.active == 0"> - Deactivate </span>
+          <option *ngFor="let cat of optionalSubCategories" value="{{cat.id}}">
+            {{cat.name}} <span *ngIf="cat.active == 0"> - Deactivate </span>
           </option>
         </select>
       </div>
@@ -118,7 +118,7 @@
       formArrayName="option_values">
       <span [formGroupName]='i'>
         <div *ngIf="option?.value.type != '5'" class="">
-          <label> {{option?.controls['name_en']?.value}} ++ {{option?.value?.option_value_id}}</label>
+          <label> {{option?.controls['name_en']?.value}}</label>
           <select class="owl-input" formControlName="option_value_id" name="option">
             <option hidden selected value="">Select option </option>
             <!--<option value="{{value.id}}" *ngFor="let value of option?.values">{{value.name_en}}</option>-->

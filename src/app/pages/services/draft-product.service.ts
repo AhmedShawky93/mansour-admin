@@ -11,7 +11,6 @@ export class DraftProductService {
   }
   SetDraftProduct(product) {
     this.draftProducts = this.getDraftProducts();
-    debugger
     const idx = this.draftProducts.findIndex(data => data.id === product.id);
     if (idx !== -1) {
       this.draftProducts.splice(idx, 1, product);
