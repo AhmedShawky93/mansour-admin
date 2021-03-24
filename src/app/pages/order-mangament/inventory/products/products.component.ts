@@ -217,17 +217,23 @@ export class ProductsComponent implements OnInit, OnChanges {
     }
     if (this.route.snapshot.queryParams.parent_id){
       this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name}
-      this.getProducts(this.selectedMainProduct, this.searchValue);
+      // this.getProducts(this.selectedMainProduct, this.searchValue);
+    }else{
+      this.selectedMainProduct = null
     }
     if (this.route.snapshot.queryParams.main_category) {
       this.main_category = this.route.snapshot.queryParams.main_category;
-      this.selectCategoryFilter(this.main_category, true)
+      // if (this.main_category){
+      //   this.selectCategoryFilter(this.main_category, true)
+      // }else{
+
+      // }
     }
-    this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null);
+    this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null, this.searchValue);
   }
 
   setRoute() {
-    let params = { search: '', main_category: null, sub_category_id: null, page: 1, parent_id: '', parent_name: '' }
+    let params = { search: '', main_category: null, sub_category_id: null, page: 1, parent_id: null, parent_name: null }
     if (this.searchValue != '' && !this.selectedMainProduct) {
       params.search = this.searchValue
     }
@@ -318,7 +324,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.searchValue = '';
       this.selectedMainProduct = product;
       this.setRoute();
-      this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null);
+      // this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null);
     }
   }
 
@@ -327,7 +333,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.selectedMainProduct = null;
     this.p = 1;
     this.filter = { q: '', page: 1 };
-    this.getProducts();
+    // this.getProducts();
     this.setRoute();
   }
 
