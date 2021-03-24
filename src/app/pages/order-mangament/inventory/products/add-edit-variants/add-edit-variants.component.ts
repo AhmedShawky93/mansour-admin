@@ -71,14 +71,13 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getCategories();
-    this.getAllOptions();
   }
-
+  
   ngOnChanges() {
     console.log('parentProduct', this.parentProduct);
     console.log('selectedVariant', this.selectVariant);
+    this.getAllOptions();
     this.setForm(this.selectVariant);
-    this.mergeData(this.selectVariant);
     this.setData(this.selectVariant);
   }
 
@@ -147,6 +146,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
           if (res['code'] === 200) {
             this.allOptions = res['data'];
             console.log('allOptions', this.allOptions);
+            this.mergeData(this.selectVariant);
           } else {
             this.toasterService.error(res['message']);
           }
