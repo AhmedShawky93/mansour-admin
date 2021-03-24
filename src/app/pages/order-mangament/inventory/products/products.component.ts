@@ -208,7 +208,6 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   getRoutes() {
-    // this.route.snapshot.queryParams
     if (this.route.snapshot.queryParams.pages) {
       this.p = this.route.snapshot.queryParams.pages;
     }
@@ -217,17 +216,12 @@ export class ProductsComponent implements OnInit, OnChanges {
     }
     if (this.route.snapshot.queryParams.parent_id){
       this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name}
-      // this.getProducts(this.selectedMainProduct, this.searchValue);
     }else{
       this.selectedMainProduct = null
     }
     if (this.route.snapshot.queryParams.main_category) {
       this.main_category = this.route.snapshot.queryParams.main_category;
-      // if (this.main_category){
-      //   this.selectCategoryFilter(this.main_category, true)
-      // }else{
 
-      // }
     }
     this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null, this.searchValue);
   }
@@ -283,7 +277,6 @@ export class ProductsComponent implements OnInit, OnChanges {
       })
       .subscribe((response: any) => {
         this.products = response.data.products;
-        // console.log('products', this.products.length);
         this.products = this.products.map((item) => {
           item.deactivated = !item.active;
           return item;
@@ -308,7 +301,6 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   getProductSubCategory(data) {
-    // console.log(data);
     this.setRoute()
     this.p = 1;
     this.getProducts();
@@ -324,7 +316,6 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.searchValue = '';
       this.selectedMainProduct = product;
       this.setRoute();
-      // this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null);
     }
   }
 
@@ -333,7 +324,6 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.selectedMainProduct = null;
     this.p = 1;
     this.filter = { q: '', page: 1 };
-    // this.getProducts();
     this.setRoute();
   }
 
@@ -666,7 +656,6 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   selectCategoryFilter(cat_id, FromRouter) {
-    // console.log(cat_id);
     if (cat_id) {
       const index = this.categories.findIndex((item) => item.id == cat_id);
       const category = this.categories[index];
@@ -676,12 +665,10 @@ export class ProductsComponent implements OnInit, OnChanges {
       }else{
         this.sub_category_id = '';
       }
-      // console.log(this.sub_categories);
     } else {
       this.sub_categories = [];
       this.sub_category_id = ''
     }
-    // this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null);
     this.setRoute();
   }
 
