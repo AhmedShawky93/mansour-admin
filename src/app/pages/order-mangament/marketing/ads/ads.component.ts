@@ -171,7 +171,7 @@ export class adsComponent implements OnInit {
   editAd(ad) {
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
-      type: new FormControl(ad.type, Validators.required),
+      type: new FormControl(ad.type),
       popup: new FormControl(0),
       order: new FormControl(ad.order, Validators.required),
       banner_ad: new FormControl(0),
