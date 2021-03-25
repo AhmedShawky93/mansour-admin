@@ -593,7 +593,7 @@
 
           <label class="my-2">{{formGroupItem?.controls['optionData']?.value?.name_en}}</label>
 
-          <select class="owl-input" formControlName="option_value_id">
+          <select class="owl-input" formControlName="option_value_id" *ngIf="formGroupItem.controls['optionData']?.value?.type != 5" >
             <option hidden selected value="">Select Value</option>
             <option *ngFor="let val of formGroupItem?.controls['optionData']?.value?.values" value="{{val.id}}">
               {{val.name_en}}
