@@ -16,7 +16,7 @@ import { tap } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounce } from 'lodash';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import {DraftProductService} from '@app/pages/services/draft-product.service';
+import { DraftProductService } from '@app/pages/services/draft-product.service';
 
 declare var jquery: any;
 declare var $: any;
@@ -111,6 +111,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   website_url: any;
   historyRoute: any;
   searchValueProduct: string;
+  stateCloning: boolean;
 
   constructor(
     private productsService: ProductsService,
@@ -215,9 +216,9 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.searchValue = this.route.snapshot.queryParams.search;
     }
     debugger
-    if (this.route.snapshot.queryParams.parent_id && !this.selectedMainProduct){
-      this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name}
-    } else if (!this.route.snapshot.queryParams.parent_id && this.selectedMainProduct){
+    if (this.route.snapshot.queryParams.parent_id && !this.selectedMainProduct) {
+      this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name }
+    } else if (!this.route.snapshot.queryParams.parent_id && this.selectedMainProduct) {
       this.selectedMainProduct = null;
     }
     if (this.route.snapshot.queryParams.main_category) {
@@ -241,7 +242,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     if (this.p != 1) {
       params.page = this.p
     }
-    if(this.selectedMainProduct){
+    if (this.selectedMainProduct) {
       params.parent_id = this.selectedMainProduct.id;
       params.parent_name = this.selectedMainProduct.name;
     }
@@ -661,9 +662,9 @@ export class ProductsComponent implements OnInit, OnChanges {
       const index = this.categories.findIndex((item) => item.id == cat_id);
       const category = this.categories[index];
       this.sub_categories = category.sub_categories;
-      if (FromRouter){
+      if (FromRouter) {
         this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
-      }else{
+      } else {
         this.sub_category_id = '';
       }
     } else {
@@ -800,9 +801,11 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   confirmClone() {
+    this.stateCloning = true;
     this.productsService.clone(this.currentProduct.id)
       .subscribe((response: any) => {
         if (response.code == 200) {
+          this.stateCloning = false;
           this.toastrService.success("Product Clone Successfully", 'Success', {
             enableHtml: true,
             timeOut: 3000
@@ -811,6 +814,7 @@ export class ProductsComponent implements OnInit, OnChanges {
           $("#cloneProduct").modal("hide");
           /*this.filter$.next(this.filter);*/
         } else {
+          this.stateCloning = false;
           this.toastrService.error(response.message, 'Error Occured', {
             enableHtml: true,
             timeOut: 3000
@@ -821,7 +825,7 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   removeDraftProduct(product, idx) {
     this.draftProductService.clearDraftProduct(product);
-    this.products.splice(idx , 1);
+    this.products.splice(idx, 1);
     this.toasterService.success('Draft Product Removed Successfully');
   }
 

@@ -280,7 +280,9 @@
 
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmClone()">
+        <button type="button" [appLoading]="stateCloning" [disabled]='stateCloning'
+          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
+          (click)="confirmClone()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
