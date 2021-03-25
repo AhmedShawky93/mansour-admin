@@ -513,6 +513,17 @@
                   " formControlName="options" >
                 </ng-select>
               </div>
+
+              <div class="col-12 m-t-b-5">
+                <label> Order </label>
+                <input type="text" class="owl-input" placeholder="type here" name="suborder{{i}}" formControlName="order" required>
+                <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.order.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.order.dirty || categoriesForm.controls.sub_categories.controls[i].controls.order.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.order.errors.required">
+                    order is required.
+                  </div>
+                </div>
+              </div>
               </div>
             </div>
 
