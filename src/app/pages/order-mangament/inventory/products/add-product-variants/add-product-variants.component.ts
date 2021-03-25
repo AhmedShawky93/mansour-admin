@@ -239,13 +239,18 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       this.selectCategory(data.main_category);
       this.selectSubCategoryOption(data.category_id);
       this.selectOptionalCategory(data.optional_category);
+      data.option_values.forEach((element) => {
+        this.addOptions(element);
+      });
     }
   }
 
   SetDraftProduct(event) {
     event.stopPropagation();
     const data = {...this.componentForm.value};
-    data.id = this.selectedProduct.id;
+    if (this.selectedProduct) {
+      data.id = this.selectedProduct.id;
+    }
     data.relatedProducts = this.relatedProducts.filter(item => {
       if (data.related_ids.includes(item.id)) {
         return data;
@@ -294,20 +299,23 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   addOptions(data): void {
+    //debugger
     this.option_values = this.componentForm.get('option_values') as FormArray;
     this.option_values.push(this.createItemOptions(data));
   }
 
   createItemOptions(data): FormGroup {
-    return this.formBuilder.group({
+    const group =  this.formBuilder.group({
       type: new FormControl((data) ? data.type : ''),
-      option_id: new FormControl((data) ? data.id : ''),
+      option_id: new FormControl((data && data.id) ? data.id : (data.option_id) ? data.option_id : '' ),
       name_en: new FormControl((data) ? data.name_en : ''),
-      optionValues: new FormControl((data) ? data.values : ''),
+      optionValues: new FormControl((data && data.values && data.values.length) ? data.values : (data.optionValues) ? data.optionValues : ''),
       option_value_id: new FormControl((data.option_value_id) ? data.option_value_id : ''),
-      input_en: new FormControl(''),
-      input_ar: new FormControl(''),
+      input_en: new FormControl((data && data.input_en) ? data.input_en : ''),
+      input_ar: new FormControl((data && data.input_ar) ? data.input_ar : ''),
     });
+    console.log('current Group Data' , group);
+    return group;
   }
 
   selectCategory(id) {
