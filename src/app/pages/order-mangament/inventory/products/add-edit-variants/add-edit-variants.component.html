@@ -11,7 +11,7 @@
       <label>Image</label>
       <div class="d-flex justify-content-center flex-column">
         <app-image-uploader [fileUrl]="variantForm.value?.image" [formControlChildName]="'image'" [myForm]="variantForm"
-          class="w-100" height="240px" width="100%">
+          class="w-100" height="340px" width="100%">
         </app-image-uploader>
         <div *ngIf="formControlValidator('image','required')" class="text-danger">
           Image Is Required

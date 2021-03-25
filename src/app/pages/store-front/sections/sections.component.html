@@ -104,8 +104,10 @@
 
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
-<app-view-section (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
+<app-view-section class="parent-editor-viewer-sidebar" (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="viewOptionSidebar"
   [sectionData]="currentSection">
 </app-view-section>
 <app-add-edit-section (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
-  [@slideInOut]="toggleAddOption" [sectionData]="currentSection"></app-add-edit-section>
+  [@slideInOut]="toggleAddOption" [sectionData]="currentSection" class="parent-editor-viewer-sidebar">
+  </app-add-edit-section>

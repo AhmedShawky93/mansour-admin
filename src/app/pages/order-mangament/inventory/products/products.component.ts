@@ -215,7 +215,6 @@ export class ProductsComponent implements OnInit, OnChanges {
     if (this.route.snapshot.queryParams.search && !this.selectedMainProduct) {
       this.searchValue = this.route.snapshot.queryParams.search;
     }
-    debugger
     if (this.route.snapshot.queryParams.parent_id && !this.selectedMainProduct) {
       this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name }
     } else if (!this.route.snapshot.queryParams.parent_id && this.selectedMainProduct) {

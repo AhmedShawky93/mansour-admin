@@ -1810,3 +1810,15 @@ ng-select.owl-input{
 ng-select.owl-input .ng-select-container{
   height: initial !important;
 }
+
+.open-view-vindor-types{
+  width: 66% !important;
+}
+
+.parent-editor-viewer-sidebar{
+  width: 76% !important;
+}
+
+.parent-editor-viewer-sidebar .view-vindor-types {
+  width: 100% !important;
+}

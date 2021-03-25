@@ -234,11 +234,12 @@
 
 <!-- view product -->
 <app-view-product (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewProductSidebar"
-                  [selectProductDataEdit]="selectProductDataView"></app-view-product>
+  class="parent-editor-viewer-sidebar" [selectProductDataEdit]="selectProductDataView"></app-view-product>
 
 
 <app-add-edit-product
   #productForm
+  class="parent-editor-viewer-sidebar"
   (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)"
   [@slideInOut]="toggleAddProduct"
@@ -247,6 +248,7 @@
 
 <app-add-edit-variants
   *ngIf="toggleVariant === 'in'"
+  class="parent-editor-viewer-sidebar"
   #productVariantsForm
   (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)"
@@ -256,6 +258,7 @@
 </app-add-edit-variants>
 
 <app-add-product-variants
+  class="parent-editor-viewer-sidebar"
   *ngIf="toggleProductVariant === 'in'"
   (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)"

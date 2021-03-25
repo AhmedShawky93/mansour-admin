@@ -108,7 +108,9 @@
 
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
-<app-view-list (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar" [listData]="currentList">
+<app-view-list (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar" [listData]="currentList"
+  class="parent-editor-viewer-sidebar">
 </app-view-list>
-<app-add-edit-list (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()" [@slideInOut]="toggleListForm" [listData]="selectOptionData">
+<app-add-edit-list class="parent-editor-viewer-sidebar" (dataOptionEmit)="addOrUpdateOption($event)"
+  (closeSideBarEmit)="closeSideBar()" [@slideInOut]="toggleListForm" [listData]="selectOptionData">
 </app-add-edit-list>

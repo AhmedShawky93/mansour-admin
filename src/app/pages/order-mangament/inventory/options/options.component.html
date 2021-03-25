@@ -112,10 +112,10 @@
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
 <!-- view product -->
-<app-view-option (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
+<app-view-option (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar" class="parent-editor-viewer-sidebar"
   [selectProductDataEdit]="selectOptionDataView">
 
 </app-view-option>
 <!-- Add / edit Product -->
-<app-add-edit-options (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
+<app-add-edit-options (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()" class="parent-editor-viewer-sidebar"
   [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData"></app-add-edit-options>
