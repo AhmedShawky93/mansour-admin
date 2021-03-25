@@ -718,7 +718,6 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   removeImage(product, index) {
-    debugger;
     if (product.id) {
       product.deleted_images.push(product.images[index].id);
     }
@@ -829,6 +828,6 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   editDraftProduct(product) {
-    this.NewProductWithVariant(product);
+    this.NewProductWithVariant({...product});
   }
 }

@@ -120,68 +120,69 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   setForm(data) {
     this.componentForm = this.formBuilder.group({
-      brand_id: new FormControl(''),
-      main_category: new FormControl(''),
-      category_id: new FormControl('', Validators.required),
-      optional_category: new FormControl(''),
-      optional_sub_category_id: new FormControl(''),
-      preorder: new FormControl(0),
-      preorder_start_date: new FormControl('', []),
-      preorder_start_time: new FormControl('00:00:00', []),
-      preorder_end_date: new FormControl('', []),
-      preorder_expiration_time: new FormControl('00:00:00', []),
-      available_soon: new FormControl(),
-      max_per_order: new FormControl(''),
-      min_days: new FormControl(''),
-      stock_alert: new FormControl(''),
-      order: new FormControl(''),
+      brand_id: new FormControl( data ? data.brand_id : ''),
+      main_category: new FormControl(data ? (data.main_category) : ''),
+      category_id: new FormControl(data ? (data.category_id) : '', Validators.required),
+      optional_category: new FormControl(data ? (data.optional_category) : ''),
+      optional_sub_category_id: new FormControl(data ? (data.optional_sub_category_id) : ''),
+      preorder: new FormControl(data ? data.preorder : 0),
+      preorder_start_date: new FormControl( data ? data.preorder_start_date : '', []),
+      preorder_start_time: new FormControl( data ? data.preorder_start_time : '00:00:00', []),
+      preorder_end_date: new FormControl( data ? data.preorder_end_date : '', []),
+      preorder_expiration_time: new FormControl(data ? data.preorder_expiration_time : '00:00:00', []),
+      available_soon: new FormControl(data ? data.available_soon : ''),
+      max_per_order: new FormControl( data ? data.max_per_order : ''),
+      min_days: new FormControl( data ? data.min_days : ''),
+      stock_alert: new FormControl( data ? data.stock_alert : ''),
+      order: new FormControl( data ? data.order : ''),
       option_values: this.formBuilder.array([]),
-      discount_start_date: new FormControl('', []),
-      start_time: new FormControl('00:00:00', []),
-      discount_end_date: new FormControl('', []),
-      expiration_time: new FormControl('00:00:00', []),
-      product_variant_options: new FormControl('', []),
+      discount_start_date: new FormControl( data ? data.discount_start_date : '', []),
+      start_time: new FormControl( data ? data.start_time : '00:00:00', []),
+      discount_end_date: new FormControl( data ? data.discount_end_date : '', []),
+      expiration_time: new FormControl( data ? data.expiration_time : '00:00:00', []),
+      product_variant_options: new FormControl( data ? data.product_variant_options : '', []),
 
-      image: new FormControl('', Validators.required),
-      video: new FormControl(''),
+      image: new FormControl( data ? data.image : '', Validators.required),
+      video: new FormControl( data ? data.video : ''),
       images: this.formBuilder.array([]),
-      name: new FormControl('', Validators.required),
-      name_ar: new FormControl('', Validators.required),
-      description: new FormControl('', [
+      name: new FormControl( data ? data.name : '', Validators.required),
+      name_ar: new FormControl( data ? data.name_ar : '', Validators.required),
+      description: new FormControl( data ? data.description : '', [
         Validators.required,
         Validators.minLength(3),
         // Validators.maxLength(250),
       ]),
-      description_ar: new FormControl('', [
+      description_ar: new FormControl( data ? data.name_ar : '', [
         Validators.required,
         Validators.minLength(3),
         // Validators.maxLength(250),
       ]),
-      long_description_en: new FormControl(''),
-      long_description_ar: new FormControl(''),
-      meta_title: new FormControl(''),
-      meta_description: new FormControl(''),
-      meta_title_ar: new FormControl(''),
-      meta_description_ar: new FormControl(''),
-      price: new FormControl('', Validators.required),
-      discount_price: new FormControl('', [
+      long_description_en: new FormControl( data ? data.long_description_en : ''),
+      long_description_ar: new FormControl( data ? data.long_description_ar : ''),
+      meta_title: new FormControl( data ? data.meta_title : ''),
+      meta_description: new FormControl( data ? data.meta_description : ''),
+      meta_title_ar: new FormControl( data ? data.meta_title_ar : ''),
+      meta_description_ar: new FormControl( data ? data.meta_description_ar : ''),
+      price: new FormControl( data ? data.price : '', Validators.required),
+      discount_price: new FormControl( data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
-      default_variant: new FormControl(0),
-      stock: new FormControl(0, Validators.required),
+      default_variant: new FormControl( data ? data.default_variant : 0),
+      stock: new FormControl( data ? data.stock : 0, Validators.required),
       // preorder_price: new FormControl(0),
-      weight: new FormControl(0, Validators.required),
-      sku: new FormControl('', Validators.required),
+      weight: new FormControl( data ? data.weight : 0, Validators.required),
+      sku: new FormControl( data ? data.sku : '', Validators.required),
       options: this.formBuilder.array([]),
-      type: new FormControl('', Validators.required),
-      has_stock: new FormControl(),
-      bundle_checkout: new FormControl(),
-      bundle_products_ids: new FormControl(),
+      type: new FormControl( data ? data.sku : '', Validators.required),
+      has_stock: new FormControl( data ? data.has_stock : ''),
+      bundle_checkout: new FormControl( data ? data.bundle_checkout : ''),
+      bundle_products_ids: new FormControl( data ? data.bundle_products_ids : ''),
       related_ids: new FormControl((data && data.relatedProducts) ? data.relatedProducts.map(rp => rp.id) : ''),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
-    if (data) {
+    /*if (data) {
       this.componentForm.patchValue(data);
-    }
+    }*/
+    console.log('Component Form Valu Edit >>>>' , this.componentForm.value);
   }
 
   mergeData() {
@@ -240,8 +241,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       this.selectSubCategoryOption(data.category_id);
       this.selectOptionalCategory(data.optional_category);
       data.option_values.forEach((element) => {
-        this.addOptions(element);
+        this.editOptions(element);
       });
+      this.buildVariantsOptions();
     }
   }
 
@@ -299,12 +301,28 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   addOptions(data): void {
-    //debugger
     this.option_values = this.componentForm.get('option_values') as FormArray;
     this.option_values.push(this.createItemOptions(data));
   }
 
   createItemOptions(data): FormGroup {
+    return this.formBuilder.group({
+      type: new FormControl((data) ? data.type : ''),
+      option_id: new FormControl((data) ? data.id : ''),
+      name_en: new FormControl((data) ? data.name_en : ''),
+      optionValues: new FormControl((data) ? data.values : ''),
+      option_value_id: new FormControl((data.option_value_id) ? data.option_value_id : ''),
+      input_en: new FormControl(''),
+      input_ar: new FormControl(''),
+    });
+  }
+
+  editOptions(data): void {
+    this.option_values = this.componentForm.get('option_values') as FormArray;
+    this.option_values.push(this.editItemOptions(data));
+  }
+
+  editItemOptions(data): FormGroup {
     const group =  this.formBuilder.group({
       type: new FormControl((data) ? data.type : ''),
       option_id: new FormControl((data && data.id) ? data.id : (data.option_id) ? data.option_id : '' ),
@@ -312,9 +330,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       optionValues: new FormControl((data && data.values && data.values.length) ? data.values : (data.optionValues) ? data.optionValues : ''),
       option_value_id: new FormControl((data.option_value_id) ? data.option_value_id : ''),
       input_en: new FormControl((data && data.input_en) ? data.input_en : ''),
-      input_ar: new FormControl((data && data.input_ar) ? data.input_ar : ''),
+      input_ar: new FormControl((data && data.input_ar) ? data.input_ar : '')
     });
-    console.log('current Group Data' , group);
     return group;
   }
 
@@ -341,9 +358,13 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     if (index !== -1) {
       this.subCategoryOptions = this.sub_categories[index].options;
       console.log('This subCategoryOptions >>>>', this.subCategoryOptions);
-      this.subCategoryOptions.forEach((element) => {
-        this.addOptions(element);
-      });
+
+      if (!this.selectedProduct) {
+        this.subCategoryOptions.forEach((element) => {
+          this.addOptions(element);
+        });
+      }
+
     }
   }
 
@@ -441,6 +462,16 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     // }
   }
 
+
+  addVariantOptionsToForm() {
+    if (this.selectedVariantsOptions.length) {
+      this.selectedVariantsOptions.forEach(item => {
+        this.options = this.componentForm.get('options') as FormArray;
+        this.options.push(this.createVariantOption(item));
+      });
+    }
+  }
+
   createVariantOption(item): FormGroup {
     if (item.type === '4') {
       return this.formBuilder.group({
@@ -467,13 +498,37 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   }
 
-  addVariantOptionsToForm() {
-    if (this.selectedVariantsOptions.length) {
-      this.selectedVariantsOptions.forEach(item => {
+  setVariantOptionsToForm(data) {
+    data.forEach(item => {
         this.options = this.componentForm.get('options') as FormArray;
-        this.options.push(this.createVariantOption(item));
+        this.options.push(this.setVariantOption(item));
+      });
+  }
+
+  setVariantOption(item): FormGroup {
+    if (item.type === '4') {
+      return this.formBuilder.group({
+        optionData: item.optionData,
+        option_id: new FormControl(item.option_id, [Validators.required]),
+        option_value_id: new FormControl((item.option_value_id) ? item.option_value_id : '', [Validators.required]),
+        option_image: new FormControl((item.option_image) ? item.option_image : '', [Validators.required])
+      });
+    } else if (item.type === '5') {
+      return this.formBuilder.group({
+        optionData: item.optionData,
+        option_id: new FormControl(item.option_id, [Validators.required]),
+        option_value_id: new FormControl((item.option_value_id) ? item.option_value_id : ''),
+        input_ar: new FormControl((item.input_ar) ? item.input_ar : '', [Validators.required]),
+        input_en: new FormControl((item.input_en) ? item.input_en: '', [Validators.required])
+      });
+    } else {
+      return this.formBuilder.group({
+        optionData: item.optionData,
+        option_id: new FormControl(item.option_id, Validators.required),
+        option_value_id: new FormControl((item.option_value_id) ? item.option_value_id : '', [Validators.required])
       });
     }
+
   }
 
   addImage(data: any = null) {
