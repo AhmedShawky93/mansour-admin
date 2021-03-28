@@ -91,10 +91,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.getInitialData();
   }
 
-
   ngOnChanges() {
     this.setForm(this.selectedProduct);
-    this.mergeData();
   }
 
   getInitialData() {
@@ -105,6 +103,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           this.getAllOptions(options);
           this.getCategories(categories);
           this.getBrands(brands);
+          this.mergeData(this.selectedProduct);
           this.setData(this.selectedProduct);
           this.spinner.hide();
         },
@@ -119,70 +118,90 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   setForm(data) {
     this.componentForm = this.formBuilder.group({
-      brand_id: new FormControl( data ? data.brand_id : ''),
+      brand_id: new FormControl(data ? data.brand_id : ''),
       main_category: new FormControl(data ? (data.main_category) : ''),
       category_id: new FormControl(data ? (data.category_id) : '', Validators.required),
       optional_category: new FormControl(data ? (data.optional_category) : ''),
       optional_sub_category_id: new FormControl(data ? (data.optional_sub_category_id) : ''),
       preorder: new FormControl(data ? data.preorder : 0),
-      preorder_start_date: new FormControl( data ? data.preorder_start_date : '', []),
-      preorder_start_time: new FormControl( data ? data.preorder_start_time : '00:00:00', []),
-      preorder_end_date: new FormControl( data ? data.preorder_end_date : '', []),
+      preorder_start_date: new FormControl(data ? data.preorder_start_date : '', []),
+      preorder_start_time: new FormControl(data ? data.preorder_start_time : '00:00:00', []),
+      preorder_end_date: new FormControl(data ? data.preorder_end_date : '', []),
       preorder_expiration_time: new FormControl(data ? data.preorder_expiration_time : '00:00:00', []),
       available_soon: new FormControl(data ? data.available_soon : ''),
-      max_per_order: new FormControl( data ? data.max_per_order : ''),
-      min_days: new FormControl( data ? data.min_days : ''),
-      stock_alert: new FormControl( data ? data.stock_alert : ''),
-      order: new FormControl( data ? data.order : ''),
+      max_per_order: new FormControl(data ? data.max_per_order : ''),
+      min_days: new FormControl(data ? data.min_days : ''),
+      stock_alert: new FormControl(data ? data.stock_alert : ''),
+      order: new FormControl(data ? data.order : ''),
       option_values: this.formBuilder.array([]),
-      discount_start_date: new FormControl( data ? data.discount_start_date : '', []),
-      start_time: new FormControl( data ? data.start_time : '00:00:00', []),
-      discount_end_date: new FormControl( data ? data.discount_end_date : '', []),
-      expiration_time: new FormControl( data ? data.expiration_time : '00:00:00', []),
-      product_variant_options: new FormControl( data ? data.product_variant_options : '', []),
+      discount_start_date: new FormControl(data ? data.discount_start_date : '', []),
+      start_time: new FormControl(data ? data.start_time : '00:00:00', []),
+      discount_end_date: new FormControl(data ? data.discount_end_date : '', []),
+      expiration_time: new FormControl(data ? data.expiration_time : '00:00:00', []),
+      product_variant_options: new FormControl(data ? data.product_variant_options : '', []),
 
-      image: new FormControl( data ? data.image : '', Validators.required),
-      video: new FormControl( data ? data.video : ''),
+      image: new FormControl(data ? data.image : '', Validators.required),
+      video: new FormControl(data ? data.video : ''),
       images: this.formBuilder.array([]),
-      name: new FormControl( data ? data.name : '', Validators.required),
-      name_ar: new FormControl( data ? data.name_ar : '', Validators.required),
-      description: new FormControl( data ? data.description : '', [
+      name: new FormControl(data ? data.name : '', Validators.required),
+      name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
+      description: new FormControl(data ? data.description : '', [
         Validators.required,
         Validators.minLength(3),
         // Validators.maxLength(250),
       ]),
-      description_ar: new FormControl( data ? data.name_ar : '', [
+      description_ar: new FormControl(data ? data.name_ar : '', [
         Validators.required,
         Validators.minLength(3),
         // Validators.maxLength(250),
       ]),
-      long_description_en: new FormControl( data ? data.long_description_en : ''),
-      long_description_ar: new FormControl( data ? data.long_description_ar : ''),
-      meta_title: new FormControl( data ? data.meta_title : ''),
-      meta_description: new FormControl( data ? data.meta_description : ''),
-      meta_title_ar: new FormControl( data ? data.meta_title_ar : ''),
-      meta_description_ar: new FormControl( data ? data.meta_description_ar : ''),
-      price: new FormControl( data ? data.price : '', Validators.required),
-      discount_price: new FormControl( data ? data.discount_price : '', [
+      long_description_en: new FormControl(data ? data.long_description_en : ''),
+      long_description_ar: new FormControl(data ? data.long_description_ar : ''),
+      meta_title: new FormControl(data ? data.meta_title : ''),
+      meta_description: new FormControl(data ? data.meta_description : ''),
+      meta_title_ar: new FormControl(data ? data.meta_title_ar : ''),
+      meta_description_ar: new FormControl(data ? data.meta_description_ar : ''),
+      price: new FormControl(data ? data.price : '', Validators.required),
+      discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
-      default_variant: new FormControl( data ? data.default_variant : 0),
-      stock: new FormControl( data ? data.stock : 0, Validators.required),
+      default_variant: new FormControl(data ? data.default_variant : 0),
+      stock: new FormControl(data ? data.stock : 0, Validators.required),
       // preorder_price: new FormControl(0),
-      weight: new FormControl( data ? data.weight : 0, Validators.required),
-      sku: new FormControl( data ? data.sku : '', Validators.required),
+      weight: new FormControl(data ? data.weight : 0, Validators.required),
+      sku: new FormControl(data ? data.sku : '', Validators.required),
       options: this.formBuilder.array([]),
-      type: new FormControl( data ? data.type : '', Validators.required),
-      has_stock: new FormControl( data ? data.has_stock : ''),
-      bundle_checkout: new FormControl( data ? data.bundle_checkout : ''),
-      bundle_products_ids: new FormControl( data ? data.bundle_products_ids : ''),
-      related_ids: new FormControl((data && data.relatedProducts) ? data.relatedProducts.map(rp => rp.id) : ''),
+      type: new FormControl(data ? data.type : '', Validators.required),
+      has_stock: new FormControl(data ? data.has_stock : ''),
+      bundle_checkout: new FormControl(data ? data.bundle_checkout : ''),
+      bundle_products_ids: new FormControl(data ? data.bundle_products_ids : ''),
+      related_ids: new FormControl((data && data.related_ids) ? data.related_ids : ''),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
   }
 
-  mergeData() {
+  mergeData(data) {
+    let bundleProducts = [];
+    let relatedProducts = [];
+    if (data && data.bundle_products_ids) {
+      bundleProducts = data.bundle_products_ids.map(bp => {
+        return {
+          id: bp.id,
+          name: bp.name
+        };
+      });
+    }
+    if (data && data.related_ids) {
+      relatedProducts = data.related_ids.map(bp => {
+        return {
+          id: bp.id,
+          name: bp.name
+        };
+      });
+    }
+
+
     this.products$ = concat(
-      of(), // default items
+      of(bundleProducts), // default items
       this.productsInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
@@ -205,7 +224,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     );
 
     this.relatedProducts$ = concat(
-      of(), // default items
+      of(relatedProducts), // default items
       this.relatedProductsInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
@@ -215,14 +234,13 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
             catchError(() => of([])), // empty list on error
             tap(() => (this.relatedProductsLoading = false)),
             map((response: any) => {
-              const data = response.data.products.map((p) => {
+              const products = response.data.products.map((p) => {
                 return {
                   id: p.id,
                   name: p.sku + ': ' + p.name,
                 };
               });
-              this.relatedProducts = data;
-              return data;
+              return products;
             })
           )
         )
@@ -238,7 +256,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       data.option_values.forEach((element) => {
         this.editOptions(element);
       });
-      data.images.forEach( img => {
+      data.images.forEach(img => {
         this.addImage(img);
       });
       this.setVariantOptionsToForm(data.options);
@@ -251,21 +269,11 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     if (this.selectedProduct) {
       data.id = this.selectedProduct.id;
     }
-    data.relatedProducts = this.relatedProducts.filter(item => {
-      if (data.related_ids.includes(item.id)) {
-        return data;
-      }
-    });
     data.isDraft = true;
     this.draftProductService.SetDraftProduct(data);
     this.dataProductEmit.emit(data);
     this.closeSideBar();
     this.toasterService.success('Product added to draft');
-  }
-
-  clearDraftProduct() {
-    this.draftProductService.clearDraftProduct(this.selectedProduct);
-    this.toasterService.success('Product removed from draft');
   }
 
   getAllOptions(res) {
@@ -319,9 +327,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   editItemOptions(data): FormGroup {
-    const group =  this.formBuilder.group({
+    const group = this.formBuilder.group({
       type: new FormControl((data) ? data.type : ''),
-      option_id: new FormControl((data && data.id) ? data.id : (data.option_id) ? data.option_id : '' ),
+      option_id: new FormControl((data && data.id) ? data.id : (data.option_id) ? data.option_id : ''),
       name_en: new FormControl((data) ? data.name_en : ''),
       optionValues: new FormControl((data && data.values && data.values.length) ? data.values : (data.optionValues) ? data.optionValues : ''),
       option_value_id: new FormControl((data.option_value_id) ? data.option_value_id : ''),
@@ -458,7 +466,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     // }
   }
 
-
   addVariantOptionsToForm() {
     if (this.selectedVariantsOptions.length) {
       this.selectedVariantsOptions.forEach(item => {
@@ -496,9 +503,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   setVariantOptionsToForm(data) {
     data.forEach(item => {
-        this.options = this.componentForm.get('options') as FormArray;
-        this.options.push(this.setVariantOption(item));
-      });
+      this.options = this.componentForm.get('options') as FormArray;
+      this.options.push(this.setVariantOption(item));
+    });
   }
 
   setVariantOption(item): FormGroup {
@@ -581,6 +588,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       bundle_checkout: product.bundle_checkout,
       preorder_start_date: product.preorder_start_date,
       preorder_end_date: product.preorder_end_date,
+      related_ids: product.related_ids ? product.related_ids.map(item => item.id) : ''
     };
     return data;
   }
@@ -637,7 +645,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       sku: product.sku + '_variant',
       stock: product.stock,
       weight: product.weight,
-      bundle_products_ids: product.bundle_products_ids,
+      bundle_products_ids: (product.bundle_products_ids) ? product.bundle_products_ids.map(item => item.id) : '',
     };
     return data;
   }
@@ -701,7 +709,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         }
       });
   }
-
 
   removeImage(index) {
     this.addSubImages.removeAt(index);

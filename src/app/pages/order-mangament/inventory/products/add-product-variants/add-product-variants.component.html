@@ -375,7 +375,7 @@
       <div class="form-group">
         <label>Bundle Products</label>
         <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
-          bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name"
+          bindLabel="name" multiple="true" placeholder="Enter Product name"
           formControlName="bundle_products_ids">
         </ng-select>
         <div
@@ -406,8 +406,8 @@
     <div class="form-group">
       <label>Related Products</label>
       <ng-select [typeahead]="relatedProductsInput$" [loading]="relatedProductsLoading" name="relatedProducts"
-        [items]="relatedProducts$ | async" bindLabel="name" bindValue="id" multiple="true"
-        placeholder="Enter Product name" formControlName="related_ids">
+                 [items]="relatedProducts$ | async" bindLabel="name"  multiple="true"
+                 placeholder="Enter Product name" formControlName="related_ids">
       </ng-select>
     </div>
 
