@@ -69,10 +69,15 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       placeholder: 'Enter text here...',
       defaultParagraphSeparator: '',
       defaultFontName: '',
+      sanitize: false,
       defaultFontSize: '',
-      sanitize: true,
       toolbarPosition: 'top',
       uploadUrl: environment.api + '/admin/upload_ckeditor',
+      customClasses: [{
+        name: 'imgEditor',
+        class: 'imgEditor',
+        tag: 'img',
+      },]
     };
   }
 

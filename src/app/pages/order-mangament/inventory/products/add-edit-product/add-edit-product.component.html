@@ -222,8 +222,7 @@
 
       <div class="form-group">
         <label>Category</label>
-        <select class="owl-input" name="category" (change)="selectCategory($event)" formControlName="main_category"
-          required>
+        <select class="owl-input" name="category" (change)="selectCategory($event)" formControlName="main_category" required>
           <option value="" selected hidden>Select Category</option>
           <ng-container *ngFor="let cat of categories">
             <option value="{{cat.id}}" *ngIf="addProductForm.get('main_category').value == cat.id || !cat.selected">
@@ -332,7 +331,7 @@
     </div>-->
 
     <div>
-      <div  formArrayName="option_values" class="form-group" *ngFor="let option of addProductForm.get('option_values')['controls']; let i = index">
+      <div formArrayName="option_values" class="form-group" *ngFor="let option of addProductForm.get('option_values')['controls']; let i = index">
         <span [formGroupName]='i'>
 
           <div class="" *ngIf="option?.value.type != '5'">
