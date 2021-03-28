@@ -63,7 +63,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       defaultParagraphSeparator: '',
       defaultFontName: '',
       defaultFontSize: '',
-      sanitize: true,
+      sanitize: false,
       toolbarPosition: 'top',
       uploadUrl: environment.api + '/admin/upload_ckeditor',
     };

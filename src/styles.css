@@ -1822,3 +1822,18 @@ ng-select.owl-input .ng-select-container{
 .parent-editor-viewer-sidebar .view-vindor-types {
   width: 100% !important;
 }
+
+.angular-editor-textarea ul {
+  list-style: initial !important;
+  padding-left: 15px;
+}
+
+.angular-editor-textarea ol{
+  padding-left: 15px;
+  list-style: revert !important;
+}
+
+.angular-editor-wrapper img{
+  /* max-width: fit-content; */
+  max-width: -webkit-fill-available;
+}

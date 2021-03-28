@@ -461,6 +461,9 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   edit(data) {
     if (this.selectedMainProduct) {
+      if (!this.selectedMainProduct.product_variant_options){
+        this.selectedMainProduct.product_variant_options = data.product_variant_options;
+      }
       this.toggleEditVariantMenu(data);
     } else {
       this.toggleMenu(data);
