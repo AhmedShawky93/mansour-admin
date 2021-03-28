@@ -833,4 +833,12 @@ export class ProductsComponent implements OnInit, OnChanges {
   editDraftProduct(product) {
     this.NewProductWithVariant({...product});
   }
+
+  cloneDraft(product) {
+    const data = {...product};
+    delete data.id;
+    const clonedProduct = this.draftProductService.SetDraftProduct(data);
+    this.addOrUpdateProduct(clonedProduct);
+    this.toasterService.success('Draft Product Cloned Successfully');
+  }
 }

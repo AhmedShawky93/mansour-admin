@@ -120,6 +120,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.componentForm = this.formBuilder.group({
       brand_id: new FormControl(data ? data.brand_id : ''),
       main_category: new FormControl(data ? (data.main_category) : ''),
+      category: new FormControl( ''),
       category_id: new FormControl(data ? (data.category_id) : '', Validators.required),
       optional_category: new FormControl(data ? (data.optional_category) : ''),
       optional_sub_category_id: new FormControl(data ? (data.optional_sub_category_id) : ''),
@@ -253,13 +254,15 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       this.selectCategory(data.main_category);
       this.selectSubCategoryOption(data.category_id);
       this.selectOptionalCategory(data.optional_category);
+      this.setVariantOptionsToForm(data.options);
+      const category = (data.main_category) ? this.categories.find(item => item.id === Number(data.main_category)) : '';
+      this.componentForm.get('category').setValue(category);
       data.option_values.forEach((element) => {
         this.editOptions(element);
       });
       data.images.forEach(img => {
         this.addImage(img);
       });
-      this.setVariantOptionsToForm(data.options);
     }
   }
 
@@ -270,6 +273,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       data.id = this.selectedProduct.id;
     }
     data.isDraft = true;
+    const category = (data.main_category) ? this.categories.find(item => item.id === Number(data.main_category)) : '';
+    this.componentForm.get('category').setValue(category);
     this.draftProductService.SetDraftProduct(data);
     this.dataProductEmit.emit(data);
     this.closeSideBar();

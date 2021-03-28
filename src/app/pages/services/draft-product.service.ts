@@ -19,6 +19,7 @@ export class DraftProductService {
       this.draftProducts.unshift(product);
     }
     localStorage.setItem('draftProduct', JSON.stringify(this.draftProducts));
+    return product;
   }
   clearDraftProduct(product) {
     const idx = this.draftProducts.findIndex(data => data.id === product.id);
