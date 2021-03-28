@@ -354,6 +354,9 @@ bar-rating {
   cursor: pointer;
 }
 
+.draft-product{
+  background-color: antiquewhite;
+}
 /* .fixed-table-scroll{
   max-height: 46.5vh;
   overflow-y: scroll;

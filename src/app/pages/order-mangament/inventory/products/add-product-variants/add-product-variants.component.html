@@ -631,9 +631,7 @@
     <!-- <pre class="text-dark">{{componentForm.value | json}}</pre>-->
     <div class="form-sidebar-btns">
       <button [appLoading]="submitting" class="btn btn-owls btn-rounded btn-green">Save</button>
-      <span  class="save-draft-product" (click)="SetDraftProduct($event)">Save
-        Draft Product
-      </span>
+      <button (click)="SetDraftProduct($event)"  class="btn btn-owls btn-rounded btn-green">Draft Product</button>
     </div>
   </form>
 </div>

@@ -141,7 +141,7 @@
     <tbody>
 
     <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let idx = index;">
-      <td>{{product.sku}}</td>
+      <td> <span class="text-danger" *ngIf="product.isDraft">(Draft) </span>{{product.sku}}</td>
       <td class="relative">{{product.name | summary : 25 }}
         <div *ngIf="product.name.length >= 25" class="hover-reason text-left">
           <!--<div class="head">

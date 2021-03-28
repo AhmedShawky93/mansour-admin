@@ -268,9 +268,13 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   SetDraftProduct(event) {
     event.stopPropagation();
+    let msg = '';
     const data = {...this.componentForm.value};
     if (this.selectedProduct) {
       data.id = this.selectedProduct.id;
+      msg = 'Product added to draft';
+    } else {
+      msg = 'Draft Product Updated Successfully';
     }
     data.isDraft = true;
     const category = (data.main_category) ? this.categories.find(item => item.id === Number(data.main_category)) : '';
@@ -278,7 +282,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.draftProductService.SetDraftProduct(data);
     this.dataProductEmit.emit(data);
     this.closeSideBar();
-    this.toasterService.success('Product added to draft');
+    this.toasterService.success(msg);
   }
 
   getAllOptions(res) {
@@ -660,8 +664,11 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.productsService.creatProductVariant(this.mainProduct.id, this.mappingVariantData())
       .subscribe((response: any) => {
         if (response.code === 200) {
+          const deleteDraft = {...this.selectedProduct};
+          deleteDraft.delete = true;
           this.dataProductEmit.emit(this.mainProduct);
           this.draftProductService.clearDraftProduct(this.selectedProduct);
+          this.dataProductEmit.emit(deleteDraft);
           this.toasterService.success('Product With Variant Created Successfully');
           this.spinner.hide();
           this.closeSideBar();

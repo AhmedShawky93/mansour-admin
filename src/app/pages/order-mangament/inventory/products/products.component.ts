@@ -495,8 +495,10 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   addOrUpdateProduct(data) {
     const index = this.products.findIndex((item) => item.id == data.id);
-    if (index !== -1) {
+    if (index !== -1 && !data.delete) {
       this.products[index] = data;
+    } else if (index !== -1 && data.delete) {
+      this.products.splice(index, 1);
     } else {
       this.products.unshift(data);
     }
