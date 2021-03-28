@@ -16,7 +16,7 @@ export class DraftProductService {
       this.draftProducts.splice(idx, 1, product);
     } else {
       product.id = this.uniqueID();
-      this.draftProducts.push(product);
+      this.draftProducts.unshift(product);
     }
     localStorage.setItem('draftProduct', JSON.stringify(this.draftProducts));
   }

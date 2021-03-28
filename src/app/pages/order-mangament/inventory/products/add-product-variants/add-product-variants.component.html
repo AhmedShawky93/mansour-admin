@@ -4,7 +4,6 @@
       <i class="icon-Exit close-sidebar"></i>
     </span>
     <h3>New Product With Variant</h3>
-    <!--<span class="clear-draft-product" (click)="clearDraftProduct()" *ngIf="dataDraftProduct">Clear Draft Product </span>-->
   </div>
   <form (ngSubmit)="save()" [formGroup]="componentForm" class="sideform" novalidate>
 
@@ -173,7 +172,7 @@
 
     <div class="form-group">
       <label> Pricing</label>
-      <input [(ngModel)]="price" [max]="1000000" [min]="1" class="owl-input" formControlName="price"
+      <input [max]="1000000" [min]="1" class="owl-input" formControlName="price"
         pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." required type="number">
       <div *ngIf="formControlValidator('price','required')" class="alert alert-danger">
         Pricing is required.
