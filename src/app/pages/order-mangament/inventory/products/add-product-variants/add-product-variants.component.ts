@@ -53,7 +53,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   brands$: Observable<any>;
   productsInput$ = new Subject<String>();
   productsLoading: boolean;
-  dataDraftProduct: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -82,7 +81,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       defaultParagraphSeparator: '',
       defaultFontName: '',
       defaultFontSize: '',
-      sanitize: true,
+      sanitize: false,
       toolbarPosition: 'top',
       uploadUrl: environment.api + '/admin/upload_ckeditor',
     };
@@ -173,16 +172,12 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       weight: new FormControl( data ? data.weight : 0, Validators.required),
       sku: new FormControl( data ? data.sku : '', Validators.required),
       options: this.formBuilder.array([]),
-      type: new FormControl( data ? data.sku : '', Validators.required),
+      type: new FormControl( data ? data.type : '', Validators.required),
       has_stock: new FormControl( data ? data.has_stock : ''),
       bundle_checkout: new FormControl( data ? data.bundle_checkout : ''),
       bundle_products_ids: new FormControl( data ? data.bundle_products_ids : ''),
       related_ids: new FormControl((data && data.relatedProducts) ? data.relatedProducts.map(rp => rp.id) : ''),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
-    /*if (data) {
-      this.componentForm.patchValue(data);
-    }*/
-    console.log('Component Form Valu Edit >>>>' , this.componentForm.value);
   }
 
   mergeData() {
@@ -226,7 +221,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
                   name: p.sku + ': ' + p.name,
                 };
               });
-              this.relatedProducts.push(...data);
+              this.relatedProducts = data;
               return data;
             })
           )
@@ -243,7 +238,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       data.option_values.forEach((element) => {
         this.editOptions(element);
       });
-      this.buildVariantsOptions();
+      data.images.forEach( img => {
+        this.addImage(img);
+      });
+      this.setVariantOptionsToForm(data.options);
     }
   }
 
@@ -260,7 +258,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     });
     data.isDraft = true;
     this.draftProductService.SetDraftProduct(data);
-    this.dataDraftProduct = data;
     this.dataProductEmit.emit(data);
     this.closeSideBar();
     this.toasterService.success('Product added to draft');
@@ -268,8 +265,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   clearDraftProduct() {
     this.draftProductService.clearDraftProduct(this.selectedProduct);
-    this.dataDraftProduct = null;
-    this.toasterService.success('Product removed to draft');
+    this.toasterService.success('Product removed from draft');
   }
 
   getAllOptions(res) {
@@ -506,26 +502,26 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   setVariantOption(item): FormGroup {
-    if (item.type === '4') {
+    if (item.optionData.type === '4') {
       return this.formBuilder.group({
         optionData: item.optionData,
         option_id: new FormControl(item.option_id, [Validators.required]),
-        option_value_id: new FormControl((item.option_value_id) ? item.option_value_id : '', [Validators.required]),
+        option_value_id: new FormControl((item.option_value_id) ? Number(item.option_value_id) : '', [Validators.required]),
         option_image: new FormControl((item.option_image) ? item.option_image : '', [Validators.required])
       });
-    } else if (item.type === '5') {
+    } else if (item.optionData.type === '5') {
       return this.formBuilder.group({
         optionData: item.optionData,
         option_id: new FormControl(item.option_id, [Validators.required]),
-        option_value_id: new FormControl((item.option_value_id) ? item.option_value_id : ''),
+        option_value_id: new FormControl((item.option_value_id) ? Number(item.option_value_id) : ''),
         input_ar: new FormControl((item.input_ar) ? item.input_ar : '', [Validators.required]),
-        input_en: new FormControl((item.input_en) ? item.input_en: '', [Validators.required])
+        input_en: new FormControl((item.input_en) ? item.input_en : '', [Validators.required])
       });
     } else {
       return this.formBuilder.group({
         optionData: item.optionData,
         option_id: new FormControl(item.option_id, Validators.required),
-        option_value_id: new FormControl((item.option_value_id) ? item.option_value_id : '', [Validators.required])
+        option_value_id: new FormControl((item.option_value_id) ? Number(item.option_value_id) : '', [Validators.required])
       });
     }
 
@@ -652,6 +648,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.dataProductEmit.emit(this.mainProduct);
+          this.draftProductService.clearDraftProduct(this.selectedProduct);
+          this.toasterService.success('Product With Variant Created Successfully');
           this.spinner.hide();
           this.closeSideBar();
         } else {
