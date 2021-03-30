@@ -112,6 +112,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   historyRoute: any;
   searchValueProduct: string;
   stateCloning: boolean;
+  statedeleting: boolean;
 
   constructor(
     private productsService: ProductsService,
@@ -470,6 +471,13 @@ export class ProductsComponent implements OnInit, OnChanges {
     }
   }
 
+  removeProduct(product){
+    if (!this.selectedMainProduct) {
+      this.currentProduct = product;
+      $("#deleteProduct").modal("show");
+    }
+  }
+
   toggleMenuNew(data) {
     // console.log('toggleMenuNew');
     this.productForm.resetForm();
@@ -810,6 +818,29 @@ export class ProductsComponent implements OnInit, OnChanges {
         if (response.code == 200) {
           this.stateCloning = false;
           this.toastrService.success("Product Clone Successfully", 'Success', {
+            enableHtml: true,
+            timeOut: 3000
+          });
+          this.addOrUpdateProduct(response.data);
+          $("#cloneProduct").modal("hide");
+          /*this.filter$.next(this.filter);*/
+        } else {
+          this.stateCloning = false;
+          this.toastrService.error(response.message, 'Error Occured', {
+            enableHtml: true,
+            timeOut: 3000
+          });
+        }
+      });
+  }
+
+  confirmDelete(){
+    this.statedeleting = true;
+    this.productsService.deleteProduct(this.currentProduct.id)
+      .subscribe((response: any) => {
+        if (response.code == 200) {
+          this.stateCloning = false;
+          this.toastrService.success("Product deleted Successfully", 'Success', {
             enableHtml: true,
             timeOut: 3000
           });

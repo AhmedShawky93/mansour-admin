@@ -161,7 +161,7 @@
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image').value" src="{{newAdsForm.get('image').value}}"
           alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image').value" src="http://via.placeholder.com/500x350"
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image').value" src="./assets/img/medium-empty-image.png"
           alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelected(newAdsForm, $event, 'image')" accept="image/*" />
@@ -181,7 +181,7 @@
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_ar').value"
           src="{{newAdsForm.get('image_ar').value}}" alt="">
         <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_ar').value"
-          src="http://via.placeholder.com/500x350" alt="">
+          src="./assets/img/medium-empty-image.png" alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelected(newAdsForm, $event, 'image_ar')" accept="image/*" />
       </div>
@@ -200,7 +200,7 @@
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value"
           src="{{newAdsForm.get('image_web').value}}" alt="">
         <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value"
-          src="http://via.placeholder.com/1400x500" alt="">
+          src="./assets/img/large-empty-image.png" alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelectedWeb(newAdsForm, $event, 'image')" accept="image/*" />
       </div>
@@ -219,7 +219,7 @@
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web_ar').value"
           src="{{newAdsForm.get('image_web_ar').value}}" alt="">
         <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web_ar').value"
-          src="http://via.placeholder.com/1400x500" alt="">
+          src="./assets/img/large-empty-image.png" alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelectedWeb(newAdsForm, $event, 'image_ar')" accept="image/*" />
       </div>
