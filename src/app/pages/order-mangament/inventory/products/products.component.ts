@@ -51,6 +51,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   showError: number;
   currentProduct: any;
   category_id: any;
+  selectedDraft: any;
   @ViewChild('myInput') importFile: ElementRef;
   @ViewChild('myInputStock') importFileStock: ElementRef;
   @ViewChild('productForm') productForm: AddEditProductComponent;
@@ -472,7 +473,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     }
   }
 
-  removeProduct(product){
+  removeProduct(product) {
     if (!this.selectedMainProduct) {
       this.currentProduct = product;
       $("#deleteProduct").modal("show");
@@ -858,9 +859,17 @@ export class ProductsComponent implements OnInit, OnChanges {
       });
   }
 
-  removeDraftProduct(product, idx) {
-    this.draftProductService.clearDraftProduct(product);
-    this.products.splice(idx, 1);
+  removeDraftConfirmation(product, idx) {
+    if (!this.selectedMainProduct) {
+      this.selectedDraft = {product: product , index: idx};
+      $('#deleteDraft').modal('show');
+    }
+  }
+
+  removeDraftProduct() {
+    this.draftProductService.clearDraftProduct(this.selectedDraft.product);
+    this.products.splice(this.selectedDraft.index, 1);
+    $('#deleteDraft').modal('hide');
     this.toasterService.success('Draft Product Removed Successfully');
   }
 

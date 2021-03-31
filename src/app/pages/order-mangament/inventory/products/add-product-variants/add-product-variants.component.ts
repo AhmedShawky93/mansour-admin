@@ -278,9 +278,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
     if (this.selectedProduct) {
       data.id = this.selectedProduct.id;
-      msg = 'Product added to draft';
-    } else {
       msg = 'Draft Product Updated Successfully';
+    } else {
+      msg = 'Product added to draft';
     }
     data.isDraft = true;
     const category = (data.main_category) ? this.categories.find(item => item.id === Number(data.main_category)) : '';
