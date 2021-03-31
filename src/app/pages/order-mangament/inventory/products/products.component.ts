@@ -133,7 +133,6 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.viewVariantSidebar = 'out';
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        console.log(event);
         this.getRoutes();
       }
     });
@@ -223,7 +222,9 @@ export class ProductsComponent implements OnInit, OnChanges {
     }
     if (this.route.snapshot.queryParams.main_category) {
       this.main_category = this.route.snapshot.queryParams.main_category;
-
+    }
+    if (this.route.snapshot.queryParams.sub_category_id) {
+      this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
     }
     this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null, this.searchValue);
   }
@@ -258,7 +259,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   search() {
     this.p = 1;
     this.setRoute();
-    this.getProducts(this.selectedMainProduct, this.searchValue);
+    // this.getProducts(this.selectedMainProduct, this.searchValue);
   }
 
   pagination(page) {
@@ -305,7 +306,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   getProductSubCategory(data) {
     this.setRoute()
     this.p = 1;
-    this.getProducts();
+    // this.getProducts();
   }
 
   getProductsVariants(product) {
