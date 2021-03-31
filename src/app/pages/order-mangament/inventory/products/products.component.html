@@ -154,9 +154,11 @@
 
       </td>
       <td *ngIf="!selectedMainProduct">
-        {{product?.category?.name}} >
-        <br>
-        {{product?.category?.sub_categories[0]?.name}}
+        <ng-container *ngIf="product.category">
+          {{product?.category?.name}} >
+          <br>
+          {{product?.category?.sub_categories[0]?.name}}
+        </ng-container>
       </td>
       <td *ngIf="selectedMainProduct">
         {{product?.last_editor?.name}}

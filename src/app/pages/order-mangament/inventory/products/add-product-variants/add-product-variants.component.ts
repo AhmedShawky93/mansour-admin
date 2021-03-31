@@ -120,7 +120,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.componentForm = this.formBuilder.group({
       brand_id: new FormControl(data ? data.brand_id : ''),
       main_category: new FormControl(data ? (data.main_category) : ''),
-      category: new FormControl( ''),
+      category: new FormControl(''),
       category_id: new FormControl(data ? (data.category_id) : '', Validators.required),
       optional_category: new FormControl(data ? (data.optional_category) : ''),
       optional_sub_category_id: new FormControl(data ? (data.optional_sub_category_id) : ''),
@@ -268,8 +268,14 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   SetDraftProduct(event) {
     event.stopPropagation();
-    let msg = '';
+    let msg: string;
     const data = {...this.componentForm.value};
+
+    if (!this.validateDraftData(data)) {
+      this.toasterService.warning('Please fill at least one field');
+      return;
+    }
+
     if (this.selectedProduct) {
       data.id = this.selectedProduct.id;
       msg = 'Product added to draft';
@@ -283,6 +289,18 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.dataProductEmit.emit(data);
     this.closeSideBar();
     this.toasterService.success(msg);
+  }
+
+  validateDraftData(data) {
+    let hasData: boolean;
+    Object.keys(data).forEach(key => {
+      if (data[key] && (data[key].length !== 0) && data[key] !== '00:00:00') {
+        hasData = true;
+      } else if (data[key].length && data[key].length > 0 && data[key] !== '00:00:00') {
+        hasData = true;
+      }
+    });
+    return hasData;
   }
 
   getAllOptions(res) {
@@ -349,44 +367,50 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   selectCategory(id) {
-    const cat_id = Number(id);
-    const index = this.categories.findIndex((item) => item.id === cat_id);
-    if (index !== -1) {
-      const category = this.categories[index];
-      this.sub_categories = category.sub_categories;
+    if (id) {
+      const cat_id = Number(id);
+      const index = this.categories.findIndex((item) => item.id === cat_id);
+      if (index !== -1) {
+        const category = this.categories[index];
+        this.sub_categories = category.sub_categories;
+      }
     }
   }
 
   selectSubCategoryOption(id) {
-    if (this.option_values) {
+    if (id) {
+      if (this.option_values) {
 
-      while (this.componentForm.get('option_values').value.length > 0) {
-        this.option_values.removeAt(0);
+        while (this.componentForm.get('option_values').value.length > 0) {
+          this.option_values.removeAt(0);
+        }
+        this.option_values.reset();
       }
-      this.option_values.reset();
-    }
-    const cat_id = Number(id);
-    const index = this.sub_categories.findIndex((item) => item.id === cat_id);
+      const cat_id = Number(id);
+      const index = this.sub_categories.findIndex((item) => item.id === cat_id);
 
-    if (index !== -1) {
-      this.subCategoryOptions = this.sub_categories[index].options;
-      console.log('This subCategoryOptions >>>>', this.subCategoryOptions);
+      if (index !== -1) {
+        this.subCategoryOptions = this.sub_categories[index].options;
+        console.log('This subCategoryOptions >>>>', this.subCategoryOptions);
 
-      if (!this.selectedProduct) {
-        this.subCategoryOptions.forEach((element) => {
-          this.addOptions(element);
-        });
+        if (!this.selectedProduct) {
+          this.subCategoryOptions.forEach((element) => {
+            this.addOptions(element);
+          });
+        }
+
       }
-
     }
   }
 
   selectOptionalCategory(id) {
-    const cat_id = Number(id);
-    const index = this.optionalCategories.findIndex((item) => item.id === cat_id);
-    if (index !== -1) {
-      const optionalCategory = this.optionalCategories[index];
-      this.optionalSubCategories = optionalCategory.sub_categories;
+    if (id) {
+      const cat_id = Number(id);
+      const index = this.optionalCategories.findIndex((item) => item.id === cat_id);
+      if (index !== -1) {
+        const optionalCategory = this.optionalCategories[index];
+        this.optionalSubCategories = optionalCategory.sub_categories;
+      }
     }
   }
 
