@@ -152,13 +152,8 @@
           (change)="onImageSelected($event)" name="image" />
         <input type="hidden" [(ngModel)]="imageUrl" formControlName="image">
       </div>
-
-      <div
-        *ngIf="addBrandForm.controls.image.invalid && (addBrandForm.controls.image.dirty || addBrandForm.controls.image.touched)"
-        class="alert alert-danger">
-        <div *ngIf="addBrandForm.controls.image.errors.required">
-          Image is required.
-        </div>
+      <div *ngIf="formControlValidator('image', 'required')">
+        Image is required.
       </div>
     </div>
 

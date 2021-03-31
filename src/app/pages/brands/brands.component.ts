@@ -92,7 +92,7 @@ export class BrandsComponent implements OnInit {
       id: new FormControl(brand.id, Validators.required),
       name: new FormControl(brand.name, Validators.required),
       name_ar: new FormControl(brand.name_ar, Validators.required),
-      image: new FormControl(brand.image),
+      image: new FormControl(brand.image, Validators.required),
     });
     this.imageUrl = brand.image;
     $("#edit-prod").toggleClass("open-view-vindor-types");
@@ -133,11 +133,17 @@ export class BrandsComponent implements OnInit {
       }
     });
   }
-
+  formControlValidator(controlName, err) {
+    if (this.editForm && this.editForm.controls[controlName].touched && this.editForm.controls[controlName].dirty) {
+      if (this.editForm.controls[controlName].errors) {
+        return this.editForm.controls[controlName].errors[err];
+      }
+    }
+  }
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
-
+      control.markAsDirty();
       if (control.controls) {
         this.markFormGroupTouched(control);
       }
