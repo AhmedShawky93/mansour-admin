@@ -214,7 +214,7 @@
         <a (click)="editDraftProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
           <i class="icon-grey"></i>
         </a>
-        <a (click)="removeDraftProduct(product, idx)" class="table-view edit-product mx-1" href="javascript:void(0)">
+        <a (click)="removeDraftConfirmation(product, idx)" class="table-view edit-product mx-1" href="javascript:void(0)">
           <i class="fa fa-trash"></i>
         </a>
         <a (click)="cloneDraft(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
@@ -333,3 +333,31 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="deleteDraft" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">
+          Delete Draft
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to Delete this draft ?
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button"
+                (click)="removeDraftProduct()"
+                class="position-relative btn-owls btn-rounded btn-green btn-blue2">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
