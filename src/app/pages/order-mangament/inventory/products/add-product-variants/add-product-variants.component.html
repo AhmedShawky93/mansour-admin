@@ -567,6 +567,9 @@
       <div *ngIf="formControlValidator('weight','required')" class="alert alert-danger">
         Weight is required
       </div>
+      <div *ngIf="formControlValidator('weight','min')" class="alert alert-danger">
+        Weight must be more than 0
+      </div>
     </div>
 
     <div class="form-group">
