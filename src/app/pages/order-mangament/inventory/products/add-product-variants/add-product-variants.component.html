@@ -28,7 +28,7 @@
       <div class="form-group">
         <label> Product Options </label>
         <ng-select (close)="buildVariantsOptions()" (remove)="removeOption($event)" [closeOnSelect]="false"
-          [items]="allOptions" [multiple]="true" bindLabel="name_en" class="owl-input"
+          [items]="allOptions" [multiple]="true" bindLabel="name_en" class="owl-input p-0"
           formControlName="product_variant_options" name="productVariantOptions" placeholder="Select Options">
         </ng-select>
         <div *ngIf="formControlValidator('product_variant_options','required')" class="text-danger">

@@ -688,11 +688,13 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.productsService.creatProductVariant(this.mainProduct.id, this.mappingVariantData())
       .subscribe((response: any) => {
         if (response.code === 200) {
-          const deleteDraft = {...this.selectedProduct};
-          deleteDraft.delete = true;
+          if (this.selectedProduct && this.selectedProduct.isDraft) {
+            const deleteDraft = {...this.selectedProduct};
+            deleteDraft.delete = true;
+            this.draftProductService.clearDraftProduct(this.selectedProduct);
+            this.dataProductEmit.emit(deleteDraft);
+          }
           this.dataProductEmit.emit(this.mainProduct);
-          this.draftProductService.clearDraftProduct(this.selectedProduct);
-          this.dataProductEmit.emit(deleteDraft);
           this.toasterService.success('Product With Variant Created Successfully');
           this.spinner.hide();
           this.closeSideBar();
