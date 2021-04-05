@@ -118,7 +118,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   setForm(data) {
     this.componentForm = this.formBuilder.group({
-      brand_id: new FormControl(data ? data.brand_id : ''),
+      brand_id: new FormControl(data ? data.brand_id : '', Validators.required),
       main_category: new FormControl(data ? (data.main_category) : ''),
       category: new FormControl(''),
       category_id: new FormControl(data ? (data.category_id) : '', Validators.required),
