@@ -64,7 +64,7 @@
         <img src="./assets/img/available.svg" />
         <p class="mb-0">{{ state.state?.name }}</p>
         <p class="mb-0 mt-2" *ngIf="state.sub_state?.name">{{ state.sub_state?.name }}</p>
-        <p class="mb-0 mt-2" *ngIf="state.user?.name">{{ state.user?.name }}</p>
+        <p class="mb-0 mt-2" *ngIf="state.user?.name">{{ state.user?.name + ' ' + state.user?.last_name}}</p>
         <p class="mb-0 mt-2" *ngIf="order?.cancellation_reason">
           Cancellation reason : {{order?.cancellation_reason.text }}
         </p>
@@ -274,7 +274,7 @@
       </div>
       <div class="block-item">
         <p>name</p>
-        <span>{{ order?.user?.name }}</span>
+        <span>{{ order?.user?.name + ' ' + order?.user?.last_name}}</span>
       </div>
     </div>
     <div class="col-md-1"></div>
