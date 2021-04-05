@@ -1837,3 +1837,7 @@ ng-select.owl-input .ng-select-container{
   /* max-width: fit-content; */
   max-width: -webkit-fill-available;
 }
+
+pointer{
+  cursor: pointer !important;
+}
