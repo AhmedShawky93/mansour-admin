@@ -84,6 +84,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
             )
           )
         );
+        this.products = [];
         this.products.push({
           products$: products$,
           productsInput$: productsInput$,
