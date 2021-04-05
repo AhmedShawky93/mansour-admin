@@ -538,7 +538,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   customerDetails(customer) {
-    localStorage.setItem('selectedCustomer', customer);
+    localStorage.setItem('selectedCustomer', JSON.stringify(customer));
     this.router.navigate(['/pages/manage-customer']);
   }
 
