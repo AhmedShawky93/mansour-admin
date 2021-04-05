@@ -120,7 +120,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         Validators.min(1),
         (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
-      brand_id: new FormControl(data ? data.brand_id : ''),
+      brand_id: new FormControl(data ? data.brand_id : '', Validators.required),
       main_category: new FormControl(data && data.category ? data.category.id : ''),
       category_id: new FormControl(data ? data.category_id : '', Validators.required),
       optional_category: new FormControl(data && data.optional_category ? data.optional_category.id : ''),
