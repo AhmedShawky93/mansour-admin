@@ -123,7 +123,7 @@ export class CustomAdsComponent implements OnInit {
       id: new FormControl(),
       name_en: new FormControl("", Validators.required),
       name_ar: new FormControl("", Validators.required),
-      type: new FormControl(""),
+      type: new FormControl(10),
       link: new FormControl(""),
       list_id: new FormControl(""),
       category: new FormControl(""),
