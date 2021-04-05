@@ -116,11 +116,16 @@ export class adsComponent implements OnInit {
     this.getCategories();
     this.getBrands();
     this.getLists();
+    this.createForm()
 
+    this.ad.popup = "";
+  }
+
+  createForm(){
     this.newAdsForm = new FormGroup({
       id: new FormControl(),
-      type: new FormControl(""),
-      popup: new FormControl(0,  ),
+      type: new FormControl(10),
+      popup: new FormControl(0),
       order: new FormControl("", Validators.required),
       banner_ad: new FormControl(0),
       banner_title: new FormControl(""),
@@ -138,8 +143,6 @@ export class adsComponent implements OnInit {
       image_web: new FormControl("", Validators.required),
       image_web_ar: new FormControl("", Validators.required),
     });
-
-    this.ad.popup = "";
   }
 
   getAds() {
