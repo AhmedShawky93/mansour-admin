@@ -281,9 +281,9 @@ p.pRating {
 .input-price {
   margin-bottom: 30px;
 }
-.form-edit-price {
+/* .form-edit-price { */
   /* padding: 24px 24px 0; */
-}
+/* } */
 .form-edit-price .form-group {
   margin-bottom: 0px !important;
 }
@@ -292,4 +292,8 @@ p.pRating {
   text-decoration: line-through;
   margin-right: 15px;
 
+}
+
+.pointer{
+  cursor: pointer;
 }

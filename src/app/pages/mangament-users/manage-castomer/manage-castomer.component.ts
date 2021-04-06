@@ -63,7 +63,7 @@ export class ManageCastomerComponent implements OnInit {
   toggleAddCustomer = 'out';
   selectedCustomer: any;
   selectedAddress: any;
-  navigatedCustomerData: any;
+  customerId: any;
 
 
   constructor(
@@ -72,16 +72,14 @@ export class ManageCastomerComponent implements OnInit {
     private _areaService: AreasService,
     private activatedRoute: ActivatedRoute
   ) {
-    this.navigatedCustomerData = JSON.parse(localStorage.getItem('selectedCustomer'));
+    // this.navigatedCustomerData = JSON.parse(localStorage.getItem('selectedCustomer'));
 
   }
 
   ngOnInit() {
     this.getCities();
-    this.activatedRoute.queryParams.subscribe(
-      params => {
-        debugger
-      });
+    this.customerId = Number(this.activatedRoute.snapshot.queryParams.id)
+    
     console.log('bbbbbbbbbb',this.activatedRoute.snapshot.queryParamMap);
 
     $('.table').on('click', '.toggle-vindor-view', function () {
@@ -192,7 +190,7 @@ export class ManageCastomerComponent implements OnInit {
 
   loadCustomers() {
     /*شريف هو اللي قالي اعمل كدا وانا مش راضي (:*/
-    this.filter.ids = this.navigatedCustomerData ? [this.navigatedCustomerData.id] : [];
+    this.filter.ids = this.customerId ? [this.customerId] : [];
 
     this.cs.getCustomers(this.filter)
       .subscribe((response: any) => {
@@ -209,13 +207,16 @@ export class ManageCastomerComponent implements OnInit {
 
   getCustomerDetails(data) {
     /*شريف هو اللي قالي اعمل كدا وانا مش راضي (:*/
-    if (this.navigatedCustomerData) {
-      this.filter.q = this.navigatedCustomerData.id;
+    if (this.customerId) {
+      this.filter.q = this.customerId;
       this.viewCustomer(data[0]);
       document.querySelector('#view-active').classList.add('open-view-vindor-types');
-      localStorage.removeItem('selectedCustomer');
+      this.customerId = null;
+      this.filter.ids = [];
+      // localStorage.removeItem('selectedCustomer');
     }
   }
+
   searchCustomers(q) {
     if (!q.length) {
       this.changePage(this.p);
