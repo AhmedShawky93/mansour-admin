@@ -8,6 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {DeliveryService} from '@app/pages/services/delivery.service';
 import * as moment from 'moment';
 import {Subject} from 'rxjs';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 declare var jquery: any;
 declare var $: any;
@@ -16,6 +17,24 @@ declare var $: any;
   selector: 'app-order-details',
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.css'],
+  animations: [
+    trigger('slideInOut', [
+      state(
+        'in',
+        style({
+          transform: 'translate3d(0px, 0, 0)',
+        })
+      ),
+      state(
+        'out',
+        style({
+          transform: 'translate3d(-100%, 0, 0)',
+        })
+      ),
+      transition('in => out', animate('300ms ease-in-out')),
+      transition('out => in', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class OrderDetailsComponent implements OnInit {
   firstFormGroup: FormGroup;
@@ -68,6 +87,8 @@ export class OrderDetailsComponent implements OnInit {
   submitted = false;
   stateForm: FormGroup;
   filter$ = new Subject();
+  toggleAddOrder: string;
+
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -79,6 +100,7 @@ export class OrderDetailsComponent implements OnInit {
     private orderStatesService: OrderStatesService,
     private deliveryService: DeliveryService
   ) {
+    this.toggleAddOrder = 'out';
   }
 
   get serialNumberFormGroub() {
@@ -290,7 +312,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   confirmChangeStatus(notifyUser) {
-    this.markFormGroupTouched(this.stateForm)
+    this.markFormGroupTouched(this.stateForm);
     if (this.stateForm.get('shipping_method').value !== '3') {
       this.stateForm.get('aramex_account_number').setValidators([]);
       this.stateForm.get('aramex_account_number').updateValueAndValidity();
@@ -537,4 +559,16 @@ export class OrderDetailsComponent implements OnInit {
       });
   }
 
+  customerDetails(customer) {
+    localStorage.setItem('selectedCustomer', JSON.stringify(customer));
+    this.router.navigate(['/pages/manage-customer']);
+  }
+  closeSideBar(data) {
+    this.order =  data ? {...data} : this.order;
+    this.toggleAddOrder = 'out';
+  }
+  editOrder() {
+    this.order = {...this.order};
+    this.toggleAddOrder = 'in';
+  }
 }
