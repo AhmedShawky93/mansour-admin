@@ -33,12 +33,13 @@
         </td>
         <td>
           <span [ngSwitch]="ad.type">
+            <span *ngSwitchCase="0">None</span>
             <span *ngSwitchCase="1">Product</span>
-            <span *ngSwitchCase="2">Category</span>
-            <span *ngSwitchCase="3">Sub Category</span>
+            <span *ngSwitchCase="2">Sub Category</span>
             <span *ngSwitchCase="4">Brand</span>
-            <span *ngSwitchCase="5">Tag</span>
-            <span *ngSwitchCase="6">Custom List</span>
+            <span *ngSwitchCase="5">Custom List</span>
+            <span *ngSwitchCase="6">Category</span>
+            <span *ngSwitchCase="7">Link</span>
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
@@ -77,11 +78,6 @@
           </label>
         </td>
       </tr>
-
-
-
-
-
     </tbody>
   </table>
 </div>
@@ -142,10 +138,13 @@
 
     <div>
       <h5>Type</h5>
+      <P *ngIf="currentAd.type == 0"> None </P>
       <P *ngIf="currentAd.type == 1"> product </P>
-      <P *ngIf="currentAd.type == 2"> Category </P>
-      <P *ngIf="currentAd.type == 3"> Sub Category </P>
+      <P *ngIf="currentAd.type == 2"> Sub Category </P>
       <P *ngIf="currentAd.type == 4"> Brand </P>
+      <P *ngIf="currentAd.type == 5"> Custom List </P>
+      <P *ngIf="currentAd.type == 6"> Category </P>
+      <P *ngIf="currentAd.type == 7"> Link </P>
     </div>
 
   </div>
