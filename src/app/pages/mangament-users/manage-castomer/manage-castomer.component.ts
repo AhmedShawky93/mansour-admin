@@ -6,6 +6,7 @@ declare var $: any;
 import { environment } from '@env/environment';
 import { AuthService } from '@app/shared/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-manage-castomer',
@@ -65,13 +66,23 @@ export class ManageCastomerComponent implements OnInit {
   navigatedCustomerData: any;
 
 
-  constructor(private cs: CustomerService, private auth: AuthService, private _areaService: AreasService,
+  constructor(
+    private cs: CustomerService,
+    private auth: AuthService,
+    private _areaService: AreasService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.navigatedCustomerData = JSON.parse(localStorage.getItem('selectedCustomer'));
+
   }
 
   ngOnInit() {
     this.getCities();
+    this.activatedRoute.queryParams.subscribe(
+      params => {
+        debugger
+      });
+    console.log('bbbbbbbbbb',this.activatedRoute.snapshot.queryParamMap);
 
     $('.table').on('click', '.toggle-vindor-view', function () {
       $('#view-active').toggleClass('open-view-vindor-types');

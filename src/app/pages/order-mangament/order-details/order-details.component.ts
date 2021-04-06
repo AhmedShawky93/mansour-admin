@@ -561,7 +561,7 @@ export class OrderDetailsComponent implements OnInit {
 
   customerDetails(customer) {
     localStorage.setItem('selectedCustomer', JSON.stringify(customer));
-    this.router.navigate(['/pages/manage-customer']);
+    this.router.navigate(['/pages/manage-customer'], { queryParams: { id: customer.id } });
   }
   closeSideBar(data) {
     this.order =  data ? {...data} : this.order;
