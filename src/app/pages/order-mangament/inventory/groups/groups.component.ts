@@ -104,6 +104,7 @@ export class GroupsComponent implements OnInit {
       image: new FormControl("", [Validators.required]),
       categories_id: new FormControl("", Validators.required),
       sub_categories: new FormControl([], Validators.required),
+      order: new FormControl(0, Validators.required),
     });
   }
 
@@ -189,6 +190,7 @@ export class GroupsComponent implements OnInit {
       image: new FormControl(category.image, [Validators.required]),
       categories_id: new FormControl(category.category_id, Validators.required),
       sub_categories: new FormControl(category.sub_categories.map(c => c.id), Validators.required),
+      order: new FormControl(category.order ? category.order : 0, Validators.required),
     });
 
     console.log(this.editGroupForm.controls.image.value)
