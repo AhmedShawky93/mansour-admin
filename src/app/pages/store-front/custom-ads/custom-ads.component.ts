@@ -218,7 +218,7 @@ export class CustomAdsComponent implements OnInit {
       this.onCategoryChange();
 
       if (ad.type == 1) {
-        this.onSubCategoryChange(this.selectedSubcategory);
+        this.onSubCategoryChange();
       }
     }
 
@@ -283,6 +283,13 @@ export class CustomAdsComponent implements OnInit {
     form.get("subCategory").updateValueAndValidity();
     form.get("prod").updateValueAndValidity();
     form.get("brand").updateValueAndValidity();
+
+    if (form.get("category").value != null){
+      this.onCategoryChange()
+    }
+    if (form.get("subCategory").value != null){
+      this.onSubCategoryChange();
+    }
   }
 
   viewAd(ad) {
@@ -398,12 +405,13 @@ export class CustomAdsComponent implements OnInit {
     console.log(this.sub_categories);
   }
 
-  onSubCategoryChange(catId) {
+  onSubCategoryChange() {
     const subcategory_id = this.newAdsForm.get("subCategory").value;
     console.log(subcategory_id);
     this._CategoriesService
       .getProducts(subcategory_id)
       .subscribe((response: any) => {
+        this.newAdsForm.get("prod").setValue(null);
         this.productList = response.data;
       });
   }

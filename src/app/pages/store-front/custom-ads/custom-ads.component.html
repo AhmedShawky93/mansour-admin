@@ -332,7 +332,7 @@
 
     <div class="form-group" *ngIf="newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
       <label for="">Subcategory</label>
-      <select type="text" class="owl-input" (change)="onSubCategoryChange(selectedSubcategory)"
+      <select type="text" class="owl-input" (change)="onSubCategoryChange()"
         formControlName="subCategory" name="subCategory">
         <option value="" selected>Select Sub Category</option>
         <option value="{{cat.id}}" *ngFor="let cat of sub_categories">{{cat.name}}
