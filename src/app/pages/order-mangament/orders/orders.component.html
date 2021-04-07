@@ -89,7 +89,7 @@
         <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="col-md-4 col-sm-10">
+    <div class="col-md-4 col-sm-12">
       <mat-form-field class="datepicker">
         <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo"
           [value]="date" [(ngModel)]="filter.date_to">
@@ -98,6 +98,16 @@
         </sat-datepicker>
         <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
       </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="number" class="owl-input owls-search" placeholder="Shipping Number"
+               [(ngModel)]="filter.shipping_id">
+        <!-- (keydown)="changePage(1)" -->
+      </div>
     </div>
     <div class="col-md-4" style="margin-bottom: 20px;">
       <select name="" class="owl-input bg-white" [(ngModel)]="filter.state_id">
@@ -245,7 +255,7 @@
           </label>
         </td>
         <td scope="row">{{order.id}}</td>
-        <td>{{order.user?.name}}</td>
+        <td>{{order.user?.name + ' ' + order.user?.last_name}}</td>
         <td>
           <span *ngIf="order.scheduled_at">{{order.scheduled_at | date: 'd-M-yyyy h:mm a'}}</span>
           <span *ngIf="!order.scheduled_at">{{order.created_at | date: 'd-M-yyyy h:mm a'}}</span>
@@ -763,13 +773,13 @@
             <label for="">Status notes </label>
             <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="status_notes">
             </textarea>
-            <div
+            <!-- <div
               *ngIf="stateForm.controls.status_notes.invalid && (stateForm.controls.status_notes.dirty || stateForm.controls.status_notes.touched)"
               class="alert alert-danger">
               <div *ngIf="stateForm.controls.status_notes.errors.required">
                 Status notes is required.
               </div>
-            </div>
+            </div> -->
             <label class="checkup"> Return To stock
               <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock" formControlName="subtract_stock">
               <span class="checkmark"></span>
@@ -874,7 +884,7 @@
 
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
-          (click)="confirmChangeStatus(notifyUser)" [appLoading]="stateSubmitting">Yes</button>
+          (click)="confirmChangeStatus(notifyUser)" [appLoading]="stateSubmitting" [disabled]='stateSubmitting'>Yes</button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">No</button>
       </div>
 
@@ -891,12 +901,12 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="pickup-ids" *ngIf="orderSelectedPickup.length">
+      <div class="pickup-ids" *ngIf="orderSelectedPickup?.length">
         <span *ngFor="let Pickup of orderSelectedPickup" class="pickup-id">
           {{Pickup}}
           <button (click)="removePickupId(Pickup)" type="button" class="close" style=" float: none;"
             data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" style="     float: none;
+            <span aria-hidden="true" style="float: none;
             position: relative;
             top: 3px;">&times;</span>
           </button>
@@ -1052,5 +1062,6 @@
 </div>
 
 <app-add-edit-order #orderForm (closeSideBarEmit)="closeSideBar($event)" [@slideInOut]="toggleAddOrder"
+  class="parent-editor-viewer-sidebar"
   [selectedOrder]="selectedOrder">
 </app-add-edit-order>

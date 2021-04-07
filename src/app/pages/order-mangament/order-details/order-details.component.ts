@@ -1,27 +1,51 @@
-import { OrderStatesService } from "./../../services/order-states.service";
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { ActivatedRoute } from "@angular/router";
-import { OrdersService } from "@app/pages/services/orders.service";
-import { ToastrService } from "ngx-toastr";
-import { DeliveryService } from "@app/pages/services/delivery.service";
-import * as moment from "moment";
+import {OrderStatesService} from './../../services/order-states.service';
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {OrdersService} from '@app/pages/services/orders.service';
+import {ToastrService} from 'ngx-toastr';
+import {DeliveryService} from '@app/pages/services/delivery.service';
+import * as moment from 'moment';
+import {Subject} from 'rxjs';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 declare var jquery: any;
 declare var $: any;
+
 @Component({
-  selector: "app-order-details",
-  templateUrl: "./order-details.component.html",
-  styleUrls: ["./order-details.component.css"],
+  selector: 'app-order-details',
+  templateUrl: './order-details.component.html',
+  styleUrls: ['./order-details.component.css'],
+  animations: [
+    trigger('slideInOut', [
+      state(
+        'in',
+        style({
+          transform: 'translate3d(0px, 0, 0)',
+        })
+      ),
+      state(
+        'out',
+        style({
+          transform: 'translate3d(-100%, 0, 0)',
+        })
+      ),
+      transition('in => out', animate('300ms ease-in-out')),
+      transition('out => in', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
 export class OrderDetailsComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+  SerialNumberForm: FormGroup;
+  // serials: FormArray;
   isOptional = false;
-  notifyUser: boolean = true;
+  notifyUser = true;
 
+  amount: number;
   order;
 
   processing = false;
@@ -29,7 +53,7 @@ export class OrderDetailsComponent implements OnInit {
   cancelled = false;
   delivered = false;
   returned = false;
-  subtract_stock: boolean = false;
+  subtract_stock = false;
 
   stepperStates = [1, 2, 3, 4];
   orderId: any;
@@ -39,7 +63,7 @@ export class OrderDetailsComponent implements OnInit {
   orderSubStates = [];
   state_id: any;
   sub_state_id: any;
-  textMessage = "";
+  textMessage = '';
   orderStatusId: string;
   status_notesText: string;
   error_status_notes: boolean;
@@ -47,9 +71,9 @@ export class OrderDetailsComponent implements OnInit {
   currentItem: any;
   invoiceDiscount: any;
   cancelReasons = [];
-  cancelReason: string = '';
+  cancelReason = '';
   cancelReasonError: boolean;
-  stateSubmitting: boolean = false;
+  stateSubmitting = false;
   serialNumber: any;
   selectedAddress: any;
   selectedOrder: any;
@@ -58,6 +82,13 @@ export class OrderDetailsComponent implements OnInit {
   branches: any = [];
   today: Date;
   date: Date;
+  SerialNumberArr: any;
+  allSerialNumber: any;
+  submitted = false;
+  stateForm: FormGroup;
+  filter$ = new Subject();
+  toggleAddOrder: string;
+
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -65,35 +96,58 @@ export class OrderDetailsComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private orderService: OrdersService,
     private toastrService: ToastrService,
+    private ordersService: OrdersService,
     private orderStatesService: OrderStatesService,
     private deliveryService: DeliveryService
-  ) { }
+  ) {
+    this.toggleAddOrder = 'out';
+  }
+
+  get serialNumberFormGroub() {
+    return this.SerialNumberForm.controls;
+  }
+
+  get serialsFormArr() {
+    return this.serialNumberFormGroub.serials as FormArray;
+  }
 
   ngOnInit() {
+
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);
 
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ["", Validators.required],
+      firstCtrl: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: "",
+      secondCtrl: '',
     });
     this.thirdFormGroup = this._formBuilder.group({
-      secondCtrl: "",
+      secondCtrl: '',
     });
 
     this.activeRoute.params.subscribe((params) => {
-      let id = params["id"];
+      const id = params['id'];
 
-      this.getOrderDetails(id)
+      this.getOrderDetails(id);
     });
     this.orderService.cancelReasons()
       .subscribe((response: any) => {
-        this.cancelReasons = response.data.filter(item => item.user_type == 'admin')
+        this.cancelReasons = response.data.filter(item => item.user_type == 'admin');
       });
     // this.order.state_id = this.order.previous_state;
     // this.order.sub_state_id = this.order.previous_subState;
+    this.SerialNumberForm = this._formBuilder.group({
+      serials: new FormArray([])
+    });
+  }
+
+  getDynamicFormControlSerialNumberNames() {
+    for (let i = this.serialsFormArr.length; i < this.amount; i++) {
+      this.serialsFormArr.push(this._formBuilder.group({
+        name: new FormControl('', Validators.required),
+      }));
+    }
   }
 
   getOrderDetails(id) {
@@ -114,7 +168,7 @@ export class OrderDetailsComponent implements OnInit {
 
         return a;
       });
-      let stepsArray = this.order.history.slice(lastCreatedIndex);
+      const stepsArray = this.order.history.slice(lastCreatedIndex);
 
       this.order.showStepper = this.stepperStates.includes(
         this.order.state_id
@@ -135,7 +189,7 @@ export class OrderDetailsComponent implements OnInit {
     this.orderService.getAvailablePickups()
       .subscribe((response: any) => {
         this.available_pickups = response.data;
-      })
+      });
 
     this.resetShipmentForm();
 
@@ -156,23 +210,23 @@ export class OrderDetailsComponent implements OnInit {
   getStateName(id) {
     switch (id) {
       case 1:
-        return "Created";
+        return 'Created';
       case 2:
-        return "Processing";
+        return 'Processing';
       case 3:
-        return "On Delivery";
+        return 'On Delivery';
       case 4:
-        return "Delivered";
+        return 'Delivered';
       case 5:
-        return "Investigating";
+        return 'Investigating';
       case 6:
-        return "Cancelled";
+        return 'Cancelled';
       case 7:
-        return "Returned";
+        return 'Returned';
       case 8:
-        return "Prepared";
+        return 'Prepared';
       case 9:
-        return "Not Paid";
+        return 'Not Paid';
 
       default:
         break;
@@ -183,9 +237,9 @@ export class OrderDetailsComponent implements OnInit {
     switch (id) {
       case 6:
       case 7:
-        return "assets/img/available.svg";
+        return 'assets/img/available.svg';
       default:
-        return "";
+        return '';
     }
   }
 
@@ -200,17 +254,15 @@ export class OrderDetailsComponent implements OnInit {
     this.state_id = state;
     this.sub_state_id = sub_state;
     this.orderId = id;
-    $("#confirmOrderStatus").modal("show");
+    this.setupStateForm();
+    $('#confirmOrderStatus').modal('show');
   }
 
   selectStatus(id) {
     this.orderStatusId = id;
-    let index = this.orderStatus.findIndex((item) => item.id == id);
-    console.log(index);
-
+    const index = this.orderStatus.findIndex((item) => item.id == id);
     if (index !== -1) {
       this.orderSubStates = this.orderStatus[index].sub_states;
-      console.log(this.orderSubStates);
     }
     // if (!this.firstTime) {
     //   $("#confirmOrderStatus").modal("show");
@@ -224,20 +276,20 @@ export class OrderDetailsComponent implements OnInit {
     console.log(data);
     this.orderStatuId = data;
     this.typeStatusPopup = type;
-    $("#confirmOrderStatus").modal("show");
-    this.status_notesText = ''
+    $('#confirmOrderStatus').modal('show');
+    this.status_notesText = '';
   }
 
-  confirmChangeStatus(notifyUser) {
+  confirmChangeStatusOld(notifyUser) {
     console.log(notifyUser);
     if (this.orderStatusId == '6') {
-      console.log(this.status_notesText)
+      console.log(this.status_notesText);
       if (this.status_notesText == '' || this.status_notesText == undefined) {
-        this.error_status_notes = true
-        return
+        this.error_status_notes = true;
+        return;
       } else if (this.cancelReason == '' || this.cancelReason == undefined) {
-        this.cancelReasonError = true
-        return
+        this.cancelReasonError = true;
+        return;
       }
     }
     this.orderService
@@ -252,66 +304,117 @@ export class OrderDetailsComponent implements OnInit {
       })
       .subscribe((response: any) => {
         if (response.code === 200) {
-          $("#confirmOrderStatus").modal("hide");
+          $('#confirmOrderStatus').modal('hide');
           this.status_notesText = '';
-          this.getOrderDetails(this.orderId)
+          this.getOrderDetails(this.orderId);
         }
+      });
+  }
+
+  confirmChangeStatus(notifyUser) {
+    this.markFormGroupTouched(this.stateForm);
+    if (this.stateForm.get('shipping_method').value !== '3') {
+      this.stateForm.get('aramex_account_number').setValidators([]);
+      this.stateForm.get('aramex_account_number').updateValueAndValidity();
+    } else {
+      this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
+      this.stateForm.get('aramex_account_number').updateValueAndValidity();
+    }
+    console.log(this.stateForm.value);
+    if (!this.stateForm.valid) {
+      return this.markFormGroupTouched(this.stateForm);
+    }
+    const data = this.stateForm.value;
+    if (data.state_id == 8) {
+      data.pickup_date =
+        moment(data.pickup_date).format('YYYY-MM-DD') + ' ' + data.pickup_time;
+      data.shipping_method = +data.shipping_method;
+    }
+    data.state_id = +data.state_id;
+    data.notify_customer = this.notifyUser;
+    this.stateSubmitting = true;
+    this.ordersService.changeBulkChangeState(this.orderId, data)
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          this.status_notesText = '';
+          $('#confirmOrderStatus').modal('hide');
+          this.getOrderDetails(this.orderId);
+        } else {
+          this.toastrService.error(response.message, 'Error');
+        }
+
+        this.stateSubmitting = false;
       });
   }
 
   openEditPriceProduct(product) {
     this.currentItem = product;
     this.discount = product.discount_price;
-    $("#orderChangePriceAndDiscount").modal("show");
+    $('#orderChangePriceAndDiscount').modal('show');
   }
 
   openEditSerialNumber(product) {
+    $('#orderChangeSerial').modal('show');
+    this.serialNumberFormGroub.serials = new FormArray([]);
     this.currentItem = product;
-    this.serialNumber = this.currentItem.serial_number;
-    $("#orderChangeSerial").modal("show");
+    this.amount = product.amount;
+    if (product.serial_number != null) {
+      const x = product.serial_number.split(',');
+      for (let i = 0; i < x.length; i++) {
+        this.serialsFormArr.push(this._formBuilder.group({
+          name: new FormControl(x[i], Validators.required),
+        }));
+      }
+    } else if (product.serial_number == null) {
+      this.getDynamicFormControlSerialNumberNames();
+    }
   }
 
   submitItemUpdate() {
-    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, { discount_price: this.discount, notify_customer: this.notifyUser })
+    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, {discount_price: this.discount, notify_customer: this.notifyUser})
       .subscribe((response: any) => {
         this.currentItem.discount_price = this.discount;
         this.discount = null;
-        $("#orderChangePriceAndDiscount").modal("hide");
+        $('#orderChangePriceAndDiscount').modal('hide');
       });
   }
 
   submitItemSerialUpdate() {
-    let data = {
-      items: [
-        {
-          id: this.currentItem.id,
-          serial_number: this.serialNumber
-        }
-      ]
+    if (this.serialNumberFormGroub.serials.valid) {
+      this.submitted = true;
+      this.allSerialNumber = this.SerialNumberForm.get('serials').value;
+      this.allSerialNumber = this.allSerialNumber.map((res) => this.allSerialNumber = res.name);
+      const data = {
+        id: this.currentItem.id,
+        serial_number: this.allSerialNumber
+      };
+      this.orderService.updateSerial(this.order.id, data)
+        .subscribe((response: any) => {
+          if (response.code == 200) {
+            const oneProduct = this.order.items.find(item => item.id == this.currentItem.id);
+            oneProduct.serial_number = data.serial_number.toString();
+            this.toastrService.success('successfully');
+            $('#orderChangeSerial').modal('hide');
+          } else {
+            this.toastrService.error(response.message, 'Error');
+          }
+        });
+    } else {
+      this.markFormGroupTouched(this.SerialNumberForm);
     }
-    this.orderService.updateSerial(this.order.id, data)
-      .subscribe((response: any) => {
-        if (response.code == 200) {
-          this.currentItem.serial_number = this.serialNumber;
-          $("#orderChangeSerial").modal("hide");
-        } else {
-          this.toastrService.error(response.message, "Error");
-        }
-      });
   }
 
   openEditPriceTotal(product) {
-    console.log(product);
-    this.discount = this.order.invoice.total_amount - this.order.invoice.discount
-    $("#orderChangePriceTotal").modal("show");
+    this.discount = this.order.invoice.total_amount - this.order.invoice.discount;
+    $('#orderChangePriceTotal').modal('show');
   }
 
   submitInvoiceUpdate() {
-    this.orderService.updateInvoiceDiscount(this.order.id, { discount: this.invoiceDiscount, notify_customer: this.notifyUser })
+    this.orderService.updateInvoiceDiscount(this.order.id, {discount: this.invoiceDiscount, notify_customer: this.notifyUser})
       .subscribe((response: any) => {
         this.invoiceDiscount = null;
         this.order.invoice.discoutn = this.invoiceDiscount;
-        $("#orderChangePriceTotal").modal("hide");
+        $('#orderChangePriceTotal').modal('hide');
       });
   }
 
@@ -327,28 +430,28 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   copyInputMessage() {
-    this.textMessage = "";
-    const selBox = document.createElement("textarea");
-    selBox.style.position = "fixed";
-    selBox.style.left = "0";
-    selBox.style.top = "0";
-    selBox.style.opacity = "0";
+    this.textMessage = '';
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
     this.generateSkusToCopy();
     selBox.value = this.textMessage;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
-    document.execCommand("copy");
+    document.execCommand('copy');
     document.body.removeChild(selBox);
-    this.toastrService.success("copied");
+    this.toastrService.success('copied');
   }
 
   generateSkusToCopy() {
     this.order.items.forEach((element, index) => {
-      console.log('index ==> ', index + 1)
-      console.log('this.order.items.length ==> ', this.order.items.length)
+      console.log('index ==> ', index + 1);
+      console.log('this.order.items.length ==> ', this.order.items.length);
       if (index + 1 < this.order.items.length) {
-        this.textMessage = this.textMessage.concat(element.product.sku + " \n");
+        this.textMessage = this.textMessage.concat(element.product.sku + ' \n');
       } else {
         this.textMessage = this.textMessage.concat(element.product.sku);
       }
@@ -358,17 +461,18 @@ export class OrderDetailsComponent implements OnInit {
   editAddress(order) {
     this.selectedAddress = order.address;
     this.selectedOrder = order;
-    $("#addressModal").modal("show");
+    $('#addressModal').modal('show');
   }
 
   closeAddressModal(data) {
     this.selectedAddress = null;
     this.selectedOrder = null;
-    $("#addressModal").modal("hide");
+    $('#addressModal').modal('hide');
     if (data) {
       this.order.address = data.address;
     }
   }
+
   addToPickup(id) {
     const orderPickupIds = JSON.parse(localStorage.getItem('orderPickup')) ? JSON.parse(localStorage.getItem('orderPickup')) : [];
     if (orderPickupIds.length) {
@@ -389,28 +493,82 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   createShipment() {
-    $("#shipmentModal").modal("show");
+    $('#shipmentModal').modal('show');
     this.resetShipmentForm();
   }
 
   submitShipment() {
-    let shipment = this.shipmentForm.value;
+    const shipment = this.shipmentForm.value;
 
     shipment.order_id = this.order.id;
 
-    this.stateSubmitting = true
-    shipment.pickup_date = moment(shipment.pickup_date).format("YYYY-MM-DD") + " " + shipment.pickup_time;
+    this.stateSubmitting = true;
+    shipment.pickup_date = moment(shipment.pickup_date).format('YYYY-MM-DD') + ' ' + shipment.pickup_time;
     this.orderService.createShipment(shipment)
       .subscribe((response: any) => {
         this.stateSubmitting = false;
 
         if (response.code == 200) {
           this.order.shipments.push(response.data);
-          $("#shipmentModal").modal("hide");
+          $('#shipmentModal').modal('hide');
           this.resetShipmentForm();
         } else {
           this.toastrService.error('Error Creating Shipment', 'Error');
         }
       });
+  }
+
+  setupStateForm() {
+    this.stateForm = new FormGroup({
+      status_notes: new FormControl(),
+      pickup_guid: new FormControl(),
+      cancellation_id: new FormControl(null),
+      order_ids: new FormControl([this.orderId]),
+      state_id: new FormControl(this.orderStatusId),
+      sub_state_id: new FormControl(this.sub_state_id),
+      pickup_date: new FormControl(new Date()),
+      pickup_time: new FormControl('00:00'),
+      shipping_notes: new FormControl(),
+      shipping_method: new FormControl(3),
+      aramex_account_number: new FormControl(1),
+      branch_id: new FormControl(this.branches.length ? this.branches[0].id : ''),
+      subtract_stock: new FormControl(),
+    });
+
+    if (Number(this.orderStatusId) === 8) {
+      // this.stateForm.get("pickup_date").setValidators([Validators.required]);
+      // this.stateForm.get("pickup_time").setValidators([Validators.required]);
+      this.stateForm.get('branch_id').setValidators([Validators.required]);
+      this.stateForm.get('shipping_method').setValidators([Validators.required]);
+      this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
+    } else if (Number(this.orderStatusId) === 6) {
+      // this.stateForm.get('status_notes').setValidators([Validators.required]);
+      this.stateForm.get('cancellation_id').setValidators([Validators.required]);
+    }
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object)
+      .values(formGroup.controls)
+      .forEach((control: FormGroup, ind) => {
+        control.markAsTouched();
+        control.markAsDirty();
+        if (control.controls) {
+          this.markFormGroupTouched(control);
+        }
+      });
+  }
+
+  customerDetails(customer) {
+    localStorage.setItem('selectedCustomer', JSON.stringify(customer));
+    this.router.navigate(['/pages/manage-customer'], { queryParams: { id: customer.id } });
+  }
+  closeSideBar(data) {
+    this.order =  data ? {...data} : this.order;
+    this.toggleAddOrder = 'out';
+  }
+  editOrder() {
+    this.order = {...this.order};
+    this.toggleAddOrder = 'in';
   }
 }

@@ -10,8 +10,11 @@
 
       <button [routerLink]="['/pages/print-receipt', order.id]" class="float-right btn btn-owls btn-rounded btn-green"
         style="margin: 0px 10px;  "> print </button>
-      <button  (click)="addToPickup(order.id)" class="float-right btn btn-owls btn-rounded btn-green">
+      <button (click)="addToPickup(order.id)" class="float-right btn btn-owls btn-rounded btn-green">
         Add To Pickup </button>
+      <button (click)="editOrder()" class="float-right btn btn-owls btn-rounded btn-green mx-2">
+       Edit
+      </button>
     </div>
   </div>
 </div>
@@ -64,7 +67,9 @@
         <img src="./assets/img/available.svg" />
         <p class="mb-0">{{ state.state?.name }}</p>
         <p class="mb-0 mt-2" *ngIf="state.sub_state?.name">{{ state.sub_state?.name }}</p>
-        <p class="mb-0 mt-2" *ngIf="state.user?.name">{{ state.user?.name }}</p>
+        <p (click)="customerDetails(state.user)" class="mb-0 mt-2 pointer" *ngIf="state.user?.name">
+          {{ state.user?.name + ' ' + state.user?.last_name}}
+        </p>
         <p class="mb-0 mt-2" *ngIf="order?.cancellation_reason">
           Cancellation reason : {{order?.cancellation_reason.text }}
         </p>
@@ -136,11 +141,7 @@
         <p>Branch</p>
         <span *ngIf="order.deliverer">{{ order.deliverer?.name }}</span>
       </div>
-    </div>
 
-    <div class="col-md-2"></div>
-
-    <div class="col-md-5">
       <div class="block-item">
         <p>address</p>
 
@@ -151,12 +152,15 @@
         </span>
         <span>{{ order?.address?.city?.name }}</span>
       </div>
+    </div>
+
+    <div class="col-md-2"></div>
+
+    <div class="col-md-5">
 
       <div class="block-item">
         <p>Delivery time</p>
-        <span *ngIf="order.state_id == 4">{{
-          order.updated_at | date: "mediumTime"
-          }}</span>
+        <span *ngIf="order.state_id == 4">{{ order.updated_at | date: "mediumTime" }}</span>
       </div>
 
       <div class="block-item">
@@ -164,6 +168,16 @@
         <div class="rate-item">
           <bar-rating [readOnly]="true" [(rate)]="order.rate" [max]="5"></bar-rating>
         </div>
+      </div>
+
+      <div class="block-item">
+        <p>Transaction ID</p>
+        <span>{{ order.transaction_id }}</span>
+      </div>
+
+      <div class="block-item">
+        <p>Order source</p>
+        <span *ngIf="order.deliverer">{{ order.deliverer?.user_agent }}</span>
       </div>
     </div>
     <div class="col-md-12">
@@ -265,7 +279,9 @@
       </div>
       <div class="block-item">
         <p>name</p>
-        <span>{{ order?.user?.name }}</span>
+        <span (click)="customerDetails(order?.user)" class="pointer">
+          {{ order?.user?.name + ' ' + order?.user?.last_name}}
+        </span>
       </div>
     </div>
     <div class="col-md-1"></div>
@@ -438,7 +454,7 @@
   <h4>order milestones</h4>
 </div> -->
 
-<div class="modal fade" id="confirmOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="confirmOrderStatusOld" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -508,6 +524,162 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="confirmOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" *ngIf="stateForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;
+        ">Are you sure you want to change Status of ({{orderId}}) ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form action="" [formGroup]="stateForm">
+        <div class="modal-body" *ngIf="orderStatusId !== '8'">
+          <label class="checkup"> notify user
+            <input type="checkbox" checked="checked" [(ngModel)]="notifyUser" [ngModelOptions]="{standalone: true}">
+            <span class="checkmark"></span>
+          </label>
+          <div class="form-group" *ngIf="orderStatusId == '6'">
+            <label for="">Cancellation Reason</label>
+            <select name="" class="owl-input bg-white" formControlName="cancellation_id">
+              <option [value]="'placeholder'" hidden>Select Cancellation Reason</option>
+              <option value="{{reason.id}}" *ngFor="let reason of cancelReasons">{{reason.text}}</option>
+            </select>
+            <div *ngIf="stateForm.controls.cancellation_id.invalid &&
+              (stateForm.controls.cancellation_id.dirty || stateForm.controls.cancellation_id.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.cancellation_id.errors.required">
+                Cancel Reason is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="orderStatusId == '6'">
+            <label for="">Status notes </label>
+            <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="status_notes">
+            </textarea>
+            <!-- <div
+              *ngIf="stateForm.controls.status_notes.invalid && (stateForm.controls.status_notes.dirty || stateForm.controls.status_notes.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.status_notes.errors.required">
+                Status notes is required.
+              </div>
+            </div> -->
+            <label class="checkup"> Return To stock
+              <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock" formControlName="subtract_stock">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-body" *ngIf="orderStatusId == '8'">
+          <div class="form-group">
+            <select name="" class="owl-input bg-white" formControlName="branch_id">
+              <option value="" hidden selected>Select pickup Location</option>
+              <option value="{{branch.id}}" *ngFor="let branch of branches">{{branch.name}}</option>
+            </select>
+            <div
+              *ngIf="stateForm.controls.branch_id.invalid && (stateForm.controls.branch_id.dirty || stateForm.controls.branch_id.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.branch_id.errors.required">
+                Branch is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <select name="" class="owl-input bg-white" formControlName="shipping_method">
+              <option value="" hidden selected>Select Company Shipping</option>
+              <option value="1">Internal</option>
+              <!-- <option value="2">Mylerz</option> -->
+              <option value="3">Aramex</option>
+            </select>
+            <div
+              *ngIf="stateForm.controls.shipping_method.invalid && (stateForm.controls.shipping_method.dirty || stateForm.controls.shipping_method.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.shipping_method.errors.required">
+                Shipping Method is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <select name="" class="owl-input bg-white" formControlName="aramex_account_number"
+              *ngIf="stateForm.controls.shipping_method.value == 3">
+              <option value="" hidden selected>Select Aramex </option>
+              <option value="1">Account 1 (152606)</option>
+              <option value="2">Account 2 (125689)</option>
+            </select>
+            <div
+              *ngIf="stateForm.controls.aramex_account_number.invalid && (stateForm.controls.aramex_account_number.dirty || stateForm.controls.aramex_account_number.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.aramex_account_number.errors.required">
+                Aramex Account is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="">Pickup ID (optional)</label>
+            <select name="" class="owl-input bg-white" formControlName="pickup_guid">
+              <option value="" selected>Select pickup</option>
+              <option value="{{pickup.shipping_guid}}" *ngFor="let pickup of available_pickups">{{pickup.pickup_time |
+                date: 'd-M-yyyy h:mm a'}} - {{pickup.shipping_guid}}</option>
+            </select>
+          </div>
+          <!-- <div class="form-group w-60">
+            <mat-form-field>
+              <input matInput [min]="today"  #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
+                [value]="date" formControlName="pickup_date">
+              <sat-datepicker #picker2 [rangeMode]="false">
+              </sat-datepicker>
+              <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+            </mat-form-field>
+            <div
+              *ngIf="stateForm.controls.pickup_date.invalid && (stateForm.controls.pickup_date.dirty || stateForm.controls.pickup_date.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.pickup_date.errors.required">
+                Pickup Date is required.
+              </div>
+              <div *ngIf="stateForm.controls.pickup_date.errors.min">
+                Must be today at least
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group w-40">
+            <label for=""> Time</label>
+            <input formControlName="pickup_time" type="text" id="pickup_time" class="owl-input" name="pickup_time"
+              [ngxTimepicker]="openPickerTime">
+            <ngx-material-timepicker [minutesGap]="5" #openPickerTime></ngx-material-timepicker>
+            <div
+              *ngIf="stateForm.controls.pickup_time.invalid && (stateForm.controls.pickup_time.dirty || stateForm.controls.pickup_time.touched)"
+              class="alert alert-danger">
+              <div *ngIf="stateForm.controls.pickup_time.errors.required">
+                Pickup time is required.
+              </div>
+            </div>
+
+          </div> -->
+          <div class="form-group">
+            <label for="">Shipping Notes</label>
+            <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="shipping_notes">
+            </textarea>
+          </div>
+        </div>
+      </form>
+
+
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
+          (click)="confirmChangeStatus(notifyUser)" [appLoading]="stateSubmitting"
+          [disabled]='stateSubmitting'>Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">No</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 <div class="modal fade" id="orderChangePriceAndDiscount" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -606,31 +778,32 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-
-        <form class="form-edit-price">
-          <!-- <div class="form-group"> -->
-          <!-- <label for=""> Pricing</label>
-            <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input input-price" placeholder="Type.."
-              required [min]="1" [max]="1000000">
-          </div> -->
-
-          <div class="form-group">
-            <label for="">Serial Number</label>
-            <input type="text" name="serial_number" class="owl-input" placeholder="Type.." [(ngModel)]="serialNumber">
+      <form [formGroup]="SerialNumberForm" class="form-edit-price" (ngSubmit)="submitItemSerialUpdate()">
+        <div class="modal-body">
+          <div formArrayName="serials">
+            <div class="form-group" [formGroupName]="i" *ngFor="let serial of serialsFormArr.controls; let i = index">
+              <label for="">Serial Number {{i + 1}}</label>
+              <input type="text" class="owl-input" placeholder="Type.." formControlName="name">
+              <div *ngIf='serial.controls.name.invalid && (serial.controls.name.dirty || serial.controls.name.touched)'
+                class="invalid-serials">
+                Serial Number {{i + 1}} is
+                required</div>
+              <!-- *ngIf="SerialNumberForm.get('serials').controls[i].name.invalid && (SerialNumberForm.get('serials').controls[i].name.dirty || SerialNumberForm.get('serials').controls[i].name.touched)" class="invalid-serials" -->
+            </div>
           </div>
+          <!-- [(ngModel)]="serialNumber" -->
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+          <!-- (click)="submitItemSerialUpdate()" -->
+          <button class="btn-owls btn-rounded btn-green btn-blue2" type="submit">
+            Yes
+          </button>
+          <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+            no
+          </button>
+        </div>
+      </form>
 
-        </form>
-
-      </div>
-      <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitItemSerialUpdate()">
-          Yes
-        </button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
-          no
-        </button>
-      </div>
     </div>
   </div>
 </div>
@@ -675,7 +848,8 @@
             </div>
           </div>
           <div class="form-group">
-            <select name="" class="owl-input bg-white" formControlName="aramex_account_number" *ngIf="shipmentForm.controls.shipping_method.value == 3">
+            <select name="" class="owl-input bg-white" formControlName="aramex_account_number"
+              *ngIf="shipmentForm.controls.shipping_method.value == 3">
               <option value="" hidden selected>Select Aramex </option>
               <option value="1">Account 1 (152606)</option>
               <option value="2">Account 2 (125689)</option>
@@ -692,7 +866,8 @@
             <label for="">Pickup ID (optional)</label>
             <select name="" class="owl-input bg-white" formControlName="pickup_guid">
               <option value="" selected>Select pickup</option>
-              <option value="{{pickup.shipping_guid}}" *ngFor="let pickup of available_pickups">{{pickup.pickup_time | date: 'd-M-yyyy h:mm a'}} - {{pickup.shipping_guid}}</option>
+              <option value="{{pickup.shipping_guid}}" *ngFor="let pickup of available_pickups">{{pickup.pickup_time |
+                date: 'd-M-yyyy h:mm a'}} - {{pickup.shipping_guid}}</option>
             </select>
           </div>
           <!-- <div class="form-group w-60">
@@ -737,7 +912,8 @@
         </div>
 
         <div class="modal-footer" style="justify-content: center;">
-          <button type="submit" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;" [appLoading]="stateSubmitting">Yes</button>
+          <button type="submit" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
+            [appLoading]="stateSubmitting">Yes</button>
           <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">No</button>
         </div>
       </form>
@@ -749,3 +925,8 @@
 <app-add-edit-address #addressForm (closeModalEmit)="closeAddressModal($event)" [selectedAddress]="selectedAddress"
   [selectedOrder]="selectedOrder">
 </app-add-edit-address>
+
+<app-add-edit-order (closeSideBarEmit)="closeSideBar($event)" [@slideInOut]="toggleAddOrder"
+                    class="parent-editor-viewer-sidebar"
+                    [selectedOrder]="order">
+</app-add-edit-order>

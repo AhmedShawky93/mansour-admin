@@ -1,3 +1,4 @@
+import {DraftProductService} from './../../../../services/draft-product.service';
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UploadFilesService} from '@app/pages/services/upload-files.service';
@@ -9,8 +10,8 @@ import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
-import { Observable, Subject, concat, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import {Observable, combineLatest, Subject, concat, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
 import {environment} from '@env/environment';
 
 @Component({
@@ -21,7 +22,7 @@ import {environment} from '@env/environment';
 export class AddProductVariantsComponent implements OnInit, OnChanges {
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataProductEmit = new EventEmitter();
-  @Input() selectVariant;
+  @Input() selectedProduct;
 
   submitting: boolean;
   parentProduct: any;
@@ -47,6 +48,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   relatedProductsLoading: boolean;
   products: any = [];
   products$: Observable<any>;
+  allOptions$: Observable<Object>;
+  categories$: Observable<Object>;
+  brands$: Observable<any>;
   productsInput$ = new Subject<String>();
   productsLoading: boolean;
 
@@ -57,8 +61,12 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     private categoriesService: CategoryService,
     private toasterService: ToastrService,
     private optionsService: OptionsService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private draftProductService: DraftProductService
   ) {
+    this.allOptions$ = this.optionsService.getOptions();
+    this.categories$ = this.categoriesService.getCategories();
+    this.brands$ = this.productsService.getBrands();
     this.editorConfig = {
       editable: true,
       spellcheck: true,
@@ -73,21 +81,34 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       defaultParagraphSeparator: '',
       defaultFontName: '',
       defaultFontSize: '',
-      sanitize: true,
+      sanitize: false,
       toolbarPosition: 'top',
       uploadUrl: environment.api + '/admin/upload_ckeditor',
     };
   }
 
   ngOnInit() {
-    this.getAllOptions();
-    this.getCategories();
-    this.getBrands();
+    this.getInitialData();
   }
 
   ngOnChanges() {
-    this.setForm();
-    this.mergeData();
+    this.setForm(this.selectedProduct);
+  }
+
+  getInitialData() {
+    this.spinner.show();
+    combineLatest(this.allOptions$, this.categories$, this.brands$)
+      .subscribe(
+        ([options, categories, brands]) => {
+          this.getAllOptions(options);
+          this.getCategories(categories);
+          this.getBrands(brands);
+          this.mergeData(this.selectedProduct);
+          this.setData(this.selectedProduct);
+          this.spinner.hide();
+        },
+        () => this.spinner.hide()
+      );
   }
 
   closeSideBar() {
@@ -95,79 +116,99 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.closeSideBarEmit.emit();
   }
 
-  setForm() {
+  setForm(data) {
     this.componentForm = this.formBuilder.group({
-      brand_id: new FormControl(''),
-      main_category: new FormControl(''),
-      category_id: new FormControl('', Validators.required),
-      optional_category: new FormControl(''),
-      optional_sub_category_id: new FormControl(''),
-      preorder: new FormControl(0),
-      preorder_start_date: new FormControl('', []),
-      preorder_start_time: new FormControl('00:00:00', []),
-      preorder_end_date: new FormControl('', []),
-      preorder_expiration_time: new FormControl('00:00:00', []),
-      available_soon: new FormControl(),
-      max_per_order: new FormControl(''),
-      min_days: new FormControl(''),
-      stock_alert: new FormControl(''),
-      order: new FormControl(''),
+      brand_id: new FormControl(data ? data.brand_id : '', Validators.required),
+      main_category: new FormControl(data ? (data.main_category) : ''),
+      category: new FormControl(''),
+      category_id: new FormControl(data ? (data.category_id) : '', Validators.required),
+      optional_category: new FormControl(data ? (data.optional_category) : ''),
+      optional_sub_category_id: new FormControl(data ? (data.optional_sub_category_id) : ''),
+      preorder: new FormControl(data ? data.preorder : 0),
+      preorder_start_date: new FormControl(data ? data.preorder_start_date : '', []),
+      preorder_start_time: new FormControl(data ? data.preorder_start_time : '00:00:00', []),
+      preorder_end_date: new FormControl(data ? data.preorder_end_date : '', []),
+      preorder_expiration_time: new FormControl(data ? data.preorder_expiration_time : '00:00:00', []),
+      available_soon: new FormControl(data ? data.available_soon : ''),
+      max_per_order: new FormControl(data ? data.max_per_order : ''),
+      min_days: new FormControl(data ? data.min_days : ''),
+      stock_alert: new FormControl(data ? data.stock_alert : ''),
+      order: new FormControl(data ? data.order : ''),
       option_values: this.formBuilder.array([]),
-      discount_start_date: new FormControl('', []),
-      start_time: new FormControl('00:00:00', []),
-      discount_end_date: new FormControl('', []),
-      expiration_time: new FormControl('00:00:00', []),
-      product_variant_options: new FormControl('', []),
+      discount_start_date: new FormControl(data ? data.discount_start_date : '', []),
+      start_time: new FormControl(data ? data.start_time : '00:00:00', []),
+      discount_end_date: new FormControl(data ? data.discount_end_date : '', []),
+      expiration_time: new FormControl(data ? data.expiration_time : '00:00:00', []),
+      product_variant_options: new FormControl(data ? data.product_variant_options : '', []),
 
-      image: new FormControl('', Validators.required),
-      video: new FormControl(''),
+      image: new FormControl(data ? data.image : '', Validators.required),
+      video: new FormControl(data ? data.video : ''),
       images: this.formBuilder.array([]),
-      name: new FormControl('', Validators.required),
-      name_ar: new FormControl('', Validators.required),
-      description: new FormControl('', [
+      name: new FormControl(data ? data.name : '', Validators.required),
+      name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
+      description: new FormControl(data ? data.description : '', [
         Validators.required,
         Validators.minLength(3),
         // Validators.maxLength(250),
       ]),
-      description_ar: new FormControl('', [
+      description_ar: new FormControl(data ? data.name_ar : '', [
         Validators.required,
         Validators.minLength(3),
         // Validators.maxLength(250),
       ]),
-      long_description_en: new FormControl(''),
-      long_description_ar: new FormControl(''),
-      meta_title: new FormControl(''),
-      meta_description: new FormControl( ''),
-      meta_title_ar: new FormControl(''),
-      meta_description_ar: new FormControl( ''),
-      price: new FormControl('', Validators.required),
-      discount_price: new FormControl('', [
+      long_description_en: new FormControl(data ? data.long_description_en : ''),
+      long_description_ar: new FormControl(data ? data.long_description_ar : ''),
+      meta_title: new FormControl(data ? data.meta_title : ''),
+      meta_description: new FormControl(data ? data.meta_description : ''),
+      meta_title_ar: new FormControl(data ? data.meta_title_ar : ''),
+      meta_description_ar: new FormControl(data ? data.meta_description_ar : ''),
+      price: new FormControl(data ? data.price : '', Validators.required),
+      discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
-      default_variant: new FormControl(0),
-      stock: new FormControl(0, Validators.required),
+      default_variant: new FormControl(data ? data.default_variant : 0),
+      stock: new FormControl(data ? data.stock : 0, Validators.required),
       // preorder_price: new FormControl(0),
-      weight: new FormControl(0, Validators.required),
-      sku: new FormControl('', Validators.required),
+      weight: new FormControl(data ? data.weight : 0, [Validators.min(1), Validators.required]),
+      sku: new FormControl(data ? data.sku : '', Validators.required),
       options: this.formBuilder.array([]),
-      type: new FormControl('', Validators.required),
-      has_stock: new FormControl(),
-      bundle_checkout: new FormControl(),
-      bundle_products_ids: new FormControl(),
-      related_ids: new FormControl(),
+      type: new FormControl(data ? data.type : '', Validators.required),
+      has_stock: new FormControl(data ? data.has_stock : ''),
+      bundle_checkout: new FormControl(data ? data.bundle_checkout : ''),
+      bundle_products_ids: new FormControl(data ? data.bundle_products_ids : ''),
+      related_ids: new FormControl((data && data.related_ids) ? data.related_ids : ''),
     }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
-
   }
 
-  mergeData() {
+  mergeData(data) {
+    let bundleProducts = [];
+    let relatedProducts = [];
+    if (data && data.bundle_products_ids) {
+      bundleProducts = data.bundle_products_ids.map(bp => {
+        return {
+          id: bp.id,
+          name: bp.name
+        };
+      });
+    }
+    if (data && data.related_ids) {
+      relatedProducts = data.related_ids.map(bp => {
+        return {
+          id: bp.id,
+          name: bp.name
+        };
+      });
+    }
+
+
     this.products$ = concat(
-      of(), // default items
+      of(bundleProducts), // default items
       this.productsInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
         tap(() => (this.productsLoading = true)),
         switchMap((term) =>
-          this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
+          this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
             catchError(() => of([])), // empty list on error
             tap(() => (this.productsLoading = false)),
             map((response: any) => {
@@ -184,22 +225,23 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     );
 
     this.relatedProducts$ = concat(
-      of(), // default items
+      of(relatedProducts), // default items
       this.relatedProductsInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
         tap(() => (this.relatedProductsLoading = true)),
         switchMap((term) =>
-          this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
+          this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
             catchError(() => of([])), // empty list on error
             tap(() => (this.relatedProductsLoading = false)),
             map((response: any) => {
-              return response.data.products.map((p) => {
+              const products = response.data.products.map((p) => {
                 return {
                   id: p.id,
                   name: p.sku + ': ' + p.name,
                 };
               });
+              return products;
             })
           )
         )
@@ -207,43 +249,86 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     );
   }
 
-  getAllOptions() {
-    this.optionsService.getOptions({})
-      .subscribe(
-        res => {
-          if (res['code'] === 200) {
-            this.allOptions = res['data'];
-            console.log('allOptions', this.allOptions);
-          } else {
-            this.toasterService.error(res['message']);
-          }
-        }
-      );
+  setData(data) {
+    if (data) {
+      this.selectCategory(data.main_category);
+      this.selectSubCategoryOption(data.category_id);
+      this.selectOptionalCategory(data.optional_category);
+      this.setVariantOptionsToForm(data.options);
+      const category = (data.main_category) ? this.categories.find(item => item.id === Number(data.main_category)) : '';
+      this.componentForm.get('category').setValue(category);
+      data.option_values.forEach((element) => {
+        this.editOptions(element);
+      });
+      data.images.forEach(img => {
+        this.addImage(img);
+      });
+    }
   }
 
-  getCategories() {
-    this.categoriesService.getCategories()
-      .subscribe((response: any) => {
-        if (response.code === 200) {
-          this.categories = response.data;
-          this.optionalCategories = response.data;
-          this.categories = this.categories.map((c) => {
-            c.selected = false;
-            return c;
-          });
-          this.optionalCategories = this.optionalCategories.map((c) => {
-            c.selected = false;
-            return c;
-          });
-        }
-      });
+  SetDraftProduct(event) {
+    event.stopPropagation();
+    let msg: string;
+    const data = {...this.componentForm.value};
+
+    if (!this.validateDraftData(data)) {
+      this.toasterService.warning('Please fill at least one field');
+      return;
+    }
+
+    if (this.selectedProduct) {
+      data.id = this.selectedProduct.id;
+      msg = 'Draft Product Updated Successfully';
+    } else {
+      msg = 'Product added to draft';
+    }
+    data.isDraft = true;
+    const category = (data.main_category) ? this.categories.find(item => item.id === Number(data.main_category)) : '';
+    this.componentForm.get('category').setValue(category);
+    this.draftProductService.SetDraftProduct(data);
+    this.dataProductEmit.emit(data);
+    this.closeSideBar();
+    this.toasterService.success(msg);
   }
 
-  getBrands() {
-    this.productsService.getBrands()
-      .subscribe((response: any) => {
-        this.brands = response.data;
+  validateDraftData(data) {
+    let hasData: boolean;
+    Object.keys(data).forEach(key => {
+      if (data[key] && (data[key].length !== 0) && data[key] !== '00:00:00') {
+        hasData = true;
+      } else if (data[key].length && data[key].length > 0 && data[key] !== '00:00:00') {
+        hasData = true;
+      }
+    });
+    return hasData;
+  }
+
+  getAllOptions(res) {
+    if (res['code'] === 200) {
+      this.allOptions = res['data'];
+      console.log('allOptions', this.allOptions);
+    } else {
+      this.toasterService.error(res['message']);
+    }
+  }
+
+  getCategories(response: any) {
+    if (response.code === 200) {
+      this.categories = response.data;
+      this.optionalCategories = response.data;
+      this.categories = this.categories.map((c) => {
+        c.selected = false;
+        return c;
       });
+      this.optionalCategories = this.optionalCategories.map((c) => {
+        c.selected = false;
+        return c;
+      });
+    }
+  }
+
+  getBrands(response: any) {
+    this.brands = response.data;
   }
 
   addOptions(data): void {
@@ -257,47 +342,75 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       option_id: new FormControl((data) ? data.id : ''),
       name_en: new FormControl((data) ? data.name_en : ''),
       optionValues: new FormControl((data) ? data.values : ''),
-      option_value_id: new FormControl(''),
+      option_value_id: new FormControl((data.option_value_id) ? data.option_value_id : ''),
       input_en: new FormControl(''),
       input_ar: new FormControl(''),
     });
   }
 
-  selectCategory(event) {
-    const cat_id = Number(event.target.value);
-    const index = this.categories.findIndex((item) => item.id === cat_id);
-    if (index !== -1) {
-      const category = this.categories[index];
-      this.sub_categories = category.sub_categories;
+  editOptions(data): void {
+    this.option_values = this.componentForm.get('option_values') as FormArray;
+    this.option_values.push(this.editItemOptions(data));
+  }
+
+  editItemOptions(data): FormGroup {
+    const group = this.formBuilder.group({
+      type: new FormControl((data) ? data.type : ''),
+      option_id: new FormControl((data && data.id) ? data.id : (data.option_id) ? data.option_id : ''),
+      name_en: new FormControl((data) ? data.name_en : ''),
+      optionValues: new FormControl((data && data.values && data.values.length) ? data.values : (data.optionValues) ? data.optionValues : ''),
+      option_value_id: new FormControl((data.option_value_id) ? data.option_value_id : ''),
+      input_en: new FormControl((data && data.input_en) ? data.input_en : ''),
+      input_ar: new FormControl((data && data.input_ar) ? data.input_ar : '')
+    });
+    return group;
+  }
+
+  selectCategory(id) {
+    if (id) {
+      const cat_id = Number(id);
+      const index = this.categories.findIndex((item) => item.id === cat_id);
+      if (index !== -1) {
+        const category = this.categories[index];
+        this.sub_categories = category.sub_categories;
+      }
     }
   }
 
   selectSubCategoryOption(id) {
-    if (this.option_values) {
+    if (id) {
+      if (this.option_values) {
 
-      while (this.componentForm.get('option_values').value.length > 0) {
-        this.option_values.removeAt(0);
+        while (this.componentForm.get('option_values').value.length > 0) {
+          this.option_values.removeAt(0);
+        }
+        this.option_values.reset();
       }
-      this.option_values.reset();
-    }
-    const cat_id = Number(id);
-    const index = this.sub_categories.findIndex((item) => item.id === cat_id);
+      const cat_id = Number(id);
+      const index = this.sub_categories.findIndex((item) => item.id === cat_id);
 
-    if (index !== -1) {
-      this.subCategoryOptions = this.sub_categories[index].options;
-      console.log('This subCategoryOptions >>>>', this.subCategoryOptions);
-      this.subCategoryOptions.forEach((element) => {
-        this.addOptions(element);
-      });
+      if (index !== -1) {
+        this.subCategoryOptions = this.sub_categories[index].options;
+        console.log('This subCategoryOptions >>>>', this.subCategoryOptions);
+
+        if (!this.selectedProduct) {
+          this.subCategoryOptions.forEach((element) => {
+            this.addOptions(element);
+          });
+        }
+
+      }
     }
   }
 
-  selectOptionalCategory(event) {
-    const cat_id = Number(event.target.value);
-    const index = this.optionalCategories.findIndex((item) => item.id === cat_id);
-    if (index !== -1) {
-      const optionalCategory = this.optionalCategories[index];
-      this.optionalSubCategories = optionalCategory.sub_categories;
+  selectOptionalCategory(id) {
+    if (id) {
+      const cat_id = Number(id);
+      const index = this.optionalCategories.findIndex((item) => item.id === cat_id);
+      if (index !== -1) {
+        const optionalCategory = this.optionalCategories[index];
+        this.optionalSubCategories = optionalCategory.sub_categories;
+      }
     }
   }
 
@@ -386,6 +499,15 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     // }
   }
 
+  addVariantOptionsToForm() {
+    if (this.selectedVariantsOptions.length) {
+      this.selectedVariantsOptions.forEach(item => {
+        this.options = this.componentForm.get('options') as FormArray;
+        this.options.push(this.createVariantOption(item));
+      });
+    }
+  }
+
   createVariantOption(item): FormGroup {
     if (item.type === '4') {
       return this.formBuilder.group({
@@ -412,13 +534,37 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   }
 
-  addVariantOptionsToForm() {
-    if (this.selectedVariantsOptions.length) {
-      this.selectedVariantsOptions.forEach(item => {
-        this.options = this.componentForm.get('options') as FormArray;
-        this.options.push(this.createVariantOption(item));
+  setVariantOptionsToForm(data) {
+    data.forEach(item => {
+      this.options = this.componentForm.get('options') as FormArray;
+      this.options.push(this.setVariantOption(item));
+    });
+  }
+
+  setVariantOption(item): FormGroup {
+    if (item.optionData.type === '4') {
+      return this.formBuilder.group({
+        optionData: item.optionData,
+        option_id: new FormControl(item.option_id, [Validators.required]),
+        option_value_id: new FormControl((item.option_value_id) ? Number(item.option_value_id) : '', [Validators.required]),
+        option_image: new FormControl((item.option_image) ? item.option_image : '', [Validators.required])
+      });
+    } else if (item.optionData.type === '5') {
+      return this.formBuilder.group({
+        optionData: item.optionData,
+        option_id: new FormControl(item.option_id, [Validators.required]),
+        option_value_id: new FormControl((item.option_value_id) ? Number(item.option_value_id) : ''),
+        input_ar: new FormControl((item.input_ar) ? item.input_ar : '', [Validators.required]),
+        input_en: new FormControl((item.input_en) ? item.input_en : '', [Validators.required])
+      });
+    } else {
+      return this.formBuilder.group({
+        optionData: item.optionData,
+        option_id: new FormControl(item.option_id, Validators.required),
+        option_value_id: new FormControl((item.option_value_id) ? Number(item.option_value_id) : '', [Validators.required])
       });
     }
+
   }
 
   addImage(data: any = null) {
@@ -465,7 +611,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       // option_values: product.option_values,
       optional_category: product.optional_category,
       optional_sub_category_id: product.optional_sub_category_id,
-      order: product.order,
       preorder: product.preorder,
       available_soon: !!product.available_soon,
       product_variant_options: (product.product_variant_options.length) ? product.product_variant_options.map(item => item.id) : '',
@@ -476,6 +621,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       bundle_checkout: product.bundle_checkout,
       preorder_start_date: product.preorder_start_date,
       preorder_end_date: product.preorder_end_date,
+      related_ids: product.related_ids ? product.related_ids.map(item => item.id) : ''
     };
     return data;
   }
@@ -516,6 +662,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       image: product.image,
       video: product.video,
       images: product.images,
+      order: product.order,
       long_description_ar: product.long_description_ar,
       long_description_en: product.long_description_en,
       name: product.name,
@@ -531,7 +678,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       sku: product.sku + '_variant',
       stock: product.stock,
       weight: product.weight,
-      bundle_products_ids: product.bundle_products_ids,
+      bundle_products_ids: (product.bundle_products_ids) ? product.bundle_products_ids.map(item => item.id) : '',
     };
     return data;
   }
@@ -541,7 +688,14 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.productsService.creatProductVariant(this.mainProduct.id, this.mappingVariantData())
       .subscribe((response: any) => {
         if (response.code === 200) {
+          if (this.selectedProduct && this.selectedProduct.isDraft) {
+            const deleteDraft = {...this.selectedProduct};
+            deleteDraft.delete = true;
+            this.draftProductService.clearDraftProduct(this.selectedProduct);
+            this.dataProductEmit.emit(deleteDraft);
+          }
           this.dataProductEmit.emit(this.mainProduct);
+          this.toasterService.success('Product With Variant Created Successfully');
           this.spinner.hide();
           this.closeSideBar();
         } else {
@@ -592,5 +746,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           this.markFormGroupTouched(control);
         }
       });
+  }
+
+  removeImage(index) {
+    this.addSubImages.removeAt(index);
   }
 }

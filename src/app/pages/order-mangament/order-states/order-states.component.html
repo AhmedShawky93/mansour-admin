@@ -64,9 +64,9 @@
     </tbody>
   </table>
 </div>
-<app-add-edit-order-states (dataEmit)="addOrUpdateData($event)" (closeSideBarEmit)="closeSideBar()"
+<app-add-edit-order-states (dataEmit)="addOrUpdateData($event)" (closeSideBarEmit)="closeSideBar()" class="parent-editor-viewer-sidebar"
 [@slideInOut]="toggleAddEditData" [selectDataEdit]="selectData"></app-add-edit-order-states>
 
-<app-view-order-states (closeSideBarEmit)="closeSideBar()"   (dataEmit)="addOrUpdateData($event)"  [@slideInOut]="viewDataSidebar" [selectDataEdit]="selectDataView"></app-view-order-states>
+<app-view-order-states (closeSideBarEmit)="closeSideBar()" class="parent-editor-viewer-sidebar" (dataEmit)="addOrUpdateData($event)"  [@slideInOut]="viewDataSidebar" [selectDataEdit]="selectDataView"></app-view-order-states>
 
 

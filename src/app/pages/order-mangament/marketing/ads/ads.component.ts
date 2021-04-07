@@ -116,11 +116,16 @@ export class adsComponent implements OnInit {
     this.getCategories();
     this.getBrands();
     this.getLists();
+    this.createForm()
 
+    this.ad.popup = "";
+  }
+
+  createForm(){
     this.newAdsForm = new FormGroup({
       id: new FormControl(),
-      type: new FormControl(""),
-      popup: new FormControl(0,  ),
+      type: new FormControl(10),
+      popup: new FormControl(0),
       order: new FormControl("", Validators.required),
       banner_ad: new FormControl(0),
       banner_title: new FormControl(""),
@@ -138,8 +143,6 @@ export class adsComponent implements OnInit {
       image_web: new FormControl("", Validators.required),
       image_web_ar: new FormControl("", Validators.required),
     });
-
-    this.ad.popup = "";
   }
 
   getAds() {
@@ -169,6 +172,17 @@ export class adsComponent implements OnInit {
   }
 
   editAd(ad) {
+    if (ad.type == 1) {
+      ad.item_id = this.newAdsForm.get("prod").value;
+    } else if (ad.type == 2) {
+      ad.item_id = this.newAdsForm.get("subCategory").value;
+    } else if (ad.type == 4) {
+      ad.item_id = this.newAdsForm.get("brand").value;
+    } else if (ad.type == 5) {
+      ad.item_id = this.newAdsForm.get("list_id").value;
+    } else if (ad.type == 6) {
+      ad.item_id = this.newAdsForm.get("category").value;
+    }
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
       type: new FormControl(ad.type, Validators.required),
@@ -190,11 +204,11 @@ export class adsComponent implements OnInit {
         ad.image_ar ? ad.image_web_ar : "",
         Validators.required
       ),
-      list_id: new FormControl(ad.list_id),
-      category: new FormControl(ad.category_id),
-      subCategory: new FormControl(ad.sub_category_id),
-      prod: new FormControl(ad.product_id),
-      brand: new FormControl(ad.item_id),
+      prod: new FormControl(ad.type == 1 ? ad.item_id : ad.product_id),
+      subCategory: new FormControl(ad.type == 2 ? ad.item_id : ad.sub_category_id),
+      brand: new FormControl(ad.type == 4 ? ad.item_id : ad.item_id),
+      list_id: new FormControl(ad.type == 5 ? ad.item_id : ad.list_id),
+      category: new FormControl(ad.type == 6 ? ad.item_id : ad.category_id),
     });
 
     this.adCrrentEdit = JSON.parse(JSON.stringify(ad));
@@ -293,6 +307,7 @@ export class adsComponent implements OnInit {
       }
     });
   }
+
   onImageSelectedWeb(form: FormGroup, event, type) {
     this.selectFile = <File>event.target.files[0];
     this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {

@@ -1509,10 +1509,6 @@ bar-rating {
   }
 }
 
-/* .red-class > .mat-step-header .mat-step-icon{
-    background-color:#d0021b!important;
-} */
-
 .red-class .mat-step-header .mat-step-icon {
   background-color: red !important;
 }
@@ -1784,12 +1780,9 @@ bar-rating {
   height: 0px !important;
 }
 
-
 .mat-calendar-body-selected
 {
-
   background-color: #eb1c24 !important;
-
 }
 
 .group-box{
@@ -1808,4 +1801,43 @@ bar-rating {
   font-size: 14px;
   color: rgba(0, 61, 97, 0.64);
   font-weight: 500;
+}
+
+ng-select.owl-input{
+  height: initial !important;
+}
+
+ng-select.owl-input .ng-select-container{
+  height: initial !important;
+}
+
+.open-view-vindor-types{
+  width: 66% !important;
+}
+
+.parent-editor-viewer-sidebar{
+  width: 76% !important;
+}
+
+.parent-editor-viewer-sidebar .view-vindor-types {
+  width: 100% !important;
+}
+
+.angular-editor-textarea ul {
+  list-style: initial !important;
+  padding-left: 15px;
+}
+
+.angular-editor-textarea ol{
+  padding-left: 15px;
+  list-style: revert !important;
+}
+
+.angular-editor-wrapper img{
+  /* max-width: fit-content; */
+  max-width: -webkit-fill-available;
+}
+
+pointer{
+  cursor: pointer !important;
 }

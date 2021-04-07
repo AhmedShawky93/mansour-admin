@@ -9,7 +9,7 @@
     <div class="col-md-4 text-right">
       <div class="owl-btn-list">
         <button href="javascript:void(0)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-new"
-          (click)="newAdsForm.reset()">+ New ad</button>
+          (click)="createForm()">+ New ad</button>
       </div>
     </div>
 
@@ -33,12 +33,13 @@
       <tr *ngFor="let ad of ads | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
         <td>{{ad.id}}</td>
         <td>
+          <P *ngIf="ad.type == 0"> None </P>
           <P *ngIf="ad.type == 1"> Product </P>
-          <P *ngIf="ad.type == 2"> Category </P>
-          <P *ngIf="ad.type == 3"> Medical </P>
+          <P *ngIf="ad.type == 2"> SubCategory </P>
           <P *ngIf="ad.type == 4"> Brand </P>
           <P *ngIf="ad.type == 5"> Custom list </P>
-
+          <P *ngIf="ad.type == 6"> Category </P>
+          <P *ngIf="ad.type == 7"> Link </P>
         </td>
         <td>
           <P *ngIf="ad.popup">Popup</P>
@@ -82,11 +83,6 @@
           </label>
         </td>
       </tr>
-
-
-
-
-
     </tbody>
   </table>
 </div>
@@ -135,10 +131,13 @@
 
     <div>
       <h5>Type</h5>
-      <P *ngIf="currentAd.type == 1"> product </P>
-      <P *ngIf="currentAd.type == 2"> Category </P>
-      <P *ngIf="currentAd.type == 3"> Medical </P>
+      <P *ngIf="currentAd.type == 0"> None </P>
+      <P *ngIf="currentAd.type == 1"> Product </P>
+      <P *ngIf="currentAd.type == 2"> SubCategory </P>
       <P *ngIf="currentAd.type == 4"> Brand </P>
+      <P *ngIf="currentAd.type == 5"> Custom list </P>
+      <P *ngIf="currentAd.type == 6"> Category </P>
+      <P *ngIf="currentAd.type == 7"> Link </P>
     </div>
 
   </div>
@@ -161,7 +160,7 @@
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image').value" src="{{newAdsForm.get('image').value}}"
           alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image').value" src="http://via.placeholder.com/500x350"
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image').value" src="./assets/img/medium-empty-image.png"
           alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelected(newAdsForm, $event, 'image')" accept="image/*" />
@@ -181,7 +180,7 @@
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_ar').value"
           src="{{newAdsForm.get('image_ar').value}}" alt="">
         <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_ar').value"
-          src="http://via.placeholder.com/500x350" alt="">
+          src="./assets/img/medium-empty-image.png" alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelected(newAdsForm, $event, 'image_ar')" accept="image/*" />
       </div>
@@ -200,7 +199,7 @@
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value"
           src="{{newAdsForm.get('image_web').value}}" alt="">
         <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value"
-          src="http://via.placeholder.com/1400x500" alt="">
+          src="./assets/img/large-empty-image.png" alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelectedWeb(newAdsForm, $event, 'image')" accept="image/*" />
       </div>
@@ -219,7 +218,7 @@
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web_ar').value"
           src="{{newAdsForm.get('image_web_ar').value}}" alt="">
         <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web_ar').value"
-          src="http://via.placeholder.com/1400x500" alt="">
+          src="./assets/img/large-empty-image.png" alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelectedWeb(newAdsForm, $event, 'image_ar')" accept="image/*" />
       </div>
@@ -287,8 +286,8 @@
     <div class="form-group">
       <label for=""> type</label>
       <select type="text" class="owl-input" formControlName="type" name="type" (change)="onAdTypeChanged(newAdsForm)">
-        <option value="" selected disabled>Select Type</option>
-        <option value="">None</option>
+        <option value="10" selected disabled>Select Type</option>
+        <option value="0">None</option>
         <option value="1">product</option>
         <option value="2">Subcategory</option>
         <!-- <option value="3">Medical </option> -->

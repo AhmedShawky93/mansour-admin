@@ -123,7 +123,7 @@ export class CustomAdsComponent implements OnInit {
       id: new FormControl(),
       name_en: new FormControl("", Validators.required),
       name_ar: new FormControl("", Validators.required),
-      type: new FormControl(""),
+      type: new FormControl(10),
       link: new FormControl(""),
       list_id: new FormControl(""),
       category: new FormControl(""),
@@ -167,8 +167,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   editAd(ad) {
-    debugger;
-    console.log(ad);
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
       type: new FormControl(ad.type),
@@ -186,12 +184,11 @@ export class CustomAdsComponent implements OnInit {
         Validators.required
       ),
       dev_key: new FormControl(ad.dev_key, Validators.required),
-      category: new FormControl(),
-      subCategory: new FormControl(),
       prod: new FormControl(),
+      subCategory: new FormControl(),
       brand: new FormControl(),
       list_id: new FormControl(),
-      /*dev_key: new FormControl(ad.dev_key)*/
+      category: new FormControl(),
     });
     if (ad.type == 1) {
       this.newAdsForm.get("prod").setValue(ad.item_id);
@@ -203,12 +200,13 @@ export class CustomAdsComponent implements OnInit {
     } else if (ad.type == 4) {
       this.newAdsForm.get("brand").setValue(ad.item_id);
     } else if (ad.type == 5) {
-      this.newAdsForm.get("list_id").setValue(ad.list_id);
+      this.newAdsForm.get("list_id").setValue(ad.item_id);
     } else if (ad.type == 6) {
       this.newAdsForm.get("category").setValue(ad.item_id);
     } else if (ad.type == 7) {
       this.newAdsForm.get("link").setValue(ad.link);
     }
+    
     console.log(this.newAdsForm.value);
 
     this.category_id = this.newAdsForm.get("category").value;
@@ -217,7 +215,7 @@ export class CustomAdsComponent implements OnInit {
 
     // fill select options
     if (ad.type == 1 || ad.type == 2) {
-      this.onCategoryChange(this.category_id);
+      this.onCategoryChange();
 
       if (ad.type == 1) {
         this.onSubCategoryChange(this.selectedSubcategory);
@@ -391,7 +389,7 @@ export class CustomAdsComponent implements OnInit {
     });
   }
 
-  onCategoryChange(cat_id) {
+  onCategoryChange() {
     const category_id = this.newAdsForm.get("category").value;
     console.log(category_id, this.categories);
     const index = this.categories.findIndex((item) => item.id == category_id);

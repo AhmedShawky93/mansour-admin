@@ -29,7 +29,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
   orderForm: FormGroup;
   deleted_items: any[] = [];
-  
+
   constructor(private customerService: CustomerService, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) { }
 
   ngOnInit() {
@@ -41,6 +41,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   setupForm(data) {
+    this.products = [];
     this.deleted_items = [];
     this.orderForm = new FormGroup({
       user_id: new FormControl(data ? data.user.id : '', Validators.required),
@@ -57,12 +58,12 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       this.addresses = data.user.addresses;
       console.log(this.addresses);
       data.items.forEach(item => {
-        let productsInput$ = new Subject<String>();
+        const productsInput$ = new Subject<String>();
         let productsLoading = false;
-        let products$ = concat(
+        const products$ = concat(
           of([{
             id: item.id,
-            name: item.product.sku + ": " + item.product.name
+            name: item.product.sku + ': ' + item.product.name
           }]), // default items
           productsInput$.pipe(
             debounceTime(200),
@@ -177,7 +178,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       if (ind !== -1) {
         this.addresses = this.customers[ind].addresses;
       }
-    } 
+    }
   }
 
   submitOrder() {
@@ -198,7 +199,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           if (response.code == 200) {
             this.closeSideBar(response.data);
           } else {
-            this.toastrService.error(response.message, "Error");       
+            this.toastrService.error(response.message, "Error");
           }
         });
     } else {
@@ -208,7 +209,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           if (response.code == 200) {
             this.closeSideBar(response.data);
           } else {
-            this.toastrService.error(response.message, "Error");       
+            this.toastrService.error(response.message, "Error");
           }
         });
     }

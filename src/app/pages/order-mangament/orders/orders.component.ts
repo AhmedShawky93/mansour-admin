@@ -89,6 +89,7 @@ export class OrdersComponent implements OnInit {
     customer_name: "",
     customer_email: "",
     customer_phone: "",
+    shipping_id: "",
     payment_method: null,
     user_agent: "",
   };
@@ -339,6 +340,7 @@ export class OrdersComponent implements OnInit {
       customer_name: "",
       customer_email: "",
       customer_phone: "",
+      shipping_id: "",
       user_agent: "",
       payment_method: null,
     };
@@ -348,7 +350,7 @@ export class OrdersComponent implements OnInit {
     this.stateForm = new FormGroup({
       status_notes: new FormControl(),
       pickup_guid: new FormControl(),
-      cancellation_id: new FormControl("placeholder"),
+      cancellation_id: new FormControl(null),
       order_ids: new FormControl(this.ordersBulk),
       state_id: new FormControl(this.orderStatusId),
       sub_state_id: new FormControl(this.sub_state_id),
@@ -374,7 +376,7 @@ export class OrdersComponent implements OnInit {
         .get("aramex_account_number")
         .setValidators([Validators.required]);
     } else if (this.orderStatusId == 6) {
-      this.stateForm.get("status_notes").setValidators([Validators.required]);
+      // this.stateForm.get("status_notes").setValidators([Validators.required]);
       this.stateForm
         .get("cancellation_id")
         .setValidators([Validators.required]);
@@ -1292,10 +1294,10 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  private markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
-
+      control.markAsDirty();
       if (control.controls) {
         this.markFormGroupTouched(control);
       }

@@ -10,10 +10,8 @@
     <div class="form-group">
       <label>Image</label>
       <div class="d-flex justify-content-center flex-column">
-        <app-image-uploader [fileUrl]="variantForm.value?.image" [formControlChildName]="'image'"
-                            [myForm]="variantForm" class="w-100"
-                            height="240px"
-                            width="100%">
+        <app-image-uploader [fileUrl]="variantForm.value?.image" [formControlChildName]="'image'" [myForm]="variantForm"
+          class="w-100" height="340px" width="100%">
         </app-image-uploader>
         <div *ngIf="formControlValidator('image','required')" class="text-danger">
           Image Is Required
@@ -25,17 +23,15 @@
         <img src="assets/img/Expand.svg" alt="add image">
         <span>add image</span>
       </div>
-      <div formArrayName="images">
+      <div formArrayName="images" *ngIf="variantForm.get('images')['controls'].length">
         <div class="owls-upload owls-upload3"
-             *ngFor="let image of variantForm.get('images')['controls']; let i = index">
+          *ngFor="let image of variantForm.get('images')['controls']; let i = index">
 
           <div [formGroupName]="i">
-            <app-image-uploader [fileUrl]="image?.value.url" [formControlChildName]="'url'"
-                                [myForm]="image" class="w-100"
-                                height="60px"
-                                width="60px">
+            <app-image-uploader [fileUrl]="image?.value.url" [formControlChildName]="'url'" [myForm]="image"
+              class="w-100" height="60px" width="60px">
             </app-image-uploader>
-            <!--<i class="icon-Exit" (click)="removeImage(image , i)"></i>-->
+            <i class="icon-Exit" (click)="removeImage(i)" *ngIf='image'></i>
           </div>
           <div *ngIf="formGroupControlsValidator(image,'url','required')" class="alert alert-danger">
             Image Is Required
@@ -68,7 +64,8 @@
     <div class="form-group">
       <label>Description</label>
       <!--<textarea class="owl-input" formControlName="description" laceholder="type" maxlength="250" required></textarea>-->
-      <angular-editor [id]="'description'" formControlName="description" [config]="editorConfig" required></angular-editor>
+      <angular-editor [id]="'description'" formControlName="description" [config]="editorConfig" required>
+      </angular-editor>
 
       <div *ngIf="formControlValidator('description','required')" class="alert alert-danger">
         Description is required.
@@ -85,7 +82,8 @@
       <label>Description (Ar)</label>
       <!--<textarea class="owl-input" formControlName="description_ar" maxlength="250" placeholder="type"
                 required></textarea>-->
-      <angular-editor [id]="'description_ar'" formControlName="description_ar" [config]="editorConfig" required></angular-editor>
+      <angular-editor [id]="'description_ar'" formControlName="description_ar" [config]="editorConfig" required>
+      </angular-editor>
 
       <div *ngIf="formControlValidator('description_ar','required')" class="alert alert-danger">
         Description is required.
@@ -101,13 +99,15 @@
     <div class="form-group">
       <label> Long description</label>
       <!--<textarea class="owl-input" formControlName="long_description_en" placeholder="type"></textarea>-->
-      <angular-editor [id]="'long_description_en'" formControlName="long_description_en" [config]="editorConfig"></angular-editor>
+      <angular-editor [id]="'long_description_en'" formControlName="long_description_en" [config]="editorConfig">
+      </angular-editor>
     </div>
 
     <div class="form-group">
       <label>Long description (Ar)</label>
       <!--<textarea class="owl-input" formControlName="long_description_ar" placeholder="type"></textarea>-->
-      <angular-editor [id]="'long_description_ar'" formControlName="long_description_ar" [config]="editorConfig"></angular-editor>
+      <angular-editor [id]="'long_description_ar'" formControlName="long_description_ar" [config]="editorConfig">
+      </angular-editor>
     </div>
 
 
@@ -134,8 +134,7 @@
     <div class="form-group">
       <label>Stock</label>
       <input [min]="0" class="owl-input" formControlName="stock" maxlength="6"
-             onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' placeholder="Stock"
-             type="text">
+        onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' placeholder="Stock" type="text">
       <div *ngIf="formControlValidator('stock','required')" class="alert alert-danger">
         Stock is required
       </div>
@@ -143,8 +142,8 @@
 
     <div class="form-group">
       <label> Pricing</label>
-      <input [(ngModel)]="price" [max]="1000000" [min]="1" class="owl-input"
-             formControlName="price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
+      <input [max]="1000000" [min]="1" class="owl-input" formControlName="price"
+        pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
       <div *ngIf="formControlValidator('price','required')" class="alert alert-danger">
         Pricing is required.
       </div>
@@ -160,35 +159,38 @@
     </div>
 
     <div>
-      <div  formArrayName="option_values" class="form-group" *ngFor="let option of variantForm.get('option_values')['controls']; let i = index">
+      <div formArrayName="option_values" class="form-group"
+        *ngFor="let option of variantForm.get('option_values')['controls']; let i = index">
         <span [formGroupName]='i'>
 
           <div class="" *ngIf="option?.value.type != '5'">
             <label> {{option?.controls['name_en']?.value}} </label>
-            <select class="owl-input" name="option" (change)="selectOptionValue(option, $event, i)" formControlName="option_value_id">
+            <select class="owl-input" name="option" (change)="selectOptionValue(option, $event, i)"
+              formControlName="option_value_id">
               <option value="" hidden selected>Select option </option>
               <!--<option value="{{value.id}}" *ngFor="let value of option?.values">{{value.name_en}}</option>-->
               <option *ngFor="let val of option?.controls['optionValues']?.value" value="{{val.id}}">
                 {{val.name_en}}
               </option>
             </select>
-             <div
-               *ngIf="variantForm.controls.option_values?.controls[i]?.controls?.option_value_id?.invalid && (variantForm.controls?.option_values?.controls[i].controls?.option_value_id?.dirty || variantForm.controls.option_values?.controls[i].controls?.option_value_id?.touched)"
-               class="alert alert-danger">
-               <div
-                 *ngIf="variantForm.controls.option_values?.controls[i]?.controls?.option_value_id?.errors?.required">
-                 option is required.
-               </div>
-             </div>
+            <div
+              *ngIf="variantForm.controls.option_values?.controls[i]?.controls?.option_value_id?.invalid && (variantForm.controls?.option_values?.controls[i].controls?.option_value_id?.dirty || variantForm.controls.option_values?.controls[i].controls?.option_value_id?.touched)"
+              class="alert alert-danger">
+              <div *ngIf="variantForm.controls.option_values?.controls[i]?.controls?.option_value_id?.errors?.required">
+                option is required.
+              </div>
+            </div>
           </div>
 
           <div class="" *ngIf="option?.value.type == '5'">
             <label> {{option?.controls['name_en']?.value}} </label>
-             <div class="form-group w-100 mt-2">
-              <angular-editor [id]="i" formControlName="input_ar" [config]="editorConfig" [placeholder]="'Arabic'"></angular-editor>
+            <div class="form-group w-100 mt-2">
+              <angular-editor [id]="i" formControlName="input_ar" [config]="editorConfig" [placeholder]="'Arabic'">
+              </angular-editor>
             </div>
             <div class="form-group w-100 mt-2">
-              <angular-editor [id]="i" formControlName="input_en" [config]="editorConfig" [placeholder]="'English'"></angular-editor>
+              <angular-editor [id]="i" formControlName="input_en" [config]="editorConfig" [placeholder]="'English'">
+              </angular-editor>
             </div>
             <!--<div class="form-group">
               <input type="text" class="owl-input" (click)="takeInputId(option, i)" placeholder="English" formControlName="input_en">
@@ -223,7 +225,7 @@
           <small> optional</small>
         </label>
         <input [min]="0" class="owl-input" formControlName="discount_price" pattern="[0-9]+(\.[0-9][0-9]?)?"
-               placeholder="Type.." type="number">
+          placeholder="Type.." type="number">
         <div *ngIf="formControlValidator('discount_price','min')" class="alert alert-danger">
           Discount price can't be a negative value
         </div>
@@ -240,20 +242,16 @@
         </div>
         <div class="row">
           <div class="col-12 col-md-6">
-            <app-generic-date-picker [myForm]="variantForm"
-                                     [formControlChildName]="'discount_start_date'"
-                                     [placeholder]="'Start Date'"
-            >
+            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_start_date'"
+              [placeholder]="'Start Date'">
             </app-generic-date-picker>
             <div *ngIf="formControlValidator('discount_start_date','required')" class="text-danger">
               Filed Is Required
             </div>
           </div>
           <div class="col-12 col-md-6">
-            <app-generic-time-picker [formControlChildName]="'start_time'"
-                                     [myForm]="variantForm"
-                                     [placeholder]="'Pick Time'"
-            ></app-generic-time-picker>
+            <app-generic-time-picker [formControlChildName]="'start_time'" [myForm]="variantForm"
+              [placeholder]="'Pick Time'"></app-generic-time-picker>
             <div *ngIf="formControlValidator('start_time','required')" class="text-danger">
               Filed Is Required
             </div>
@@ -266,10 +264,8 @@
         </div>
         <div class="row">
           <div class="col-12 col-md-6">
-            <app-generic-date-picker [myForm]="variantForm"
-                                     [formControlChildName]="'discount_end_date'"
-                                     [placeholder]="'Expiration Date'"
-            >
+            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_end_date'"
+              [placeholder]="'Expiration Date'">
             </app-generic-date-picker>
             <div *ngIf="formControlValidator('discount_end_date','required')" class="text-danger">
               Filed Is Required
@@ -279,10 +275,8 @@
             </div>
           </div>
           <div class="col-12 col-md-6">
-            <app-generic-time-picker [formControlChildName]="'expiration_time'"
-                                     [myForm]="variantForm"
-                                     [placeholder]="'Pick Time'"
-            ></app-generic-time-picker>
+            <app-generic-time-picker [formControlChildName]="'expiration_time'" [myForm]="variantForm"
+              [placeholder]="'Pick Time'"></app-generic-time-picker>
             <div *ngIf="formControlValidator('expiration_time','required')" class="text-danger">
               Filed Is Required
             </div>
@@ -305,15 +299,15 @@
     <div class="form-group" *ngIf="parentProduct?.type == 2">
       <label>Bundle Products</label>
       <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
-        bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name" formControlName="bundle_products_ids">
+        bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name"
+        formControlName="bundle_products_ids">
       </ng-select>
     </div>
 
     <div class="form-group">
       <label>Weight</label>
       <input [min]="0" class="owl-input" formControlName="weight" maxlength="6"
-             onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' placeholder="Weight"
-             type="text">
+        onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' placeholder="Weight" type="text">
       <div *ngIf="formControlValidator('weight','required')" class="alert alert-danger">
         Weight is required
       </div>
@@ -329,6 +323,10 @@
         Sku Must Be Numbers Only
       </div>
     </div>
+    <div class="form-group">
+      <label> Order</label>
+      <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
+    </div>
 
     <!--<div class="form-group">
       <label>Stock notification limit </label>
@@ -341,22 +339,23 @@
 
           <label class="my-2">{{formGroupItem?.controls['optionData']?.value?.name_en}}</label>
 
-          <select class="owl-input" formControlName="option_value_id">
+          <select class="owl-input" formControlName="option_value_id"
+            *ngIf="formGroupItem.controls['optionData']?.value?.type !== '5'">
             <option hidden selected value="">Select Value</option>
             <option *ngFor="let val of formGroupItem?.controls['optionData']?.value?.values" value="{{val.id}}">
               {{val.name_en}}
             </option>
           </select>
-          <div *ngIf="formGroupControlsValidator(formGroupItem,'option_value_id','required')" class="alert alert-danger">
+          <div *ngIf="formGroupControlsValidator(formGroupItem,'option_value_id','required')"
+            class="alert alert-danger">
             Value Is Required
           </div>
 
           <div *ngIf="formGroupItem.controls['optionData']?.value?.type == 4"
-               class="d-flex justify-content-center flex-column mt-2">
-            <app-image-uploader [fileUrl]="formGroupItem?.controls['option_image'].value" [formControlChildName]="'option_image'"
-                                [myForm]="formGroupItem" class="w-100"
-                                height="240px"
-                                width="100%">
+            class="d-flex justify-content-center flex-column mt-2">
+            <app-image-uploader [fileUrl]="formGroupItem?.controls['option_image'].value"
+              [formControlChildName]="'option_image'" [myForm]="formGroupItem" class="w-100" height="240px"
+              width="100%">
             </app-image-uploader>
             <div *ngIf="formGroupControlsValidator(formGroupItem,'option_image','required')" class="alert alert-danger">
               Image Is Required
@@ -364,7 +363,7 @@
           </div>
 
           <div *ngIf="formGroupItem.controls['optionData']?.value?.type == 5"
-               class="d-flex justify-content-center flex-column mt-2">
+            class="d-flex justify-content-center flex-column mt-2">
             <input class="owl-input my-1" formControlName="input_ar" placeholder="Input AR" type="text">
             <input class="owl-input my-1" formControlName="input_en" placeholder="Input EN" type="text">
             <div *ngIf="formGroupControlsValidator(formGroupItem,'input_ar','required')" class="alert alert-danger">
@@ -384,4 +383,3 @@
   </form>
 
 </div>
-

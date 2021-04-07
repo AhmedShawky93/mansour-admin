@@ -7,7 +7,7 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search by name" [(ngModel)]="filter.name">
+        <input type="text" class="owl-input owls-search" placeholder="search by name" [(ngModel)]="filter.q">
       </div>
     </div>
     <!-- <div class="col-md-3">
@@ -42,7 +42,7 @@
         <option value="2">InActive</option>
       </select>
     </div> -->
-    
+
     <div class="col-md-3  col-xs-6 ">
       <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
         (click)="searchInCustomers()">Search</button>
@@ -73,7 +73,7 @@
         <input type="number" class="owl-input owls-search" placeholder="Orders To" [(ngModel)]="filter.no_orders_to" (change)="changePage(1)">
       </div>
     </div>
-    
+
 
   </div>
   <div class="row">
@@ -115,7 +115,7 @@
         <td>{{customer.orders}}</td>
 
         <td>
-          <a href="javascript:void(0)" class=" toggle-vindor-view table-view" (click)="viewCustomer(customer)">
+          <a href="javascript:void(0)" class="toggle-vindor-view table-view" (click)="viewCustomer(customer)">
             <i class="icon-View"></i>
           </a>
 
@@ -155,7 +155,6 @@
 
 
 
-
 <div class="form-sidebar view-vindor-types" id="view-active">
   <div class="head">
     <span class="close" id="close-vindors1">
@@ -165,6 +164,7 @@
   </div>
 
   <app-loader *ngIf="customerLoading"></app-loader>
+
   <div *ngIf="customer && !customerLoading" class=" details details-2">
 
     <div>
@@ -343,6 +343,7 @@
 
 <app-add-edit-customer
   #customerForm
+  class="parent-editor-viewer-sidebar"
   (closeSideBarEmit)="closeSideBar($event)"
   (dataCustomerEmit)="addOrUpdateCustomer($event)"
   [@slideInOut]="toggleAddCustomer"

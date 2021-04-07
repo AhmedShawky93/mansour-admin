@@ -3,34 +3,33 @@
 }
 
 .margin0 {
-  margin: 0 !important
+  margin: 0 !important;
 }
 
 .statistics-item {
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0 11px 22px 0 rgba(6, 40, 57, 0.05);
   border-radius: 12px;
-  padding: 35px
+  padding: 35px;
 }
 
 .statistics-item span {
   font-size: 18px;
-  color: #557E96;
+  color: #557e96;
 }
 
 .statistics-item p {
   font-size: 28px;
-  color: #003C62 ;
+  color: #003c62;
   margin-top: 10px;
   margin-bottom: 0;
 }
 
-
 .ratings-area {
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0 11px 22px 0 rgba(6, 40, 57, 0.05);
   border-radius: 12px;
-  padding: 38px
+  padding: 38px;
 }
 
 .hidepicker {
@@ -41,18 +40,18 @@
 .rat-title {
   margin-top: 17px;
   font-size: 18px;
-  color: #557E96;
+  color: #557e96;
   font-weight: bold;
 }
 
 bar-rating {
   display: inline-block;
-  margin-right: 5px
+  margin-right: 5px;
 }
 
 .rate-item span {
   font-size: 14px;
-  color: #A7BDCA;
+  color: #a7bdca;
 }
 
 .address-edit {
@@ -80,13 +79,13 @@ bar-rating {
 
 .address-edit p a {
   font-size: 18px;
-  color: #557E96;
+  color: #557e96;
 }
 
 .left-search span {
   color: rgba(0, 61, 97, 0.47);
   font-size: 16px;
-  text-transform: capitalize
+  text-transform: capitalize;
 }
 
 .left-search span i {
@@ -100,7 +99,6 @@ bar-rating {
 
 .deliverycharge2 {
   background: #fff;
-
 }
 
 #show-p-details {
@@ -109,11 +107,8 @@ bar-rating {
 
 .ngx-datepicker-container {
   z-index: 2 !important;
-  ;
   background-color: red !important;
 }
-
-
 
 .reason-popup {
   position: absolute;
@@ -152,7 +147,6 @@ bar-rating {
   z-index: 2;
 }
 
-
 .details-price {
   position: relative;
 }
@@ -174,14 +168,11 @@ bar-rating {
 
 .s-price.right {
   right: 70px;
-
 }
 
 .form-group label {
-  display: block
+  display: block;
 }
-
-
 
 .form-group textarea {
   height: 120px;
@@ -196,7 +187,7 @@ bar-rating {
   background-color: transparent;
 }
 
-.owls-upload3 input[type=file] {
+.owls-upload3 input[type="file"] {
   top: 0;
   width: 70px;
   height: 70px;
@@ -212,11 +203,9 @@ bar-rating {
 .owls-upload3.big {
   width: auto !important;
   height: auto;
-
 }
 
-
-.owls-upload3.big input[type=file] {
+.owls-upload3.big input[type="file"] {
   top: 0;
   width: 100%;
   height: 100%;
@@ -256,16 +245,14 @@ bar-rating {
   margin-left: 0;
   width: 100% !important;
   margin-bottom: 25px;
-
 }
 
 .inputFile {
   position: relative;
-
 }
 
 .owl-input-file {
-  background-image: none
+  background-image: none;
 }
 
 .input-style {
@@ -274,11 +261,10 @@ bar-rating {
   opacity: 0;
 }
 
-@media(max-width: 1400px) {
+@media (max-width: 1400px) {
   .btn-rounded {
     padding: 0px !important;
     line-height: 50px;
-
   }
 
   .btn-owls {
@@ -287,19 +273,16 @@ bar-rating {
 }
 
 @media (min-width: 992px) {
-
   .table-responsive {
     overflow-x: inherit !important;
   }
 }
 
 #hidden {
-  display: hidden !important
+  display: hidden !important;
 }
 
 @media (max-width: 920px) {
-
-
   .owl-btn-list .btn {
     margin-left: 0 !important;
     width: 100% !important;
@@ -310,7 +293,7 @@ bar-rating {
     width: 100%;
     line-height: 44px;
     height: 44px;
-    FONT-SIZE: 10PX !important;
+    font-size: 10px !important;
   }
 
   .owl-btn-list .btn {
@@ -329,7 +312,6 @@ bar-rating {
     font-size: 9px !important;
     padding-bottom: 15px;
     padding-top: 15px;
-
   }
 
   .table td,
@@ -366,15 +348,17 @@ bar-rating {
 .p-l-r-5 {
   padding: 0 5px 0 !important;
 }
-.back-arrow{
+.back-arrow {
   color: #003c62;
   font-weight: 500;
   cursor: pointer;
 }
 
-
-.fixed-table-scroll{
+.draft-product{
+  background-color: antiquewhite;
+}
+/* .fixed-table-scroll{
   max-height: 46.5vh;
   overflow-y: scroll;
 }
-
+ */

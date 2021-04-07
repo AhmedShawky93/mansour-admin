@@ -46,7 +46,7 @@
       <div class="row">
         <div class="col-md-6 col-xs-12">
           <div class="form-group">
-            <select (change)="selectCategoryFilter(main_category)" [(ngModel)]="main_category" class="owl-input"
+            <select (change)="selectCategoryFilter(main_category, false)" [(ngModel)]="main_category" class="owl-input"
                     name="category" required>
               <option [value]="''" selected>Select Category</option>
               <ng-container *ngFor="let cat of categories">
@@ -140,8 +140,8 @@
     </thead>
     <tbody>
 
-    <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
-      <td>{{product.sku}}</td>
+    <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let idx = index;">
+      <td> <span class="text-danger" *ngIf="product.isDraft">(Draft) </span>{{product.sku}}</td>
       <td class="relative">{{product.name | summary : 25 }}
         <div *ngIf="product.name.length >= 25" class="hover-reason text-left">
           <!--<div class="head">
@@ -154,9 +154,11 @@
 
       </td>
       <td *ngIf="!selectedMainProduct">
-        {{product?.category?.name}} >
-        <br>
-        {{product?.category?.sub_categories[0]?.name}}
+        <ng-container *ngIf="product.category">
+          {{product?.category?.name}} >
+          <br>
+          {{product?.category?.sub_categories[0]?.name}}
+        </ng-container>
       </td>
       <td *ngIf="selectedMainProduct">
         {{product?.last_editor?.name}}
@@ -165,7 +167,7 @@
       <td class="hidden">{{product.stock ? product.stock : '0'}}</td>
       <!--<td>{{product.price}}</td>
       <td>{{product.discount_price ? product.discount_price : "-"}}</td>-->
-      <td>
+      <td *ngIf="!product.isDraft">
         <!--<a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
           <i class="icon-View"></i>
         </a>-->
@@ -175,6 +177,9 @@
 
         <a (click)="edit(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
           <i class="icon-grey"></i>
+        </a>
+        <a (click)="removeProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="fa fa-trash"></i>
         </a>
         <a (click)="clone(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
           <i class="fa fa-copy"></i>
@@ -205,6 +210,17 @@
           </div>
         </label>
       </td>
+      <td *ngIf="product.isDraft">
+        <a (click)="editDraftProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="icon-grey"></i>
+        </a>
+        <a (click)="removeDraftConfirmation(product, idx)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="fa fa-trash"></i>
+        </a>
+        <a (click)="cloneDraft(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <i class="fa fa-copy"></i>
+        </a>
+      </td>
     </tr>
 
 
@@ -213,8 +229,8 @@
 </div>
 
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer"
-><p style="color: white"> Loading... </p>
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer" >
+  <p style="color: white"> Loading... </p>
 </ngx-spinner>
 
 <!--
@@ -226,11 +242,12 @@
 
 <!-- view product -->
 <app-view-product (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewProductSidebar"
-                  [selectProductDataEdit]="selectProductDataView"></app-view-product>
+  class="parent-editor-viewer-sidebar" [selectProductDataEdit]="selectProductDataView"></app-view-product>
 
 
 <app-add-edit-product
   #productForm
+  class="parent-editor-viewer-sidebar"
   (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)"
   [@slideInOut]="toggleAddProduct"
@@ -238,6 +255,8 @@
 </app-add-edit-product>
 
 <app-add-edit-variants
+  *ngIf="toggleVariant === 'in'"
+  class="parent-editor-viewer-sidebar"
   #productVariantsForm
   (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)"
@@ -247,10 +266,12 @@
 </app-add-edit-variants>
 
 <app-add-product-variants
+  class="parent-editor-viewer-sidebar"
+  *ngIf="toggleProductVariant === 'in'"
   (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)"
   [@slideInOut]="toggleProductVariant"
-  [selectVariant]="selectedProductVariantData">
+  [selectedProduct]="selectedProductVariantBoth">
 </app-add-product-variants>
 
 <div class="modal fade" id="cloneProduct" tabindex="-1" role="dialog" aria-hidden="true">
@@ -270,7 +291,9 @@
 
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmClone()">
+        <button type="button" [appLoading]="stateCloning" [disabled]='stateCloning'
+          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
+          (click)="confirmClone()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
@@ -280,3 +303,61 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="deleteProduct" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Delete Product
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        Are you sure you want to Delete the product ({{currentProduct?.sku}}) ?
+
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" [appLoading]="statedeleting" [disabled]='statedeleting'
+          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;" (click)="confirmDelete()">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteDraft" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">
+          Delete Draft
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to Delete this draft ?
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button"
+                (click)="removeDraftProduct()"
+                class="position-relative btn-owls btn-rounded btn-green btn-blue2">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

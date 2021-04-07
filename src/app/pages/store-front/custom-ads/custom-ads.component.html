@@ -33,12 +33,13 @@
         </td>
         <td>
           <span [ngSwitch]="ad.type">
+            <span *ngSwitchCase="0">None</span>
             <span *ngSwitchCase="1">Product</span>
-            <span *ngSwitchCase="2">Category</span>
-            <span *ngSwitchCase="3">Sub Category</span>
+            <span *ngSwitchCase="2">Sub Category</span>
             <span *ngSwitchCase="4">Brand</span>
-            <span *ngSwitchCase="5">Tag</span>
-            <span *ngSwitchCase="6">Custom List</span>
+            <span *ngSwitchCase="5">Custom List</span>
+            <span *ngSwitchCase="6">Category</span>
+            <span *ngSwitchCase="7">Link</span>
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
@@ -55,14 +56,14 @@
 
 
 
-           <label class="switch" *ngIf="!ad.banner_ad && ad.id === 0">
+          <label class="switch" *ngIf="!ad.banner_ad && ad.id === 0">
             <input type="checkbox" value="1" [(ngModel)]="ad.active" (change)="changeActive(ad)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!ad.showReason">
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this ad?"
                 [(ngModel)]="ad.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!ad.notes"
-                (click)="submitDeactivate(ad)" [ngClass]="{'not-allowed' : !ad.notes }">submit</button>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!ad.notes" (click)="submitDeactivate(ad)"
+                [ngClass]="{'not-allowed' : !ad.notes }">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(ad)">cancel</button>
             </div>
@@ -77,11 +78,6 @@
           </label>
         </td>
       </tr>
-
-
-
-
-
     </tbody>
   </table>
 </div>
@@ -97,7 +93,8 @@
   </div>
 
   <div class="head-btn">
-    <button id="add-vindor-types-btn" class="btn btn-owls btn-rounded btn-blue2 add-new" (click)="editAd(currentAd)">Edit</button>
+    <button id="add-vindor-types-btn" class="btn btn-owls btn-rounded btn-blue2 add-new"
+      (click)="editAd(currentAd)">Edit</button>
   </div>
 
   <div class="details details-2" *ngIf="currentAd">
@@ -122,6 +119,7 @@
         <img class="owl-img img-fluid" src="{{currentAd.image_web}}" alt="">
       </div>
     </div>
+    
     <div>
       <div>
         <h5>Image Web (AR)</h5>
@@ -141,10 +139,13 @@
 
     <div>
       <h5>Type</h5>
+      <P *ngIf="currentAd.type == 0"> None </P>
       <P *ngIf="currentAd.type == 1"> product </P>
-      <P *ngIf="currentAd.type == 2"> Category </P>
-      <P *ngIf="currentAd.type == 3"> Sub Category </P>
+      <P *ngIf="currentAd.type == 2"> Sub Category </P>
       <P *ngIf="currentAd.type == 4"> Brand </P>
+      <P *ngIf="currentAd.type == 5"> Custom List </P>
+      <P *ngIf="currentAd.type == 6"> Category </P>
+      <P *ngIf="currentAd.type == 7"> Link </P>
     </div>
 
   </div>
@@ -165,10 +166,10 @@
       <label for="">Image</label>
 
       <div class="owls-upload owls-upload3 big">
-        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_en').value" src="{{newAdsForm.get('image_en').value}}"
-          alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_en').value" src="http://via.placeholder.com/328x177"
-          alt="">
+        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_en').value"
+          src="{{newAdsForm.get('image_en').value}}" alt="">
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_en').value"
+          src="http://via.placeholder.com/328x177" alt="">
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelected(newAdsForm, $event, 'image_en')" accept="image/*" />
       </div>
@@ -202,15 +203,15 @@
     </div>
 
     <div class="form-group">
-      <label >Image Web</label>
+      <label>Image Web</label>
 
       <div class="owls-upload owls-upload3 big">
-        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value" src="{{newAdsForm.get('image_web').value}}"
-             alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value" src="http://via.placeholder.com/328x177"
-             alt="">
-        <input type="file"  class="owl-input" placeholder="upload your image"
-               (change)="onImageSelected(newAdsForm, $event, 'image_web')" accept="image/*" />
+        <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value"
+          src="{{newAdsForm.get('image_web').value}}" alt="">
+        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value"
+          src="http://via.placeholder.com/328x177" alt="">
+        <input type="file" class="owl-input" placeholder="upload your image"
+          (change)="onImageSelected(newAdsForm, $event, 'image_web')" accept="image/*" />
       </div>
       <div
         *ngIf="newAdsForm.controls.image_web.invalid && (newAdsForm.controls.image_web.dirty || newAdsForm.controls.image_web.touched)"
@@ -226,11 +227,11 @@
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web_ar').value"
-             src="{{newAdsForm.get('image_web_ar').value}}" alt="">
+          src="{{newAdsForm.get('image_web_ar').value}}" alt="">
         <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web_ar').value"
-             src="http://via.placeholder.com/328x177" alt="">
-        <input type="file"  class="owl-input" placeholder="upload your image"
-               (change)="onImageSelected(newAdsForm, $event, 'image_web_ar')" accept="image/*" />
+          src="http://via.placeholder.com/328x177" alt="">
+        <input type="file" class="owl-input" placeholder="upload your image"
+          (change)="onImageSelected(newAdsForm, $event, 'image_web_ar')" accept="image/*" />
       </div>
       <div
         *ngIf="newAdsForm.controls.image_web_ar.invalid && (newAdsForm.controls.image_web_ar.dirty || newAdsForm.controls.image_ar.touched)"
@@ -279,11 +280,11 @@
     <div class="form-group">
       <label for="">Type</label>
       <select type="text" class="owl-input" formControlName="type" name="type" (change)="onAdTypeChanged(newAdsForm)">
-        <option value="" selected disabled>Select Type</option>
-        <option value="">None</option>
-        <option value="1">Product</option>
-        <option value="2">Sub Category</option>
-        <!-- <option value="3">Medical</option> -->
+        <option value="10" selected disabled>Select Type</option>
+        <option value="0">None</option>
+        <option value="1">product</option>
+        <option value="2">Subcategory</option>
+        <!-- <option value="3">Medical </option> -->
         <option value="4">Brand</option>
         <option value="5">Custom List</option>
         <option value="6">Category</option>
@@ -310,9 +311,11 @@
       </div>
     </div>
 
-    <div class="form-group" *ngIf="newAdsForm.get('type').value == 6 || newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
+    <div class="form-group"
+      *ngIf="newAdsForm.get('type').value == 6 || newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
       <label for=""> category</label>
-      <select type="text" class="owl-input" (change)="onCategoryChange(category_id)" formControlName="category" name="category">
+      <select type="text" class="owl-input" (change)="onCategoryChange()" formControlName="category"
+        name="category">
         <option value="" selected>Select Category</option>
         <option value="{{cat.id}}" *ngFor="let cat of categories">{{cat.name}}
           <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
@@ -326,7 +329,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="form-group" *ngIf="newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
       <label for="">Subcategory</label>
@@ -376,7 +378,20 @@
       </div>
     </div>
 
-
+    <div class="form-group" *ngIf="newAdsForm.get('type').value == 5">
+      <label for="">List</label>
+      <select type="text" class="owl-input" formControlName="list_id" name="list_id">
+        <option value="" selected>Select List</option>
+        <option value="{{list.id}}" *ngFor="let list of lists">{{list.name_en}}</option>
+      </select>
+      <div
+        *ngIf="newAdsForm.controls.list_id.invalid && (newAdsForm.controls.list_id.dirty || newAdsForm.controls.list_id.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.list_id.errors.required">
+          List Is Required.
+        </div>
+      </div>
+    </div>
 
     <div class="form-sidebar-btns">
       <button class="btn btn-owls btn-rounded btn-green">{{(newAdsForm.value.id != null) ? "Update" : "Add"}} </button>

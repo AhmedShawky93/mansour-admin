@@ -1,16 +1,16 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {ProductsService} from '@app/pages/services/products.service';
-import {CategoryService} from '@app/pages/services/category.service';
-import {ToastrService} from 'ngx-toastr';
-import {OptionsService} from '@app/pages/services/options.service';
-import {DateLessThan} from '@app/shared/date-range-validation';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { ProductsService } from '@app/pages/services/products.service';
+import { CategoryService } from '@app/pages/services/category.service';
+import { ToastrService } from 'ngx-toastr';
+import { OptionsService } from '@app/pages/services/options.service';
+import { DateLessThan } from '@app/shared/date-range-validation';
 import * as moment from 'moment';
-import {AngularEditorConfig} from '@kolkov/angular-editor';
-import {Observable, Subject, concat, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
-import {environment} from '@env/environment';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Observable, Subject, concat, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import { environment } from '@env/environment';
 
 
 @Component({
@@ -63,7 +63,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       defaultParagraphSeparator: '',
       defaultFontName: '',
       defaultFontSize: '',
-      sanitize: true,
+      sanitize: false,
       toolbarPosition: 'top',
       uploadUrl: environment.api + '/admin/upload_ckeditor',
     };
@@ -71,14 +71,13 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getCategories();
-    this.getAllOptions();
   }
-
+  
   ngOnChanges() {
     console.log('parentProduct', this.parentProduct);
     console.log('selectedVariant', this.selectVariant);
+    this.getAllOptions();
     this.setForm(this.selectVariant);
-    this.mergeData(this.selectVariant);
     this.setData(this.selectVariant);
   }
 
@@ -104,6 +103,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       long_description_ar: new FormControl(data ? data.long_description_ar : ''),
       meta_title: new FormControl(data ? data.meta_title : ''),
       meta_description: new FormControl(data ? data.meta_description : ''),
+      order: new FormControl(data ? data.order : ''),
       meta_title_ar: new FormControl(data ? data.meta_title_ar : ''),
       meta_description_ar: new FormControl(data ? data.meta_description_ar : ''),
       price: new FormControl(data ? data.price : '', this.parentProduct && this.parentProduct.available_soon ? [] : Validators.required),
@@ -124,7 +124,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
       option_values: this.formBuilder.array([]),
-    }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
+    }, { validator: DateLessThan('discount_start_date', 'discount_end_date') });
   }
 
   getCategories() {
@@ -146,6 +146,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
           if (res['code'] === 200) {
             this.allOptions = res['data'];
             console.log('allOptions', this.allOptions);
+            this.mergeData(this.selectVariant);
           } else {
             this.toasterService.error(res['message']);
           }
@@ -183,7 +184,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         debounceTime(200),
         distinctUntilChanged(),
         tap(() => this.productsLoading = true),
-        switchMap(term => this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
+        switchMap(term => this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
           catchError(() => of([])), // empty list on error
           tap(() => this.productsLoading = false),
           map((response: any) => {
@@ -281,7 +282,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     } else if (this.parentProduct && this.selectVariant) {
       /*Case Update*/
       const selectedOptions = this.selectVariant.product_variant_options.map(data => {
-        return {option: data.option, selectedValue: data.values[0]};
+        return { option: data.option, selectedValue: data.values[0] };
       });
       console.log(selectedOptions);
       this.parentProduct.product_variant_options.forEach(item => {
@@ -435,5 +436,11 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
           this.markFormGroupTouched(control);
         }
       });
+  }
+
+  removeImage(index) {
+    this.addSubImages = this.variantForm.get('images') as FormArray;
+    this.addSubImages.removeAt(index);
+    this.variantForm.updateValueAndValidity();
   }
 }

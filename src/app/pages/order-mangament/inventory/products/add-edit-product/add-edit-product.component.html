@@ -222,8 +222,7 @@
 
       <div class="form-group">
         <label>Category</label>
-        <select class="owl-input" name="category" (change)="selectCategory($event)" formControlName="main_category"
-          required>
+        <select class="owl-input" name="category" (change)="selectCategory($event)" formControlName="main_category" required>
           <option value="" selected hidden>Select Category</option>
           <ng-container *ngFor="let cat of categories">
             <option value="{{cat.id}}" *ngIf="addProductForm.get('main_category').value == cat.id || !cat.selected">
@@ -332,7 +331,7 @@
     </div>-->
 
     <div>
-      <div  formArrayName="option_values" class="form-group" *ngFor="let option of addProductForm.get('option_values')['controls']; let i = index">
+      <div formArrayName="option_values" class="form-group" *ngFor="let option of addProductForm.get('option_values')['controls']; let i = index">
         <span [formGroupName]='i'>
 
           <div class="" *ngIf="option?.value.type != '5'">
@@ -384,7 +383,7 @@
         class="alert alert-danger">
 
         <div *ngIf="addProductForm.controls.brand_id.errors.required">
-          Brand name Is Required
+          Brand Is Required
         </div>
       </div>
       <!-- End Errors Rolues -->
@@ -508,10 +507,7 @@
       </div>
     </div>-->
 
-    <div class="form-group">
-      <label> Order</label>
-      <input type="number" class="owl-input" placeholder="Type.." formControlName="order">
-    </div>
+
 
     <div class="group-box mt-2">
 
@@ -602,7 +598,7 @@
         </label>
         <p class="text-muted">Checking this optional will reduce stocks from this sku directly</p>
       </div>
-  
+
       <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
         <label class="container">Bundled Checkout
           <input type="checkbox"  class="form-control checkbox-style" name="bundle_checkout" id="bundle_checkout" [value]="1" formControlName="bundle_checkout">
@@ -626,8 +622,10 @@
 
     <div class="form-group">
       <label>Related Products</label>
-      <ng-select [typeahead]="relatedProductsInput$" [loading]="relatedProductsLoading" name="relatedProducts" [items]="relatedProducts$ | async"
-        bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name" formControlName="related_ids">
+      <ng-select [typeahead]="relatedProductsInput$" [loading]="relatedProductsLoading"
+                 name="relatedProducts" [items]="relatedProducts$ | async"
+                 bindLabel="name" bindValue="id" multiple="true"
+                 placeholder="Enter Product name" formControlName="related_ids">
       </ng-select>
     </div>
 
