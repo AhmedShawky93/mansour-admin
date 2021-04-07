@@ -809,27 +809,30 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   confirmClone() {
-    this.stateCloning = true;
+    if(this.stateCloning){
+      return;
+    }
     this.productsService.clone(this.currentProduct.id)
-      .subscribe((response: any) => {
-        if (response.code == 200) {
-          this.stateCloning = false;
-          this.toastrService.success('Product Clone Successfully', 'Success', {
-            enableHtml: true,
-            timeOut: 3000
-          });
-          this.addOrUpdateProduct(response.data);
-          $('#cloneProduct').modal('hide');
-          /*this.filter$.next(this.filter);*/
-        } else {
-          this.stateCloning = false;
-          this.toastrService.error(response.message, 'Error Occured', {
+    .subscribe((response: any) => {
+      if (response.code == 200) {
+        this.stateCloning = false;
+        this.toastrService.success('Product Clone Successfully', 'Success', {
+          enableHtml: true,
+          timeOut: 3000
+        });
+        this.addOrUpdateProduct(response.data);
+        $('#cloneProduct').modal('hide');
+        /*this.filter$.next(this.filter);*/
+      } else {
+        this.stateCloning = false;
+        this.toastrService.error(response.message, 'Error Occured', {
             enableHtml: true,
             timeOut: 3000
           });
         }
       });
-  }
+      this.stateCloning = true;
+    }
 
   confirmDelete() {
     this.statedeleting = true;
