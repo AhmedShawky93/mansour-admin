@@ -411,8 +411,8 @@ export class CustomAdsComponent implements OnInit {
     this._CategoriesService
       .getProducts(subcategory_id)
       .subscribe((response: any) => {
-        this.newAdsForm.get("prod").setValue(null);
         this.productList = response.data;
+        this.newAdsForm.get("prod").setValue('');
       });
   }
 
