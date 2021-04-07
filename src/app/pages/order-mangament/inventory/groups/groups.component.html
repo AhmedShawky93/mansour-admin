@@ -291,10 +291,10 @@
           <!-- Start  Errors Rolues -->
 
           <div
-            *ngIf="groupForm.controls.order.invalid && (groupForm.controls.order.dirty || groupForm.controls.order.touched)"
+            *ngIf="editGroupForm.controls.order.invalid && (editGroupForm.controls.order.dirty || editGroupForm.controls.order.touched)"
             class="alert alert-danger">
 
-            <div *ngIf="groupForm.controls.order.errors.required">
+            <div *ngIf="editGroupForm.controls.order.errors.required">
               Order Is Required
             </div>
           </div>
