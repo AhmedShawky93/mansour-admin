@@ -167,22 +167,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   editAd(ad) {
-    if (ad.type == 1) {
-      this.newAdsForm.get("prod").setValue(ad.item_id);
-      this.newAdsForm.get("subCategory").setValue(ad.item_data.category_id);
-      this.newAdsForm.get("category").setValue(ad.item_data.category.id);
-    } else if (ad.type == 2) {
-      this.newAdsForm.get("subCategory").setValue(ad.item_id);
-      this.newAdsForm.get("category").setValue(ad.item_data.parent_id);
-    } else if (ad.type == 4) {
-      this.newAdsForm.get("brand").setValue(ad.item_id);
-    } else if (ad.type == 5) {
-      this.newAdsForm.get("list_id").setValue(ad.list_id);
-    } else if (ad.type == 6) {
-      this.newAdsForm.get("category").setValue(ad.item_id);
-    } else if (ad.type == 7) {
-      this.newAdsForm.get("link").setValue(ad.link);
-    }
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
       type: new FormControl(ad.type),
@@ -200,12 +184,28 @@ export class CustomAdsComponent implements OnInit {
         Validators.required
       ),
       dev_key: new FormControl(ad.dev_key, Validators.required),
-      prod: new FormControl(ad.type == '1' ? ad.item_id : ad.product_id),
-      subCategory: new FormControl(ad.type == '2' ? ad.item_id : ad.sub_category_id),
-      brand: new FormControl(ad.type == '4' ? ad.item_id : ad.item_id),
-      list_id: new FormControl(ad.type == '5' ? ad.item_id : ad.list_id),
-      category: new FormControl(ad.type == '6' ? ad.item_id : ad.category_id),
+      prod: new FormControl(),
+      subCategory: new FormControl(),
+      brand: new FormControl(),
+      list_id: new FormControl(),
+      category: new FormControl(),
     });
+    if (ad.type == 1) {
+      this.newAdsForm.get("prod").setValue(ad.item_id);
+      this.newAdsForm.get("subCategory").setValue(ad.item_data.category_id);
+      this.newAdsForm.get("category").setValue(ad.item_data.category.id);
+    } else if (ad.type == 2) {
+      this.newAdsForm.get("subCategory").setValue(ad.item_id);
+      this.newAdsForm.get("category").setValue(ad.item_data.parent_id);
+    } else if (ad.type == 4) {
+      this.newAdsForm.get("brand").setValue(ad.item_id);
+    } else if (ad.type == 5) {
+      this.newAdsForm.get("list_id").setValue(ad.item_id);
+    } else if (ad.type == 6) {
+      this.newAdsForm.get("category").setValue(ad.item_id);
+    } else if (ad.type == 7) {
+      this.newAdsForm.get("link").setValue(ad.link);
+    }
     
     console.log(this.newAdsForm.value);
 
@@ -215,7 +215,7 @@ export class CustomAdsComponent implements OnInit {
 
     // fill select options
     if (ad.type == 1 || ad.type == 2) {
-      this.onCategoryChange(this.category_id);
+      this.onCategoryChange();
 
       if (ad.type == 1) {
         this.onSubCategoryChange(this.selectedSubcategory);
@@ -389,7 +389,7 @@ export class CustomAdsComponent implements OnInit {
     });
   }
 
-  onCategoryChange(cat_id) {
+  onCategoryChange() {
     const category_id = this.newAdsForm.get("category").value;
     console.log(category_id, this.categories);
     const index = this.categories.findIndex((item) => item.id == category_id);

@@ -314,7 +314,7 @@
     <div class="form-group"
       *ngIf="newAdsForm.get('type').value == 6 || newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
       <label for=""> category</label>
-      <select type="text" class="owl-input" (change)="onCategoryChange(category_id)" formControlName="category"
+      <select type="text" class="owl-input" (change)="onCategoryChange()" formControlName="category"
         name="category">
         <option value="" selected>Select Category</option>
         <option value="{{cat.id}}" *ngFor="let cat of categories">{{cat.name}}
