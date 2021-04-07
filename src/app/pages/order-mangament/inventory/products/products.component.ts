@@ -261,7 +261,9 @@ export class ProductsComponent implements OnInit, OnChanges {
   search() {
     this.p = 1;
     this.setRoute();
-    // this.getProducts(this.selectedMainProduct, this.searchValue);
+    if(this.selectedMainProduct){
+      this.getProducts(this.selectedMainProduct, this.searchValue);
+    }
   }
 
   pagination(page) {
