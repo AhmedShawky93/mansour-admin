@@ -3,7 +3,7 @@
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>Create Order</h3>
+    <h3>{{selectedOrder == null ? 'Create Order' : 'Edit Order'}}</h3>
   </div>
 
   <form class="sideform" (ngSubmit)="submitOrder()" [formGroup]="orderForm" novalidate>
