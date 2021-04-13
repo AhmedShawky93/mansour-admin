@@ -101,6 +101,7 @@ import {AngularEditorModule} from '@kolkov/angular-editor';
 import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-order/add-edit-order.component';
 import { AddEditCustomerComponent } from './pages/mangament-users/manage-castomer/add-edit-customer/add-edit-customer.component';
 import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
+import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
 
 @NgModule({
   declarations: [
@@ -149,7 +150,8 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
     OrderDeliveryDetailsComponent,
     AddEditOrderComponent,
     AddEditCustomerComponent,
-    AddEditAddressComponent
+    AddEditAddressComponent,
+    DynamicSettingsComponent
   ],
   imports: [
     AppRoutingModule,
@@ -184,6 +186,9 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
     SharedModule,
     NgxPermissionsModule.forRoot(),
     AngularEditorModule
+  ],
+  exports: [
+    DynamicSettingsComponent
   ],
   providers: [
     {
