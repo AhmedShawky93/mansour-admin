@@ -137,4 +137,7 @@ export class ProductsService {
         return Observable.throw(error.error || "Server error");
       });
   }
+  softDeleteProduct(id) {
+    return this.http.delete(`${this.url}/products/${id}`);
+  }
 }

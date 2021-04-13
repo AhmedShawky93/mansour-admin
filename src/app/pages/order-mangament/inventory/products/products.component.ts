@@ -510,9 +510,9 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   addOrUpdateProduct(data) {
     const index = this.products.findIndex((item) => item.id == data.id);
-    if (index !== -1 && !data.delete) {
+    if (index !== -1 && !data['delete']) {
       this.products[index] = data;
-    } else if (index !== -1 && data.delete) {
+    } else if (index !== -1 && data['delete']) {
       this.products.splice(index, 1);
     } else {
       this.products.unshift(data);
@@ -836,19 +836,19 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   confirmDelete() {
     this.statedeleting = true;
-    this.productsService.deleteProduct(this.currentProduct.id)
+    this.productsService.softDeleteProduct(this.currentProduct.id)
       .subscribe((response: any) => {
-        if (response.code == 200) {
-          this.stateCloning = false;
+        if (response.code === 200) {
+          this.statedeleting = false;
           this.toastrService.success('Product deleted Successfully', 'Success', {
             enableHtml: true,
             timeOut: 3000
           });
-          this.addOrUpdateProduct(response.data);
-          $('#cloneProduct').modal('hide');
-          /*this.filter$.next(this.filter);*/
+          this.currentProduct['delete'] = true;
+          this.addOrUpdateProduct(this.currentProduct);
+          $('#deleteProduct').modal('hide');
         } else {
-          this.stateCloning = false;
+          this.statedeleting = false;
           this.toastrService.error(response.message, 'Error Occured', {
             enableHtml: true,
             timeOut: 3000
