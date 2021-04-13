@@ -102,6 +102,7 @@ import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-o
 import { AddEditCustomerComponent } from './pages/mangament-users/manage-castomer/add-edit-customer/add-edit-customer.component';
 import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
 import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
+import {ColorPickerModule} from 'ngx-color-picker';
 
 @NgModule({
   declarations: [
@@ -153,40 +154,41 @@ import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-se
     AddEditAddressComponent,
     DynamicSettingsComponent
   ],
-  imports: [
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    LoadingBarHttpClientModule,
-    BarRatingModule,
-    NgxPaginationModule,
-    BrowserAnimationsModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatStepperModule,
-    MatIconModule,
-    NgSelectModule,
-    ChartsModule,
-    ToastrModule.forRoot(),
-    SatDatepickerModule,
-    SatNativeDateModule,
-    TruncateModule,
-    ReactiveFormsModule,
-    BrowserModule,
-    CustomFormsModule,
-    MomentModule,
-    NgxMaterialTimepickerModule,
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot(),
-    SharedModule,
-    NgxPermissionsModule.forRoot(),
-    AngularEditorModule
-  ],
+    imports: [
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        LoadingBarHttpClientModule,
+        BarRatingModule,
+        NgxPaginationModule,
+        BrowserAnimationsModule,
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatStepperModule,
+        MatIconModule,
+        NgSelectModule,
+        ChartsModule,
+        ToastrModule.forRoot(),
+        SatDatepickerModule,
+        SatNativeDateModule,
+        TruncateModule,
+        ReactiveFormsModule,
+        BrowserModule,
+        CustomFormsModule,
+        MomentModule,
+        NgxMaterialTimepickerModule,
+        FroalaEditorModule.forRoot(),
+        FroalaViewModule.forRoot(),
+        SharedModule,
+        NgxPermissionsModule.forRoot(),
+        AngularEditorModule,
+        ColorPickerModule
+    ],
   exports: [
     DynamicSettingsComponent
   ],
