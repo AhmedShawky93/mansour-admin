@@ -36,7 +36,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   productsInput$ = new Subject<String>();
   allOptions$: Observable<Object>;
   categories$: Observable<Object>;
-  mainProduct$:Observable<Object>;
+  mainProduct$: Observable<Object>;
   allOptions: Array<any> = [];
   categories = [];
   productsLoading: boolean;
@@ -76,7 +76,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    //this.resolveHeaderData();
   }
 
   ngOnChanges() {
@@ -86,23 +85,14 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     this.getInitialData();
   }
 
-  resolveHeaderData() {
-    if (!this.parentProduct.category) {
-      this.parentProduct.category = this.selectVariant.category;
-      this.parentProduct.category_id = this.selectVariant.category_id;
-    } else if (!this.parentProduct.optional_sub_category_id) {
-      this.parentProduct.optional_sub_category_id = this.selectVariant.category_id;
-    }
-  }
-
   getInitialData() {
     this.spinner.show();
     this.mainProduct$ = this.productsService.getProductById(this.parentProduct.id);
     let sources;
     if (!this.parentProduct.category) {
-       sources =  [this.allOptions$, this.categories$, this.mainProduct$];
+      sources = [this.allOptions$, this.categories$, this.mainProduct$];
     } else {
-       sources =  [this.allOptions$, this.categories$];
+      sources = [this.allOptions$, this.categories$];
     }
     combineLatest([...sources])
       .subscribe(
@@ -229,11 +219,11 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
 
   reMapOptions(data) {
     if (data && data.options.length) {
-        data.options.forEach((element) => {
-          element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
-          this.attribute_options.push(element.option);
-          this.addOptionsEdit(element);
-        });
+      data.options.forEach((element) => {
+        element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
+        this.attribute_options.push(element.option);
+        this.addOptionsEdit(element);
+      });
     } else {
       // remap options from(subCategory)
       this.selectSubCategoryOption(this.parentProduct.category.id, this.parentProduct.category_id);
@@ -241,6 +231,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       this.selectSubCategoryOption(this.parentProduct.optional_category.id, this.parentProduct.optional_sub_category_id);
     }
   }
+
   formValidator() {
     console.log('this.variantForm', this.variantForm.value);
     if (!this.variantForm.valid) {
@@ -325,16 +316,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         this.options.push(this.createVariantOption(item));
       });
 
-     /* this.parentProduct.product_variant_options.forEach(item => {
-        /!*console.log(item);*!/
-        const selected = selectedOptions.find(op => op.option.id == item.id);
-        console.log(selected);
-        if (selected) {
-          item['selectedValue'] = selected.selectedValue;
-        }
-        this.options = this.variantForm.get('options') as FormArray;
-        this.options.push(this.createVariantOption(item));
-      });*/
     }
   }
 
@@ -345,7 +326,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         const ind = this.categories[index].sub_categories.findIndex(c => c.id === Number(subcategory_id));
         if (ind !== -1) {
           this.attribute_options = this.categories[index].sub_categories[ind].options;
-          console.log('This Options >>>>', this.options);
           this.attribute_options.forEach((element) => {
             this.addOptions(element);
           });
