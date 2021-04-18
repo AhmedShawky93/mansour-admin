@@ -479,10 +479,8 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   removeProduct(product) {
-    if (!this.selectedMainProduct) {
-      this.currentProduct = product;
-      $('#deleteProduct').modal('show');
-    }
+    this.currentProduct = product;
+    $('#deleteProduct').modal('show');
   }
 
   toggleMenuNew(data) {
@@ -835,6 +833,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     }
 
   confirmDelete() {
+    debugger
     this.statedeleting = true;
     this.productsService.softDeleteProduct(this.currentProduct.id)
       .subscribe((response: any) => {
