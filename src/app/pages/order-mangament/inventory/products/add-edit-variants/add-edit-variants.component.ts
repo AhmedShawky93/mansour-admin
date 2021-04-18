@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {Observable, Subject, concat, of, combineLatest} from 'rxjs';
 import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
+import {uniqBy} from 'lodash';
 import {environment} from '@env/environment';
 import {NgxSpinnerService} from 'ngx-spinner';
 
@@ -228,7 +229,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       // remap options from(subCategory)
       this.selectSubCategoryOption(this.parentProduct.category.id, this.parentProduct.category_id);
       // remap options from(Optional subCategory)
-      this.selectSubCategoryOption(this.parentProduct.optional_category.id, this.parentProduct.optional_sub_category_id);
+      this.selectSubCategoryOption(this.parentProduct.optional_category.id, this.parentProduct.optional_sub_category_id, true);
     }
   }
 
@@ -291,7 +292,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         option_value_id: new FormControl((item.selectedValue) ? item.selectedValue.id : '', [Validators.required])
       });
     }
-
   }
 
   addVariantOptionsToForm() {
@@ -319,18 +319,22 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     }
   }
 
-  selectSubCategoryOption(category_id, subcategory_id) {
+  selectSubCategoryOption(category_id, subcategory_id , loopDone: boolean = null) {
     if (category_id && subcategory_id) {
       const index = this.categories.findIndex((item) => item.id === Number(category_id));
       if (index !== -1) {
         const ind = this.categories[index].sub_categories.findIndex(c => c.id === Number(subcategory_id));
         if (ind !== -1) {
-          this.attribute_options = this.categories[index].sub_categories[ind].options;
-          this.attribute_options.forEach((element) => {
-            this.addOptions(element);
-          });
+          const data = this.categories[index].sub_categories[ind].options;
+          this.attribute_options.push(...data);
         }
       }
+    }
+    if (loopDone) {
+      this.attribute_options = uniqBy(this.attribute_options, 'id');
+      this.attribute_options.forEach((element) => {
+        this.addOptions(element);
+      });
     }
   }
 
