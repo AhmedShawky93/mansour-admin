@@ -22,6 +22,10 @@ export class ProductsService {
     });
   }
 
+  getProductById(id) {
+    return this.http.get(`${this.url}/products/${id}`);
+  }
+
   getStats(id, data) {
     return this.http.post(this.url + '/products/' + id + '/stats', data);
   }

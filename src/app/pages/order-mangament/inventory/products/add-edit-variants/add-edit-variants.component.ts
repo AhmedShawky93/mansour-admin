@@ -1,16 +1,17 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UploadFilesService } from '@app/pages/services/upload-files.service';
-import { ProductsService } from '@app/pages/services/products.service';
-import { CategoryService } from '@app/pages/services/category.service';
-import { ToastrService } from 'ngx-toastr';
-import { OptionsService } from '@app/pages/services/options.service';
-import { DateLessThan } from '@app/shared/date-range-validation';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UploadFilesService} from '@app/pages/services/upload-files.service';
+import {ProductsService} from '@app/pages/services/products.service';
+import {CategoryService} from '@app/pages/services/category.service';
+import {ToastrService} from 'ngx-toastr';
+import {OptionsService} from '@app/pages/services/options.service';
+import {DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { Observable, Subject, concat, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
-import { environment } from '@env/environment';
+import {AngularEditorConfig} from '@kolkov/angular-editor';
+import {Observable, Subject, concat, of, combineLatest} from 'rxjs';
+import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
+import {environment} from '@env/environment';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 
 @Component({
@@ -30,16 +31,18 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   addSubImages: FormArray;
   price: any;
   editorConfig: AngularEditorConfig;
-
   products: any = [];
   products$: Observable<any>;
   productsInput$ = new Subject<String>();
-  productsLoading: boolean;
-
-  attribute_options = [];
-  option_values: FormArray;
+  allOptions$: Observable<Object>;
+  categories$: Observable<Object>;
+  mainProduct$:Observable<Object>;
   allOptions: Array<any> = [];
   categories = [];
+  productsLoading: boolean;
+  attribute_options = [];
+  option_values: FormArray;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,8 +50,11 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     private productsService: ProductsService,
     private _CategoriesService: CategoryService,
     private toasterService: ToastrService,
+    private spinner: NgxSpinnerService,
     private optionsService: OptionsService
   ) {
+    this.allOptions$ = this.optionsService.getOptions();
+    this.categories$ = this._CategoriesService.getCategories();
     this.editorConfig = {
       editable: true,
       spellcheck: true,
@@ -70,15 +76,46 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.getCategories();
+    //this.resolveHeaderData();
   }
-  
+
   ngOnChanges() {
-    console.log('parentProduct', this.parentProduct);
-    console.log('selectedVariant', this.selectVariant);
-    this.getAllOptions();
+    console.log('parentProduct>>>', this.parentProduct);
+    console.log('selectedVariant>>>', this.selectVariant);
     this.setForm(this.selectVariant);
-    this.setData(this.selectVariant);
+    this.getInitialData();
+  }
+
+  resolveHeaderData() {
+    if (!this.parentProduct.category) {
+      this.parentProduct.category = this.selectVariant.category;
+      this.parentProduct.category_id = this.selectVariant.category_id;
+    } else if (!this.parentProduct.optional_sub_category_id) {
+      this.parentProduct.optional_sub_category_id = this.selectVariant.category_id;
+    }
+  }
+
+  getInitialData() {
+    this.spinner.show();
+    this.mainProduct$ = this.productsService.getProductById(this.parentProduct.id);
+    let sources;
+    if (!this.parentProduct.category) {
+       sources =  [this.allOptions$, this.categories$, this.mainProduct$];
+    } else {
+       sources =  [this.allOptions$, this.categories$];
+    }
+    combineLatest([...sources])
+      .subscribe(
+        ([options, categories, mainProduct]) => {
+          this.parentProduct = (mainProduct) ? mainProduct['data'] : this.parentProduct;
+          this.getAllOptions(options);
+          this.getCategories(categories);
+          this.mergeData(this.selectVariant);
+          this.setData(this.selectVariant);
+          this.spinner.hide();
+        },
+        () => this.spinner.hide()
+      );
   }
 
   closeSideBar() {
@@ -124,50 +161,30 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
       option_values: this.formBuilder.array([]),
-    }, { validator: DateLessThan('discount_start_date', 'discount_end_date') });
+    }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
   }
 
-  getCategories() {
-    this._CategoriesService.getCategories().subscribe((response: any) => {
-      if (response.code === 200) {
-        this.categories = response.data;
-        this.categories = this.categories.map((c) => {
-          c.selected = false;
-          return c;
-        });
-      }
-    });
+  getCategories(res: any) {
+    if (res.code === 200) {
+      this.categories = res.data;
+      this.categories = this.categories.map((c) => {
+        c.selected = false;
+        return c;
+      });
+    }
   }
 
-  getAllOptions() {
-    this.optionsService.getOptions({})
-      .subscribe(
-        res => {
-          if (res['code'] === 200) {
-            this.allOptions = res['data'];
-            console.log('allOptions', this.allOptions);
-            this.mergeData(this.selectVariant);
-          } else {
-            this.toasterService.error(res['message']);
-          }
-        }
-      );
+  getAllOptions(res: any) {
+    if (res['code'] === 200) {
+      this.allOptions = res['data'];
+      console.log('allOptions', this.allOptions);
+      /*this.mergeData(this.selectVariant);*/
+    } else {
+      this.toasterService.error(res['message']);
+    }
   }
 
   mergeData(data) {
-    if (data) {
-      if (data.options.length) {
-        data.options.forEach((element) => {
-          element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
-          this.attribute_options.push(element.option);
-          this.addOptionsEdit(element);
-          console.log('element Option>>', element);
-        });
-      }
-    } else {
-
-    }
-
     let bundleProducts = [];
     if (data && data.bundleProducts) {
       bundleProducts = data.bundleProducts.map(bp => {
@@ -177,14 +194,13 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         };
       });
     }
-    console.log('BP: ', bundleProducts);
     this.products$ = concat(
       of(bundleProducts), // default items
       this.productsInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
         tap(() => this.productsLoading = true),
-        switchMap(term => this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
+        switchMap(term => this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
           catchError(() => of([])), // empty list on error
           tap(() => this.productsLoading = false),
           map((response: any) => {
@@ -201,6 +217,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   }
 
   setData(data) {
+    this.reMapOptions(data);
     this.addVariantOptionsToForm();
     this.changeValidation();
     if (data) {
@@ -210,6 +227,20 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     }
   }
 
+  reMapOptions(data) {
+    if (data && data.options.length) {
+        data.options.forEach((element) => {
+          element.option['values'] = this.allOptions.find(op => op.id === element.option.id)['values'];
+          this.attribute_options.push(element.option);
+          this.addOptionsEdit(element);
+        });
+    } else {
+      // remap options from(subCategory)
+      this.selectSubCategoryOption(this.parentProduct.category.id, this.parentProduct.category_id);
+      // remap options from(Optional subCategory)
+      this.selectSubCategoryOption(this.parentProduct.optional_category.id, this.parentProduct.optional_sub_category_id);
+    }
+  }
   formValidator() {
     console.log('this.variantForm', this.variantForm.value);
     if (!this.variantForm.valid) {
@@ -282,11 +313,20 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     } else if (this.parentProduct && this.selectVariant) {
       /*Case Update*/
       const selectedOptions = this.selectVariant.product_variant_options.map(data => {
-        return { option: data.option, selectedValue: data.values[0] };
+        return {option: data.option, selectedValue: data.values[0]};
       });
-      console.log(selectedOptions);
+
       this.parentProduct.product_variant_options.forEach(item => {
-        console.log(item);
+        const selected = selectedOptions.find(op => Number(op.option.id) === Number(item.id));
+        if (selected) {
+          item['selectedValue'] = selected.selectedValue;
+        }
+        this.options = this.variantForm.get('options') as FormArray;
+        this.options.push(this.createVariantOption(item));
+      });
+
+     /* this.parentProduct.product_variant_options.forEach(item => {
+        /!*console.log(item);*!/
         const selected = selectedOptions.find(op => op.option.id == item.id);
         console.log(selected);
         if (selected) {
@@ -294,21 +334,22 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         }
         this.options = this.variantForm.get('options') as FormArray;
         this.options.push(this.createVariantOption(item));
-      });
+      });*/
     }
   }
 
   selectSubCategoryOption(category_id, subcategory_id) {
-
-    const index = this.categories.findIndex((item) => item.id === category_id);
-    if (index !== -1) {
-      const ind = this.categories[index].sub_categories.findIndex(c => c.id == subcategory_id);
-      if (ind !== -1) {
-        this.attribute_options = this.categories[index].sub_categories[ind].options;
-        console.log('This Options >>>>', this.options);
-        this.attribute_options.forEach((element) => {
-          this.addOptions(element);
-        });
+    if (category_id && subcategory_id) {
+      const index = this.categories.findIndex((item) => item.id === Number(category_id));
+      if (index !== -1) {
+        const ind = this.categories[index].sub_categories.findIndex(c => c.id === Number(subcategory_id));
+        if (ind !== -1) {
+          this.attribute_options = this.categories[index].sub_categories[ind].options;
+          console.log('This Options >>>>', this.options);
+          this.attribute_options.forEach((element) => {
+            this.addOptions(element);
+          });
+        }
       }
     }
   }
@@ -426,6 +467,12 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     }
   }
 
+  removeImage(index) {
+    this.addSubImages = this.variantForm.get('images') as FormArray;
+    this.addSubImages.removeAt(index);
+    this.variantForm.updateValueAndValidity();
+  }
+
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object)
       .values(formGroup.controls)
@@ -436,11 +483,5 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
           this.markFormGroupTouched(control);
         }
       });
-  }
-
-  removeImage(index) {
-    this.addSubImages = this.variantForm.get('images') as FormArray;
-    this.addSubImages.removeAt(index);
-    this.variantForm.updateValueAndValidity();
   }
 }
