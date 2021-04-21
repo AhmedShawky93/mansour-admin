@@ -41,7 +41,7 @@
     </thead>
     <tbody>
       <!-- <tr *ngFor="let option of options"> -->
-      <tr *ngFor="let option of options  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
+      <tr *ngFor="let option of options | stringFilter: searchTerm  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
 
         <td class="relative">
           {{(option.name_en.length >= 25) ? (option.name_en | slice:0:25)+'...' : option.name_en }}
