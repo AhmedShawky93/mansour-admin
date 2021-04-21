@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-generic-date-picker',
@@ -16,4 +17,11 @@ export class GenericDatePickerComponent implements OnInit {
   ngOnInit() {
   }
 
+  formatDate(data) {
+    const formControl = this.myForm.get(this.formControlChildName);
+    const currentDate = (formControl.value) ? formControl.value : data.target.value;
+    const taskDueDate = moment(currentDate, 'DD-MM-YYYY');
+    const format = moment(taskDueDate['_d']).format('YYYY-MM-DD');
+    formControl.setValue(format);
+  }
 }
