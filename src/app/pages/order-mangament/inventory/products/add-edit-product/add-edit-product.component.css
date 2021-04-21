@@ -8,8 +8,7 @@
   bottom: 0;
   width: 435px;
   z-index: 5;
-  height: 100%;
-  min-height: 100vh;
+  height: 100vh;
   overflow: auto;
   overflow-x: hidden;
   box-shadow: 0 12px 54px 0 rgba(6, 40, 59, 0.1);
@@ -202,4 +201,7 @@
 
 .form-group {
   color: initial !important;
+}
+.form-sidebar.view-vindor-types {
+  width: 76% !important;
 }
