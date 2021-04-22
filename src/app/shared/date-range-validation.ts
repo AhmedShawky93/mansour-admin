@@ -20,3 +20,25 @@ export function DateLessThan(from: string, to: string) {
     return {};
   };
 }
+
+export function compareNumbers(from: string, to: string) {
+  return (group: FormGroup): {[key: string]: any} => {
+    const f = group.controls[from];
+    const t = group.controls[to];
+    if (f.value && t.value) {
+      if (f.value > t.value) {
+        t.setErrors({'lessThan': true});
+        f.setErrors({'lessThan': true});
+        return {
+          compare: `${from} Must Be Less Than ${to}`
+        };
+      } else if (f.value < t.value) {
+        t.setErrors(null);
+        f.setErrors(null);
+        return {};
+      }
+    }
+    return {};
+  };
+}
+

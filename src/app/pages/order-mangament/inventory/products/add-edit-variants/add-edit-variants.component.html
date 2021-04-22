@@ -235,6 +235,9 @@
         <div *ngIf="formControlValidator('discount_price','pattern')" class="alert alert-danger">
           Invalid number format
         </div>
+        <div *ngIf="formControlValidator('discount_price','lessThan')" class="text-danger">
+          Discount Can't Exceed The Price
+        </div>
       </div>
       <div>
         <div class="title">
