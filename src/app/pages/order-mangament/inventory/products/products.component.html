@@ -253,9 +253,9 @@
   [@slideInOut]="toggleAddProduct" [selectProductDataEdit]="selectProductData">
 </app-add-edit-product>
 
-<app-add-edit-variants *ngIf="toggleVariant === 'in'" class="parent-editor-viewer-sidebar" #productVariantsForm
-  (closeSideBarEmit)="closeSideBar()" (dataProductEmit)="addOrUpdateProduct($event)" [@slideInOut]="toggleVariant"
-  [parentProduct]="selectedMainProduct" [selectVariant]="selectedProductVariantData">
+<app-add-edit-variants *ngIf="toggleVariant === 'in'" #productVariantsForm (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)" [@slideInOut]="toggleVariant" [parentProduct]="selectedMainProduct"
+  [selectVariant]="selectedProductVariantData">
 </app-add-edit-variants>
 
 <app-add-product-variants *ngIf="toggleProductVariant === 'in'" (closeSideBarEmit)="closeSideBar()"

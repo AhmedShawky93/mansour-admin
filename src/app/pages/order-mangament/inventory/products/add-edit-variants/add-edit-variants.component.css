@@ -132,3 +132,6 @@
 .form-group {
   color: initial !important;
 }
+.form-sidebar.view-vindor-types {
+  width: 76% !important;
+}
