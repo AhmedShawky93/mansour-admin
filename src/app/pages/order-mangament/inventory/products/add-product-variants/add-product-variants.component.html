@@ -424,7 +424,7 @@
       <label>Image</label>
       <div class="d-flex justify-content-center flex-column">
         <app-image-uploader [fileUrl]="componentForm.value?.image" [formControlChildName]="'image'"
-          [myForm]="componentForm" class="w-100" height="240px" width="100%">
+          [myForm]="componentForm" class="w-100" height="240px" width="50%">
         </app-image-uploader>
         <div *ngIf="formControlValidator('image','required')" class="text-danger">
           Image Is Required
@@ -602,7 +602,7 @@
           <div *ngIf="formGroupItem.controls['optionData']?.value?.type == 4"
             class="d-flex justify-content-center flex-column mt-2">
             <app-image-uploader [fileUrl]="selectedProduct?.image" [formControlChildName]="'option_image'"
-              [myForm]="formGroupItem" class="w-100" height="240px" width="100%">
+              [myForm]="formGroupItem" class="w-100" height="240px" width="50%">
             </app-image-uploader>
             <div *ngIf="formGroupControlsValidator(formGroupItem,'option_image','required')" class="alert alert-danger">
               Image Is Required
