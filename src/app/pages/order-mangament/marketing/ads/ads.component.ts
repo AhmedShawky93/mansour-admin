@@ -121,7 +121,7 @@ export class adsComponent implements OnInit {
     this.ad.popup = "";
   }
 
-  createForm(){
+  createForm() {
     this.newAdsForm = new FormGroup({
       id: new FormControl(),
       type: new FormControl(10),
@@ -204,7 +204,8 @@ export class adsComponent implements OnInit {
         ad.image_ar ? ad.image_web_ar : "",
         Validators.required
       ),
-      prod: new FormControl(ad.type == 1 ? ad.item_id : ad.product_id),
+      /*prod: new FormControl(ad.type == 1 ? ad.item_id : ad.product_id),*/
+      prod: new FormControl(ad.product_id),
       subCategory: new FormControl(ad.type == 2 ? ad.item_id : ad.sub_category_id),
       brand: new FormControl(ad.type == 4 ? ad.item_id : ad.item_id),
       list_id: new FormControl(ad.type == 5 ? ad.item_id : ad.list_id),
@@ -228,6 +229,11 @@ export class adsComponent implements OnInit {
     }
 
     this.onAdTypeChanged(this.newAdsForm);
+
+/*    debugger
+    if (this.newAdsForm.value.type == 6) {
+      this.onSubCategoryChange(this.selectedSubcategory);
+    }*/
   }
 
   onAdTypeChanged(form: FormGroup) {
@@ -421,7 +427,8 @@ export class adsComponent implements OnInit {
   }
 
   onSubCategoryChange(catId) {
-    let subcategory_id = this.newAdsForm.get("subCategory").value;
+    debugger
+    const subcategory_id = this.newAdsForm.get('subCategory').value;
     console.log(subcategory_id);
     this._CategoriesService
       .getProducts(subcategory_id)
