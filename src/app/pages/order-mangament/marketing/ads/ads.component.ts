@@ -282,7 +282,7 @@ export class adsComponent implements OnInit {
       form.get("subCategory").clearValidators();
       form.get("prod").clearValidators();
     }
-
+    form.get('link').setValue('');
     form.get("list_id").updateValueAndValidity();
     form.get("link").updateValueAndValidity();
     form.get("category").updateValueAndValidity();
