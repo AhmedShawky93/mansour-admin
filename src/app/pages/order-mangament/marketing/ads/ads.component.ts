@@ -289,6 +289,8 @@ export class adsComponent implements OnInit {
       form.get("prod").clearValidators();
     }
     form.get('link').setValue('');
+    form.get("category").setValue('');
+    form.get("subCategory").setValue('');
     form.get("list_id").updateValueAndValidity();
     form.get("link").updateValueAndValidity();
     form.get("category").updateValueAndValidity();
@@ -427,7 +429,6 @@ export class adsComponent implements OnInit {
   }
 
   onSubCategoryChange(catId) {
-    debugger
     const subcategory_id = this.newAdsForm.get('subCategory').value;
     console.log(subcategory_id);
     this._CategoriesService
