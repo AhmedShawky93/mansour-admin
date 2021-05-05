@@ -230,10 +230,6 @@ export class adsComponent implements OnInit {
 
     this.onAdTypeChanged(this.newAdsForm);
 
-/*    debugger
-    if (this.newAdsForm.value.type == 6) {
-      this.onSubCategoryChange(this.selectedSubcategory);
-    }*/
   }
 
   onAdTypeChanged(form: FormGroup) {
