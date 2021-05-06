@@ -59,10 +59,9 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
   }
 
   getForm(data) {
-    debugger
     this.sectionForm = this.formBuilder.group({
-      image_ar: new FormControl(data ? data.image_ar : '', Validators.required),
-      image_en: new FormControl(data ? data.image_en : '', Validators.required),
+      image_ar: new FormControl(data ? data.image_ar : ''),
+      image_en: new FormControl(data ? data.image_en : ''),
       name_en: new FormControl(data ? data.name_en : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       description_en: new FormControl(data ? data.description_en : "", Validators.required),

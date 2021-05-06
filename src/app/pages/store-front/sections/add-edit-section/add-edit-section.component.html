@@ -16,9 +16,9 @@
             <app-image-uploader [fileUrl]="sectionForm.value?.image_ar" [formControlChildName]="'image_ar'" [myForm]="sectionForm"
                                 class="w-100" height="340px" width="100%">
             </app-image-uploader>
-            <div *ngIf="formControlValidator('image_ar','required')" class="text-danger">
+            <!--<div *ngIf="formControlValidator('image_ar','required')" class="text-danger">
               Image Is Required
-            </div>
+            </div>-->
           </div>
         </div>
 
@@ -30,9 +30,9 @@
             <app-image-uploader [fileUrl]="sectionForm.value?.image_en" [formControlChildName]="'image_en'" [myForm]="sectionForm"
                                 class="w-100" height="340px" width="100%">
             </app-image-uploader>
-            <div *ngIf="formControlValidator('image_en','required')" class="text-danger">
+            <!--<div *ngIf="formControlValidator('image_en','required')" class="text-danger">
               Image Is Required
-            </div>
+            </div>-->
           </div>
         </div>
       </div>
