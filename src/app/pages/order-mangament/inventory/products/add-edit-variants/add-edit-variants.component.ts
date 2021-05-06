@@ -6,6 +6,7 @@ import {CategoryService} from '@app/pages/services/category.service';
 import {ToastrService} from 'ngx-toastr';
 import {OptionsService} from '@app/pages/services/options.service';
 import {DateLessThan} from '@app/shared/date-range-validation';
+import {compareNumbers} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {Observable, Subject, concat, of, combineLatest} from 'rxjs';
@@ -134,7 +135,11 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       order: new FormControl(data ? data.order : ''),
       meta_title_ar: new FormControl(data ? data.meta_title_ar : ''),
       meta_description_ar: new FormControl(data ? data.meta_description_ar : ''),
-      price: new FormControl(data ? data.price : '', this.parentProduct && this.parentProduct.available_soon ? [] : Validators.required),
+      price: new FormControl(data ? data.price : '', [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(1000000)
+      ]),
       discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
@@ -152,7 +157,12 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
       option_values: this.formBuilder.array([]),
-    }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
+    }, {
+      validator: [
+        DateLessThan('discount_start_date', 'discount_end_date'),
+        compareNumbers('discount_price', 'price')
+      ]
+    });
   }
 
   getCategories(res: any) {
@@ -260,6 +270,10 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   }
 
   changeValidation() {
+    if (this.parentProduct && this.parentProduct.available_soon) {
+      this.variantForm.get('price').clearValidators();
+      this.variantForm.get('price').updateValueAndValidity();
+    }
     // if (this.variantForm.value.preorder) {
     //   this.variantForm.get('preorder_price').setValidators([Validators.required]);
     //   this.variantForm.get('preorder_price').updateValueAndValidity();

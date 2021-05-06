@@ -8,7 +8,36 @@
 
   <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="sectionForm" novalidate>
 
-    
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Image AR</label>
+          <div class="d-flex justify-content-center flex-column">
+            <app-image-uploader [fileUrl]="sectionForm.value?.image_ar" [formControlChildName]="'image_ar'" [myForm]="sectionForm"
+                                class="w-100" height="340px" width="100%">
+            </app-image-uploader>
+            <!--<div *ngIf="formControlValidator('image_ar','required')" class="text-danger">
+              Image Is Required
+            </div>-->
+          </div>
+        </div>
+
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label>Image EN</label>
+          <div class="d-flex justify-content-center flex-column">
+            <app-image-uploader [fileUrl]="sectionForm.value?.image_en" [formControlChildName]="'image_en'" [myForm]="sectionForm"
+                                class="w-100" height="340px" width="100%">
+            </app-image-uploader>
+            <!--<div *ngIf="formControlValidator('image_en','required')" class="text-danger">
+              Image Is Required
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="form-group">
       <label for="">Name</label>
       <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_en">
