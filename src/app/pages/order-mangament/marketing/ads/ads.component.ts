@@ -172,16 +172,17 @@ export class adsComponent implements OnInit {
   }
 
   editAd(ad) {
+    debugger
     if (ad.type == 1) {
-      ad.item_id = this.newAdsForm.get("prod").value;
+      ad.item_id = ad.product_id;
     } else if (ad.type == 2) {
-      ad.item_id = this.newAdsForm.get("subCategory").value;
+      ad.item_id = ad.sub_category_id;
     } else if (ad.type == 4) {
-      ad.item_id = this.newAdsForm.get("brand").value;
+      /*ad.item_id = this.newAdsForm.get("brand").value;*/
     } else if (ad.type == 5) {
-      ad.item_id = this.newAdsForm.get("list_id").value;
+      ad.item_id = ad.custom_list_id;
     } else if (ad.type == 6) {
-      ad.item_id = this.newAdsForm.get("category").value;
+      ad.item_id = ad.category_id;
     }
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
@@ -208,7 +209,7 @@ export class adsComponent implements OnInit {
       prod: new FormControl(ad.product_id),
       subCategory: new FormControl(ad.type == 2 ? ad.item_id : ad.sub_category_id),
       brand: new FormControl(ad.type == 4 ? ad.item_id : ad.item_id),
-      list_id: new FormControl(ad.type == 5 ? ad.item_id : ad.list_id),
+      list_id: new FormControl(ad.type == 5 ? ad.item_id : ad.custom_list_id),
       category: new FormControl(ad.type == 6 ? ad.item_id : ad.category_id),
     });
 
@@ -221,19 +222,19 @@ export class adsComponent implements OnInit {
 
     // fill select options
     if (this.adCrrentEdit.type == 1 || this.adCrrentEdit.type == 2) {
-      this.onCategoryChange(this.category_id);
+      this.onCategoryChange(this.category_id, true);
 
       if (this.adCrrentEdit.type == 1) {
-        this.onSubCategoryChange(this.selectedSubcategory);
+        this.onSubCategoryChange(this.selectedSubcategory, true);
       }
     }
 
-    this.onAdTypeChanged(this.newAdsForm);
+    this.onAdTypeChanged(this.newAdsForm, true);
 
   }
 
-  onAdTypeChanged(form: FormGroup) {
-    console.log(form.get("type").value)
+  onAdTypeChanged(form: FormGroup, firstTime = null) {
+    console.log(form.get("type").value);
     if (form.get("type").value == 1) {
       form.get("category").setValidators([Validators.required]);
       form.get("subCategory").setValidators([Validators.required]);
@@ -241,6 +242,23 @@ export class adsComponent implements OnInit {
       form.get("link").clearValidators();
       form.get("brand").clearValidators();
       form.get("list_id").clearValidators();
+      if (!firstTime) {
+        form.get("category").setValue('');
+        form.get("subCategory").setValue('');
+        form.get("prod").setValue('');
+      }
+    }  else if (form.get("type").value == 2) {
+      form.get("category").setValidators([Validators.required]);
+      form.get("subCategory").setValidators([Validators.required]);
+      form.get("link").clearValidators();
+      form.get("prod").clearValidators();
+      form.get("brand").clearValidators();
+      form.get("list_id").clearValidators();
+      if (!firstTime) {
+        form.get("category").setValue('');
+        form.get("subCategory").setValue('');
+        form.get("prod").setValue('');
+      }
     } else if (form.get("type").value == 3) {
       form.get("category").setValidators([Validators.required]);
       form.get("subCategory").setValidators([Validators.required]);
@@ -256,12 +274,15 @@ export class adsComponent implements OnInit {
       form.get("prod").clearValidators();
       form.get("list_id").clearValidators();
     } else if (form.get("type").value == 7) {
-      form.get("link").setValidators([Validators.required]);
       form.get("brand").clearValidators();
       form.get("category").clearValidators();
       form.get("subCategory").clearValidators();
       form.get("prod").clearValidators();
       form.get("list_id").clearValidators();
+      form.get("link").setValidators([Validators.required]);
+      if (!firstTime) {
+        form.get('link').setValue('');
+      }
     } else if (form.get("type").value == 6) {
       form.get("category").setValidators([Validators.required]);
       form.get("subCategory").clearValidators();
@@ -269,6 +290,10 @@ export class adsComponent implements OnInit {
       form.get("prod").clearValidators();
       form.get("brand").clearValidators();
       form.get("list_id").clearValidators();
+      if (!firstTime) {
+        form.get("category").setValue('');
+        form.get("prod").setValue('');
+      }
     } else if (form.get("type").value == 5) {
       form.get("list_id").setValidators([Validators.required]);
       form.get("subCategory").clearValidators();
@@ -284,9 +309,10 @@ export class adsComponent implements OnInit {
       form.get("subCategory").clearValidators();
       form.get("prod").clearValidators();
     }
-    form.get('link').setValue('');
+    /*form.get('link').setValue('');
     form.get("category").setValue('');
     form.get("subCategory").setValue('');
+    form.get("prod").setValue('');*/
     form.get("list_id").updateValueAndValidity();
     form.get("link").updateValueAndValidity();
     form.get("category").updateValueAndValidity();
@@ -416,15 +442,22 @@ export class adsComponent implements OnInit {
     });
   }
 
-  onCategoryChange(cat_id) {
-    let category_id = this.newAdsForm.get("category").value;
+  onCategoryChange(cat_id, initialData = null) {
+    if (!initialData) {
+      this.newAdsForm.get('prod').setValue('');
+      this.newAdsForm.get('subCategory').setValue('');
+    }
+    const category_id = this.newAdsForm.get("category").value;
     console.log(category_id, this.categories);
     const index = this.categories.findIndex((item) => item.id == category_id);
     const category = this.categories[index];
     this.sub_categories = category.sub_categories;
   }
 
-  onSubCategoryChange(catId) {
+  onSubCategoryChange(catId, initialData = null) {
+    if (!initialData) {
+      this.newAdsForm.get('prod').setValue('');
+    }
     const subcategory_id = this.newAdsForm.get('subCategory').value;
     console.log(subcategory_id);
     this._CategoriesService
