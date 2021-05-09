@@ -280,7 +280,7 @@
       <div class="block-item">
         <p>name</p>
         <span (click)="customerDetails(order?.user)" class="pointer">
-          {{ order?.user?.name + ' ' + order?.user?.last_name}}
+          {{ order?.user?.name + ' ' +( order.user?.last_name ? order.user?.last_name : '')}}
         </span>
       </div>
     </div>
