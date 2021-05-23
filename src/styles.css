@@ -1835,7 +1835,8 @@ ng-select.owl-input .ng-select-container{
 
 .angular-editor-wrapper img{
   /* max-width: fit-content; */
-  max-width: -webkit-fill-available;
+  /* max-width: -webkit-fill-available; */
+  max-width: 256px;
 }
 
 pointer{
