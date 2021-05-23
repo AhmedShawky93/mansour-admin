@@ -158,7 +158,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   onFormSubmit(form: FormGroup) {
-    debugger;
     if (this.newAdsForm.value.id != null) {
       this.updateAd();
     } else {
@@ -206,7 +205,7 @@ export class CustomAdsComponent implements OnInit {
     } else if (ad.type == 7) {
       this.newAdsForm.get("link").setValue(ad.link);
     }
-    
+
     console.log(this.newAdsForm.value);
 
     this.category_id = this.newAdsForm.get("category").value;
