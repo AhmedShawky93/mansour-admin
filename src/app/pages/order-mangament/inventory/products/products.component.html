@@ -18,7 +18,7 @@
         <!--<input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" class="owl-input owls-search"
           placeholder="search ...">-->
         <input (input)="search()" [(ngModel)]="searchValue" class="owl-input owls-search" placeholder="search ..."
-               type="text">
+          type="text">
       </div>
     </div>
     <div class="col-md-3  col-xs-12 text-right">
@@ -27,10 +27,12 @@
           <div class="text-center" *ngIf="!selectedMainProduct">+ New product</div>
           <div class="text-center" *ngIf="selectedMainProduct">+ New Variant</div>
         </button>-->
-        <button (click)="createNew()" *ngIf="selectedMainProduct" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+        <button (click)="createNew()" *ngIf="selectedMainProduct"
+          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center" *ngIf="selectedMainProduct">+ New Variant</div>
         </button>
-        <button (click)="NewProductWithVariant()"  *ngIf="!selectedMainProduct" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+        <button (click)="NewProductWithVariant()" *ngIf="!selectedMainProduct"
+          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center">+ Product With Variant</div>
         </button>
       </div>
@@ -47,7 +49,7 @@
         <div class="col-md-6 col-xs-12">
           <div class="form-group">
             <select (change)="selectCategoryFilter(main_category, false)" [(ngModel)]="main_category" class="owl-input"
-                    name="category" required>
+              name="category" required>
               <option [value]="''" selected>Select Category</option>
               <ng-container *ngFor="let cat of categories">
                 <option [value]="cat.id">
@@ -61,7 +63,7 @@
         <div class="col-md-6 col-xs-12">
           <div class="form-group">
             <select (change)="getProductSubCategory(sub_category_id)" [(ngModel)]="sub_category_id" class="owl-input"
-                    name="subCategory">
+              name="subCategory">
               <option [value]="''" selected>Select Sub Category</option>
               <option *ngFor="let cat of sub_categories" value="{{cat.id}}">{{cat.name}}
                 <span *ngIf="cat.active == 0"> - Deactivate </span>
@@ -85,10 +87,10 @@
 
 
             <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile"
-                    style="overflow: hidden">Import
+              style="overflow: hidden">Import
               CSV
-              <input #myInput (change)="importExcel($event)" accept=".xlsx, .xls, .csv" class="input-style" placeholder="type here "
-                     type="file">
+              <input #myInput (change)="importExcel($event)" accept=".xlsx, .xls, .csv" class="input-style"
+                placeholder="type here " type="file">
             </button>
           </div>
         </div>
@@ -98,10 +100,10 @@
 
 
             <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile"
-                    style="overflow: hidden">Import
+              style="overflow: hidden">Import
               Stock
-              <input #myInputStock (change)="importStock($event)" accept=".xlsx, .xls, .csv" class="input-style" placeholder="type here "
-                     type="file">
+              <input #myInputStock (change)="importStock($event)" accept=".xlsx, .xls, .csv" class="input-style"
+                placeholder="type here " type="file">
             </button>
           </div>
 
@@ -125,103 +127,105 @@
 <div class="table-responsive text-center fixed-table-scroll">
   <table class="table owls-table">
     <thead>
-    <tr>
-      <th scope="col">SKU</th>
-      <th scope="col">product name</th>
-      <th *ngIf="!selectedMainProduct" scope="col">category > subcat</th>
-      <th *ngIf="selectedMainProduct" scope="col">Last Editor</th>
-      <!-- <th  scope="col" class="hidden">creator</th> -->
-      <th scope="col">Stock
-      </th>
-      <!--<th scope="col">main price</th>
+      <tr>
+        <th scope="col">SKU</th>
+        <th scope="col">product name</th>
+        <th *ngIf="!selectedMainProduct" scope="col">category > subcat</th>
+        <th *ngIf="selectedMainProduct" scope="col">Last Editor</th>
+        <!-- <th  scope="col" class="hidden">creator</th> -->
+        <th scope="col">Stock
+        </th>
+        <!--<th scope="col">main price</th>
       <th scope="col">discount price</th>-->
-      <th scope="col">action</th>
-    </tr>
+        <th scope="col">action</th>
+      </tr>
     </thead>
     <tbody>
 
-    <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let idx = index;">
-      <td> <span class="text-danger" *ngIf="product.isDraft">(Draft) </span>{{product.sku}}</td>
-      <td class="relative">{{product.name | summary : 25 }}
-        <div *ngIf="product.name.length >= 25" class="hover-reason text-left">
-          <!--<div class="head">
+      <tr
+        *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let idx = index;">
+        <td> <span class="text-danger" *ngIf="product.isDraft">(Draft) </span>{{product.sku}}</td>
+        <td class="relative">{{product.name | summary : 25 }}
+          <div *ngIf="product.name.length >= 25" class="hover-reason text-left">
+            <!--<div class="head">
             product name
           </div>-->
-          <div class="body">
-            {{product.name}}
+            <div class="body">
+              {{product.name}}
+            </div>
           </div>
-        </div>
 
-      </td>
-      <td *ngIf="!selectedMainProduct">
-        <ng-container *ngIf="product.category">
-          {{product?.category?.name}} >
-          <br>
-          {{product?.category?.sub_categories[0]?.name}}
-        </ng-container>
-      </td>
-      <td *ngIf="selectedMainProduct">
-        {{product?.last_editor?.name}}
-      </td>
-      <!-- <td class="hidden">{{product.creator?.name}}</td> -->
-      <td class="hidden">{{product.stock ? product.stock : '0'}}</td>
-      <!--<td>{{product.price}}</td>
+        </td>
+        <td *ngIf="!selectedMainProduct">
+          <ng-container *ngIf="product.category">
+            {{product?.category?.name}} >
+            <br>
+            {{product?.category?.sub_categories[0]?.name}}
+          </ng-container>
+        </td>
+        <td *ngIf="selectedMainProduct">
+          {{product?.last_editor?.name}}
+        </td>
+        <!-- <td class="hidden">{{product.creator?.name}}</td> -->
+        <td class="hidden">{{product.stock ? product.stock : '0'}}</td>
+        <!--<td>{{product.price}}</td>
       <td>{{product.discount_price ? product.discount_price : "-"}}</td>-->
-      <td *ngIf="!product.isDraft">
-        <!--<a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
+        <td *ngIf="!product.isDraft">
+          <!--<a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
           <i class="icon-View"></i>
         </a>-->
-        <a (click)="getProductsVariants(product)" class="table-view open-show mx-1">
-          <i class="icon-View"></i>
-        </a>
+          <a (click)="getProductsVariants(product)" class="table-view open-show mx-1">
+            <i class="icon-View"></i>
+          </a>
 
-        <a (click)="edit(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
-          <i class="icon-grey"></i>
-        </a>
-        <a (click)="removeProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
-          <i class="fa fa-trash"></i>
-        </a>
-        <a (click)="clone(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
-          <i class="fa fa-copy"></i>
-        </a>
-        <a *ngIf="selectedMainProduct" target="_blank" class="table-view edit-product mx-1" href="{{website_url + '/products/' + product.name + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
-          <i class="fa fa-external-link"></i>
-        </a>
-        <label class="switch">
-          <input (change)="changeActive(product)" [(ngModel)]="product.active" type="checkbox" value="1">
-          <span class="slider round"></span>
-          <div [hidden]="!product.showReason" class="reason-popup text-left">
+          <a (click)="edit(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="icon-grey"></i>
+          </a>
+          <a (click)="removeProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="fa fa-trash"></i>
+          </a>
+          <a (click)="clone(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="fa fa-copy"></i>
+          </a>
+          <a *ngIf="selectedMainProduct" target="_blank" class="table-view edit-product mx-1"
+            href="{{website_url + '/products/' + product.name + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
+            <i class="fa fa-external-link"></i>
+          </a>
+          <label class="switch">
+            <input (change)="changeActive(product)" [(ngModel)]="product.active" type="checkbox" value="1">
+            <span class="slider round"></span>
+            <div [hidden]="!product.showReason" class="reason-popup text-left">
               <textarea [(ngModel)]="product.notes" class="owl-input" name=""
-                        placeholder="Why Do yo want to deactivate this product?"></textarea>
-            <button (click)="submitDeactivate(product)" [disabled]="!product.notes"
-                    [ngClass]="{'not-allowed' : !product.notes }" class="btn btn-owls btn-rounded btn-green2">submit
-            </button>
-            <button (click)="cancelDeactivate(product)"
-                    class="btn btn-owls btn-rounded btn-blue2 cancel-check">cancel
-            </button>
-          </div>
-          <div *ngIf="!product.active" class="hover-reason text-left">
-            <div class="head">
-              Deactivation Notes
+                placeholder="Why Do yo want to deactivate this product?"></textarea>
+              <button (click)="submitDeactivate(product)" [disabled]="!product.notes"
+                [ngClass]="{'not-allowed' : !product.notes }" class="btn btn-owls btn-rounded btn-green2">submit
+              </button>
+              <button (click)="cancelDeactivate(product)" class="btn btn-owls btn-rounded btn-blue2 cancel-check">cancel
+              </button>
             </div>
-            <div class="body">
-              {{product.deactivation_notes}}
+            <div *ngIf="!product.active" class="hover-reason text-left">
+              <div class="head">
+                Deactivation Notes
+              </div>
+              <div class="body">
+                {{product.deactivation_notes}}
+              </div>
             </div>
-          </div>
-        </label>
-      </td>
-      <td *ngIf="product.isDraft">
-        <a (click)="editDraftProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
-          <i class="icon-grey"></i>
-        </a>
-        <a (click)="removeDraftConfirmation(product, idx)" class="table-view edit-product mx-1" href="javascript:void(0)">
-          <i class="fa fa-trash"></i>
-        </a>
-        <a (click)="cloneDraft(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
-          <i class="fa fa-copy"></i>
-        </a>
-      </td>
-    </tr>
+          </label>
+        </td>
+        <td *ngIf="product.isDraft">
+          <a (click)="editDraftProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="icon-grey"></i>
+          </a>
+          <a (click)="removeDraftConfirmation(product, idx)" class="table-view edit-product mx-1"
+            href="javascript:void(0)">
+            <i class="fa fa-trash"></i>
+          </a>
+          <a (click)="cloneDraft(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="fa fa-copy"></i>
+          </a>
+        </td>
+      </tr>
 
 
     </tbody>
@@ -229,7 +233,7 @@
 </div>
 
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer" >
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
   <p style="color: white"> Loading... </p>
 </ngx-spinner>
 
@@ -245,32 +249,17 @@
   class="parent-editor-viewer-sidebar" [selectProductDataEdit]="selectProductDataView"></app-view-product>
 
 
-<app-add-edit-product
-  #productForm
-  class="parent-editor-viewer-sidebar"
-  (closeSideBarEmit)="closeSideBar()"
-  (dataProductEmit)="addOrUpdateProduct($event)"
-  [@slideInOut]="toggleAddProduct"
-  [selectProductDataEdit]="selectProductData">
+<app-add-edit-product #productForm (closeSideBarEmit)="closeSideBar()" (dataProductEmit)="addOrUpdateProduct($event)"
+  [@slideInOut]="toggleAddProduct" [selectProductDataEdit]="selectProductData">
 </app-add-edit-product>
 
-<app-add-edit-variants
-  *ngIf="toggleVariant === 'in'"
-  class="parent-editor-viewer-sidebar"
-  #productVariantsForm
-  (closeSideBarEmit)="closeSideBar()"
-  (dataProductEmit)="addOrUpdateProduct($event)"
-  [@slideInOut]="toggleVariant"
-  [parentProduct]="selectedMainProduct"
+<app-add-edit-variants *ngIf="toggleVariant === 'in'" #productVariantsForm (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)" [@slideInOut]="toggleVariant" [parentProduct]="selectedMainProduct"
   [selectVariant]="selectedProductVariantData">
 </app-add-edit-variants>
 
-<app-add-product-variants
-  class="parent-editor-viewer-sidebar"
-  *ngIf="toggleProductVariant === 'in'"
-  (closeSideBarEmit)="closeSideBar()"
-  (dataProductEmit)="addOrUpdateProduct($event)"
-  [@slideInOut]="toggleProductVariant"
+<app-add-product-variants *ngIf="toggleProductVariant === 'in'" (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)" [@slideInOut]="toggleProductVariant"
   [selectedProduct]="selectedProductVariantBoth">
 </app-add-product-variants>
 
@@ -292,8 +281,7 @@
       </div>
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" [appLoading]="stateCloning" [disabled]='stateCloning'
-          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
-          (click)="confirmClone()">
+          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;" (click)="confirmClone()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
@@ -348,9 +336,8 @@
         Are you sure you want to Delete this draft ?
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button"
-                (click)="removeDraftProduct()"
-                class="position-relative btn-owls btn-rounded btn-green btn-blue2">
+        <button type="button" (click)="removeDraftProduct()"
+          class="position-relative btn-owls btn-rounded btn-green btn-blue2">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
@@ -360,4 +347,3 @@
     </div>
   </div>
 </div>
-

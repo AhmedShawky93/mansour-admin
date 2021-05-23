@@ -6,7 +6,7 @@ import {ProductsService} from '@app/pages/services/products.service';
 import {CategoryService} from '@app/pages/services/category.service';
 import {ToastrService} from 'ngx-toastr';
 import {OptionsService} from '@app/pages/services/options.service';
-import {DateLessThan} from '@app/shared/date-range-validation';
+import {compareNumbers, DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
@@ -162,7 +162,11 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       meta_description: new FormControl(data ? data.meta_description : ''),
       meta_title_ar: new FormControl(data ? data.meta_title_ar : ''),
       meta_description_ar: new FormControl(data ? data.meta_description_ar : ''),
-      price: new FormControl(data ? data.price : '', Validators.required),
+      price: new FormControl(data ? data.price : '', [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(1000000)
+      ]),
       discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
@@ -177,7 +181,12 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       bundle_checkout: new FormControl(data ? data.bundle_checkout : ''),
       bundle_products_ids: new FormControl(data ? data.bundle_products_ids : ''),
       related_ids: new FormControl((data && data.related_ids) ? data.related_ids : ''),
-    }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
+    }, {
+      validator: [
+        DateLessThan('discount_start_date', 'discount_end_date'),
+        compareNumbers('discount_price', 'price')
+      ]
+    });
   }
 
   mergeData(data) {
@@ -305,7 +314,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   getAllOptions(res) {
     if (res['code'] === 200) {
-      this.allOptions = res['data'];
+      this.allOptions = res['data'].filter(data => Number(data.type) !== 5);
       console.log('allOptions', this.allOptions);
     } else {
       this.toasterService.error(res['message']);
@@ -490,6 +499,11 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   changeValidation() {
+    const value = this.componentForm.value;
+    if (value.available_soon) {
+      this.componentForm.get('price').clearValidators();
+      this.componentForm.get('price').updateValueAndValidity();
+    }
     // if (this.componentForm.value.preorder) {
     //   this.componentForm.get('preorder_price').setValidators([Validators.required]);
     //   this.componentForm.get('preorder_price').updateValueAndValidity();
@@ -694,6 +708,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
             this.draftProductService.clearDraftProduct(this.selectedProduct);
             this.dataProductEmit.emit(deleteDraft);
           }
+          this.mainProduct.stock = response.data.stock;
           this.dataProductEmit.emit(this.mainProduct);
           this.toasterService.success('Product With Variant Created Successfully');
           this.spinner.hide();

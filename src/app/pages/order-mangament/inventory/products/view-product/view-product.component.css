@@ -8,12 +8,10 @@
   bottom: 0;
   width: 435px;
   z-index: 5;
-  height: 100%;
-  min-height: 100vh;
+  height: 100vh;
   overflow: auto;
   overflow-x: hidden;
-  box-shadow: 0 12px 54px 0 rgba(6, 40, 59, .1);
-
+  box-shadow: 0 12px 54px 0 rgba(6, 40, 59, 0.1);
 }
 
 .s-price {
@@ -37,5 +35,5 @@
 
 .long-line-break {
   max-width: 100%;
-  line-break: anywhere
+  line-break: anywhere;
 }

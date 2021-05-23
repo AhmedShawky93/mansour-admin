@@ -60,6 +60,8 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
 
   getForm(data) {
     this.sectionForm = this.formBuilder.group({
+      image_ar: new FormControl(data ? data.image_ar : ''),
+      image_en: new FormControl(data ? data.image_en : ''),
       name_en: new FormControl(data ? data.name_en : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       description_en: new FormControl(data ? data.description_en : "", Validators.required),
@@ -130,10 +132,17 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
-
+      control.markAsDirty();
       if (control.controls) {
         this.markFormGroupTouched(control);
       }
     });
+  }
+  formControlValidator(controlName, err) {
+    if (this.sectionForm.controls[controlName].touched && this.sectionForm.controls[controlName].dirty) {
+      if (this.sectionForm.controls[controlName].errors) {
+        return this.sectionForm.controls[controlName].errors[err];
+      }
+    }
   }
 }

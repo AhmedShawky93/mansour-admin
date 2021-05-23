@@ -13,7 +13,7 @@
       <button (click)="addToPickup(order.id)" class="float-right btn btn-owls btn-rounded btn-green">
         Add To Pickup </button>
       <button (click)="editOrder()" class="float-right btn btn-owls btn-rounded btn-green mx-2">
-       Edit
+        Edit
       </button>
     </div>
   </div>
@@ -68,7 +68,7 @@
         <p class="mb-0">{{ state.state?.name }}</p>
         <p class="mb-0 mt-2" *ngIf="state.sub_state?.name">{{ state.sub_state?.name }}</p>
         <p (click)="customerDetails(state.user)" class="mb-0 mt-2 pointer" *ngIf="state.user?.name">
-          {{ state.user?.name + ' ' + state.user?.last_name}}
+          {{ state.user?.name + ' ' +( state.user?.last_name ? state.user?.last_name : '') }}
         </p>
         <p class="mb-0 mt-2" *ngIf="order?.cancellation_reason">
           Cancellation reason : {{order?.cancellation_reason.text }}
@@ -280,7 +280,7 @@
       <div class="block-item">
         <p>name</p>
         <span (click)="customerDetails(order?.user)" class="pointer">
-          {{ order?.user?.name + ' ' + order?.user?.last_name}}
+          {{ order?.user?.name + ' ' +( order.user?.last_name ? order.user?.last_name : '')}}
         </span>
       </div>
     </div>
@@ -927,6 +927,5 @@
 </app-add-edit-address>
 
 <app-add-edit-order (closeSideBarEmit)="closeSideBar($event)" [@slideInOut]="toggleAddOrder"
-                    class="parent-editor-viewer-sidebar"
-                    [selectedOrder]="order">
+  class="parent-editor-viewer-sidebar" [selectedOrder]="order">
 </app-add-edit-order>

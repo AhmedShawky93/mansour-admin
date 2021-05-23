@@ -1,22 +1,25 @@
-import {AddEditProductComponent} from './add-edit-product/add-edit-product.component';
-import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {ProductsService} from '@app/pages/services/products.service';
-import {CategoryService} from '@app/pages/services/category.service';
+import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { ProductsService } from '@app/pages/services/products.service';
+import { CategoryService } from '@app/pages/services/category.service';
 import 'rxjs/add/operator/take';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {environment} from '@env/environment';
-import {AuthService} from '@app/shared/auth.service';
-import {ToastrService} from 'ngx-toastr';
-import {animate, state, style, transition, trigger,} from '@angular/animations';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { environment } from '@env/environment';
+import { AuthService } from '@app/shared/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { animate, state, style, transition, trigger, } from '@angular/animations';
 
-import {FormBuilder, FormControl, FormGroup, Validators,} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
 import 'rxjs/Rx';
-import {Subject} from 'rxjs/Rx';
-import {tap} from 'rxjs/operators';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {debounce} from 'lodash';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {DraftProductService} from '@app/pages/services/draft-product.service';
+import { Subject } from 'rxjs/Rx';
+import { tap } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { debounce } from 'lodash';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { DraftProductService } from '@app/pages/services/draft-product.service';
+import { s } from '@angular/core/src/render3';
+import { DOCUMENT } from '@angular/common';
+import { Inject } from '@angular/core';
 
 declare var jquery: any;
 declare var $: any;
@@ -31,12 +34,17 @@ declare var $: any;
         'in',
         style({
           transform: 'translate3d(0px, 0, 0)',
+          background: "#000000cf",
+          width: '100%'
         })
       ),
       state(
         'out',
         style({
           transform: 'translate3d(-100%, 0, 0)',
+          background: "#000000cf",
+          width: '100%'
+
         })
       ),
       transition('in => out', animate('300ms ease-in-out')),
@@ -126,7 +134,9 @@ export class ProductsComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private router: Router,
     private toasterService: ToastrService,
-    private draftProductService: DraftProductService
+    private draftProductService: DraftProductService,
+    @Inject(DOCUMENT) private document: Document
+
   ) {
     this.search = debounce(this.search, 700);
     this.toggleVariant = 'out';
@@ -139,7 +149,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     });
   }
 
-  addCustomUser = (term) => ({id: term, name: term});
+  addCustomUser = (term) => ({ id: term, name: term });
 
   ngOnInit() {
     this.getCategories();
@@ -217,7 +227,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.searchValue = this.route.snapshot.queryParams.search;
     }
     if (this.route.snapshot.queryParams.parent_id && !this.selectedMainProduct) {
-      this.selectedMainProduct = {id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name};
+      this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name };
     } else if (!this.route.snapshot.queryParams.parent_id && this.selectedMainProduct) {
       this.selectedMainProduct = null;
     }
@@ -232,7 +242,7 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   setRoute() {
     this.closeSideBar();
-    const params = {search: '', main_category: null, sub_category_id: null, page: 1, parent_id: null, parent_name: null};
+    const params = { search: '', main_category: null, sub_category_id: null, page: 1, parent_id: null, parent_name: null };
     if (this.searchValue !== '' && !this.selectedMainProduct) {
       params.search = this.searchValue;
     }
@@ -261,7 +271,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   search() {
     this.p = 1;
     this.setRoute();
-    if(this.selectedMainProduct){
+    if (this.selectedMainProduct) {
       this.getProducts(this.selectedMainProduct, this.searchValue);
     }
   }
@@ -319,7 +329,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.viewProduct(product);
     } else {
       this.p = 1;
-      this.filter = {q: '', page: 1};
+      this.filter = { q: '', page: 1 };
       this.searchValueProduct = this.searchValue;
       this.searchValue = '';
       this.selectedMainProduct = product;
@@ -331,7 +341,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.searchValue = this.searchValueProduct;
     this.selectedMainProduct = null;
     this.p = 1;
-    this.filter = {q: '', page: 1};
+    this.filter = { q: '', page: 1 };
     this.setRoute();
   }
 
@@ -439,13 +449,13 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   toggleMenu(data) {
     // console.log('toggleMenu');
-    this.selectProductData = {...data};
+    this.selectProductData = { ...data };
     this.viewProductSidebar = 'out';
     this.toggleAddProduct = 'in';
   }
 
   toggleEditVariantMenu(data) {
-    this.selectedProductVariantData = {...data};
+    this.selectedProductVariantData = { ...data };
     this.viewProductSidebar = 'out';
     this.toggleVariant = 'in';
   }
@@ -456,6 +466,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     } else {
       this.toggleMenuNew(null);
     }
+    this.disableBodyScrollTop()
   }
 
   NewProductWithVariant(data) {
@@ -464,6 +475,8 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.viewProductSidebar = 'out';
     this.toggleVariant = 'out';
     this.toggleAddProduct = 'out';
+    this.disableBodyScrollTop()
+
   }
 
   edit(data) {
@@ -476,13 +489,17 @@ export class ProductsComponent implements OnInit, OnChanges {
     } else {
       this.toggleMenu(data);
     }
+    this.disableBodyScrollTop()
+  }
+
+  disableBodyScrollTop() {
+    window.scroll(0, 0)
+    document.body.style.overflow = 'hidden';
   }
 
   removeProduct(product) {
-    if (!this.selectedMainProduct) {
-      this.currentProduct = product;
-      $('#deleteProduct').modal('show');
-    }
+    this.currentProduct = product;
+    $('#deleteProduct').modal('show');
   }
 
   toggleMenuNew(data) {
@@ -506,13 +523,15 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.toggleVariant = 'out';
     this.viewProductSidebar = 'out';
     this.toggleProductVariant = 'out';
+    document.body.style.overflow = 'auto';
+
   }
 
   addOrUpdateProduct(data) {
     const index = this.products.findIndex((item) => item.id == data.id);
-    if (index !== -1 && !data.delete) {
+    if (index !== -1 && !data['delete']) {
       this.products[index] = data;
-    } else if (index !== -1 && data.delete) {
+    } else if (index !== -1 && data['delete']) {
       this.products.splice(index, 1);
     } else {
       this.products.unshift(data);
@@ -787,7 +806,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   submitDeactivate(product) {
     product.active = 0;
     this.productsService
-      .deactivateProduct(product.id, {deactivation_notes: product.notes})
+      .deactivateProduct(product.id, { deactivation_notes: product.notes })
       .subscribe((data: any) => {
         product.active = 0;
         product.deactivation_notes = product.notes;
@@ -809,38 +828,14 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   confirmClone() {
-    if(this.stateCloning){
+    if (this.stateCloning) {
       return;
     }
     this.productsService.clone(this.currentProduct.id)
-    .subscribe((response: any) => {
-      if (response.code == 200) {
-        this.stateCloning = false;
-        this.toastrService.success('Product Clone Successfully', 'Success', {
-          enableHtml: true,
-          timeOut: 3000
-        });
-        this.addOrUpdateProduct(response.data);
-        $('#cloneProduct').modal('hide');
-        /*this.filter$.next(this.filter);*/
-      } else {
-        this.stateCloning = false;
-        this.toastrService.error(response.message, 'Error Occured', {
-            enableHtml: true,
-            timeOut: 3000
-          });
-        }
-      });
-      this.stateCloning = true;
-    }
-
-  confirmDelete() {
-    this.statedeleting = true;
-    this.productsService.deleteProduct(this.currentProduct.id)
       .subscribe((response: any) => {
         if (response.code == 200) {
           this.stateCloning = false;
-          this.toastrService.success('Product deleted Successfully', 'Success', {
+          this.toastrService.success('Product Clone Successfully', 'Success', {
             enableHtml: true,
             timeOut: 3000
           });
@@ -855,11 +850,36 @@ export class ProductsComponent implements OnInit, OnChanges {
           });
         }
       });
+    this.stateCloning = true;
+  }
+
+  confirmDelete() {
+    debugger
+    this.statedeleting = true;
+    this.productsService.softDeleteProduct(this.currentProduct.id)
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          this.statedeleting = false;
+          this.toastrService.success('Product deleted Successfully', 'Success', {
+            enableHtml: true,
+            timeOut: 3000
+          });
+          this.currentProduct['delete'] = true;
+          this.addOrUpdateProduct(this.currentProduct);
+          $('#deleteProduct').modal('hide');
+        } else {
+          this.statedeleting = false;
+          this.toastrService.error(response.message, 'Error Occured', {
+            enableHtml: true,
+            timeOut: 3000
+          });
+        }
+      });
   }
 
   removeDraftConfirmation(product, idx) {
     if (!this.selectedMainProduct) {
-      this.selectedDraft = {product: product, index: idx};
+      this.selectedDraft = { product: product, index: idx };
       $('#deleteDraft').modal('show');
     }
   }
@@ -872,11 +892,11 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   editDraftProduct(product) {
-    this.NewProductWithVariant({...product});
+    this.NewProductWithVariant({ ...product });
   }
 
   cloneDraft(product) {
-    const data = {...product};
+    const data = { ...product };
     delete data.id;
     const clonedProduct = this.draftProductService.SetDraftProduct(data);
     this.addOrUpdateProduct(clonedProduct);

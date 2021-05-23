@@ -156,12 +156,14 @@ export class OptionsComponent implements OnInit {
 
   viewClinic(clinic) {
     console.log(clinic);
+    this.scrollToTop();
     this.selectOptionDataView = clinic;
     this.toggleAddOption = "out";
     this.viewOptionSidebar = "in";
   }
 
   toggleMenu(data) {
+    this.scrollToTop();
     this.selectOptionData = data;
     this.viewOptionSidebar = "out";
     this.toggleAddOption = "in";
@@ -181,5 +183,14 @@ export class OptionsComponent implements OnInit {
     } else {
       this.options.unshift(data);
     }
+  }
+
+  scrollToTop() {
+    const scrollDuration = 200;
+    const scrollStep = -window.pageYOffset / (scrollDuration / 20);
+    const scrollInterval = setInterval(
+      () => (window.pageYOffset !== 0 ? window.scrollBy(0, scrollStep) : clearInterval(scrollInterval)),
+      10
+    );
   }
 }

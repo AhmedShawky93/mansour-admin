@@ -160,7 +160,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       .subscribe(
         res => {
           if (res['code'] === 200) {
-            this.allOptions = res['data'];
+            this.allOptions = res['data'].filter(data => Number(data.type) !== 5);
             // console.log('allOptions', this.allOptions);
           } else {
             this.toastrService.error(res['message']);

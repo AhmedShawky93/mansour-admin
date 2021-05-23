@@ -56,7 +56,7 @@
 
 
 
-          <label class="switch" *ngIf="!ad.banner_ad && ad.id === 0">
+          <label class="switch" *ngIf="!ad.banner_ad && (ad.id === 0 || ad.id === 1)">
             <input type="checkbox" value="1" [(ngModel)]="ad.active" (change)="changeActive(ad)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!ad.showReason">
@@ -119,7 +119,7 @@
         <img class="owl-img img-fluid" src="{{currentAd.image_web}}" alt="">
       </div>
     </div>
-    
+
     <div>
       <div>
         <h5>Image Web (AR)</h5>

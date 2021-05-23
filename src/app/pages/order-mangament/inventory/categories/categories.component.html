@@ -263,11 +263,10 @@
       <div class="w-100"></div>
       <div class="col">
         <div class="form-group">
-          <label for="amount">Order</label>
+          <label>Order</label>
           <input type="number" class="owl-input" placeholder="Type.." name="order" [(ngModel)]="editCat.order" required
             formControlName="order">
-          <div
-            *ngIf="editCatForm.controls.order.invalid && (editCatForm.controls.order.dirty || editCatForm.controls.order.touched)"
+          <div *ngIf="editCatForm.controls.order.invalid && (editCatForm.controls.order.dirty || editCatForm.controls.order.touched)"
             class="alert alert-danger">
             <div *ngIf="editCatForm.controls.order.errors.required">
               Order is required.
@@ -321,9 +320,19 @@
                     <label> Options Name </label>
                     <ng-select   name="optionName" [items]="options" bindLabel="name_en" bindValue="id"
                       [multiple]="true" placeholder="Enter Options Name
-                      " formControlName="options" required>
+                      " formControlName="options">
                     </ng-select>
                   </div>
+              <div class="col-12 m-t-b-5">
+                <label> Order </label>
+                <input type="number" class="owl-input" placeholder="type here" name="suborder{{i}}" formControlName="order" required>
+                <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.order.invalid && (editCatForm.controls.sub_categories.controls[i].controls.order.dirty || editCatForm.controls.sub_categories.controls[i].controls.order.touched)"
+                     class="alert alert-danger">
+                  <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.order.errors.required">
+                    order is required.
+                  </div>
+                </div>
+              </div>
             </div>
 
 
