@@ -177,7 +177,7 @@
 
       <div class="block-item">
         <p>Order source</p>
-        <span *ngIf="order.deliverer">{{ order.deliverer?.user_agent }}</span>
+        <span *ngIf="order.user_agent">{{ order?.user_agent }}</span>
       </div>
     </div>
     <div class="col-md-12">
