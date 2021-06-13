@@ -1,5 +1,5 @@
 import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
-import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from '@app/pages/services/products.service';
 import { CategoryService } from '@app/pages/services/category.service';
 import 'rxjs/add/operator/take';
@@ -52,7 +52,7 @@ declare var $: any;
     ]),
   ],
 })
-export class ProductsComponent implements OnInit, OnChanges {
+export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   searchForm: FormGroup;
   searchValue: string;
   dateRange: any;
@@ -122,6 +122,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   searchValueProduct: string;
   stateCloning: boolean;
   statedeleting: boolean;
+  routerSubscription
 
   constructor(
     private productsService: ProductsService,
@@ -142,11 +143,15 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.toggleVariant = 'out';
     this.toggleProductVariant = 'out';
     this.viewVariantSidebar = 'out';
-    router.events.subscribe(event => {
+    this.routerSubscription = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.getRoutes();
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe()
   }
 
   addCustomUser = (term) => ({ id: term, name: term });
