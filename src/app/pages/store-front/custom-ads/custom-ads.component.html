@@ -140,7 +140,7 @@
     <div>
       <h5>Type</h5>
       <P *ngIf="currentAd.type == 0"> None </P>
-      <P *ngIf="currentAd.type == 1"> product </P>
+      <P *ngIf="currentAd.type == 1"> Product </P>
       <P *ngIf="currentAd.type == 2"> Sub Category </P>
       <P *ngIf="currentAd.type == 4"> Brand </P>
       <P *ngIf="currentAd.type == 5"> Custom List </P>
@@ -282,7 +282,7 @@
       <select type="text" class="owl-input" formControlName="type" name="type" (change)="onAdTypeChanged(newAdsForm)">
         <option value="10" selected disabled>Select Type</option>
         <option value="0">None</option>
-        <option value="1">product</option>
+        <option value="1">Product</option>
         <option value="2">Subcategory</option>
         <!-- <option value="3">Medical </option> -->
         <option value="4">Brand</option>

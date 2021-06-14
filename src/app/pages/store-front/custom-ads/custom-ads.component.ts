@@ -59,6 +59,7 @@ export class CustomAdsComponent implements OnInit {
   currentAd: any;
 
   lists = [];
+  selectedAd: any;
 
   constructor(
     private adsService: CustomAdsService,
@@ -189,10 +190,13 @@ export class CustomAdsComponent implements OnInit {
       list_id: new FormControl(),
       category: new FormControl(),
     });
+    this.selectedAd = ad;
     if (ad.type == 1) {
-      this.newAdsForm.get("prod").setValue(ad.item_id);
       this.newAdsForm.get("subCategory").setValue(ad.item_data.category_id);
       this.newAdsForm.get("category").setValue(ad.item_data.category.id);
+      // setTimeout(() => {
+      //   this.newAdsForm.get("prod").setValue(ad.item_data.id);
+      // }, 2000);
     } else if (ad.type == 2) {
       this.newAdsForm.get("subCategory").setValue(ad.item_id);
       this.newAdsForm.get("category").setValue(ad.item_data.parent_id);
@@ -412,6 +416,11 @@ export class CustomAdsComponent implements OnInit {
       .subscribe((response: any) => {
         this.productList = response.data;
         this.newAdsForm.get("prod").setValue('');
+        if (this.selectedAd.type == 1) {
+          this.newAdsForm.get("prod").setValue(this.selectedAd.item_data.id);
+          // setTimeout(() => {
+          // }, 2000);
+        }
       });
   }
 
