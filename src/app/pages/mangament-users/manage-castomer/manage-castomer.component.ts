@@ -235,7 +235,6 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   viewCustomer(customer) {
-    debugger
     this.customerLoading = true;
     this.customer = null;
     this.cs.getCustomer(customer.id)

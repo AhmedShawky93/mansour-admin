@@ -309,7 +309,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   createAd() {
-    debugger;
     console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
@@ -319,6 +318,8 @@ export class CustomAdsComponent implements OnInit {
 
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
+      let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0]
+      ad.link = ad.item_id;
     } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
@@ -343,7 +344,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   updateAd() {
-    debugger;
     console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
@@ -353,6 +353,8 @@ export class CustomAdsComponent implements OnInit {
 
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
+      let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0];
+      ad.link = `${encodeURIComponent(selectedProduct.name.replace(/\s/g, '-'))}/${selectedProduct.parent_id}?variant=${ad.item_id}`;
     } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {

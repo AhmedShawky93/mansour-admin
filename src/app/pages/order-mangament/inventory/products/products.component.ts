@@ -859,7 +859,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   confirmDelete() {
-    debugger
     this.statedeleting = true;
     this.productsService.softDeleteProduct(this.currentProduct.id)
       .subscribe((response: any) => {
