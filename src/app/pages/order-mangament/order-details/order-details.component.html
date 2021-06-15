@@ -747,7 +747,8 @@
             </label>
             <input type="number" name="invoice_discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input"
               placeholder="Type.." [min]="0" [(ngModel)]="invoiceDiscount">
-              <mat-error *ngIf="order?.amount < invoiceDiscount">Price after discount must not exceed the original
+              <mat-error *ngIf="invoiceDiscount != null && order?.amount < invoiceDiscount">Price after discount must not exceed the
+                original
                 price
               </mat-error>
               <mat-error *ngIf="invoiceDiscount < 0">discount price can't be a negative number</mat-error>
@@ -762,7 +763,7 @@
       </div>
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green btn-blue2"
-          [ngClass]="order?.amount < discount || invoiceDiscount < 0 ? 'disabled' : ''" (click)=" submitInvoiceUpdate()">
+          [ngClass]="(invoiceDiscount != null && order?.amount < invoiceDiscount) || invoiceDiscount < 0 ? 'disabled' : ''" (click)="submitInvoiceUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">

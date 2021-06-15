@@ -1,14 +1,14 @@
-import {OrderStatesService} from './../../services/order-states.service';
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {ActivatedRoute} from '@angular/router';
-import {OrdersService} from '@app/pages/services/orders.service';
-import {ToastrService} from 'ngx-toastr';
-import {DeliveryService} from '@app/pages/services/delivery.service';
+import { OrderStatesService } from './../../services/order-states.service';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { OrdersService } from '@app/pages/services/orders.service';
+import { ToastrService } from 'ngx-toastr';
+import { DeliveryService } from '@app/pages/services/delivery.service';
 import * as moment from 'moment';
-import {Subject} from 'rxjs';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Subject } from 'rxjs';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 declare var jquery: any;
 declare var $: any;
@@ -371,11 +371,43 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   submitItemUpdate() {
-    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, {discount_price: this.discount, notify_customer: this.notifyUser})
+    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, { discount_price: this.discount, notify_customer: this.notifyUser })
       .subscribe((response: any) => {
-        this.currentItem.discount_price = this.discount;
-        this.discount = null;
-        $('#orderChangePriceAndDiscount').modal('hide');
+        if (response.code === 200) {
+          this.currentItem.discount_price = this.discount;
+          this.discount = null;
+          this.orderService.getOrder(this.order.id).subscribe((response: any) => {
+            $('#orderChangePriceAndDiscount').modal('hide');
+            this.order = response.data;
+            this.getOrderStates();
+
+            this.order.history.map((state) => {
+              state.name = this.getStateName(state.state_id);
+              state.image = this.getStateImage(state.state_id);
+              return state;
+            });
+
+            const lastCreatedIndex = this.order.history.reduce((a, v, i) => {
+              if (v.state_id == 1) {
+                a = i;
+              }
+
+              return a;
+            });
+            const stepsArray = this.order.history.slice(lastCreatedIndex);
+
+            this.order.showStepper = this.stepperStates.includes(
+              this.order.state_id
+            );
+            this.processing = this.hasState(stepsArray, 2);
+            this.cancelled = this.hasState(stepsArray, 6);
+            this.delivering = this.hasState(stepsArray, 3);
+            this.delivered = this.hasState(stepsArray, 4);
+            this.returned = this.hasState(stepsArray, 7);
+          });
+        } else {
+          this.toastrService.error(`${response.message}`, 'Error');
+        }
       });
   }
 
@@ -410,11 +442,43 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   submitInvoiceUpdate() {
-    this.orderService.updateInvoiceDiscount(this.order.id, {discount: this.invoiceDiscount, notify_customer: this.notifyUser})
+    this.orderService.updateInvoiceDiscount(this.order.id, { discount: this.invoiceDiscount, notify_customer: this.notifyUser })
       .subscribe((response: any) => {
-        this.invoiceDiscount = null;
-        this.order.invoice.discoutn = this.invoiceDiscount;
-        $('#orderChangePriceTotal').modal('hide');
+        if (response.code == 200) {
+          this.invoiceDiscount = null;
+          this.order.invoice.discoutn = this.invoiceDiscount;
+          this.orderService.getOrder(this.order.id).subscribe((response: any) => {
+            $('#orderChangePriceTotal').modal('hide');
+            this.order = response.data;
+            this.getOrderStates();
+
+            this.order.history.map((state) => {
+              state.name = this.getStateName(state.state_id);
+              state.image = this.getStateImage(state.state_id);
+              return state;
+            });
+
+            const lastCreatedIndex = this.order.history.reduce((a, v, i) => {
+              if (v.state_id == 1) {
+                a = i;
+              }
+
+              return a;
+            });
+            const stepsArray = this.order.history.slice(lastCreatedIndex);
+
+            this.order.showStepper = this.stepperStates.includes(
+              this.order.state_id
+            );
+            this.processing = this.hasState(stepsArray, 2);
+            this.cancelled = this.hasState(stepsArray, 6);
+            this.delivering = this.hasState(stepsArray, 3);
+            this.delivered = this.hasState(stepsArray, 4);
+            this.returned = this.hasState(stepsArray, 7);
+          });
+        } else {
+          this.toastrService.error(`${response.message}`, 'Error');
+        }
       });
   }
 
@@ -564,11 +628,11 @@ export class OrderDetailsComponent implements OnInit {
     this.router.navigate(['/pages/manage-customer'], { queryParams: { id: customer.id } });
   }
   closeSideBar(data) {
-    this.order =  data ? {...data} : this.order;
+    this.order = data ? { ...data } : this.order;
     this.toggleAddOrder = 'out';
   }
   editOrder() {
-    this.order = {...this.order};
+    this.order = { ...this.order };
     this.toggleAddOrder = 'in';
   }
 }
