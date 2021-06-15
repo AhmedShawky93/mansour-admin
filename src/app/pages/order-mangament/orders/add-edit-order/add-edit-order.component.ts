@@ -63,7 +63,8 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         const products$ = concat(
           of([{
             id: item.id,
-            name: item.product.sku + ': ' + item.product.name
+            name: item.product.sku + ': ' + item.product.name,
+            stock: item.product.stock
           }]), // default items
           productsInput$.pipe(
             debounceTime(200),
@@ -78,6 +79,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
                     return {
                       id: p.id,
                       name: p.sku + ": " + p.name,
+                      stock: p.stock
                     };
                   });
                 })
@@ -93,7 +95,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
         (this.orderForm.get('items') as FormArray).push(new FormGroup({
           id: new FormControl(item.id, Validators.required),
-          amount: new FormControl(item.amount, Validators.required)
+          amount: new FormControl(item.amount, [Validators.required, Validators.min(1)])
         }))
       });
     }
@@ -119,6 +121,12 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         ))
       )
     );
+  }
+
+  updateAmountMax(item, index){
+    if(item){
+      this.orderForm.get('items')['controls'][index].controls.amount.setValidators([Validators.required, Validators.min(1), Validators.max(item.stock)]);
+    }
   }
 
   addProduct() {
@@ -154,7 +162,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
     (this.orderForm.get('items') as FormArray).push(new FormGroup({
       id: new FormControl('', Validators.required),
-      amount: new FormControl('', Validators.required)
+      amount: new FormControl('', [Validators.required, Validators.min(1)])
     }))
   }
 
