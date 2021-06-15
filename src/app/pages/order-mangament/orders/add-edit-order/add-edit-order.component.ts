@@ -95,7 +95,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
         (this.orderForm.get('items') as FormArray).push(new FormGroup({
           id: new FormControl(item.id, Validators.required),
-          amount: new FormControl(item.amount, [Validators.required, Validators.min(1)])
+          amount: new FormControl(item.amount, [Validators.required, Validators.min(1), Validators.max(item.product.stock)])
         }))
       });
     }
