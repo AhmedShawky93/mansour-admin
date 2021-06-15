@@ -1842,3 +1842,8 @@ ng-select.owl-input .ng-select-container{
 pointer{
   cursor: pointer !important;
 }
+
+.disabled{
+  pointer-events: none;
+  opacity: .5;
+}

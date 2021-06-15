@@ -705,6 +705,7 @@
             <label for="">Price after discount</label>
             <input type="number" name="discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
               [min]="0" [(ngModel)]="discount">
+              <mat-error *ngIf="currentItem?.price < discount">Price after discount must not exceed the original price</mat-error>
           </div>
 
         </form>
@@ -715,7 +716,7 @@
 
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitItemUpdate()">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" [ngClass]="currentItem?.price < discount ? 'disabled' : ''" (click)="submitItemUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
