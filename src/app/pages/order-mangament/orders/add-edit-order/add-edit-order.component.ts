@@ -206,6 +206,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           console.log(response);
           if (response.code == 200) {
             this.closeSideBar(response.data);
+            this.addresses = [];
           } else {
             this.toastrService.error(response.message, "Error");
           }
@@ -216,6 +217,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           console.log(response);
           if (response.code == 200) {
             this.closeSideBar(response.data);
+            this.addresses = [];
           } else {
             this.toastrService.error(response.message, "Error");
           }
@@ -226,6 +228,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   closeSideBar(data = null) {
     this.orderForm.reset();
     this.deleted_items = [];
+    this.addresses = [];
     this.closeSideBarEmit.emit(data);
   }
 
