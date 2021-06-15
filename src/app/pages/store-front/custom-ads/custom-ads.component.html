@@ -242,7 +242,7 @@
       </div>
     </div>
 
-    <div class="form-group" *ngIf="newAdsForm?.value?.dev_key && newAdsForm?.value?.id === 0">
+    <div class="form-group" *ngIf="newAdsForm?.value?.dev_key && (newAdsForm?.value?.id === 0 || newAdsForm?.value?.id === 1)">
       <label>Color</label>
       <input type="text" class="owl-input" formControlName="dev_key" name="dev_key" placeholder="Type here...">
       <div
@@ -311,8 +311,7 @@
       </div>
     </div>
 
-    <div class="form-group"
-      *ngIf="newAdsForm.get('type').value == 6 || newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
+    <div class="form-group" *ngIf="newAdsForm.get('type').value == 6 || newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
       <label for=""> category</label>
       <select type="text" class="owl-input" (change)="onCategoryChange()" formControlName="category"
         name="category">
