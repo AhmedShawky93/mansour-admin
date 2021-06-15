@@ -63,7 +63,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         const products$ = concat(
           of([{
             id: item.id,
-            name: item.product.sku + ': ' + item.product.name,
+            name: item.product.sku + ': ' + item.product.name + ', stock: ' + item.stock,
             stock: item.product.stock
           }]), // default items
           productsInput$.pipe(
@@ -78,7 +78,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
                   return response.data.products.map((p) => {
                     return {
                       id: p.id,
-                      name: p.sku + ": " + p.name,
+                      name: p.sku + ": " + p.name + ', stock: ' + p.stock,
                       stock: p.stock
                     };
                   });
@@ -146,7 +146,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
               return response.data.products.map((p) => {
                 return {
                   id: p.id,
-                  name: p.sku + ": " + p.name,
+                  name: p.sku + ": " + p.name + ', stock: ' + p.stock,
                 };
               });
             })
