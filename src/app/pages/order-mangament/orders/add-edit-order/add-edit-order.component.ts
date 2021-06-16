@@ -5,8 +5,8 @@ import { CustomerService } from '@app/pages/services/customer.service';
 import { OrdersService } from '@app/pages/services/orders.service';
 import { ProductsService } from '@app/pages/services/products.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subject, concat, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import { Observable, Subject, concat, of, EMPTY } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-edit-order',
@@ -207,6 +207,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           if (response.code == 200) {
             this.closeSideBar(response.data);
             this.addresses = [];
+            this.customers$ = EMPTY.pipe(delay(1000));
           } else {
             this.toastrService.error(response.message, "Error");
           }
@@ -218,6 +219,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           if (response.code == 200) {
             this.closeSideBar(response.data);
             this.addresses = [];
+            this.customers$ = EMPTY.pipe(delay(1000));
           } else {
             this.toastrService.error(response.message, "Error");
           }
@@ -229,6 +231,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     this.orderForm.reset();
     this.deleted_items = [];
     this.addresses = [];
+    this.customers$ = EMPTY.pipe(delay(1000));
     this.closeSideBarEmit.emit(data);
   }
 
