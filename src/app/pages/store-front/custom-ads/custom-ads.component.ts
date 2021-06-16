@@ -289,7 +289,7 @@ export class CustomAdsComponent implements OnInit {
     form.get("brand").updateValueAndValidity();
 
     if (form.get("category").value != null){
-      this.onCategoryChange()
+      this.onCategoryChange();
     }
     if (form.get("subCategory").value != null){
       this.onSubCategoryChange();

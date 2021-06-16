@@ -101,7 +101,7 @@ export class OrdersComponent implements OnInit {
   searchTerm = "";
   listSearch = "";
 
-  total: number = 0;
+  total: number = 1;
 
   filter$ = new Subject();
   exportUrl: string;
