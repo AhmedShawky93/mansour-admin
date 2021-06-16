@@ -252,6 +252,7 @@ export class CustomAdsComponent implements OnInit {
       form.get("list_id").clearValidators();
     } else if (form.get("type").value == 7) {
       form.get("link").setValidators([Validators.required]);
+      form.get("link").setValue('');
       form.get("brand").clearValidators();
       form.get("category").clearValidators();
       form.get("subCategory").clearValidators();
