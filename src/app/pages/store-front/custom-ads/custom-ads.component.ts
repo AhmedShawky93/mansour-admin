@@ -358,12 +358,16 @@ export class CustomAdsComponent implements OnInit {
       ad.link = `${encodeURIComponent(selectedProduct.name.replace(/\s/g, '-'))}/${selectedProduct.parent_id}?variant=${ad.item_id}`;
     } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
+      ad.link = "";
     } else if (ad.type == 4) {
       ad.item_id = this.newAdsForm.get("brand").value;
+      ad.link = "";
     } else if (ad.type == 5) {
       ad.item_id = this.newAdsForm.get("list_id").value;
+      ad.link = "";
     } else if (ad.type == 6) {
       ad.item_id = this.newAdsForm.get("category").value;
+      ad.link = "";
     }
 
     this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {
