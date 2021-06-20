@@ -63,7 +63,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         const products$ = concat(
           of([{
             id: item.id,
-            name: item.product.sku + ': ' + item.product.name + ', stock: ' + item.stock,
+            name: item.product.sku + ': ' + item.product.name + ', stock: ' + item.product.stock,
             stock: item.product.stock
           }]), // default items
           productsInput$.pipe(
