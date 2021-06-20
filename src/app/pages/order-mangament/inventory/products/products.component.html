@@ -188,7 +188,7 @@
             <i class="fa fa-copy"></i>
           </a>
           <a *ngIf="selectedMainProduct" target="_blank" class="table-view edit-product mx-1"
-            href="{{website_url + '/products/' + product.name + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
+            href="{{website_url + '/products/' + encodedProductName(product.name) + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
             <i class="fa fa-external-link"></i>
           </a>
           <label class="switch">

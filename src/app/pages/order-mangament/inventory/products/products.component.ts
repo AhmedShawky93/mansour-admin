@@ -858,6 +858,10 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.stateCloning = true;
   }
 
+  encodedProductName(name){
+    return name.replace(/\s/g, '-')
+  }
+
   confirmDelete() {
     this.statedeleting = true;
     this.productsService.softDeleteProduct(this.currentProduct.id)
