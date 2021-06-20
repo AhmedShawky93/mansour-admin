@@ -107,19 +107,19 @@
 
     <div>
       <div>
-        <h5>Image</h5>
+        <h5>Image (En)</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image}}" alt="">
       </div>
       <div>
-        <h5>Image (ar)</h5>
+        <h5>Image (Ar)</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image_ar}}" alt="">
       </div>
       <div *ngIf="currentAd.image_web">
-        <h5>Image Web (ar)</h5>
+        <h5>Image Web (Er)</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image_web}}" alt="">
       </div>
       <div *ngIf="currentAd.image_web_ar">
-        <h5>Image Web (ar)</h5>
+        <h5>Image Web (Ar)</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image_web_ar}}" alt="">
       </div>
     </div>
@@ -155,7 +155,7 @@
   <form class="sideform" [formGroup]="newAdsForm" (ngSubmit)="onFormSubmit(newAdsForm)" novalidate>
 
     <div class="form-group">
-      <label for="">Image Mobile</label>
+      <label for="">Image Mobile (En)</label>
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image').value" src="{{newAdsForm.get('image').value}}"
@@ -169,7 +169,7 @@
         *ngIf="newAdsForm.controls.image.invalid && (newAdsForm.controls.image.dirty || newAdsForm.controls.image.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.image.errors.required">
-          Image Mobile Is Required.
+          Image Mobile (En) Is Required.
         </div>
       </div>
     </div>
@@ -193,7 +193,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="">Image Web</label>
+      <label for="">Image Web (En)</label>
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value"
@@ -207,7 +207,7 @@
         *ngIf="newAdsForm.controls.image_web.invalid && (newAdsForm.controls.image_web.dirty || newAdsForm.controls.image_web.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.image_web.errors.required">
-          Image Web Is Required.
+          Image Web (En) Is Required.
         </div>
       </div>
     </div>

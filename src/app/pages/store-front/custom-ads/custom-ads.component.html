@@ -163,7 +163,7 @@
   <form class="sideform" [formGroup]="newAdsForm" (ngSubmit)="onFormSubmit(newAdsForm)" novalidate>
 
     <div class="form-group">
-      <label for="">Image</label>
+      <label for="">Image (En)</label>
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_en').value"
@@ -177,7 +177,7 @@
         *ngIf="newAdsForm.controls.image_en.invalid && (newAdsForm.controls.image_en.dirty || newAdsForm.controls.image_en.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.image_en.errors.required">
-          Image Is Required.
+          Image (En) Is Required.
         </div>
       </div>
     </div>
@@ -203,7 +203,7 @@
     </div>
 
     <div class="form-group">
-      <label>Image Web</label>
+      <label>Image Web (En)</label>
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value"
@@ -217,7 +217,7 @@
         *ngIf="newAdsForm.controls.image_web.invalid && (newAdsForm.controls.image_web.dirty || newAdsForm.controls.image_web.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.image_web.errors.required">
-          Image Is Required.
+          Image Web (En) Is Required.
         </div>
       </div>
     </div>
