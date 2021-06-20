@@ -64,6 +64,10 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
       return;
     }
 
+    if (!(this.areas.filter((area) => area.id == this.addressForm.value.area_id).length > 0)){
+      this.addressForm.controls.area_id.setValue(this.areas[0].id)
+    }
+
     let address = this.addressForm.value;
     console.log(address);
     if (this.selectedOrder) {
