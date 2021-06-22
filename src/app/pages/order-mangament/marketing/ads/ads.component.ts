@@ -28,6 +28,7 @@ export class adsComponent implements OnInit {
   brands = [];
   p = 1;
   total;
+  orderArray = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 
   categories: any;
   adCrrentEdit: any = [];
@@ -322,6 +323,41 @@ export class adsComponent implements OnInit {
 
   viewAd(ad) {
     this.currentAd = ad;
+  }
+
+  deleteAd(ad){
+    this.adsService.deleteAd(ad.id).subscribe((res: any) =>{
+      if (res.code === 200){
+        const ind = this.ads.findIndex((item) => {
+          return item.id == ad.id;
+        });
+
+        this.ads.splice(ind, 1)
+      }else{
+        this.toastrService.error(res.message)
+      }
+    })
+  }
+  
+
+  updateAdOrder(ad){
+    this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {
+      if (response.code == 200) {
+
+        const ind = this.ads.findIndex((item) => {
+          return item.id == ad.id;
+        });
+
+        if (ind !== -1) {
+          this.ads[ind] = response.data;
+        }
+        
+        this.currentAd = response.data;
+        ad.orderUpdate = false;
+      } else {
+        this.toastrService.error(response.message);
+      }
+    });
   }
 
   onImageSelected(form: FormGroup, event, type) {

@@ -19,6 +19,7 @@
 .add-sub{
   margin-bottom: 20px;
   display: block;
+  width: max-content;
 }
 
 .view-vindor-types {

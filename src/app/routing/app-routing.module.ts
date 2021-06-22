@@ -87,6 +87,13 @@ const routes: Routes = [
         data: { title: "Slider", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'} }
       },
       {
+        path: "stores",
+        loadChildren:
+          "../pages/order-mangament/stores/stores.module#StoresModule",
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: ['ADMIN', 'View Stores'], redirectTo: '/pages/home' } }
+      },
+      {
         path: "promocodes/add-offers",
         component: AddOfferComponent,
         canActivate: [NgxPermissionsGuard],

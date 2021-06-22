@@ -39,6 +39,12 @@ export class AdsService {
         return Observable.throw(error.error || 'error ads')
       })
   }
+  deleteAd(id) {
+    return this.http.delete(this.url + 'ads/' + id)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'error ads')
+      })
+  }
 
   activateAd(id) {
     return this.http.post(this.url + "ads/" + id + "/activate", {})
