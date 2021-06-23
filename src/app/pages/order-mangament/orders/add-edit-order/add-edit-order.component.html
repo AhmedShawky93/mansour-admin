@@ -51,7 +51,7 @@
       <div *ngFor='let item of productsData.controls; let i = index'>
         <div [formGroupName]="i">
           <ng-select [typeahead]="products[i].productsInput$" [loading]="products[i].productsLoading" name="products" [items]="products[i].products$ | async"
-            bindLabel="name" bindValue="id" placeholder="Enter Product name" formControlName="id" (change)="updateAmountMax($event, i)">
+            bindLabel="name" [clearable]="false" bindValue="id" placeholder="Enter Product name" formControlName="id" (change)="updateAmountMax($event, i)">
           </ng-select>
 
           <div *ngIf="formControlValidator(orderForm.get('items').controls[i], 'id', 'required')" class="alert alert-danger">

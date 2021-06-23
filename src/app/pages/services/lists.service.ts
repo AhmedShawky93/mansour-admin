@@ -51,4 +51,18 @@ export class ListsService {
         return Observable.throw(error.error || "Server error");
       });
   }
+
+  uploadFile(id, file) {
+    const fd = new FormData();
+    fd.append("file", file);
+
+    return this.http
+      .post(this.url + '/lists/' + id + "/import-list-items", fd)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "file upload error");
+      });
+  }
+  export(id) {
+    return this.http.get(this.url + '/lists/' + id + "/export-file-list-items")
+  }
 }
