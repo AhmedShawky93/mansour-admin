@@ -114,7 +114,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
             return response.data.customers.map(c => {
               return {
                 id: c.id,
-                name: c.id + ": " + c.name
+                name: c.id + ": " + c.name + (c.active == 0 ? ": dectivated" : "")
               }
             })
           })

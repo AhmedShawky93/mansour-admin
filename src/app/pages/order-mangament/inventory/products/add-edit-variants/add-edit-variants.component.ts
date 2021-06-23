@@ -14,6 +14,7 @@ import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} fro
 import {uniqBy} from 'lodash';
 import {environment} from '@env/environment';
 import {NgxSpinnerService} from 'ngx-spinner';
+import { PromosService } from '@app/pages/services/promos.service';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   productsLoading: boolean;
   attribute_options = [];
   option_values: FormArray;
+  paymentMethods: any;
 
 
   constructor(
@@ -53,7 +55,8 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     private _CategoriesService: CategoryService,
     private toasterService: ToastrService,
     private spinner: NgxSpinnerService,
-    private optionsService: OptionsService
+    private optionsService: OptionsService,
+    private promoService: PromosService
   ) {
     this.allOptions$ = this.optionsService.getOptions();
     this.categories$ = this._CategoriesService.getCategories();
@@ -78,6 +81,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.getPaymentMethods();
   }
 
   ngOnChanges() {
@@ -156,6 +160,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
+      payment_method: new FormControl((data && data.payment_method) ? data.payment_method : [], []),
       option_values: this.formBuilder.array([]),
     }, {
       validator: [
@@ -163,6 +168,14 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         compareNumbers('discount_price', 'price')
       ]
     });
+  }
+  getPaymentMethods() {
+    this.promoService.getPaymentMethods()
+      .subscribe((rep) => {
+        if (rep.code === 200) {
+          this.paymentMethods = rep.data.filter(item => item.active == '1');
+        }
+      })
   }
 
   getCategories(res: any) {
