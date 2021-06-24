@@ -248,6 +248,11 @@
           </div>
         </div>
       </div>
+
+      <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true" formControlName="payment_methods"
+        formControlName="payment_method" bindLabel="name" bindValue="id" name="payment_method"
+        placeholder="Select Payment Methods">
+      </ng-select>
     </div>
 
     <div class="form-group">

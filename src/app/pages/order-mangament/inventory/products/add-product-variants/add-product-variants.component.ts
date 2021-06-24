@@ -13,6 +13,7 @@ import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {Observable, combineLatest, Subject, concat, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
 import {environment} from '@env/environment';
+import { PromosService } from '@app/pages/services/promos.service';
 
 @Component({
   selector: 'app-add-product-variants',
@@ -53,6 +54,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   brands$: Observable<any>;
   productsInput$ = new Subject<String>();
   productsLoading: boolean;
+  paymentMethods: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -62,7 +64,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     private toasterService: ToastrService,
     private optionsService: OptionsService,
     private spinner: NgxSpinnerService,
-    private draftProductService: DraftProductService
+    private draftProductService: DraftProductService,
+    private promoService: PromosService
   ) {
     this.allOptions$ = this.optionsService.getOptions();
     this.categories$ = this.categoriesService.getCategories();
@@ -89,6 +92,16 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getInitialData();
+    this.getPaymentMethods();
+  }
+
+  getPaymentMethods() {
+    this.promoService.getPaymentMethods()
+      .subscribe((rep) => {
+        if (rep.code === 200) {
+          this.paymentMethods = rep.data.filter(item => item.active == '1');
+        }
+      })
   }
 
   ngOnChanges() {
@@ -139,6 +152,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       start_time: new FormControl(data ? data.start_time : '00:00:00', []),
       discount_end_date: new FormControl(data ? data.discount_end_date : '', []),
       expiration_time: new FormControl(data ? data.expiration_time : '00:00:00', []),
+      payment_method: new FormControl((data && data.payment_method) ? data.payment_method : [], []),
       product_variant_options: new FormControl(data ? data.product_variant_options : '', []),
 
       image: new FormControl(data ? data.image : '', Validators.required),
