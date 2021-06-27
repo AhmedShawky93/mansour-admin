@@ -111,6 +111,18 @@
         </ul>
       </li>
 
+      <li class="side-nav-item" *ngxPermissionsOnly="[
+          'ADMIN',
+          'View Ads',
+          'View Slider',
+          'View Sections'
+        ]" routerLinkActive="active">
+        <a routerLink="/pages/stores">
+          <i class="icon-None7" data-toggle="tooltip" data-placement="right" title="Manage Usder"></i>
+          <span>Stores</span>
+        </a>
+      </li>
+
       <li
         class="side-nav-item"
         routerLinkActive="active"
