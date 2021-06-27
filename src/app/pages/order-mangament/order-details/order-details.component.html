@@ -362,25 +362,62 @@
         <!-- <span *ngIf="order.payment_method == 5">Premium</span> -->
       </div>
 
-      <div class="block-item">
-        <p>Item Total</p>
-        <span>{{ order.invoice.total_amount | number : '1.2-2'}}</span>
+      <div *ngIf="order.payment_method !== 3; else valuPayment">
+        <div class="block-item">
+          <p>Item Total</p>
+          <span>{{ order.invoice.total_amount | number : '1.2-2'}}</span>
+        </div>
+
+        <div class="block-item">
+          <p>Discount</p>
+          <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount )| number
+            : '1.2-2'}}</span>
+          <span *ngIf="!order.invoice.discount === null">-</span>
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
+            <i class="icon-grey edit-price"></i>
+          </a>
+        </div>
+
+        <div class="block-item">
+          <p>Grand Total</p>
+          <span>{{ (order.amount + order.delivery_fees) | number : '1.2-2' }}</span>
+        </div>
       </div>
 
-      <div class="block-item">
-        <p>Discount</p>
-        <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount )| number
-          : '1.2-2'}}</span>
-        <span *ngIf="!order.invoice.discount === null">-</span>
-        <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
-          <i class="icon-grey edit-price"></i>
-        </a>
-      </div>
+      <ng-template #valuPayment>
+        <div class="block-item">
+          <p>Item Total</p>
+          <span>{{ order.valu.total_before_down_payment | number : '1.2-2'}}</span>
+        </div>
 
-      <div class="block-item">
-        <p>Grand Total</p>
-        <span>{{ (order.amount + order.delivery_fees) | number : '1.2-2' }}</span>
-      </div>
+        <div class="block-item">
+          <p>Down Payment</p>
+          <span>{{ order.valu.down_payment | number : '1.2-2'}}</span>
+        </div>
+
+        <div class="block-item">
+          <p>Discount</p>
+          <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount )| number
+            : '1.2-2'}}</span>
+          <span *ngIf="order.invoice.discount === null">-</span>
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
+            <i class="icon-grey edit-price"></i>
+          </a>
+        </div>
+
+        <div class="block-item">
+          <p>Total Cash Amount</p>
+          <span>{{ (order.amount + order.delivery_fees) | number : '1.2-2' }}</span>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+
+  <div class="mt-4 row">
+    <div class="block-item" *ngIf="order.payment_method === 3">
+      <p>valU note</p>
+      <span>{{ order.valu.valu_message }}</span>
     </div>
   </div>
 </div>
