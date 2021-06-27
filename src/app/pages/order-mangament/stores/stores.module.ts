@@ -7,7 +7,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-// import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule } from '@agm/core';
 
 const router = [
   { path: "", component: StoresComponent, data: { title: "Stores" } },
@@ -21,10 +21,10 @@ const router = [
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    // AgmCoreModule.forRoot({
-    //   apiKey: 'AIzaSyAGue_n2PIwzqxAaxY0yzd5XgrVcF5hheI',
-    //   libraries: ['places']
-    // }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAGue_n2PIwzqxAaxY0yzd5XgrVcF5hheI',
+      libraries: ['places']
+    }),
   ],
   declarations: [
     StoresComponent,

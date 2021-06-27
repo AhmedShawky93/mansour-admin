@@ -123,9 +123,9 @@
 
     <div class="form-group">
       <label for=""> Location map </label>
-      <!-- <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng" (mapClick)="markerDragEnd($event)">
+      <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng" (mapClick)="markerDragEnd($event)">
         <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-      </agm-map> -->
+      </agm-map>
       <!-- Start  Errors Rolues -->
 
       <div *ngIf="OptionForm.controls.lng.invalid && (OptionForm.controls.lng.dirty || OptionForm.controls.lng.touched)"
@@ -169,9 +169,7 @@
       <label for="">Types </label>
       <select class="owl-input" formControlName="type" required name="type">
         <option value="" selected hidden>Select types </option>
-        <option value="footloose"> Footloose</option>
-        <option value="crocs_outlet"> Crocs outlet</option>
-        <option value="crocs_concept">Crocs concept </option>
+        <option value="mobilaty"> Mobilaty</option>
       </select>
       <!-- Start  Errors Rolues -->
 

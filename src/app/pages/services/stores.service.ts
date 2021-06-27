@@ -39,7 +39,7 @@ export class BracnhesStoreService {
   }
 
   updateBranch(id, data) {
-    return this.http.post(this.url + "/branches/" + id, data)
+    return this.http.put(this.url + "/branches/" + id, data)
       .catch((error: any) => {
         throw (error.error || 'Server error');
         ;

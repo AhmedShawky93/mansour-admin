@@ -36,10 +36,10 @@
     <div>
       <h5> Location on Map </h5>
       <div class="disabled-map">
-        <!-- <agm-map [latitude]="dataView.lat" [zoom]="12" [longitude]="dataView.lng" [scrollwheel]="false"
+        <agm-map [latitude]="dataView.lat" [zoom]="12" [longitude]="dataView.lng" [scrollwheel]="false"
           [draggable]="false" [scaleControl]="false" [disableDefaultUI]="true">
           <agm-marker [latitude]="dataView.lat" [longitude]="dataView.lng"></agm-marker>
-        </agm-map> -->
+        </agm-map>
       </div>
     </div>
     <div>
@@ -54,9 +54,7 @@
     </div> -->
     <div>
       <h5> Type </h5>
-      <p *ngIf="dataView.type == 'footloose'">Footloose</p>
-      <p *ngIf="dataView.type =='crocs_outlet'"> Crocs outlet</p>
-      <p *ngIf="dataView.type =='crocs_concept'">Crocs concept</p>
+      <p *ngIf="dataView.type == 'mobilaty'">Mobilaty</p>
     </div>
 
 
