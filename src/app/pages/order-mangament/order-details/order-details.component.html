@@ -387,12 +387,12 @@
       <ng-template #valuPayment>
         <div class="block-item">
           <p>Item Total</p>
-          <span>{{ order.valu.total_before_down_payment | number : '1.2-2'}}</span>
+          <span>{{ order.installment.total_before_down_payment | number : '1.2-2'}}</span>
         </div>
 
         <div class="block-item">
           <p>Down Payment</p>
-          <span>{{ order.valu.down_payment | number : '1.2-2'}}</span>
+          <span>{{ order.installment.down_payment | number : '1.2-2'}}</span>
         </div>
 
         <div class="block-item">
@@ -415,9 +415,10 @@
   </div>
 
   <div class="mt-4 row">
-    <div class="block-item" *ngIf="order.payment_method === 3">
-      <p>valU note</p>
-      <span>{{ order.valu.valu_message }}</span>
+    <div class="block-item" *ngIf="order.installment.installment_message">
+      <p *ngIf="order.payment_method === 3">valU note</p>
+      <p *ngIf="order.payment_method === 5">Premium note</p>
+      <span>{{ order.installment.installment_message }}</span>
     </div>
   </div>
 </div>

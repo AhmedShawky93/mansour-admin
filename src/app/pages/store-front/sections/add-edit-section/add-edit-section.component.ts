@@ -60,56 +60,6 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
   }
 
   getForm(data) {
-    // if (data && data.image_type == 2){
-    //   this.sectionForm = this.formBuilder.group({
-    //     image_ar: new FormControl(data ? data.image_ar : ''),
-    //     image_en: new FormControl(data ? data.image_en : '', Validators.required),
-    //     name_en: new FormControl(data ? data.name_en : "", Validators.required),
-    //     name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-    //     description_en: new FormControl(data ? data.description_en : "", Validators.required),
-    //     description_ar: new FormControl(data ? data.description_ar : "", Validators.required),
-    //     type: new FormControl(data ? data.type : 0, [Validators.required]),
-    //     list_id: new FormControl(data ? data.list_id : null, [Validators.required]),
-    //     order: new FormControl(data ? data.order : "", Validators.required),
-    //     active: new FormControl(data ? data.active : 1),
-    //     image_type: new FormControl(data ? data.image_type : 0, Validators.required),
-    //   });
-    // } else if (data && data.image_type == 3){
-    //   this.sectionForm = this.formBuilder.group({
-    //     image_ar_1: new FormControl(data ? data.image_ar_1 : ''),
-    //     image_en_1: new FormControl(data ? data.image_en_1 : '', Validators.required),
-    //     image_ar_2: new FormControl(data ? data.image_ar_2 : ''),
-    //     image_en_2: new FormControl(data ? data.image_en_2 : '', Validators.required),
-    //     image_ar_3: new FormControl(data ? data.image_ar_3 : ''),
-    //     image_en_3: new FormControl(data ? data.image_en_3 : '', Validators.required),
-    //     image_ar_4: new FormControl(data ? data.image_ar_4 : ''),
-    //     image_en_4: new FormControl(data ? data.image_en_4 : '', Validators.required),
-    //     image_ar_5: new FormControl(data ? data.image_ar_5 : ''),
-    //     image_en_5: new FormControl(data ? data.image_en_5 : '', Validators.required),
-
-    //     name_en: new FormControl(data ? data.name_en : "", Validators.required),
-    //     name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-    //     description_en: new FormControl(data ? data.description_en : "", Validators.required),
-    //     description_ar: new FormControl(data ? data.description_ar : "", Validators.required),
-    //     type: new FormControl(data ? data.type : 0, [Validators.required]),
-    //     list_id: new FormControl(data ? data.list_id : null, [Validators.required]),
-    //     order: new FormControl(data ? data.order : "", Validators.required),
-    //     active: new FormControl(data ? data.active : 1),
-    //     image_type: new FormControl(data ? data.image_type : 0, Validators.required),
-    //   });
-    // }else{
-    //   this.sectionForm = this.formBuilder.group({
-    //     name_en: new FormControl(data ? data.name_en : "", Validators.required),
-    //     name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-    //     description_en: new FormControl(data ? data.description_en : "", Validators.required),
-    //     description_ar: new FormControl(data ? data.description_ar : "", Validators.required),
-    //     type: new FormControl(data ? data.type : 0, [Validators.required]),
-    //     list_id: new FormControl(data ? data.list_id : null, [Validators.required]),
-    //     order: new FormControl(data ? data.order : "", Validators.required),
-    //     active: new FormControl(data ? data.active : 1),
-    //     image_type: new FormControl(data ? data.image_type : 0, Validators.required),
-    //   });
-    // }
     this.sectionForm = this.formBuilder.group({
       name_en: new FormControl(data ? data.name_en : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
@@ -126,6 +76,7 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
       (this.sectionForm.get('images') as FormArray).push(new FormGroup({
         image_en: new FormControl('', Validators.required),
         image_ar: new FormControl(''),
+        image_link: new FormControl(''),
         id: new FormControl(data ? data.images[0].id : null)
       }))
     } else if (this.sectionForm.value.image_type == 3){
@@ -133,6 +84,7 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
         (this.sectionForm.get('images') as FormArray).push(new FormGroup({
           image_en: new FormControl('', Validators.required),
           image_ar: new FormControl(''),
+          image_link: new FormControl(''),
           id: new FormControl(data ? data.images[index].id : null)
         }))
       }
@@ -141,60 +93,6 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
   get imagesList() { return <FormArray>this.sectionForm.get('images'); }
 
   resetForm() {
-    // if (parseInt(this.sectionForm.value.image_type) == 2) {
-    //   this.sectionForm = this.formBuilder.group({
-    //     image_ar: new FormControl(''),
-    //     image_en: new FormControl('', Validators.required),
-    //     name_en: new FormControl(this.sectionForm.value.name_en ? this.sectionForm.value.name_en : "", Validators.required),
-    //     name_ar: new FormControl(this.sectionForm.value.name_ar ? this.sectionForm.value.name_ar : "", Validators.required),
-    //     description_en: new FormControl(this.sectionForm.value.description_en ? this.sectionForm.value.description_en : "", Validators.required),
-    //     description_ar: new FormControl(this.sectionForm.value.description_ar ? this.sectionForm.value.description_ar : "", Validators.required),
-    //     type: new FormControl(this.sectionForm.value.type ? this.sectionForm.value.type : 0, [Validators.required]),
-    //     list_id: new FormControl(this.sectionForm.value.list_id ? this.sectionForm.value.list_id : null, [Validators.required]),
-    //     order: new FormControl(this.sectionForm.value.order ? this.sectionForm.value.order : "", Validators.required),
-    //     active: new FormControl(this.sectionForm.value.active ? this.sectionForm.value.active : 1),
-    //     image_type: new FormControl(this.sectionForm.value.image_type ? this.sectionForm.value.image_type : 0, Validators.required),
-    //   });
-    // } else if (parseInt(this.sectionForm.value.image_type) == 3) {
-    //   this.sectionForm = this.formBuilder.group({
-    //     image_ar_1: new FormControl(''),
-    //     image_en_1: new FormControl('', Validators.required),
-
-    //     image_ar_2: new FormControl(''),
-    //     image_en_2: new FormControl('', Validators.required),
-
-    //     image_ar_3: new FormControl(''),
-    //     image_en_3: new FormControl('', Validators.required),
-
-    //     image_ar_4: new FormControl(''),
-    //     image_en_4: new FormControl('', Validators.required),
-
-    //     image_ar_5: new FormControl(''),
-    //     image_en_5: new FormControl('', Validators.required),
-
-    //     name_en: new FormControl(this.sectionForm.value.name_en ? this.sectionForm.value.name_en : "", Validators.required),
-    //     name_ar: new FormControl(this.sectionForm.value.name_ar ? this.sectionForm.value.name_ar : "", Validators.required),
-    //     description_en: new FormControl(this.sectionForm.value.description_en ? this.sectionForm.value.description_en : "", Validators.required),
-    //     description_ar: new FormControl(this.sectionForm.value.description_ar ? this.sectionForm.value.description_ar : "", Validators.required),
-    //     type: new FormControl(this.sectionForm.value.type ? this.sectionForm.value.type : 0, [Validators.required]),
-    //     list_id: new FormControl(this.sectionForm.value.list_id ? this.sectionForm.value.list_id : null, [Validators.required]),
-    //     order: new FormControl(this.sectionForm.value.order ? this.sectionForm.value.order : "", Validators.required),
-    //     active: new FormControl(this.sectionForm.value.active ? this.sectionForm.value.active : 1),
-    //     image_type: new FormControl(this.sectionForm.value.image_type ? this.sectionForm.value.image_type : 0, Validators.required),
-    //   });
-    // } else {
-    //   this.sectionForm = this.formBuilder.group({
-    //     name_en: new FormControl(this.sectionForm.value.name_en ? this.sectionForm.value.name_en : "", Validators.required),
-    //     name_ar: new FormControl(this.sectionForm.value.name_ar ? this.sectionForm.value.name_ar : "", Validators.required),
-    //     description_en: new FormControl(this.sectionForm.value.description_en ? this.sectionForm.value.description_en : "", Validators.required),
-    //     description_ar: new FormControl(this.sectionForm.value.description_ar ? this.sectionForm.value.description_ar : "", Validators.required),
-    //     type: new FormControl(this.sectionForm.value.type ? this.sectionForm.value.type : 0, [Validators.required]),
-    //     list_id: new FormControl(this.sectionForm.value.list_id ? this.sectionForm.value.list_id : null, [Validators.required]),
-    //     order: new FormControl(this.sectionForm.value.order ? this.sectionForm.value.order : "", Validators.required),
-    //     active: new FormControl(this.sectionForm.value.active ? this.sectionForm.value.active : 1),
-    //     image_type: new FormControl(this.sectionForm.value.image_type ? this.sectionForm.value.image_type : 0, Validators.required),
-    //   });
-    // }
     this.sectionForm = this.formBuilder.group({
       name_en: new FormControl(this.sectionForm.value ? this.sectionForm.value.name_en : "", Validators.required),
       name_ar: new FormControl(this.sectionForm.value ? this.sectionForm.value.name_ar : "", Validators.required),
@@ -211,14 +109,16 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
       (this.sectionForm.get('images') as FormArray).push(new FormGroup({
         id: new FormControl(this.sectionData && this.sectionData.images ? this.sectionData.images[0].id : null),
         image_en: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_en : "", Validators.required),
-        image_ar: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_ar : "")
+        image_ar: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_ar : ""),
+        image_link: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_link : "")
       }))
     } else if (this.sectionForm.value.image_type == 3) {
       for (let index = 0; index < 5; index++) {
         (this.sectionForm.get('images') as FormArray).push(new FormGroup({
           id: new FormControl(this.sectionData && this.sectionData.images && this.sectionData.images[index] ? this.sectionData[index].id : null),
           image_en: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_en : "", Validators.required),
-          image_ar: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_ar : "")
+          image_ar: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_ar : ""),
+          image_link: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_link : "")
         }))
       }
     }
