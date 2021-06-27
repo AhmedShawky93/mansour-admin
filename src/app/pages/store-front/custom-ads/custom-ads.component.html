@@ -49,12 +49,9 @@
             <i class="icon-View"></i>
           </a>
 
-
           <!-- <a href="javascript:void(0)" (click)="editCurrentAd(ad)" class="table-view edit-new">
             <i class="icon-grey"></i>
           </a> -->
-
-
 
           <label class="switch" *ngIf="!ad.banner_ad && (ad.id === 0 || ad.id === 1)">
             <input type="checkbox" value="1" [(ngModel)]="ad.active" (change)="changeActive(ad)">

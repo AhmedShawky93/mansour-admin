@@ -252,7 +252,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       // remap options from(subCategory)
       this.selectSubCategoryOption(this.parentProduct.category.id, this.parentProduct.category_id);
       // remap options from(Optional subCategory)
-      if (this.parentProduct.optional_category.length){
+      if (this.parentProduct.optional_category && this.parentProduct.optional_category.length){
         this.selectSubCategoryOption(this.parentProduct.optional_category.id, this.parentProduct.optional_sub_category_id, true);
       }
     }
