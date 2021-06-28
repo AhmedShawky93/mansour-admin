@@ -22,6 +22,14 @@ export class ListsService {
       });
   }
 
+  getListById(id){
+    return this.http
+      .get<any>(this.url + `/lists/${id}`)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+
   createList(data) {
     return this.http.post(this.url + "/lists", data).catch((error: any) => {
       return Observable.throw(error.error || "Server error");

@@ -191,7 +191,8 @@
             href="{{website_url + '/products/' + encodedProductName(product.name) + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
             <i class="fa fa-external-link"></i>
           </a>
-          <label class="switch">
+          <!-- comment the product deactivation switch -->
+          <!-- <label class="switch">
             <input (change)="changeActive(product)" [(ngModel)]="product.active" type="checkbox" value="1">
             <span class="slider round"></span>
             <div [hidden]="!product.showReason" class="reason-popup text-left">
@@ -211,7 +212,7 @@
                 {{product.deactivation_notes}}
               </div>
             </div>
-          </label>
+          </label> -->
         </td>
         <td *ngIf="product.isDraft">
           <a (click)="editDraftProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">

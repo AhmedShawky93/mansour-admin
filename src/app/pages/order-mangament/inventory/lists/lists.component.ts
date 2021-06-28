@@ -155,9 +155,11 @@ export class ListsComponent implements OnInit {
   }
 
   toggleMenu(data) {
-    this.selectOptionData = data;
-    this.viewOptionSidebar = "out";
-    this.toggleListForm = "in";
+    this.listsService.getListById(data.id).subscribe((res) => {
+      this.selectOptionData = res.data;
+      this.viewOptionSidebar = "out";
+      this.toggleListForm = "in";
+    })
     console.log(this.selectOptionData);
   }
 

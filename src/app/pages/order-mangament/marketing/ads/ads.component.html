@@ -24,7 +24,7 @@
         <th style="width: 180px;" scope="col">ID</th>
         <th scope="col">Banner Title</th>
         <th scope="col">Type</th>
-        <th scope="col">location</th>
+        <!-- <th scope="col">location</th> -->
         <th scope="col">Order</th>
         <th scope="col">Creation Date</th>
         <th scope="col">Action</th>
@@ -52,14 +52,14 @@
           <P *ngIf="ad.type == 6"> Category </P>
           <P *ngIf="ad.type == 7"> Link </P>
         </td>
-        <td>
+        <!-- <td>
           <P *ngIf="ad.popup">Popup</P>
           <P *ngIf="!ad.popup && !ad.banner_ad">Slider</P>
           <P *ngIf="ad.banner_ad">Banner</P>
-        </td>
-        <td class="order-col" (click)="ad.orderUpdate = true">
+        </td> -->
+        <td class="order-col">
           {{ad.order}}
-          <div class="order-selection" *ngIf="ad.orderUpdate">
+          <div class="order-selection" >
             <ng-select [closeOnSelect]="true" (change)="updateAdOrder(ad)" [(ngModel)]="ad.order" [items]="orderArray" [multiple]="false" [clearable]="false"  required>
             </ng-select>
           </div>
