@@ -107,7 +107,7 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
     });
     if (this.sectionForm.value.image_type == 2) {
       (this.sectionForm.get('images') as FormArray).push(new FormGroup({
-        id: new FormControl(this.sectionData && this.sectionData.images ? this.sectionData.images[0].id : null),
+        id: new FormControl(this.sectionData && this.sectionData.images.length > 0 ? this.sectionData.images[0].id : null),
         image_en: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_en : "", Validators.required),
         image_ar: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_ar : ""),
         link_en: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_link : "")

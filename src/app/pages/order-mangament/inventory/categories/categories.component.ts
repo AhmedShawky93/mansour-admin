@@ -100,10 +100,7 @@ export class CategoriesComponent implements OnInit {
       description: new FormControl("", Validators.required),
       description_ar: new FormControl("", Validators.required),
       order: new FormControl("", Validators.required),
-      sub_categories: new FormArray(
-        [],
-        [Validators.minLength(1), Validators.required]
-      ),
+      sub_categories: new FormArray([],[Validators.minLength(1), Validators.required]),
     });
     this.getOptions();
   }

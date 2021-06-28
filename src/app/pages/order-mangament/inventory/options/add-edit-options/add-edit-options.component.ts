@@ -65,15 +65,9 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       description_en: new FormControl(data ? data.description_en : "", []),
       description_ar: new FormControl(data ? data.description_ar : "", []),
-      appear_in_search: new FormControl(
-        data ? data.appear_in_search : false,
-        []
-      ),
+      appear_in_search: new FormControl(data ? data.appear_in_search : false),
       type: new FormControl(data ? data.type : "1", [Validators.required]),
-      values: this.formBuilder.array(
-        [],
-        [Validators.minLength(1), Validators.required]
-      ),
+      values: this.formBuilder.array([],[Validators.minLength(1)]),
     });
     console.log(data);
     if (data) {
