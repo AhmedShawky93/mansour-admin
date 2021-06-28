@@ -151,6 +151,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
+    document.body.style.overflow = 'auto';
     this.routerSubscription.unsubscribe()
   }
 
