@@ -30,7 +30,7 @@ export class ImageUploaderComponent implements OnInit, OnChanges {
     private uploadFile: UploadFilesService,
     private toasterService: ToastrService
   ) {
-    this.fallbackImage = 'http://via.placeholder.com/370x220';
+    this.fallbackImage = 'https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg';
   }
 
   ngOnInit() {
