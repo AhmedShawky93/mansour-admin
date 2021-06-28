@@ -74,23 +74,23 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
     });
     if (this.sectionForm.value.image_type == 2){
       (this.sectionForm.get('images') as FormArray).push(new FormGroup({
-        image_en: new FormControl('', Validators.required),
-        image_ar: new FormControl(''),
-        link_en: new FormControl(''),
+        image_en: new FormControl(data && data.images.length > 0 ? data.images[0].image_en : '', Validators.required),
+        image_ar: new FormControl(data && data.images.length > 0 ? data.images[0].image_ar : ''),
+        link_en: new FormControl(data && data.images.length > 0 ? data.images[0].link_en : ''),
         id: new FormControl(data ? data.images[0].id : null)
       }))
     } else if (this.sectionForm.value.image_type == 3){
       for (let index = 0; index < 5; index++) {
         (this.sectionForm.get('images') as FormArray).push(new FormGroup({
-          image_en: new FormControl('', Validators.required),
-          image_ar: new FormControl(''),
-          link_en: new FormControl(''),
+          image_en: new FormControl(data && data.images && data.images[index] ? data.images[index].image_en : '', Validators.required),
+          image_ar: new FormControl(data && data.images && data.images[index] ? data.images[index].image_ar : ''),
+          link_en: new FormControl(data && data.images && data.images[index] ? data.images[index].link_en : ''),
           id: new FormControl(data ? data.images[index].id : null)
         }))
       }
     }
   }
-  get imagesList() { return <FormArray>this.sectionForm.get('images'); }
+  get imagesList() { return <FormArray>this.sectionForm.get('images') }
 
   resetForm() {
     this.sectionForm = this.formBuilder.group({
@@ -115,7 +115,7 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
     } else if (this.sectionForm.value.image_type == 3) {
       for (let index = 0; index < 5; index++) {
         (this.sectionForm.get('images') as FormArray).push(new FormGroup({
-          id: new FormControl(this.sectionData && this.sectionData.images && this.sectionData.images[index] ? this.sectionData[index].id : null),
+          id: new FormControl(this.sectionData && this.sectionData.images && this.sectionData.images[index] ? this.sectionData.images[index].id : null),
           image_en: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_en : "", Validators.required),
           image_ar: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_ar : ""),
           link_en: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_link : "")

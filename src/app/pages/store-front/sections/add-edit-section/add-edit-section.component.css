@@ -12,8 +12,10 @@
   overflow-x: hidden;
   height: 100vh;
   box-shadow: 0 12px 54px 0 rgba(6,40,59,.1);
+}
 
-
+.image-parent{
+  margin-bottom: 20px
 }
 
 agm-map {

@@ -69,6 +69,7 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
       lng: new FormControl(data ? parseFloat(data.lng) : "", Validators.required),
       phones: this.formBuilder.array([]),
       direction_link: new FormControl(data ? data.direction_link : "", Validators.required),
+      order: new FormControl(data ? data.order : "", Validators.required),
       type: new FormControl(data ? data.type : "", Validators.required),
     });
     if (!data) {
