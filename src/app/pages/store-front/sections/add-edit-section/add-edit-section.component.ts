@@ -108,17 +108,17 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
     if (this.sectionForm.value.image_type == 2) {
       (this.sectionForm.get('images') as FormArray).push(new FormGroup({
         id: new FormControl(this.sectionData && this.sectionData.images.length > 0 ? this.sectionData.images[0].id : null),
-        image_en: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_en : "", Validators.required),
-        image_ar: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_ar : ""),
-        link_en: new FormControl(this.sectionForm.value.images[0] ? this.sectionForm.value.images[0].value.image_link : "")
+        image_en: new FormControl(this.sectionData.images[0] ? this.sectionData.images[0].image_en : "", Validators.required),
+        image_ar: new FormControl(this.sectionData.images[0] ? this.sectionData.images[0].image_ar : ""),
+        link_en: new FormControl(this.sectionData.images[0] ? this.sectionData.images[0].link_en : "")
       }))
     } else if (this.sectionForm.value.image_type == 3) {
       for (let index = 0; index < 5; index++) {
         (this.sectionForm.get('images') as FormArray).push(new FormGroup({
           id: new FormControl(this.sectionData && this.sectionData.images && this.sectionData.images[index] ? this.sectionData.images[index].id : null),
-          image_en: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_en : "", Validators.required),
-          image_ar: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_ar : ""),
-          link_en: new FormControl(this.sectionForm.value.images[index] ? this.sectionForm.value.images[index].value.image_link : "")
+          image_en: new FormControl(this.sectionData.images[index] ? this.sectionData.images[index].image_en : "", Validators.required),
+          image_ar: new FormControl(this.sectionData.images[index] ? this.sectionData.images[index].image_ar : ""),
+          link_en: new FormControl(this.sectionData.images[index] ? this.sectionData.images[index].link_en : "")
         }))
       }
     }
