@@ -679,6 +679,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.formatDateForSaving(product, this.componentForm);
 
     const data = {
+      product_with_variant: true,
       default_variant: product.default_variant,
       description: product.description,
       description_ar: product.description_ar,

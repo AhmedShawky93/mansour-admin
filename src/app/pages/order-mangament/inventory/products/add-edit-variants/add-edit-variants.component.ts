@@ -126,6 +126,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       images: this.formBuilder.array([]),
       name: new FormControl(data ? data.name : '', Validators.required),
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
+      product_with_variant: new FormControl(false),
       description: new FormControl(data ? data.description : '', [
         Validators.required,
       ]),
