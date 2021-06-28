@@ -29,6 +29,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
   orderForm: FormGroup;
   deleted_items: any[] = [];
+  loading: boolean;
 
   constructor(private customerService: CustomerService, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) { }
 
@@ -200,6 +201,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     console.log(order);
 
     if (this.selectedOrder) {
+      this.loading = true;
       order.deleted_items = this.deleted_items;
       this.ordersService.updateItems(this.selectedOrder.id, order)
         .subscribe((response: any) => {
@@ -213,6 +215,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           }
         });
     } else {
+      this.loading = true;
       this.ordersService.createOrder(order)
         .subscribe((response: any) => {
           console.log(response);
