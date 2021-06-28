@@ -69,7 +69,7 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
       list_id: new FormControl(data ? data.list_id : null, [Validators.required]),
       order: new FormControl(data ? data.order : "", Validators.required),
       active: new FormControl(data ? data.active : 1),
-      image_type: new FormControl(data ? data.image_type : 0, Validators.required),
+      image_type: new FormControl(data ? data.image_type : 1, Validators.required),
       images: new FormArray([])
     });
     if (this.sectionForm.value.image_type == 2){
@@ -102,7 +102,7 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
       list_id: new FormControl(this.sectionForm.value ? this.sectionForm.value.list_id : null, [Validators.required]),
       order: new FormControl(this.sectionForm.value ? this.sectionForm.value.order : "", Validators.required),
       active: new FormControl(this.sectionForm.value ? this.sectionForm.value.active : 1),
-      image_type: new FormControl(this.sectionForm.value ? this.sectionForm.value.image_type : 0, Validators.required),
+      image_type: new FormControl(this.sectionForm.value ? this.sectionForm.value.image_type : 1, Validators.required),
       images: new FormArray([])
     });
     if (this.sectionForm.value.image_type == 2) {
