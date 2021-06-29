@@ -91,8 +91,7 @@
 </div>
 
 <!-- view product -->
-<app-view-city class="parent-editor-viewer-sidebar" (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewDataSidebar" [
-selectDataEdit]="selectDataView"></app-view-city>
+<app-view-city class="parent-editor-viewer-sidebar" (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewDataSidebar" [selectDataEdit]="selectDataView"></app-view-city>
 
 <!-- Add / edit Product -->
 <app-add-edit-city class="parent-editor-viewer-sidebar" (dataEmit)="addOrUpdateData($event)" (closeSideBarEmit)="closeSideBar()"
