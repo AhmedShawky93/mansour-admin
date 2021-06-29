@@ -2,3 +2,29 @@
   display: block;
     margin: 0px auto;
 }
+
+.order-col {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ml-10{
+  margin-left: 10px;
+}
+
+.delete-ad {
+  position: relative;
+}
+
+.reason-popup-delete {
+  display: none;
+}
+
+.reason-popup-delete.show {
+  width: 500px !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  flex-direction: column;
+}

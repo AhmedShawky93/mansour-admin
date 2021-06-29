@@ -63,7 +63,7 @@ export class SectionsComponent implements OnInit {
   constructor(
     private toastrService: ToastrService,
     private sectionsService: SectionsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getSections();
@@ -72,8 +72,8 @@ export class SectionsComponent implements OnInit {
       searchTerm: new FormControl(),
     });
   }
-  openViewProduct(data) {}
-  
+  openViewProduct(data) { }
+
   getSections() {
     this.loading = true;
     this.productIsEmpty = false;
@@ -154,6 +154,16 @@ export class SectionsComponent implements OnInit {
     this.currentSection = data;
     this.viewOptionSidebar = "out";
     this.toggleAddOption = "in";
+  }
+
+  deleteSection(data) {
+    this.sectionsService.deleteSection(data.id).subscribe(res => {
+      if (res.code === 200) {
+        this.sections = this.sections.filter(item => item.id !== data.id)
+      } else {
+        this.toastrService.error(res.message);
+      }
+    })
   }
 
   closeSideBar() {
