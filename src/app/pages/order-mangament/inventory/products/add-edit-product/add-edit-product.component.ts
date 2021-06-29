@@ -128,10 +128,10 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       /*stock: new FormControl(data ? data.stock : 0, Validators.required),*/
       preorder: new FormControl(data ? data.preorder : 0),
       available_soon: new FormControl(data ? data.available_soon : 0),
-      preorder_start_date: new FormControl((data && data.preorder_start_date) ? data.preorder_start_date.split(' ')[0] : '', []),
-      start_time: new FormControl((data && data.preorder_start_date) ? data.preorder_start_date.split(' ')[1] : '00:00:00', []),
-      preorder_end_date: new FormControl((data && data.preorder_end_date) ? data.preorder_end_date.split(' ')[0] : '', []),
-      expiration_time: new FormControl((data && data.preorder_end_date) ? data.preorder_end_date.split(' ')[1] : '00:00:00', []),
+      preorder_start_date: new FormControl((data && data.preorder_start_date) ? data.preorder_start_date.date.split(' ')[0] : '', []),
+      start_time: new FormControl((data && data.preorder_start_date) ? data.preorder_start_date.date.split(' ')[1] : '00:00:00', []),
+      preorder_end_date: new FormControl((data && data.preorder_end_date) ? data.preorder_end_date.date.split(' ')[0] : '', []),
+      expiration_time: new FormControl((data && data.preorder_end_date) ? data.preorder_end_date.date.split(' ')[1] : '00:00:00', []),
       /*preorder_price: new FormControl(data ? data.preorder_price : 0, Validators.required),*/
       sku: new FormControl(data ? data.sku : '', Validators.required),
       /*image: new FormControl(data ? data.image : '', Validators.required),
