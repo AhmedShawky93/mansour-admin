@@ -237,6 +237,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (this.route.snapshot.queryParams.main_category) {
       this.main_category = this.route.snapshot.queryParams.main_category;
+      this.selectCategoryFilter(this.main_category, true);
     }
     if (this.route.snapshot.queryParams.sub_category_id) {
       this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
@@ -293,6 +294,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       .getProducts({
         page: this.p ? this.p : 1,
         q: (search) ? search : '',
+        category_id: this.main_category ? this.main_category : '',
         sub_category_id: this.sub_category_id ? this.sub_category_id : '',
         parent_id: (product) ? product.id : ''
       })
@@ -691,13 +693,20 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   selectCategoryFilter(cat_id, FromRouter) {
     if (cat_id) {
-      const index = this.categories.findIndex((item) => item.id == cat_id);
-      const category = this.categories[index];
-      this.sub_categories = category.sub_categories;
-      if (FromRouter) {
-        this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
+      this.main_category = cat_id;
+      if (this.categories) {
+        const index = this.categories.findIndex((item) => item.id == cat_id);
+        const category = this.categories[index];
+        this.sub_categories = category.sub_categories;
+        if (FromRouter) {
+          this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
+        } else {
+          this.sub_category_id = '';
+        }
       } else {
-        this.sub_category_id = '';
+        setTimeout(() => {
+          this.selectCategoryFilter(cat_id, FromRouter);
+        }, 100);
       }
     } else {
       this.sub_categories = [];
@@ -842,7 +851,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.stateCloning = true;
   }
 
-  encodedProductName(name){
+  encodedProductName(name) {
     return name.replace(/\s/g, '-')
   }
 
