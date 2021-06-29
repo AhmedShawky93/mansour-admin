@@ -20,8 +20,13 @@ export class GenericDatePickerComponent implements OnInit {
   formatDate(data) {
     const formControl = this.myForm.get(this.formControlChildName);
     const currentDate = (formControl.value) ? formControl.value : data.target.value;
-    const taskDueDate = moment(currentDate, 'DD-MM-YYYY');
-    const format = moment(taskDueDate['_d']).format('YYYY-MM-DD');
+    let format;
+    if (currentDate){
+      let taskDueDate = moment(currentDate, 'DD-MM-YYYY');
+      format = moment(taskDueDate['_d']).format('YYYY-MM-DD');
+    }else{
+      format = "";
+    }
     formControl.setValue(format);
   }
 }

@@ -147,6 +147,10 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),*/
       product_variant_options: new FormControl((data) ? data.product_variant_options.map(item => item.id) : '', [])
+    }, {
+      validator: [
+        DateLessThan('preorder_start_date', 'preorder_end_date'),
+      ]
     });
     // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));
 

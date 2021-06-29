@@ -16,6 +16,9 @@ export function DateLessThan(from: string, to: string) {
         f.setErrors(null);
         return {};
       }
+    }else{
+      t.setErrors(null);
+      f.setErrors(null);
     }
     return {};
   };

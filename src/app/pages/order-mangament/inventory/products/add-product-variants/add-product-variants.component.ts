@@ -198,6 +198,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     }, {
       validator: [
         DateLessThan('discount_start_date', 'discount_end_date'),
+        DateLessThan('preorder_start_date', 'preorder_end_date'),
         compareNumbers('discount_price', 'price')
       ]
     });
