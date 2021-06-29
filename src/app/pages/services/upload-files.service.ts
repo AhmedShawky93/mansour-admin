@@ -35,13 +35,11 @@ export class UploadFilesService {
 
   uploadFiles(files) {
     const formData: any = new FormData();
-    console.log(files);
 
     for (let i = 0; i < files.length; i++) {
       formData.append('files[]', files[i], files[i]['name']);
     }
 
-    console.log('form data variable :   ' + formData.toString());
     return this.http.post(this.url + '/upload_files', formData);
   }
 }

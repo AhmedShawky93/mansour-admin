@@ -47,7 +47,6 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    console.log("initializing")
     this.listService.getLists({})
       .subscribe((response: any) => {
         this.lists = response.data;
@@ -55,7 +54,6 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
     this.getForm(this.sectionData);
   }
   ngOnChanges(): void {
-    console.log(this.sectionData);
     this.getForm(this.sectionData);
   }
 
@@ -135,7 +133,6 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
       // edit
       const data = this.sectionForm.value;
 
-      console.log(data);
       if (!this.sectionForm.valid) {
         this.markFormGroupTouched(this.sectionForm);
         return;
@@ -158,7 +155,6 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
     } else {
       // add
       const data = this.sectionForm.value;
-      console.log(data);
       if (!this.sectionForm.valid) {
         this.markFormGroupTouched(this.sectionForm);
         return;

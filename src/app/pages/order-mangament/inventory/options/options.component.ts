@@ -82,7 +82,6 @@ export class OptionsComponent implements OnInit {
       .getOptions(this.searchObj)
       .subscribe((response: any) => {
         if (response.code === 200) {
-          console.log(response.data.data);
           this.options = response.data.options;
           this.total = response.data.total;
           this.loading = false;
@@ -99,7 +98,6 @@ export class OptionsComponent implements OnInit {
   }
 
   changePage(p) {
-    console.log(p);
     this.searchObj.page = p;
     this.p = p;
     // this.filter.page = p;
@@ -155,7 +153,6 @@ export class OptionsComponent implements OnInit {
   }
 
   viewClinic(clinic) {
-    console.log(clinic);
     this.scrollToTop();
     this.selectOptionDataView = clinic;
     this.toggleAddOption = "out";
@@ -167,7 +164,6 @@ export class OptionsComponent implements OnInit {
     this.selectOptionData = data;
     this.viewOptionSidebar = "out";
     this.toggleAddOption = "in";
-    console.log(this.selectOptionData);
   }
 
   closeSideBar() {

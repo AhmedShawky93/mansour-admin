@@ -69,11 +69,8 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
       type: new FormControl(data ? data.type : "1", [Validators.required]),
       values: this.formBuilder.array([],[Validators.minLength(1)]),
     });
-    console.log(data);
     if (data) {
-      console.log(data);
       data.values.forEach((element) => {
-        console.log(element);
         this.addValueForm(element);
       });
     }
@@ -109,7 +106,6 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
         this.OptionForm.get("image").clearValidators();
         this.OptionForm.get("image").updateValueAndValidity();
       }
-      console.log(data);
       if (!this.OptionForm.valid) {
         this.markFormGroupTouched(this.OptionForm);
         return;
@@ -132,7 +128,6 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
     } else {
       // add
       const data = this.OptionForm.value;
-      console.log(data);
       if (!this.OptionForm.valid) {
         this.markFormGroupTouched(this.OptionForm);
         return;

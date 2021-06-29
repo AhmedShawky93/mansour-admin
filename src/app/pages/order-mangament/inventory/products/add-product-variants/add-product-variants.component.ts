@@ -329,7 +329,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   getAllOptions(res) {
     if (res['code'] === 200) {
       this.allOptions = res['data'].filter(data => Number(data.type) !== 5);
-      console.log('allOptions', this.allOptions);
     } else {
       this.toasterService.error(res['message']);
     }
@@ -414,7 +413,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
       if (index !== -1) {
         this.subCategoryOptions = this.sub_categories[index].options;
-        console.log('This subCategoryOptions >>>>', this.subCategoryOptions);
 
         if (!this.selectedProduct) {
           this.subCategoryOptions.forEach((element) => {
@@ -756,7 +754,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   onAvailableChange() {
-    console.log(this.componentForm.value.available_soon);
     if (this.componentForm.value.available_soon) {
       this.componentForm.get('price').clearValidators();
     } else {

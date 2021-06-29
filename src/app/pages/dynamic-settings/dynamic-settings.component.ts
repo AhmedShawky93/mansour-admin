@@ -93,8 +93,6 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
 
   createDynamicForm() {
     this.componentForm = this.formBuilder.group(this.createMainGroupsControls());
-    console.log('this.componentForm', this.componentForm);
-    console.log('this.formGroups >>>', this.formGroups);
 
   }
 

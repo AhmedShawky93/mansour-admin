@@ -86,10 +86,8 @@ export class AddEditListComponent implements OnInit, OnChanges {
       status: new FormControl(1),
       items: new FormControl([]),
     });
-    console.log(data);
     let products = [];
     if (data) {
-      console.log(data);
       let items = data.products.map((p) => p.id);
       this.listForm.get("items").setValue(items);
       products = data.products;
@@ -183,7 +181,6 @@ export class AddEditListComponent implements OnInit, OnChanges {
           items: data.items,
         },
       ];
-      console.log(data);
       this.listsService.createList(data).subscribe((response: any) => {
         if (response.code == 200) {
           this.listForm.reset();

@@ -15,7 +15,6 @@ export class ViewStoreComponent implements OnInit {
     if (this.dataView) {
       this.dataView.lat = parseFloat(this.dataView.lat);
       this.dataView.lng = parseFloat(this.dataView.lng);
-      console.log(this.dataView)
     }
   }
   closeSideBar() {

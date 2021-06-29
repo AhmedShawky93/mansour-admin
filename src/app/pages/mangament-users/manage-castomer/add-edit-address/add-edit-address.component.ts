@@ -59,7 +59,6 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
 
   submitAddress() {
     if (!this.addressForm.valid) {
-      console.log("INVALID FORM");
       this.markFormGroupTouched(this.addressForm);
       return;
     }
@@ -69,12 +68,10 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
     }
 
     let address = this.addressForm.value;
-    console.log(address);
     if (this.selectedOrder) {
       // update order address
       this.orderService.updateAddress(this.selectedOrder.id, address)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.code == 200) {
             this.closeModal(response.data);
           } else {
@@ -84,7 +81,6 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
     } else if (this.selectedAddress) {
       this.customerService.updateAddress(this.selectedCustomer.id, this.selectedAddress.id, address)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.code == 200) {
             this.closeModal(response.data);
           } else {
@@ -94,7 +90,6 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
     } else {
       this.customerService.createAddress(this.selectedCustomer.id, address)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.code == 200) {
             this.closeModal(response.data);
           } else {

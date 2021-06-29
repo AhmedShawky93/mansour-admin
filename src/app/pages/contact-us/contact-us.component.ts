@@ -34,7 +34,6 @@ export class ContactusComponent implements OnInit {
     });
   }
   changeRequestStatus(request) {
-    console.log(request);
     this.contactUsService
       .updateResolve(request.id, { resolved: request.resolved })
       .subscribe((response: any) => {

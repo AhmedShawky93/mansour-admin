@@ -81,7 +81,6 @@ export class ListsComponent implements OnInit {
       .getLists(this.searchObj)
       .subscribe((response: any) => {
         if (response.code === 200) {
-          console.log(response.data.data);
           this.lists = response.data;
           this.total = this.lists.length;
           this.loading = false;
@@ -148,7 +147,6 @@ export class ListsComponent implements OnInit {
   }
 
   viewList(list) {
-    console.log(list);
     this.currentList = list;
     this.toggleListForm = "out";
     this.viewOptionSidebar = "in";
@@ -160,7 +158,6 @@ export class ListsComponent implements OnInit {
       this.viewOptionSidebar = "out";
       this.toggleListForm = "in";
     })
-    console.log(this.selectOptionData);
   }
 
   closeSideBar() {

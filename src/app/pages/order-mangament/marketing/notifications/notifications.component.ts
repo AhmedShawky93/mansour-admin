@@ -141,7 +141,6 @@ export class NotificationsComponent implements OnInit {
       this.markFormGroupTouched(this.notificat);
       return;
     }
-    console.log(notific);
     if (!notific.customers) {
       if (confirm("You didn't specify any customers so this notification will be broadcast to everyone, are you sure you want to proceed?")) {
         this.notificationService.addNotification(notific)

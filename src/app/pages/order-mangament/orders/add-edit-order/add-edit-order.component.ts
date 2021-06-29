@@ -57,7 +57,6 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
     if (data) {
       this.addresses = data.user.addresses;
-      console.log(this.addresses);
       data.items.forEach(item => {
         const productsInput$ = new Subject<String>();
         let productsLoading = false;
@@ -170,7 +169,6 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   get productsData() { return <FormArray>this.orderForm.get('items'); }
 
   removeProduct(index, product_id) {
-    console.log(product_id);
 
     this.deleted_items.push(product_id);
 
@@ -192,20 +190,17 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
   submitOrder() {
     if (!this.orderForm.valid) {
-      console.log("INVALID FORM");
       this.markFormGroupTouched(this.orderForm);
       return;
     }
 
     let order = this.orderForm.value;
-    console.log(order);
 
     if (this.selectedOrder) {
       this.loading = true;
       order.deleted_items = this.deleted_items;
       this.ordersService.updateItems(this.selectedOrder.id, order)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.code == 200) {
             this.closeSideBar(response.data);
             this.addresses = [];
@@ -218,7 +213,6 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       this.loading = true;
       this.ordersService.createOrder(order)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.code == 200) {
             this.closeSideBar(response.data);
             this.addresses = [];

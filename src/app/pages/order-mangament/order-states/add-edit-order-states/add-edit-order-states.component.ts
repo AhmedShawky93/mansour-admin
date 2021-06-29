@@ -31,7 +31,6 @@ export class AddEditOrderStatesComponent implements OnInit {
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       sub_states: this.formBuilder.array([]),
     });
-    console.log(this.cityForm.value);
     if (data) {
       data.sub_states.forEach((element) => {
         this.addSubStates(element);
@@ -52,7 +51,6 @@ export class AddEditOrderStatesComponent implements OnInit {
   }
 
   submitForm() {
-    console.log(this.cityForm.value);
     if (!this.cityForm.valid) {
       this.markFormGroupTouched(this.cityForm);
       return;

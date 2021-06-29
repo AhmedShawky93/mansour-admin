@@ -18,7 +18,6 @@ export class ReportsComponent implements OnInit {
       .subscribe((response: any) => {
         this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(response.data.iframeUrl)
         this.iframeLoaded = true
-        console.log(this.iframeUrl);
       })
   }
 }

@@ -13,6 +13,11 @@ import { ToastrService } from "ngx-toastr";
 import { CategoryService } from "@app/pages/services/category.service";
 import { BrandsService } from "@app/pages/services/brands.service";
 import { ListsService } from "@app/pages/services/lists.service";
+import { Observable, Subject, concat, of, EMPTY } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, delay } from 'rxjs/operators';
+import { ProductsService } from "@app/pages/services/products.service";
+import { ThrowStmt } from "@angular/compiler";
+
 
 declare var jquery: any;
 declare var $: any;
@@ -28,7 +33,11 @@ export class adsComponent implements OnInit {
   brands = [];
   p = 1;
   total;
-  orderArray = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+  orderArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  products: any = [];
+  products$: Observable<any>;
+  productsInput$ = new Subject<String>();
+  productsLoading: boolean;
 
   categories: any;
   adCrrentEdit: any = [];
@@ -65,8 +74,9 @@ export class adsComponent implements OnInit {
     private toastrService: ToastrService,
     private _CategoriesService: CategoryService,
     private brandsService: BrandsService,
-    private listsService: ListsService
-  ) {}
+    private listsService: ListsService,
+    private productsService: ProductsService
+  ) { }
 
   ngOnInit() {
     $(".owls-table").on("click", ".toggle-view-category", function () {
@@ -144,6 +154,30 @@ export class adsComponent implements OnInit {
       image_web: new FormControl("", Validators.required),
       image_web_ar: new FormControl("", Validators.required),
     });
+
+    this.products$ = concat(
+      of([]), // default items
+      this.productsInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => (this.productsLoading = true)),
+        switchMap((term) =>
+          this.productsService.searchProducts({ q: term, sub_category_id: this.newAdsForm.controls.subCategory.value }, 1).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.productsLoading = false)),
+            map((response: any) => {
+              this.productList = response.data.products;
+              return response.data.products.map((p) => {
+                return {
+                  id: p.id,
+                  name: p.name,
+                };
+              });
+            })
+          )
+        )
+      )
+    );
   }
 
   getAds() {
@@ -213,6 +247,33 @@ export class adsComponent implements OnInit {
       category: new FormControl(ad.type == 6 ? ad.item_id : ad.category_id),
     });
 
+    // if (ad.type === 1) {
+    //   this.products = [{ name: ad.name, id: ad.product_id }]
+    //   this.products$ = concat(
+    //     of(this.products), // default items
+    //     this.productsInput$.pipe(
+    //       debounceTime(200),
+    //       distinctUntilChanged(),
+    //       tap(() => (this.productsLoading = true)),
+    //       switchMap((term) =>
+    //         this.productsService.searchProducts({ q: term, sub_category_id: this.newAdsForm.controls.subCategory.value }, 1).pipe(
+    //           catchError(() => of([])), // empty list on error
+    //           tap(() => (this.productsLoading = false)),
+    //           map((response: any) => {
+    //             this.productList = response.data.products;
+    //             return response.data.products.map((p) => {
+    //               return {
+    //                 id: p.id,
+    //                 name: p.name,
+    //               };
+    //             });
+    //           })
+    //         )
+    //       )
+    //     )
+    //   );
+    // }
+
     this.adCrrentEdit = JSON.parse(JSON.stringify(ad));
     this.adCrrentEdit.imageUrl = this.adCrrentEdit.image;
 
@@ -234,7 +295,6 @@ export class adsComponent implements OnInit {
   }
 
   onAdTypeChanged(form: FormGroup, firstTime = null) {
-    console.log(form.get("type").value);
     if (form.get("type").value == 1) {
       form.get("category").setValidators([Validators.required]);
       form.get("subCategory").setValidators([Validators.required]);
@@ -247,7 +307,8 @@ export class adsComponent implements OnInit {
         form.get("subCategory").setValue('');
         form.get("prod").setValue('');
       }
-    }  else if (form.get("type").value == 2) {
+
+    } else if (form.get("type").value == 2) {
       form.get("category").setValidators([Validators.required]);
       form.get("subCategory").setValidators([Validators.required]);
       form.get("link").clearValidators();
@@ -325,22 +386,22 @@ export class adsComponent implements OnInit {
     this.currentAd = ad;
   }
 
-  deleteAd(ad){
-    this.adsService.deleteAd(ad.id).subscribe((res: any) =>{
-      if (res.code === 200){
+  deleteAd(ad) {
+    this.adsService.deleteAd(ad.id).subscribe((res: any) => {
+      if (res.code === 200) {
         const ind = this.ads.findIndex((item) => {
           return item.id == ad.id;
         });
 
         this.ads.splice(ind, 1)
-      }else{
+      } else {
         this.toastrService.error(res.message)
       }
     })
   }
-  
 
-  updateAdOrder(ad){
+
+  updateAdOrder(ad) {
     this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {
       if (response.code == 200) {
 
@@ -351,7 +412,7 @@ export class adsComponent implements OnInit {
         if (ind !== -1) {
           this.ads[ind] = response.data;
         }
-        
+
         this.currentAd = response.data;
         ad.orderUpdate = false;
       } else {
@@ -387,14 +448,13 @@ export class adsComponent implements OnInit {
   }
 
   createAd() {
-    console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
     }
 
     let ad = this.newAdsForm.value;
-    ad.popup= 0;
-    ad.banner_ad= 0;
+    ad.popup = 0;
+    ad.banner_ad = 0;
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
       let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0];
@@ -423,14 +483,13 @@ export class adsComponent implements OnInit {
   }
 
   updateAd() {
-    console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
     }
 
     let ad = this.newAdsForm.value;
-    ad.popup= 0;
-    ad.banner_ad= 0;
+    ad.popup = 0;
+    ad.banner_ad = 0;
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
       let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0];
@@ -477,7 +536,6 @@ export class adsComponent implements OnInit {
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
       this.categories = response.data;
-      console.log(this.categories);
     });
   }
 
@@ -487,7 +545,6 @@ export class adsComponent implements OnInit {
       this.newAdsForm.get('subCategory').setValue('');
     }
     const category_id = this.newAdsForm.get("category").value;
-    console.log(category_id, this.categories);
     const index = this.categories.findIndex((item) => item.id == category_id);
     const category = this.categories[index];
     this.sub_categories = category.sub_categories;
@@ -498,7 +555,6 @@ export class adsComponent implements OnInit {
       this.newAdsForm.get('prod').setValue('');
     }
     const subcategory_id = this.newAdsForm.get('subCategory').value;
-    console.log(subcategory_id);
     this._CategoriesService
       .getProducts(subcategory_id)
       .subscribe((response: any) => {

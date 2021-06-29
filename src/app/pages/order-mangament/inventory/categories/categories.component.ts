@@ -208,8 +208,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   updateCategory(category) {
-    console.log(this.editCatForm.value);
-    console.log(this.editCatForm.valid);
     if (!this.editCatForm.valid) {
       this.markFormGroupTouched(this.editCatForm);
       return;
@@ -362,8 +360,6 @@ export class CategoriesComponent implements OnInit {
         category.showReason = 0;
         return category;
       });
-      console.log(this.categories)
-      console.log(category)
     if (category.active) {
       // currently checked
       category.showReason = 0;

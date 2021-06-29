@@ -113,7 +113,6 @@ export class StaffDeliveryComponent implements OnInit {
   changePage(p) {
     this.p = p;
     this.filter.page = p;
-    console.log(this.filter);
     this.filter$.next(this.filter);
   }
 
@@ -168,7 +167,6 @@ export class StaffDeliveryComponent implements OnInit {
   }
 
   viewClinic(clinic) {
-    console.log(clinic);
     this.selectOptionDataView = clinic;
     this.toggleAddOption = "out";
     this.viewOptionSidebar = "in";
@@ -178,7 +176,6 @@ export class StaffDeliveryComponent implements OnInit {
     this.selectOptionData = data;
     this.viewOptionSidebar = "out";
     this.toggleAddOption = "in";
-    console.log(this.selectOptionData);
   }
 
   closeSideBar() {

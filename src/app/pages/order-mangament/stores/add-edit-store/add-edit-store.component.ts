@@ -108,8 +108,6 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   }
   submitForm() {
     const data = this.OptionForm.value;
-    console.log(data)
-    console.log(data.phones)
     data.phone = data.phones.map(item => {
       return item.phone
     });
@@ -182,8 +180,6 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
       this.lat = parseFloat(this.OptionForm.get('lat').value);
       this.lng = parseFloat(this.OptionForm.get('lng').value);
     }
-    console.log(this.lat)
-    console.log(this.lng)
   }
 
 

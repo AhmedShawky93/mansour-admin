@@ -59,7 +59,6 @@ export class BrandsComponent implements OnInit {
 
     this.brandsService.getBrands().subscribe((response: any) => {
       this.brands = response.data;
-      console.log(this.brands);
     });
 
     this.addBrandForm = new FormGroup({
@@ -99,9 +98,7 @@ export class BrandsComponent implements OnInit {
   }
 
   updateBrand() {
-    console.log(this.editForm.value);
     if (!this.editForm.valid) {
-      console.log("INVALID");
       return this.markFormGroupTouched(this.editForm);
     }
 
@@ -113,7 +110,6 @@ export class BrandsComponent implements OnInit {
         let ind = this.brands.findIndex((item) => {
           return item.id === brand.id;
         });
-        console.log(ind);
         if (ind !== -1) {
           this.brands[ind] = response.data;
         }

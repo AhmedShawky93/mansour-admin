@@ -91,7 +91,6 @@ export class SettingComponent implements OnInit {
     this.page++;
     this.uploadFile.getUploadedFiles(this.page).subscribe((response: any) => {
       this.gallery = this.gallery.concat(response.data);
-      console.log(this.gallery);
     });
   }
 
@@ -148,7 +147,6 @@ export class SettingComponent implements OnInit {
   }
 
   updateSetting(user) {
-    console.log(this.formSetting);
 
     if (!this.formSetting.valid) {
       this.markFormGroupTouched(this.formSetting);
@@ -168,8 +166,6 @@ export class SettingComponent implements OnInit {
         this.user.imageUrl = this.user.image;
         this.formSetting.reset();
         this.setForm(this.user);
-        console.log("UPDATED");
-        console.log(this.user);
         this.settingService.imageload(response.data);
         this.toastrService.success(response.message);
       } else {
@@ -179,7 +175,6 @@ export class SettingComponent implements OnInit {
   }
 
   loadSettings() {
-    console.log(this.settings);
     if (!this.settings) {
       this.settingsLoading = true;
       this.settingService.getSettings().subscribe((response: any) => {

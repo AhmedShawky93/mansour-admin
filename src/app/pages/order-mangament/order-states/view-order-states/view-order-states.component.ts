@@ -28,8 +28,6 @@ export class ViewOrderStatesComponent implements OnInit, OnChanges {
         }
         return item;
       });
-      console.log(this.dataView.sub_states);
-      console.log(this.dataView);
     }
   }
   closeSideBar() {

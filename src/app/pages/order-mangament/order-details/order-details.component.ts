@@ -250,7 +250,6 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   changeStausInOrder(state, sub_state, id) {
-    console.log(state, sub_state);
     this.state_id = state;
     this.sub_state_id = sub_state;
     this.orderId = id;
@@ -268,12 +267,10 @@ export class OrderDetailsComponent implements OnInit {
     //   $("#confirmOrderStatus").modal("show");
     //   this.firstTime = false;
     // }
-    // console.log(this.firstTime);
   }
 
   openPopupConfirmStatus(data, type) {
     // type 1 change order status and 2 sub statue
-    console.log(data);
     this.orderStatuId = data;
     this.typeStatusPopup = type;
     $('#confirmOrderStatus').modal('show');
@@ -281,9 +278,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   confirmChangeStatusOld(notifyUser) {
-    console.log(notifyUser);
     if (this.orderStatusId == '6') {
-      console.log(this.status_notesText);
       if (this.status_notesText == '' || this.status_notesText == undefined) {
         this.error_status_notes = true;
         return;
@@ -320,7 +315,6 @@ export class OrderDetailsComponent implements OnInit {
       this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
       this.stateForm.get('aramex_account_number').updateValueAndValidity();
     }
-    console.log(this.stateForm.value);
     if (!this.stateForm.valid) {
       return this.markFormGroupTouched(this.stateForm);
     }
@@ -512,8 +506,6 @@ export class OrderDetailsComponent implements OnInit {
 
   generateSkusToCopy() {
     this.order.items.forEach((element, index) => {
-      console.log('index ==> ', index + 1);
-      console.log('this.order.items.length ==> ', this.order.items.length);
       if (index + 1 < this.order.items.length) {
         this.textMessage = this.textMessage.concat(element.product.sku + ' \n');
       } else {

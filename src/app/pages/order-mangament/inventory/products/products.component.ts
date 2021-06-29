@@ -213,11 +213,9 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     const token = this.auth.getToken();
 
     if (this.sub_category_id) {
-      // console.log(this.sub_category_id);
       this.exportUrl = environment.api + '/admin/products/fullExport?sub_category_id=' + this.sub_category_id + '&token=' + token;
     } else {
       this.exportUrl = environment.api + '/admin/products/fullExport?token=' + token;
-      // console.log(this.sub_category_id);
     }
     this.exportStock = environment.api + '/admin/products/export_prices?token=' + token;
 
@@ -407,7 +405,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   changePage(p) {
     this.p = p;
     this.filter.page = p;
-    // console.log(this.filter);
     this.filter$.next(this.filter);
   }
 
@@ -443,10 +440,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   viewProduct(product) {
-    console.log('viewProduct');
     this.currentProduct = product;
 
-    // console.log(product);
     this.selectProductDataView = null;
     this.selectProductDataView = product;
     this.toggleAddProduct = 'out';
@@ -454,7 +449,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   toggleMenu(data) {
-    // console.log('toggleMenu');
     this.selectProductData = { ...data };
     this.viewProductSidebar = 'out';
     this.toggleAddProduct = 'in';
@@ -509,7 +503,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   toggleMenuNew(data) {
-    // console.log('toggleMenuNew');
     this.productForm.resetForm();
     this.selectProductData = null;
     this.selectProductData = data;
@@ -581,8 +574,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   addProducts(product) {
     product.option_values = this.product.option_values;
-    // console.log(product);
-    // console.log(this.product);
     if (!this.addProductForm.valid) {
       this.markFormGroupTouched(this.addProductForm);
       return;
@@ -618,7 +609,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   updateProduct(product) {
     product.option_values = this.product.option_values;
-    // console.log(product);
     this.productsService
       .updateProduct(product.id, product)
       .subscribe((response: any) => {
@@ -683,7 +673,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
-      // console.log(response.data);
       this.categories = response.data;
       if (this.route.snapshot.queryParams.sub_category_id) {
         this.selectCategoryFilter(this.main_category, true);
@@ -698,7 +687,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     const category = this.categories[index];
 
     this.sub_categories = category.sub_categories;
-    // console.log(this.sub_categories);
   }
 
   selectCategoryFilter(cat_id, FromRouter) {
@@ -719,19 +707,14 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   selectSubCategoryOption(cat_id) {
-    // console.log(cat_id);
-    // console.log(this.sub_categories);
     const index = this.sub_categories.findIndex(
       (item) => item.parent_id == cat_id
     );
-    // console.log(index);
 
     this.options = this.sub_categories[index].options;
-    // console.log(this.options);
   }
 
   selectOptionValue(option, value, index) {
-    // console.log(option, value, index);
     if (this.product.option_values) {
       const indexOption = this.product.option_values.findIndex(
         (item) => item.option_id == option.id

@@ -14,6 +14,9 @@ import { CategoryService } from '@app/pages/services/category.service';
 import { BrandsService } from '@app/pages/services/brands.service';
 import { CustomAdsService } from '@app/pages/services/custom-ads.service';
 import { ListsService } from '@app/pages/services/lists.service';
+import { Observable, Subject, concat, of, EMPTY } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, delay } from 'rxjs/operators';
+import { ProductsService } from '@app/pages/services/products.service';
 
 declare var jquery: any;
 declare var $: any;
@@ -29,6 +32,10 @@ export class CustomAdsComponent implements OnInit {
   brands = [];
   p = 1;
   total;
+  products: any = [];
+  products$: Observable<any>;
+  productsInput$ = new Subject<String>();
+  productsLoading: boolean;
 
   categories: any;
   adCrrentEdit: any = [];
@@ -67,7 +74,8 @@ export class CustomAdsComponent implements OnInit {
     private toastrService: ToastrService,
     private _CategoriesService: CategoryService,
     private brandsService: BrandsService,
-    private listsService: ListsService
+    private listsService: ListsService,
+    private productsService: ProductsService
   ) {}
 
   ngOnInit() {
@@ -138,6 +146,30 @@ export class CustomAdsComponent implements OnInit {
       brand: new FormControl(),
     });
 
+    this.products$ = concat(
+      of([]), // default items
+      this.productsInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => (this.productsLoading = true)),
+        switchMap((term) =>
+          this.productsService.searchProducts({ q: term, sub_category_id: this.newAdsForm.controls.subCategory.value }, 1).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.productsLoading = false)),
+            map((response: any) => {
+              this.productList = response.data.products;
+              return response.data.products.map((p) => {
+                return {
+                  id: p.id,
+                  name: p.name,
+                };
+              });
+            })
+          )
+        )
+      )
+    );
+
     this.ad.popup = "";
   }
 
@@ -190,6 +222,34 @@ export class CustomAdsComponent implements OnInit {
       list_id: new FormControl(),
       category: new FormControl(),
     });
+
+    // if (ad.type === 1) {
+    //   this.products = [{ name: ad.name, id: ad.product_id }]
+    //   this.products$ = concat(
+    //     of(this.products), // default items
+    //     this.productsInput$.pipe(
+    //       debounceTime(200),
+    //       distinctUntilChanged(),
+    //       tap(() => (this.productsLoading = true)),
+    //       switchMap((term) =>
+    //         this.productsService.searchProducts({ q: term, sub_category_id: this.newAdsForm.controls.subCategory.value }, 1).pipe(
+    //           catchError(() => of([])), // empty list on error
+    //           tap(() => (this.productsLoading = false)),
+    //           map((response: any) => {
+    //             this.productList = response.data.products;
+    //             return response.data.products.map((p) => {
+    //               return {
+    //                 id: p.id,
+    //                 name: p.name,
+    //               };
+    //             });
+    //           })
+    //         )
+    //       )
+    //     )
+    //   );
+    // }
+
     this.selectedAd = ad;
     if (ad.type == 1) {
       this.newAdsForm.get("subCategory").setValue(ad.item_data.category_id);
@@ -209,8 +269,6 @@ export class CustomAdsComponent implements OnInit {
     } else if (ad.type == 7) {
       this.newAdsForm.get("link").setValue(ad.link);
     }
-
-    console.log(this.newAdsForm.value);
 
     this.category_id = this.newAdsForm.get("category").value;
     this.selectedSubcategory = this.newAdsForm.get("subCategory").value;
@@ -310,7 +368,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   createAd() {
-    console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
     }
@@ -345,7 +402,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   updateAd() {
-    console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
     }
@@ -402,22 +458,18 @@ export class CustomAdsComponent implements OnInit {
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
       this.categories = response.data;
-      console.log(this.categories);
     });
   }
 
   onCategoryChange() {
     const category_id = this.newAdsForm.get("category").value;
-    console.log(category_id, this.categories);
     const index = this.categories.findIndex((item) => item.id == category_id);
     const category = this.categories[index];
     this.sub_categories = category.sub_categories;
-    console.log(this.sub_categories);
   }
 
   onSubCategoryChange() {
     const subcategory_id = this.newAdsForm.get("subCategory").value;
-    console.log(subcategory_id);
     this._CategoriesService
       .getProducts(subcategory_id)
       .subscribe((response: any) => {
