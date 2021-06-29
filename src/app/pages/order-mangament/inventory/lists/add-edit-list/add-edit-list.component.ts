@@ -87,10 +87,13 @@ export class AddEditListComponent implements OnInit, OnChanges {
       items: new FormControl([]),
     });
     let products = [];
-    if (data) {
+    if (data && data.id) {
       let items = data.products.map((p) => p.id);
       this.listForm.get("items").setValue(items);
       products = data.products;
+    }else{
+      let items = []
+      this.listForm.get("items").setValue(items);
     }
 
     this.products$ = concat(
