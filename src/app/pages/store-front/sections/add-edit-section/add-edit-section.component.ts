@@ -39,6 +39,7 @@ export class AddEditSectionComponent implements OnInit, OnChanges {
   imageUrl: any;
   submitting: boolean;
   loading: boolean;
+  savingSection: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
