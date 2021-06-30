@@ -247,32 +247,33 @@ export class adsComponent implements OnInit {
       category: new FormControl(ad.type == 6 ? ad.item_id : ad.category_id),
     });
 
-    // if (ad.type === 1) {
-    //   this.products = [{ name: ad.name, id: ad.product_id }]
-    //   this.products$ = concat(
-    //     of(this.products), // default items
-    //     this.productsInput$.pipe(
-    //       debounceTime(200),
-    //       distinctUntilChanged(),
-    //       tap(() => (this.productsLoading = true)),
-    //       switchMap((term) =>
-    //         this.productsService.searchProducts({ q: term, sub_category_id: this.newAdsForm.controls.subCategory.value }, 1).pipe(
-    //           catchError(() => of([])), // empty list on error
-    //           tap(() => (this.productsLoading = false)),
-    //           map((response: any) => {
-    //             this.productList = response.data.products;
-    //             return response.data.products.map((p) => {
-    //               return {
-    //                 id: p.id,
-    //                 name: p.name,
-    //               };
-    //             });
-    //           })
-    //         )
-    //       )
-    //     )
-    //   );
-    // }
+    if (ad.type === 1) {
+      this.products = [{ name: ad.name, id: ad.product_id }]
+      this.productsService.searchProducts({ q: ad.name, sub_category_id: ad.sub_category_id }, 1).subscribe((res: any) => this.productList = res.data.products)
+      this.products$ = concat(
+        of(this.products), // default items 
+        this.productsInput$.pipe(
+          debounceTime(200),
+          distinctUntilChanged(),
+          tap(() => (this.productsLoading = true)),
+          switchMap((term) =>
+            this.productsService.searchProducts({ q: term, sub_category_id: ad.sub_category_id }, 1).pipe(
+              catchError(() => of([])), // empty list on error
+              tap(() => (this.productsLoading = false)),
+              map((response: any) => {
+                this.productList = response.data.products;
+                return response.data.products.map((p) => {
+                  return {
+                    id: p.id,
+                    name: p.name,
+                  };
+                });
+              })
+            )
+          )
+        )
+      );
+    }
 
     this.adCrrentEdit = JSON.parse(JSON.stringify(ad));
     this.adCrrentEdit.imageUrl = this.adCrrentEdit.image;
@@ -285,9 +286,9 @@ export class adsComponent implements OnInit {
     if (this.adCrrentEdit.type == 1 || this.adCrrentEdit.type == 2) {
       this.onCategoryChange(this.category_id, true);
 
-      if (this.adCrrentEdit.type == 1) {
-        this.onSubCategoryChange(this.selectedSubcategory, true);
-      }
+      // if (this.adCrrentEdit.type == 1) {
+      //   this.onSubCategoryChange(this.selectedSubcategory, true);
+      // }
     }
 
     this.onAdTypeChanged(this.newAdsForm, true);

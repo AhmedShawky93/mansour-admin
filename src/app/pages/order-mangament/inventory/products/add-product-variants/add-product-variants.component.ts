@@ -152,7 +152,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       start_time: new FormControl(data ? data.start_time : '00:00:00', []),
       discount_end_date: new FormControl(data ? data.discount_end_date : '', []),
       expiration_time: new FormControl(data ? data.expiration_time : '00:00:00', []),
-      // payment_method: new FormControl((data && data.payment_method) ? data.payment_method : [], []),
+      // payment_method_discount_ids: new FormControl((data && data.payment_method_discount_ids) ? data.payment_method_discount_ids : [], []),
       product_variant_options: new FormControl(data ? data.product_variant_options : '', []),
 
       image: new FormControl(data ? data.image : '', Validators.required),

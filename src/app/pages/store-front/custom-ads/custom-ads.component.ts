@@ -223,32 +223,33 @@ export class CustomAdsComponent implements OnInit {
       category: new FormControl(),
     });
 
-    // if (ad.type === 1) {
-    //   this.products = [{ name: ad.name, id: ad.product_id }]
-    //   this.products$ = concat(
-    //     of(this.products), // default items
-    //     this.productsInput$.pipe(
-    //       debounceTime(200),
-    //       distinctUntilChanged(),
-    //       tap(() => (this.productsLoading = true)),
-    //       switchMap((term) =>
-    //         this.productsService.searchProducts({ q: term, sub_category_id: this.newAdsForm.controls.subCategory.value }, 1).pipe(
-    //           catchError(() => of([])), // empty list on error
-    //           tap(() => (this.productsLoading = false)),
-    //           map((response: any) => {
-    //             this.productList = response.data.products;
-    //             return response.data.products.map((p) => {
-    //               return {
-    //                 id: p.id,
-    //                 name: p.name,
-    //               };
-    //             });
-    //           })
-    //         )
-    //       )
-    //     )
-    //   );
-    // }
+    if (ad.type === 1) {
+      this.products = [{ name: ad.item_data.name, id: ad.item_data.id }]
+      this.productsService.searchProducts({ q: ad.item_data.name, sub_category_id: ad.item_data.category_id }, 1).subscribe((res : any)=> this.productList = res.data.products)
+      this.products$ = concat(
+        of(this.products), // default items
+        this.productsInput$.pipe(
+          debounceTime(200),
+          distinctUntilChanged(),
+          tap(() => (this.productsLoading = true)),
+          switchMap((term) =>
+            this.productsService.searchProducts({ q: term, sub_category_id: ad.item_data.category_id }, 1).pipe(
+              catchError(() => of([])), // empty list on error
+              tap(() => (this.productsLoading = false)),
+              map((response: any) => {
+                this.productList = response.data.products;
+                return response.data.products.map((p) => {
+                  return {
+                    id: p.id,
+                    name: p.name,
+                  };
+                });
+              })
+            )
+          )
+        )
+      );
+    }
 
     this.selectedAd = ad;
     if (ad.type == 1) {
@@ -278,9 +279,9 @@ export class CustomAdsComponent implements OnInit {
     if (ad.type == 1 || ad.type == 2) {
       this.onCategoryChange();
 
-      if (ad.type == 1) {
-        this.onSubCategoryChange();
-      }
+      // if (ad.type == 1) {
+      //   this.onSubCategoryChange();
+      // }
     }
 
     this.onAdTypeChanged(this.newAdsForm);
