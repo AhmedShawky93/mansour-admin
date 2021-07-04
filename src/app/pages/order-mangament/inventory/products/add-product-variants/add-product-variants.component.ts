@@ -528,8 +528,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   addVariantOptionsToForm() {
     if (this.selectedVariantsOptions.length) {
+      this.options = this.componentForm.get('options') as FormArray;
+      this.options.controls = [];
       this.selectedVariantsOptions.forEach(item => {
-        this.options = this.componentForm.get('options') as FormArray;
         this.options.push(this.createVariantOption(item));
       });
     }
