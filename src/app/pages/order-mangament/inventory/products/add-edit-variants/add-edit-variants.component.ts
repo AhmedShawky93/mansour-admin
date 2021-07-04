@@ -159,7 +159,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
       expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
-      // payment_method_discount_ids: new FormControl((data && data.payment_method_discount_ids) ? data.payment_method_discount_ids : [], []),
+      payment_method_discount_ids: new FormControl((data && data.payment_method_discount_ids) ? data.payment_method_discount_ids : [], []),
       option_values: this.formBuilder.array([]),
     }, {
       validator: [
