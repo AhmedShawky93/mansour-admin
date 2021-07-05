@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 
 @Component({
@@ -12,21 +12,27 @@ export class GenericDatePickerComponent implements OnInit {
   @Input() label: string;
   @Input() myForm: FormGroup;
   @Input() formControlChildName: string;
+  @Output() change = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  formatDate(data) {
-    const formControl = this.myForm.get(this.formControlChildName);
-    const currentDate = (formControl.value) ? formControl.value : data.target.value;
-    let format;
-    if (currentDate){
-      let taskDueDate = moment(currentDate, 'DD-MM-YYYY');
-      format = moment(taskDueDate['_d']).format('YYYY-MM-DD');
-    }else{
-      format = "";
-    }
-    formControl.setValue(format);
+  onChangeData(event) {
+    this.change.emit(event.value);
   }
+
+  // formatDate(data) {
+  //   const formControl = this.myForm.get(this.formControlChildName);
+  //   const currentDate = (formControl.value) ? formControl.value : data.target.value;
+  //   let format;
+  //   if (currentDate) {
+  //     let taskDueDate = moment(currentDate, 'DD-MM-YYYY');
+  //     format = moment(taskDueDate['_d']).format('YYYY-MM-DD');
+  //   } else {
+  //     format = "";
+  //   }
+  //   formControl.setValue(format);
+  // }
 }

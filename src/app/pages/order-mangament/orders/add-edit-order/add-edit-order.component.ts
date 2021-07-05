@@ -228,7 +228,27 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     this.orderForm.reset();
     this.deleted_items = [];
     this.addresses = [];
-    this.customers$ = EMPTY.pipe(delay(1000));
+    this.customers$ = concat(
+      of([]), // default items
+      this.customersInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => this.customersLoading = true),
+        switchMap(term => this.customerService.searchCustomers(term).pipe(
+          catchError(() => of([])), // empty list on error
+          tap(() => this.customersLoading = false),
+          map((response: any) => {
+            this.customers = response.data.customers;
+            return response.data.customers.map(c => {
+              return {
+                id: c.id,
+                name: c.id + ": " + c.name + (c.active == 0 ? ": dectivated" : "")
+              }
+            })
+          })
+        ))
+      )
+    );;
     this.closeSideBarEmit.emit(data);
   }
 

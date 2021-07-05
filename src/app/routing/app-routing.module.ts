@@ -252,6 +252,18 @@ const routes: Routes = [
         path: "reports",
         component: ReportsComponent,
         data: {title: "Reports"}
+      },
+      {
+        path: 'transactions',
+        canActivate: [NgxPermissionsGuard],
+        loadChildren: '../pages/order-mangament/transactions/transactions.module#TransactionsModule',
+        data: {
+          title: 'Transactions',
+          permissions: {
+            only: ['ADMIN', 'View Orders'],
+            redirectTo: '/pages/home'
+          }
+        }
       }
     ],
 
