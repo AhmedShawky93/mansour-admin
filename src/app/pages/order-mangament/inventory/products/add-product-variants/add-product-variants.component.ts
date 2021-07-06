@@ -488,6 +488,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   formValidator() {
     if (!this.componentForm.valid) {
       this.markFormGroupTouched(this.componentForm);
+      debugger;
       this.toasterService.error('Please fill all required fields');
       return false;
     } else {

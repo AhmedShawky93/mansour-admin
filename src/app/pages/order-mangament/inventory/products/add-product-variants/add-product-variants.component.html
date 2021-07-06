@@ -302,6 +302,9 @@
             <div *ngIf="formControlValidator('preorder_end_date','required')" class="text-danger">
               Field Is Required
             </div>
+            <div *ngIf="formControlValidator('preorder_end_date','dateRang')" class="text-danger">
+              Expiration Date Must Be Greater Than Start Date
+            </div>
             <!-- <div *ngIf="formControlValidator('preorder_end_date','dateRang')" class="text-danger">
               Expiration Date Must Be Greater Than Start Date
             </div> -->
