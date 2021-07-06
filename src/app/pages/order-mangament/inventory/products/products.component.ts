@@ -852,7 +852,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   encodedProductName(name) {
-    return name.replace(/\s/g, '-')
+    return name.replace(/\s/g, '-').replace('/', '-')
   }
 
   confirmDelete() {
