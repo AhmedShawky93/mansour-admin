@@ -106,6 +106,21 @@ export class CategoriesComponent implements OnInit {
     this.getOptions();
   }
 
+  addCaregory(){
+    this.categoriesForm = new FormGroup({
+      name: new FormControl("", [
+        Validators.required,
+        Validators.pattern(/[A-Za-z0-9\-\&\s]+$/),
+      ]),
+      name_ar: new FormControl("", [Validators.required]),
+      image: new FormControl("", [Validators.required]),
+      description: new FormControl("", Validators.required),
+      description_ar: new FormControl("", Validators.required),
+      order: new FormControl("", Validators.required),
+      sub_categories: new FormArray([], [Validators.minLength(1), Validators.required]),
+    });
+  }
+
   getOptions() {
     this.optionsService.getOptions({ page: 0 }).subscribe({
       next: (response: any) => {
