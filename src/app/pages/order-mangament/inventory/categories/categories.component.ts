@@ -41,13 +41,14 @@ export class CategoriesComponent implements OnInit {
   // @ViewChild('categoriesForm') categoriesForm : NgForm;
   categoriesForm;
   options: any;
+  submitting: boolean;
 
   constructor(
     private _CategoriesService: CategoryService,
     private uploadService: UploadFilesService,
     private toastrService: ToastrService,
     private optionsService: OptionsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getCategories();
@@ -100,7 +101,7 @@ export class CategoriesComponent implements OnInit {
       description: new FormControl("", Validators.required),
       description_ar: new FormControl("", Validators.required),
       order: new FormControl("", Validators.required),
-      sub_categories: new FormArray([],[Validators.minLength(1), Validators.required]),
+      sub_categories: new FormArray([], [Validators.minLength(1), Validators.required]),
     });
     this.getOptions();
   }
@@ -140,15 +141,18 @@ export class CategoriesComponent implements OnInit {
 
     category = this.categoriesForm.value;
 
+    this.submitting = true;
     this._CategoriesService
       .createCategory(category)
       .subscribe((response: any) => {
         if (response.code == 200) {
           this.categories.push(response.data);
+          this.submitting = false;
           $("#add-cat").toggleClass("open-view-vindor-types");
           this.showSubError = 0;
           this.categoriesForm.reset();
         } else {
+          this.submitting = false;
           this.toastrService.error(response.message);
         }
       });
