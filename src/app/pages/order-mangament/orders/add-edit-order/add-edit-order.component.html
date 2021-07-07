@@ -16,6 +16,7 @@
       <div *ngIf="formControlValidator(orderForm, 'user_id', 'required')" class="alert alert-danger">
         Customer is required.
       </div>
+      <a href="javascript:void(0)" *ngIf="!orderForm.get('user_id').value" (click)="createCustomer()">+New Customer</a>
     </div>
 
     <div class="form-group" *ngIf="this.selectedOrder">
@@ -32,6 +33,8 @@
       <div *ngIf="formControlValidator(orderForm, 'address_id', 'required')" class="alert alert-danger">
         Address is required.
       </div>
+      <a href="javascript:void(0)" *ngIf="orderForm.get('user_id').value"
+        (click)="createAddress(orderForm.get('user_id').value)">+New address</a>
     </div>
 
     <div class="form-group">

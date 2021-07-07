@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormArray, Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CustomerService } from '@app/pages/services/customer.service';
 import { OrdersService } from '@app/pages/services/orders.service';
 import { ProductsService } from '@app/pages/services/products.service';
@@ -31,7 +32,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   deleted_items: any[] = [];
   loading: boolean;
 
-  constructor(private customerService: CustomerService, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) { }
+  constructor(private customerService: CustomerService, private router: Router, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) { }
 
   ngOnInit() {
     this.setupForm(this.selectedOrder);
@@ -186,6 +187,15 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         this.addresses = this.customers[ind].addresses;
       }
     }
+  }
+
+  createCustomer(){
+    this.router.navigate(['/pages/manage-customer'], { queryParams: { fromOrder: true }})
+  }
+
+  createAddress(customerId){
+    localStorage.setItem("selectedCustomer", JSON.stringify(this.customers.find((name) => name.id === customerId)))
+    this.router.navigate(['/pages/manage-customer'], { queryParams: { fromOrderCreateAddress: true, customerId } })
   }
 
   submitOrder() {

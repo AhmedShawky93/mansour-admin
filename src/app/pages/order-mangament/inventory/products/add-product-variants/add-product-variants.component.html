@@ -264,7 +264,11 @@
 
       <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
         <label class="container">Pre-Order
-          <input type="checkbox" class="form-control checkbox-style" name="preorder" id="preorder" [value]="1"
+          <input type="checkbox"
+            (change)="componentForm.get('preorder').value == 1 && componentForm.get('available_soon').setValue(0)"
+            class="form-control checkbox-style"
+            name="preorder"
+            id="preorder" [value]="1"
             formControlName="preorder">
           <span class="checkmark"></span>
         </label>
@@ -322,7 +326,9 @@
 
     <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
       <label class="container">Available Soon
-        <input type="checkbox" class="form-control checkbox-style" name="available_soon" id="available_soon" [value]="1"
+        <input type="checkbox"
+          (change)="componentForm.get('available_soon').value == 1 && componentForm.get('preorder').setValue(0)"
+          class="form-control checkbox-style" name="available_soon" id="available_soon" [value]="1"
           formControlName="available_soon" (change)="onAvailableChange()">
         <span class="checkmark"></span>
       </label>

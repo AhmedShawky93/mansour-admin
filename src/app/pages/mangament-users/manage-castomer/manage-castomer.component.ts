@@ -79,7 +79,6 @@ export class ManageCastomerComponent implements OnInit {
   ngOnInit() {
     this.getCities();
     this.customerId = Number(this.activatedRoute.snapshot.queryParams.id)
-    
 
     $('.table').on('click', '.toggle-vindor-view', function () {
       $('#view-active').toggleClass('open-view-vindor-types');
@@ -114,6 +113,14 @@ export class ManageCastomerComponent implements OnInit {
     this.exportUrl = environment.api + '/admin/customers/export?token=' + token;
 
     this.loadCustomers();
+    if (this.activatedRoute.snapshot.queryParams.fromOrder){
+      this.createCustomer();
+    }
+
+    if (this.activatedRoute.snapshot.queryParams.fromOrderCreateAddress && this.activatedRoute.snapshot.queryParams.customerId) {
+      let customer = JSON.parse(localStorage.getItem('selectedCustomer'));
+      this.createAddress(customer);
+    }
   }
 
   getCities() {
