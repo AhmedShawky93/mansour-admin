@@ -71,6 +71,6 @@ export class ListsService {
       });
   }
   export(id) {
-    return this.http.get(this.url + '/lists/' + id + "/export-file-list-items")
+    return this.http.get(this.url + '/lists/' + id + "/export-list-items")
   }
 }

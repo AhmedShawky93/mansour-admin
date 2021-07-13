@@ -39,7 +39,7 @@ export class ViewListComponent implements OnInit {
     this.listsService
       .export(id)
       .subscribe((response: any) => {
-
+        
       });
 
     this.toastrService.success("You’ll receive a notification when the export is ready for download.", ' Your export is now being generated ', {
