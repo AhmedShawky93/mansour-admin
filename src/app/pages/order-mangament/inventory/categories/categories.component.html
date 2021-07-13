@@ -13,7 +13,8 @@
 
     <div class="col-md-4 col-sm-6 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-block btn-rounded btn-blue2 btn-big add-category ml-auto" (click)="addCaregory()">
+        <button class="btn btn-owls btn-block btn-rounded btn-blue2 btn-big add-category ml-auto"
+          (click)="addCaregory()">
           + New category</button>
       </div>
     </div>
@@ -263,6 +264,20 @@
       <div class="w-100"></div>
       <div class="col">
         <div class="form-group">
+          <label for="">Slug</label>
+          <input type="text" class="owl-input" placeholder="Type.." name="slug" [(ngModel)]="editCat.slug" required
+            formControlName="slug">
+          <div
+            *ngIf="editCatForm.controls.slug.invalid && (editCatForm.controls.slug.dirty || editCatForm.controls.slug.touched)"
+            class="alert alert-danger">
+            <div *ngIf="editCatForm.controls.slug.errors.required">
+              slug is required.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
           <label>Order</label>
           <input type="number" class="owl-input" placeholder="Type.." name="order" [(ngModel)]="editCat.order" required
             formControlName="order">
@@ -308,6 +323,17 @@
                   class="alert alert-danger">
                   <div *ngIf="editCatForm.controls.sub_categories.controls[i].controls.name.errors.required">
                     Name is required.
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 m-t-b-8">
+                <label for="">Slug</label>
+                <input type="text" class="owl-input" name="subName{{i}}" formControlName="slug" required>
+                <div
+                  *ngIf="editCatForm.controls.sub_categories['controls'][i].controls.slug.invalid && (editCatForm.controls.sub_categories['controls'][i].controls.slug.dirty || editCatForm.controls.sub_categories['controls'][i].controls.slug.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editCatForm.controls.sub_categories['controls'][i].controls.slug.errors.required">
+                    Slug is required.
                   </div>
                 </div>
               </div>
@@ -445,6 +471,23 @@
               <!-- End Errors Rolues -->
             </div>
           </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label>Slug</label>
+              <input class="owl-input" type="text" name="slug" id="" maxlength="140" [(ngModel)]="newCategory.slug"
+                required formControlName="slug" />
+              <!-- Errors Rolues -->
+              <div
+                *ngIf="categoriesForm.controls.slug.invalid && (categoriesForm.controls.slug.dirty || categoriesForm.controls.slug.touched)"
+                class="alert alert-danger">
+                <div *ngIf="categoriesForm.controls.slug.errors.required">
+                  slug is required.
+                </div>
+              </div>
+              <!-- Errors Rolues -->
+              <!-- <input type="text" class="owl-input" id="amount" aria-describedby="emailHelp" placeholder="Type.."> -->
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -501,7 +544,9 @@
           <div class="row rowImage">
             <div class="col-sm-6">
               <div class="owls-upload owls-upload3">
-                <img *ngIf="!sub.controls.image.value" src="https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg" alt="" class="owl-img img-fluid">
+                <img *ngIf="!sub.controls.image.value"
+                  src="https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg" alt=""
+                  class="owl-img img-fluid">
                 <img *ngIf="sub.controls.image.value" [src]="sub.controls.image.value" alt="" class="owl-img img-fluid">
                 <input type="file" name="myfile"
                   (change)="uploadImage(categoriesForm.controls.sub_categories.controls[i].controls.image, $event)" />
@@ -515,11 +560,23 @@
                 </div>
               </div>
             </div>
+            <div class="col-sm-12 m-t-b-5">
+              <label for="">Slug</label>
+              <input type="text" class="owl-input" name="subName{{i}}" formControlName="slug" required>
+              <div
+                *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.slug.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.slug.dirty || categoriesForm.controls.sub_categories.controls[i].controls.slug.touched)"
+                class="alert alert-danger">
+                <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.slug.errors.required">
+                  Slug is required.
+                </div>
+              </div>
+            </div>
             <div class="col-sm-12  col-lx-6">
               <div class="row">
                 <div class="col-sm-12 m-t-b-5">
                   <label for="">sub category</label>
-                  <input type="text" class="owl-input" placeholder="type here" name="subName{{i}}" formControlName="name" required>
+                  <input type="text" class="owl-input" placeholder="type here" name="subName{{i}}"
+                    formControlName="name" required>
                   <div
                     *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.name.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.name.dirty || categoriesForm.controls.sub_categories.controls[i].controls.name.touched)"
                     class="alert alert-danger">

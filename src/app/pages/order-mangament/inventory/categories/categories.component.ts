@@ -98,6 +98,7 @@ export class CategoriesComponent implements OnInit {
       ]),
       name_ar: new FormControl("", [Validators.required]),
       image: new FormControl("", [Validators.required]),
+      slug: new FormControl("", [Validators.required]),
       description: new FormControl("", Validators.required),
       description_ar: new FormControl("", Validators.required),
       order: new FormControl("", Validators.required),
@@ -114,6 +115,7 @@ export class CategoriesComponent implements OnInit {
       ]),
       name_ar: new FormControl("", [Validators.required]),
       image: new FormControl("", [Validators.required]),
+      slug: new FormControl("", [Validators.required]),
       description: new FormControl("", Validators.required),
       description_ar: new FormControl("", Validators.required),
       order: new FormControl("", Validators.required),
@@ -193,6 +195,7 @@ export class CategoriesComponent implements OnInit {
     this.editCatForm = new FormGroup({
       id: new FormControl(category.id),
       image: new FormControl(category.image, [Validators.required]),
+      slug: new FormControl(category.slug, Validators.required),
       name: new FormControl(category.name, [
         Validators.required,
         Validators.pattern(/[A-Za-z0-9\-\&\s]+$/),
@@ -218,6 +221,7 @@ export class CategoriesComponent implements OnInit {
           name: new FormControl(item.name, Validators.required),
           name_ar: new FormControl(item.name_ar, Validators.required),
           image: new FormControl(item.image, Validators.required),
+          slug: new FormControl(item.slug, Validators.required),
           order: new FormControl(item.order),
           options: new FormControl(
             item.options.map((p) => p.id)),
@@ -267,6 +271,7 @@ export class CategoriesComponent implements OnInit {
         name_ar: new FormControl("", Validators.required),
         image: new FormControl("", Validators.required),
         order: new FormControl("", Validators.required),
+        slug: new FormControl("", Validators.required),
         options: new FormControl([]),
       })
     );
@@ -285,6 +290,7 @@ export class CategoriesComponent implements OnInit {
         name: new FormControl("", Validators.required),
         name_ar: new FormControl("", Validators.required),
         image: new FormControl("", Validators.required),
+        slug: new FormControl("", Validators.required),
         order: new FormControl("", Validators.required),
       })
     );
