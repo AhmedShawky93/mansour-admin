@@ -43,6 +43,7 @@ import { DetailsViewComponent } from "./pages/order-mangament/details-view/detai
 import { DoneComponent } from "./pages/mangament-users/done/done.component";
 import { ManageCastomerComponent } from "./pages/mangament-users/manage-castomer/manage-castomer.component";
 import { TotalOrdersComponent } from "./pages/mangament-users/total-orders/total-orders.component";
+import { AdminLogComponent } from "./pages/mangament-users/admin-log/admin-log.component";
 import { OrderDetailsComponent } from "./pages/order-mangament/order-details/order-details.component";
 import { ForgetPasswordComponent } from "./pages/login/forget-password/forget-password.component";
 import { ResetPasswordComponent } from "./pages/login/reset-password/reset-password.component";
@@ -115,6 +116,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     DoneComponent,
     ManageCastomerComponent,
     TotalOrdersComponent,
+    AdminLogComponent,
     CustomAdsComponent,
     ContactusComponent,
     adsComponent,

@@ -213,6 +213,12 @@
           <span>Reports</span>
         </a>
       </li>
+      <li class="side-nav-item" routerLinkActive="active">
+        <a routerLink="/pages/log" routerLinkActive="active">
+          <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Reports"></i>
+          <span>Admin Log</span>
+        </a>
+      </li>
       <li class="side-nav-item" *ngxPermissionsOnly="['ADMIN', 'View Admins']">
         <a routerLinkActive="active" data-toggle="collapse" data-target="#subAdmins" aria-controls="subAdmins">
           <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Sub Admins"></i>
