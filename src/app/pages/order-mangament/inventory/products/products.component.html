@@ -204,8 +204,9 @@
             <div [hidden]="!product.showReason" class="reason-popup text-left">
               <textarea [(ngModel)]="product.notes" class="owl-input" name=""
                 placeholder="Why Do yo want to deactivate this product?"></textarea>
-              <button (click)="submitDeactivate(product)" [disabled]="!product.notes"
-                [ngClass]="{'not-allowed' : !product.notes }" class="btn btn-owls btn-rounded btn-green2">submit
+                <!-- [disabled]="!product.notes"
+                [ngClass]="{'not-allowed' : !product.notes }" -->
+              <button (click)="submitDeactivate(product)"  class="btn btn-owls btn-rounded btn-green2">submit
               </button>
               <button (click)="cancelDeactivate(product)" class="btn btn-owls btn-rounded btn-blue2 cancel-check">cancel
               </button>

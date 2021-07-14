@@ -377,8 +377,7 @@ export class OrdersComponent implements OnInit {
     } else if (this.orderStatusId == 6) {
       // this.stateForm.get("status_notes").setValidators([Validators.required]);
       this.stateForm
-        .get("cancellation_id")
-        .setValidators([Validators.required]);
+        .get("cancellation_id");
     }
   }
 
