@@ -60,6 +60,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   currentProduct: any;
   category_id: any;
   selectedDraft: any;
+  syncFbSheet: any;
   @ViewChild('myInput') importFile: ElementRef;
   @ViewChild('myInputStock') importFileStock: ElementRef;
   @ViewChild('productForm') productForm: AddEditProductComponent;
@@ -158,6 +159,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   addCustomUser = (term) => ({ id: term, name: term });
 
   ngOnInit() {
+    this.syncFbSheet = environment.api + "/admin/products/export_fb";
     this.getCategories();
     // this.getProducts();
     this.productsService.getBrands().subscribe((response: any) => {
