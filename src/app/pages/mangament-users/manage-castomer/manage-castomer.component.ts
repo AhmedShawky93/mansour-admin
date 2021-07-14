@@ -314,7 +314,7 @@ export class ManageCastomerComponent implements OnInit {
       .subscribe((response: any) => {
         const token = response.data;
 
-        window.open(environment.website_url + '/session/signin?token=' + token, '_blank');
+        window.open('http://mobilaty-staging.el-dokan.com/session/signin?disabled_guard=true&token=' + token, '_blank');
       });
   }
 
