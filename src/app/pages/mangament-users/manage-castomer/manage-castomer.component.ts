@@ -79,8 +79,6 @@ export class ManageCastomerComponent implements OnInit {
   ngOnInit() {
     this.getCities();
     this.customerId = Number(this.activatedRoute.snapshot.queryParams.id)
-    
-    console.log('bbbbbbbbbb',this.activatedRoute.snapshot.queryParamMap);
 
     $('.table').on('click', '.toggle-vindor-view', function () {
       $('#view-active').toggleClass('open-view-vindor-types');
@@ -115,6 +113,14 @@ export class ManageCastomerComponent implements OnInit {
     this.exportUrl = environment.api + '/admin/customers/export?token=' + token;
 
     this.loadCustomers();
+    if (this.activatedRoute.snapshot.queryParams.fromOrder){
+      this.createCustomer();
+    }
+
+    if (this.activatedRoute.snapshot.queryParams.fromOrderCreateAddress && this.activatedRoute.snapshot.queryParams.customerId) {
+      let customer = JSON.parse(localStorage.getItem('selectedCustomer'));
+      this.createAddress(customer);
+    }
   }
 
   getCities() {
@@ -128,7 +134,6 @@ export class ManageCastomerComponent implements OnInit {
   public selectCity(cityId) {
     if (cityId) {
 
-      console.log(' cityId===>', cityId);
       this.filter.city_id = [];
       this.filter.area_id = [];
 
@@ -136,11 +141,9 @@ export class ManageCastomerComponent implements OnInit {
       if (index !== -1) {
         if (this.cities[index].areas.length) {
           this.areaListSearch = this.cities[index].areas;
-          console.log(this.areaList, 'if');
         } else {
           this.areaListSearch = [];
           this.areaListSearch.push(this.cities[index]);
-          console.log(this.areaList, 'else');
         }
       }
 
@@ -164,7 +167,6 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   changePage(p) {
-    console.log(this.filter);
     this.p = p;
     this.filter.page = this.p;
     this.cs.getCustomers(this.filter)
@@ -235,7 +237,6 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   viewCustomer(customer) {
-    debugger
     this.customerLoading = true;
     this.customer = null;
     this.cs.getCustomer(customer.id)
@@ -300,7 +301,6 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   verifyPhone() {
-    console.log(this.customer);
     this.cs.verifyPhone(this.customer.id)
       .subscribe((response: any) => {
         if (response.code == 200) {
@@ -314,7 +314,7 @@ export class ManageCastomerComponent implements OnInit {
       .subscribe((response: any) => {
         const token = response.data;
 
-        window.open(environment.website_url + '/session/signin?token=' + token, '_blank');
+        window.open('http://mobilaty-staging.el-dokan.com/session/signin?disabled_guard=true&token=' + token, '_blank');
       });
   }
 

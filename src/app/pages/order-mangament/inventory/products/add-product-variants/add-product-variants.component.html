@@ -197,6 +197,9 @@
         <div *ngIf="formControlValidator('discount_price','pattern')" class="alert alert-danger">
           Invalid number format
         </div>
+        <div *ngIf="formControlValidator('discount_price','lessThan')" class="text-danger">
+          Discount Can't Exceed The Price
+        </div>
       </div>
       <div>
         <div class="title">
@@ -245,6 +248,11 @@
           </div>
         </div>
       </div>
+
+      <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true"
+        formControlName="payment_method_discount_ids" bindLabel="name" bindValue="id" name="payment_method_discount_ids"
+        placeholder="Select Payment Methods">
+      </ng-select>
     </div>
 
     <div class="form-group">
@@ -256,7 +264,11 @@
 
       <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
         <label class="container">Pre-Order
-          <input type="checkbox" class="form-control checkbox-style" name="preorder" id="preorder" [value]="1"
+          <input type="checkbox"
+            (change)="componentForm.get('preorder').value == 1 && componentForm.get('available_soon').setValue(0)"
+            class="form-control checkbox-style"
+            name="preorder"
+            id="preorder" [value]="1"
             formControlName="preorder">
           <span class="checkmark"></span>
         </label>
@@ -294,6 +306,9 @@
             <div *ngIf="formControlValidator('preorder_end_date','required')" class="text-danger">
               Field Is Required
             </div>
+            <div *ngIf="formControlValidator('preorder_end_date','dateRang')" class="text-danger">
+              Expiration Date Must Be Greater Than Start Date
+            </div>
             <!-- <div *ngIf="formControlValidator('preorder_end_date','dateRang')" class="text-danger">
               Expiration Date Must Be Greater Than Start Date
             </div> -->
@@ -311,7 +326,9 @@
 
     <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
       <label class="container">Available Soon
-        <input type="checkbox" class="form-control checkbox-style" name="available_soon" id="available_soon" [value]="1"
+        <input type="checkbox"
+          (change)="componentForm.get('available_soon').value == 1 && componentForm.get('preorder').setValue(0)"
+          class="form-control checkbox-style" name="available_soon" id="available_soon" [value]="1"
           formControlName="available_soon" (change)="onAvailableChange()">
         <span class="checkmark"></span>
       </label>
@@ -424,7 +441,7 @@
       <label>Image</label>
       <div class="d-flex justify-content-center flex-column">
         <app-image-uploader [fileUrl]="componentForm.value?.image" [formControlChildName]="'image'"
-          [myForm]="componentForm" class="w-100" height="240px" width="100%">
+          [myForm]="componentForm" class="w-100" height="240px" width="50%">
         </app-image-uploader>
         <div *ngIf="formControlValidator('image','required')" class="text-danger">
           Image Is Required
@@ -602,7 +619,7 @@
           <div *ngIf="formGroupItem.controls['optionData']?.value?.type == 4"
             class="d-flex justify-content-center flex-column mt-2">
             <app-image-uploader [fileUrl]="selectedProduct?.image" [formControlChildName]="'option_image'"
-              [myForm]="formGroupItem" class="w-100" height="240px" width="100%">
+              [myForm]="formGroupItem" class="w-100" height="240px" width="50%">
             </app-image-uploader>
             <div *ngIf="formGroupControlsValidator(formGroupItem,'option_image','required')" class="alert alert-danger">
               Image Is Required

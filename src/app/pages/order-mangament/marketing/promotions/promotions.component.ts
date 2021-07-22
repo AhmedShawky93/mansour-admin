@@ -80,7 +80,6 @@ export class PromotionsComponent implements OnInit {
       .getPromotions(this.searchObj)
       .subscribe((response: any) => {
         if (response.code === 200) {
-          console.log(response.data.data);
           this.promotions = response.data;
           this.loading = false;
           this.promotions.map((section) => {
@@ -148,7 +147,6 @@ export class PromotionsComponent implements OnInit {
     this.currentPromotion = data;
     this.viewOptionSidebar = "out";
     this.toggleAddOption = "in";
-    console.log(this.currentPromotion);
   }
 
   closeSideBar() {

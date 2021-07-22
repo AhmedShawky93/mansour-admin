@@ -81,7 +81,6 @@ export class ListsComponent implements OnInit {
       .getLists(this.searchObj)
       .subscribe((response: any) => {
         if (response.code === 200) {
-          console.log(response.data.data);
           this.lists = response.data;
           this.total = this.lists.length;
           this.loading = false;
@@ -148,17 +147,17 @@ export class ListsComponent implements OnInit {
   }
 
   viewList(list) {
-    console.log(list);
     this.currentList = list;
     this.toggleListForm = "out";
     this.viewOptionSidebar = "in";
   }
 
   toggleMenu(data) {
-    this.selectOptionData = data;
-    this.viewOptionSidebar = "out";
-    this.toggleListForm = "in";
-    console.log(this.selectOptionData);
+    this.listsService.getListById(data ? data.id : '').subscribe((res) => {
+      this.selectOptionData = res.data;
+      this.viewOptionSidebar = "out";
+      this.toggleListForm = "in";
+    })
   }
 
   closeSideBar() {

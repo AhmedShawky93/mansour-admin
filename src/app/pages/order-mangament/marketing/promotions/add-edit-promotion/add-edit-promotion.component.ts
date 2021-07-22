@@ -48,7 +48,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    console.log("initializing")
     // this.brandsService.getBrands()
     //   .subscribe((response: any) => {
     //     this.brands = response.data;
@@ -60,7 +59,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     this.getForm(this.promotionData);
   }
   ngOnChanges(): void {
-    console.log(this.promotionData);
     this.getForm(this.promotionData);
   }
 
@@ -88,7 +86,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       // edit
       const data = this.promotionForm.value;
       data.expiration_date  = moment(data.expiration_date).format("YYYY-MM-DD");
-      console.log(data);
       if (!this.promotionForm.valid) {
         this.markFormGroupTouched(this.promotionForm);
         return;
@@ -112,7 +109,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       // add
       const data = this.promotionForm.value;
       data.expiration_date  = moment(data.expiration_date).format("YYYY-MM-DD");
-      console.log(data);
       if (!this.promotionForm.valid) {
         this.markFormGroupTouched(this.promotionForm);
         return;

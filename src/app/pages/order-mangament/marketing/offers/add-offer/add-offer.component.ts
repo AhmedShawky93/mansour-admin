@@ -67,7 +67,6 @@ export class AddOfferComponent implements OnInit {
 
   // add Promo
   addpromo(promo) {
-    console.log(promo);
     if (!this.newPromo.valid) {
       this.markFormGroupTouched(this.newPromo);
       return;
@@ -89,7 +88,6 @@ export class AddOfferComponent implements OnInit {
     this.selectFile = <File>event.target.files[0];
     this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {
       if (response.body) {
-        console.log(response);
         data = response.body.data.filePath;
         this.promo.customer_phones = response.body.data.filePath;
         // this.toastrService.success(response.message);
@@ -188,7 +186,6 @@ export class AddOfferComponent implements OnInit {
     }
   }
   changeTypePromo(event) {
-    console.log(event.target.value);
     if (event.target.value == "3") {
       this.newPromo.get("amount").clearValidators();
       this.newPromo.get("amount").updateValueAndValidity();

@@ -13,7 +13,7 @@
       <button (click)="addToPickup(order.id)" class="float-right btn btn-owls btn-rounded btn-green">
         Add To Pickup </button>
       <button (click)="editOrder()" class="float-right btn btn-owls btn-rounded btn-green mx-2">
-       Edit
+        Edit
       </button>
     </div>
   </div>
@@ -68,7 +68,7 @@
         <p class="mb-0">{{ state.state?.name }}</p>
         <p class="mb-0 mt-2" *ngIf="state.sub_state?.name">{{ state.sub_state?.name }}</p>
         <p (click)="customerDetails(state.user)" class="mb-0 mt-2 pointer" *ngIf="state.user?.name">
-          {{ state.user?.name + ' ' + state.user?.last_name}}
+          {{ state.user?.name + ' ' +( state.user?.last_name ? state.user?.last_name : '') }}
         </p>
         <p class="mb-0 mt-2" *ngIf="order?.cancellation_reason">
           Cancellation reason : {{order?.cancellation_reason.text }}
@@ -177,7 +177,7 @@
 
       <div class="block-item">
         <p>Order source</p>
-        <span *ngIf="order.deliverer">{{ order.deliverer?.user_agent }}</span>
+        <span *ngIf="order.user_agent">{{ order?.user_agent }}</span>
       </div>
     </div>
     <div class="col-md-12">
@@ -280,7 +280,7 @@
       <div class="block-item">
         <p>name</p>
         <span (click)="customerDetails(order?.user)" class="pointer">
-          {{ order?.user?.name + ' ' + order?.user?.last_name}}
+          {{ order?.user?.name + ' ' +( order.user?.last_name ? order.user?.last_name : '')}}
         </span>
       </div>
     </div>
@@ -362,25 +362,63 @@
         <!-- <span *ngIf="order.payment_method == 5">Premium</span> -->
       </div>
 
-      <div class="block-item">
-        <p>Item Total</p>
-        <span>{{ order.invoice.total_amount | number : '1.2-2'}}</span>
+      <div *ngIf="order.payment_method !== 3; else valuPayment">
+        <div class="block-item">
+          <p>Item Total</p>
+          <span>{{ order.invoice.total_amount | number : '1.2-2'}}</span>
+        </div>
+
+        <div class="block-item">
+          <p>Discount</p>
+          <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount )| number
+            : '1.2-2'}}</span>
+          <span *ngIf="!order.invoice.discount === null">-</span>
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
+            <i class="icon-grey edit-price"></i>
+          </a>
+        </div>
+
+        <div class="block-item">
+          <p>Grand Total</p>
+          <span>{{ (order.amount + order.delivery_fees) | number : '1.2-2' }}</span>
+        </div>
       </div>
 
-      <div class="block-item">
-        <p>Discount</p>
-        <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount )| number
-          : '1.2-2'}}</span>
-        <span *ngIf="!order.invoice.discount === null">-</span>
-        <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
-          <i class="icon-grey edit-price"></i>
-        </a>
-      </div>
+      <ng-template #valuPayment>
+        <div class="block-item">
+          <p>Item Total</p>
+          <span>{{ order.installment.total_before_down_payment | number : '1.2-2'}}</span>
+        </div>
 
-      <div class="block-item">
-        <p>Grand Total</p>
-        <span>{{ (order.amount + order.delivery_fees) | number : '1.2-2' }}</span>
-      </div>
+        <div class="block-item">
+          <p>Down Payment</p>
+          <span>{{ order.installment.down_payment | number : '1.2-2'}}</span>
+        </div>
+
+        <div class="block-item">
+          <p>Discount</p>
+          <span *ngIf="order.invoice.discount !== null">-{{ (order.invoice.total_amount - order.invoice.discount )| number
+            : '1.2-2'}}</span>
+          <span *ngIf="order.invoice.discount === null">-</span>
+          <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceTotal(order)">
+            <i class="icon-grey edit-price"></i>
+          </a>
+        </div>
+
+        <div class="block-item">
+          <p>Total Cash Amount</p>
+          <span>{{ (order.amount + order.delivery_fees) | number : '1.2-2' }}</span>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+
+  <div class="mt-4 row">
+    <div class="block-item" *ngIf="order.installment.installment_message">
+      <p *ngIf="order.payment_method === 3">valU note</p>
+      <p *ngIf="order.payment_method === 5">Premium note</p>
+      <span>{{ order.installment.installment_message }}</span>
     </div>
   </div>
 </div>
@@ -686,7 +724,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
-          Are you sure you want to change price Or discount ?
+          Are you sure you want to change discount ?
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -702,9 +740,11 @@
           </div> -->
 
           <div class="form-group">
-            <label for="">Discount Price</label>
+            <label for="">Price after discount</label>
             <input type="number" name="discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
               [min]="0" [(ngModel)]="discount">
+              <mat-error *ngIf="currentItem?.price < discount">Price after discount must not exceed the original price</mat-error>
+              <mat-error *ngIf="discount < 0">Price after discount can't be negative</mat-error>
           </div>
 
         </form>
@@ -715,7 +755,7 @@
 
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitItemUpdate()">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" [ngClass]="currentItem?.price < discount || discount < 0 ? 'disabled' : ''" (click)="submitItemUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
@@ -730,7 +770,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
-          Are you sure you want to change price Or discount ?
+          Are you sure you want to change discount ?
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -746,6 +786,11 @@
             </label>
             <input type="number" name="invoice_discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input"
               placeholder="Type.." [min]="0" [(ngModel)]="invoiceDiscount">
+              <mat-error *ngIf="invoiceDiscount != null && order?.amount < invoiceDiscount">Price after discount must not exceed the
+                original
+                price
+              </mat-error>
+              <mat-error *ngIf="invoiceDiscount < 0">discount price can't be a negative number</mat-error>
           </div>
 
         </form>
@@ -756,7 +801,8 @@
 
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="submitInvoiceUpdate()">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2"
+          [ngClass]="(invoiceDiscount != null && order?.amount < invoiceDiscount) || invoiceDiscount < 0 ? 'disabled' : ''" (click)="submitInvoiceUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
@@ -927,6 +973,5 @@
 </app-add-edit-address>
 
 <app-add-edit-order (closeSideBarEmit)="closeSideBar($event)" [@slideInOut]="toggleAddOrder"
-                    class="parent-editor-viewer-sidebar"
-                    [selectedOrder]="order">
+  class="parent-editor-viewer-sidebar" [selectedOrder]="order">
 </app-add-edit-order>

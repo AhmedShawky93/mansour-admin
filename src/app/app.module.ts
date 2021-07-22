@@ -1,4 +1,5 @@
 import { GroupsComponent } from './pages/order-mangament/inventory/groups/groups.component';
+import { BracnhesStoreService } from './pages/services/stores.service';
 import { AuthService } from "@app/shared/auth.service";
 import { AppRoutingModule } from "./routing/app-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -42,6 +43,7 @@ import { DetailsViewComponent } from "./pages/order-mangament/details-view/detai
 import { DoneComponent } from "./pages/mangament-users/done/done.component";
 import { ManageCastomerComponent } from "./pages/mangament-users/manage-castomer/manage-castomer.component";
 import { TotalOrdersComponent } from "./pages/mangament-users/total-orders/total-orders.component";
+import { AdminLogComponent } from "./pages/mangament-users/admin-log/admin-log.component";
 import { OrderDetailsComponent } from "./pages/order-mangament/order-details/order-details.component";
 import { ForgetPasswordComponent } from "./pages/login/forget-password/forget-password.component";
 import { ResetPasswordComponent } from "./pages/login/reset-password/reset-password.component";
@@ -91,16 +93,18 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { DeliveredPipe } from "./pages/stars/pipes/delivered.pipe";
 import { DeliveryFilterPipe } from "./shared/delivery-filter.pipe";
 import { CustomAdsComponent } from "./pages/store-front/custom-ads/custom-ads.component";
- import { ProductFilterPipe } from "./shared/product-filter.pipe";
+import { ProductFilterPipe } from "./shared/product-filter.pipe";
 import { ContactusComponent } from "./pages/contact-us/contact-us.component";
 import { ReportsComponent } from "./pages/reports/reports.component";
 import { GroupsPipe } from './pages/order-mangament/inventory/groups/groups.pipe';
 import { OrdersDeliveryComponent } from './pages/order-mangament/orders-delivery/orders-delivery.component';
 import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
-import {AngularEditorModule} from '@kolkov/angular-editor';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-order/add-edit-order.component';
 import { AddEditCustomerComponent } from './pages/mangament-users/manage-castomer/add-edit-customer/add-edit-customer.component';
 import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
+import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   declarations: [
@@ -112,6 +116,7 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
     DoneComponent,
     ManageCastomerComponent,
     TotalOrdersComponent,
+    AdminLogComponent,
     CustomAdsComponent,
     ContactusComponent,
     adsComponent,
@@ -149,7 +154,8 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
     OrderDeliveryDetailsComponent,
     AddEditOrderComponent,
     AddEditCustomerComponent,
-    AddEditAddressComponent
+    AddEditAddressComponent,
+    DynamicSettingsComponent
   ],
   imports: [
     AppRoutingModule,
@@ -183,7 +189,11 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
     FroalaViewModule.forRoot(),
     SharedModule,
     NgxPermissionsModule.forRoot(),
-    AngularEditorModule
+    AngularEditorModule,
+    ColorPickerModule
+  ],
+  exports: [
+    DynamicSettingsComponent
   ],
   providers: [
     {
@@ -195,6 +205,7 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
     AuthGuard,
     CategoryService,
     MatNativeDateModule,
+    BracnhesStoreService,
     CustomerService,
     DeliveryService,
     AreasService,
@@ -203,4 +214,4 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

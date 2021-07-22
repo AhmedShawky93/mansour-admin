@@ -7,20 +7,22 @@ import { SectionsComponent } from "./sections.component";
 import { AddEditSectionComponent } from "./add-edit-section/add-edit-section.component";
 import { ViewSectionComponent } from "./view-section/view-section.component";
 import { RouterModule } from "@angular/router";
+import {SharedModule} from '@app/shared/shared.module';
 
 const router = [
   { path: "", component: SectionsComponent, data: { title: "Sections" } },
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(router),
-    NgxPaginationModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(router),
+        NgxPaginationModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        SharedModule,
+    ],
   declarations: [
     SectionsComponent,
     AddEditSectionComponent,

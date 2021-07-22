@@ -38,17 +38,14 @@ export class AddEditCustomerComponent implements OnInit {
 
   submitCustomer() {
     if (!this.customerForm.valid) {
-      console.log("INVALID FORM");
       this.markFormGroupTouched(this.customerForm);
       return;
     }
 
     let customer = this.customerForm.value;
-    console.log(customer);
     if (this.selectedCustomer) {
       this.customerService.updateCustomer(this.selectedCustomer.id, customer)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.code == 200) {
             this.closeSideBar(response.data);
           } else {
@@ -58,7 +55,6 @@ export class AddEditCustomerComponent implements OnInit {
     } else {
       this.customerService.createCustomer(customer)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.code == 200) {
             this.closeSideBar(response.data);
           } else {

@@ -22,6 +22,14 @@ export class ListsService {
       });
   }
 
+  getListById(id){
+    return this.http
+      .get<any>(this.url + `/lists/${id}`)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+
   createList(data) {
     return this.http.post(this.url + "/lists", data).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
@@ -50,5 +58,19 @@ export class ListsService {
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });
+  }
+
+  uploadFile(id, file) {
+    const fd = new FormData();
+    fd.append("file", file);
+
+    return this.http
+      .post(this.url + '/lists/' + id + "/import-list-items", fd)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "file upload error");
+      });
+  }
+  export(id) {
+    return this.http.get(this.url + '/lists/' + id + "/export-list-items")
   }
 }

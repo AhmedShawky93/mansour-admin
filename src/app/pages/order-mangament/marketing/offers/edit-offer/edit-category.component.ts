@@ -181,7 +181,6 @@ export class EditOfferComponent implements OnInit {
   }
 
   changeTypePromo(type) {
-    console.log(type);
     if (type == "3") {
       this.editForm.get("editAmount").clearValidators();
       this.editForm.get("editAmount").updateValueAndValidity();
@@ -194,7 +193,6 @@ export class EditOfferComponent implements OnInit {
     this.selectFile = <File>event.target.files[0];
     this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {
       if (response.body) {
-        console.log(response);
         data = response.body.data.filePath;
         this.promo.customer_phones = response.body.data.filePath;
         // this.toastrService.success(response.message);

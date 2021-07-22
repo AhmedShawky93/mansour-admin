@@ -59,7 +59,6 @@ export class CitiesComponent implements OnInit {
     this.getCities();
   }
   viewDataInSidebar(clinic) {
-    console.log(clinic);
     this.selectDataView = clinic;
     this.toggleAddEditData = "out";
     this.viewDataSidebar = "in";
@@ -131,7 +130,6 @@ export class CitiesComponent implements OnInit {
     this.selectFile = <File>event.target.files[0];
 
     this._areaService.uploadFile(this.selectFile).subscribe((response: any) => {
-      console.log(response);
       if (response.code === 200) {
         this.toastrService.success("File uploaded successfully");
         this.importFile.nativeElement.value = "";

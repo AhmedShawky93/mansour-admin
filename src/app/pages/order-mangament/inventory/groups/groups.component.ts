@@ -104,13 +104,13 @@ export class GroupsComponent implements OnInit {
       image: new FormControl("", [Validators.required]),
       categories_id: new FormControl("", Validators.required),
       sub_categories: new FormControl([], Validators.required),
+      order: new FormControl(0, Validators.required),
     });
   }
 
 
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
-      console.log('3l4an mohamed khaled ==> ', response);
       if (response.code === 200) {
         this.categories = response.data;
       }
@@ -121,7 +121,6 @@ export class GroupsComponent implements OnInit {
     if (index !== -1) {
       let category = this.categories[index];
       this.sub_categories = category.sub_categories;
-      console.log(this.sub_categories);
     }
   }
 
@@ -189,15 +188,13 @@ export class GroupsComponent implements OnInit {
       image: new FormControl(category.image, [Validators.required]),
       categories_id: new FormControl(category.category_id, Validators.required),
       sub_categories: new FormControl(category.sub_categories.map(c => c.id), Validators.required),
+      order: new FormControl(category.order ? category.order : 0, Validators.required),
     });
 
-    console.log(this.editGroupForm.controls.image.value)
     this.selectCategory(category.category_id)
   }
 
   updateGroup(group) {
-    console.log(this.editGroupForm.value);
-    console.log(this.editGroupForm.valid);
     if (!this.editGroupForm.valid) {
       this.markFormGroupTouched(this.editGroupForm);
       return;
@@ -293,8 +290,6 @@ export class GroupsComponent implements OnInit {
         group.showReason = 0;
         return group;
       });
-    console.log(this.groups)
-    console.log(group)
     if (group.active) {
       // currently checked
       group.showReason = 0;

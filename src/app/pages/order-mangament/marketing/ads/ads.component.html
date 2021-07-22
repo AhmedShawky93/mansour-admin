@@ -18,20 +18,31 @@
 
 
 <div class="table-responsive">
-  <table class="table owls-table ">
+  <table class="table owls-table custom-table">
     <thead>
       <tr>
-        <th style="width: 180px;" scope="col">iD</th>
-        <th scope="col">type</th>
-        <th scope="col">location</th>
+        <th style="width: 180px;" scope="col">ID</th>
+        <th scope="col">Banner Title</th>
+        <th scope="col">Type</th>
+        <!-- <th scope="col">location</th> -->
         <th scope="col">Order</th>
         <th scope="col">Creation Date</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let ad of ads | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
+      <!--  | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total } -->
+      <tr *ngFor="let ad of ads">
         <td>{{ad.id}}</td>
+        <td class="relative">
+          {{ad.banner_title ? ad.banner_title : '-' | summary : 24 }}
+          <div *ngIf="ad.banner_title != null && ad.banner_title.length >= 20" class="hover-reason text-left">
+            <div class="body">
+              {{ad.banner_title}}
+            </div>
+          </div>
+
+        </td>
         <td>
           <P *ngIf="ad.type == 0"> None </P>
           <P *ngIf="ad.type == 1"> Product </P>
@@ -41,19 +52,38 @@
           <P *ngIf="ad.type == 6"> Category </P>
           <P *ngIf="ad.type == 7"> Link </P>
         </td>
-        <td>
+        <!-- <td>
           <P *ngIf="ad.popup">Popup</P>
           <P *ngIf="!ad.popup && !ad.banner_ad">Slider</P>
           <P *ngIf="ad.banner_ad">Banner</P>
+        </td> -->
+        <td class="order-col">
+          {{ad.order}}
+          <div class="order-selection">
+            <ng-select [closeOnSelect]="true" (change)="updateAdOrder(ad)" [(ngModel)]="ad.order" [items]="orderArray"
+              [multiple]="false" [clearable]="false" required>
+            </ng-select>
+          </div>
         </td>
-        <td>{{ad.order}}</td>
         <td>{{ad.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
-        <td>
+        <td class="order-col">
 
           <a style="margin-right: 10px" (click)="viewAd(ad)" class="toggle-view-category table-view">
             <i class="icon-View"></i>
           </a>
-
+          <div class="delete-ad">
+            <a style="margin-right: 10px" (click)="ad.deleteAdConfirmation = true" class="table-view">
+              <i class="fa fa-trash"></i>
+            </a>
+            <div class="reason-popup reason-popup-delete text-left" [ngClass]="ad.deleteAdConfirmation ? 'show' : ''">
+              <p>Are you sure you want to delete this ad ({{ad.id}})</p>
+              <div class="delete-popup-functions">
+                <button class="btn btn-owls btn-rounded btn-green2" (click)="deleteAd(ad)">submit</button>
+                <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                  (click)="ad.deleteAdConfirmation = false">cancel</button>
+              </div>
+            </div>
+          </div>
 
           <!-- <a href="javascript:void(0)" (click)="editCurrentAd(ad)" class="table-view edit-new">
             <i class="icon-grey"></i>
@@ -86,7 +116,7 @@
     </tbody>
   </table>
 </div>
-<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
 
 <div class="form-sidebar view-vindor-types" id="view-category">
   <div class="head" *ngIf="currentAd">
@@ -107,19 +137,19 @@
 
     <div>
       <div>
-        <h5>Image</h5>
+        <h5>Image (En)</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image}}" alt="">
       </div>
       <div>
-        <h5>Image (ar)</h5>
+        <h5>Image (Ar)</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image_ar}}" alt="">
       </div>
       <div *ngIf="currentAd.image_web">
-        <h5>Image Web (ar)</h5>
+        <h5>Image Web (Er)</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image_web}}" alt="">
       </div>
       <div *ngIf="currentAd.image_web_ar">
-        <h5>Image Web (ar)</h5>
+        <h5>Image Web (Ar)</h5>
         <img class="owl-img img-fluid" src="{{currentAd.image_web_ar}}" alt="">
       </div>
     </div>
@@ -155,7 +185,7 @@
   <form class="sideform" [formGroup]="newAdsForm" (ngSubmit)="onFormSubmit(newAdsForm)" novalidate>
 
     <div class="form-group">
-      <label for="">Image Mobile</label>
+      <label for="">Image Mobile (En)</label>
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image').value" src="{{newAdsForm.get('image').value}}"
@@ -169,7 +199,7 @@
         *ngIf="newAdsForm.controls.image.invalid && (newAdsForm.controls.image.dirty || newAdsForm.controls.image.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.image.errors.required">
-          Image Mobile Is Required.
+          Image Mobile (En) Is Required.
         </div>
       </div>
     </div>
@@ -193,7 +223,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="">Image Web</label>
+      <label for="">Image Web (En)</label>
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value"
@@ -207,7 +237,7 @@
         *ngIf="newAdsForm.controls.image_web.invalid && (newAdsForm.controls.image_web.dirty || newAdsForm.controls.image_web.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.image_web.errors.required">
-          Image Web Is Required.
+          Image Web (En) Is Required.
         </div>
       </div>
     </div>
@@ -231,11 +261,12 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label for="">Banner Title</label>
+      <input type="text" class="owl-input" formControlName="banner_title" name="banner_title">
+    </div>
+
     <div *ngIf="newAdsForm.get('banner_ad').value">
-      <div class="form-group">
-        <label for="">Banner Title</label>
-        <input type="text" class="form-control" formControlName="banner_title" name="banner_title">
-      </div>
 
       <div class="form-group">
         <label for="">Banner Title (Ar)</label>
@@ -288,7 +319,7 @@
       <select type="text" class="owl-input" formControlName="type" name="type" (change)="onAdTypeChanged(newAdsForm)">
         <option value="10" selected disabled>Select Type</option>
         <option value="0">None</option>
-        <option value="1">product</option>
+        <option value="1">Product</option>
         <option value="2">Subcategory</option>
         <!-- <option value="3">Medical </option> -->
         <option value="4">Brand</option>
@@ -317,7 +348,8 @@
       </div>
     </div>
 
-    <div class="form-group" *ngIf="newAdsForm.get('type').value == 6 || newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
+    <div class="form-group"
+      *ngIf="newAdsForm.get('type').value == 6 || newAdsForm.get('type').value == 2 || newAdsForm.get('type').value == 1">
       <label for=""> category</label>
       <select type="text" class="owl-input" (change)="onCategoryChange(category_id)" formControlName="category"
         name="category">
@@ -354,7 +386,7 @@
       </div>
     </div>
 
-    <div class="form-group" *ngIf="newAdsForm.get('type').value == 1">
+    <!-- <div class="form-group" *ngIf="newAdsForm.get('type').value == 1">
       <label for="">Product</label>
       <select type="text" class="owl-input" formControlName="prod" name="prod">
         <option value="" selected disabled>Select Product</option>
@@ -364,7 +396,20 @@
         *ngIf="newAdsForm.controls.prod.invalid && (newAdsForm.controls.prod.dirty || newAdsForm.controls.prod.touched)"
         class="alert alert-danger">
         <div *ngIf="newAdsForm.controls.prod.errors.required">
-          product Is Required.
+          Product Is Required.
+        </div>
+      </div>
+    </div> -->
+    <div class="form-group" *ngIf="newAdsForm.get('type').value == 1">
+      <label for="">Product</label>
+      <ng-select [typeahead]="productsInput$" [loading]="productsLoading" formControlName="prod" 
+        [items]="products$ | async" bindLabel="name" bindValue="id" placeholder="Enter products name">
+      </ng-select>
+      <div
+        *ngIf="newAdsForm.controls.prod.invalid && (newAdsForm.controls.prod.dirty || newAdsForm.controls.prod.touched)"
+        class="alert alert-danger">
+        <div *ngIf="newAdsForm.controls.prod.errors.required">
+          Product Is Required.
         </div>
       </div>
     </div>

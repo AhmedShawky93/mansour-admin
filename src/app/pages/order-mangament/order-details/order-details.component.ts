@@ -1,14 +1,14 @@
-import {OrderStatesService} from './../../services/order-states.service';
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {ActivatedRoute} from '@angular/router';
-import {OrdersService} from '@app/pages/services/orders.service';
-import {ToastrService} from 'ngx-toastr';
-import {DeliveryService} from '@app/pages/services/delivery.service';
+import { OrderStatesService } from './../../services/order-states.service';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { OrdersService } from '@app/pages/services/orders.service';
+import { ToastrService } from 'ngx-toastr';
+import { DeliveryService } from '@app/pages/services/delivery.service';
 import * as moment from 'moment';
-import {Subject} from 'rxjs';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Subject } from 'rxjs';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 declare var jquery: any;
 declare var $: any;
@@ -250,7 +250,6 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   changeStausInOrder(state, sub_state, id) {
-    console.log(state, sub_state);
     this.state_id = state;
     this.sub_state_id = sub_state;
     this.orderId = id;
@@ -268,12 +267,10 @@ export class OrderDetailsComponent implements OnInit {
     //   $("#confirmOrderStatus").modal("show");
     //   this.firstTime = false;
     // }
-    // console.log(this.firstTime);
   }
 
   openPopupConfirmStatus(data, type) {
     // type 1 change order status and 2 sub statue
-    console.log(data);
     this.orderStatuId = data;
     this.typeStatusPopup = type;
     $('#confirmOrderStatus').modal('show');
@@ -281,9 +278,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   confirmChangeStatusOld(notifyUser) {
-    console.log(notifyUser);
     if (this.orderStatusId == '6') {
-      console.log(this.status_notesText);
       if (this.status_notesText == '' || this.status_notesText == undefined) {
         this.error_status_notes = true;
         return;
@@ -320,7 +315,6 @@ export class OrderDetailsComponent implements OnInit {
       this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
       this.stateForm.get('aramex_account_number').updateValueAndValidity();
     }
-    console.log(this.stateForm.value);
     if (!this.stateForm.valid) {
       return this.markFormGroupTouched(this.stateForm);
     }
@@ -371,11 +365,43 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   submitItemUpdate() {
-    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, {discount_price: this.discount, notify_customer: this.notifyUser})
+    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, { discount_price: this.discount, notify_customer: this.notifyUser })
       .subscribe((response: any) => {
-        this.currentItem.discount_price = this.discount;
-        this.discount = null;
-        $('#orderChangePriceAndDiscount').modal('hide');
+        if (response.code === 200) {
+          this.currentItem.discount_price = this.discount;
+          this.discount = null;
+          this.orderService.getOrder(this.order.id).subscribe((response: any) => {
+            $('#orderChangePriceAndDiscount').modal('hide');
+            this.order = response.data;
+            this.getOrderStates();
+
+            this.order.history.map((state) => {
+              state.name = this.getStateName(state.state_id);
+              state.image = this.getStateImage(state.state_id);
+              return state;
+            });
+
+            const lastCreatedIndex = this.order.history.reduce((a, v, i) => {
+              if (v.state_id == 1) {
+                a = i;
+              }
+
+              return a;
+            });
+            const stepsArray = this.order.history.slice(lastCreatedIndex);
+
+            this.order.showStepper = this.stepperStates.includes(
+              this.order.state_id
+            );
+            this.processing = this.hasState(stepsArray, 2);
+            this.cancelled = this.hasState(stepsArray, 6);
+            this.delivering = this.hasState(stepsArray, 3);
+            this.delivered = this.hasState(stepsArray, 4);
+            this.returned = this.hasState(stepsArray, 7);
+          });
+        } else {
+          this.toastrService.error(`${response.message}`, 'Error');
+        }
       });
   }
 
@@ -410,11 +436,43 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   submitInvoiceUpdate() {
-    this.orderService.updateInvoiceDiscount(this.order.id, {discount: this.invoiceDiscount, notify_customer: this.notifyUser})
+    this.orderService.updateInvoiceDiscount(this.order.id, { discount: this.invoiceDiscount, notify_customer: this.notifyUser })
       .subscribe((response: any) => {
-        this.invoiceDiscount = null;
-        this.order.invoice.discoutn = this.invoiceDiscount;
-        $('#orderChangePriceTotal').modal('hide');
+        if (response.code == 200) {
+          this.invoiceDiscount = null;
+          this.order.invoice.discoutn = this.invoiceDiscount;
+          this.orderService.getOrder(this.order.id).subscribe((response: any) => {
+            $('#orderChangePriceTotal').modal('hide');
+            this.order = response.data;
+            this.getOrderStates();
+
+            this.order.history.map((state) => {
+              state.name = this.getStateName(state.state_id);
+              state.image = this.getStateImage(state.state_id);
+              return state;
+            });
+
+            const lastCreatedIndex = this.order.history.reduce((a, v, i) => {
+              if (v.state_id == 1) {
+                a = i;
+              }
+
+              return a;
+            });
+            const stepsArray = this.order.history.slice(lastCreatedIndex);
+
+            this.order.showStepper = this.stepperStates.includes(
+              this.order.state_id
+            );
+            this.processing = this.hasState(stepsArray, 2);
+            this.cancelled = this.hasState(stepsArray, 6);
+            this.delivering = this.hasState(stepsArray, 3);
+            this.delivered = this.hasState(stepsArray, 4);
+            this.returned = this.hasState(stepsArray, 7);
+          });
+        } else {
+          this.toastrService.error(`${response.message}`, 'Error');
+        }
       });
   }
 
@@ -448,8 +506,6 @@ export class OrderDetailsComponent implements OnInit {
 
   generateSkusToCopy() {
     this.order.items.forEach((element, index) => {
-      console.log('index ==> ', index + 1);
-      console.log('this.order.items.length ==> ', this.order.items.length);
       if (index + 1 < this.order.items.length) {
         this.textMessage = this.textMessage.concat(element.product.sku + ' \n');
       } else {
@@ -564,11 +620,11 @@ export class OrderDetailsComponent implements OnInit {
     this.router.navigate(['/pages/manage-customer'], { queryParams: { id: customer.id } });
   }
   closeSideBar(data) {
-    this.order =  data ? {...data} : this.order;
+    this.order = data ? { ...data } : this.order;
     this.toggleAddOrder = 'out';
   }
   editOrder() {
-    this.order = {...this.order};
+    this.order = { ...this.order };
     this.toggleAddOrder = 'in';
   }
 }

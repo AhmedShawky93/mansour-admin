@@ -1,0 +1,121 @@
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-5 col-sm-12 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <form>
+          <input (input)="search()" [(ngModel)]="filter.q" class="owl-input owls-search" name="search"
+                 placeholder="search ..."
+                 type="text">
+        </form>
+      </div>
+    </div>
+    <div class="col-md-3  col-xs-12 p-l-r-5">
+      <div class="form-group">
+        <a (click)="export()" class=" btn btn-owls btn-rounded btn-green  btn-special">export
+          CSV</a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <select (change)="loadData()" [(ngModel)]="filter.status" class="owl-input" name="status">
+        <option selected value="">All</option>
+        <option value="0">UnAuthorized</option>
+        <option value="1">Authorized</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-4">
+      <app-generic-date-picker (change)="setDateFilters($event , 'date_from')"
+                               placeholder="Date From">
+      </app-generic-date-picker>
+    </div>
+    <div class="col-12 col-md-4">
+      <app-generic-date-picker (change)="setDateFilters($event , 'date_to')"
+                               placeholder="Date To">
+      </app-generic-date-picker>
+    </div>
+  </div>
+</div>
+
+<!--Modal Section-->
+<div *ngIf="showModal" aria-hidden="true" class="modal fade" id="confirmationModal" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Are you sure to create this order ?
+        </h5>
+        <button #closeModalButton aria-label="Close" class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button (click)="createOrder()" class="btn-owls btn-rounded btn-green  btn-blue2" type="button">Yes</button>
+        <button (click)="closeModal()" class="btn-owls btn-rounded btn-green btn-green btn-red2 " data-dismiss="modal"
+                type="button">No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Table Section-->
+<div *ngIf="list.length else noData" class="table-responsive">
+  <table class="table owls-table">
+    <thead>
+    <tr>
+      <th scope="col"> Id</th>
+      <th scope="col"> Payment Reference</th>
+      <th scope="col"> Payment Method</th>
+      <th scope="col"> Customer</th>
+      <th scope="col"> Creation Date</th>
+      <th scope="col"> Amount</th>
+      <th scope="col"> Status</th>
+      <th scope="col" style="width: 150px;">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr
+      *ngFor="let item of list | paginate:  { itemsPerPage: itemsPerPage, currentPage: filter.page, totalItems: totalPages}">
+      <td>{{item.id}}</td>
+      <td>{{item?.payment_reference}}</td>
+      <td>{{item?.payment_Method}}</td>
+      <td>{{item.customer.name}}</td>
+      <td>{{item.created_at | date :'dd-MM-y h:m:s a'}}</td>
+      <td>{{item.total_amount}}</td>
+      <td>
+        <p *ngIf="!item.transaction_status">-</p>
+        <p *ngIf="item.transaction_status == 0">UnAuthorized</p>
+        <p *ngIf="item.transaction_status == 1">Authorized</p>
+      </td>
+      <td class="d-inline-flex justify-content-center align-items-center">
+        <a (click)="goToDetails(item)" *ngIf="item.order_id" class="table-view view-c mx-1">
+          <i class="icon-View"></i>
+        </a>
+        <a (click)="createOrderConfirmation(item)" *ngIf="!item.order_id" class="table-view view-c mx-1"
+           data-target="#confirmationModal" data-toggle="modal">
+          <i class="fa fa-clipboard"></i>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noData>
+  <h5 class="text-center text-capitalize text-info">No Data Available</h5>
+</ng-template>
+
+<pagination-controls (pageChange)="loadData($event)"></pagination-controls>
+
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer" >
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

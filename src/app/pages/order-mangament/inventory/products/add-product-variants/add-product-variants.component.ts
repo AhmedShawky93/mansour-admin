@@ -6,13 +6,14 @@ import {ProductsService} from '@app/pages/services/products.service';
 import {CategoryService} from '@app/pages/services/category.service';
 import {ToastrService} from 'ngx-toastr';
 import {OptionsService} from '@app/pages/services/options.service';
-import {DateLessThan} from '@app/shared/date-range-validation';
+import {compareNumbers, DateLessThan} from '@app/shared/date-range-validation';
 import * as moment from 'moment';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {Observable, combineLatest, Subject, concat, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
 import {environment} from '@env/environment';
+import { PromosService } from '@app/pages/services/promos.service';
 
 @Component({
   selector: 'app-add-product-variants',
@@ -53,6 +54,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   brands$: Observable<any>;
   productsInput$ = new Subject<String>();
   productsLoading: boolean;
+  paymentMethods: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -62,7 +64,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     private toasterService: ToastrService,
     private optionsService: OptionsService,
     private spinner: NgxSpinnerService,
-    private draftProductService: DraftProductService
+    private draftProductService: DraftProductService,
+    private promoService: PromosService
   ) {
     this.allOptions$ = this.optionsService.getOptions();
     this.categories$ = this.categoriesService.getCategories();
@@ -89,6 +92,16 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getInitialData();
+    this.getPaymentMethods();
+  }
+
+  getPaymentMethods() {
+    this.promoService.getPaymentMethods()
+      .subscribe((rep) => {
+        if (rep.code === 200) {
+          this.paymentMethods = rep.data.filter(item => item.active == '1');
+        }
+      })
   }
 
   ngOnChanges() {
@@ -139,6 +152,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       start_time: new FormControl(data ? data.start_time : '00:00:00', []),
       discount_end_date: new FormControl(data ? data.discount_end_date : '', []),
       expiration_time: new FormControl(data ? data.expiration_time : '00:00:00', []),
+      payment_method_discount_ids: new FormControl((data && data.payment_method_discount_ids) ? data.payment_method_discount_ids : [], []),
       product_variant_options: new FormControl(data ? data.product_variant_options : '', []),
 
       image: new FormControl(data ? data.image : '', Validators.required),
@@ -162,7 +176,11 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       meta_description: new FormControl(data ? data.meta_description : ''),
       meta_title_ar: new FormControl(data ? data.meta_title_ar : ''),
       meta_description_ar: new FormControl(data ? data.meta_description_ar : ''),
-      price: new FormControl(data ? data.price : '', Validators.required),
+      price: new FormControl(data ? data.price : '', [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(1000000)
+      ]),
       discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
@@ -177,7 +195,13 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       bundle_checkout: new FormControl(data ? data.bundle_checkout : ''),
       bundle_products_ids: new FormControl(data ? data.bundle_products_ids : ''),
       related_ids: new FormControl((data && data.related_ids) ? data.related_ids : ''),
-    }, {validator: DateLessThan('discount_start_date', 'discount_end_date')});
+    }, {
+      validator: [
+        DateLessThan('discount_start_date', 'discount_end_date'),
+        DateLessThan('preorder_start_date', 'preorder_end_date'),
+        compareNumbers('discount_price', 'price')
+      ]
+    });
   }
 
   mergeData(data) {
@@ -305,8 +329,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   getAllOptions(res) {
     if (res['code'] === 200) {
-      this.allOptions = res['data'];
-      console.log('allOptions', this.allOptions);
+      this.allOptions = res['data'].filter(data => Number(data.type) !== 5);
     } else {
       this.toasterService.error(res['message']);
     }
@@ -391,7 +414,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
       if (index !== -1) {
         this.subCategoryOptions = this.sub_categories[index].options;
-        console.log('This subCategoryOptions >>>>', this.subCategoryOptions);
 
         if (!this.selectedProduct) {
           this.subCategoryOptions.forEach((element) => {
@@ -466,6 +488,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   formValidator() {
     if (!this.componentForm.valid) {
       this.markFormGroupTouched(this.componentForm);
+      debugger;
       this.toasterService.error('Please fill all required fields');
       return false;
     } else {
@@ -490,6 +513,11 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   changeValidation() {
+    const value = this.componentForm.value;
+    if (value.available_soon) {
+      this.componentForm.get('price').clearValidators();
+      this.componentForm.get('price').updateValueAndValidity();
+    }
     // if (this.componentForm.value.preorder) {
     //   this.componentForm.get('preorder_price').setValidators([Validators.required]);
     //   this.componentForm.get('preorder_price').updateValueAndValidity();
@@ -501,8 +529,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   addVariantOptionsToForm() {
     if (this.selectedVariantsOptions.length) {
+      this.options = this.componentForm.get('options') as FormArray;
+      this.options.controls = [];
       this.selectedVariantsOptions.forEach(item => {
-        this.options = this.componentForm.get('options') as FormArray;
         this.options.push(this.createVariantOption(item));
       });
     }
@@ -651,6 +680,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.formatDateForSaving(product, this.componentForm);
 
     const data = {
+      product_with_variant: true,
       default_variant: product.default_variant,
       description: product.description,
       description_ar: product.description_ar,
@@ -694,6 +724,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
             this.draftProductService.clearDraftProduct(this.selectedProduct);
             this.dataProductEmit.emit(deleteDraft);
           }
+          this.mainProduct.stock = response.data.stock;
           this.dataProductEmit.emit(this.mainProduct);
           this.toasterService.success('Product With Variant Created Successfully');
           this.spinner.hide();
@@ -726,7 +757,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   onAvailableChange() {
-    console.log(this.componentForm.value.available_soon);
     if (this.componentForm.value.available_soon) {
       this.componentForm.get('price').clearValidators();
     } else {

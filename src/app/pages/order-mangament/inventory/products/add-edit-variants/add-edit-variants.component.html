@@ -11,7 +11,7 @@
       <label>Image</label>
       <div class="d-flex justify-content-center flex-column">
         <app-image-uploader [fileUrl]="variantForm.value?.image" [formControlChildName]="'image'" [myForm]="variantForm"
-          class="w-100" height="340px" width="100%">
+          class="w-100" height="340px" width="50%">
         </app-image-uploader>
         <div *ngIf="formControlValidator('image','required')" class="text-danger">
           Image Is Required
@@ -158,6 +158,81 @@
       </div>
     </div>
 
+    <div class="group-box mt-2">
+      <div class="form-group">
+        <label> Discount Price
+          <small> optional</small>
+        </label>
+        <input [min]="0" class="owl-input" formControlName="discount_price" pattern="[0-9]+(\.[0-9][0-9]?)?"
+               placeholder="Type.." type="number">
+        <div *ngIf="formControlValidator('discount_price','min')" class="alert alert-danger">
+          Discount price can't be a negative value
+        </div>
+        <div *ngIf="formControlValidator('discount_price','max')" class="alert alert-danger">
+          Discount Price must be less than the price
+        </div>
+        <div *ngIf="formControlValidator('discount_price','pattern')" class="alert alert-danger">
+          Invalid number format
+        </div>
+        <div *ngIf="formControlValidator('discount_price','lessThan')" class="text-danger">
+          Discount Can't Exceed The Price
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          Start Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_start_date'"
+                                     [placeholder]="'Start Date'">
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator('discount_start_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'start_time'" [myForm]="variantForm"
+                                     [placeholder]="'Pick Time'"></app-generic-time-picker>
+            <div *ngIf="formControlValidator('start_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          Expiration Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_end_date'"
+                                     [placeholder]="'Expiration Date'">
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator('discount_end_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+            <div *ngIf="formControlValidator('discount_end_date','dateRang')" class="text-danger">
+              Expiration Date Must Be Greater Than Start Date
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'expiration_time'" [myForm]="variantForm"
+                                     [placeholder]="'Pick Time'"></app-generic-time-picker>
+            <div *ngIf="formControlValidator('expiration_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true"
+        formControlName="payment_method_discount_ids" bindLabel="name" bindValue="id" name="payment_method_discount_ids"
+        placeholder="Select Payment Methods">
+      </ng-select>
+
+    </div>
+
     <div>
       <div formArrayName="option_values" class="form-group"
         *ngFor="let option of variantForm.get('option_values')['controls']; let i = index">
@@ -219,71 +294,6 @@
         Invalid number format
       </div>
     </div>-->
-    <div class="group-box mt-2">
-      <div class="form-group">
-        <label> Discount Price
-          <small> optional</small>
-        </label>
-        <input [min]="0" class="owl-input" formControlName="discount_price" pattern="[0-9]+(\.[0-9][0-9]?)?"
-          placeholder="Type.." type="number">
-        <div *ngIf="formControlValidator('discount_price','min')" class="alert alert-danger">
-          Discount price can't be a negative value
-        </div>
-        <div *ngIf="formControlValidator('discount_price','max')" class="alert alert-danger">
-          Discount Price must be less than the price
-        </div>
-        <div *ngIf="formControlValidator('discount_price','pattern')" class="alert alert-danger">
-          Invalid number format
-        </div>
-      </div>
-      <div>
-        <div class="title">
-          Start Date-Time
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_start_date'"
-              [placeholder]="'Start Date'">
-            </app-generic-date-picker>
-            <div *ngIf="formControlValidator('discount_start_date','required')" class="text-danger">
-              Filed Is Required
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <app-generic-time-picker [formControlChildName]="'start_time'" [myForm]="variantForm"
-              [placeholder]="'Pick Time'"></app-generic-time-picker>
-            <div *ngIf="formControlValidator('start_time','required')" class="text-danger">
-              Filed Is Required
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="title">
-          Expiration Date-Time
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_end_date'"
-              [placeholder]="'Expiration Date'">
-            </app-generic-date-picker>
-            <div *ngIf="formControlValidator('discount_end_date','required')" class="text-danger">
-              Filed Is Required
-            </div>
-            <div *ngIf="formControlValidator('discount_end_date','dateRang')" class="text-danger">
-              Expiration Date Must Be Greater Than Start Date
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <app-generic-time-picker [formControlChildName]="'expiration_time'" [myForm]="variantForm"
-              [placeholder]="'Pick Time'"></app-generic-time-picker>
-            <div *ngIf="formControlValidator('expiration_time','required')" class="text-danger">
-              Filed Is Required
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- <div class="form-group" *ngIf="parentProduct?.preorder">
       <label>Pre-order Pricing</label>
       <input class="owl-input"
@@ -355,7 +365,7 @@
             class="d-flex justify-content-center flex-column mt-2">
             <app-image-uploader [fileUrl]="formGroupItem?.controls['option_image'].value"
               [formControlChildName]="'option_image'" [myForm]="formGroupItem" class="w-100" height="240px"
-              width="100%">
+              width="50%">
             </app-image-uploader>
             <div *ngIf="formGroupControlsValidator(formGroupItem,'option_image','required')" class="alert alert-danger">
               Image Is Required

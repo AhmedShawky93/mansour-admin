@@ -41,13 +41,14 @@ export class CategoriesComponent implements OnInit {
   // @ViewChild('categoriesForm') categoriesForm : NgForm;
   categoriesForm;
   options: any;
+  submitting: boolean;
 
   constructor(
     private _CategoriesService: CategoryService,
     private uploadService: UploadFilesService,
     private toastrService: ToastrService,
     private optionsService: OptionsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getCategories();
@@ -97,15 +98,29 @@ export class CategoriesComponent implements OnInit {
       ]),
       name_ar: new FormControl("", [Validators.required]),
       image: new FormControl("", [Validators.required]),
+      slug: new FormControl("", [Validators.required]),
       description: new FormControl("", Validators.required),
       description_ar: new FormControl("", Validators.required),
       order: new FormControl("", Validators.required),
-      sub_categories: new FormArray(
-        [],
-        [Validators.minLength(1), Validators.required]
-      ),
+      sub_categories: new FormArray([], [Validators.minLength(1), Validators.required]),
     });
     this.getOptions();
+  }
+
+  addCaregory(){
+    this.categoriesForm = new FormGroup({
+      name: new FormControl("", [
+        Validators.required,
+        Validators.pattern(/[A-Za-z0-9\-\&\s]+$/),
+      ]),
+      name_ar: new FormControl("", [Validators.required]),
+      image: new FormControl("", [Validators.required]),
+      slug: new FormControl("", [Validators.required]),
+      description: new FormControl("", Validators.required),
+      description_ar: new FormControl("", Validators.required),
+      order: new FormControl("", Validators.required),
+      sub_categories: new FormArray([], [Validators.minLength(1), Validators.required]),
+    });
   }
 
   getOptions() {
@@ -143,15 +158,18 @@ export class CategoriesComponent implements OnInit {
 
     category = this.categoriesForm.value;
 
+    this.submitting = true;
     this._CategoriesService
       .createCategory(category)
       .subscribe((response: any) => {
         if (response.code == 200) {
           this.categories.push(response.data);
+          this.submitting = false;
           $("#add-cat").toggleClass("open-view-vindor-types");
           this.showSubError = 0;
           this.categoriesForm.reset();
         } else {
+          this.submitting = false;
           this.toastrService.error(response.message);
         }
       });
@@ -177,6 +195,7 @@ export class CategoriesComponent implements OnInit {
     this.editCatForm = new FormGroup({
       id: new FormControl(category.id),
       image: new FormControl(category.image, [Validators.required]),
+      slug: new FormControl(category.slug, Validators.required),
       name: new FormControl(category.name, [
         Validators.required,
         Validators.pattern(/[A-Za-z0-9\-\&\s]+$/),
@@ -202,6 +221,7 @@ export class CategoriesComponent implements OnInit {
           name: new FormControl(item.name, Validators.required),
           name_ar: new FormControl(item.name_ar, Validators.required),
           image: new FormControl(item.image, Validators.required),
+          slug: new FormControl(item.slug, Validators.required),
           order: new FormControl(item.order),
           options: new FormControl(
             item.options.map((p) => p.id)),
@@ -211,8 +231,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   updateCategory(category) {
-    console.log(this.editCatForm.value);
-    console.log(this.editCatForm.valid);
     if (!this.editCatForm.valid) {
       this.markFormGroupTouched(this.editCatForm);
       return;
@@ -253,6 +271,7 @@ export class CategoriesComponent implements OnInit {
         name_ar: new FormControl("", Validators.required),
         image: new FormControl("", Validators.required),
         order: new FormControl("", Validators.required),
+        slug: new FormControl("", Validators.required),
         options: new FormControl([]),
       })
     );
@@ -271,6 +290,8 @@ export class CategoriesComponent implements OnInit {
         name: new FormControl("", Validators.required),
         name_ar: new FormControl("", Validators.required),
         image: new FormControl("", Validators.required),
+        slug: new FormControl("", Validators.required),
+        order: new FormControl("", Validators.required),
       })
     );
   }
@@ -364,8 +385,6 @@ export class CategoriesComponent implements OnInit {
         category.showReason = 0;
         return category;
       });
-      console.log(this.categories)
-      console.log(category)
     if (category.active) {
       // currently checked
       category.showReason = 0;

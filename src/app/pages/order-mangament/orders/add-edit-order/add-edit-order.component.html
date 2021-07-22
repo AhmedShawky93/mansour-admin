@@ -3,7 +3,7 @@
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>Create Order</h3>
+    <h3>{{selectedOrder == null ? 'Create Order' : 'Edit Order'}}</h3>
   </div>
 
   <form class="sideform" (ngSubmit)="submitOrder()" [formGroup]="orderForm" novalidate>
@@ -16,6 +16,7 @@
       <div *ngIf="formControlValidator(orderForm, 'user_id', 'required')" class="alert alert-danger">
         Customer is required.
       </div>
+      <a href="javascript:void(0)" *ngIf="!orderForm.get('user_id').value" (click)="createCustomer()">+New Customer</a>
     </div>
 
     <div class="form-group" *ngIf="this.selectedOrder">
@@ -32,6 +33,8 @@
       <div *ngIf="formControlValidator(orderForm, 'address_id', 'required')" class="alert alert-danger">
         Address is required.
       </div>
+      <a href="javascript:void(0)" *ngIf="orderForm.get('user_id').value"
+        (click)="createAddress(orderForm.get('user_id').value)">+New address</a>
     </div>
 
     <div class="form-group">
@@ -51,7 +54,7 @@
       <div *ngFor='let item of productsData.controls; let i = index'>
         <div [formGroupName]="i">
           <ng-select [typeahead]="products[i].productsInput$" [loading]="products[i].productsLoading" name="products" [items]="products[i].products$ | async"
-            bindLabel="name" bindValue="id" placeholder="Enter Product name" formControlName="id">
+            bindLabel="name" [clearable]="false" bindValue="id" placeholder="Enter Product name" formControlName="id" (change)="updateAmountMax($event, i)">
           </ng-select>
 
           <div *ngIf="formControlValidator(orderForm.get('items').controls[i], 'id', 'required')" class="alert alert-danger">
@@ -60,11 +63,21 @@
 
           <div class="form-group">
             <label for="">Amount</label>
-            <input type="text" class="owl-input" placeholder="Type.." min="1" formControlName="amount">
+            <input type="number" class="owl-input" placeholder="Type.." min="1" formControlName="amount">
           </div>
 
           <div *ngIf="formControlValidator(orderForm.get('items').controls[i], 'amount', 'required')" class="alert alert-danger">
             Amount is required.
+          </div>
+
+          <div *ngIf="formControlValidator(orderForm.get('items').controls[i], 'amount', 'min')"
+            class="alert alert-danger">
+            Amount must be higher than 0.
+          </div>
+
+          <div *ngIf="formControlValidator(orderForm.get('items').controls[i], 'amount', 'max')"
+            class="alert alert-danger">
+            You exceeded the stock available for this product.
           </div>
 
           <a href="javascript:void(0)" class="add-sub" (click)="removeProduct(i, item.get('id').value)">-Remove Product</a>
@@ -102,8 +115,7 @@
       <input type="text" class="owl-input" placeholder="Type.." min="0" formControlName="delivery_fees">
     </div>
 
-    <button class="btn btn-owls btn-rounded btn-green">Submit</button>
-    {{orderForm.value | json}}
+    <button class="btn btn-owls btn-rounded btn-green" [appLoading]="loading">Submit</button>
   </form>
 
 </div>

@@ -1,22 +1,25 @@
-import {AddEditProductComponent} from './add-edit-product/add-edit-product.component';
-import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {ProductsService} from '@app/pages/services/products.service';
-import {CategoryService} from '@app/pages/services/category.service';
+import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
+import { Component, ElementRef, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ProductsService } from '@app/pages/services/products.service';
+import { CategoryService } from '@app/pages/services/category.service';
 import 'rxjs/add/operator/take';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {environment} from '@env/environment';
-import {AuthService} from '@app/shared/auth.service';
-import {ToastrService} from 'ngx-toastr';
-import {animate, state, style, transition, trigger,} from '@angular/animations';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { environment } from '@env/environment';
+import { AuthService } from '@app/shared/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { animate, state, style, transition, trigger, } from '@angular/animations';
 
-import {FormBuilder, FormControl, FormGroup, Validators,} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
 import 'rxjs/Rx';
-import {Subject} from 'rxjs/Rx';
-import {tap} from 'rxjs/operators';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {debounce} from 'lodash';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {DraftProductService} from '@app/pages/services/draft-product.service';
+import { Subject } from 'rxjs/Rx';
+import { tap } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { debounce } from 'lodash';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { DraftProductService } from '@app/pages/services/draft-product.service';
+import { s } from '@angular/core/src/render3';
+import { DOCUMENT } from '@angular/common';
+import { Inject } from '@angular/core';
 
 declare var jquery: any;
 declare var $: any;
@@ -31,12 +34,17 @@ declare var $: any;
         'in',
         style({
           transform: 'translate3d(0px, 0, 0)',
+          background: "#000000cf",
+          width: '100%'
         })
       ),
       state(
         'out',
         style({
           transform: 'translate3d(-100%, 0, 0)',
+          background: "#000000cf",
+          width: '100%'
+
         })
       ),
       transition('in => out', animate('300ms ease-in-out')),
@@ -44,7 +52,7 @@ declare var $: any;
     ]),
   ],
 })
-export class ProductsComponent implements OnInit, OnChanges {
+export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   searchForm: FormGroup;
   searchValue: string;
   dateRange: any;
@@ -52,6 +60,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   currentProduct: any;
   category_id: any;
   selectedDraft: any;
+  syncFbSheet: any;
   @ViewChild('myInput') importFile: ElementRef;
   @ViewChild('myInputStock') importFileStock: ElementRef;
   @ViewChild('productForm') productForm: AddEditProductComponent;
@@ -114,6 +123,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   searchValueProduct: string;
   stateCloning: boolean;
   statedeleting: boolean;
+  routerSubscription
 
   constructor(
     private productsService: ProductsService,
@@ -126,22 +136,30 @@ export class ProductsComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private router: Router,
     private toasterService: ToastrService,
-    private draftProductService: DraftProductService
+    private draftProductService: DraftProductService,
+    @Inject(DOCUMENT) private document: Document
+
   ) {
     this.search = debounce(this.search, 700);
     this.toggleVariant = 'out';
     this.toggleProductVariant = 'out';
     this.viewVariantSidebar = 'out';
-    router.events.subscribe(event => {
+    this.routerSubscription = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.getRoutes();
       }
     });
   }
 
-  addCustomUser = (term) => ({id: term, name: term});
+  ngOnDestroy() {
+    document.body.style.overflow = 'auto';
+    this.routerSubscription.unsubscribe()
+  }
+
+  addCustomUser = (term) => ({ id: term, name: term });
 
   ngOnInit() {
+    this.syncFbSheet = environment.api + "/admin/products/export_fb";
     this.getCategories();
     // this.getProducts();
     this.productsService.getBrands().subscribe((response: any) => {
@@ -197,11 +215,9 @@ export class ProductsComponent implements OnInit, OnChanges {
     const token = this.auth.getToken();
 
     if (this.sub_category_id) {
-      // console.log(this.sub_category_id);
       this.exportUrl = environment.api + '/admin/products/fullExport?sub_category_id=' + this.sub_category_id + '&token=' + token;
     } else {
       this.exportUrl = environment.api + '/admin/products/fullExport?token=' + token;
-      // console.log(this.sub_category_id);
     }
     this.exportStock = environment.api + '/admin/products/export_prices?token=' + token;
 
@@ -217,12 +233,13 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.searchValue = this.route.snapshot.queryParams.search;
     }
     if (this.route.snapshot.queryParams.parent_id && !this.selectedMainProduct) {
-      this.selectedMainProduct = {id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name};
+      this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name };
     } else if (!this.route.snapshot.queryParams.parent_id && this.selectedMainProduct) {
       this.selectedMainProduct = null;
     }
     if (this.route.snapshot.queryParams.main_category) {
       this.main_category = this.route.snapshot.queryParams.main_category;
+      this.selectCategoryFilter(this.main_category, true);
     }
     if (this.route.snapshot.queryParams.sub_category_id) {
       this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
@@ -232,7 +249,7 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   setRoute() {
     this.closeSideBar();
-    const params = {search: '', main_category: null, sub_category_id: null, page: 1, parent_id: null, parent_name: null};
+    const params = { search: '', main_category: null, sub_category_id: null, page: 1, parent_id: null, parent_name: null };
     if (this.searchValue !== '' && !this.selectedMainProduct) {
       params.search = this.searchValue;
     }
@@ -261,7 +278,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   search() {
     this.p = 1;
     this.setRoute();
-    if(this.selectedMainProduct){
+    if (this.selectedMainProduct) {
       this.getProducts(this.selectedMainProduct, this.searchValue);
     }
   }
@@ -279,6 +296,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       .getProducts({
         page: this.p ? this.p : 1,
         q: (search) ? search : '',
+        category_id: this.main_category ? this.main_category : '',
         sub_category_id: this.sub_category_id ? this.sub_category_id : '',
         parent_id: (product) ? product.id : ''
       })
@@ -319,7 +337,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       this.viewProduct(product);
     } else {
       this.p = 1;
-      this.filter = {q: '', page: 1};
+      this.filter = { q: '', page: 1 };
       this.searchValueProduct = this.searchValue;
       this.searchValue = '';
       this.selectedMainProduct = product;
@@ -331,7 +349,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.searchValue = this.searchValueProduct;
     this.selectedMainProduct = null;
     this.p = 1;
-    this.filter = {q: '', page: 1};
+    this.filter = { q: '', page: 1 };
     this.setRoute();
   }
 
@@ -391,7 +409,6 @@ export class ProductsComponent implements OnInit, OnChanges {
   changePage(p) {
     this.p = p;
     this.filter.page = p;
-    // console.log(this.filter);
     this.filter$.next(this.filter);
   }
 
@@ -427,10 +444,8 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   viewProduct(product) {
-    console.log('viewProduct');
     this.currentProduct = product;
 
-    // console.log(product);
     this.selectProductDataView = null;
     this.selectProductDataView = product;
     this.toggleAddProduct = 'out';
@@ -438,14 +453,13 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   toggleMenu(data) {
-    // console.log('toggleMenu');
-    this.selectProductData = {...data};
+    this.selectProductData = { ...data };
     this.viewProductSidebar = 'out';
     this.toggleAddProduct = 'in';
   }
 
   toggleEditVariantMenu(data) {
-    this.selectedProductVariantData = {...data};
+    this.selectedProductVariantData = { ...data };
     this.viewProductSidebar = 'out';
     this.toggleVariant = 'in';
   }
@@ -456,6 +470,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     } else {
       this.toggleMenuNew(null);
     }
+    this.disableBodyScrollTop()
   }
 
   NewProductWithVariant(data) {
@@ -464,6 +479,8 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.viewProductSidebar = 'out';
     this.toggleVariant = 'out';
     this.toggleAddProduct = 'out';
+    this.disableBodyScrollTop()
+
   }
 
   edit(data) {
@@ -476,17 +493,20 @@ export class ProductsComponent implements OnInit, OnChanges {
     } else {
       this.toggleMenu(data);
     }
+    this.disableBodyScrollTop()
+  }
+
+  disableBodyScrollTop() {
+    window.scroll(0, 0)
+    document.body.style.overflow = 'hidden';
   }
 
   removeProduct(product) {
-    if (!this.selectedMainProduct) {
-      this.currentProduct = product;
-      $('#deleteProduct').modal('show');
-    }
+    this.currentProduct = product;
+    $('#deleteProduct').modal('show');
   }
 
   toggleMenuNew(data) {
-    // console.log('toggleMenuNew');
     this.productForm.resetForm();
     this.selectProductData = null;
     this.selectProductData = data;
@@ -506,13 +526,15 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.toggleVariant = 'out';
     this.viewProductSidebar = 'out';
     this.toggleProductVariant = 'out';
+    document.body.style.overflow = 'auto';
+
   }
 
   addOrUpdateProduct(data) {
     const index = this.products.findIndex((item) => item.id == data.id);
-    if (index !== -1 && !data.delete) {
+    if (index !== -1 && !data['delete']) {
       this.products[index] = data;
-    } else if (index !== -1 && data.delete) {
+    } else if (index !== -1 && data['delete']) {
       this.products.splice(index, 1);
     } else {
       this.products.unshift(data);
@@ -556,8 +578,6 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   addProducts(product) {
     product.option_values = this.product.option_values;
-    // console.log(product);
-    // console.log(this.product);
     if (!this.addProductForm.valid) {
       this.markFormGroupTouched(this.addProductForm);
       return;
@@ -593,7 +613,6 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   updateProduct(product) {
     product.option_values = this.product.option_values;
-    // console.log(product);
     this.productsService
       .updateProduct(product.id, product)
       .subscribe((response: any) => {
@@ -658,7 +677,6 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
-      // console.log(response.data);
       this.categories = response.data;
       if (this.route.snapshot.queryParams.sub_category_id) {
         this.selectCategoryFilter(this.main_category, true);
@@ -673,18 +691,24 @@ export class ProductsComponent implements OnInit, OnChanges {
     const category = this.categories[index];
 
     this.sub_categories = category.sub_categories;
-    // console.log(this.sub_categories);
   }
 
   selectCategoryFilter(cat_id, FromRouter) {
     if (cat_id) {
-      const index = this.categories.findIndex((item) => item.id == cat_id);
-      const category = this.categories[index];
-      this.sub_categories = category.sub_categories;
-      if (FromRouter) {
-        this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
+      this.main_category = cat_id;
+      if (this.categories) {
+        const index = this.categories.findIndex((item) => item.id == cat_id);
+        const category = this.categories[index];
+        this.sub_categories = category.sub_categories;
+        if (FromRouter) {
+          this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
+        } else {
+          this.sub_category_id = '';
+        }
       } else {
-        this.sub_category_id = '';
+        setTimeout(() => {
+          this.selectCategoryFilter(cat_id, FromRouter);
+        }, 100);
       }
     } else {
       this.sub_categories = [];
@@ -694,19 +718,14 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   selectSubCategoryOption(cat_id) {
-    // console.log(cat_id);
-    // console.log(this.sub_categories);
     const index = this.sub_categories.findIndex(
       (item) => item.parent_id == cat_id
     );
-    // console.log(index);
 
     this.options = this.sub_categories[index].options;
-    // console.log(this.options);
   }
 
   selectOptionValue(option, value, index) {
-    // console.log(option, value, index);
     if (this.product.option_values) {
       const indexOption = this.product.option_values.findIndex(
         (item) => item.option_id == option.id
@@ -787,7 +806,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   submitDeactivate(product) {
     product.active = 0;
     this.productsService
-      .deactivateProduct(product.id, {deactivation_notes: product.notes})
+      .deactivateProduct(product.id, { deactivation_notes: product.notes })
       .subscribe((data: any) => {
         product.active = 0;
         product.deactivation_notes = product.notes;
@@ -809,7 +828,9 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   confirmClone() {
-    this.stateCloning = true;
+    if (this.stateCloning) {
+      return;
+    }
     this.productsService.clone(this.currentProduct.id)
       .subscribe((response: any) => {
         if (response.code == 200) {
@@ -829,23 +850,28 @@ export class ProductsComponent implements OnInit, OnChanges {
           });
         }
       });
+    this.stateCloning = true;
+  }
+
+  encodedProductName(name) {
+    return name.replace(/\s/g, '-').replace('/', '-')
   }
 
   confirmDelete() {
     this.statedeleting = true;
-    this.productsService.deleteProduct(this.currentProduct.id)
+    this.productsService.softDeleteProduct(this.currentProduct.id)
       .subscribe((response: any) => {
-        if (response.code == 200) {
-          this.stateCloning = false;
+        if (response.code === 200) {
+          this.statedeleting = false;
           this.toastrService.success('Product deleted Successfully', 'Success', {
             enableHtml: true,
             timeOut: 3000
           });
-          this.addOrUpdateProduct(response.data);
-          $('#cloneProduct').modal('hide');
-          /*this.filter$.next(this.filter);*/
+          this.currentProduct['delete'] = true;
+          this.addOrUpdateProduct(this.currentProduct);
+          $('#deleteProduct').modal('hide');
         } else {
-          this.stateCloning = false;
+          this.statedeleting = false;
           this.toastrService.error(response.message, 'Error Occured', {
             enableHtml: true,
             timeOut: 3000
@@ -856,7 +882,7 @@ export class ProductsComponent implements OnInit, OnChanges {
 
   removeDraftConfirmation(product, idx) {
     if (!this.selectedMainProduct) {
-      this.selectedDraft = {product: product, index: idx};
+      this.selectedDraft = { product: product, index: idx };
       $('#deleteDraft').modal('show');
     }
   }
@@ -869,11 +895,11 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   editDraftProduct(product) {
-    this.NewProductWithVariant({...product});
+    this.NewProductWithVariant({ ...product });
   }
 
   cloneDraft(product) {
-    const data = {...product};
+    const data = { ...product };
     delete data.id;
     const clonedProduct = this.draftProductService.SetDraftProduct(data);
     this.addOrUpdateProduct(clonedProduct);

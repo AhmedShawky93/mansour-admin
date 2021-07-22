@@ -36,6 +36,12 @@ export class SectionsService {
       });
   }
 
+  deleteSection(id){
+    return this.http.delete<any>(this.url + "/sections/" + id).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
   activate(id) {
     return this.http
       .post(this.url + "/sections/" + id + "/activate", id)

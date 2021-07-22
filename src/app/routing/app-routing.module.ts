@@ -33,6 +33,7 @@ import { ProfileResolver } from '@app/shared/profile.resolver';
 import { ReportsComponent } from '@app/pages/reports/reports.component';
 import { OrdersDeliveryComponent } from '@app/pages/order-mangament/orders-delivery/orders-delivery.component';
 import { OrderDeliveryDetailsComponent } from '@app/pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
+import { AdminLogComponent } from '@app/pages/mangament-users/admin-log/admin-log.component';
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, data: { title: "Login" } },
@@ -69,6 +70,12 @@ const routes: Routes = [
         data: { title: "Customers", permissions: {only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home'}},
       },
       {
+        path: "admin-log",
+        component: AdminLogComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { title: "Customers", permissions: { only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home' } },
+      },
+      {
         path: "promocodes",
         component: OffersComponent,
         canActivate: [NgxPermissionsGuard],
@@ -85,6 +92,13 @@ const routes: Routes = [
         component: adsComponent,
         canActivate: [NgxPermissionsGuard],
         data: { title: "Slider", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'} }
+      },
+      {
+        path: "stores",
+        loadChildren:
+          "../pages/order-mangament/stores/stores.module#StoresModule",
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: ['ADMIN', 'View Stores'], redirectTo: '/pages/home' } }
       },
       {
         path: "promocodes/add-offers",
@@ -245,6 +259,18 @@ const routes: Routes = [
         path: "reports",
         component: ReportsComponent,
         data: {title: "Reports"}
+      },
+      {
+        path: 'transactions',
+        canActivate: [NgxPermissionsGuard],
+        loadChildren: '../pages/order-mangament/transactions/transactions.module#TransactionsModule',
+        data: {
+          title: 'Transactions',
+          permissions: {
+            only: ['ADMIN', 'View Orders'],
+            redirectTo: '/pages/home'
+          }
+        }
       }
     ],
 
