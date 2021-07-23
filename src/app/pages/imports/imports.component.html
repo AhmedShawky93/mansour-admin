@@ -1,0 +1,137 @@
+<div class="top-table-bar">
+  <div class="row">
+    <div class="col-md-3 col-xs-12">
+      <div class="form-group">
+        <select class="owl-input" name="type" [(ngModel)]="filter.type">
+          <option value="" selected>Select Type</option>
+          <option value="1">Brands</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3 col-xs-12">
+      <div class="form-group">
+        <select class="owl-input" name="state" [(ngModel)]="filter.state">
+          <option [value]="''" selected>Select State</option>
+          <option value="1">Cancelled</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <mat-form-field class="datepicker">
+        <input matInput #mdate placeholder="Date From" readonly (click)="pickerFrom.open()" [satDatepicker]="pickerFrom" [value]="date" [(ngModel)]="filter.date_from">
+        <sat-datepicker #pickerFrom [rangeMode]="false">
+        </sat-datepicker>
+        <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <mat-form-field class="datepicker">
+        <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo" [value]="date" [(ngModel)]="filter.date_to">
+        <sat-datepicker #pickerTo [rangeMode]="false">
+        </sat-datepicker>
+        <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3  col-xs-12 text-right">
+      <div class="owl-btn-list">
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+          <div class="text-center" (click)="openNewImport()">+New Import</div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive text-center fixed-table-scroll">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Type</th>
+        <th scope="col">User</th>
+        <th scope="col">State</th>
+        <th scope="col">Progress</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let import of imports | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let idx = index;">
+        <td>{{import.id}}</td>
+        <td>{{import.type}}</td>
+        <td>{{import.user?.name}}</td>
+        <td><span class="badge badge-warning">Canclled</span></td>
+        <!-- <td>{{import.progress}}%</td> -->
+        <td>
+          <progress-bar [progress]="import.progress" [color]="'#488aff'">
+          </progress-bar>
+        </td>
+
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item">Download File</a>
+              <a class="dropdown-item">Cancel</a>
+              <a class="dropdown-item">Restart</a>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="newImport" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" *ngIf="importForm">
+      <form action="" [formGroup]="importForm" (submit)="importFile()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">New Import</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="">Choose Import Type</label>
+            <div class="row">
+              <div class="col-md-6">
+                <select name="" class="owl-input bg-white" formControlName="type" (change)="generateLink()">
+                  <option [value]="'placeholder'" selected hidden>Select Type</option>
+                  <option value="1">Brands</option>
+                </select>
+              </div>
+              <div class="col-md-6 py-2" *ngIf="this.importForm.get('type').value">
+                <a target="_blank" [href]="downloadLink"><i class="fa fa-download mx-2"></i>Download Template</a>
+              </div>
+            </div>
+            
+          </div>
+          <div class="form-group">
+            <label for="">Select File</label>
+            <div>
+              <input type="file" formControlName="file" (change)="onFileChange($event)">
+            </div>
+          </div>
+
+          <div class="alert alert-danger">
+            Brand Is Required
+          </div>
+          {{importForm.value | json}}
+        </div>
+      
+
+        <div class="modal-footer" style="justify-content: center;">
+          <button type="submit" class="btn-owls btn-rounded btn-green btn-blue2">Import</button>
+          <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
