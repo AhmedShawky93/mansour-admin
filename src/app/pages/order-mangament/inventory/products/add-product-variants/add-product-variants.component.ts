@@ -709,6 +709,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       stock: product.stock,
       weight: product.weight,
       bundle_products_ids: (product.bundle_products_ids) ? product.bundle_products_ids.map(item => item.id) : '',
+      payment_method_discount_ids: product.payment_method_discount_ids
     };
     return data;
   }
