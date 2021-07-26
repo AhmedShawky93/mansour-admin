@@ -168,6 +168,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       ]
     });
   }
+  
   getPaymentMethods() {
     this.promoService.getPaymentMethods()
       .subscribe((rep) => {

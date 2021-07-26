@@ -1,18 +1,18 @@
-import {DraftProductService} from './../../../../services/draft-product.service';
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {ProductsService} from '@app/pages/services/products.service';
-import {CategoryService} from '@app/pages/services/category.service';
-import {ToastrService} from 'ngx-toastr';
-import {OptionsService} from '@app/pages/services/options.service';
-import {compareNumbers, DateLessThan} from '@app/shared/date-range-validation';
+import { DraftProductService } from './../../../../services/draft-product.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { ProductsService } from '@app/pages/services/products.service';
+import { CategoryService } from '@app/pages/services/category.service';
+import { ToastrService } from 'ngx-toastr';
+import { OptionsService } from '@app/pages/services/options.service';
+import { compareNumbers, DateLessThan } from '@app/shared/date-range-validation';
 import * as moment from 'moment';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {AngularEditorConfig} from '@kolkov/angular-editor';
-import {Observable, combineLatest, Subject, concat, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
-import {environment} from '@env/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Observable, combineLatest, Subject, concat, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import { environment } from '@env/environment';
 import { PromosService } from '@app/pages/services/promos.service';
 
 @Component({
@@ -232,7 +232,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         distinctUntilChanged(),
         tap(() => (this.productsLoading = true)),
         switchMap((term) =>
-          this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
+          this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
             catchError(() => of([])), // empty list on error
             tap(() => (this.productsLoading = false)),
             map((response: any) => {
@@ -255,7 +255,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         distinctUntilChanged(),
         tap(() => (this.relatedProductsLoading = true)),
         switchMap((term) =>
-          this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
+          this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
             catchError(() => of([])), // empty list on error
             tap(() => (this.relatedProductsLoading = false)),
             map((response: any) => {
@@ -293,7 +293,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   SetDraftProduct(event) {
     event.stopPropagation();
     let msg: string;
-    const data = {...this.componentForm.value};
+    const data = { ...this.componentForm.value };
 
     if (!this.validateDraftData(data)) {
       this.toasterService.warning('Please fill at least one field');
@@ -608,7 +608,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   mappingMainProductData() {
-    const product = {...this.componentForm.value};
+    const product = { ...this.componentForm.value };
     product.option_values.forEach(item => {
       delete item.optionValues;
       delete item.name_en;
@@ -672,7 +672,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   mappingVariantData() {
-    const product = {...this.componentForm.value};
+    const product = { ...this.componentForm.value };
 
     product.options.forEach(item => {
       delete item.optionData;
@@ -720,7 +720,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       .subscribe((response: any) => {
         if (response.code === 200) {
           if (this.selectedProduct && this.selectedProduct.isDraft) {
-            const deleteDraft = {...this.selectedProduct};
+            const deleteDraft = { ...this.selectedProduct };
             deleteDraft.delete = true;
             this.draftProductService.clearDraftProduct(this.selectedProduct);
             this.dataProductEmit.emit(deleteDraft);
