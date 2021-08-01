@@ -216,6 +216,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
             this.addresses = [];
             this.customers$ = EMPTY.pipe(delay(1000));
           } else {
+            this.loading = true;
             this.toastrService.error(response.message, "Error");
           }
         });
@@ -228,6 +229,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
             this.addresses = [];
             this.customers$ = EMPTY.pipe(delay(1000));
           } else {
+            this.loading = true;
             this.toastrService.error(response.message, "Error");
           }
         });
