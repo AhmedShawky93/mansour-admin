@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CustomerService } from '@app/pages/services/customer.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -24,13 +24,30 @@ export class AddEditCustomerComponent implements OnInit {
   ngOnChanges() {
     this.setupForm(this.selectedCustomer);
   }
+  
+  regexValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (!control.value) {
+        return null;
+      }
+      const valid = regex.test(control.value);
+      return valid ? null : error;
+    };
+  }
 
   setupForm(data) {
     this.customerForm = new FormGroup({
       name: new FormControl(data ? data.name : '', Validators.required),
       last_name: new FormControl(data ? data.last_name : '', Validators.required),
       email: new FormControl(data ? data.email : '', [Validators.required, Validators.email]),
-      phone: new FormControl(data ? data.phone : '', Validators.required),
+      phone: new FormControl(data ? data.phone : '', [
+        Validators.required,
+        /*Validators.pattern(numberReg),*/
+        this.regexValidator(new RegExp('^\\d+$'), { 'numbers': 'Numeric Only' }),
+        this.regexValidator(new RegExp('^01'), { 'startWith': 'Must Start With 01' }),
+        this.regexValidator(new RegExp('^[0-9]+$'), { 'englishNumbers': 'English Numeric' }),
+        Validators.minLength(11),
+        Validators.maxLength(11)]),
       password: new FormControl('', this.selectedCustomer ? [] : Validators.required),
       closed_payment_methods: new FormControl(data ? data.closed_payment_methods.map(c => c.id) : []),
     });
