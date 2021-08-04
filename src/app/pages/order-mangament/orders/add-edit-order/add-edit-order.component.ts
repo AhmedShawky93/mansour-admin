@@ -216,9 +216,9 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
             this.addresses = [];
             this.customers$ = EMPTY.pipe(delay(1000));
           } else {
-            this.loading = true;
             this.toastrService.error(response.message, "Error");
           }
+          this.loading = false;
         });
     } else {
       this.loading = true;
@@ -229,15 +229,16 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
             this.addresses = [];
             this.customers$ = EMPTY.pipe(delay(1000));
           } else {
-            this.loading = true;
             this.toastrService.error(response.message, "Error");
           }
+          this.loading = false;
         });
     }
   }
 
   closeSideBar(data = null) {
     this.orderForm.reset();
+    this.loading = false;
     this.deleted_items = [];
     this.addresses = [];
     this.customers$ = concat(
