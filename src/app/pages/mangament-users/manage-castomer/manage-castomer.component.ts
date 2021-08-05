@@ -7,6 +7,7 @@ import { environment } from '@env/environment';
 import { AuthService } from '@app/shared/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {ActivatedRoute} from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage-castomer',
@@ -70,7 +71,8 @@ export class ManageCastomerComponent implements OnInit {
     private cs: CustomerService,
     private auth: AuthService,
     private _areaService: AreasService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastrService: ToastrService
   ) {
     // this.navigatedCustomerData = JSON.parse(localStorage.getItem('selectedCustomer'));
 
@@ -129,6 +131,19 @@ export class ManageCastomerComponent implements OnInit {
         this.cities = response.data;
       }
     });
+  }
+
+  exportCustomers() {
+    this.cs.exportCustomers(this.exportUrl).subscribe({
+      next: ((rep: any) => {
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
   }
 
   public selectCity(cityId) {
