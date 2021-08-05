@@ -362,7 +362,9 @@
         <!-- <span *ngIf="order.payment_method == 5">Premium</span> -->
       </div>
 
-      <div *ngIf="order.payment_method !== 3; else valuPayment">
+      <div
+        *ngIf="(order.payment_method !== 3 && order.payment_method !== 5 && order.payment_method !== 9 &&
+        order.payment_method !== 10 && order.payment_method !== 11); else valuPayment">
         <div class="block-item">
           <p>Item Total</p>
           <span>{{ order.invoice.total_amount | number : '1.2-2'}}</span>
@@ -418,6 +420,9 @@
     <div class="block-item" *ngIf="order.installment.installment_message">
       <p *ngIf="order.payment_method === 3">valU note</p>
       <p *ngIf="order.payment_method === 5">Premium note</p>
+      <p *ngIf="order.payment_method === 9">Premium note</p>
+      <p *ngIf="order.payment_method === 10">Premium note</p>
+      <p *ngIf="order.payment_method === 11">Premium note</p>
       <span>{{ order.installment.installment_message }}</span>
     </div>
   </div>
