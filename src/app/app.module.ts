@@ -105,6 +105,8 @@ import { AddEditCustomerComponent } from './pages/mangament-users/manage-castome
 import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
 import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.component';
+
 
 @NgModule({
   declarations: [
@@ -155,7 +157,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
     AddEditOrderComponent,
     AddEditCustomerComponent,
     AddEditAddressComponent,
-    DynamicSettingsComponent
+    DynamicSettingsComponent,
+    MenuCreatorComponent
   ],
   imports: [
     AppRoutingModule,

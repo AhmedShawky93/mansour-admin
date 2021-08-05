@@ -1,0 +1,67 @@
+<div class="generated-nav-container">
+  <nav class="app-nav" (click)="updateColorsTest()">
+    <ul class="app-nav-list my-0" [ngClass]="{ 'hide-menu': clickedItem }" (mouseleave)="clickedItem = false">
+      <li class="app-nav-item mega" *ngFor="let levelOneItem of formattedJson.level1; let i = index">
+        <ng-container>
+          <a class="nav-link main" routerLinkActive="active-link" (click)="navigateToLink(levelOneItem.link)"
+            (mouseleave)="clickedItem = false">
+            {{ levelOneItem?.name }}
+          </a>
+        </ng-container>
+  
+        <div class="sub-menu main-submenu dynamic-menu">
+          <ng-container *ngIf="levelOneItem.level2.length > 0 && levelOneItem.levels_length == 3;else simpleMenu">
+            <ul class="sub-menu-items-container">
+              <li class="sub-level-items-container" *ngFor="let levelTwoItem of levelOneItem.level2">
+                <div class="sub-level-items">
+                  <img *ngIf="levelOneItem.level2_image" [src]="levelTwoItem.image" alt="secondary section image" />
+                  <div class="menu-section-body">
+                    <h2 class="second-level-nav-link" (click)="navigateToLink(levelTwoItem.link)">
+                      {{ levelTwoItem?.name }}</h2>
+                    <ul>
+                      <li class="third-level-nav-link" *ngFor="let levelThreeItem of levelTwoItem.level3"
+                        (click)="navigateToLink(levelThreeItem.link)">
+                        <div class="view-more" *ngIf="levelThreeItem.highlighted;else seeMoreLink">
+                          <img *ngIf="levelOneItem.level3_image" [src]="levelThreeItem.image" alt="item images">
+                          {{levelThreeItem?.name}}
+                        </div>
+                        <ng-template #seeMoreLink>
+                          <img *ngIf="levelOneItem.level3_image" [src]="levelThreeItem.image" alt="item images">
+                          {{levelThreeItem?.name}}
+                        </ng-template>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+  
+            <div class="first-level-image" *ngIf="levelOneItem.level1_image">
+              <img [src]="levelOneItem.image" alt="main section image" />
+            </div>
+          </ng-container>
+  
+          <ng-template #simpleMenu>
+            <ul class="sub-menu-items-container simple-sub-menu">
+              <li class="sub-level-items-container" *ngFor="let levelTwoItem of levelOneItem.level2">
+                <div class="sub-level-items">
+                  <div class="menu-section-body">
+                    <p class="second-level-nav-link" (click)="navigateToLink(levelTwoItem.link)">
+                      {{levelTwoItem?.name}}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+  
+            <div class="first-level-image" *ngIf="levelOneItem.level1_image">
+              <img [src]="levelOneItem.image" alt="main section image" />
+            </div>
+          </ng-template>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
+<button (click)="prettyPrint()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply changes</button>

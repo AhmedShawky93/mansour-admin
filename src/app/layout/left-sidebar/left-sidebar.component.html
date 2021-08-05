@@ -122,6 +122,13 @@
         </a>
       </li>
 
+      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Customers']">
+        <a routerLink="/pages/menu-creator" routerLinkActive="active">
+          <i class="icon-None" data-toggle="tooltip" data-placement="right" title="Menu creator"></i>
+          <span>Menu Creator</span>
+        </a>
+      </li>
+
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Staff', 'View Cities']">
         <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-4" aria-controls="submenu-4">
           <i class="icon-None2" data-toggle="tooltip" data-placement="right" title="Delivery"></i>
