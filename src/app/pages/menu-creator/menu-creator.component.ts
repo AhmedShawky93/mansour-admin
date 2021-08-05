@@ -15,217 +15,150 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     "level2_hover_color": "#050708",
     "level3_text_color": "#050708",
     "level3_hover_color": "#da1e42",
-    "level1": [{
-      "link": "https://www.mobilaty.com/products?category_id=687",
-      "name": "Mobiles",
-      "name_ar": "هواتف",
-      "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-      "levels_length": 3,
-      "level1_image": true,
-      "level2_image": true,
-      "level3_image": true,
-      "level2": [
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
+    "level1": [
+      {
+        "link": "https://www.mobilaty.com/",
+        "name": "Home",
+        "name_ar": "الصفحة الرئيسية",
+        "image": "",
+        "levels_length": 1,
+        "level1_image": false,
+        "level2_image": false,
+        "level3_image": false,
+        "level2": []
+      },
+      {
+        "link": "https://www.mobilaty.com/products?category_id=687",
+        "name": "Mobiles",
+        "name_ar": "هواتف",
+        "image": "https://mobilatyapi.el-dokan.com/storage/uploads/qJpEpk-1609759077.jpg",
+        "levels_length": 3,
+        "level1_image": true,
+        "level2_image": false,
+        "level3_image": false,
+        "level2": [
+          {
+            "link": "",
+            "name": "Operating System",
+            "name_ar": "نظام التشغيل",
+            "image": "",
+            "level3": [{
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Android",
+              "name_ar": "اندرويد",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "IOS",
+              "name_ar": "IOS",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Classic",
+              "name_ar": "كلاسيكى",
+              "image": ""
+            }]
           },
           {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
+            "link": "",
+            "name": "Shop By Price",
+            "name_ar": "تسوق حسب السعر",
+            "image": "",
+            "level3": [{
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "less than 1000 pounds",
+              "name_ar": "أقل من 1000 جنيه",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "from 1000 to 2900",
+              "name_ar": "من 1000 إلى 2999 جنيه",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "from 3000 to 5999",
+              "name_ar": "من 3000 إلى 5999 جنيه",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "from 6000 to 10000",
+              "name_ar": "من 6000 إلى 10000",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "more than 10000",
+              "name_ar": "أكثر من 10000",
+              "image": ""
+            }]
           },
           {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "highlighted": true,
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "View more",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        }
-      ]
-    }]
+            "link": "",
+            "name": "shop by brand",
+            "name_ar": "تسوق حسب الماركة",
+            "image": "",
+            "level3": [{
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Apple",
+              "name_ar": "ابل",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Samsung",
+              "name_ar": "سامسونج",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Xiaomi",
+              "name_ar": "شاومى",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "oppo",
+              "name_ar": "اوبو",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "realmi",
+              "name_ar": "ريلمى",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "huawei",
+              "name_ar": "هواوى",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "honor",
+              "name_ar": "هونر",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "vivo",
+              "name_ar": "فيفو",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "nokia",
+              "name_ar": "نوكيا",
+              "image": ""
+            }]
+          }
+        ]
+      }]
   }
   formattedJsonString = `{
     "menu_background_color": "#050708",
@@ -236,223 +169,160 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     "level2_hover_color": "#050708",
     "level3_text_color": "#050708",
     "level3_hover_color": "#da1e42",
-    "level1": [{
-      "link": "https://www.mobilaty.com/products?category_id=687",
-      "name": "Mobiles",
-      "name_ar": "هواتف",
-      "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-      "levels_length": 3,
-      "level1_image": true,
-      "level2_image": true,
-      "level3_image": true,
-      "level2": [
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
+    "level1": [
+      {
+        "link": "https://www.mobilaty.com/",
+        "name": "Home",
+        "name_ar": "الصفحة الرئيسية",
+        "image": "",
+        "levels_length": 1,
+        "level1_image": false,
+        "level2_image": false,
+        "level3_image": false,
+        "level2": []
+      },
+      {
+        "link": "https://www.mobilaty.com/products?category_id=687",
+        "name": "Mobiles",
+        "name_ar": "هواتف",
+        "image": "https://mobilatyapi.el-dokan.com/storage/uploads/qJpEpk-1609759077.jpg",
+        "levels_length": 3,
+        "level1_image": true,
+        "level2_image": false,
+        "level3_image": false,
+        "level2": [
+          {
+            "link": "",
+            "name": "Operating System",
+            "name_ar": "نظام التشغيل",
+            "image": "",
+            "level3": [{
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Android",
+              "name_ar": "اندرويد",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "IOS",
+              "name_ar": "IOS",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Classic",
+              "name_ar": "كلاسيكى",
+              "image": ""
+            }]
           },
           {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
+            "link": "",
+            "name": "Shop By Price",
+            "name_ar": "تسوق حسب السعر",
+            "image": "",
+            "level3": [{
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "less than 1000 pounds",
+              "name_ar": "أقل من 1000 جنيه",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "from 1000 to 2900",
+              "name_ar": "من 1000 إلى 2999 جنيه",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "from 3000 to 5999",
+              "name_ar": "من 3000 إلى 5999 جنيه",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "from 6000 to 10000",
+              "name_ar": "من 6000 إلى 10000",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "more than 10000",
+              "name_ar": "أكثر من 10000",
+              "image": ""
+            }]
           },
           {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        },
-        {
-          "link": "",
-          "name": "Operating System",
-          "name_ar": "نظام التشغيل",
-          "image": "https://mobilatyapi.el-dokan.com/storage/uploads/Ld3YM1-1610147705.jpg",
-          "level3": [{
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "Android",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          },
-          {
-            "highlighted": true,
-            "link": "https://www.mobilaty.com/products?category_id=687",
-            "name": "View more",
-            "name_ar": "اندرويد",
-            "image": "https://mobilatyapi.el-dokan.com/storage/uploads/xQIRlC-1610109767.png"
-          }]
-        }
-      ]
-    }]
+            "link": "",
+            "name": "shop by brand",
+            "name_ar": "تسوق حسب الماركة",
+            "image": "",
+            "level3": [{
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Apple",
+              "name_ar": "ابل",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Samsung",
+              "name_ar": "سامسونج",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "Xiaomi",
+              "name_ar": "شاومى",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "oppo",
+              "name_ar": "اوبو",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "realmi",
+              "name_ar": "ريلمى",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "huawei",
+              "name_ar": "هواوى",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "honor",
+              "name_ar": "هونر",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "vivo",
+              "name_ar": "فيفو",
+              "image": ""
+            },
+            {
+              "link": "https://www.mobilaty.com/products?category_id=687",
+              "name": "nokia",
+              "name_ar": "نوكيا",
+              "image": ""
+            }]
+          }
+        ]
+      }]
   }`
   clickedItem: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
+    if (localStorage.getItem('formattedJsonString')){
+      this.formattedJson = JSON.parse(localStorage.getItem('formattedJsonString'));
+      this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
+    }
   }
 
   ngAfterViewInit() {
@@ -478,6 +348,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       var pretty = JSON.stringify(obj, undefined, 4);
       element.value = pretty;
     }
+    localStorage.setItem('formattedJsonString', JSON.stringify(this.formattedJson))
   }
 
   updateColorsTest() {

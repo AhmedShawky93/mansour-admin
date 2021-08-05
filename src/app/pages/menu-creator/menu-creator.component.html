@@ -1,9 +1,9 @@
-<div class="generated-nav-container">
+<div class="generated-nav-container main-font">
   <nav class="app-nav" (click)="updateColorsTest()">
-    <ul class="app-nav-list my-0" [ngClass]="{ 'hide-menu': clickedItem }" (mouseleave)="clickedItem = false">
+    <ul class="app-nav-list my-0" *ngIf="formattedJson" [ngClass]="{ 'hide-menu': clickedItem }" (mouseleave)="clickedItem = false">
       <li class="app-nav-item mega" *ngFor="let levelOneItem of formattedJson.level1; let i = index">
         <ng-container>
-          <a class="nav-link main" routerLinkActive="active-link" (click)="navigateToLink(levelOneItem.link)"
+          <a class="nav-link main main-font" routerLinkActive="active-link" (click)="navigateToLink(levelOneItem.link)"
             (mouseleave)="clickedItem = false">
             {{ levelOneItem?.name }}
           </a>
@@ -12,16 +12,16 @@
         <div class="sub-menu main-submenu dynamic-menu">
           <ng-container *ngIf="levelOneItem.level2.length > 0 && levelOneItem.levels_length == 3;else simpleMenu">
             <ul class="sub-menu-items-container">
-              <li class="sub-level-items-container" *ngFor="let levelTwoItem of levelOneItem.level2">
+              <li class="sub-level-items-container main-font" *ngFor="let levelTwoItem of levelOneItem.level2">
                 <div class="sub-level-items">
                   <img *ngIf="levelOneItem.level2_image" [src]="levelTwoItem.image" alt="secondary section image" />
                   <div class="menu-section-body">
-                    <h2 class="second-level-nav-link" (click)="navigateToLink(levelTwoItem.link)">
+                    <h2 class="second-level-nav-link main-font" (click)="navigateToLink(levelTwoItem.link)">
                       {{ levelTwoItem?.name }}</h2>
                     <ul>
-                      <li class="third-level-nav-link" *ngFor="let levelThreeItem of levelTwoItem.level3"
+                      <li class="third-level-nav-link main-font" *ngFor="let levelThreeItem of levelTwoItem.level3"
                         (click)="navigateToLink(levelThreeItem.link)">
-                        <div class="view-more" *ngIf="levelThreeItem.highlighted;else seeMoreLink">
+                        <div class="view-more main-font" *ngIf="levelThreeItem.highlighted;else seeMoreLink">
                           <img *ngIf="levelOneItem.level3_image" [src]="levelThreeItem.image" alt="item images">
                           {{levelThreeItem?.name}}
                         </div>
@@ -46,7 +46,7 @@
               <li class="sub-level-items-container" *ngFor="let levelTwoItem of levelOneItem.level2">
                 <div class="sub-level-items">
                   <div class="menu-section-body">
-                    <p class="second-level-nav-link" (click)="navigateToLink(levelTwoItem.link)">
+                    <p class="second-level-nav-link main-font" (click)="navigateToLink(levelTwoItem.link)">
                       {{levelTwoItem?.name}}</p>
                   </div>
                 </div>

@@ -12,6 +12,11 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: ProximaNovaSoft;
+  src: url("assets/fonts/Nunito-SemiBold.ttf") format('truetype');
+}
+
 :root {
   --dynamic-menu-background-color: #050708;
   --dynamic-drob-down-menu-background-color: white;
