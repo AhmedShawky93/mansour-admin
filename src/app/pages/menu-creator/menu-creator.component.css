@@ -4,7 +4,7 @@
 
 .generated-nav-container {
   position: absolute;
-  z-index: 100;
+  z-index: 2;
   left: 0;
   width: 100%;
 }
@@ -55,9 +55,10 @@
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu {
   align-items: flex-start;
-  padding: 1rem !important;
+  padding: 1rem;
   width: 1190px;
   height: 550px;
+  text-transform: uppercase;
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container {
@@ -79,6 +80,7 @@
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container.simple-sub-menu .second-level-nav-link {
   border-bottom: 0px !important;
   color: var(--dynamic-menu-level-2-hover-color) !important;
+  text-transform: uppercase;
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container.simple-sub-menu .second-level-nav-link:hover {
@@ -92,6 +94,17 @@
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items-container {
   padding: 0 10px 0 0;
+}
+
+.app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items-container.fixed-width {
+  position: relative;
+  padding-top: 34px;
+}
+
+.app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items-container.fixed-width .second-level-nav-link {
+  position: absolute;
+  top: 0;
+  width: calc(100% - 10px);
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items {
@@ -108,10 +121,14 @@
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items .menu-section-body .second-level-nav-link {
   color: var(--dynamic-menu-level-2-color);
-  border-bottom: 1px solid var(--dynamic-menu-level-2-color);
+  border-bottom: 1px solid #a58c8c;
   cursor: pointer;
   margin-bottom: 10px;
   transition: all 0.3s ease;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0 10px;
+  text-transform: uppercase;
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items .menu-section-body .second-level-nav-link:hover {
@@ -152,9 +169,9 @@
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .first-level-image {
-  min-width: 200px !important;
-  max-width: 200px !important;
-  width: 200px !important;
+  min-width: 200px;
+  max-width: 200px;
+  width: 200px;
   border-radius: 20px;
   overflow: hidden;
   aspect-ratio: 1 / 1;

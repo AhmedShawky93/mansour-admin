@@ -36,6 +36,10 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         "level1_image": true,
         "level2_image": false,
         "level3_image": false,
+        "level3_items_spacing": "20px",
+        "menu_padding":"2rem",
+        "level1_image_dimentions": "300px",
+        "fixed_width":"30%",
         "level2": [
           {
             "link": "",
@@ -190,6 +194,10 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         "level1_image": true,
         "level2_image": false,
         "level3_image": false,
+        "level3_items_spacing": "20px",
+        "menu_padding":"2rem",
+        "level1_image_dimentions" : "300px",
+        "fixed_width":"30%",
         "level2": [
           {
             "link": "",
@@ -319,7 +327,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit() {
-    if (localStorage.getItem('formattedJsonString')){
+    if (localStorage.getItem('formattedJsonString')) {
       this.formattedJson = JSON.parse(localStorage.getItem('formattedJsonString'));
       this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
     }
