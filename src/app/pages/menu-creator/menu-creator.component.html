@@ -1,7 +1,8 @@
 <div class="generated-nav-container main-font">
   <nav class="app-nav" (click)="updateColorsTest()">
     <ul class="app-nav-list my-0" *ngIf="formattedJson" [ngClass]="{ 'hide-menu': clickedItem }" (mouseleave)="clickedItem = false">
-      <li class="app-nav-item mega" *ngFor="let levelOneItem of formattedJson.level1; let i = index">
+      <li class="app-nav-item" [ngClass]="levelOneItem.level2.length > 0 ? 'mega' : ''"
+        *ngFor="let levelOneItem of formattedJson.level1; let i = index">
         <ng-container>
           <a class="nav-link main main-font" routerLinkActive="active-link" (click)="navigateToLink(levelOneItem.link)"
             (mouseleave)="clickedItem = false">
