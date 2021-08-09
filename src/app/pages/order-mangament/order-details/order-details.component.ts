@@ -88,6 +88,7 @@ export class OrderDetailsComponent implements OnInit {
   stateForm: FormGroup;
   filter$ = new Subject();
   toggleAddOrder: string;
+  aramixAccounts: any;
 
 
   constructor(
@@ -140,6 +141,10 @@ export class OrderDetailsComponent implements OnInit {
     this.SerialNumberForm = this._formBuilder.group({
       serials: new FormArray([])
     });
+
+    this.ordersService.getAramexAccounts().subscribe((response: any) => {
+      this.aramixAccounts = response.data
+    })
   }
 
   getDynamicFormControlSerialNumberNames() {
@@ -599,8 +604,8 @@ export class OrderDetailsComponent implements OnInit {
       this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
     }
     // else if (Number(this.orderStatusId) === 6) {
-      // this.stateForm.get('status_notes').setValidators([Validators.required]);
-      // this.stateForm.get('cancellation_id').setValidators([Validators.required]);
+    // this.stateForm.get('status_notes').setValidators([Validators.required]);
+    // this.stateForm.get('cancellation_id').setValidators([Validators.required]);
     // }
   }
 

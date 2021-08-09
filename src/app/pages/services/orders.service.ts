@@ -18,6 +18,12 @@ export class OrdersService {
     });
   }
 
+  getAramexAccounts(){
+    return this.http.get(this.url + "/aramex-sub-accounts").catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
   getUnassignedOrders() {
     return this.http.get(this.url + "/orders/unassigned");
   }

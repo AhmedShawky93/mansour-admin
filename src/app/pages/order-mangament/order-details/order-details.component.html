@@ -650,8 +650,8 @@
             <select name="" class="owl-input bg-white" formControlName="aramex_account_number"
               *ngIf="stateForm.controls.shipping_method.value == 3">
               <option value="" hidden selected>Select Aramex </option>
-              <option value="1">Account 1 (152606)</option>
-              <option value="2">Account 2 (125689)</option>
+              <option [value]="account.account" *ngFor="let account of aramixAccounts">Account {{account.account}}
+                {{account.account_number ? (account.account_number) : ''}}</option>
             </select>
             <div
               *ngIf="stateForm.controls.aramex_account_number.invalid && (stateForm.controls.aramex_account_number.dirty || stateForm.controls.aramex_account_number.touched)"
@@ -902,8 +902,8 @@
             <select name="" class="owl-input bg-white" formControlName="aramex_account_number"
               *ngIf="shipmentForm.controls.shipping_method.value == 3">
               <option value="" hidden selected>Select Aramex </option>
-              <option value="1">Account 1 (152606)</option>
-              <option value="2">Account 2 (125689)</option>
+              <option [value]="account.account" *ngFor="let account of aramixAccounts">Account {{account.account}}
+                {{account.account_number ? (account.account_number) : ''}}</option>
             </select>
             <div
               *ngIf="shipmentForm.controls.aramex_account_number.invalid && (shipmentForm.controls.aramex_account_number.dirty || shipmentForm.controls.aramex_account_number.touched)"

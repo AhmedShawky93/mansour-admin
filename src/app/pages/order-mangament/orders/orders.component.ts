@@ -152,6 +152,7 @@ export class OrdersComponent implements OnInit {
   orderSelectedPickup = [];
   enableSubmitPickupOrder: boolean;
   today: Date;
+  aramixAccounts: any;
 
   constructor(
     private ordersService: OrdersService,
@@ -317,6 +318,10 @@ export class OrdersComponent implements OnInit {
     this.ordersService.getAvailablePickups().subscribe((response: any) => {
       this.available_pickups = response.data;
     });
+
+    this.ordersService.getAramexAccounts().subscribe((response: any) => {
+      this.aramixAccounts = response.data
+    })
   }
 
   getPaymentMethods() {
