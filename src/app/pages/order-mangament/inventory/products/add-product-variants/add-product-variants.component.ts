@@ -678,15 +678,17 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       delete item.optionData;
     });
     this.formatDateForSaving(product, this.componentForm);
+    let today = new Date();
+    let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`
 
     const data = {
       product_with_variant: true,
       default_variant: product.default_variant,
       description: product.description,
       description_ar: product.description_ar,
-      discount_end_date: product.discount_end_date,
+      discount_end_date: product.discount_price ? product.discount_end_date : '',
       discount_price: product.discount_price,
-      discount_start_date: product.discount_start_date,
+      discount_start_date: product.discount_price ? (product.discount_start_date ? product.discount_start_date : startDate) : '',
       expiration_time: product.expiration_time,
       start_time: product.start_time,
       image: product.image,
@@ -741,6 +743,13 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   save() {
     /*Check Is Valid Form Data & Fire Validation*/
+    if (this.componentForm.controls['discount_price'].value && !this.componentForm.controls['discount_start_date'].value){
+      let today = new Date();
+      let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`;
+      this.componentForm.controls['discount_start_date'].setValue(today);
+      this.componentForm.controls['discount_start_date'].updateValueAndValidity();
+      this.componentForm.updateValueAndValidity();
+    }
     if (this.formValidator()) {
       this.spinner.show();
       this.createMainProduct();
