@@ -31,6 +31,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   orderForm: FormGroup;
   deleted_items: any[] = [];
   loading: boolean;
+  selectedProductToUpdate: any;
 
   constructor(private customerService: CustomerService, private router: Router, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) { }
 
@@ -176,6 +177,14 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     this.products.splice(index, 1);
 
     (this.orderForm.get("items") as FormArray).removeAt(index);
+  }
+
+  addToDeletetItems(){
+    this.deleted_items.push(this.selectedProductToUpdate);
+  }
+
+  updateSelecteItem(product){
+    this.selectedProductToUpdate = product;
   }
 
   selectCustomerAddresses() {
