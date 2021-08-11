@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-menu-creator',
@@ -37,9 +38,9 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         "level2_image": false,
         "level3_image": false,
         "level3_items_spacing": "20px",
-        "menu_padding":"2rem",
+        "menu_padding": "2rem",
         "level1_image_dimentions": "300px",
-        "fixed_width":"30%",
+        "fixed_width": "30%",
         "level2": [
           {
             "link": "",
@@ -323,13 +324,72 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       }]
   }`
   clickedItem: boolean = false;
+  headerForm: FormGroup;
+  groupForm: FormGroup;
+  subCategoryForm: FormGroup;
+  selectedHeader: any = null;
+  selectedGroup: any = null;
+  selectedSubcategory: any = null;
 
-  constructor() { }
+
+  constructor() {
+  }
+
+  setHeaderForm(data) {
+    this.headerForm = new FormGroup({
+      link: new FormControl(data ? data.link : ''),
+      name: new FormControl(data ? data.name : '', Validators.required),
+      name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
+      image: new FormControl(data ? data.image : ''),
+      levels_length: new FormControl(data ? data.levels_length : 1),
+      level1_image: new FormControl(data ? data.level1_image : false),
+      level2_image: new FormControl(data ? data.level2_image : false),
+      level3_image: new FormControl(data ? data.level3_image : false),
+      level3_items_spacing: new FormControl(data ? data.level3_items_spacing : ''),
+      menu_padding: new FormControl(data ? data.menu_padding : ''),
+      level1_image_dimentions: new FormControl(data ? data.level1_image_dimentions : ''),
+      fixed_width: new FormControl(data ? data.fixed_width : ''),
+    })
+  }
+
+  setGroupForm(data) {
+    this.groupForm = new FormGroup({
+      link: new FormControl(data ? data.link : ''),
+      name: new FormControl(data ? data.name : '', Validators.required),
+      name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
+      image: new FormControl(data ? data.image : ''),
+    })
+  }
+
+  setSubCategoryForm(data) {
+    this.subCategoryForm = new FormGroup({
+      link: new FormControl(data ? data.link : ''),
+      name: new FormControl(data ? data.name : '', Validators.required),
+      name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
+      image: new FormControl(data ? data.image : ''),
+    })
+  }
+
+  selectHeader(header){
+    this.selectedHeader = header;
+    this.selectedGroup = null;
+    this.selectedSubcategory = null;
+  }
+
+  selectGroup(group){
+    this.selectedGroup = group;
+    this.selectedSubcategory = null;
+  }
+
+  selectSubCategory(subCategory) {
+    this.selectedSubcategory = subCategory;
+  }
 
   ngOnInit() {
     if (localStorage.getItem('formattedJsonString')) {
       this.formattedJson = JSON.parse(localStorage.getItem('formattedJsonString'));
       this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
+      this.updateColorsTest();
     }
   }
 
@@ -339,8 +399,8 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  navigateToLink(link) {
-
+  navigateToLink(url) {
+    window.open(url, '_blank')
   }
 
   prettyPrint() {
@@ -356,17 +416,33 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       var pretty = JSON.stringify(obj, undefined, 4);
       element.value = pretty;
     }
-    localStorage.setItem('formattedJsonString', JSON.stringify(this.formattedJson))
+    this.saveChanges();
   }
 
   updateColorsTest() {
-    this.formattedJson['menu_background_color'] ? document.documentElement.style.setProperty('--dynamic-menu-background-color', this.formattedJson['menu_background_color']) : document.documentElement.style.setProperty('--dynamic-menu-background-color', '--second-color')
-    this.formattedJson['drop_menu_background_color'] ? document.documentElement.style.setProperty('--dynamic-drob-down-menu-background-color', this.formattedJson['drop_menu_background_color']) : document.documentElement.style.setProperty('--dynamic-drob-down-menu-background-color', 'white')
-    this.formattedJson['level1_text_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-1-color', this.formattedJson['level1_text_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-1-color', 'white')
-    this.formattedJson['level1_hover_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-1-hover-color', this.formattedJson['level1_hover_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-1-hover-color', '--menu-font-hover-color')
-    this.formattedJson['level2_text_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-2-color', this.formattedJson['level2_text_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-2-color', '--menu-font-hover-color')
-    this.formattedJson['level2_hover_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-2-hover-color', this.formattedJson['level2_hover_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-2-hover-color', 'black')
-    this.formattedJson['level3_text_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-3-color', this.formattedJson['level3_text_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-3-color', 'black')
-    this.formattedJson['level3_hover_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-3-hover-color', this.formattedJson['level3_hover_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-3-hover-color', '--menu-font-hover-color')
+    this.formattedJson['menu_background_color'] ? document.documentElement.style.setProperty('--dynamic-menu-background-color', this.formattedJson['menu_background_color']) : document.documentElement.style.setProperty('--dynamic-menu-background-color', '--second-color');
+    this.formattedJson['drop_menu_background_color'] ? document.documentElement.style.setProperty('--dynamic-drob-down-menu-background-color', this.formattedJson['drop_menu_background_color']) : document.documentElement.style.setProperty('--dynamic-drob-down-menu-background-color', 'white');
+    this.formattedJson['level1_text_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-1-color', this.formattedJson['level1_text_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-1-color', 'white');
+    this.formattedJson['level1_hover_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-1-hover-color', this.formattedJson['level1_hover_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-1-hover-color', '--menu-font-hover-color');
+    this.formattedJson['level2_text_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-2-color', this.formattedJson['level2_text_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-2-color', '--menu-font-hover-color');
+    this.formattedJson['level2_hover_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-2-hover-color', this.formattedJson['level2_hover_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-2-hover-color', 'black');
+    this.formattedJson['level3_text_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-3-color', this.formattedJson['level3_text_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-3-color', 'black');
+    this.formattedJson['level3_hover_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-3-hover-color', this.formattedJson['level3_hover_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-3-hover-color', '--menu-font-hover-color');
+
+    this.saveChanges();
+  }
+
+  checkColorValidity(color, colorName) {
+    if (color.substring(0, 1) == '#') {
+      this.updateColorsTest()
+    } else {
+      color = `#${color}`;
+      this.formattedJson[colorName] = color;
+      this.updateColorsTest();
+    }
+  }
+
+  saveChanges() {
+    localStorage.setItem('formattedJsonString', JSON.stringify(this.formattedJson))
   }
 }

@@ -1,6 +1,7 @@
 <div class="generated-nav-container main-font">
   <nav class="app-nav" (click)="updateColorsTest()">
-    <ul class="app-nav-list my-0" *ngIf="formattedJson" [ngClass]="{ 'hide-menu': clickedItem }" (mouseleave)="clickedItem = false">
+    <ul class="app-nav-list my-0" *ngIf="formattedJson" [ngClass]="{ 'hide-menu': clickedItem }"
+      (mouseleave)="clickedItem = false">
       <li class="app-nav-item" [ngClass]="levelOneItem.level2.length > 0 ? 'mega' : ''"
         *ngFor="let levelOneItem of formattedJson.level1; let i = index">
         <ng-container>
@@ -9,7 +10,7 @@
             {{ levelOneItem?.name }}
           </a>
         </ng-container>
-  
+
         <div class="sub-menu main-submenu dynamic-menu" [ngStyle]="{'padding': levelOneItem.menu_padding}">
           <ng-container *ngIf="levelOneItem.level2.length > 0 && levelOneItem.levels_length == 3;else simpleMenu">
             <ul class="sub-menu-items-container">
@@ -39,12 +40,14 @@
                 </div>
               </li>
             </ul>
-  
-            <div class="first-level-image" [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}" *ngIf="levelOneItem.level1_image">
+
+            <div class="first-level-image"
+              [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
+              *ngIf="levelOneItem.level1_image">
               <img [src]="levelOneItem.image" alt="main section image" />
             </div>
           </ng-container>
-  
+
           <ng-template #simpleMenu>
             <ul class="sub-menu-items-container simple-sub-menu">
               <li class="sub-level-items-container" *ngFor="let levelTwoItem of levelOneItem.level2">
@@ -56,8 +59,10 @@
                 </div>
               </li>
             </ul>
-  
-            <div class="first-level-image" [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}" *ngIf="levelOneItem.level1_image">
+
+            <div class="first-level-image"
+              [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
+              *ngIf="levelOneItem.level1_image">
               <img [src]="levelOneItem.image" alt="main section image" />
             </div>
           </ng-template>
@@ -65,6 +70,87 @@
       </li>
     </ul>
   </nav>
+</div>
+
+<div class="main-menu-items">
+  <div class="item form-group">
+    <label for="menu_background_color">Menu background color</label>
+    <input class="owl-input" matInput name="menu_background_color" type="text"
+      (blur)="checkColorValidity(formattedJson.menu_background_color, 'menu_background_color')"
+      [(ngModel)]="formattedJson.menu_background_color">
+  </div>
+  <div class="item form-group">
+    <label for="drop_menu_background_color">Drop menu background color</label>
+    <input class="owl-input" matInput name="drop_menu_background_color" type="text"
+      (blur)="checkColorValidity(formattedJson.drop_menu_background_color, 'drop_menu_background_color')"
+      [(ngModel)]="formattedJson.drop_menu_background_color">
+  </div>
+  <div class="item form-group">
+    <label for="level1_text_color">Headers text color</label>
+    <input class="owl-input" matInput name="level1_text_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level1_text_color, 'level1_text_color')"
+      [(ngModel)]="formattedJson.level1_text_color">
+  </div>
+  <div class="item form-group">
+    <label for="level1_hover_color">Headers hover text color</label>
+    <input class="owl-input" matInput name="level1_hover_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level1_hover_color, 'level1_hover_color')"
+      [(ngModel)]="formattedJson.level1_hover_color">
+  </div>
+  <div class="item form-group">
+    <label for="level2_text_color">Groups text color</label>
+    <input class="owl-input" matInput name="level2_text_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level2_text_color, 'level2_text_color')"
+      [(ngModel)]="formattedJson.level2_text_color">
+  </div>
+  <div class="item form-group">
+    <label for="level2_hover_color">Groups hover text color</label>
+    <input class="owl-input" matInput name="level2_hover_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level2_hover_color, 'level2_hover_color')"
+      [(ngModel)]="formattedJson.level2_hover_color">
+  </div>
+  <div class="item form-group">
+    <label for="level3_text_color">Sub category text color</label>
+    <input class="owl-input" matInput name="level3_text_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level3_text_color, 'level3_text_color')"
+      [(ngModel)]="formattedJson.level3_text_color">
+  </div>
+  <div class="item form-group">
+    <label for="level3_hover_color">Sub category hover text color</label>
+    <input class="owl-input" matInput name="level3_hover_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level3_hover_color, 'level3_hover_color')"
+      [(ngModel)]="formattedJson.level3_hover_color">
+  </div>
+
+  <button (click)="updateColorsTest()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply colors
+    change</button>
+</div>
+<hr>
+<div class="menu-items-container">
+  <div class="level-container">
+    <h4>Headers</h4>
+    <div class="items-container">
+      <div class="cat-item" *ngFor="let itemLevelOne of formattedJson.level1" (click)="selectHeader(itemLevelOne)">
+        {{itemLevelOne.name}}</div>
+      <div class="add-item">Add Item..</div>
+    </div>
+  </div>
+  <div class="level-container" [ngClass]="selectedHeader ? 'show' : 'hidden'">
+    <h4>Groups</h4>
+    <div class="items-container">
+      <div class="cat-item" *ngFor="let levelTwoItem of selectedHeader?.level2" (click)="selectGroup(levelTwoItem)">
+        {{levelTwoItem?.name}}</div>
+      <div class="add-item">Add Item..</div>
+    </div>
+  </div>
+  <div class="level-container" [ngClass]="selectedGroup ? 'show' : 'hidden'">
+    <h4>Sub Categories</h4>
+    <div class="items-container">
+      <div class="cat-item" *ngFor="let levelThreeItem of selectedGroup?.level3"
+        (click)="selectSubCategory(levelThreeItem)">{{levelThreeItem?.name}}</div>
+      <div class="add-item">Add Item..</div>
+    </div>
+  </div>
 </div>
 
 <textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
