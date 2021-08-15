@@ -340,6 +340,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   deleteItemIndex: number = 0;
   deleteItemType: number = 0;
   deleteItemName: any;
+  statedeleting: boolean = false;
 
 
   constructor(private uploadService: UploadFilesService) {
@@ -530,6 +531,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
 
   deleteItem(index, event, item, type){
     $('#deleteMenuItem').modal('show');
+    this.statedeleting = false;
     event.preventDefault();
     this.deleteItemIndex = index;
     this.deleteItemName = item.name;
