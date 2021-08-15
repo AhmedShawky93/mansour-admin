@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UploadFilesService } from '../services/upload-files.service';
 
+declare var jquery: any;
+declare var $: any;
 @Component({
   selector: 'app-menu-creator',
   templateUrl: './menu-creator.component.html',
@@ -335,6 +337,9 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   updateIndexHeader: any;
   updateIndexGroup: any;
   updateIndexSubCategory: any;
+  deleteItemIndex: number = 0;
+  deleteItemType: number = 0;
+  deleteItemName: any;
 
 
   constructor(private uploadService: UploadFilesService) {
@@ -353,10 +358,10 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       level1_image: new FormControl(data ? data.level1_image : false),
       level2_image: new FormControl(data ? data.level2_image : false),
       level3_image: new FormControl(data ? data.level3_image : false),
-      level3_items_spacing: new FormControl(data ? data.level3_items_spacing : ''),
-      menu_padding: new FormControl(data ? data.menu_padding : ''),
-      level1_image_dimentions: new FormControl(data ? data.level1_image_dimentions : ''),
-      fixed_width: new FormControl(data ? data.fixed_width : ''),
+      level3_items_spacing: new FormControl(data ? data.level3_items_spacing : '20px'),
+      menu_padding: new FormControl(data ? data.menu_padding : '2rem'),
+      level1_image_dimentions: new FormControl(data ? data.level1_image_dimentions : '300px'),
+      fixed_width: new FormControl(data ? data.fixed_width : '30%'),
     })
   }
 
@@ -489,6 +494,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       } else {
         this.formattedJson.level1.push(this.selectedHeader);
         this.formattedJson.level1[this.formattedJson.level1.length - 1].level2 = [];
+        this.updateIndexHeader = this.formattedJson.level1.length - 1;
       }
       this.saveChanges();
     }
@@ -504,6 +510,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       } else {
         this.formattedJson.level1[this.updateIndexHeader].level2.push(this.selectedGroup);
         this.formattedJson.level1[this.updateIndexHeader].level2[this.formattedJson.level1[this.updateIndexHeader].level2.length - 1].level3 = [];
+        this.updateIndexGroup = this.formattedJson.level1[this.formattedJson.level1.length - 1].level2.length - 1;
       }
       this.saveChanges();
     }
@@ -521,21 +528,46 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  deleteHeader(index, event) {
+  deleteItem(index, event, item, type){
+    $('#deleteMenuItem').modal('show');
     event.preventDefault();
-    this.formattedJson.level1.splice(index, 1);
+    this.deleteItemIndex = index;
+    this.deleteItemName = item.name;
+    this.deleteItemType = type;
+  }
+
+  confirmDelete(){
+    $('#deleteMenuItem').modal('hide');
+    if (this.deleteItemType == 1){
+      this.deleteHeader();
+    } else if (this.deleteItemType == 2){
+      this.deleteGroup();
+    } else {
+      this.deleteSubCategory();
+    }
+  }
+
+  deleteHeader() {
+    if(this.deleteItemIndex == this.updateIndexHeader){
+      this.selectedHeader = null;
+    }
+    this.formattedJson.level1.splice(this.deleteItemIndex, 1);
     this.saveChanges();
   }
 
-  deleteGroup(index, event) {
-    event.preventDefault();
-    this.formattedJson.level1[this.updateIndexHeader].level2.splice(index, 1);
+  deleteGroup() {
+    if(this.deleteItemIndex == this.updateIndexGroup){
+      this.selectedGroup = null;
+    }
+    this.formattedJson.level1[this.updateIndexHeader].level2.splice(this.deleteItemIndex, 1);
     this.saveChanges();
   }
 
-  deleteSubCategory(index, event) {
-    event.preventDefault();
-    this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.splice(index, 1);
+  deleteSubCategory() {
+    if(this.deleteItemIndex == this.updateIndexSubCategory){
+      this.selectedSubcategory = null;
+    }
+    this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.splice(this.deleteItemIndex, 1);
     this.saveChanges();
   }
 }
