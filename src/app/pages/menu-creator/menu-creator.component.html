@@ -125,6 +125,7 @@
   <!-- <button (click)="updateColorsTest()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply colors
     change</button> -->
 </div>
+
 <hr>
 <div class="menu-items-container">
   <div class="level-container">
@@ -332,5 +333,10 @@
   </form>
 </div>
 
-<textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
-<button (click)="prettyPrint()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply Json changes</button>
+<hr>
+
+<div class="menu-items-container">
+  <h4>Or set menu with  json object</h4>
+  <textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
+  <button (click)="prettyPrint()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply Json changes</button>
+</div>
