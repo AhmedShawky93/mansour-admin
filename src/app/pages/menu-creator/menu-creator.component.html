@@ -130,28 +130,200 @@
   <div class="level-container">
     <h4>Headers</h4>
     <div class="items-container">
-      <div class="cat-item" *ngFor="let itemLevelOne of formattedJson.level1" (click)="selectHeader(itemLevelOne)">
+      <div class="cat-item" *ngFor="let itemLevelOne of formattedJson.level1;let index = index" (click)="selectHeader(itemLevelOne, index)">
         {{itemLevelOne.name}}</div>
-      <div class="add-item">Add Item..</div>
+      <div class="add-item" (click)="selectHeader()">Add Item..</div>
     </div>
   </div>
   <div class="level-container" [ngClass]="selectedHeader ? 'show' : 'hidden'">
     <h4>Groups</h4>
     <div class="items-container">
-      <div class="cat-item" *ngFor="let levelTwoItem of selectedHeader?.level2" (click)="selectGroup(levelTwoItem)">
+      <div class="cat-item" *ngFor="let levelTwoItem of selectedHeader?.level2;let index = index" (click)="selectGroup(levelTwoItem, index)">
         {{levelTwoItem?.name}}</div>
-      <div class="add-item">Add Item..</div>
+      <div class="add-item" (click)="selectGroup()">Add Item..</div>
     </div>
   </div>
   <div class="level-container" [ngClass]="selectedGroup ? 'show' : 'hidden'">
     <h4>Sub Categories</h4>
     <div class="items-container">
-      <div class="cat-item" *ngFor="let levelThreeItem of selectedGroup?.level3"
-        (click)="selectSubCategory(levelThreeItem)">{{levelThreeItem?.name}}</div>
-      <div class="add-item">Add Item..</div>
+      <div class="cat-item" *ngFor="let levelThreeItem of selectedGroup?.level3;let index = index" (click)="selectSubCategory(levelThreeItem, index)">{{levelThreeItem?.name}}</div>
+      <div class="add-item" (click)="selectSubCategory()">Add Item..</div>
     </div>
   </div>
 </div>
 
+<div class="header-editor" [hidden]="!(editorType == 1)">
+  <form (submit)="saveHeader()" [formGroup]="headerForm" class="header-form">
+    <div class="form-group">
+      <label>Name</label>
+      <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
+      <div *ngIf="headerForm.controls.name.errors?.required" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Name Arabic</label>
+      <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
+      <div *ngIf="headerForm.controls.name_ar.errors?.required" class="alert alert-danger">
+        Name arabic is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Level length</label>
+      <input class="owl-input" formControlName="levels_length" placeholder="Type.." required type="text">
+      <div *ngIf="headerForm.controls.levels_length.errors?.required" class="alert alert-danger">
+        Level length is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Link</label>
+      <input class="owl-input" formControlName="link" placeholder="Type.." type="text">
+    </div>
+    
+    <div class="form-group">
+      <label>Level 3 item spacing</label>
+      <input class="owl-input" formControlName="level3_items_spacing" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Menu padding</label>
+      <input class="owl-input" formControlName="menu_padding" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Columns fixed width</label>
+      <input class="owl-input" formControlName="fixed_width" placeholder="Type.." type="text">
+    </div>
+    
+    <div class="form-group">
+      <label>Image fixed width</label>
+      <input class="owl-input" formControlName="level1_image_dimentions" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group radio-group">
+      <label>Enable header image</label>
+      <div class="input">
+        <input type="radio" [value]="true" formControlName="level1_image">Yes
+      </div>
+      <div class="input">
+        <input type="radio" [value]="false" formControlName="level1_image">No
+      </div>
+
+      <label>Enable Group image</label>
+      <div class="input">
+        <input type="radio" [value]="true" formControlName="level2_image">Yes
+      </div>
+      <div class="input">
+        <input type="radio" [value]="false" formControlName="level2_image">No
+      </div>
+
+      <label>Enable subcategory image</label>
+      <div class="input">
+        <input type="radio" [value]="true" formControlName="level3_image">Yes
+      </div>
+      <div class="input">
+        <input type="radio" [value]="false" formControlName="level3_image">No
+      </div>
+    </div>
+
+    <div class="form-group owls-upload owls-upload3 big" *ngIf="headerForm.controls.level1_image">
+      <label>Header image</label>
+      <img class="owl-img img-fluid" [hidden]="headerForm.controls.image.value"
+        src="./assets/img/placeholder200.jpg" style="width: 200px; height: 200px;" alt="">
+      <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!headerForm.controls.image.value"
+        [src]="headerForm.controls.image.value" alt="">
+      <input type="file" id="editHeaderImg" class="owl-input" placeholder="upload your image"
+        (change)="uploadImage(headerForm.controls.image, $event)" name="image" />
+      <input type="hidden" [(ngModel)]="headerForm.image" formControlName="image">
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green ">Update</button>
+    </div>
+  </form>
+</div>
+
+<div class="group-editor" [hidden]="!(editorType == 2)">
+  <form (submit)="saveGroup()" [formGroup]="groupForm" class="group-form">
+    <div class="form-group">
+      <label>Name</label>
+      <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
+      <div *ngIf="groupForm.controls.name.errors?.required" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Name Arabic</label>
+      <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
+      <div *ngIf="groupForm.controls.name_ar.errors?.required" class="alert alert-danger">
+        Name arabic is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Link</label>
+      <input class="owl-input" formControlName="link" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group owls-upload owls-upload3 big" *ngIf="selectedHeader?.level2_image">
+      <label>Header image</label>
+      <img class="owl-img img-fluid" [hidden]="groupForm.controls.image.value" style="width: 200px; height: 200px;" src="./assets/img/placeholder200.jpg" alt="">
+      <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!groupForm.controls.image.value"
+        [src]="groupForm.controls.image.value" alt="">
+      <input type="file" id="editHeaderImg" class="owl-input" placeholder="upload your image"
+        (change)="uploadImage(groupForm.controls.image, $event)" name="image" />
+      <input type="hidden" [(ngModel)]="groupForm.image" formControlName="image">
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green ">Update</button>
+    </div>
+  </form>
+</div>
+
+<div class="subcategory-editor" [hidden]="!(editorType == 3)">
+  <form (submit)="saveSubCategory()" [formGroup]="subCategoryForm" class="group-form">
+    <div class="form-group">
+      <label>Name</label>
+      <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
+      <div *ngIf="subCategoryForm.controls.name.errors?.required" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Name Arabic</label>
+      <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
+      <div *ngIf="subCategoryForm.controls.name_ar.errors?.required" class="alert alert-danger">
+        Name arabic is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Link</label>
+      <input class="owl-input" formControlName="link" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group owls-upload owls-upload3 big" *ngIf="selectedHeader?.level3_image">
+      <label>Header image</label>
+      <img class="owl-img img-fluid" [hidden]="subCategoryForm.controls.image.value" style="width: 200px; height: 200px;" src="./assets/img/placeholder200.jpg"
+        alt="">
+      <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!subCategoryForm.controls.image.value"
+        [src]="subCategoryForm.controls.image.value" alt="">
+      <input type="file" id="editHeaderImg" class="owl-input" placeholder="upload your image"
+        (change)="uploadImage(subCategoryForm.controls.image, $event)" name="image" />
+      <input type="hidden" [(ngModel)]="subCategoryForm.image" formControlName="image">
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green ">Update</button>
+    </div>
+  </form>
+</div>
+
 <textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
-<button (click)="prettyPrint()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply changes</button>
+<button (click)="prettyPrint()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply Json changes</button>

@@ -97,7 +97,7 @@
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items-container {
-  padding: 0 10px 0 0;
+  padding: 0 0 0 0;
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items-container.fixed-width {
@@ -121,6 +121,10 @@
   width: 130px !important;
   margin-top: 50px;
   aspect-ratio: 1 / 1;
+}
+
+.app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items .menu-section-body{
+  padding-left: 10px;
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items .menu-section-body .second-level-nav-link {
@@ -741,4 +745,44 @@ hr{
 
 .add-item:hover{
   color: #96132b;
+}
+
+.header-form, .group-form, .subcaregory-form{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.header-form .form-group,
+.group-form .form-group,
+.subcaregory-form .form-group {
+  width: calc(50% - 20px);
+}
+
+.header-form .form-group:nth-of-type(odd),
+.group-form .form-group:nth-of-type(odd),
+.subcaregory-form .form-group:nth-of-type(odd) {
+  margin-right: 20px;
+}
+
+.owls-upload{
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  height: auto;
+  padding-top: 0px;
+  cursor: initial;
+}
+
+.owl-input img{
+  cursor: pointer;
+}
+
+.radio-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.radio-group input{
+  margin-right: 10px;
 }

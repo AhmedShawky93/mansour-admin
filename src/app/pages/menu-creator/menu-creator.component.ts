@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UploadFilesService } from '../services/upload-files.service';
 
 @Component({
   selector: 'app-menu-creator',
@@ -330,18 +331,25 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   selectedHeader: any = null;
   selectedGroup: any = null;
   selectedSubcategory: any = null;
+  editorType: number;
+  updateIndexHeader: any;
+  updateIndexGroup: any;
+  updateIndexSubCategory: any;
 
 
-  constructor() {
+  constructor(private uploadService: UploadFilesService) {
+    this.setHeaderForm();
+    this.setGroupForm();
+    this.setSubCategoryForm();
   }
 
-  setHeaderForm(data) {
+  setHeaderForm(data = null) {
     this.headerForm = new FormGroup({
       link: new FormControl(data ? data.link : ''),
       name: new FormControl(data ? data.name : '', Validators.required),
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
       image: new FormControl(data ? data.image : ''),
-      levels_length: new FormControl(data ? data.levels_length : 1),
+      levels_length: new FormControl(data ? data.levels_length : 1, Validators.required),
       level1_image: new FormControl(data ? data.level1_image : false),
       level2_image: new FormControl(data ? data.level2_image : false),
       level3_image: new FormControl(data ? data.level3_image : false),
@@ -351,8 +359,17 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       fixed_width: new FormControl(data ? data.fixed_width : ''),
     })
   }
+  
+  selectHeader(data = null, index = null){
+    this.selectedHeader = data;
+    this.selectedGroup = null;
+    this.selectedSubcategory = null;
+    this.editorType = 1;
+    this.updateIndexHeader = index;
+    this.setHeaderForm(data);
+  }
 
-  setGroupForm(data) {
+  setGroupForm(data = null) {    
     this.groupForm = new FormGroup({
       link: new FormControl(data ? data.link : ''),
       name: new FormControl(data ? data.name : '', Validators.required),
@@ -360,8 +377,16 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       image: new FormControl(data ? data.image : ''),
     })
   }
+  
+  selectGroup(data = null, index = null){
+    this.selectedGroup = data;
+    this.selectedSubcategory = null;
+    this.editorType = 2;
+    this.updateIndexGroup = index;
+    this.setGroupForm(data);
+  }
 
-  setSubCategoryForm(data) {
+  setSubCategoryForm(data = null) {    
     this.subCategoryForm = new FormGroup({
       link: new FormControl(data ? data.link : ''),
       name: new FormControl(data ? data.name : '', Validators.required),
@@ -369,20 +394,12 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       image: new FormControl(data ? data.image : ''),
     })
   }
-
-  selectHeader(header){
-    this.selectedHeader = header;
-    this.selectedGroup = null;
-    this.selectedSubcategory = null;
-  }
-
-  selectGroup(group){
-    this.selectedGroup = group;
-    this.selectedSubcategory = null;
-  }
-
-  selectSubCategory(subCategory) {
-    this.selectedSubcategory = subCategory;
+  
+  selectSubCategory(data = null, index = null){
+    this.selectedSubcategory = data;
+    this.editorType = 3;
+    this.updateIndexSubCategory = index;
+    this.setSubCategoryForm(data);
   }
 
   ngOnInit() {
@@ -442,7 +459,48 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     }
   }
 
+  uploadImage(image, e: any) {
+    let fileList: FileList = e.target.files;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      this.uploadService.uploadFile(file).subscribe((response: any) => {
+        if (response.body) {
+          image.setValue(response.body.data.filePath);
+        }
+      });
+    }
+  }
+
   saveChanges() {
-    localStorage.setItem('formattedJsonString', JSON.stringify(this.formattedJson))
+    localStorage.setItem('formattedJsonString', JSON.stringify(this.formattedJson));
+    this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
+  }
+
+  saveHeader(){
+    if (this.headerForm.valid){
+      this.selectedHeader = this.headerForm.value;
+      let dumbLevel2 = this.formattedJson.level1[this.updateIndexHeader].level2;
+      this.formattedJson.level1[this.updateIndexHeader] = this.selectedHeader;
+      this.formattedJson.level1[this.updateIndexHeader].level2 = dumbLevel2;
+      this.saveChanges();
+    }
+  }
+
+  saveGroup(){
+    if (this.groupForm.valid) {
+      this.selectedGroup = this.groupForm.value;
+      let dumbLevel3 = this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3;
+      this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup] = this.selectedGroup;
+      this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3 = dumbLevel3;
+      this.saveChanges();
+    }
+  }
+
+  saveSubCategory(){
+    if (this.subCategoryForm.valid) {
+      this.selectedSubcategory = this.subCategoryForm.value;
+      this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3[this.updateIndexSubCategory] = this.selectedSubcategory;
+      this.saveChanges();
+    }
   }
 }
