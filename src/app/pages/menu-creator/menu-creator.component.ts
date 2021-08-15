@@ -359,17 +359,19 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       fixed_width: new FormControl(data ? data.fixed_width : ''),
     })
   }
-  
-  selectHeader(data = null, index = null){
+
+  selectHeader(data = null, index = null) {
     this.selectedHeader = data;
     this.selectedGroup = null;
     this.selectedSubcategory = null;
     this.editorType = 1;
     this.updateIndexHeader = index;
+    this.updateIndexGroup = null;
+    this.updateIndexSubCategory = null;
     this.setHeaderForm(data);
   }
 
-  setGroupForm(data = null) {    
+  setGroupForm(data = null) {
     this.groupForm = new FormGroup({
       link: new FormControl(data ? data.link : ''),
       name: new FormControl(data ? data.name : '', Validators.required),
@@ -377,16 +379,17 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       image: new FormControl(data ? data.image : ''),
     })
   }
-  
-  selectGroup(data = null, index = null){
+
+  selectGroup(data = null, index = null) {
     this.selectedGroup = data;
     this.selectedSubcategory = null;
     this.editorType = 2;
     this.updateIndexGroup = index;
+    this.updateIndexSubCategory = null;
     this.setGroupForm(data);
   }
 
-  setSubCategoryForm(data = null) {    
+  setSubCategoryForm(data = null) {
     this.subCategoryForm = new FormGroup({
       link: new FormControl(data ? data.link : ''),
       name: new FormControl(data ? data.name : '', Validators.required),
@@ -394,8 +397,8 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       image: new FormControl(data ? data.image : ''),
     })
   }
-  
-  selectSubCategory(data = null, index = null){
+
+  selectSubCategory(data = null, index = null) {
     this.selectedSubcategory = data;
     this.editorType = 3;
     this.updateIndexSubCategory = index;
@@ -476,31 +479,63 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
   }
 
-  saveHeader(){
-    if (this.headerForm.valid){
+  saveHeader() {
+    if (this.headerForm.valid) {
       this.selectedHeader = this.headerForm.value;
-      let dumbLevel2 = this.formattedJson.level1[this.updateIndexHeader].level2;
-      this.formattedJson.level1[this.updateIndexHeader] = this.selectedHeader;
-      this.formattedJson.level1[this.updateIndexHeader].level2 = dumbLevel2;
+      if (this.updateIndexHeader) {
+        let dumbLevel2 = this.formattedJson.level1[this.updateIndexHeader].level2;
+        this.formattedJson.level1[this.updateIndexHeader] = this.selectedHeader;
+        this.formattedJson.level1[this.updateIndexHeader].level2 = dumbLevel2;
+      } else {
+        this.formattedJson.level1.push(this.selectedHeader);
+        this.formattedJson.level1[this.formattedJson.level1.length - 1].level2 = [];
+      }
       this.saveChanges();
     }
   }
 
-  saveGroup(){
+  saveGroup() {
     if (this.groupForm.valid) {
       this.selectedGroup = this.groupForm.value;
-      let dumbLevel3 = this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3;
-      this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup] = this.selectedGroup;
-      this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3 = dumbLevel3;
+      if (this.updateIndexHeader && this.updateIndexGroup) {
+        let dumbLevel3 = this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3;
+        this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup] = this.selectedGroup;
+        this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3 = dumbLevel3;
+      } else {
+        this.formattedJson.level1[this.updateIndexHeader].level2.push(this.selectedGroup);
+        this.formattedJson.level1[this.updateIndexHeader].level2[this.formattedJson.level1[this.updateIndexHeader].level2.length - 1].level3 = [];
+      }
       this.saveChanges();
     }
   }
 
-  saveSubCategory(){
+  saveSubCategory() {
     if (this.subCategoryForm.valid) {
       this.selectedSubcategory = this.subCategoryForm.value;
-      this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3[this.updateIndexSubCategory] = this.selectedSubcategory;
+      if (this.updateIndexHeader && this.updateIndexGroup && this.updateIndexSubCategory) {
+        this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3[this.updateIndexSubCategory] = this.selectedSubcategory;
+      } else {
+        this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.push(this.selectedSubcategory)
+      }
       this.saveChanges();
     }
+  }
+
+  deleteHeader(index, event) {
+    event.preventDefault();
+    this.formattedJson.level1.splice(index, 1);
+    this.saveChanges();
+  }
+
+  deleteGroup(index, event) {
+    event.preventDefault();
+    this.formattedJson.level1[this.updateIndexHeader].level2.splice(index, 1);
+    this.saveChanges();
+  }
+
+  deleteSubCategory(index, event) {
+    event.preventDefault();
+    this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.splice(index, 1);
+    this.saveChanges();
   }
 }

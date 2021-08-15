@@ -131,7 +131,9 @@
     <h4>Headers</h4>
     <div class="items-container">
       <div class="cat-item" *ngFor="let itemLevelOne of formattedJson.level1;let index = index" (click)="selectHeader(itemLevelOne, index)">
-        {{itemLevelOne.name}}</div>
+        {{itemLevelOne.name}}
+        <span (click)="deleteHeader(index, $event)">X</span>
+      </div>
       <div class="add-item" (click)="selectHeader()">Add Item..</div>
     </div>
   </div>
@@ -139,14 +141,19 @@
     <h4>Groups</h4>
     <div class="items-container">
       <div class="cat-item" *ngFor="let levelTwoItem of selectedHeader?.level2;let index = index" (click)="selectGroup(levelTwoItem, index)">
-        {{levelTwoItem?.name}}</div>
+        {{levelTwoItem?.name}}
+        <span (click)="deleteGroup(index, $event)">X</span>
+      </div>
       <div class="add-item" (click)="selectGroup()">Add Item..</div>
     </div>
   </div>
   <div class="level-container" [ngClass]="selectedGroup ? 'show' : 'hidden'">
     <h4>Sub Categories</h4>
     <div class="items-container">
-      <div class="cat-item" *ngFor="let levelThreeItem of selectedGroup?.level3;let index = index" (click)="selectSubCategory(levelThreeItem, index)">{{levelThreeItem?.name}}</div>
+      <div class="cat-item" *ngFor="let levelThreeItem of selectedGroup?.level3;let index = index" (click)="selectSubCategory(levelThreeItem, index)">
+        {{levelThreeItem?.name}}
+        <span (click)="deleteSubCategory(index, $event)">X</span>
+      </div>
       <div class="add-item" (click)="selectSubCategory()">Add Item..</div>
     </div>
   </div>
@@ -320,7 +327,7 @@
     </div>
 
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green ">Update</button>
+      <button class="btn btn-owls btn-rounded btn-green">Update</button>
     </div>
   </form>
 </div>

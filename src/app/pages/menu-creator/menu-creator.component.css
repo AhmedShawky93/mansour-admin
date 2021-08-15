@@ -725,6 +725,7 @@ hr{
 .cat-item{
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 10px;
   height: 30px;
   transition: all .3s;
@@ -733,6 +734,15 @@ hr{
 
 .cat-item:hover{
   background: #b3b1b1;
+}
+
+.cat-item span{
+  text-decoration: underline;
+  transition: all .3s;
+}
+
+.cat-item span:hover{
+  color: var(--brand-color);
 }
 
 .add-item{
