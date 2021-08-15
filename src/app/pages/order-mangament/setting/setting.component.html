@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<ngx-loading-bar [color]="'#4AC356'"></ngx-loading-bar>
 
 <nav class="">
   <div class="row nav nav-tabs" id="nav-tab" role="tablist">
@@ -355,6 +355,36 @@
             <ngx-material-timepicker [minutesGap]="5" #offPicker></ngx-material-timepicker>
             <small id="off_time_help" class="form-text text-muted">Orders made after this time will be postponed to next
               day</small>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Affiliate pending days</label>
+            <input formControlName="affiliate_pending_days" type="text" id="affiliate_pending_days" class="owl-input"
+              name="affiliate_pending_days" />
+            <div
+              *ngIf="systemForm.controls.affiliate_pending_days.invalid && (systemForm.controls.affiliate_pending_days.dirty || systemForm.controls.affiliate_pending_days.touched)"
+              class="alert alert-danger">
+              <div *ngIf="systemForm.controls.affiliate_pending_days.errors.min">
+                pending days mustn't be negative number.
+              </div>
+              <div *ngIf="systemForm.controls.affiliate_pending_days.errors.pattern">
+                pending days must be number.
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Enable Affiliate System</label>
+            <label class="switch">
+              <input type="checkbox" formControlName="enable_affiliate">
+              <span class="slider round"></span>
+            </label>
           </div>
         </div>
 

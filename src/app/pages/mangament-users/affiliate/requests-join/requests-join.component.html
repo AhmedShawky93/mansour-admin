@@ -1,0 +1,116 @@
+<!-- <ngx-loading-bar [color]="'#007C41'"></ngx-loading-bar> -->
+
+<div class="top-table-bar">
+
+  <div class="row">
+    <div class="col-md-9 col-sm-12 col-xs-12">
+      <div class="left-search">
+        <span>
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" name="searchTerm"
+          class="owl-input owls-search" placeholder="search ...">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Tabel -->
+<div class="table-responsive text-center" *ngIf="!loading">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name </th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+        <th scope="col" class="hidden">Creation date
+        </th>
+        <th  scope="col">Rejection reason</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr *ngFor="let option of options"> -->
+      <tr *ngFor="let user of users  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
+        <td> {{user.id}} </td>
+
+        <td class="relative">
+          {{((user.name + user.last_name).length >= 25) ? ((user.name +' '+user.last_name) | slice:0:25)+'...' :
+          user.name +' ' + user.last_name
+          }}
+          <div class="hover-reason text-left" *ngIf="user.name.length >= 25">
+            <div class="head">
+              Affiliate name
+            </div>
+            <div class="body">
+              {{user.name + user.last_name }}
+            </div>
+          </div>
+
+        </td>
+        <td> {{user.email}} </td>
+        <td> {{user.phone}} </td>
+        <td class="hidden">{{(user.created_at) ? (user.created_at | date : "yyyy-MM-dd hh:mm a") : '-' }}
+        </td>
+        <td><span *ngIf="user.status == 2">{{user?.rejection_reason}}</span></td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span [ngSwitch]="user.status">
+                <span *ngSwitchCase="0">Pending</span>
+                <span *ngSwitchCase="1">Accepted</span>
+                <span *ngSwitchCase="2">Rejected</span>
+              </span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" (click)="openPopupAction(1, user)" *ngIf="user.status != 1">Accept</a>
+              <a class="dropdown-item" (click)="openPopupAction(2,user)" *ngIf="user.status != 2">Reject</a>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+</div>
+<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
+<h4 class="text-center" *ngIf="users.length === 0">No users</h4>
+
+<pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+
+
+<div class="modal fade" id="viewActionUser" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" *ngIf="selectDataToMakeAction">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          {{selectDataToMakeAction?.message_title}}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="selectDataToMakeAction.type == 2">
+        <textarea class="owl-input" [(ngModel)]="selectDataToMakeAction.message" placeholder="Leave comment rejected"
+          style="height: 140px;">
+
+        </textarea>
+
+        <div class="alert alert-danger" *ngIf="selectDataToMakeAction.message_error">
+          {{selectDataToMakeAction.message_error}}
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
+          (click)="submitAcceptUser(selectDataToMakeAction)" [appLoading]="submitting">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">No</button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -23,7 +23,10 @@
         <img width="60" height="60" src="{{image.url}}" alt="" class=" owl-img img-fluid">
       </div>
     </div>
-
+    <div *ngIf='currentProduct.affiliate_commission'>
+      <h5>Commission</h5>
+      <p>{{currentProduct?.affiliate_commission}}</p>
+    </div>
     <div>
       <h5>Rate</h5>
       <p>{{currentProduct.rate}}</p>

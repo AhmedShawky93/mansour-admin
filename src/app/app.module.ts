@@ -7,7 +7,7 @@ import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { RouterModule, CanActivate } from "@angular/router";
-
+import { AffiliateService } from './pages/services/affiliate.service';
 // pagination
 import { NgxPaginationModule } from "ngx-pagination";
 //chart js
@@ -200,6 +200,7 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
     AreasService,
     OrdersService,
     ProductsService,
+    AffiliateService
   ],
   bootstrap: [AppComponent],
 })

@@ -1,3 +1,4 @@
+import { SettingService } from './../../../services/setting.service';
 import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
 import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from '@app/pages/services/products.service';
@@ -15,6 +16,7 @@ import { Subject } from 'rxjs/Rx';
 import { tap } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounce } from 'lodash';
+import { ShowAffiliateService } from '@app/pages/services/show-affiliate.service';
 
 declare var jquery: any;
 declare var $: any;
@@ -107,6 +109,7 @@ export class ProductsComponent implements OnInit, OnChanges {
     page: 1,
   };
   website_url: any;
+  isAffiliate: any;
 
   constructor(
     private productsService: ProductsService,
@@ -115,7 +118,11 @@ export class ProductsComponent implements OnInit, OnChanges {
     private auth: AuthService,
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private showAffiliateService: ShowAffiliateService,
+    private settingsService: SettingService
+
+
   ) {
     this.search = debounce(this.search, 700);
     this.toggleVariant = 'out';
@@ -190,6 +197,15 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.exportStock = environment.api + '/admin/products/export_prices?token=' + token;
 
     this.website_url = environment.website_url;
+  }
+
+
+  getAffiliate() {
+    this.settingsService.getSettings().subscribe((response: any) => {
+      console.log(response.data.enable_affiliate)
+      this.showAffiliateService.showAffiliate.next(response.data.enable_affiliate);
+      this.isAffiliate = response.data.enable_affiliate;
+    })
   }
 
   search() {

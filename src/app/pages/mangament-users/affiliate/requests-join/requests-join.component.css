@@ -1,0 +1,27 @@
+.img-loading {
+  display: block;
+  margin: 0px auto;
+}
+.collapsing,
+.dropdown,
+.dropup {
+  background: #eb1c24;
+  color: #fff;
+  height: 40px;
+  line-height: 44px;
+  border-radius: 25px;
+  width: 110px;
+  margin: 0px auto;
+}
+.btn-secondary.custom-file-control:before,
+.btn.btn-secondary {
+  color: #fff;
+}
+
+.btn.btn-secondary:hover {
+  color: #fff;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}

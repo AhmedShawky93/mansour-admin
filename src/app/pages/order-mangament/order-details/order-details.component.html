@@ -202,6 +202,8 @@
             <i class="icon-grey edit-price"></i>
           </a>
         </p>
+        <p *ngIf='order.affiliate' [hidden]='!item.affiliate_commission || item.affiliate_commission == 0'>Commission:
+          {{ item.affiliate_commission }} EGP</p>
       </div>
     </div>
 

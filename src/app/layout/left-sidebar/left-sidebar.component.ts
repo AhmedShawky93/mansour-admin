@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ShowAffiliateService } from '@app/pages/services/show-affiliate.service';
+
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -8,7 +10,12 @@ declare var $: any;
 })
 export class LeftSidebarComponent implements OnInit {
 
-  constructor() { }
+  affiliate: boolean;
+  constructor(private showAffiliateService: ShowAffiliateService) {
+    this.showAffiliateService.showAffiliate.subscribe((response: any) => {
+      this.affiliate = response
+    });
+  }
 
   ngOnInit() {
     $('.collapse').collapse({
@@ -24,7 +31,7 @@ export class LeftSidebarComponent implements OnInit {
     }
     );
 
-  
+
 
 
   }

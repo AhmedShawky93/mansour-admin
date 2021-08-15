@@ -180,6 +180,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       discount_price: new FormControl('', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
+      affiliate_commission: new FormControl('', [
+        Validators.min(1), Validators.max(99), Validators.pattern('^[0-9]$')
+      ]),
       default_variant: new FormControl(0),
       stock: new FormControl(0, Validators.required),
       // preorder_price: new FormControl(0),
@@ -512,6 +515,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       bundle_checkout: product.bundle_checkout,
       preorder_start_date: product.preorder_start_date,
       preorder_end_date: product.preorder_end_date,
+      affiliate_commission: product.affiliate_commission,
     };
     return data;
   }
