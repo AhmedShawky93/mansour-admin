@@ -30,7 +30,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   addSubImages: FormArray;
   price: any;
   editorConfig: AngularEditorConfig;
-
+  regex = '^(?!00)([1-9][0-9]*)$';
   products: any = [];
   products$: Observable<any>;
   productsInput$ = new Subject<String>();
