@@ -205,12 +205,12 @@
 }
 
 .app-nav-list .app-nav-item .nav-link.main {
-  color: var(--menu-font-color) !important;
+  color: var(--dynamic-menu-level-1-color) !important;
   cursor: pointer;
 }
 
 .app-nav-list .app-nav-item .nav-link.main:hover {
-  color: var(--menu-font-hover-color) !important;
+  color: var(--dynamic-menu-level-1-hover-color) !important;
 }
 
 textarea {
@@ -307,7 +307,7 @@ menu {
 }
 
 .app-nav .app-nav-list>li a.main {
-  color: var(--menu-font-color) !important;
+  color: var(--dynamic-menu-level-1-color) !important;
 }
 
 .app-nav .app-nav-list>li:after {
@@ -333,15 +333,15 @@ menu {
 }
 
 .app-nav .app-nav-list>li:last-child a:hover {
-  color: var(--brand-color) !important;
+  color: var(--dynamic-menu-level-1-hover-color) !important;
 }
 
 .app-nav .app-nav-list>li:last-child a.main {
-  color: var(--menu-font-color) !important;
+  color: var(--dynamic-menu-level-1-color) !important;
 }
 
 .app-nav .app-nav-list>li:last-child a.main:hover {
-  color: var(--brand-color) !important;
+  color: var(--dynamic-menu-level-1-hover-color) !important;
 }
 
 .app-nav .app-nav-list li .nav-link.menu-item-has-children {
