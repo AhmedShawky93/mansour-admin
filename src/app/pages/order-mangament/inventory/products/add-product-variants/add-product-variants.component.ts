@@ -197,8 +197,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       related_ids: new FormControl((data && data.related_ids) ? data.related_ids : ''),
     }, {
       validator: [
-        DateLessThan('discount_start_date', 'discount_end_date'),
-        DateLessThan('preorder_start_date', 'preorder_end_date'),
+        DateLessThan('discount_start_date', 'discount_end_date', 'start_time', 'expiration_time'),
+        DateLessThan('preorder_start_date', 'preorder_end_date','preorder_start_time','preorder_expiration_time'),
         compareNumbers('discount_price', 'price')
       ]
     });

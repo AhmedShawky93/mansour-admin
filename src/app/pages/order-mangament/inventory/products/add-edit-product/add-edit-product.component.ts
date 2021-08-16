@@ -149,7 +149,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       product_variant_options: new FormControl((data) ? data.product_variant_options.map(item => item.id) : '', [])
     }, {
       validator: [
-        DateLessThan('preorder_start_date', 'preorder_end_date'),
+        DateLessThan('preorder_start_date', 'preorder_end_date', 'start_time', 'expiration_time'),
       ]
     });
     // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));

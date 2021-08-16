@@ -163,7 +163,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       option_values: this.formBuilder.array([]),
     }, {
       validator: [
-        DateLessThan('discount_start_date', 'discount_end_date'),
+        DateLessThan('discount_start_date', 'discount_end_date', 'start_time', 'expiration_time'),
         compareNumbers('discount_price', 'price')
       ]
     });
