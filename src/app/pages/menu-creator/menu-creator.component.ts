@@ -1,5 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { MenuService } from '../services/menu.service';
 import { UploadFilesService } from '../services/upload-files.service';
 
 declare var jquery: any;
@@ -344,7 +346,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   updating: boolean = false;
 
 
-  constructor(private uploadService: UploadFilesService) {
+  constructor(private uploadService: UploadFilesService, private menuService: MenuService, private toastrService: ToastrService) {
     this.setHeaderForm();
     this.setGroupForm();
     this.setSubCategoryForm();
@@ -413,11 +415,20 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    if (localStorage.getItem('formattedJsonString')) {
-      this.formattedJson = JSON.parse(localStorage.getItem('formattedJsonString'));
-      this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
-      this.updateColorsTest();
-    }
+    this.menuService.getMenu().subscribe(res => {
+      if (res.code === 200) {
+        this.formattedJson = JSON.parse(res.data);
+        localStorage.setItem('formattedJsonString', JSON.stringify(this.formattedJson));
+        this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
+        this.updateColorsTest();
+      } else {
+        if (localStorage.getItem('formattedJsonString')) {
+          this.formattedJson = JSON.parse(localStorage.getItem('formattedJsonString'));
+          this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
+          this.updateColorsTest();
+        }
+      }
+    })
   }
 
   ngAfterViewInit() {
@@ -430,7 +441,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     window.open(url, '_blank')
   }
 
-  prettyPrint() {
+  prettyPrint(save = null) {
     var element = <HTMLTextAreaElement>document.getElementById('formattedJsonString')
     var ugly = element.value;
     if (ugly) {
@@ -442,6 +453,17 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       }
       var pretty = JSON.stringify(obj, undefined, 4);
       element.value = pretty;
+    }
+    if (save) {
+      this.menuService.updateMenu({ menu: this.formattedJsonString }).subscribe((res => {
+        if (res.code === 200) {
+          this.toastrService.success('menu updated successfuly');
+        } else {
+          this.toastrService.error(res.message);
+        }
+        this.statedeleting = false;
+        this.updating = false;
+      }))
     }
     this.saveChanges();
   }

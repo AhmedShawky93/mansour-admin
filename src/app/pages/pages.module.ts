@@ -4,9 +4,10 @@ import { StringFilterPipe } from "../shared/string-filter.pipe";
 import { CustomerService } from "@app/pages/services/customer.service";
 import { LoaderComponent } from "@app/loader/loader.component";
 import { MenuCreatorComponent } from './menu-creator/menu-creator.component';
+import { MenuService } from "@app/pages/services/menu.service";
 
 @NgModule({
   imports: [CommonModule],
-  providers: [CustomerService],
+  providers: [CustomerService, MenuService],
 })
 export class PagesModule {}
