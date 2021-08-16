@@ -341,6 +341,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   deleteItemType: number = 0;
   deleteItemName: any;
   statedeleting: boolean = false;
+  updating: boolean = false;
 
 
   constructor(private uploadService: UploadFilesService) {
@@ -483,10 +484,13 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   saveChanges() {
     localStorage.setItem('formattedJsonString', JSON.stringify(this.formattedJson));
     this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
+    this.statedeleting = false;
+    this.updating = false;
   }
 
   saveHeader() {
     if (this.headerForm.valid) {
+      this.updating = true;
       this.selectedHeader = this.headerForm.value;
       if (this.updateIndexHeader != null) {
         let dumbLevel2 = this.formattedJson.level1[this.updateIndexHeader].level2;
@@ -503,6 +507,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
 
   saveGroup() {
     if (this.groupForm.valid) {
+      this.updating = true;
       this.selectedGroup = this.groupForm.value;
       if (this.updateIndexHeader != null && this.updateIndexGroup != null) {
         let dumbLevel3 = this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3;
@@ -519,6 +524,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
 
   saveSubCategory() {
     if (this.subCategoryForm.valid) {
+      this.updating = true;
       this.selectedSubcategory = this.subCategoryForm.value;
       if (this.updateIndexHeader != null && this.updateIndexGroup != null && this.updateIndexSubCategory != null) {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3[this.updateIndexSubCategory] = this.selectedSubcategory;
@@ -529,7 +535,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  deleteItem(index, event, item, type){
+  deleteItem(index, event, item, type) {
     $('#deleteMenuItem').modal('show');
     this.statedeleting = false;
     event.preventDefault();
@@ -538,19 +544,20 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     this.deleteItemType = type;
   }
 
-  confirmDelete(){
-    $('#deleteMenuItem').modal('hide');
-    if (this.deleteItemType == 1){
+  confirmDelete() {
+    this.statedeleting = true;
+    if (this.deleteItemType == 1) {
       this.deleteHeader();
-    } else if (this.deleteItemType == 2){
+    } else if (this.deleteItemType == 2) {
       this.deleteGroup();
     } else {
       this.deleteSubCategory();
     }
+    $('#deleteMenuItem').modal('hide');
   }
 
   deleteHeader() {
-    if(this.deleteItemIndex == this.updateIndexHeader){
+    if (this.deleteItemIndex == this.updateIndexHeader) {
       this.selectedHeader = null;
     }
     this.formattedJson.level1.splice(this.deleteItemIndex, 1);
@@ -558,7 +565,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   }
 
   deleteGroup() {
-    if(this.deleteItemIndex == this.updateIndexGroup){
+    if (this.deleteItemIndex == this.updateIndexGroup) {
       this.selectedGroup = null;
     }
     this.formattedJson.level1[this.updateIndexHeader].level2.splice(this.deleteItemIndex, 1);
@@ -566,7 +573,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   }
 
   deleteSubCategory() {
-    if(this.deleteItemIndex == this.updateIndexSubCategory){
+    if (this.deleteItemIndex == this.updateIndexSubCategory) {
       this.selectedSubcategory = null;
     }
     this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.splice(this.deleteItemIndex, 1);
