@@ -18,6 +18,7 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { CategoryService } from "@app/pages/services/category.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import { environmentVariables } from '../../../../../environments/enviromentalVariables';
 
 @Component({
   selector: "app-add-edit-store",
@@ -41,6 +42,7 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   marker_lng;
   phones: FormArray
   public zoom: number = 12;
+  environmentVariables = environmentVariables
   constructor(
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,

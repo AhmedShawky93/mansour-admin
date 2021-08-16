@@ -6,8 +6,9 @@ declare var $: any;
 import { environment } from '@env/environment';
 import { AuthService } from '@app/shared/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
   selector: 'app-manage-castomer',
@@ -115,7 +116,7 @@ export class ManageCastomerComponent implements OnInit {
     this.exportUrl = environment.api + '/admin/customers/export?token=' + token;
 
     this.loadCustomers();
-    if (this.activatedRoute.snapshot.queryParams.fromOrder){
+    if (this.activatedRoute.snapshot.queryParams.fromOrder) {
       this.createCustomer();
     }
 
@@ -256,7 +257,7 @@ export class ManageCastomerComponent implements OnInit {
     this.customer = null;
     this.cs.getCustomer(customer.id)
       .subscribe((response: any) => {
-        this.customer = {...response.data};
+        this.customer = { ...response.data };
         this.customerLoading = false;
       });
   }
@@ -329,7 +330,7 @@ export class ManageCastomerComponent implements OnInit {
       .subscribe((response: any) => {
         const token = response.data;
 
-        window.open('http://mobilaty-staging.el-dokan.com/session/signin?disabled_guard=true&token=' + token, '_blank');
+        window.open(`${environmentVariables.brandRelatedVariables.loginApi}${token}`, '_blank');
       });
   }
 

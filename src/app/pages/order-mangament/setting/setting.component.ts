@@ -14,6 +14,8 @@ import { Conditional } from "@angular/compiler";
 import { EventEmitter } from "@angular/core";
 import { delay } from "rxjs/operators";
 import * as moment from "moment";
+import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
+
 
 function currentPasswordValidator(group: AbstractControl) {
   if (group.get("password").value && !group.get("current_password").value) {
@@ -75,7 +77,7 @@ export class SettingComponent implements OnInit {
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
     private settingService: SettingService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getUser();
@@ -233,7 +235,7 @@ export class SettingComponent implements OnInit {
     this.settingService
       .updateSystemSettings(this.systemForm.value)
       .subscribe((response: any) => {
-        if(response.code ==200 ){
+        if (response.code == 200) {
           this.settings = response.data;
           this.toastrService.success("System Settings Updated Successfully!");
           this.systemLoading = false;
@@ -252,7 +254,7 @@ export class SettingComponent implements OnInit {
       .subscribe((response: any) => {
         this.settings = response.data;
         this.toastrService.success(
-          "Mobilaty Stars Settings Updated Successfully!"
+          `${environmentVariables.brandRelatedVariables.brand} Stars Settings Updated Successfully!`
         );
         this.starsLoading = false;
       });

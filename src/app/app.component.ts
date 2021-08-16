@@ -11,6 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 import { AuthService } from "./shared/auth.service";
 import { NgxPermissionsService } from "ngx-permissions";
 import { HttpClient } from "@angular/common/http";
+import { environmentVariables as environmentVariables } from '../environments/enviromentalVariables';
 
 declare var jquery: any;
 declare var $: any;
@@ -44,7 +45,7 @@ export class AppComponent implements OnInit {
       .filter((route) => route.outlet === "primary")
       .mergeMap((route) => route.data)
       .subscribe((event) =>
-        this.title.setTitle("Mobilaty - " + event["title"])
+        this.title.setTitle(`${environmentVariables.brandRelatedVariables.brand} - ` + event["title"])
       );
 
     // make bootstrap as material design

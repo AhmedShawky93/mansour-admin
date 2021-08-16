@@ -1,5 +1,7 @@
+import { environmentVariables as variables } from './enviromentalVariables';
+
 export const environment = {
   production: true,
-  api: "https://mobilatyapi-staging.el-dokan.com/api",
-  website_url: "https://mobilaty-staging.el-dokan.com",
+  api: `${variables.envApi.staging.apiEndPoint}`,
+  website_url: `${variables.envApi.staging.checkoutUrl}`,
 };
