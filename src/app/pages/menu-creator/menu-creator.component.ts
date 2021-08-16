@@ -488,7 +488,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   saveHeader() {
     if (this.headerForm.valid) {
       this.selectedHeader = this.headerForm.value;
-      if (this.updateIndexHeader) {
+      if (this.updateIndexHeader != null) {
         let dumbLevel2 = this.formattedJson.level1[this.updateIndexHeader].level2;
         this.formattedJson.level1[this.updateIndexHeader] = this.selectedHeader;
         this.formattedJson.level1[this.updateIndexHeader].level2 = dumbLevel2;
@@ -504,7 +504,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   saveGroup() {
     if (this.groupForm.valid) {
       this.selectedGroup = this.groupForm.value;
-      if (this.updateIndexHeader && this.updateIndexGroup) {
+      if (this.updateIndexHeader != null && this.updateIndexGroup != null) {
         let dumbLevel3 = this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3;
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup] = this.selectedGroup;
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3 = dumbLevel3;
@@ -520,7 +520,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   saveSubCategory() {
     if (this.subCategoryForm.valid) {
       this.selectedSubcategory = this.subCategoryForm.value;
-      if (this.updateIndexHeader && this.updateIndexGroup && this.updateIndexSubCategory) {
+      if (this.updateIndexHeader != null && this.updateIndexGroup != null && this.updateIndexSubCategory != null) {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3[this.updateIndexSubCategory] = this.selectedSubcategory;
       } else {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.push(this.selectedSubcategory)
