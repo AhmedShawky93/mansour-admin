@@ -1,3 +1,4 @@
+import { environmentVariables } from './../../../environments/enviromentalVariables';
 import { AuthService } from "@app/shared/auth.service";
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  environmentVariables = environmentVariables;
   user: any = {
     email: "",
     password: ""

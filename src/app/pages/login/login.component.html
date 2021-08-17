@@ -2,7 +2,7 @@
   <div class="bg-blue"></div>
   <div class="container">
     <div class="login-image text-center">
-      <img src="./assets/img/logo-white.png" width="150" alt="owls">
+      <img [src]="environmentVariables.brands.logoWhite" width="150" alt="owls">
     </div>
     <div class="login-form-up">
       <form (submit)="login()">
@@ -16,7 +16,7 @@
           <label for="exampleInputPassword1">Password</label>
           <input [(ngModel)]="user.password" name="password" type="password" class="owl-input" id="exampleInputPassword1" placeholder="Password">
         </div>
-        
+
         <p class="text-danger" *ngIf="showError">{{errorMessage}}</p>
 
         <div class="login-footer">
