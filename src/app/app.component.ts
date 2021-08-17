@@ -13,6 +13,7 @@ import { NgxPermissionsService } from "ngx-permissions";
 import { HttpClient } from "@angular/common/http";
 import { environmentVariables as environmentVariables } from '../environments/enviromentalVariables';
 
+
 declare var jquery: any;
 declare var $: any;
 
