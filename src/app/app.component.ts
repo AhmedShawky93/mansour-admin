@@ -1,4 +1,3 @@
-import { environmentVariables } from './../environments/enviromentalVariables';
 import { Component, OnInit } from "@angular/core";
 import { environment } from "@env/environment";
 import $ from "jquery";
