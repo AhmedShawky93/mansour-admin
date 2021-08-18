@@ -9,7 +9,18 @@ export const environmentVariables = {
   brandRelatedVariables: {
     brand: 'Footloose',
     brandArabic: 'فوتلوس',
-    branchType: 'footloose',
+    branchType: [
+      {
+        branchName: 'footloose',
+        type: 'footloose'
+      }, {
+        branchName: 'crocs concept',
+        type: 'crocs_concept'
+      }, {
+        branchName: 'crocs outlet',
+        type: 'crocs_outlet'
+      }
+    ],
     email: 'info@footloose.com.eg',
     hotline: '010 270 11114',
     loginApi: 'http://footloose-staging.el-dokan.com/'
