@@ -140,7 +140,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
     }
   }
   submitForm() {
-    if (this.listData && !this.listData.length ) {
+    if (this.listData) {
       const data = this.listForm.value;
 
       if (!this.listForm.valid) {

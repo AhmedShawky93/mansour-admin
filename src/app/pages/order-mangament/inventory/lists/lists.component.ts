@@ -154,7 +154,7 @@ export class ListsComponent implements OnInit {
 
   toggleMenu(data) {
     this.listsService.getListById(data ? data.id : '').subscribe((res) => {
-      this.selectOptionData = res.data;
+      this.selectOptionData = res.data.length > 1 ? null : res.data;
       this.viewOptionSidebar = "out";
       this.toggleListForm = "in";
     })
