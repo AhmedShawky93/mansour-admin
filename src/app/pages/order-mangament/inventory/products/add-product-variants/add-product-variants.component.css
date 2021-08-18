@@ -23,11 +23,11 @@
   color: #000 !important;
 }
 .clear-draft-product {
-  color: #e4002c;
+  color: var(--brand-color);
   cursor: pointer;
 }
 .save-draft-product {
-  color: #e4002c;
+  color: var(--brand-color);
   cursor: pointer;
   display: block;
   margin-top: 30px;
@@ -191,7 +191,7 @@
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #e4002c;
+  background-color: var(--brand-color);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
