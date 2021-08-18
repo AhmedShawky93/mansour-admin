@@ -28,7 +28,7 @@ export const environmentVariables = {
   brands: {
     logo: "https://footloosestores.com/assets/images/logo_dark.png",
     logoBlack: "https://footloosestores.com/assets/images/logo_dark.png",
-    favIcon: "https://footloosestores.com/assets/images/logo-mini.png",
+    favIcon: "https://footloosestores.com/assets/images/icon.png",
     logoWhite: "https://footloosestores.com/assets/images/logo_dark.png",
   }
 };
