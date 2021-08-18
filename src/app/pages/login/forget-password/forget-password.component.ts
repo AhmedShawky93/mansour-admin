@@ -1,3 +1,4 @@
+import { environmentVariables } from './../../../../environments/enviromentalVariables';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/shared/auth.service';
 import { Router } from '@angular/router';
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./forget-password.component.css']
 })
 export class ForgetPasswordComponent implements OnInit {
-
+environmentVariables = environmentVariables
   email;
   errorMessage;
 

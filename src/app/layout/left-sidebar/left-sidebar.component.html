@@ -1,6 +1,6 @@
 <div class="left-sidebar">
   <div class="app-logo">
-    <img src="assets/img/logo.png" alt="" width="132" />
+    <img [src]="environmentVariables.brands.logo" alt="" width="132" />
   </div>
 
   <nav class="side-nav accordion-group">
@@ -95,14 +95,14 @@
           <span>Orders</span>
         </a>
       </li>
-      
+
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
         <a routerLink="/pages/transactions">
           <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Transactions"></i>
           <span>Transactions</span>
         </a>
       </li>
-      
+
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Contacts']">
         <a routerLink="/pages/contact-us" routerLinkActive="active">
           <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Contact us"></i>

@@ -6,7 +6,6 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="icon" type="image/x-icon" href="assets/img/logo-mini.png">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -16,7 +15,7 @@
 
   <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
     integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous">
-    </script>
+  </script>
   <script>
     (function () {
       function getChromeVersion() {
@@ -27,7 +26,7 @@
 
       const chromeVersion = getChromeVersion();
       if (chromeVersion && chromeVersion >= 80) {
-        Array.prototype.reduce = function (callback /*, initialValue*/) {
+        Array.prototype.reduce = function (callback /*, initialValue*/ ) {
           'use strict';
           if (this == null) {
             throw new TypeError('Array.prototype.reduce called on null or undefined');
@@ -35,7 +34,10 @@
           if (typeof callback !== 'function') {
             throw new TypeError(callback + ' is not a function');
           }
-          let t = Object(this), len = t.length >>> 0, k = 0, value;
+          let t = Object(this),
+            len = t.length >>> 0,
+            k = 0,
+            value;
           if (arguments.length === 2) {
             value = arguments[1];
           } else {
@@ -56,6 +58,7 @@
         };
       }
     })();
+
   </script>
 
 </body>

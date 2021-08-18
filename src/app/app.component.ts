@@ -13,6 +13,7 @@ import { NgxPermissionsService } from "ngx-permissions";
 import { HttpClient } from "@angular/common/http";
 import { environmentVariables as environmentVariables } from '../environments/enviromentalVariables';
 
+
 declare var jquery: any;
 declare var $: any;
 
@@ -29,9 +30,9 @@ export class AppComponent implements OnInit {
     private auth: AuthService,
     private permissionsService: NgxPermissionsService,
     private http: HttpClient
-  ) {}
+  ) { }
 
-  async ngOnInit() {    
+  async ngOnInit() {
 
     this.router.events
       .filter((event) => event instanceof NavigationEnd)
@@ -68,10 +69,10 @@ export class AppComponent implements OnInit {
         // $("i", this).toggleClass(" icon-Exit fa fa-bars");
         if ($(".main-content").hasClass("toggle-main-content")) {
           $(".view-vindor-types").addClass("open-view-vindor-types2");
-          $(".app-logo img").attr("src", "assets/img/logo.png");
+          $(".app-logo img").attr("src", `${environmentVariables.brands.logo}`);
         } else {
           $(".view-vindor-types").removeClass("open-view-vindor-types2");
-          $(".app-logo img").attr("src", "assets/img/logo.png");
+          $(".app-logo img").attr("src", `${environmentVariables.brands.logo}`);
         }
       });
 
@@ -81,5 +82,15 @@ export class AppComponent implements OnInit {
         // $("i", this).toggleClass(" icon-Exit fa fa-bars");
       });
     }); // end document
+
+    let link = document.querySelector("link[rel~='icon']");
+    console.log(link)
+    if (!link) {
+      link = document.createElement('link');
+      link['rel'] = 'icon';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+    link['href'] = environmentVariables.brands.favIcon;
+
   } // end oninit
 }

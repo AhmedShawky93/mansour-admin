@@ -1,13 +1,15 @@
+import { environmentVariables } from './../../../environments/enviromentalVariables';
 import { Component, OnInit } from '@angular/core';
 declare var jquery: any;
 declare var $: any;
+
 @Component({
   selector: 'left-sidebar',
   templateUrl: './left-sidebar.component.html',
   styleUrls: ['./left-sidebar.component.css']
 })
 export class LeftSidebarComponent implements OnInit {
-
+  environmentVariables = environmentVariables;
   constructor() { }
 
   ngOnInit() {
@@ -24,7 +26,7 @@ export class LeftSidebarComponent implements OnInit {
     }
     );
 
-  
+
 
 
   }
