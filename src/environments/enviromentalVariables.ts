@@ -28,6 +28,7 @@ export const environmentVariables = {
   },
   brands: {
     logo: "assets/img/brand/logo.png",
+    
     logoBlack: "assets/img/brand/logo-black.png",
     favIcon: "assets/img/brand/logo-mini.png",
     logoWhite: "assets/img/brand/logo-white.png",
