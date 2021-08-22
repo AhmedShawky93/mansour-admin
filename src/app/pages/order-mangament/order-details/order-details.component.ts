@@ -1,13 +1,13 @@
-import {OrderStatesService} from './../../services/order-states.service';
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {ActivatedRoute} from '@angular/router';
-import {OrdersService} from '@app/pages/services/orders.service';
-import {ToastrService} from 'ngx-toastr';
-import {DeliveryService} from '@app/pages/services/delivery.service';
+import { OrderStatesService } from './../../services/order-states.service';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { OrdersService } from '@app/pages/services/orders.service';
+import { ToastrService } from 'ngx-toastr';
+import { DeliveryService } from '@app/pages/services/delivery.service';
 import * as moment from 'moment';
-import {Subject} from 'rxjs';
+import { Subject } from 'rxjs';
 
 declare var jquery: any;
 declare var $: any;
@@ -68,7 +68,7 @@ export class OrderDetailsComponent implements OnInit {
   submitted = false;
   stateForm: FormGroup;
   filter$ = new Subject();
-
+  no_orders: boolean = false
   constructor(
     private _formBuilder: FormBuilder,
     private router: Router,
@@ -349,7 +349,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   submitItemUpdate() {
-    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, {discount_price: this.discount, notify_customer: this.notifyUser})
+    this.orderService.updateItemPrice(this.order.id, this.currentItem.id, { discount_price: this.discount, notify_customer: this.notifyUser })
       .subscribe((response: any) => {
         this.currentItem.discount_price = this.discount;
         this.discount = null;
@@ -388,7 +388,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   submitInvoiceUpdate() {
-    this.orderService.updateInvoiceDiscount(this.order.id, {discount: this.invoiceDiscount, notify_customer: this.notifyUser})
+    this.orderService.updateInvoiceDiscount(this.order.id, { discount: this.invoiceDiscount, notify_customer: this.notifyUser })
       .subscribe((response: any) => {
         this.invoiceDiscount = null;
         this.order.invoice.discoutn = this.invoiceDiscount;
@@ -536,5 +536,22 @@ export class OrderDetailsComponent implements OnInit {
         }
       });
   }
+  customerDetails(customer) {
 
+    if (!this.order.user) {
+      return;
+    }
+    if (this.order.affiliate.id === this.order.user.id) {
+      return;
+    }
+    if (this.order.affiliate.id !== this.order.user.id) {
+      this.router.navigate(['/pages/manage-customer'], { queryParams: { phone: customer.phone } });
+    }
+    if (this.order.customer && !this.order.affiliate) {
+      this.router.navigate(['/pages/manage-customer'], { queryParams: { phone: customer.phone } });
+    }
+  }
+  affiliateDetails(customer) {
+    this.router.navigate(['/pages/affiliate/users'], { queryParams: { userId: customer.id } });
+  }
 }

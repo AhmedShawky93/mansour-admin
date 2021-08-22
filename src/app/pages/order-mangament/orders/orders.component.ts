@@ -94,6 +94,7 @@ export class OrdersComponent implements OnInit {
     shipping_id: "",
     payment_method: null,
     user_agent: "",
+    order_type: null,
   };
 
   p = 1;
@@ -333,6 +334,9 @@ export class OrdersComponent implements OnInit {
       }
     });
   }
+  selectOrder(orderId) {
+    this.filter.order_type = orderId;
+  }
   ClearSearch() {
     this.filter = {
       term: "",
@@ -348,6 +352,7 @@ export class OrdersComponent implements OnInit {
       customer_phone: "",
       shipping_id: "",
       user_agent: "",
+      order_type: null,
       payment_method: null,
     };
     this.changePage(1);

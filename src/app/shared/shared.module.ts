@@ -1,3 +1,4 @@
+import { AddEditAddressComponent } from './../pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
 import { SummaryPipe } from './summary.pipe';
 import { ButtonSpinnerDirective } from './directives/button-spinner.directive';
 import { NgModule } from '@angular/core';
@@ -17,7 +18,9 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     StringFilterPipe,
     ImageUploaderComponent,
     GenericDatePickerComponent,
-    GenericTimePickerComponent
+    GenericTimePickerComponent,
+    AddEditAddressComponent,
+
   ],
   imports: [
     ReactiveFormsModule,
@@ -31,7 +34,9 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     StringFilterPipe,
     ImageUploaderComponent,
     GenericDatePickerComponent,
-    GenericTimePickerComponent
+    GenericTimePickerComponent,
+  AddEditAddressComponent,
+
   ],
 })
 export class SharedModule {}

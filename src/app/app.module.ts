@@ -91,16 +91,15 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { DeliveredPipe } from "./pages/stars/pipes/delivered.pipe";
 import { DeliveryFilterPipe } from "./shared/delivery-filter.pipe";
 import { CustomAdsComponent } from "./pages/store-front/custom-ads/custom-ads.component";
- import { ProductFilterPipe } from "./shared/product-filter.pipe";
+import { ProductFilterPipe } from "./shared/product-filter.pipe";
 import { ContactusComponent } from "./pages/contact-us/contact-us.component";
 import { ReportsComponent } from "./pages/reports/reports.component";
 import { GroupsPipe } from './pages/order-mangament/inventory/groups/groups.pipe';
 import { OrdersDeliveryComponent } from './pages/order-mangament/orders-delivery/orders-delivery.component';
 import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
-import {AngularEditorModule} from '@kolkov/angular-editor';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-order/add-edit-order.component';
 import { AddEditCustomerComponent } from './pages/mangament-users/manage-castomer/add-edit-customer/add-edit-customer.component';
-import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
 
 @NgModule({
   declarations: [
@@ -149,7 +148,7 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
     OrderDeliveryDetailsComponent,
     AddEditOrderComponent,
     AddEditCustomerComponent,
-    AddEditAddressComponent
+
   ],
   imports: [
     AppRoutingModule,
@@ -204,4 +203,4 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

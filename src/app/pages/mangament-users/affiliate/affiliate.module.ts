@@ -26,7 +26,7 @@ const router = [
   { path: "requests-join", component: RequestsJoinComponent, data: { title: "Affiliate requests join" } },
   { path: "users-history", component: UsersHistoryComponent, data: { title: "Affiliate users history" } },
   { path: "withdraw-requests", component: WithdrawRequestsComponent, data: { title: "Affiliate withdraw requests" } },
-  
+
 ];
 
 @NgModule({
@@ -60,10 +60,10 @@ const router = [
     AffiliateDetailsComponent,
     WithdrawRequestsComponent,
     ViewActionAffiliateComponent,
-    PopupDetailsComponent
+    PopupDetailsComponent,
   ],
   entryComponents: [
-    NewAdminCreditComponent,ViewActionAffiliateComponent,PopupDetailsComponent
+    NewAdminCreditComponent, ViewActionAffiliateComponent, PopupDetailsComponent
   ],
 })
 export class AffiliateModule { }

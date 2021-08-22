@@ -21,6 +21,7 @@ export class AffiliateService {
         throw (error.error || 'Server error');
       })
   }
+
   getUsersAffiliates(data) {
     return this.http.get(this.url, { params: data })
       .catch((error: any) => {
