@@ -1,6 +1,10 @@
 .app-logo{
     margin: 0px 0px 50px 0;
 }
+.app-logo img {
+  max-height: 100px;
+  object-fit: contain;
+}
 .left-sidebar{
     background: #FFFFFF;
     box-shadow: 0 12px 54px 0 rgba(6,40,59,0.10);
