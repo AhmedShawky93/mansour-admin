@@ -145,7 +145,7 @@ export class ListsComponent implements OnInit {
         list.deactivated = 1;
       });
   }
-  
+
 
   viewList(list) {
     this.currentList = list;
