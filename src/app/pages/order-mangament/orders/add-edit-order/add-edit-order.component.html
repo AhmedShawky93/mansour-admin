@@ -54,7 +54,7 @@
       <div *ngFor='let item of productsData.controls; let i = index'>
         <div [formGroupName]="i">
           <ng-select [typeahead]="products[i].productsInput$" [loading]="products[i].productsLoading" name="products" [items]="products[i].products$ | async"
-            bindLabel="name" [clearable]="false" bindValue="id"
+            bindLabel="name" [clearable]="true" bindValue="id"
             placeholder="Enter Product name" formControlName="id" (focus)="updateSelecteItem(item.get('id').value)"
             (change)="addToDeletetItems(); updateAmountMax($event, i)" >
           </ng-select>
