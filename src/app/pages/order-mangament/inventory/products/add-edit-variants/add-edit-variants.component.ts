@@ -470,7 +470,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     if (this.variantForm.controls['discount_price'].value && !this.variantForm.controls['discount_start_date'].value) {
       let today = new Date();
       let startDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()} 23:59`;
-      this.variantForm.controls['discount_start_date'].setValue(startDate);
+      this.variantForm.controls['discount_start_date'].setValue(today);
       this.variantForm.controls['discount_start_date'].updateValueAndValidity();
       this.variantForm.updateValueAndValidity();
     }
