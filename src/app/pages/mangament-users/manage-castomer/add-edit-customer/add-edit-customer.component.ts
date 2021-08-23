@@ -24,7 +24,7 @@ export class AddEditCustomerComponent implements OnInit {
   ngOnChanges() {
     this.setupForm(this.selectedCustomer);
   }
-  
+
   regexValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
       if (!control.value) {
@@ -40,6 +40,16 @@ export class AddEditCustomerComponent implements OnInit {
       name: new FormControl(data ? data.name : '', Validators.required),
       last_name: new FormControl(data ? data.last_name : '', Validators.required),
       email: new FormControl(data ? data.email : '', [Validators.required, Validators.email]),
+      has_address: new FormControl(data ? data.has_address : false, Validators.required),
+      address: new FormGroup({
+        name: new FormControl(data ? data.name : ''),
+        address: new FormControl(data ? data.address : ''),
+        city_id: new FormControl(data ? data.city_id : ''),
+        area_id: new FormControl(data ? data.area_id : ''),
+        landmark: new FormControl(data ? data.landmark : ''),
+        floor: new FormControl(data ? data.floor : ''),
+        apartment: new FormControl(data ? data.apartment : ''),
+      }),
       phone: new FormControl(data ? data.phone : '', [
         Validators.required,
         /*Validators.pattern(numberReg),*/
@@ -51,6 +61,24 @@ export class AddEditCustomerComponent implements OnInit {
       password: new FormControl('', this.selectedCustomer ? [] : Validators.required),
       closed_payment_methods: new FormControl(data ? data.closed_payment_methods.map(c => c.id) : []),
     });
+  }
+
+  updateValidaty() {
+    if (this.customerForm.controls.has_address.value) {
+      this.customerForm.controls.address['controls'].name.setValidators([Validators.required]);
+      this.customerForm.controls.address['controls'].address.setValidators([Validators.required]);
+      this.customerForm.controls.address['controls'].city_id.setValidators([Validators.required]);
+      this.customerForm.controls.address['controls'].area_id.setValidators([Validators.required]);
+      this.customerForm.controls.address['controls'].floor.setValidators([Validators.required]);
+      this.customerForm.controls.address['controls'].apartment.setValidators([Validators.required]);
+    } else {
+      this.customerForm.controls.address['controls'].name.setValidators([]);
+      this.customerForm.controls.address['controls'].address.setValidators([]);
+      this.customerForm.controls.address['controls'].city_id.setValidators([]);
+      this.customerForm.controls.address['controls'].area_id.setValidators([]);
+      this.customerForm.controls.address['controls'].floor.setValidators([]);
+      this.customerForm.controls.address['controls'].apartment.setValidators([]);
+    }
   }
 
   submitCustomer() {
@@ -66,7 +94,7 @@ export class AddEditCustomerComponent implements OnInit {
           if (response.code == 200) {
             this.closeSideBar(response.data);
           } else {
-            this.toastrService.error(response.message, "Error");       
+            this.toastrService.error(response.message, "Error");
           }
         });
     } else {
@@ -75,7 +103,7 @@ export class AddEditCustomerComponent implements OnInit {
           if (response.code == 200) {
             this.closeSideBar(response.data);
           } else {
-            this.toastrService.error(response.message, "Error");       
+            this.toastrService.error(response.message, "Error");
           }
         });
     }
