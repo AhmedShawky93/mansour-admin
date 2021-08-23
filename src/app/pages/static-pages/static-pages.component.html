@@ -3,8 +3,7 @@
     <div class="col-md-9 col-sm-12 col-xs-12"></div>
     <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button (click)="editCurrentPage()" *ngIf="!selectedMainProduct"
-          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+        <button (click)="editCurrentPage()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center">Create new page</div>
         </button>
       </div>
@@ -84,7 +83,7 @@
 
   <div class="head-btn">
     <button id="add-vindor-types-btn" class="btn btn-owls btn-rounded btn-blue2 add-new"
-      (click)="editPage(currentPage)">Edit</button>
+      (click)="editCurrentPage(currentPage)">Edit</button>
   </div>
 
   <div class="details details-2" *ngIf="currentPage">
