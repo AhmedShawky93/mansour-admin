@@ -155,7 +155,7 @@ bar-rating {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: #39384d;
+  background: var(--brand-color);
   padding: 5px 12px;
   border-radius: 8px 0px 8px 0px;
   color: #fff;
