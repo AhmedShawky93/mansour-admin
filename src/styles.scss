@@ -1798,7 +1798,7 @@ bar-rating {
 }
 
 .mat-calendar-body-selected {
-  background-color: #eb1c24 !important;
+  background-color: var(--brand-color) !important;
 }
 
 .group-box {

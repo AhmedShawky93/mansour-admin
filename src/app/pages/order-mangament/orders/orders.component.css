@@ -492,7 +492,7 @@ a.clear-date {
 .collapsing,
 .dropdown,
 .dropup {
-  background: #eb1c24;
+  background: var(--brand-color);
   color: #fff;
   height: 40px;
   line-height: 44px;
@@ -547,13 +547,13 @@ table .checkmark {
   min-width: 150px;
   display: inline-block;
   height: 40px;
-  border: 1px solid #eb1c24;
+  border: 1px solid var(--brand-color);
   border-radius: 5px;
   line-height: 37px;
   padding: 0 10px;
   margin-bottom: 20px;
   background: #eee;
-  color: #eb1c24;
+  color: var(--brand-color);
   cursor: pointer;
   text-align: center;
 }
