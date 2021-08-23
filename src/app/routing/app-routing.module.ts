@@ -35,6 +35,7 @@ import { OrdersDeliveryComponent } from '@app/pages/order-mangament/orders-deliv
 import { OrderDeliveryDetailsComponent } from '@app/pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
 import { AdminLogComponent } from '@app/pages/mangament-users/admin-log/admin-log.component';
 import { MenuCreatorComponent } from '@app/pages/menu-creator/menu-creator.component';
+import { StaticPagesComponent } from '@app/pages/static-pages/static-pages.component';
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, data: { title: "Login" } },
@@ -75,6 +76,12 @@ const routes: Routes = [
         component: MenuCreatorComponent,
         canActivate: [NgxPermissionsGuard],
         data: { title: "Menu", permissions: { only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home' } },
+      },
+      {
+        path: "static-pages",
+        component: StaticPagesComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { title: "static", permissions: { only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home' } },
       },
       {
         path: "admin-log",

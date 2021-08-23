@@ -79,6 +79,7 @@ import { CustomFormsModule } from "ng2-validation";
 import { HttpClient } from "selenium-webdriver/http";
 import { LoaderComponent } from "./loader/loader.component";
 import { ProductsService } from "@app/pages/services/products.service";
+import { PagesService } from "@app/pages/services/pages.service";
 import { MomentModule } from "angular2-moment";
 import { adsComponent } from "@app/pages/order-mangament/marketing/ads/ads.component";
 import { RequiredIfDirective } from "@app/shared/required-if.directive";
@@ -106,6 +107,9 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
 import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.component';
+import { StaticPagesComponent } from './pages/static-pages/static-pages.component';
+import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edit-page.component';
+
 
 
 @NgModule({
@@ -158,7 +162,9 @@ import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.componen
     AddEditCustomerComponent,
     AddEditAddressComponent,
     DynamicSettingsComponent,
-    MenuCreatorComponent
+    MenuCreatorComponent,
+    StaticPagesComponent,
+    AddEditPageComponent
   ],
   imports: [
     AppRoutingModule,
@@ -214,6 +220,7 @@ import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.componen
     AreasService,
     OrdersService,
     ProductsService,
+    PagesService
   ],
   bootstrap: [AppComponent],
 })

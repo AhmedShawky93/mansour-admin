@@ -89,6 +89,13 @@
         </a>
       </li>
 
+      <li class="side-nav-item" *ngxPermissionsOnly="['ADMIN']" routerLinkActive="active">
+        <a routerLink="/pages/static-pages">
+          <i class="icon-None7" data-toggle="tooltip" data-placement="right" title="Manage Usder"></i>
+          <span>Static Pages</span>
+        </a>
+      </li>
+
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
         <a routerLink="/pages/orders">
           <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Orders"></i>
