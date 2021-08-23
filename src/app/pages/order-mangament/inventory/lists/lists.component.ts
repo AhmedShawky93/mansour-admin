@@ -146,6 +146,7 @@ export class ListsComponent implements OnInit {
       });
   }
 
+
   viewList(list) {
     this.currentList = list;
     this.toggleListForm = "out";
