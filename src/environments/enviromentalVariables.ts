@@ -2,33 +2,27 @@ export const environmentVariables = {
   themeType: 1,
   envApi: {
     env: {
-      apiEndPoint: 'https://footlooseapi-staging.el-dokan.com/api',
+      apiEndPoint: 'https://mobilatyapi-staging.el-dokan.com/api',
       checkoutUrl: 'https://footloosestores.com/',
     },
   },
   brandRelatedVariables: {
-    brand: 'Footloose',
-    brandArabic: 'فوتلوس',
+    brand: 'Mobilaty',
+    brandArabic: 'موبيلاتى',
     branchType: [
       {
-        branchName: 'footloose',
-        type: 'footloose'
-      }, {
-        branchName: 'crocs concept',
-        type: 'crocs_concept'
-      }, {
-        branchName: 'crocs outlet',
-        type: 'crocs_outlet'
+        branchName: 'mobilaty',
+        type: 'mobilaty'
       }
     ],
-    email: 'info@footloose.com.eg',
+    email: 'info@mobilaty.com.eg',
     hotline: '010 270 11114',
-    loginApi: 'http://footloose-staging.el-dokan.com/'
+    loginApi: 'https://mobilatyapi-staging.el-dokan.com/'
   },
   brands: {
-    logo: "https://footloosestores.com/assets/images/logo_dark.png",
-    logoBlack: "https://footloosestores.com/assets/images/logo_dark.png",
-    favIcon: "https://footloosestores.com/assets/images/icon.png",
-    logoWhite: "https://footloosestores.com/assets/images/logo_dark.png",
+    logo: "https://mobilaty-staging.el-dokan.com/assets/images/brand/logo_dark.png",
+    logoBlack: "https://mobilaty-staging.el-dokan.com/assets/images/brand/logo_dark.png",
+    favIcon: "https://mobilaty-staging.el-dokan.com/assets/images/brand/icon.png",
+    logoWhite: "https://mobilaty-staging.el-dokan.com/assets/images/brand/logo_dark.png",
   }
 };

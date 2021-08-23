@@ -40,8 +40,7 @@
 
     <div class="form-group">
       <label for="">Phone</label>
-      <input type="text" min="11" max="11" [minLength]='11' [maxLength]='11' class="owl-input" name="phone" placeholder="Type here..."
-        formControlName="phone">
+      <input [minLength]='11' [maxLength]='11' class="owl-input" name="phone" placeholder="Type here..." formControlName="phone">
       
       <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
         Phone is required.
