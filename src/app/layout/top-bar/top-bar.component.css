@@ -87,7 +87,7 @@
 
 .admin-dropdown a:hover,
 .admin-dropdown a.active {
-  color: #D74254;
+  color: var(--brand-color);
 }
 
 .admin-dropdown a:last-child {
