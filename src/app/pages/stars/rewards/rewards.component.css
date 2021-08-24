@@ -189,7 +189,7 @@ textarea.owl-input {
 .order-report{position: relative;}
 .order-report > i{
     float: right;
-    color: #d74254;
+    color: var(--brand-color);
     font-size: 20px;
     cursor: pointer;
  }
@@ -212,7 +212,7 @@ textarea.owl-input {
      cursor: pointer;
  }
  .delete-dets div span.delete{
-     color: #D74254;
+     color: var(--brand-color);
  }
 
  .payment-area{

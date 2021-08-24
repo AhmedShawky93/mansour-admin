@@ -155,7 +155,7 @@ bar-rating {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: #39384d;
+  background: var(--brand-color);
   padding: 5px 12px;
   border-radius: 8px 0px 8px 0px;
   color: #fff;
@@ -348,17 +348,28 @@ bar-rating {
 .p-l-r-5 {
   padding: 0 5px 0 !important;
 }
+
 .back-arrow {
   color: #003c62;
   font-weight: 500;
   cursor: pointer;
 }
 
-.draft-product{
+.draft-product {
   background-color: antiquewhite;
 }
+
 /* .fixed-table-scroll{
   max-height: 46.5vh;
   overflow-y: scroll;
 }
  */
+@media(max-width:1350px) {
+
+  .table td,
+  .table th {
+    width: 18% !important;
+    padding: .75rem !important;
+
+  }
+}

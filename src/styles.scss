@@ -102,7 +102,7 @@
 
 .fa fa-trash:before {
   content: "\e90c";
-  color: #d74254;
+  color: var(--brand-color);
 }
 
 .icon-Exit:before {
@@ -284,6 +284,7 @@ label {
 
 .toggle-left-sidebar .app-logo img {
   width: 45px;
+
 }
 
 /* toggle form sidebar */
@@ -430,7 +431,7 @@ textarea.owl-input {
 }
 
 .color-red {
-  color: #d74254 !important;
+  color: var(--brand-color) !important;
 }
 
 .color-purple {
