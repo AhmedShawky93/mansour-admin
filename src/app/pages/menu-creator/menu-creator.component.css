@@ -60,7 +60,7 @@
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu {
   align-items: flex-start;
   padding: 1rem;
-  /* width: 1190px; */
+  max-width: 1190px;
   width: 99%;
   height: 550px;
   text-transform: uppercase;
