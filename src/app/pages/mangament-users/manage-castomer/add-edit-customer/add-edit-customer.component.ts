@@ -40,7 +40,7 @@ export class AddEditCustomerComponent implements OnInit {
       name: new FormControl(data ? data.name : '', Validators.required),
       last_name: new FormControl(data ? data.last_name : '', Validators.required),
       email: new FormControl(data ? data.email : '', [Validators.required, Validators.email]),
-      has_address: new FormControl(data ? data.has_address : false, Validators.required),
+      has_address: new FormControl(data ? data.has_address : false),
       address: new FormGroup({
         name: new FormControl(data ? data.name : ''),
         address: new FormControl(data ? data.address : ''),

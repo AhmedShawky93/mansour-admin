@@ -688,7 +688,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       description_ar: product.description_ar,
       discount_end_date: product.discount_price ? product.discount_end_date : '',
       discount_price: product.discount_price,
-      discount_start_date: product.discount_price ? (product.discount_start_date ? product.discount_start_date : startDate) : '',
+      discount_start_date: product.discount_price ? (product.discount_start_date ? product.discount_start_date : today) : '',
       expiration_time: product.expiration_time,
       start_time: product.start_time,
       image: product.image,
