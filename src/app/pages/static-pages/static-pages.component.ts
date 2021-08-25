@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger, } from '@angular/animations';
 import { Component, OnInit, ViewChild, } from '@angular/core';
+import { environment } from '@env/environment';
 import { ToastrService } from 'ngx-toastr';
 import { PagesService } from '../services/pages.service';
 declare var jquery: any;
@@ -36,6 +37,7 @@ declare var $: any;
 export class StaticPagesComponent implements OnInit {
   @ViewChild('elViewPage', { read: false }) elViewPage: any;
   pages: any[] = [];
+  website_url = environment.website_url;
   p = 1;
   total;
   currentPage: any;
@@ -51,7 +53,52 @@ export class StaticPagesComponent implements OnInit {
       this.total = res.data.length;
     })
   }
+  changeActive(section) {
+    this.pages
+      .filter((sections) => {
+        return sections.showReason;
+      })
+      .map((sections) => {
+        if (sections.active == sections.deactivated) {
+          sections.active = !sections.active;
+        }
+        sections.showReason = 0;
+        return sections;
+      });
 
+    if (section.active) {
+      // currently checked
+      section.showReason = 0;
+      section.notes = "";
+      if (section.deactivated) {
+        this.pagesService.activate(section.id).subscribe((data: any) => {
+          section.active = 1;
+          section.notes = "";
+          section.deactivation_notes = "";
+          section.deactivated = 0;
+        });
+      }
+    } else {
+      section.notes = section.deactivation_notes;
+      section.showReason = 1;
+    }
+  }
+  cancelDeactivate(section) {
+    section.active = 1;
+    section.notes = "";
+    section.showReason = 0;
+  }
+  submitDeactivate(section) {
+    section.active = 0;
+    this.pagesService
+      .deactivate(section.id, { deactivation_notes: section.notes })
+      .subscribe((data: any) => {
+        section.active = 0;
+        section.deactivation_notes = section.notes;
+        section.showReason = 0;
+        section.deactivated = 1;
+      });
+  }
   viewPage(page) {
     this.currentPage = page;
     this.elViewPage.nativeElement.classList.add('open-view-vindor-types')
