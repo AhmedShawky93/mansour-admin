@@ -361,8 +361,8 @@
         <!-- <span *ngIf="order.payment_method == 4">Miza</span> -->
         <!-- <span *ngIf="order.payment_method == 5">Premium</span> -->
       </div>
-      <div class="block-item">
-        <p>Payment Plan</p>
+      <div *ngIf="order.payment_installment && order.payment_installment !=null" class="block-item">
+        <p>Installment Plan</p>
         <span>{{order.payment_installment.name_en}}</span>
       </div>
       <div
