@@ -54,34 +54,18 @@ export class StaticPagesComponent implements OnInit {
     })
   }
   changeActive(section) {
-    this.pages
-      .filter((sections) => {
-        return sections.showReason;
+      this.pagesService.editPage(section.id,{in_footer:section.in_footer}).subscribe(res => {
+        if (res.code != 200) {
+          if(section.in_footer){
+           section.in_footer=false;
+          }
+          else{
+            section.in_footer=true;
+          }
+          this.toastrService.error(res.message);
+        } 
+        
       })
-      .map((sections) => {
-        if (sections.active == sections.deactivated) {
-          sections.active = !sections.active;
-        }
-        sections.showReason = 0;
-        return sections;
-      });
-
-    if (section.active) {
-      // currently checked
-      section.showReason = 0;
-      section.notes = "";
-      if (section.deactivated) {
-        this.pagesService.activate(section.id).subscribe((data: any) => {
-          section.active = 1;
-          section.notes = "";
-          section.deactivation_notes = "";
-          section.deactivated = 0;
-        });
-      }
-    } else {
-      section.notes = section.deactivation_notes;
-      section.showReason = 1;
-    }
   }
   cancelDeactivate(section) {
     section.active = 1;
