@@ -18,6 +18,7 @@
         <th scope="col">Url</th>
         <th scope="col">Name</th>
         <th scope="col">Order</th>
+        <th scope="col">In footer</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
@@ -29,7 +30,12 @@
         <td>
           <p>{{page.order}}</p>
         </td>
-
+        <td>
+          <label class="switch">
+            <input type="checkbox"  [(ngModel)]="page.in_footer" (change)="changeActive(page)">
+            <span class="slider round"></span>
+          </label>
+        </td>
         <td>
           <a style="margin-right: 10px" (click)="viewPage(page)" class="toggle-view-pages table-view">
             <i class="icon-View"></i>
@@ -45,9 +51,9 @@
             class="table-view edit-product">
             <i class="fa fa-trash"></i>
           </a>
-          <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}pages/{{page.slug}}"><i class="fa fa-external-link"></i></a>
+          <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}pages/static/{{page.slug}}"><i class="fa fa-external-link"></i></a>
 
-          <label class="switch">
+          <!-- <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="page.active" (change)="changeActive(page)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!page.showReason">
@@ -66,7 +72,7 @@
                 {{page.deactivation_notes}}
               </div>
             </div>
-          </label>
+          </label> -->
         </td>
       </tr>
       </ng-container>
