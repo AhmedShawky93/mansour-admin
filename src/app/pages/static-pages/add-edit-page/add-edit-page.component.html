@@ -8,14 +8,14 @@
 
   <form class="sideform" (ngSubmit)="addEditPages()" [formGroup]="addEditPageForm" novalidate>
     <div class="form-group">
-      <label for="">Slug</label>
+      <label for="">Url</label>
       <input type="text" class="owl-input" placeholder="Type.." required formControlName="slug">
       <!-- Start  Errors Rolues -->
       <div
         *ngIf="addEditPageForm.controls.slug.invalid && (addEditPageForm.controls.slug.dirty || addEditPageForm.controls.slug.touched)"
         class="alert alert-danger">
         <div *ngIf="addEditPageForm.controls.slug.errors.required">
-          Slug is required.
+          Url is required.
         </div>
       </div>
       <!-- End Errors Rolues -->
@@ -66,6 +66,13 @@
     <div class="form-group">
       <label for="">Order</label>
       <input type="text" formControlName="order" class="owl-input" placeholder="Type..">
+    </div>
+  
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+      <label class="container">Show in footer
+        <input type="checkbox"  class="form-control checkbox-style" name="In_footer" id="In_footer" [value]="1" formControlName="In_footer">
+        <span class="checkmark"></span>
+      </label>
     </div>
     <!--<pre>{{addEditPageForm.value | json}}</pre>-->
     <div class="form-sidebar-btns">

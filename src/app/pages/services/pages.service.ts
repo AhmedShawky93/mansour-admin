@@ -40,4 +40,19 @@ export class PagesService {
         throw (error.error || 'Server error');
       })
   }
+  activate(id) {
+    return this.http
+      .post(this.url + "/pages/" + id + "/activate", id)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+
+  deactivate(id, data) {
+    return this.http
+      .post(this.url + "/pages/" + id + "/deactivate", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
 }

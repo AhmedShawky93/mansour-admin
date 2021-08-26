@@ -52,7 +52,8 @@ export class AddEditPageComponent implements OnInit, OnChanges {
       title_ar: new FormControl(data ? data.title_ar : '', Validators.required),
       content_en: new FormControl(data ? data.content_en : ''),
       content_ar: new FormControl(data ? data.content_ar : ''),
-      order: new FormControl(data ? data.order : '')
+      order: new FormControl(data ? data.order : ''),
+      In_footer: new FormControl(data ? data.In_footer : false),
     })
   }
 

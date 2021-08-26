@@ -15,14 +15,15 @@
   <table class="table owls-table">
     <thead>
       <tr>
-        <th scope="col">Slug</th>
+        <th scope="col">Url</th>
         <th scope="col">Name</th>
         <th scope="col">Order</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let page of pages | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
+      <ng-container *ngFor="let page of pages | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
+      <tr  *ngIf="page.id != 1 && page.id != 2">
         <td>{{page.slug}}</td>
         <td>{{page.title_en}}</td>
         <td>
@@ -40,12 +41,13 @@
           </a>
 
           <a href="javascript:void(0)" style="margin-right: 10px"
-            [ngClass]="(page.id === 1 || page.id === 2) ? 'disabled' : ''" (click)="deleteCurrentPage(page)"
+           (click)="deleteCurrentPage(page)"
             class="table-view edit-product">
             <i class="fa fa-trash"></i>
           </a>
+          <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}pages/{{page.slug}}"><i class="fa fa-external-link"></i></a>
 
-          <label class="switch" *ngIf="page.id === 1 || page.id === 2">
+          <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="page.active" (change)="changeActive(page)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!page.showReason">
@@ -67,6 +69,8 @@
           </label>
         </td>
       </tr>
+      </ng-container>
+    
     </tbody>
   </table>
 </div>
@@ -90,7 +94,7 @@
 
     <div>
       <div>
-        <h5>Slug</h5>
+        <h5>Url</h5>
         <p>{{currentPage.slug}}</p>
       </div>
     </div>
