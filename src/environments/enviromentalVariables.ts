@@ -1,5 +1,6 @@
 export const environmentVariables = {
   themeType: 1,
+  showLoyality: true,
   envApi: {
     env: {
       apiEndPoint: 'https://footlooseapi-staging.el-dokan.com/api',
