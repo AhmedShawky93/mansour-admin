@@ -455,6 +455,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       element.value = pretty;
     }
     if (save) {
+      this.updating = true;
       this.menuService.updateMenu({ menu: this.formattedJsonString }).subscribe((res => {
         if (res.code === 200) {
           this.toastrService.success('menu updated successfuly');
