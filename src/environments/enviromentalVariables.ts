@@ -4,7 +4,7 @@ export const environmentVariables = {
   envApi: {
     env: {
       apiEndPoint: 'https://mobilatyapi-staging.el-dokan.com/api',
-      checkoutUrl: 'https://footloosestores.com/',
+      checkoutUrl: 'https://footloosestores.com',
     },
   },
   brandRelatedVariables: {

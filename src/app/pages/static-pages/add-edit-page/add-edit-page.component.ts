@@ -61,6 +61,13 @@ else{
   }
 
   getForm(data) {
+    if(data){
+      this.currentslug=data.slug?data.slug:'';
+    }
+    else{
+      this.currentslug='';
+    }
+    
     this.addEditPageForm = this.formBuilder.group({
       slug: new FormControl(data ? data.slug : '', Validators.required),
       title_en: new FormControl(data ? data.title_en : '', Validators.required),
@@ -113,7 +120,7 @@ else{
     }
   }
   detectpageChange(){
-    this.currentslug=this.addEditPageForm.value.title_en.replace(/\s+/g,'-');
+    this.currentslug=this.addEditPageForm.value.title_en.replace(/[\W_]/g,'-');
     // console.log("value : ",this.addEditPageForm.value.title_en);
     
   }
