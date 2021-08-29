@@ -198,23 +198,27 @@
           </li>
         </ul>
       </li>
-      <!-- <li class="side-nav-item" routerLinkActive="active"  *ngxPermissionsOnly="['ADMIN', 'View Rewards', 'View Gift Requests']">
-        <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-7" aria-controls="submenu-7">
-          <i class="icon-None3" data-toggle="tooltip" data-placement="right" title="Mobilaty Stars"></i>
-          <span>Mobilaty Stars</span>
-          <i class="fa fa-fw fa-angle-down pull-right"></i>
-        </a>
-        <ul id="submenu-7" class="collapse">
-          <li *ngxPermissionsOnly="['ADMIN', 'View Rewards']">
-            <a routerLink="/pages/stars/rewards" routerLinkActive="active">
-              Rewards</a>
-          </li>
-          <li *ngxPermissionsOnly="['ADMIN', 'View Gift Requests']">
-            <a routerLink="/pages/stars/gifts" routerLinkActive="active">
-              Gift Requests</a>
-          </li>
-        </ul>
-      </li> -->
+      <ng-container *ngIf="environmentVariables.showLoyality">
+        <li class="side-nav-item" routerLinkActive="active"
+          *ngxPermissionsOnly="['ADMIN', 'View Rewards', 'View Gift Requests']">
+          <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-7" aria-controls="submenu-7">
+            <i class="icon-None3" data-toggle="tooltip" data-placement="right" title="Mobilaty Stars"></i>
+            <span>Mobilaty Stars</span>
+            <i class="fa fa-fw fa-angle-down pull-right"></i>
+          </a>
+          <ul id="submenu-7" class="collapse">
+            <li *ngxPermissionsOnly="['ADMIN', 'View Rewards']">
+              <a routerLink="/pages/stars/rewards" routerLinkActive="active">
+                Rewards</a>
+            </li>
+            <li *ngxPermissionsOnly="['ADMIN', 'View Gift Requests']">
+              <a routerLink="/pages/stars/gifts" routerLinkActive="active">
+                Gift Requests</a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+
       <!-- <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']">
         <a routerLink="/pages/medical" routerLinkActive="active">
           <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Medical Prescriptions"></i>

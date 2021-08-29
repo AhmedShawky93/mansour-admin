@@ -1,5 +1,6 @@
 export const environmentVariables = {
   themeType: 1,
+  showLoyality: true,
   envApi: {
     env: {
       apiEndPoint: 'https://mobilatyapi-staging.el-dokan.com/api',
