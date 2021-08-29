@@ -10,7 +10,7 @@
    
 
     <div class="form-group">
-      <label for="">Name (En)</label>
+      <label for="">Title (En)</label>
       <input type="text" class="owl-input" placeholder="Type.." required formControlName="title_en" (input)="detectpageChange()">
       <!-- Start  Errors Rolues -->
 
@@ -18,14 +18,14 @@
         *ngIf="addEditPageForm.controls.title_en.invalid && (addEditPageForm.controls.title_en.dirty || addEditPageForm.controls.title_en.touched || submitting)"
         class="alert alert-danger">
         <div *ngIf="addEditPageForm.controls.title_en.errors.required">
-          Name (En) is required.
+          Title (En) is required.
         </div>
       </div>
       <!-- End Errors Rolues -->
     </div>
 
     <div class="form-group">
-      <label for="">Name (Ar)</label>
+      <label for="">Title (Ar)</label>
       <input type="text" class="owl-input" placeholder="Type.." required formControlName="title_ar">
       <!-- Start  Errors Rolues -->
 
@@ -33,7 +33,7 @@
         *ngIf="addEditPageForm.controls.title_ar.invalid && (addEditPageForm.controls.title_ar.dirty || addEditPageForm.controls.title_ar.touched || submitting)"
         class="alert alert-danger">
         <div *ngIf="addEditPageForm.controls.title_ar.errors.required">
-          Name (Ar) is required.
+          Title (Ar) is required.
         </div>
       </div>
       <!-- End Errors Rolues -->
