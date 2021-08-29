@@ -120,8 +120,14 @@ else{
     }
   }
   detectpageChange(){
-    this.currentslug=this.addEditPageForm.value.title_en.replace(/[\W_]/g,'-');
+    // this.addEditPageForm.value.title_en=this.addEditPageForm.value.title_en.replace(/ /g,'-');
+    this.currentslug=this.addEditPageForm.value.title_en.replace(/[^a-zA-Z ]/g,'').replaceAll(/\s\s+/g,'-');
     // console.log("value : ",this.addEditPageForm.value.title_en);
     
+  }
+  detectslugChange(){
+    (document.getElementById("webslug") as HTMLInputElement).value=this.addEditPageForm.value.slug.replace(/[\W_]/g,'');
+    // this.currentslug=this.addEditPageForm.value.slug.replace(/[\W_]/g,'');
+    // this.currentslug=this.currentslug.replace(/[\W_]/g,'');
   }
 }
