@@ -45,6 +45,9 @@ export class SettingService {
   getSettings() {
     return this.http.get(this.url + 'settings');
   }
+  getConfigurations() {
+    return this.http.get(this.url + 'configurations/manager/index');
+  }
 
   getPublicSettings() {
     return this.http.get(this.url + 'public_settings');
@@ -75,6 +78,7 @@ export class SettingService {
   }
 
   updateDynamicSettings(data) {
-    return this.http.post(this.url + 'settings/update', data);
+    return this.http.post(this.url + 'configurations/manager/update', data);
   }
+
 }
