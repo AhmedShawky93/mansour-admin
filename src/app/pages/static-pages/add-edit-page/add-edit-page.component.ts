@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PagesService } from '@app/pages/services/pages.service';
+import { environment } from '@env/environment';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ToastrService } from 'ngx-toastr';
 
@@ -13,10 +14,13 @@ export class AddEditPageComponent implements OnInit, OnChanges {
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataProductEmit = new EventEmitter();
   @Input('selectProductDataEdit') selectProductDataEdit;
+  @Input() curentAction;
   addEditPageForm: any;
   submitting = false;
+  website_url = environment.website_url;
   editorConfig: AngularEditorConfig;
-
+  currentslug='';
+  loading=false;
   constructor(private formBuilder: FormBuilder, private pagesService: PagesService, private toastrService: ToastrService) {
     this.editorConfig = {
       editable: true,
@@ -38,11 +42,22 @@ export class AddEditPageComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.getForm(this.selectProductDataEdit);
+    if(this.selectProductDataEdit && this.selectProductDataEdit.id && this.curentAction=='in'){
+           this.getcurrentPage(this.selectProductDataEdit.id);
+    }
+    else{
+         this.getForm(this.selectProductDataEdit);
+    }
+ 
   }
 
   ngOnChanges() {
+    if(this.selectProductDataEdit && this.selectProductDataEdit.id  && this.curentAction=='in'){
+      this.getcurrentPage(this.selectProductDataEdit.id);
+}
+else{
     this.getForm(this.selectProductDataEdit);
+}
   }
 
   getForm(data) {
@@ -50,15 +65,22 @@ export class AddEditPageComponent implements OnInit, OnChanges {
       slug: new FormControl(data ? data.slug : '', Validators.required),
       title_en: new FormControl(data ? data.title_en : '', Validators.required),
       title_ar: new FormControl(data ? data.title_ar : '', Validators.required),
-      content_en: new FormControl(data ? data.content_en : ''),
-      content_ar: new FormControl(data ? data.content_ar : ''),
-      order: new FormControl(data ? data.order : '')
+      content_en: new FormControl(data ? data.content_en : '', Validators.required),
+      content_ar: new FormControl(data ? data.content_ar : '', Validators.required),
+      order: new FormControl(data ? data.order : '', Validators.required),
+      in_footer: new FormControl(data ? data.in_footer : false),
     })
   }
-
+  getcurrentPage(pageId){
+    this.loading=true;
+    this.pagesService.getSinglePage(pageId).subscribe(res=>{
+      this.getForm(res.data);
+      this.loading=false;
+    })
+  }
   closeSideBar() {
     this.closeSideBarEmit.emit();
-    this.addEditPageForm.reset();
+    // this.addEditPageForm.reset();
   }
 
   addEditPages() {
@@ -86,5 +108,13 @@ export class AddEditPageComponent implements OnInit, OnChanges {
         })
       }
     }
+    else{
+      this.submitting=true;
+    }
+  }
+  detectpageChange(){
+    this.currentslug=this.addEditPageForm.value.title_en.replace(/\s+/g,'-');
+    // console.log("value : ",this.addEditPageForm.value.title_en);
+    
   }
 }

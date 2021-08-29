@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger, } from '@angular/animations';
 import { Component, OnInit, ViewChild, } from '@angular/core';
+import { environment } from '@env/environment';
 import { ToastrService } from 'ngx-toastr';
 import { PagesService } from '../services/pages.service';
 declare var jquery: any;
@@ -36,6 +37,8 @@ declare var $: any;
 export class StaticPagesComponent implements OnInit {
   @ViewChild('elViewPage', { read: false }) elViewPage: any;
   pages: any[] = [];
+  loading=false;
+  website_url = environment.website_url;
   p = 1;
   total;
   currentPage: any;
@@ -51,10 +54,50 @@ export class StaticPagesComponent implements OnInit {
       this.total = res.data.length;
     })
   }
-
+  changeActive(section) {
+      this.pagesService.editPage(section.id,{in_footer:section.in_footer}).subscribe(res => {
+        if (res.code != 200) {
+          if(section.in_footer){
+           section.in_footer=false;
+          }
+          else{
+            section.in_footer=true;
+          }
+          this.toastrService.error(res.message);
+        } 
+        
+      })
+  }
+  cancelDeactivate(section) {
+    section.active = 1;
+    section.notes = "";
+    section.showReason = 0;
+  }
+  submitDeactivate(section) {
+    section.active = 0;
+    this.pagesService
+      .deactivate(section.id, { deactivation_notes: section.notes })
+      .subscribe((data: any) => {
+        section.active = 0;
+        section.deactivation_notes = section.notes;
+        section.showReason = 0;
+        section.deactivated = 1;
+      });
+  }
+  getcurrentPage(pageId){
+    // this.loading=true;
+    this.pagesService.getSinglePage(pageId).subscribe(res=>{
+      this.currentPage = res.data;
+      // this.loading=false;
+      this.elViewPage.nativeElement.classList.add('open-view-vindor-types')
+      // this.viewPage(res.data);
+    
+    })
+  }
   viewPage(page) {
     this.currentPage = page;
-    this.elViewPage.nativeElement.classList.add('open-view-vindor-types')
+    this.elViewPage.nativeElement.classList.add('open-view-vindor-types');
+    this.getcurrentPage(page.id);
   }
 
   closeViewPage() {
@@ -62,9 +105,10 @@ export class StaticPagesComponent implements OnInit {
   }
 
   editCurrentPage(page = null) {
+    this.toggleAddPage = 'in';
     this.currentPage = page;
     document.getElementById('add-page').classList.add('open-view-vindor-types');
-    this.toggleAddPage = 'in';
+    
   }
 
   closeSideBar() {
