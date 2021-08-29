@@ -65,9 +65,9 @@ else{
       slug: new FormControl(data ? data.slug : '', Validators.required),
       title_en: new FormControl(data ? data.title_en : '', Validators.required),
       title_ar: new FormControl(data ? data.title_ar : '', Validators.required),
-      content_en: new FormControl(data ? data.content_en : ''),
-      content_ar: new FormControl(data ? data.content_ar : ''),
-      order: new FormControl(data ? data.order : ''),
+      content_en: new FormControl(data ? data.content_en : '', Validators.required),
+      content_ar: new FormControl(data ? data.content_ar : '', Validators.required),
+      order: new FormControl(data ? data.order : '', Validators.required),
       in_footer: new FormControl(data ? data.in_footer : false),
     })
   }
