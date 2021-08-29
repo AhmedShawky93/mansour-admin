@@ -37,6 +37,7 @@ declare var $: any;
 export class StaticPagesComponent implements OnInit {
   @ViewChild('elViewPage', { read: false }) elViewPage: any;
   pages: any[] = [];
+  loading=false;
   website_url = environment.website_url;
   p = 1;
   total;
@@ -83,9 +84,20 @@ export class StaticPagesComponent implements OnInit {
         section.deactivated = 1;
       });
   }
+  getcurrentPage(pageId){
+    // this.loading=true;
+    this.pagesService.getSinglePage(pageId).subscribe(res=>{
+      this.currentPage = res.data;
+      // this.loading=false;
+      this.elViewPage.nativeElement.classList.add('open-view-vindor-types')
+      // this.viewPage(res.data);
+    
+    })
+  }
   viewPage(page) {
     this.currentPage = page;
-    this.elViewPage.nativeElement.classList.add('open-view-vindor-types')
+    this.elViewPage.nativeElement.classList.add('open-view-vindor-types');
+    this.getcurrentPage(page.id);
   }
 
   closeViewPage() {
@@ -93,9 +105,10 @@ export class StaticPagesComponent implements OnInit {
   }
 
   editCurrentPage(page = null) {
+    this.toggleAddPage = 'in';
     this.currentPage = page;
     document.getElementById('add-page').classList.add('open-view-vindor-types');
-    this.toggleAddPage = 'in';
+    
   }
 
   closeSideBar() {

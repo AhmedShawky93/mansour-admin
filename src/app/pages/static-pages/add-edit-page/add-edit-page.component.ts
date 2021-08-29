@@ -14,6 +14,7 @@ export class AddEditPageComponent implements OnInit, OnChanges {
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataProductEmit = new EventEmitter();
   @Input('selectProductDataEdit') selectProductDataEdit;
+  @Input() curentAction;
   addEditPageForm: any;
   submitting = false;
   website_url = environment.website_url;
@@ -41,7 +42,7 @@ export class AddEditPageComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    if(this.selectProductDataEdit && this.selectProductDataEdit.id){
+    if(this.selectProductDataEdit && this.selectProductDataEdit.id && this.curentAction=='in'){
            this.getcurrentPage(this.selectProductDataEdit.id);
     }
     else{
@@ -51,7 +52,7 @@ export class AddEditPageComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if(this.selectProductDataEdit && this.selectProductDataEdit.id){
+    if(this.selectProductDataEdit && this.selectProductDataEdit.id  && this.curentAction=='in'){
       this.getcurrentPage(this.selectProductDataEdit.id);
 }
 else{

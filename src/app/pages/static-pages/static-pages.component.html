@@ -52,7 +52,7 @@
             class="table-view edit-product">
             <i class="fa fa-trash"></i>
           </a>
-          <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}pages/{{page.slug}}"><i class="fa fa-external-link"></i></a>
+          <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}/pages/{{page.slug}}"><i class="fa fa-external-link"></i></a>
 
           <!-- <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="page.active" (change)="changeActive(page)">
@@ -101,18 +101,18 @@
 
     <div>
       <div>
-        <h5>Url</h5>
+        <h5>Slug</h5>
         <p>{{currentPage.slug}}</p>
       </div>
     </div>
 
     <div>
-      <h5>Name</h5>
+      <h5>Title</h5>
       <p>{{currentPage.title_en}}</p>
     </div>
 
     <div>
-      <h5>Name (Ar)</h5>
+      <h5>Title (Ar)</h5>
       <p>{{currentPage.title_ar}}</p>
     </div>
 
@@ -125,12 +125,15 @@
       <h5>Content Ar</h5>
       <p [innerHtml]="currentPage.content_ar"></p>
     </div>
-
+    <div>
+      <h5>show in footer</h5>
+      <p>{{currentPage.in_footer?'Yes':'No'}}</p>
+    </div>
   </div>
 </div>
 
 <app-add-edit-page #PageForm (closeSideBarEmit)="closeSideBar()" (dataProductEmit)="addOrUpdatePage($event)"
-  [@slideInOut]="toggleAddPage" [selectProductDataEdit]="currentPage">
+  [@slideInOut]="toggleAddPage" [selectProductDataEdit]="currentPage" [curentAction]="toggleAddPage">
 </app-add-edit-page>
 
 <div class="modal fade" id="deletePage" tabindex="-1" role="dialog" aria-hidden="true">
