@@ -1,4 +1,4 @@
-.group-title{
+.group-title {
   font-size: 18px;
   color: #557E96;
   text-transform: capitalize;
@@ -8,16 +8,17 @@ input[type=file] {
   padding: 8px;
 }
 
-.input-wrapper{
+.input-wrapper {
   position: absolute;
   width: 5%;
   left: 85%;
   top: 36%;
   height: 1%;
-  background:transparent;
+  background: transparent;
   z-index: -100;
   opacity: 0;
 }
+
 .uploading-spinner {
   position: absolute;
   left: 83%;
@@ -27,42 +28,64 @@ input[type=file] {
   z-index: 10;
 }
 
-.slider-bar{
-  position:relative;
+.slider-bar {
+  position: relative;
   border-radius: 5px;
-  width:100%;
-  height:10px;
+  width: 100%;
+  height: 10px;
   overflow-x: hidden;
   overflow-y: hidden;
 }
 
-.line{
+.line {
   border-radius: 5px;
-  position:absolute;
+  position: absolute;
   opacity: 0.3;
   background: var(--brand-color);
-  width:100%;
-  height:10px;
+  width: 100%;
+  height: 10px;
 }
 
-.sub-line{
+.sub-line {
   border-radius: 5px;
-  position:absolute;
+  position: absolute;
   background: var(--brand-color);
-  height:10px;
+  height: 10px;
 }
-.inc{
+
+.inc {
   animation: increase 2s infinite;
 }
-.dec{
+
+.dec {
   animation: decrease 2s 0.5s infinite;
 }
 
 @keyframes increase {
-  from { left: -5%; width: 5%; }
-  to { left: 130%; width: 100%;}
+  from {
+    left: -5%;
+    width: 5%;
+  }
+
+  to {
+    left: 130%;
+    width: 100%;
+  }
 }
+
 @keyframes decrease {
-  from { left: -80%; width: 80%; }
-  to { left: 110%; width: 10%;}
+  from {
+    left: -80%;
+    width: 80%;
+  }
+
+  to {
+    left: 110%;
+    width: 10%;
+  }
+}
+
+textarea.owl-input {
+  min-height: 150px;
+
 }

@@ -10,6 +10,10 @@
       aria-controls="nav-profile" aria-selected="false">Mobilaty Stars</a> -->
     <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-system" role="tab"
       aria-controls="nav-profile" aria-selected="false">System Settings</a>
+    <!-- <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-stars" role="tab"
+      aria-controls="nav-profile" aria-selected="false">Mobilaty Stars</a> -->
+    <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#configuration-settings" role="tab"
+      aria-controls="nav-profile" aria-selected="false">Configuration Settings</a>
   </div>
 </nav>
 
@@ -174,6 +178,10 @@
 
   </div>
 
+  <div class="tab-pane fade" id="configuration-settings" role="tabpanel" aria-labelledby="configuration-settings-tab">
+    <app-dynamic-settings></app-dynamic-settings>
+
+  </div>
   <!-- <div class="tab-pane terms fade" id="nav-stars" role="tabpanel" aria-labelledby="nav-contact-tab">
     <div class="min-height: 200px;">
       <app-loader *ngIf="settingsLoading"></app-loader>
@@ -325,7 +333,8 @@
             <input formControlName="except_cod_amount" min="0" type="number" id="except_cod_amount" class="owl-input"
               name="except_cod_amount"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46" />
-            <small id="except_cod_amount_help" class="form-text text-muted">Orders with amount above this number cannot use COD payment</small>
+            <small id="except_cod_amount_help" class="form-text text-muted">Orders with amount above this number cannot
+              use COD payment</small>
           </div>
         </div>
 

@@ -1,11 +1,12 @@
-import {AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {AngularEditorConfig} from '@kolkov/angular-editor';
-import {SettingService} from '@app/pages/services/setting.service';
-import {Observable} from 'rxjs/Observable';
-import {ToastrService} from 'ngx-toastr';
-import {ReactivityService} from '@app/shared/services/reactivity.service';
+import { Validators } from '@angular/forms';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { SettingService } from '@app/pages/services/setting.service';
+import { Observable } from 'rxjs/Observable';
+import { ToastrService } from 'ngx-toastr';
+import { ReactivityService } from '@app/shared/services/reactivity.service';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
     private reactivityService: ReactivityService,
     private cdRef: ChangeDetectorRef
   ) {
-    this.settings$ = this.settingService.getSettings();
+    this.settings$ = this.settingService.getConfigurations();
     this.formGroups = [];
     this.fileUploading = false;
     this.submitting = false;
@@ -98,33 +99,32 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
 
   createMainGroupsControls() {
     /*get main groups*/
-    this.settingGroups = Object.keys(this.settings);
+    this.settingGroups = this.settings;
     const mainGroups: Object = {};
 
     /*loop over groups to create groups as form array*/
-    this.settingGroups.forEach(key => {
-      const value = this.settings[key];
+    this.settingGroups.forEach(ele => {
+      const value = ele;
 
       /*groups as form array*/
-      mainGroups[key] = this.formBuilder.array([]);
+      mainGroups[ele.key] = this.formBuilder.array([]);
 
-      /*set title & name to use it later on template*/
-      mainGroups[key]['name'] = key;
-      mainGroups[key]['title'] = key.replaceAll('_', ' ');
+      mainGroups[ele.key]['name'] = ele.key;
+      mainGroups[ele.key]['title'] = ele.label.replaceAll('_', ' ');
+      mainGroups[ele.key].push(this.createFromGroup(value));
 
-      /*loop over it to create form groups with controls inside current form array*/
-      value.forEach((data: Array<any>) => {
-        mainGroups[key].push(this.createFromGroup(data));
-      });
 
-      /*push forms arrays [formgroups] to array to use it on template*/
-      this.formGroups.push(mainGroups[key]);
+      this.formGroups.push(mainGroups[ele.key]);
+      console.log('this.formGroups  ==>', this.formGroups)
+      // }
+
     });
 
     return mainGroups;
   }
 
   createFromGroup(data): FormGroup {
+
     return this.formBuilder.group({
       id: new FormControl(data ? data.id : ''),
       order: new FormControl(data ? data.order : ''),
@@ -138,6 +138,9 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
     });
   }
 
+  setValidationRequired() {
+
+  }
   setColor(color: any, colorFormControl: FormControl) {
     colorFormControl.setValue(color);
   }
@@ -179,7 +182,7 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
 
 
     data = data.map(item => {
-      return {id: item.id, name: item.name, value: item.value};
+      return { id: item.id, value: item.value };
     }).filter(obj => {
       if (obj.value !== null) {
         return obj;
@@ -195,7 +198,12 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   save() {
-    this.settingService.updateDynamicSettings(this.mappingData())
+    console.log('this.mappingData ==>', this.mappingData());
+    const mappingData = {
+      configs: this.mappingData()
+    }
+    console.log('mappingData ==>', mappingData)
+    this.settingService.updateDynamicSettings(mappingData)
       .subscribe(
         (res: any) => {
           if (res.code === 200) {
