@@ -19,6 +19,12 @@ export class PagesService {
         return Observable.throw(error.error || 'Server error');
       })
   }
+  getSinglePage(pageId) {
+    return this.http.get<any>(this.url + `/pages/${pageId}/show`)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
 
   editPage(id, data) {
     return this.http.post<any>(this.url + "/pages/" + id + '/update', data)

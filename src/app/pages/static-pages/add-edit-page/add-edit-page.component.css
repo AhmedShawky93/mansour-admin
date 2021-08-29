@@ -88,3 +88,13 @@
     color: initial !important;
   }
   
+  .input-group input.owl-input {
+    padding-left: 40%;
+}
+.input-group-prepend {
+  margin-right: -1px;
+  position: absolute;
+  z-index: 9;
+  top: 5px;
+  margin: 0 10px;
+}

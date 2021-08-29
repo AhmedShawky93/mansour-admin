@@ -31,10 +31,11 @@
           <p>{{page.order}}</p>
         </td>
         <td>
-          <label class="switch">
+          {{page.in_footer?'Yes':'No'}}
+          <!-- <label class="switch">
             <input type="checkbox"  [(ngModel)]="page.in_footer" (change)="changeActive(page)">
             <span class="slider round"></span>
-          </label>
+          </label> -->
         </td>
         <td>
           <a style="margin-right: 10px" (click)="viewPage(page)" class="toggle-view-pages table-view">
@@ -51,7 +52,7 @@
             class="table-view edit-product">
             <i class="fa fa-trash"></i>
           </a>
-          <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}pages/static/{{page.slug}}"><i class="fa fa-external-link"></i></a>
+          <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}pages/{{page.slug}}"><i class="fa fa-external-link"></i></a>
 
           <!-- <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="page.active" (change)="changeActive(page)">
@@ -80,7 +81,7 @@
     </tbody>
   </table>
 </div>
-<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
 
 <div class="form-sidebar view-vindor-types" #elViewPage>
   <div class="head" *ngIf="currentPage">
