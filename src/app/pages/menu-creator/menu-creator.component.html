@@ -339,7 +339,8 @@
 <div class="menu-items-container">
   <h4>Or set menu with  json object</h4>
   <textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
-  <button (click)="prettyPrint(true)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply Json changes</button>
+  <button (click)="prettyPrint(true)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product"
+    [appLoading]="updating">Apply Json changes</button>
 </div>
 
 <div class="modal fade" id="deleteMenuItem" tabindex="-1" role="dialog" aria-hidden="true">

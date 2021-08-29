@@ -7,9 +7,9 @@ import { UploadFilesService } from '@app/pages/services/upload-files.service';
 import { environment } from '@env/environment';
 import { AuthService } from '@app/shared/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { animate, state, style, transition, trigger, } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/Rx';
 import { Subject } from 'rxjs/Rx';
 import { tap } from 'rxjs/operators';
