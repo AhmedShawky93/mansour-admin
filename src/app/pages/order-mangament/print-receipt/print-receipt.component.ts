@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { OrdersService } from '@app/pages/services/orders.service';
-import { environmentVariables } from '../../../../environments/enviromentalVariables';
+// import { environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
   selector: 'app-print-receipt',
@@ -20,7 +20,7 @@ export class PrintReceiptComponent implements OnInit {
     }
 
   ];
-  environmentVariables = environmentVariables;
+  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
 
   item: any;
 

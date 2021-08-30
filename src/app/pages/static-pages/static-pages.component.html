@@ -1,3 +1,5 @@
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
+
 <div class="top-table-bar my-2 py-0 px-2">
   <div class="row">
     <div class="col-md-9 col-sm-12 col-xs-12"></div>
@@ -81,6 +83,7 @@
     </tbody>
   </table>
 </div>
+<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
 <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
 
 <div class="form-sidebar view-vindor-types" #elViewPage>
@@ -115,15 +118,20 @@
       <h5>Title (Ar)</h5>
       <p>{{currentPage.title_ar}}</p>
     </div>
-
     <div>
       <h5>Content En</h5>
-      <p [innerHtml]="currentPage.content_en"></p>
+      <p *ngIf="currentPage.content_en" [innerHtml]="currentPage.content_en"></p>
+      <div *ngIf="!currentPage.content_en" class="loadingArea">
+        <img src="./../../../../assets/img/loading-table.svg" alt="">
+      </div>
     </div>
 
     <div>
       <h5>Content Ar</h5>
-      <p [innerHtml]="currentPage.content_ar"></p>
+      <p *ngIf="currentPage.content_ar" [innerHtml]="currentPage.content_ar"></p>
+      <div *ngIf="!currentPage.content_ar" class="loadingArea">
+        <img src="./../../../../assets/img/loading-table.svg" alt="">
+      </div>
     </div>
     <div>
       <h5>show in footer</h5>

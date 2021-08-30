@@ -38,7 +38,7 @@ export class StaticPagesComponent implements OnInit {
   @ViewChild('elViewPage', { read: false }) elViewPage: any;
   pages: any[] = [];
   loading=false;
-  website_url = environment.website_url;
+  website_url = JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl;
   p = 1;
   total;
   currentPage: any;
@@ -49,9 +49,14 @@ export class StaticPagesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading=true;
     this.pagesService.getPages().subscribe((res) => {
+      if(res.code===200){
+      this.loading=false;
       this.pages = res.data;
       this.total = res.data.length;
+      }
+    
     })
   }
   changeActive(section) {

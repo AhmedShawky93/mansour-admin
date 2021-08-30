@@ -221,7 +221,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.exportStock = environment.api + '/admin/products/export_prices?token=' + token;
 
-    this.website_url = environment.website_url;
+    this.website_url = JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl;
 
   }
 
