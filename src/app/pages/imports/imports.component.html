@@ -18,23 +18,47 @@
     </div>
     <div class="col-md-3 col-sm-12">
       <mat-form-field class="datepicker">
-        <input matInput #mdate placeholder="Date From" readonly (click)="pickerFrom.open()" [satDatepicker]="pickerFrom" [value]="date" [(ngModel)]="filter.date_from">
-        <sat-datepicker #pickerFrom [rangeMode]="false">
-        </sat-datepicker>
-        <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
+        <input
+          matInput
+          #mdate
+          placeholder="Date From"
+          readonly
+          (click)="pickerFrom.open()"
+          [satDatepicker]="pickerFrom"
+          [value]="date"
+          [(ngModel)]="filter.date_from"
+        />
+        <sat-datepicker #pickerFrom [rangeMode]="false"> </sat-datepicker>
+        <sat-datepicker-toggle
+          matSuffix
+          [for]="pickerFrom"
+        ></sat-datepicker-toggle>
       </mat-form-field>
     </div>
     <div class="col-md-3 col-sm-12">
       <mat-form-field class="datepicker">
-        <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo" [value]="date" [(ngModel)]="filter.date_to">
-        <sat-datepicker #pickerTo [rangeMode]="false">
-        </sat-datepicker>
-        <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
+        <input
+          matInput
+          #mdate
+          placeholder="Date To"
+          readonly
+          (click)="pickerTo.open()"
+          [satDatepicker]="pickerTo"
+          [value]="date"
+          [(ngModel)]="filter.date_to"
+        />
+        <sat-datepicker #pickerTo [rangeMode]="false"> </sat-datepicker>
+        <sat-datepicker-toggle
+          matSuffix
+          [for]="pickerTo"
+        ></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="col-md-3  col-xs-12 text-right">
+    <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+        <button
+          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100"
+        >
           <div class="text-center" (click)="openNewImport()">+New Import</div>
         </button>
       </div>
@@ -55,10 +79,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let import of imports | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let idx = index;">
-        <td>{{import.id}}</td>
-        <td>{{import.type}}</td>
-        <td>{{import.user?.name}}</td>
+      <tr
+        *ngFor="
+          let import of imports
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total };
+          let idx = index
+        "
+      >
+        <td>{{ import.id }}</td>
+        <td>{{ import.type }}</td>
+        <td>{{ import.user?.name }}</td>
         <td><span class="badge badge-warning">Canclled</span></td>
         <!-- <td>{{import.progress}}%</td> -->
         <td>
@@ -68,8 +98,14 @@
 
         <td>
           <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
               Actions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -84,54 +120,213 @@
   </table>
 </div>
 
-<div class="modal fade" id="newImport" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="newImport"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="importForm">
-      <form action="" [formGroup]="importForm" (submit)="importFile()">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">New Import</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+      <ng-container *ngIf="step1 && type == '0'">
+        <form action="" [formGroup]="importForm" (submit)="importFile()">
+          <div class="modal-header">
+            <h5
+              class="modal-title"
+              id="exampleModalLabel"
+              style="text-align: center"
+            >
+              New Import
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
-        
-        <div class="modal-body">
-
-          <div class="form-group">
-            <label for="">Choose Import Type</label>
-            <div class="row">
-              <div class="col-md-6">
-                <select name="" class="owl-input bg-white" formControlName="type" (change)="generateLink()">
-                  <option [value]="'placeholder'" selected hidden>Select Type</option>
-                  <option value="1">Brands</option>
-                </select>
-              </div>
-              <div class="col-md-6 py-2" *ngIf="this.importForm.get('type').value">
-                <a target="_blank" [href]="downloadLink"><i class="fa fa-download mx-2"></i>Download Template</a>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">Choose Import Type</label>
+              <div class="row">
+                <div class="col-md-6">
+                  <select
+                    name=""
+                    class="owl-input bg-white"
+                    formControlName="type"
+                    (change)="generateLink()"
+                  >
+                    <option [value]="'placeholder'" selected hidden>
+                      Select Type
+                    </option>
+                    <option value="1">Brands</option>
+                  </select>
+                </div>
+                <div
+                  class="col-md-6 py-2"
+                  *ngIf="this.importForm.get('type').value"
+                >
+                  <a target="_blank" [href]="downloadLink"
+                    ><i class="fa fa-download mx-2"></i>Download Template</a
+                  >
+                </div>
               </div>
             </div>
-            
+            <div class="form-group">
+              <label for="">Select File</label>
+              <div>
+                <input
+                  type="file"
+                  formControlName="file"
+                  (change)="onFileChange($event)"
+                />
+              </div>
+            </div>
+
+            <div class="alert alert-danger">Brand Is Required</div>
+            {{ importForm.value | json }}
           </div>
-          <div class="form-group">
-            <label for="">Select File</label>
+
+          <div class="modal-footer" style="justify-content: center">
+            <button
+              type="submit"
+              class="btn-owls btn-rounded btn-green btn-blue2"
+            >
+              Import
+            </button>
+            <button
+              type="button"
+              data-dismiss="modal"
+              class="btn-owls btn-rounded btn-green btn-red2"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '1'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your brand</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
+          </div>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of 5 SKUs and <span>3 images</span> importing will
+              <span>not overwrite any existing products</span> that have the
+              same product handle.
+            </p>
+          </div>
+
+          <ul class="list-unstyled">
+            <li>
+              <h6>Name : <span>Brand</span></h6>
+            </li>
+            <li>
+              <h6>Image : <img src="assets/img/logo.png" /></h6>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
             <div>
-              <input type="file" formControlName="file" (change)="onFileChange($event)">
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import">import product</button>
             </div>
           </div>
-
-          <div class="alert alert-danger">
-            Brand Is Required
+        </section>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '2'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your Product</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
           </div>
-          {{importForm.value | json}}
-        </div>
-      
-
-        <div class="modal-footer" style="justify-content: center;">
-          <button type="submit" class="btn-owls btn-rounded btn-green btn-blue2">Import</button>
-          <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">Cancel</button>
-        </div>
-      </form>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of 5 SKUs and <span>3 images</span> importing will
+              <span>not overwrite any existing products</span> that have the
+              same product handle.
+            </p>
+          </div>
+          <ul class="list-unstyled">
+            <li>
+              <h6>Title :</h6>
+              <span>example</span>
+            </li>
+            <li>
+              <h6>description :</h6>
+              <span>example</span>
+            </li>
+            <li>
+              <h6>product status :</h6>
+              <span>example</span>
+            </li>
+            <li>
+              <h6>type :</h6>
+              <span>example</span>
+            </li>
+            <li>
+              <h6>vendor :</h6>
+              <span>example</span>
+            </li>
+          </ul>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Variant</th>
+                <th scope="col">Sku</th>
+                <th scope="col">Weight</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Gray</td>
+                <td></td>
+                <td>270 K.G</td>
+                <td>250 EGP</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
+            <div>
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import">import product</button>
+            </div>
+          </div>
+        </section>
+      </ng-container>
     </div>
   </div>
 </div>

@@ -12,10 +12,11 @@ declare var $: any;
 @Component({
   selector: 'app-imports',
   templateUrl: './imports.component.html',
-  styleUrls: ['./imports.component.css']
+  styleUrls: ['./imports.component.scss']
 })
 export class ImportsComponent implements OnInit {
-
+  step1:boolean;
+  type:string;
   p = 1;
   filter$ = new Subject();
   filter: any = {
@@ -30,7 +31,10 @@ export class ImportsComponent implements OnInit {
   importForm: FormGroup;
   downloadLink = '';
 
-  constructor(private importsService: ImportsService, private auth: AuthService) { }
+  constructor(private importsService: ImportsService, private auth: AuthService) {
+    this.step1 = false;
+    this.type = '2'
+  }
 
   ngOnInit() {
     this.filter$
@@ -64,6 +68,11 @@ export class ImportsComponent implements OnInit {
       file: new FormControl('', [Validators.required]),
       fileSource: new FormControl('', [Validators.required])
     });
+  }
+
+
+  closePopup(){
+    $("#newImport").modal("hide");
   }
 
   generateLink() {
@@ -117,4 +126,9 @@ export class ImportsComponent implements OnInit {
         }
       });
   }
+
+  backStep(){
+    this.step1 = true;
+  }
+
 }
