@@ -1,4 +1,4 @@
-import { environmentVariables } from './../../../environments/enviromentalVariables';
+// import { environmentVariables } from './../../../environments/enviromentalVariables';
 import { Component, OnInit } from '@angular/core';
 declare var jquery: any;
 declare var $: any;
@@ -9,7 +9,7 @@ declare var $: any;
   styleUrls: ['./left-sidebar.component.css']
 })
 export class LeftSidebarComponent implements OnInit {
-  environmentVariables = environmentVariables;
+  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
   constructor() { }
 
   ngOnInit() {

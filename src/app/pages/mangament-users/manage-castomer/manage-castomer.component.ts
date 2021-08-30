@@ -8,7 +8,7 @@ import { AuthService } from '@app/shared/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
+// import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
   selector: 'app-manage-castomer',
@@ -329,7 +329,7 @@ export class ManageCastomerComponent implements OnInit {
     this.cs.getCustomerToken(id)
       .subscribe((response: any) => {
         const token = response.data;
-
+        var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
         window.open(`${environmentVariables.brandRelatedVariables.loginApi}session/signin?disabled_guard=true&token=${token}`, '_blank');
       });
   }

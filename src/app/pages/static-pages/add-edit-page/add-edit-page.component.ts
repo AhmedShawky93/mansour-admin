@@ -17,7 +17,7 @@ export class AddEditPageComponent implements OnInit, OnChanges {
   @Input() curentAction;
   addEditPageForm: any;
   submitting = false;
-  website_url = environment.website_url;
+  website_url = JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl;
   editorConfig: AngularEditorConfig;
   currentslug='';
   loading=false;

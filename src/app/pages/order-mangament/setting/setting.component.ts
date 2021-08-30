@@ -14,7 +14,7 @@ import { Conditional } from "@angular/compiler";
 import { EventEmitter } from "@angular/core";
 import { delay } from "rxjs/operators";
 import * as moment from "moment";
-import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
+// import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
 
 
 function currentPasswordValidator(group: AbstractControl) {
@@ -253,6 +253,7 @@ export class SettingComponent implements OnInit {
       .updateLoyalitySettings(this.starsForm.value)
       .subscribe((response: any) => {
         this.settings = response.data;
+        var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
         this.toastrService.success(
           `${environmentVariables.brandRelatedVariables.brand} Stars Settings Updated Successfully!`
         );

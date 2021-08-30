@@ -5,7 +5,7 @@ import { FormGroup, FormControl } from "@angular/forms";
 import "rxjs/Rx";
 import { Subject } from "rxjs/Rx";
 import { tap, delay } from "rxjs/operators";
-import { environmentVariables } from '../../../../environments/enviromentalVariables'
+// import { environmentVariables } from '../../../../environments/enviromentalVariables'
 import {
   trigger,
   state,
@@ -68,7 +68,7 @@ export class StoresComponent implements OnInit {
     page: 1,
   };
   removeBranchObj: any;
-  environmentVariables = environmentVariables
+  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
   constructor(
     private toastrService: ToastrService,
     private bracnhesStoreService: BracnhesStoreService
