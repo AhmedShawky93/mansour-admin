@@ -49,9 +49,14 @@ export class StaticPagesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading=true;
     this.pagesService.getPages().subscribe((res) => {
+      if(res.code===200){
+      this.loading=false;
       this.pages = res.data;
       this.total = res.data.length;
+      }
+    
     })
   }
   changeActive(section) {
