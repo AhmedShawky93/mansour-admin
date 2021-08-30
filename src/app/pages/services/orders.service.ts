@@ -228,4 +228,12 @@ export class OrdersService {
       return Observable.throw(error.error || "Server error");
     });
   }
+
+  exportOrders(url) {
+    return this.http
+      .get(url)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      });
+  }
 }
