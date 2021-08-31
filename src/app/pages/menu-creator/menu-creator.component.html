@@ -32,7 +32,7 @@
                           {{levelThreeItem?.name}}
                         </div>
                         <ng-template #seeMoreLink>
-                          <img *ngIf="levelOneItem.level3_image" [src]="levelThreeItem.image" alt="item images">
+                          <img *ngIf="levelOneItem.level3_image && levelOneItem.level3_image && levelThreeItem.image" [src]="levelThreeItem.image" alt="item images">
                           - {{levelThreeItem?.name}}
                         </ng-template>
                       </li>
@@ -189,7 +189,7 @@
 
     <div class="form-group">
       <label>Order</label>
-      <input class="owl-input" formControlName="order" placeholder="Type.." required type="number">
+      <input class="owl-input" formControlName="order" placeholder="Type.."   type="number">
     </div>
 
     <div class="form-group">
@@ -280,7 +280,7 @@
 
     <div class="form-group">
       <label>Order</label>
-      <input class="owl-input" formControlName="order" placeholder="Type.." required type="number">
+      <input class="owl-input" formControlName="order" placeholder="Type.."  type="number">
     </div>
 
     <div class="form-group">
@@ -324,7 +324,7 @@
 
     <div class="form-group">
       <label>Order</label>
-      <input class="owl-input" formControlName="order" placeholder="Type.." required type="number">
+      <input class="owl-input" formControlName="order" placeholder="Type.."   type="number">
     </div>
 
     <div class="form-group">

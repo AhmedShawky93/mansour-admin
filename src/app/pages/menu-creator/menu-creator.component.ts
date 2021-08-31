@@ -389,7 +389,6 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   statedeleting: boolean = false;
   updating: boolean = false;
 
-
   constructor(private uploadService: UploadFilesService, private menuService: MenuService, private toastrService: ToastrService) {
     this.setHeaderForm();
     this.setGroupForm();
@@ -410,7 +409,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       menu_padding: new FormControl(data ? data.menu_padding : '2rem'),
       level1_image_dimentions: new FormControl(data ? data.level1_image_dimentions : '300px'),
       fixed_width: new FormControl(data ? data.fixed_width : '30%'),
-      order: new FormControl(data ? data.order : 0)
+      order: new FormControl(data ? data.order : 1000)
     })
   }
 
@@ -431,7 +430,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       name: new FormControl(data ? data.name : '', Validators.required),
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
       image: new FormControl(data ? data.image : ''),
-      order: new FormControl(data ? data.order : 0)
+      order: new FormControl(data ? data.order : 1000)
     })
   }
 
@@ -450,7 +449,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       name: new FormControl(data ? data.name : '', Validators.required),
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
       image: new FormControl(data ? data.image : ''),
-      order: new FormControl(data ? data.order : 0)
+      order: new FormControl(data ? data.order : 1000)
     })
   }
 
@@ -571,8 +570,8 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         this.formattedJson.level1[this.formattedJson.level1.length - 1].level2 = [];
         this.updateIndexHeader = this.formattedJson.level1.length - 1;
       }
-      this.sortHeaders();
       this.saveChanges();
+      this.sortHeaders();
     }
   }
 
@@ -594,8 +593,8 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.formattedJson.level1[this.updateIndexHeader].level2.length - 1].level3 = [];
         this.updateIndexGroup = this.formattedJson.level1[this.formattedJson.level1.length - 1].level2.length - 1;
       }
-      this.sortGroup();
       this.saveChanges();
+      this.sortGroup();
     }
   }
 
@@ -613,8 +612,8 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       } else {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.push(this.selectedSubcategory)
       }
-      this.sortSubCategory();
       this.saveChanges();
+      this.sortSubCategory();
     }
   }
 
