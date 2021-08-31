@@ -352,8 +352,13 @@
 </div>
 
 <hr>
+<label class="switch">
+  <label for="">Show Advanced feature</label>
+  <input [(ngModel)]="showAdvanced" type="checkbox" value="1">
+  <span class="slider round"></span>
+</label>
 
-<div class="menu-items-container column-view">
+<div class="menu-items-container column-view" *ngIf="showAdvanced">
   <h4>Or set menu with  json object</h4>
   <textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
   <button (click)="prettyPrint(true)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product"

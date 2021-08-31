@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { SatMonthView } from 'saturn-datepicker';
 import { MenuService } from '../services/menu.service';
 import { UploadFilesService } from '../services/upload-files.service';
 
@@ -388,6 +389,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   deleteItemName: any;
   statedeleting: boolean = false;
   updating: boolean = false;
+  showAdvanced: boolean = false;
 
   constructor(private uploadService: UploadFilesService, private menuService: MenuService, private toastrService: ToastrService) {
     this.setHeaderForm();
@@ -484,21 +486,23 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   }
 
   navigateToLink(url) {
-    window.open(url, '_blank')
+    url && window.open(url, '_blank');
   }
 
   prettyPrint(save = null) {
-    var element = <HTMLTextAreaElement>document.getElementById('formattedJsonString')
-    var ugly = element.value;
-    if (ugly) {
-      var obj = JSON.parse(ugly);
-      if (obj) {
-        this.formattedJson = obj;
-      } else {
-        this.formattedJson = {}
+    var element = <HTMLTextAreaElement>document.getElementById('formattedJsonString');
+    if(element){
+      var ugly = element.value;
+      if (ugly) {
+        var obj = JSON.parse(ugly);
+        if (obj) {
+          this.formattedJson = obj;
+        } else {
+          this.formattedJson = {}
+        }
+        var pretty = JSON.stringify(obj, undefined, 4);
+        element.value = pretty;
       }
-      var pretty = JSON.stringify(obj, undefined, 4);
-      element.value = pretty;
     }
     if (save) {
       this.updating = true;
@@ -550,11 +554,24 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  saveChanges() {
+  saveChanges(save = false) {
     localStorage.setItem('formattedJsonString', JSON.stringify(this.formattedJson));
     this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
     this.statedeleting = false;
     this.updating = false;
+
+    if (save) {
+      this.updating = true;
+      this.menuService.updateMenu({ menu: this.formattedJsonString }).subscribe((res => {
+        if (res.code === 200) {
+          this.toastrService.success('menu updated successfuly');
+        } else {
+          this.toastrService.error(res.message);
+        }
+        this.statedeleting = false;
+        this.updating = false;
+      }))
+    }
   }
 
   saveHeader() {
@@ -570,7 +587,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         this.formattedJson.level1[this.formattedJson.level1.length - 1].level2 = [];
         this.updateIndexHeader = this.formattedJson.level1.length - 1;
       }
-      this.saveChanges();
+      this.saveChanges(true);
       this.sortHeaders();
     }
   }
@@ -593,7 +610,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.formattedJson.level1[this.updateIndexHeader].level2.length - 1].level3 = [];
         this.updateIndexGroup = this.formattedJson.level1[this.formattedJson.level1.length - 1].level2.length - 1;
       }
-      this.saveChanges();
+      this.saveChanges(true);
       this.sortGroup();
     }
   }
@@ -612,7 +629,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       } else {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.push(this.selectedSubcategory)
       }
-      this.saveChanges();
+      this.saveChanges(true);
       this.sortSubCategory();
     }
   }
@@ -648,7 +665,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       this.selectedHeader = null;
     }
     this.formattedJson.level1.splice(this.deleteItemIndex, 1);
-    this.saveChanges();
+    this.saveChanges(true);
   }
 
   deleteGroup() {
@@ -656,7 +673,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       this.selectedGroup = null;
     }
     this.formattedJson.level1[this.updateIndexHeader].level2.splice(this.deleteItemIndex, 1);
-    this.saveChanges();
+    this.saveChanges(true);
   }
 
   deleteSubCategory() {
@@ -664,6 +681,6 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       this.selectedSubcategory = null;
     }
     this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.splice(this.deleteItemIndex, 1);
-    this.saveChanges();
+    this.saveChanges(true);
   }
 }
