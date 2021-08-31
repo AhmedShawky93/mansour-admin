@@ -854,7 +854,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   encodedProductName(name) {
-    return name.replace(/\s/g, '-').replace('/', '-')
+    return name.replace(/\s/g, '-').replace('/', '-').replace('(', '-').replace(')', '-')
   }
 
   confirmDelete() {
