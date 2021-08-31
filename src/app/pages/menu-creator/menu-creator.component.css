@@ -131,7 +131,6 @@
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items .menu-section-body .second-level-nav-link {
   color: var(--dynamic-menu-level-2-color);
   border-bottom: 1px solid #a58c8c;
-  cursor: pointer;
   margin-bottom: 10px;
   transition: all 0.3s ease;
   font-size: 1.2rem;
@@ -151,7 +150,6 @@
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container .sub-level-items .menu-section-body ul .third-level-nav-link {
   color: var(--dynamic-menu-level-3-color);
-  cursor: pointer;
   margin-bottom: 5px;
   transition: all 0.3s ease;
 }
@@ -200,18 +198,21 @@
   transition: all 0.3s ease;
   display: flex !important;
 }
-
+/* 
 .app-nav-list .app-nav-item .nav-link {
   cursor: pointer;
-}
+} */
 
 .app-nav-list .app-nav-item .nav-link.main {
   color: var(--dynamic-menu-level-1-color) !important;
-  cursor: pointer;
 }
 
 .app-nav-list .app-nav-item .nav-link.main:hover {
   color: var(--dynamic-menu-level-1-hover-color) !important;
+}
+
+.has-link{
+  cursor: pointer;
 }
 
 textarea {
