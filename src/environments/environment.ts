@@ -4,11 +4,11 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 // import { environmentVariables as variables } from './enviromentalVariables';
 
-// var variables=JSON.parse(localStorage.getItem("systemConfig"));
+var variables=JSON.parse(localStorage.getItem("systemConfig"));
 
 export const environment = {
   production: false,
   // api: "http://soleek-lap.test/mobilaty-backend/public/api",
   api: `https://mobilatyapi-staging.el-dokan.com/api`,
-  // website_url: `${variables?variables.envApi.env.checkoutUrl:''}`,
+  website_url: `${variables?variables.envApi.env.checkoutUrl:''}`,
 };
