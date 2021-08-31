@@ -15,8 +15,8 @@ export class ImportsService {
 
   }
 
-  getImports(data) {
-    return this.http.post(this.url + "import/filter", data)
+  getImports(page,data) {
+    return this.http.post(this.url + `import/filter?page=${page}`, data)
       .catch((error: any) => {
         return Observable.throw(error.error || 'Server error');
       })

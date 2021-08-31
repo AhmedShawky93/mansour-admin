@@ -19,6 +19,7 @@ declare var $: any;
 export class ImportsComponent implements OnInit {
   step1: boolean;
   type: string;
+  total: number;
   p = 1;
   filter$ = new Subject();
   filter: any = {
@@ -29,14 +30,14 @@ export class ImportsComponent implements OnInit {
     page: 1,
   };
   imports: any = [
-    {
-      id: 1,
-      type: null,
-      user: {
-        name: "test",
-      },
-      progressVal: "40",
-    },
+    // {
+    //   id: 1,
+    //   type: null,
+    //   user: {
+    //     name: "test",
+    //   },
+    //   progressVal: "40",
+    // },
   ];
   loading: boolean = false;
   importForm: FormGroup;
@@ -51,32 +52,30 @@ export class ImportsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filter$
-      .debounceTime(400)
-      .pipe(tap((e) => (this.loading = true)))
-      .switchMap((filter) => this.getImports())
+    this.getData();
+  }
+
+  getData() {
+    this.loading = true;
+    this.importsService
+      .getImports(this.filter.page, this.filter)
       .subscribe((result: any) => {
-        this.imports = result.data;
-
-        // this.total = result.data.total;
+        this.imports = result.data.items;
+        this.total = result.data.total;
+        this.loading = false;
       });
-
-    this.filter$.next(this.filter);
   }
 
-  getImports() {
-    return this.importsService.getImports(this.filter);
-  }
+ 
 
   changePage(p) {
     this.p = p;
-
     this.filter$.next(this.filter);
   }
 
   openNewImport() {
     this.step1 = true;
-    this.type = '0';
+    this.type = "0";
     $("#newImport").modal("show");
 
     this.importForm = new FormGroup({
@@ -152,11 +151,10 @@ export class ImportsComponent implements OnInit {
 
   filterImports(e, typeImport) {
     this.getFilterData(e, typeImport);
-    console.log(this.filter)
+    this.getData();
   }
 
-
-  getFilterData(e, typeImport){
+  getFilterData(e, typeImport) {
     switch (typeImport) {
       case "type":
         this.filter.type = e;

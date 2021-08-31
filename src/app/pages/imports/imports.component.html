@@ -5,6 +5,15 @@
         <select class="owl-input" name="type" [(ngModel)]="filter.type" (ngModelChange)="filterImports($event,'type')">
           <option value="" selected>Select Type</option>
           <option value="1">Brands</option>
+          <option value="2">Product</option>
+          <option value="3">Category</option>
+          <option value="4">Option</option>
+          <option value="5">Group</option>
+          <option value="6">Stock</option>
+          <option value="7">Lists</option>
+          <option value="8">Promo</option>
+          <option value="9">Cities</option>
+          <option value="10">Delivers</option>
         </select>
       </div>
     </div>
@@ -69,7 +78,7 @@
 </div>
 
 <div class="table-responsive text-center fixed-table-scroll">
-  <table class="table owls-table">
+  <table class="table owls-table" *ngIf="imports.length">
     <thead>
       <tr>
         <th scope="col">ID</th>
@@ -89,19 +98,37 @@
         "
       >
         <td>{{ import.id }}</td>
-        <td>{{ import.type }}</td>
-        <td>{{ import.user?.name }}</td>
         <td>
-          <span class="badge badge-pill badge-warning mr-1">Canclled</span>
-          <span class="badge badge-pill badge-primary mr-1">Canclled</span>
-          <span class="badge badge-pill badge-info mr-1">Canclled</span>
-          <span class="badge badge-pill badge-secondary mr-1">Canclled</span>
-          <span class="badge badge-pill badge-success mr-1">Canclled</span>
+          <span [ngSwitch]="import.type">
+            <span *ngSwitchCase="1">Brands</span>
+            <span *ngSwitchCase="2">Product</span>
+            <span *ngSwitchCase="3">Category</span>
+            <span *ngSwitchCase="4">Option</span>
+            <span *ngSwitchCase="5">Group</span>
+            <span *ngSwitchCase="6">Stock</span>
+            <span *ngSwitchCase="7">Lists</span>
+            <span *ngSwitchCase="8">Promo</span>
+            <span *ngSwitchCase="9">Cities</span>
+            <span *ngSwitchCase="10">Delivers</span>
+            <span *ngSwitchDefault>-</span>
+          </span>
         </td>
-        <!-- <td>{{import.progress}}%</td> -->
+        <td>{{ import.user?.name }}</td>
+
+        <td>
+          <span [ngSwitch]="import.state.id">
+            <span *ngSwitchCase="1" class="badge badge-pill badge-warning">Canclled</span>
+            <span *ngSwitchCase="2" class="badge badge-pill badge-primary">Progress</span>
+            <span *ngSwitchCase="3" class="badge badge-pill badge-success">Complete </span>
+            <span *ngSwitchCase="4" class="badge badge-pill badge-danger">Error</span>
+            <span *ngSwitchCase="5" class="badge badge-pill badge-secondary">Pending</span>
+            <span *ngSwitchDefault>-</span>
+          </span>
+        </td>
+
         <td>
           <!-- <mat-progress-bar mode="determinate" [value]="import?.progressVal"></mat-progress-bar> -->
-          <progress-bar [progress]="import.progressVal" [color]="'#e4002c'">
+          <progress-bar [progress]="import.progress" [color]="'#e4002c'">
           </progress-bar>
         </td>
 
@@ -127,6 +154,7 @@
       </tr>
     </tbody>
   </table>
+  <h4 class="text-center" *ngIf="!imports.length">There are no Imports</h4>
 </div>
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
