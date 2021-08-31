@@ -100,8 +100,7 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "assets": [
-              "src/assets",
-              "src/favicon.ico"
+              "src/assets"
             ]
           }
         },
