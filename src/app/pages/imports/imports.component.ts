@@ -6,6 +6,7 @@ import 'rxjs/Rx';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@env/environment';
 import { AuthService } from '@app/shared/auth.service';
+
 declare var jquery: any;
 declare var $: any;
 
@@ -26,7 +27,16 @@ export class ImportsComponent implements OnInit {
     date_to: "",
     page: 1
   };
-  imports: any = [];
+  imports: any = [
+    {
+      "id":1,
+      "type":null,
+      "user":{
+        "name":"test"
+      },
+      "progressVal":"40"
+    }
+  ];
   loading: boolean = false;
   importForm: FormGroup;
   downloadLink = '';
