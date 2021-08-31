@@ -20,13 +20,17 @@ declare var $: any;
 
 @Component({
   selector: "app-root",
-  template: ` <router-outlet *ngIf="ConfigLoaded"></router-outlet> `,
+  template: ` <router-outlet *ngIf="ConfigLoaded"></router-outlet> 
+            <div *ngIf="!ConfigLoaded" class="loadingArea">
+              <img src="./../assets/img/loading-table.svg" alt="">
+            </div>
+  `,
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
   systemConfig={
-    themeType: 1,
-    showLoyality: true,
+    themeType: null,
+    showLoyality: null,
     envApi: {
       env: {
         apiEndPoint: environment.api,
@@ -47,7 +51,7 @@ export class AppComponent implements OnInit {
       favIcon: "",
       logoWhite: "",
     },
-    brand_color:'#da1e42'
+    brand_color:''
   };
   ConfigLoaded=false;
   constructor(
@@ -73,13 +77,13 @@ export class AppComponent implements OnInit {
        if(res.code===200){
           this.systemConfig.themeType=res.data.theme_type;
           this.systemConfig.showLoyality=res.data.show_loyality;
-          this.systemConfig.envApi.env.checkoutUrl=res.data.checkout_url;
+          this.systemConfig.envApi.env.checkoutUrl=res.data.website_url;
           this.systemConfig.brandRelatedVariables.brand=res.data.brand_related_variables_brand;
           this.systemConfig.brandRelatedVariables.brandArabic=res.data.brand_related_variables_brandarabic;
           this.systemConfig.brandRelatedVariables.branchType=res.data.brand_related_variables_branchtype;
           this.systemConfig.brandRelatedVariables.email=res.data.brand_related_variables_email;
           this.systemConfig.brandRelatedVariables.hotline=res.data.brand_related_variables_hotline;
-          this.systemConfig.brandRelatedVariables.loginApi=res.data.brand_related_variables_loginApi;
+          this.systemConfig.brandRelatedVariables.loginApi=res.data.website_url;
           this.systemConfig.brands.logo=res.data.brands_logo;
           this.systemConfig.brands.logoBlack=res.data.brands_logoBlack;
           this.systemConfig.brands.favIcon=res.data.brands_favIcon;
@@ -88,15 +92,26 @@ export class AppComponent implements OnInit {
              document.documentElement.style.setProperty('--brand-color', this.systemConfig.brand_color)
           }
           localStorage.setItem('systemConfig',JSON.stringify(this.systemConfig));
+          // this.setLink(this.systemConfig);
           this.setConfig(this.systemConfig);
-          this.setLink(this.systemConfig);
+          this.setFirstFav(this.systemConfig);
           this.ConfigLoaded=true;
        }
     })
   }
+  setFirstFav(environmentVariables:any){
+    let link = document.querySelector("link[rel~='icon']");
+    // console.log(link)
+    // if (!link) {
+    //   link = document.createElement('link');
+    //   link['rel'] = 'icon';
+    //   document.getElementsByTagName('head')[0].appendChild(link);
+    // }
+    link['href'] = environmentVariables.brands.favIcon;
+    }
   setLink(environmentVariables){
     var link = document.createElement('link');
-    // var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
+    var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
     link.rel = 'icon';
     link.href = `${environmentVariables.brands.favIcon}`;
     document.getElementsByTagName('head')[0].appendChild(link);
@@ -151,13 +166,6 @@ export class AppComponent implements OnInit {
     });
   }); // end document
 
-  let link = document.querySelector("link[rel~='icon']");
-  console.log(link)
-  if (!link) {
-    link = document.createElement('link');
-    link['rel'] = 'icon';
-    document.getElementsByTagName('head')[0].appendChild(link);
-  }
-  link['href'] = environmentVariables.brands.favIcon;
+
   }
 }
