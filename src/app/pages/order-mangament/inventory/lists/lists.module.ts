@@ -9,7 +9,7 @@ import { ViewListComponent } from "./view-list/view-list.component";
 import { RouterModule } from "@angular/router";
 
 const router = [
-  { path: "", component: ListsComponent, data: { title: "options" } },
+  { path: "", component: ListsComponent, data: { title: "Custom Lists" } },
 ];
 
 @NgModule({

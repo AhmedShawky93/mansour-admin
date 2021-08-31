@@ -7,6 +7,24 @@
   </div>
   <div class="details details-2" *ngIf="section">
 
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <h5>Image AR</h5>
+        <img src="{{section?.image_ar}}" alt="" class=" owl-img img-fluid ">
+      </div>
+      <div class="col-12 col-md-6">
+        <h5>Image en</h5>
+        <img src="{{section?.image_en}}" alt="" class=" owl-img img-fluid ">
+      </div>
+    </div>
+    <!--<div>
+      <h5>Image AR</h5>
+      <img src="{{section?.image_ar}}" alt="" class=" owl-img img-fluid ">
+    </div>
+    <div>
+      <h5>Image en</h5>
+      <img src="{{section?.image_en}}" alt="" class=" owl-img img-fluid ">
+    </div>-->
     <div>
       <h5>Section name </h5>
       <p>{{section.name_en}}</p>

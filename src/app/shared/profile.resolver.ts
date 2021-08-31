@@ -11,7 +11,6 @@ export class ProfileResolver implements Resolve<any> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any>|Promise<any>|any {
-    console.log("resolving profile");
     return this.auth.getProfile();
   }
 }

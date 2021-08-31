@@ -1,0 +1,36 @@
+.img-preview{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.modal-body .checkup .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 7px;
+  height: 14px;
+
+}
+
+.collapsing,
+.dropdown,
+.dropup {
+  background: var(--brand-color);
+  color: #fff;
+  height: 40px;
+  line-height: 44px;
+  border-radius: 25px;
+}
+
+.btn-secondary.custom-file-control:before,
+.btn.btn-secondary {
+  color: #fff;
+
+}
+
+.btn.btn-secondary:hover {
+  color: #fff;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}

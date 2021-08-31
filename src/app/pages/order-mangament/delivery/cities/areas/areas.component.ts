@@ -83,7 +83,6 @@ export class AreasComponent implements OnInit {
     });
   }
   viewDataInSidebar(clinic) {
-    console.log(clinic);
     this.selectDataView = clinic;
     this.toggleAddEditData = "out";
     this.viewDataSidebar = "in";

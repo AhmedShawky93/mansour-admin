@@ -200,13 +200,11 @@ export class OrdersDeliveryComponent implements OnInit {
         this.orders.forEach((element) => {
           element.select = true;
           this.selectAllChecked = true;
-          console.log("selectAllChecked ==>", this.selectAllChecked);
         });
       } else {
         this.orders.forEach((element) => {
           element.select = false;
           this.selectAllChecked = false;
-          console.log("selectAllChecked ==>", this.selectAllChecked);
         });
       }
     }
@@ -216,17 +214,14 @@ export class OrdersDeliveryComponent implements OnInit {
   selectStatus(id) {
     this.orderStatusId = id;
     let index = this.orderStatus.findIndex((item) => item.id == id);
-    console.log(index);
 
     if (index !== -1) {
       this.orderSubStates = this.orderStatus[index].sub_states;
-      console.log(this.orderSubStates);
     }
     // if (!this.firstTime) {
     //   $("#confirmOrderStatus").modal("show");
     //   this.firstTime = false;
     // }
-    // console.log(this.firstTime);
   }
 
   clearDateFrom() {
@@ -241,7 +236,6 @@ export class OrdersDeliveryComponent implements OnInit {
 
   changePage(p) {
     this.p = p;
-    console.log(this.filter);
 
     // this.filterOrders(p);
     this.filter$.next(this.filter);
@@ -259,7 +253,6 @@ export class OrdersDeliveryComponent implements OnInit {
     if (this.filter.date_to) {
       this.filter.date_to = moment(this.filter.date_to).format("YYYY-MM-DD");
     }
-    // console.log(this.serialize(this.filter));
     this.exportProductsUrl =
       this.productsUrl + "&" + this.serialize(this.filter);
 
@@ -316,14 +309,12 @@ export class OrdersDeliveryComponent implements OnInit {
     this.ordersService
       .getAvailableDeliverers(order.id)
       .subscribe((response: any) => {
-        console.log(response.data);
         this.availableDeliverers = response.data;
         this.availableDeliverers.map((deliverer) => {
           deliverer.deliverer_profile.district_names = deliverer.deliverer_profile.districts
             .map((d) => d.name)
             .join(", ");
         });
-        console.log(this.availableDeliverers);
         this.viewFilter = "";
         this.listFilter = "";
         order.showPopup = 1;
@@ -462,8 +453,6 @@ export class OrdersDeliveryComponent implements OnInit {
     this.loadingProductSideBar = true;
     this.product_list = [];
     this.catService.getProducts(cat_id).subscribe((response: any) => {
-      console.log(response);
-      console.log(this.currentOrder.items);
       if (response.code === 200) {
         this.loadingProductSideBar = false;
         this.product_list = response.data;
@@ -504,26 +493,21 @@ export class OrdersDeliveryComponent implements OnInit {
   }
 
   addAmountOldItem(product) {
-    console.log(product);
     // if (product.quantity < product.amount) {
     product.amount++;
-    // console.log(product, "if");
     // }
   }
   removeAmountOldItem(product) {
-    console.log(product);
     product.amount > 1 ? product.amount-- : (product.amount = 1);
     // product.quantity > 0 ? product.quantity-- : (product.quantity = 0);
   }
 
   addAmountOldItemReturn(product) {
-    console.log(product);
     if (product.quantity < product.amount) {
       product.quantity++;
     }
   }
   removeAmountOldItemReturn(product) {
-    console.log(product);
 
     product.quantity > 1 ? product.quantity-- : (product.quantity = 0);
   }
@@ -535,8 +519,6 @@ export class OrdersDeliveryComponent implements OnInit {
     if (productAmountIndex !== -1) {
       this.currentOrder.items[productAmountIndex].amount = product.amount;
     } else {
-      console.log(product);
-      console.log(this.currentOrder.items);
 
       this.currentOrder.items.push({
         id: product.id,
@@ -552,7 +534,6 @@ export class OrdersDeliveryComponent implements OnInit {
     }
   }
   removeAmount(product) {
-    console.log(product);
     product.amount > 0 ? product.amount-- : (product.amount = 1);
 
     const productAmountIndex = this.currentOrder.items.findIndex(
@@ -561,10 +542,8 @@ export class OrdersDeliveryComponent implements OnInit {
     if (productAmountIndex !== -1) {
       if (product.amount > 0) {
         this.currentOrder.items[productAmountIndex].amount = product.amount;
-        console.log("if");
       } else if (product.amount == 0) {
         this.currentOrder.items.splice(productAmountIndex, 1);
-        console.log("else if ");
       }
     }
   }
@@ -605,7 +584,6 @@ export class OrdersDeliveryComponent implements OnInit {
           returned_quantity: item.quantity,
         };
       });
-    console.log(itemReturn);
 
     if (itemReturn.length) {
       this.ordersService
@@ -689,14 +667,12 @@ export class OrdersDeliveryComponent implements OnInit {
 
   openPopupConfirmStatus(data, type) {
     // type 1 change order status and 2 sub statue
-    console.log(data);
     this.orderStatuId = data;
     this.typeStatusPopup = type;
     $("#confirmOrderStatus").modal("show");
   }
 
   changeStatus(notifyUser, type) {
-    console.log(notifyUser, type);
     if (type == 1) {
       this.ordersService
         .changeStatus(this.orderId, {
@@ -744,7 +720,6 @@ export class OrdersDeliveryComponent implements OnInit {
   }
 
   openPopupAction(type, data) {
-    console.log(type, data);
     if (type == 1) {
       // assign delivery
       this.getDeliverers(data);
@@ -776,22 +751,17 @@ export class OrdersDeliveryComponent implements OnInit {
   }
 
   SelectDistrict(event, data) {
-    console.log(event);
-    console.log(data);
   }
   public getArea(area) {
-    console.log(area);
     const index = this.cities.findIndex((item) => item.id == area);
     if (index !== -1) {
       if (this.cities[index].areas.length) {
         this.areaList = this.cities[index].areas;
-        console.log(this.areaList, "if");
       } else {
         this.areaList = [];
         this.areaList.push(this.cities[index]);
         this.districts.push(this.cities[index]);
 
-        console.log(this.areaList, "else");
       }
     }
     this.districts = [];
@@ -802,11 +772,9 @@ export class OrdersDeliveryComponent implements OnInit {
     if (index !== -1) {
       if (this.areaList[index].districts.length) {
         this.districts = this.areaList[index].districts;
-        console.log(this.areaList, "if");
       } else {
         this.districts = [];
         this.districts.push(this.areaList[index]);
-        console.log(this.areaList, "else");
       }
     }
   }

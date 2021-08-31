@@ -11,10 +11,8 @@ export class ViewProductComponent implements OnInit , OnChanges{
   constructor() { }
 
   ngOnInit() {
-    console.log(this.currentProduct)
   }
   ngOnChanges(): void {
-    console.log(this.currentProduct)
   }
   closeSideBar() {
     this.closeSideBarEmit.emit()

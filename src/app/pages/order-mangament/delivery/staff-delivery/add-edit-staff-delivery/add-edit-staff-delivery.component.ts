@@ -95,7 +95,6 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
       // edit
       const data = this.OptionForm.value;
 
-      console.log(data);
       if (!this.OptionForm.valid) {
         this.markFormGroupTouched(this.OptionForm);
         return;
@@ -117,7 +116,6 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
     } else {
       // add
       const data = this.OptionForm.value;
-      console.log(data);
       if (!this.OptionForm.valid) {
         this.markFormGroupTouched(this.OptionForm);
         return;
@@ -151,18 +149,13 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
   selectCity(city_id) {
     this.districts = [];
     let index = this.cities.findIndex((item) => item.id == city_id);
-    console.log(index);
     if (index !== -1) {
       this.areas = this.cities[index].areas;
-      console.log(this.areas);
     }
   }
   selectArea(area_id) {
-    console.log(area_id);
     let index = this.areas.findIndex((item) => item.id == area_id);
-    console.log(index);
 
     this.districts = this.areas[index].districts;
-    console.log(this.districts);
   }
 }

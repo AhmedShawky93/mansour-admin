@@ -196,7 +196,7 @@
 
 .order-report>i {
   float: right;
-  color: #d74254;
+  color: var(--brand-color);
   font-size: 20px;
   cursor: pointer;
 }
@@ -220,7 +220,7 @@
 }
 
 .delete-dets div span.delete {
-  color: #D74254;
+  color: var(--brand-color);
 }
 
 .payment-area {
@@ -501,7 +501,7 @@ a.clear-date {
 .collapsing,
 .dropdown,
 .dropup {
-  background: #eb1c24;
+  background: var(--brand-color);
   color: #fff;
   height: 40px;
   line-height: 44px;

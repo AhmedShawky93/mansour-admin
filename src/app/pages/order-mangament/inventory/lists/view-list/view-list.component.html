@@ -17,6 +17,18 @@
         <img src="{{list.image_ar}}" alt="">
       </div>
     </div> -->
+    <div class="import-export">
+
+      <button class="btn btn-owls btn-rounded btn-green btn-special owl-input-file inputFile" style="overflow: hidden">
+        Import List
+        <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
+          (change)="uploadList($event)">
+      </button>
+      <div class="form-group">
+        <a class=" btn btn-owls btn-rounded btn-green btn-special" (click)="export(list.id)">export
+          List</a>
+      </div>
+    </div>
 
     <div>
       <h5>List Name </h5>
@@ -40,7 +52,7 @@
 
     <div>
       <h5>Total Products</h5>
-      <p>{{list?.products.length}}</p>
+      <p>{{list?.products?.length}}</p>
     </div>
 
     <div>

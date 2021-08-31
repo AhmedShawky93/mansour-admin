@@ -63,7 +63,7 @@ export class SectionsComponent implements OnInit {
   constructor(
     private toastrService: ToastrService,
     private sectionsService: SectionsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getSections();
@@ -72,8 +72,8 @@ export class SectionsComponent implements OnInit {
       searchTerm: new FormControl(),
     });
   }
-  openViewProduct(data) {}
-  
+  openViewProduct(data) { }
+
   getSections() {
     this.loading = true;
     this.productIsEmpty = false;
@@ -82,7 +82,6 @@ export class SectionsComponent implements OnInit {
       .getSections(this.searchObj)
       .subscribe((response: any) => {
         if (response.code === 200) {
-          console.log(response.data.data);
           this.sections = response.data;
           this.loading = false;
           this.sections.map((section) => {
@@ -146,7 +145,6 @@ export class SectionsComponent implements OnInit {
   }
 
   viewSection(section) {
-    console.log(section);
     this.currentSection = section;
     this.toggleAddOption = "out";
     this.viewOptionSidebar = "in";
@@ -156,7 +154,16 @@ export class SectionsComponent implements OnInit {
     this.currentSection = data;
     this.viewOptionSidebar = "out";
     this.toggleAddOption = "in";
-    console.log(this.currentSection);
+  }
+
+  deleteSection(data) {
+    this.sectionsService.deleteSection(data.id).subscribe(res => {
+      if (res.code === 200) {
+        this.sections = this.sections.filter(item => item.id !== data.id)
+      } else {
+        this.toastrService.error(res.message);
+      }
+    })
   }
 
   closeSideBar() {

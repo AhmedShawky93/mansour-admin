@@ -1,0 +1,62 @@
+<div class="form-sidebar view-vindor-types" id="show-p-details">
+  <div class="head">
+    <span class="close" id="close-vindors4" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>View Branch</h3>
+  </div>
+  <div class="details details-2" *ngIf="dataView">
+
+
+    <div>
+      <h5> Shop name </h5>
+      <p>{{dataView.shop_name}}</p>
+    </div>
+    <div>
+      <h5> Shop name ar </h5>
+      <p>{{dataView.shop_name_ar}}</p>
+    </div>
+    <div>
+      <h5> Address </h5>
+      <p>{{dataView.address}}</p>
+    </div>
+    <div>
+      <h5> Address ar </h5>
+      <p>{{dataView.address_ar}}</p>
+    </div>
+    <div>
+      <h5> Area </h5>
+      <p>{{dataView.area}}</p>
+    </div>
+    <div>
+      <h5> Area ar </h5>
+      <p>{{dataView.area_ar}}</p>
+    </div>
+
+    <div>
+      <h5> Location on Map </h5>
+      <div class="disabled-map">
+        <agm-map [latitude]="dataView.lat" [zoom]="12" [longitude]="dataView.lng" [scrollwheel]="false"
+          [draggable]="false" [scaleControl]="false" [disableDefaultUI]="true">
+          <agm-marker [latitude]="dataView.lat" [longitude]="dataView.lng"></agm-marker>
+        </agm-map>
+      </div>
+    </div>
+    <div>
+      <h5>Phones</h5>
+      <p *ngFor="let phone of dataView?.phone">
+        • {{phone}}
+      </p>
+    </div>
+    <!-- <div>
+      <h5> Email </h5>
+      <p>{{dataView.email}}</p>
+    </div> -->
+    <div>
+      <h5> Type </h5>
+      <p>{{dataView.type_en}}</p>
+    </div>
+
+
+  </div>
+</div>

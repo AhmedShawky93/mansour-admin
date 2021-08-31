@@ -14,7 +14,8 @@ export class OptionsService {
     this.url = environment.api + "/admin";
   }
 
-  getOptions(data) {
+  getOptions(data = null) {
+    data = data || {};
     return this.http
       .get(this.url + "/options", { params: data })
       .catch((error: any) => {

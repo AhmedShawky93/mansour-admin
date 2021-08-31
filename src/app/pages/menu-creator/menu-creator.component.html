@@ -1,0 +1,395 @@
+<div class="generated-nav-container main-font">
+  <nav class="app-nav" (click)="updateColorsTest()">
+    <ul class="app-nav-list my-0" *ngIf="formattedJson" [ngClass]="{ 'hide-menu': clickedItem }"
+      (mouseleave)="clickedItem = false">
+      <li class="app-nav-item" [ngClass]="levelOneItem.level2.length > 0 ? 'mega' : ''"
+        *ngFor="let levelOneItem of formattedJson.level1; let i = index">
+        <ng-container>
+          <a class="nav-link main main-font" [ngClass]="{'has-link' : levelOneItem.link}" routerLinkActive="active-link"
+            (click)="navigateToLink(levelOneItem.link)"
+            (mouseleave)="clickedItem = false">
+            {{ levelOneItem?.name }}
+          </a>
+        </ng-container>
+
+        <div class="sub-menu main-submenu dynamic-menu" [ngStyle]="{'padding': levelOneItem.menu_padding}">
+          <ng-container *ngIf="levelOneItem.level2.length > 0 && levelOneItem.levels_length == 3;else simpleMenu">
+            <ul class="sub-menu-items-container">
+              <li class="sub-level-items-container main-font" [ngClass]="levelOneItem.fixed_width ? 'fixed-width' : ''"
+                [ngStyle]="{'width': levelOneItem.fixed_width}" *ngFor="let levelTwoItem of levelOneItem.level2">
+                <div class="sub-level-items">
+                  <img *ngIf="levelOneItem.level2_image && levelTwoItem.image" [src]="levelTwoItem.image"
+                    alt="secondary section image" />
+                  <div class="menu-section-body">
+                    <h2 class="second-level-nav-link main-font" [ngClass]="{'has-link': levelTwoItem.link}"
+                      (click)="navigateToLink(levelTwoItem.link)">
+                      {{ levelTwoItem?.name }}</h2>
+                    <ul>
+                      <li class="third-level-nav-link main-font"
+                        [ngStyle]="{'line-height': levelOneItem.level3_items_spacing}"
+                        *ngFor="let levelThreeItem of levelTwoItem.level3"
+                        (click)="navigateToLink(levelThreeItem.link)" [ngClass]="{'has-link': levelThreeItem.link}">
+                        <div class="view-more main-font" *ngIf="levelThreeItem.highlighted;else seeMoreLink">
+                          <img *ngIf="levelOneItem.level3_image && levelThreeItem.image" [src]="levelThreeItem.image" alt="item images">
+                          {{levelThreeItem?.name}}
+                        </div>
+                        <ng-template #seeMoreLink>
+                          <img *ngIf="levelOneItem.level3_image && levelOneItem.level3_image && levelThreeItem.image" [src]="levelThreeItem.image" alt="item images">
+                          - {{levelThreeItem?.name}}
+                        </ng-template>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="first-level-image"
+              [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
+              *ngIf="levelOneItem.level1_image">
+              <img [src]="levelOneItem.image" alt="main section image" />
+            </div>
+          </ng-container>
+
+          <ng-template #simpleMenu>
+            <ul class="sub-menu-items-container simple-sub-menu">
+              <li class="sub-level-items-container" *ngFor="let levelTwoItem of levelOneItem.level2">
+                <div class="sub-level-items">
+                  <div class="menu-section-body">
+                    <p class="second-level-nav-link main-font" (click)="navigateToLink(levelTwoItem.link)">
+                      {{levelTwoItem?.name}}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="first-level-image"
+              [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
+              *ngIf="levelOneItem.level1_image">
+              <img [src]="levelOneItem.image" alt="main section image" />
+            </div>
+          </ng-template>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="main-menu-items">
+  <div class="item form-group">
+    <label for="menu_background_color">Menu background color</label>
+    <input class="owl-input" matInput name="menu_background_color" type="text"
+      (blur)="checkColorValidity(formattedJson.menu_background_color, 'menu_background_color')"
+      [(ngModel)]="formattedJson.menu_background_color">
+  </div>
+  <div class="item form-group">
+    <label for="drop_menu_background_color">Drop menu background color</label>
+    <input class="owl-input" matInput name="drop_menu_background_color" type="text"
+      (blur)="checkColorValidity(formattedJson.drop_menu_background_color, 'drop_menu_background_color')"
+      [(ngModel)]="formattedJson.drop_menu_background_color">
+  </div>
+  <div class="item form-group">
+    <label for="level1_text_color">Headers text color</label>
+    <input class="owl-input" matInput name="level1_text_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level1_text_color, 'level1_text_color')"
+      [(ngModel)]="formattedJson.level1_text_color">
+  </div>
+  <div class="item form-group">
+    <label for="level1_hover_color">Headers hover text color</label>
+    <input class="owl-input" matInput name="level1_hover_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level1_hover_color, 'level1_hover_color')"
+      [(ngModel)]="formattedJson.level1_hover_color">
+  </div>
+  <div class="item form-group">
+    <label for="level2_text_color">Groups text color</label>
+    <input class="owl-input" matInput name="level2_text_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level2_text_color, 'level2_text_color')"
+      [(ngModel)]="formattedJson.level2_text_color">
+  </div>
+  <div class="item form-group">
+    <label for="level2_hover_color">Groups hover text color</label>
+    <input class="owl-input" matInput name="level2_hover_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level2_hover_color, 'level2_hover_color')"
+      [(ngModel)]="formattedJson.level2_hover_color">
+  </div>
+  <div class="item form-group">
+    <label for="level3_text_color">Sub category text color</label>
+    <input class="owl-input" matInput name="level3_text_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level3_text_color, 'level3_text_color')"
+      [(ngModel)]="formattedJson.level3_text_color">
+  </div>
+  <div class="item form-group">
+    <label for="level3_hover_color">Sub category hover text color</label>
+    <input class="owl-input" matInput name="level3_hover_color" type="text"
+      (blur)="checkColorValidity(formattedJson.level3_hover_color, 'level3_hover_color')"
+      [(ngModel)]="formattedJson.level3_hover_color">
+  </div>
+
+  <!-- <button (click)="updateColorsTest()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply colors
+    change</button> -->
+</div>
+
+<hr>
+<div class="menu-items-container">
+  <div class="level-container">
+    <h4>Headers</h4>
+    <div class="items-container">
+      <div class="cat-item" *ngFor="let itemLevelOne of formattedJson.level1;let index = index" (click)="selectHeader(itemLevelOne, index)">
+        {{itemLevelOne.name}}
+        <span (click)="deleteItem(index, $event, itemLevelOne, 1)">X</span>
+      </div>
+      <div class="add-item" (click)="selectHeader()">Add Item..</div>
+    </div>
+  </div>
+  <div class="level-container" [ngClass]="selectedHeader ? 'show' : 'hidden'">
+    <h4>Groups</h4>
+    <div class="items-container">
+      <div class="cat-item" *ngFor="let levelTwoItem of selectedHeader?.level2;let index = index" (click)="selectGroup(levelTwoItem, index)">
+        {{levelTwoItem?.name}}
+        <span (click)="deleteItem(index, $event, levelTwoItem, 2)">X</span>
+      </div>
+      <div class="add-item" (click)="selectGroup()">Add Item..</div>
+    </div>
+  </div>
+  <div class="level-container" [ngClass]="selectedGroup ? 'show' : 'hidden'">
+    <h4>Sub Categories</h4>
+    <div class="items-container">
+      <div class="cat-item" *ngFor="let levelThreeItem of selectedGroup?.level3;let index = index" (click)="selectSubCategory(levelThreeItem, index)">
+        {{levelThreeItem?.name}}
+        <span (click)="deleteItem(index, $event, levelThreeItem, 3)">X</span>
+      </div>
+      <div class="add-item" (click)="selectSubCategory()">Add Item..</div>
+    </div>
+  </div>
+</div>
+
+<div class="header-editor" [hidden]="!(editorType == 1)">
+  <form (submit)="saveHeader()" [formGroup]="headerForm" class="header-form">
+    <div class="form-group">
+      <label>Name</label>
+      <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
+      <div *ngIf="headerForm.controls.name.errors?.required" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Name Arabic</label>
+      <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
+      <div *ngIf="headerForm.controls.name_ar.errors?.required" class="alert alert-danger">
+        Name arabic is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Level length</label>
+      <input class="owl-input" formControlName="levels_length" placeholder="Type.." required type="text">
+      <div *ngIf="headerForm.controls.levels_length.errors?.required" class="alert alert-danger">
+        Level length is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Order</label>
+      <input class="owl-input" formControlName="order" placeholder="Type.." type="number">
+    </div>
+
+    <div class="form-group">
+      <label>Link</label>
+      <input class="owl-input" formControlName="link" placeholder="Type.." type="text">
+    </div>
+    
+    <div class="form-group">
+      <label>Level 3 item spacing</label>
+      <input class="owl-input" formControlName="level3_items_spacing" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Menu padding</label>
+      <input class="owl-input" formControlName="menu_padding" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Columns fixed width</label>
+      <input class="owl-input" formControlName="fixed_width" placeholder="Type.." type="text">
+    </div>
+    
+    <div class="form-group">
+      <label>Image fixed width</label>
+      <input class="owl-input" formControlName="level1_image_dimentions" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group radio-group">
+      <label>Enable header image</label>
+      <div class="input">
+        <input type="radio" [value]="true" formControlName="level1_image">Yes
+      </div>
+      <div class="input">
+        <input type="radio" [value]="false" formControlName="level1_image">No
+      </div>
+
+      <label>Enable Group image</label>
+      <div class="input">
+        <input type="radio" [value]="true" formControlName="level2_image">Yes
+      </div>
+      <div class="input">
+        <input type="radio" [value]="false" formControlName="level2_image">No
+      </div>
+
+      <label>Enable subcategory image</label>
+      <div class="input">
+        <input type="radio" [value]="true" formControlName="level3_image">Yes
+      </div>
+      <div class="input">
+        <input type="radio" [value]="false" formControlName="level3_image">No
+      </div>
+    </div>
+
+    <div class="form-group owls-upload owls-upload3 big" *ngIf="headerForm.controls.level1_image">
+      <label>Header image</label>
+      <img class="owl-img img-fluid" [hidden]="headerForm.controls.image.value"
+        src="./assets/img/placeholder200.jpg" style="width: 200px; height: 200px;" alt="">
+      <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!headerForm.controls.image.value"
+        [src]="headerForm.controls.image.value" alt="">
+      <input type="file" id="editHeaderImg" class="owl-input" placeholder="upload your image"
+        (change)="uploadImage(headerForm.controls.image, $event)" name="image" />
+      <input type="hidden" [(ngModel)]="headerForm.image" formControlName="image">
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="updating">Update</button>
+    </div>
+  </form>
+</div>
+
+<div class="group-editor" [hidden]="!(editorType == 2)">
+  <form (submit)="saveGroup()" [formGroup]="groupForm" class="group-form">
+    <div class="form-group">
+      <label>Name</label>
+      <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
+      <div *ngIf="groupForm.controls.name.errors?.required" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Name Arabic</label>
+      <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
+      <div *ngIf="groupForm.controls.name_ar.errors?.required" class="alert alert-danger">
+        Name arabic is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Order</label>
+      <input class="owl-input" formControlName="order" placeholder="Type.." type="number">
+    </div>
+
+    <div class="form-group">
+      <label>Link</label>
+      <input class="owl-input" formControlName="link" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group owls-upload owls-upload3 big" *ngIf="selectedHeader?.level2_image">
+      <label>Group image</label>
+      <img class="owl-img img-fluid" [hidden]="groupForm.controls.image.value" style="width: 200px; height: 200px;" src="./assets/img/placeholder200.jpg" alt="">
+      <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!groupForm.controls.image.value"
+        [src]="groupForm.controls.image.value" alt="">
+      <input type="file" id="editHeaderImg" class="owl-input" placeholder="upload your image"
+        (change)="uploadImage(groupForm.controls.image, $event)" name="image" />
+      <input type="hidden" [(ngModel)]="groupForm.image" formControlName="image">
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green " [appLoading]="updating">Update</button>
+    </div>
+  </form>
+</div>
+
+<div class="subcategory-editor" [hidden]="!(editorType == 3)">
+  <form (submit)="saveSubCategory()" [formGroup]="subCategoryForm" class="group-form">
+    <div class="form-group">
+      <label>Name</label>
+      <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
+      <div *ngIf="subCategoryForm.controls.name.errors?.required" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Name Arabic</label>
+      <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
+      <div *ngIf="subCategoryForm.controls.name_ar.errors?.required" class="alert alert-danger">
+        Name arabic is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Order</label>
+      <input class="owl-input" formControlName="order" placeholder="Type.." type="number">
+    </div>
+
+    <div class="form-group">
+      <label>Link</label>
+      <input class="owl-input" formControlName="link" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group owls-upload owls-upload3 big" *ngIf="selectedHeader?.level3_image">
+      <label>Sub category image</label>
+      <img class="owl-img img-fluid" [hidden]="subCategoryForm.controls.image.value" style="width: 200px; height: 200px;" src="./assets/img/placeholder200.jpg"
+        alt="">
+      <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!subCategoryForm.controls.image.value"
+        [src]="subCategoryForm.controls.image.value" alt="">
+      <input type="file" id="editHeaderImg" class="owl-input" placeholder="upload your image"
+        (change)="uploadImage(subCategoryForm.controls.image, $event)" name="image" />
+      <input type="hidden" [(ngModel)]="subCategoryForm.image" formControlName="image">
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="updating">Update</button>
+    </div>
+  </form>
+</div>
+
+<hr>
+<label class="switch">
+  <label for="">Show Advanced feature</label>
+  <input [(ngModel)]="showAdvanced" type="checkbox" value="1">
+  <span class="slider round"></span>
+</label>
+
+<div class="menu-items-container column-view" *ngIf="showAdvanced">
+  <h4>Or set menu with  json object</h4>
+  <textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
+  <button (click)="prettyPrint(true)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product"
+    [appLoading]="updating">Apply Json changes</button>
+</div>
+
+<div class="modal fade" id="deleteMenuItem" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Delete Menu Item
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        Are you sure you want to Delete the menu item ({{deleteItemName}}) ?
+
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" [appLoading]="statedeleting" [disabled]='statedeleting'
+          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;" (click)="confirmDelete()">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

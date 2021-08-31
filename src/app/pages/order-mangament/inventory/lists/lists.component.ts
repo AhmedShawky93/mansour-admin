@@ -63,7 +63,7 @@ export class ListsComponent implements OnInit {
   constructor(
     private toastrService: ToastrService,
     private listsService: ListsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getLists();
@@ -72,7 +72,7 @@ export class ListsComponent implements OnInit {
       searchTerm: new FormControl(),
     });
   }
-  
+
   getLists() {
     this.loading = true;
     this.productIsEmpty = false;
@@ -81,7 +81,6 @@ export class ListsComponent implements OnInit {
       .getLists(this.searchObj)
       .subscribe((response: any) => {
         if (response.code === 200) {
-          console.log(response.data.data);
           this.lists = response.data;
           this.total = this.lists.length;
           this.loading = false;
@@ -134,7 +133,7 @@ export class ListsComponent implements OnInit {
     list.notes = "";
     list.showReason = 0;
   }
-  
+
   submitDeactivate(list) {
     list.active = 0;
     this.listsService
@@ -147,18 +146,28 @@ export class ListsComponent implements OnInit {
       });
   }
 
+
   viewList(list) {
-    console.log(list);
     this.currentList = list;
     this.toggleListForm = "out";
     this.viewOptionSidebar = "in";
   }
 
   toggleMenu(data) {
-    this.selectOptionData = data;
-    this.viewOptionSidebar = "out";
-    this.toggleListForm = "in";
-    console.log(this.selectOptionData);
+    this.selectOptionData = null;
+    if (data == null) {
+      this.selectOptionData = null;
+      this.viewOptionSidebar = "out";
+      this.toggleListForm = "in";
+    } else {
+      this.listsService.getListById(data.id).subscribe((res) => {
+        if (res.code === 200) {
+          this.selectOptionData = res.data;
+          this.viewOptionSidebar = "out";
+          this.toggleListForm = "in";
+        }
+      })
+    }
   }
 
   closeSideBar() {

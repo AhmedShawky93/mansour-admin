@@ -14,7 +14,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         return new Promise((resolve) => {
             this.auth.getProfile().toPromise()
               .then(async (data: any) => {
-                console.log('home auth', data)
                 
                 await this.permissionsService.flushPermissions();
 
@@ -37,7 +36,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
 
     canActivateChild() {
-        console.log("guarding");
         if(this.auth.isAuthenticated()){
             return true;
         }

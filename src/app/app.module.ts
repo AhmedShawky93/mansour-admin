@@ -1,4 +1,5 @@
 import { GroupsComponent } from './pages/order-mangament/inventory/groups/groups.component';
+import { BracnhesStoreService } from './pages/services/stores.service';
 import { AuthService } from "@app/shared/auth.service";
 import { AppRoutingModule } from "./routing/app-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -42,6 +43,7 @@ import { DetailsViewComponent } from "./pages/order-mangament/details-view/detai
 import { DoneComponent } from "./pages/mangament-users/done/done.component";
 import { ManageCastomerComponent } from "./pages/mangament-users/manage-castomer/manage-castomer.component";
 import { TotalOrdersComponent } from "./pages/mangament-users/total-orders/total-orders.component";
+import { AdminLogComponent } from "./pages/mangament-users/admin-log/admin-log.component";
 import { OrderDetailsComponent } from "./pages/order-mangament/order-details/order-details.component";
 import { ForgetPasswordComponent } from "./pages/login/forget-password/forget-password.component";
 import { ResetPasswordComponent } from "./pages/login/reset-password/reset-password.component";
@@ -77,6 +79,7 @@ import { CustomFormsModule } from "ng2-validation";
 import { HttpClient } from "selenium-webdriver/http";
 import { LoaderComponent } from "./loader/loader.component";
 import { ProductsService } from "@app/pages/services/products.service";
+import { PagesService } from "@app/pages/services/pages.service";
 import { MomentModule } from "angular2-moment";
 import { adsComponent } from "@app/pages/order-mangament/marketing/ads/ads.component";
 import { RequiredIfDirective } from "@app/shared/required-if.directive";
@@ -100,6 +103,14 @@ import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-de
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-order/add-edit-order.component';
 import { AddEditCustomerComponent } from './pages/mangament-users/manage-castomer/add-edit-customer/add-edit-customer.component';
+import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
+import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.component';
+import { StaticPagesComponent } from './pages/static-pages/static-pages.component';
+import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edit-page.component';
+
+
 
 @NgModule({
   declarations: [
@@ -111,6 +122,7 @@ import { AddEditCustomerComponent } from './pages/mangament-users/manage-castome
     DoneComponent,
     ManageCastomerComponent,
     TotalOrdersComponent,
+    AdminLogComponent,
     CustomAdsComponent,
     ContactusComponent,
     adsComponent,
@@ -148,7 +160,11 @@ import { AddEditCustomerComponent } from './pages/mangament-users/manage-castome
     OrderDeliveryDetailsComponent,
     AddEditOrderComponent,
     AddEditCustomerComponent,
-
+    AddEditAddressComponent,
+    DynamicSettingsComponent,
+    MenuCreatorComponent,
+    StaticPagesComponent,
+    AddEditPageComponent
   ],
   imports: [
     AppRoutingModule,
@@ -182,7 +198,11 @@ import { AddEditCustomerComponent } from './pages/mangament-users/manage-castome
     FroalaViewModule.forRoot(),
     SharedModule,
     NgxPermissionsModule.forRoot(),
-    AngularEditorModule
+    AngularEditorModule,
+    ColorPickerModule
+  ],
+  exports: [
+    DynamicSettingsComponent
   ],
   providers: [
     {
@@ -194,12 +214,14 @@ import { AddEditCustomerComponent } from './pages/mangament-users/manage-castome
     AuthGuard,
     CategoryService,
     MatNativeDateModule,
+    BracnhesStoreService,
     CustomerService,
     DeliveryService,
     AreasService,
     OrdersService,
     ProductsService,
     AffiliateService
+    // PagesService
   ],
   bootstrap: [AppComponent],
 })

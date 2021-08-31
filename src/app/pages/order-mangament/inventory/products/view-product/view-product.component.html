@@ -42,19 +42,19 @@
       <p>{{currentProduct?.created_at}}</p>
     </div>
 
-    <div *ngIf="currentProduct?.description">
+    <div *ngIf="currentProduct?.description" class="long-line-break">
       <h5 >Short description</h5>
-      <p [innerHtml]="currentProduct?.description"> </p>
+      <p [innerHtml]="currentProduct?.description" class="long-line-break"> </p>
     </div>
     <div *ngIf="currentProduct?.description_a">
       <h5>Short description (Ar)</h5>
       <p [innerHtml]="currentProduct?.description_ar"></p>
     </div>
-    <div *ngIf="currentProduct?.long_description_en">
+    <div *ngIf="currentProduct?.long_description_en" class="long-line-break">
       <h5> Long description </h5>
       <p [innerHtml]="currentProduct?.long_description_en"></p>
     </div>
-    <div *ngIf="currentProduct?.long_description_ar">
+    <div *ngIf="currentProduct?.long_description_ar" class="long-line-break">
       <h5> Long description (Ar)</h5>
       <p [innerHtml]="currentProduct?.long_description_ar"> </p>
     </div>

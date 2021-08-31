@@ -16,6 +16,7 @@ import { delay } from "rxjs/operators";
 import * as moment from "moment";
 import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
 
+
 function currentPasswordValidator(group: AbstractControl) {
   if (group.get("password").value && !group.get("current_password").value) {
     return { currentPassword: true };
@@ -76,8 +77,7 @@ export class SettingComponent implements OnInit {
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
     private settingService: SettingService,
-    private showAffiliateService: ShowAffiliateService
-
+    private showAffiliateService: ShowAffiliateService,
   ) { }
 
   ngOnInit() {
@@ -94,7 +94,6 @@ export class SettingComponent implements OnInit {
     this.page++;
     this.uploadFile.getUploadedFiles(this.page).subscribe((response: any) => {
       this.gallery = this.gallery.concat(response.data);
-      console.log(this.gallery);
     });
   }
 
@@ -151,7 +150,6 @@ export class SettingComponent implements OnInit {
   }
 
   updateSetting(user) {
-    console.log(this.formSetting);
 
     if (!this.formSetting.valid) {
       this.markFormGroupTouched(this.formSetting);
@@ -171,8 +169,6 @@ export class SettingComponent implements OnInit {
         this.user.imageUrl = this.user.image;
         this.formSetting.reset();
         this.setForm(this.user);
-        console.log("UPDATED");
-        console.log(this.user);
         this.settingService.imageload(response.data);
         this.toastrService.success(response.message);
       } else {
@@ -182,7 +178,6 @@ export class SettingComponent implements OnInit {
   }
 
   loadSettings() {
-    console.log(this.settings);
     if (!this.settings) {
       this.settingsLoading = true;
       this.settingService.getSettings().subscribe((response: any) => {
@@ -262,8 +257,9 @@ export class SettingComponent implements OnInit {
       .updateLoyalitySettings(this.starsForm.value)
       .subscribe((response: any) => {
         this.settings = response.data;
+        var environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
         this.toastrService.success(
-          "Mobilaty Stars Settings Updated Successfully!"
+          `${environmentVariables.brandRelatedVariables.brand} Stars Settings Updated Successfully!`
         );
         this.starsLoading = false;
       });

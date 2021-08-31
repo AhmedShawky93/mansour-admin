@@ -38,7 +38,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let list of lists  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
+      <tr *ngFor="let list of lists  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: lists.length }">
 
         <td class="relative">
           {{(list.name_en.length >= 25) ? (list.name_en | slice:0:25)+'...' : list.name_en }}
@@ -109,7 +109,8 @@
 
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
-<app-view-list (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar" [listData]="currentList">
+<app-view-list (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar" [listData]="currentList"
+  class="parent-editor-viewer-sidebar">
 </app-view-list>
 <app-add-edit-list (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
   [@slideInOut]="toggleListForm" [listData]="selectOptionData">

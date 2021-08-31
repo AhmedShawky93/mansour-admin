@@ -58,7 +58,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
     private uploadService: UploadFilesService,
     private listsService: ListsService,
     private productService: ProductsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getForm(this.listData);
@@ -86,13 +86,14 @@ export class AddEditListComponent implements OnInit, OnChanges {
       status: new FormControl(1),
       items: new FormControl([]),
     });
-    console.log(data);
     let products = [];
-    if (data) {
-      console.log(data);
+    if (data && data.id) {
       let items = data.products.map((p) => p.id);
       this.listForm.get("items").setValue(items);
       products = data.products;
+    } else {
+      let items = []
+      this.listForm.get("items").setValue(items);
     }
 
     this.products$ = concat(
@@ -183,7 +184,6 @@ export class AddEditListComponent implements OnInit, OnChanges {
           items: data.items,
         },
       ];
-      console.log(data);
       this.listsService.createList(data).subscribe((response: any) => {
         if (response.code == 200) {
           this.listForm.reset();

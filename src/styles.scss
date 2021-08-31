@@ -5,11 +5,29 @@
   font-family: "icomoon";
   src: url("assets/fonts/icomoon.eot?crer59");
   src: url("assets/fonts/icomoon.eot?crer59#iefix") format("embedded-opentype"),
-    url("assets/fonts/icomoon.ttf?crer59") format("truetype"),
-    url("assets/fonts/icomoon.woff?crer59") format("woff"),
-    url("assets/fonts/icomoon.svg?crer59#icomoon") format("svg");
+  url("assets/fonts/icomoon.ttf?crer59") format("truetype"),
+  url("assets/fonts/icomoon.woff?crer59") format("woff"),
+  url("assets/fonts/icomoon.svg?crer59#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+  font-family: ProximaNovaSoft;
+  src: url("assets/fonts/Nunito-SemiBold.ttf") format('truetype');
+}
+
+:root {
+  --dynamic-menu-background-color: #050708;
+  --dynamic-drob-down-menu-background-color: white;
+  --dynamic-menu-level-1-color: white;
+  --dynamic-menu-level-1-hover-color: #da1e42;
+  --dynamic-menu-level-2-color: #da1e42;
+  --dynamic-menu-level-2-hover-color: #050708;
+  --dynamic-menu-level-3-color: #050708;
+  --dynamic-menu-level-3-hover-color: #da1e42;
+  --menu-font-color: white;
+  --menu-font-hover-color: #da1e42;
 }
 
 [class^="icon-"],
@@ -84,7 +102,7 @@
 
 .fa fa-trash:before {
   content: "\e90c";
-  color: #d74254;
+  color: var(--brand-color);
 }
 
 .icon-Exit:before {
@@ -257,7 +275,7 @@ label {
 
 .toggle-left-sidebar .side-nav-item:hover i,
 .toggle-left-sidebar .side-nav-item.active i {
-  color: #e4002c !important;
+  color: var(--brand-color) !important;
 }
 
 .toggle-left-sidebar .app-logo {
@@ -266,6 +284,7 @@ label {
 
 .toggle-left-sidebar .app-logo img {
   width: 45px;
+
 }
 
 /* toggle form sidebar */
@@ -412,7 +431,7 @@ textarea.owl-input {
 }
 
 .color-red {
-  color: #d74254 !important;
+  color: var(--brand-color) !important;
 }
 
 .color-purple {
@@ -467,12 +486,12 @@ textarea.owl-input {
 
 .btn-green {
   color: #fff !important;
-  background-color: #eb1c24 !important;
+  background-color: var(--brand-color) !important;
 }
 
 .btn-green2 {
   color: #fff !important;
-  background: #ec1c24 !important;
+  background: var(--brand-color) !important;
   font-size: 14px !important;
 }
 
@@ -483,13 +502,13 @@ textarea.owl-input {
 
 .btn-blue2 {
   color: #fff !important;
-  background: #e4002c !important;
+  background: var(--brand-color) !important;
   font-size: 14px !important;
   line-height: 36px;
 }
 
 .btn-blue {
-  background: #e4002c !important;
+  background: var(--brand-color) !important;
   color: #fff !important;
   font-size: 14px !important;
   line-height: 36px;
@@ -726,16 +745,16 @@ textarea.owl-input {
   transition: 0.4s;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: #4ac356;
   border: none;
 }
 
-.switch input:focus + .slider {
+.switch input:focus+.slider {
   box-shadow: 0 0 1px #dee1e3;
 }
 
-.switch input:checked + .slider:before {
+.switch input:checked+.slider:before {
   -webkit-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
@@ -784,14 +803,14 @@ textarea.owl-input {
 
 /* On mouse-over, add a grey background color */
 
-.checkup:hover input ~ .checkmark {
+.checkup:hover input~.checkmark {
   background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
 
-.checkup input:checked ~ .checkmark {
-  background-color: #e4002c;
+.checkup input:checked~.checkmark {
+  background-color: var(--brand-color);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -804,7 +823,7 @@ textarea.owl-input {
 
 /* Show the checkmark when checked */
 
-.checkup input:checked ~ .checkmark:after {
+.checkup input:checked~.checkmark:after {
   display: block;
 }
 
@@ -840,7 +859,7 @@ textarea.owl-input {
 }
 
 .ngx-pagination .current {
-  background-color: #e4002c !important;
+  background-color: var(--brand-color) !important;
   border-radius: 50%;
   width: 44px;
   height: 44px;
@@ -865,7 +884,7 @@ a.btn {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #e4002c;
+  background-color: var(--brand-color);
 }
 
 /* Rounded sliders */
@@ -891,7 +910,7 @@ a.btn {
   border: 0 !important;
 }
 
-.details > div {
+.details>div {
   margin-bottom: 30px;
 }
 
@@ -1007,8 +1026,8 @@ a.btn {
   cursor: pointer;
 }
 
-.owls-upload img + img {
-  position: absolute;
+.owls-upload img+img {
+  /* position: absolute; */
   top: 0;
   left: 0;
 }
@@ -1087,12 +1106,12 @@ a.btn {
 
 /* .modal-footer{justify-content: flex-start !important;} */
 
-.tooltip > .tooltip-inner {
-  background-image: linear-gradient(-134deg, #e4002c 0%, #e4002c 100%);
+.tooltip>.tooltip-inner {
+  background-image: linear-gradient(-134deg, var(--brand-color) 0%, var(--brand-color) 100%);
 }
 
-.tooltip > .tooltip-arrow {
-  background-image: linear-gradient(-134deg, #e4002c 0%, #e4002c 100%);
+.tooltip>.tooltip-arrow {
+  background-image: linear-gradient(-134deg, var(--brand-color) 0%, var(--brand-color) 100%);
 }
 
 .bs-tooltip-auto[x-placement^="right"] .arrow:before,
@@ -1109,10 +1128,7 @@ a.btn {
   height: 48px;
 }
 
-.ng-select.ng-select-multiple
-  .ng-select-container
-  .ng-value-container
-  .ng-value {
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
   border-radius: 30px;
   background: #5ca5dd;
   color: #fff;
@@ -1208,7 +1224,7 @@ td.cancel {
   margin-top: 12px;
 }
 
-.customer-det > h5 {
+.customer-det>h5 {
   font-size: 14px;
   color: #557e96;
 }
@@ -1230,16 +1246,13 @@ td.cancel {
   padding: 3px 20px;
 }
 
-.customer-det .content > span {
+.customer-det .content>span {
   cursor: pointer;
   position: absolute;
   right: 31px;
   bottom: 34px;
   font-size: 23px;
   color: #bcbcbc;
-}
-
-.order-report {
 }
 
 .order-report p {
@@ -1386,7 +1399,7 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
 }
 
-.add-prod .order-list .item > img {
+.add-prod .order-list .item>img {
   float: left;
 }
 
@@ -1473,7 +1486,7 @@ bar-rating {
   border-color: #55b776;
 }
 
-.progressbar li.active + li:after {
+.progressbar li.active+li:after {
   background-color: #55b776;
 }
 
@@ -1509,15 +1522,12 @@ bar-rating {
   }
 }
 
-/* .red-class > .mat-step-header .mat-step-icon{
-    background-color:#d0021b!important;
-} */
-
 .red-class .mat-step-header .mat-step-icon {
   background-color: red !important;
 }
 
 @media print {
+
   .left-sidebar,
   .top-header {
     display: none;
@@ -1638,7 +1648,7 @@ bar-rating {
 
   .left-sidebar .side-nav-item:hover i,
   .left-sidebar .side-nav-item.active i {
-    color: #e4002c !important;
+    color: var(--brand-color) !important;
   }
 
   .left-sidebar .app-logo {
@@ -1681,7 +1691,7 @@ bar-rating {
     font-size: 8px;
   }
 
-  .side-nav .navbar-nav li ul > li > a {
+  .side-nav .navbar-nav li ul>li>a {
     margin-left: 3px !important;
     margin-top: 8px;
     display: block;
@@ -1737,6 +1747,7 @@ bar-rating {
 .product-list .ng-select-container {
   height: 200px !important;
 }
+
 .not-allowed {
   cursor: not-allowed !important;
 }
@@ -1762,12 +1773,15 @@ bar-rating {
 .timepicker__header {
   background-color: #ea5959 !important;
 }
-.clock-face__number > span.active {
+
+.clock-face__number>span.active {
   background-color: #ea5959 !important;
 }
+
 .clock-face__clock-hand {
   background-color: #ea5959 !important;
 }
+
 .timepicker-button {
   color: #ea5959 !important;
 }
@@ -1784,28 +1798,71 @@ bar-rating {
   height: 0px !important;
 }
 
-
-.mat-calendar-body-selected
-{
-
-  background-color: #eb1c24 !important;
-
+.mat-calendar-body-selected {
+  background-color: var(--brand-color) !important;
 }
 
-.group-box{
+.group-box {
   padding: 10px;
   border-radius: 5px;
   box-shadow: lightgray 0 0 5px 0;
 }
-.group-box{
+
+.group-box {
   box-sizing: border-box;
   border-radius: 5px;
   box-shadow: lightgray 0 0 5px 0;
   margin: 15px 0;
   padding: 5px;
 }
-.group-box .title{
+
+.group-box .title {
   font-size: 14px;
   color: rgba(0, 61, 97, 0.64);
   font-weight: 500;
+}
+
+ng-select.owl-input {
+  height: initial !important;
+}
+
+ng-select.owl-input .ng-select-container {
+  height: initial !important;
+}
+
+.open-view-vindor-types {
+  width: 66% !important;
+}
+
+.parent-editor-viewer-sidebar {
+  width: 76% !important;
+}
+
+.parent-editor-viewer-sidebar .view-vindor-types {
+  width: 100% !important;
+}
+
+.angular-editor-textarea ul {
+  list-style: initial !important;
+  padding-left: 15px;
+}
+
+.angular-editor-textarea ol {
+  padding-left: 15px;
+  list-style: revert !important;
+}
+
+.angular-editor-wrapper img {
+  /* max-width: fit-content; */
+  /* max-width: -webkit-fill-available; */
+  max-width: 256px;
+}
+
+pointer {
+  cursor: pointer !important;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: .5;
 }

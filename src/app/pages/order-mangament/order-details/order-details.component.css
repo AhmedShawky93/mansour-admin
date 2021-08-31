@@ -23,7 +23,7 @@
   font-size: 18px;
   color: #557e96;
   text-transform: capitalize;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   display: inline-block;
   width: 160px;
 }
@@ -36,7 +36,7 @@
 
 .block-ratings {
   margin-bottom: 25px;
-  width: 70%;
+  width: 60%;
 }
 
 .block-ratings p,
@@ -281,9 +281,9 @@ p.pRating {
 .input-price {
   margin-bottom: 30px;
 }
-.form-edit-price {
+/* .form-edit-price { */
   /* padding: 24px 24px 0; */
-}
+/* } */
 .form-edit-price .form-group {
   margin-bottom: 0px !important;
 }
@@ -292,4 +292,8 @@ p.pRating {
   text-decoration: line-through;
   margin-right: 15px;
 
+}
+
+.pointer{
+  cursor: pointer;
 }

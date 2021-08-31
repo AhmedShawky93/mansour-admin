@@ -41,7 +41,7 @@
     </thead>
     <tbody>
       <!-- <tr *ngFor="let option of options"> -->
-      <tr *ngFor="let option of options  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
+      <tr *ngFor="let option of options | stringFilter: searchTerm  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
 
         <td class="relative">
           {{(option.name_en.length >= 25) ? (option.name_en | slice:0:25)+'...' : option.name_en }}
@@ -112,10 +112,10 @@
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
 <!-- view product -->
-<app-view-option (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
+<app-view-option (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar" class="parent-editor-viewer-sidebar"
   [selectProductDataEdit]="selectOptionDataView">
 
 </app-view-option>
 <!-- Add / edit Product -->
-<app-add-edit-options (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
+<app-add-edit-options (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()" class="parent-editor-viewer-sidebar"
   [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData"></app-add-edit-options>

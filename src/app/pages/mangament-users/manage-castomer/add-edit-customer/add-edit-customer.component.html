@@ -3,7 +3,10 @@
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>Create Customer</h3>
+    <h3 *ngIf="!selectedCustomer;else elseHeader">Create Customer</h3>
+    <ng-template #elseHeader>
+      <h3>Update Customer</h3>
+    </ng-template>
   </div>
 
   <form class="sideform" (ngSubmit)="submitCustomer()" [formGroup]="customerForm" novalidate>
@@ -11,7 +14,7 @@
     <div class="form-group">
       <label for="">Name</label>
       <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name">
-      
+
       <div *ngIf="formControlValidator(customerForm, 'name', 'required')" class="alert alert-danger">
         Name is required.
       </div>
@@ -20,16 +23,93 @@
     <div class="form-group">
       <label for="">Last Name</label>
       <input type="text" class="owl-input" name="last_name" placeholder="Type here..." formControlName="last_name">
-      
+
       <div *ngIf="formControlValidator(customerForm, 'last_name', 'required')" class="alert alert-danger">
         Name is required.
       </div>
     </div>
 
     <div class="form-group">
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+        <label class="container">add Address
+          <input type="checkbox" (change)="updateValidaty()" class="form-control checkbox-style" name="has_address" id="has_address" [value]="1"
+            formControlName="has_address">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div formGroupName="address" *ngIf="customerForm.controls['has_address'].value">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="">Name</label>
+          <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name">
+
+          <div *ngIf="customerForm.controls.address['controls']['name'].errors" class="alert alert-danger">
+            Name is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Building</label>
+          <input type="text" class="owl-input" name="floor" placeholder="Type here..." formControlName="floor">
+
+          <div *ngIf="customerForm.controls.address['controls']['floor'].errors" class="alert alert-danger">
+            Building is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Street</label>
+          <input type="text" class="owl-input" name="address" placeholder="Type here..." formControlName="address">
+
+          <div *ngIf="customerForm.controls.address['controls']['address'].errors" class="alert alert-danger">
+            Street is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">apartment</label>
+          <input type="text" class="owl-input" name="apartment" placeholder="Type here..." formControlName="apartment">
+
+          <div *ngIf="customerForm.controls.address['controls']['apartment'].errors" class="alert alert-danger">
+            Apartment is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Landmark (optional)</label>
+          <input type="text" class="owl-input" name="landmark" placeholder="Type here..." formControlName="landmark">
+        </div>
+
+        <div class="form-group">
+          <label for="amount">City</label>
+          <select name="city_id" class="owl-input bg-white" formControlName="city_id" (change)="onCitySelected()">
+            <option value="" disabled selected>Select City</option>
+            <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+          </select>
+          <div *ngIf="customerForm.controls.address['controls']['city_id'].errors" class="alert alert-danger">
+            City is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Area</label>
+          <select name="area_id" class="owl-input bg-white" formControlName="area_id">
+            <option value="" disabled selected>Select Area</option>
+            <option value="{{area.id}}" *ngFor="let area of areas">{{area.name}}</option>
+          </select>
+          <div *ngIf="customerForm.controls.address['controls']['area_id'].errors" class="alert alert-danger">
+            Area is required.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
       <label for="">email address </label>
       <input type="email" class="owl-input" name="email" placeholder="Type here..." formControlName="email">
-      
+
       <div *ngIf="formControlValidator(customerForm, 'email', 'required')" class="alert alert-danger">
         Email is required.
       </div>
@@ -40,18 +120,45 @@
 
     <div class="form-group">
       <label for="">Phone</label>
-      <input type="text" class="owl-input" name="phone" placeholder="Type here..." formControlName="phone">
-      
+      <input [minLength]='11' [maxLength]='11' class="owl-input" name="phone" placeholder="Type here..."
+        formControlName="phone">
+
       <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
         Phone is required.
+      </div>
+      <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'minlength') && 
+                      !formControlValidator(customerForm, 'phone', 'required')">
+        Phone number length must be 11 numbers
+      </div>
+      <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'maxlength') 
+                    && (!formControlValidator(customerForm, 'phone', 'minlength') &&
+                    !formControlValidator(customerForm, 'phone', 'required'))">
+        Phone number length must be 11 numbers
+      </div>
+      <!--<mat-error *ngIf="formControlValidator(RegisterForm, 'phone', 'pattern')">
+                      {{'validation_Input.phoneNumberPattern' | translate}}
+                    </mat-error>-->
+      <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'startWith') && 
+                    (!formControlValidator(customerForm, 'phone', 'maxlength')
+                    && !formControlValidator(customerForm, 'phone', 'minlength') &&
+                    !formControlValidator(customerForm, 'phone', 'required'))">
+        phone number must start with 01
+      </div>
+      <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'englishNumbers') && 
+                    (!formControlValidator(customerForm, 'phone', 'startWith') &&
+                    !formControlValidator(customerForm, 'phone', 'maxlength')
+                    && !formControlValidator(customerForm, 'phone', 'minlength') &&
+                    !formControlValidator(customerForm, 'phone', 'required'))">
+        phone number must be of english numeric only
       </div>
     </div>
 
 
     <div class="form-group">
       <label for=""> password</label>
-      <input type="password" class="owl-input" name="customer_password" placeholder="Type here..." formControlName="password">
-      
+      <input type="password" class="owl-input" name="customer_password" placeholder="Type here..."
+        formControlName="password">
+
       <div *ngIf="formControlValidator(customerForm, 'password', 'required')" class="alert alert-danger">
         Password is required.
       </div>

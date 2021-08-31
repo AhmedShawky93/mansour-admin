@@ -20,6 +20,14 @@ export class CustomerService {
       })
   }
 
+  exportCustomers(url) {
+    return this.http
+      .get(url)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      });
+  }
+
   getCustomersSimple() {
     return this.http.get(this.url + "/customers_simple")
       .catch((error: any) => {

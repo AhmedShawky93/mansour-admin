@@ -4,7 +4,6 @@
       <i class="icon-Exit close-sidebar"></i>
     </span>
     <h3>New Product With Variant</h3>
-    <span class="clear-draft-product" (click)="clearDraftProduct()" *ngIf="dataDraftProduct">Clear Draft Product </span>
   </div>
   <form (ngSubmit)="save()" [formGroup]="componentForm" class="sideform" novalidate>
 
@@ -29,7 +28,7 @@
       <div class="form-group">
         <label> Product Options </label>
         <ng-select (close)="buildVariantsOptions()" (remove)="removeOption($event)" [closeOnSelect]="false"
-          [items]="allOptions" [multiple]="true" bindLabel="name_en" class="owl-input"
+          [items]="allOptions" [multiple]="true" bindLabel="name_en" class="owl-input p-0"
           formControlName="product_variant_options" name="productVariantOptions" placeholder="Select Options">
         </ng-select>
         <div *ngIf="formControlValidator('product_variant_options','required')" class="text-danger">
@@ -49,7 +48,7 @@
           <ng-container *ngFor="let cat of categories">
             <option *ngIf="componentForm.get('main_category').value == cat.id || !cat.selected" value="{{cat.id}}">
               {{cat.name}}
-              <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+              <span class="text-danger" *ngIf="cat.active == 0"> - Deactivate </span>
             </option>
           </ng-container>
 
@@ -71,7 +70,7 @@
           name="subCategory" required>
           <option hidden selected value="">Select Sub Category</option>
           <option *ngFor="let cat of sub_categories" value="{{cat.id}}">{{cat.name}}
-            <span *ngIf="cat.active == 0"> - Deactivate </span>
+            <span class="text-danger" *ngIf="cat.active == 0"> - Deactivate </span>
           </option>
         </select>
         <div
@@ -90,7 +89,7 @@
 
       <div class="form-group">
         <label>Optional Category</label>
-        <select (change)="selectOptionalCategory($event)" class="owl-input" formControlName="optional_category"
+        <select (change)="selectOptionalCategory($event.target.value)" class="owl-input" formControlName="optional_category"
           name="category">
           <option selected value="">Select Category</option>
           <ng-container *ngFor="let cat of optionalCategories">
@@ -106,8 +105,8 @@
         <label>Optional Sub Category</label>
         <select class="owl-input" formControlName="optional_sub_category_id" name="optionalSubCategory">
           <option selected value="">Select Sub Category</option>
-          <option *ngFor="let cat of optionalSubCategories" value="{{cat.id}}">{{cat.name}}
-            <span *ngIf="cat.active == 0"> - Deactivate </span>
+          <option *ngFor="let cat of optionalSubCategories" value="{{cat.id}}">
+            {{cat.name}} <span *ngIf="cat.active == 0"> - Deactivate </span>
           </option>
         </select>
       </div>
@@ -118,7 +117,7 @@
       formArrayName="option_values">
       <span [formGroupName]='i'>
         <div *ngIf="option?.value.type != '5'" class="">
-          <label> {{option?.controls['name_en']?.value}} ++ {{option?.value?.option_value_id}}</label>
+          <label> {{option?.controls['name_en']?.value}}</label>
           <select class="owl-input" formControlName="option_value_id" name="option">
             <option hidden selected value="">Select option </option>
             <!--<option value="{{value.id}}" *ngFor="let value of option?.values">{{value.name_en}}</option>-->
@@ -159,21 +158,14 @@
       <ng-select [items]="brands" [multiple]="false" bindLabel="name" bindValue="id" formControlName="brand_id"
         name="bransName" placeholder="Enter Brand name">
       </ng-select>
-      <!-- Start  Errors Rolues -->
-      <div
-        *ngIf="componentForm.controls.brand_id.invalid && (componentForm.controls.brand_id.dirty || componentForm.controls.brand_id.touched)"
-        class="alert alert-danger">
-
-        <div *ngIf="componentForm.controls.brand_id.errors.required">
-          Brand name Is Required
-        </div>
+      <div *ngIf="formControlValidator('brand_id','required')" class="alert text-danger">
+        Brand Is Required
       </div>
-      <!-- End Errors Rolues -->
     </div>
 
     <div class="form-group">
       <label> Pricing</label>
-      <input [(ngModel)]="price" [max]="1000000" [min]="1" class="owl-input" formControlName="price"
+      <input [max]="1000000" [min]="1" class="owl-input" formControlName="price"
         pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." required type="number">
       <div *ngIf="formControlValidator('price','required')" class="alert alert-danger">
         Pricing is required.
@@ -205,6 +197,9 @@
         <div *ngIf="formControlValidator('discount_price','pattern')" class="alert alert-danger">
           Invalid number format
         </div>
+        <div *ngIf="formControlValidator('discount_price','lessThan')" class="text-danger">
+          Discount Can't Exceed The Price
+        </div>
       </div>
       <div>
         <div class="title">
@@ -216,14 +211,14 @@
               [placeholder]="'Start Date'">
             </app-generic-date-picker>
             <div *ngIf="formControlValidator('discount_start_date','required')" class="text-danger">
-              Filed Is Required
+              Field Is Required
             </div>
           </div>
           <div class="col-12 col-md-6">
             <app-generic-time-picker [formControlChildName]="'start_time'" [myForm]="componentForm"
               [placeholder]="'Pick Time'"></app-generic-time-picker>
             <div *ngIf="formControlValidator('start_time','required')" class="text-danger">
-              Filed Is Required
+              Field Is Required
             </div>
           </div>
         </div>
@@ -238,7 +233,7 @@
               [placeholder]="'Expiration Date'">
             </app-generic-date-picker>
             <div *ngIf="formControlValidator('discount_end_date','required')" class="text-danger">
-              Filed Is Required
+              Field Is Required
             </div>
             <div *ngIf="formControlValidator('discount_end_date','dateRang')" class="text-danger">
               Expiration Date Must Be Greater Than Start Date
@@ -248,7 +243,7 @@
             <app-generic-time-picker [formControlChildName]="'expiration_time'" [myForm]="componentForm"
               [placeholder]="'Pick Time'"></app-generic-time-picker>
             <div *ngIf="formControlValidator('expiration_time','required')" class="text-danger">
-              Filed Is Required
+              Field Is Required
             </div>
           </div>
         </div>
@@ -283,7 +278,11 @@
 
       <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
         <label class="container">Pre-Order
-          <input type="checkbox" class="form-control checkbox-style" name="preorder" id="preorder" [value]="1"
+          <input type="checkbox"
+            (change)="componentForm.get('preorder').value == 1 && componentForm.get('available_soon').setValue(0)"
+            class="form-control checkbox-style"
+            name="preorder"
+            id="preorder" [value]="1"
             formControlName="preorder">
           <span class="checkmark"></span>
         </label>
@@ -299,14 +298,14 @@
               [placeholder]="'Start Date'">
             </app-generic-date-picker>
             <div *ngIf="formControlValidator('preorder_start_date','required')" class="text-danger">
-              Filed Is Required
+              Field Is Required
             </div>
           </div>
           <div class="col-12 col-md-6">
             <app-generic-time-picker [formControlChildName]="'preorder_start_time'" [myForm]="componentForm"
               [placeholder]="'Pick Time'"></app-generic-time-picker>
             <div *ngIf="formControlValidator('preorder_start_time','required')" class="text-danger">
-              Filed Is Required
+              Field Is Required
             </div>
           </div>
         </div>
@@ -319,7 +318,10 @@
               [placeholder]="'Expiration Date'">
             </app-generic-date-picker>
             <div *ngIf="formControlValidator('preorder_end_date','required')" class="text-danger">
-              Filed Is Required
+              Field Is Required
+            </div>
+            <div *ngIf="formControlValidator('preorder_end_date','dateRang')" class="text-danger">
+              Expiration Date Must Be Greater Than Start Date
             </div>
             <!-- <div *ngIf="formControlValidator('preorder_end_date','dateRang')" class="text-danger">
               Expiration Date Must Be Greater Than Start Date
@@ -329,7 +331,7 @@
             <app-generic-time-picker [formControlChildName]="'preorder_expiration_time'" [myForm]="componentForm"
               [placeholder]="'Pick Time'"></app-generic-time-picker>
             <div *ngIf="formControlValidator('preorder_expiration_time','required')" class="text-danger">
-              Filed Is Required
+              Field Is Required
             </div>
           </div>
         </div>
@@ -338,7 +340,9 @@
 
     <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
       <label class="container">Available Soon
-        <input type="checkbox" class="form-control checkbox-style" name="available_soon" id="available_soon" [value]="1"
+        <input type="checkbox"
+          (change)="componentForm.get('available_soon').value == 1 && componentForm.get('preorder').setValue(0)"
+          class="form-control checkbox-style" name="available_soon" id="available_soon" [value]="1"
           formControlName="available_soon" (change)="onAvailableChange()">
         <span class="checkmark"></span>
       </label>
@@ -395,7 +399,7 @@
       <div class="form-group">
         <label>Bundle Products</label>
         <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
-          bindLabel="name" bindValue="id" multiple="true" placeholder="Enter Product name"
+          bindLabel="name" multiple="true" placeholder="Enter Product name"
           formControlName="bundle_products_ids">
         </ng-select>
         <div
@@ -426,8 +430,8 @@
     <div class="form-group">
       <label>Related Products</label>
       <ng-select [typeahead]="relatedProductsInput$" [loading]="relatedProductsLoading" name="relatedProducts"
-        [items]="relatedProducts$ | async" bindLabel="name" bindValue="id" multiple="true"
-        placeholder="Enter Product name" formControlName="related_ids">
+                 [items]="relatedProducts$ | async" bindLabel="name"  multiple="true"
+                 placeholder="Enter Product name" formControlName="related_ids">
       </ng-select>
     </div>
 
@@ -451,7 +455,7 @@
       <label>Image</label>
       <div class="d-flex justify-content-center flex-column">
         <app-image-uploader [fileUrl]="componentForm.value?.image" [formControlChildName]="'image'"
-          [myForm]="componentForm" class="w-100" height="240px" width="100%">
+          [myForm]="componentForm" class="w-100" height="240px" width="50%">
         </app-image-uploader>
         <div *ngIf="formControlValidator('image','required')" class="text-danger">
           Image Is Required
@@ -587,6 +591,9 @@
       <div *ngIf="formControlValidator('weight','required')" class="alert alert-danger">
         Weight is required
       </div>
+      <div *ngIf="formControlValidator('weight','min')" class="alert alert-danger">
+        Weight must be more than 0
+      </div>
     </div>
 
     <div class="form-group">
@@ -612,7 +619,7 @@
 
           <label class="my-2">{{formGroupItem?.controls['optionData']?.value?.name_en}}</label>
 
-          <select class="owl-input" formControlName="option_value_id">
+          <select class="owl-input" formControlName="option_value_id" *ngIf="formGroupItem.controls['optionData']?.value?.type != 5" >
             <option hidden selected value="">Select Value</option>
             <option *ngFor="let val of formGroupItem?.controls['optionData']?.value?.values" value="{{val.id}}">
               {{val.name_en}}
@@ -625,8 +632,8 @@
 
           <div *ngIf="formGroupItem.controls['optionData']?.value?.type == 4"
             class="d-flex justify-content-center flex-column mt-2">
-            <app-image-uploader [fileUrl]="selectVariant?.image" [formControlChildName]="'option_image'"
-              [myForm]="formGroupItem" class="w-100" height="240px" width="100%">
+            <app-image-uploader [fileUrl]="selectedProduct?.image" [formControlChildName]="'option_image'"
+              [myForm]="formGroupItem" class="w-100" height="240px" width="50%">
             </app-image-uploader>
             <div *ngIf="formGroupControlsValidator(formGroupItem,'option_image','required')" class="alert alert-danger">
               Image Is Required
@@ -651,11 +658,7 @@
     <!-- <pre class="text-dark">{{componentForm.value | json}}</pre>-->
     <div class="form-sidebar-btns">
       <button [appLoading]="submitting" class="btn btn-owls btn-rounded btn-green">Save</button>
-
-      <span *ngIf="componentForm.value" class="save-draft-product" (click)="SetDraftProduct(componentForm.value)">Save
-        Draft Product
-      </span>
-
+      <button (click)="SetDraftProduct($event)" type="button"  class="btn btn-owls btn-rounded btn-green">Draft Product</button>
     </div>
   </form>
 </div>

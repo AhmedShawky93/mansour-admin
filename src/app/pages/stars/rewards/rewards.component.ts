@@ -35,7 +35,6 @@ export class RewardsComponent implements OnInit {
     });
 
     $("body").on("click", ".add-product", function () {
-      console.log("clicked");
       $("#add-prod").toggleClass("open-view-vindor-types");
     });
 
@@ -44,7 +43,6 @@ export class RewardsComponent implements OnInit {
     });
 
     $("body").on("click", ".open-show", function () {
-      console.log("opening");
       $("#show-p-details").toggleClass("open-view-vindor-types");
     });
 
@@ -86,20 +84,15 @@ export class RewardsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    console.log(this.addForm.value);
     if (this.addForm.get("id").value) {
-      console.log("UPDATE");
       this.updateReward();
     } else {
-      console.log("CREATE");
       this.addReward();
     }
   }
 
   addReward() {
-    console.log(this.addForm.value);
     if (!this.addForm.valid) {
-      console.log("INVALID");
       return this.markFormGroupTouched(this.addForm);
     }
     this.submitting = true;
@@ -117,7 +110,6 @@ export class RewardsComponent implements OnInit {
   }
 
   editReward(reward) {
-    console.log(reward);
     this.addForm = new FormGroup({
       id: new FormControl(reward.id),
       name: new FormControl(reward.name, Validators.required),
@@ -140,9 +132,7 @@ export class RewardsComponent implements OnInit {
   }
 
   updateReward() {
-    console.log(this.addForm.value);
     if (!this.addForm.valid) {
-      console.log("INVALID");
       return this.markFormGroupTouched(this.addForm);
     }
     this.submitting = true;

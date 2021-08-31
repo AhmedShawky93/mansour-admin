@@ -21,7 +21,7 @@
           type="text">
       </div>
     </div>
-    <div class="col-md-3  col-xs-12 text-right">
+    <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
         <!--<button (click)="createNew()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center" *ngIf="!selectedMainProduct">+ New product</div>
@@ -44,11 +44,11 @@
         </button>
       </div>
     </div>-->
-    <div class="col-md-4 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
+    <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
       <div class="row">
         <div class="col-md-6 col-xs-12">
           <div class="form-group">
-            <select (change)="selectCategoryFilter(main_category)" [(ngModel)]="main_category" class="owl-input"
+            <select (change)="selectCategoryFilter(main_category, false)" [(ngModel)]="main_category" class="owl-input"
               name="category" required>
               <option [value]="''" selected>Select Category</option>
               <ng-container *ngFor="let cat of categories">
@@ -73,16 +73,23 @@
         </div>
       </div>
     </div>
-    <div class="col-md-8  col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
+    <div class="col-md-12  col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
       <div class="row">
-        <div class="col-md-3  col-xs-12 p-l-r-5">
+        <div class="col-md-2  col-xs-12 p-l-r-5"></div>
+        <div class="col-md-2  col-xs-12 p-l-r-5">
+          <div class="form-group">
+            <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
+              href="{{syncFbSheet}}">Sync FaceBook Sheet </a>
+          </div>
+        </div>
+        <div class="col-md-2  col-xs-12 p-l-r-5">
           <div class="form-group">
             <a (click)="goToLink()" class=" btn btn-owls btn-rounded btn-green  btn-special">export
               CSV</a>
           </div>
 
         </div>
-        <div class="col-md-3  col-xs-12 p-l-r-5">
+        <div class="col-md-2  col-xs-12 p-l-r-5">
           <div class="form-group ">
 
 
@@ -95,7 +102,7 @@
           </div>
         </div>
 
-        <div class="col-md-3  col-xs-12 p-l-r-5">
+        <div class="col-md-2  col-xs-12 p-l-r-5">
           <div class="form-group ">
 
 
@@ -108,7 +115,7 @@
           </div>
 
         </div>
-        <div class="col-md-3  col-xs-12 p-l-r-5">
+        <div class="col-md-2  col-xs-12 p-l-r-5">
           <div class="form-group">
             <a (click)="exportStocks()" class=" btn btn-owls btn-rounded btn-green  btn-special">export
               Stocks</a>
@@ -144,10 +151,21 @@
     </thead>
     <tbody>
 
-      <tr *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
-        <td>{{product.sku}}</td>
-        <td class="relative">{{product.name | summary : 25 }}
-          <div *ngIf="product.name.length >= 25" class="hover-reason text-left">
+      <tr
+        *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let idx = index;">
+        <td class="relative">{{product.sku | summary : 24 }}
+          <div *ngIf="product.sku.length >= 20" class="hover-reason text-left">
+            <!--<div class="head">
+            product name
+          </div>-->
+            <div class="body">
+              {{product.sku}}
+            </div>
+          </div>
+
+        </td>
+        <td class="relative">{{product.name | summary : 24 }}
+          <div *ngIf="product.name.length >= 20" class="hover-reason text-left">
             <!--<div class="head">
             product name
           </div>-->
@@ -158,9 +176,11 @@
 
         </td>
         <td *ngIf="!selectedMainProduct">
-          {{product?.category?.name}} >
-          <br>
-          {{product?.category?.sub_categories[0]?.name}}
+          <ng-container *ngIf="product.category">
+            {{product?.category?.name}} >
+            <br>
+            {{product?.category?.sub_categories[0]?.name}}
+          </ng-container>
         </td>
         <td *ngIf="selectedMainProduct">
           {{product?.last_editor?.name}}
@@ -182,11 +202,14 @@
           <a (click)="edit(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
             <i class="icon-grey"></i>
           </a>
+          <a (click)="removeProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="fa fa-trash"></i>
+          </a>
           <a (click)="clone(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
             <i class="fa fa-copy"></i>
           </a>
           <a *ngIf="selectedMainProduct" target="_blank" class="table-view edit-product mx-1"
-            href="{{website_url + '/products/' + product.name + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
+            href="{{website_url + '/products/' + encodedProductName(product.name) + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
             <i class="fa fa-external-link"></i>
           </a>
           <label class="switch">
@@ -195,8 +218,9 @@
             <div [hidden]="!product.showReason" class="reason-popup text-left">
               <textarea [(ngModel)]="product.notes" class="owl-input" name=""
                 placeholder="Why Do yo want to deactivate this product?"></textarea>
-              <button (click)="submitDeactivate(product)" [disabled]="!product.notes"
-                [ngClass]="{'not-allowed' : !product.notes }" class="btn btn-owls btn-rounded btn-green2">submit
+                <!-- [disabled]="!product.notes"
+                [ngClass]="{'not-allowed' : !product.notes }" -->
+              <button (click)="submitDeactivate(product)"  class="btn btn-owls btn-rounded btn-green2">submit
               </button>
               <button (click)="cancelDeactivate(product)" class="btn btn-owls btn-rounded btn-blue2 cancel-check">cancel
               </button>
@@ -210,6 +234,18 @@
               </div>
             </div>
           </label>
+        </td>
+        <td *ngIf="product.isDraft">
+          <a (click)="editDraftProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="icon-grey"></i>
+          </a>
+          <a (click)="removeDraftConfirmation(product, idx)" class="table-view edit-product mx-1"
+            href="javascript:void(0)">
+            <i class="fa fa-trash"></i>
+          </a>
+          <a (click)="cloneDraft(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
+            <i class="fa fa-copy"></i>
+          </a>
         </td>
       </tr>
 
@@ -232,20 +268,21 @@
 
 <!-- view product -->
 <app-view-product (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewProductSidebar"
-  [selectProductDataEdit]="selectProductDataView"></app-view-product>
+  class="parent-editor-viewer-sidebar" [selectProductDataEdit]="selectProductDataView"></app-view-product>
 
 
 <app-add-edit-product #productForm (closeSideBarEmit)="closeSideBar()" (dataProductEmit)="addOrUpdateProduct($event)"
   [@slideInOut]="toggleAddProduct" [selectProductDataEdit]="selectProductData">
 </app-add-edit-product>
 
-<app-add-edit-variants #productVariantsForm (closeSideBarEmit)="closeSideBar()"
+<app-add-edit-variants *ngIf="toggleVariant === 'in'" #productVariantsForm (closeSideBarEmit)="closeSideBar()"
   (dataProductEmit)="addOrUpdateProduct($event)" [@slideInOut]="toggleVariant" [parentProduct]="selectedMainProduct"
   [selectVariant]="selectedProductVariantData">
 </app-add-edit-variants>
 
-<app-add-product-variants (closeSideBarEmit)="closeSideBar()" (dataProductEmit)="addOrUpdateProduct($event)"
-  [@slideInOut]="toggleProductVariant" [selectVariant]="selectedProductVariantData">
+<app-add-product-variants *ngIf="toggleProductVariant === 'in'" (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)" [@slideInOut]="toggleProductVariant"
+  [selectedProduct]="selectedProductVariantBoth">
 </app-add-product-variants>
 
 <div class="modal fade" id="cloneProduct" tabindex="-1" role="dialog" aria-hidden="true">
@@ -265,7 +302,64 @@
 
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmClone()">
+        <button type="button" [appLoading]="stateCloning" [disabled]='stateCloning'
+          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;" (click)="confirmClone()">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="deleteProduct" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+          Delete Product
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        Are you sure you want to Delete the product ({{currentProduct?.sku}}) ?
+
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" [appLoading]="statedeleting" [disabled]='statedeleting'
+          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;" (click)="confirmDelete()">
+          Yes
+        </button>
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteDraft" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">
+          Delete Draft
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to Delete this draft ?
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" (click)="removeDraftProduct()"
+          class="position-relative btn-owls btn-rounded btn-green btn-blue2">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">

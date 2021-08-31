@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormArray, Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CustomerService } from '@app/pages/services/customer.service';
 import { OrdersService } from '@app/pages/services/orders.service';
 import { ProductsService } from '@app/pages/services/products.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subject, concat, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import { Observable, Subject, concat, of, EMPTY } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-edit-order',
@@ -29,8 +30,10 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
   orderForm: FormGroup;
   deleted_items: any[] = [];
-  
-  constructor(private customerService: CustomerService, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) { }
+  loading: boolean;
+  selectedProductToUpdate: any;
+
+  constructor(private customerService: CustomerService, private router: Router, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) { }
 
   ngOnInit() {
     this.setupForm(this.selectedOrder);
@@ -41,6 +44,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   setupForm(data) {
+    this.products = [];
     this.deleted_items = [];
     this.orderForm = new FormGroup({
       user_id: new FormControl(data ? data.user.id : '', Validators.required),
@@ -55,14 +59,14 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
     if (data) {
       this.addresses = data.user.addresses;
-      console.log(this.addresses);
       data.items.forEach(item => {
-        let productsInput$ = new Subject<String>();
+        const productsInput$ = new Subject<String>();
         let productsLoading = false;
-        let products$ = concat(
+        const products$ = concat(
           of([{
             id: item.id,
-            name: item.product.sku + ": " + item.product.name
+            name: item.product.sku + ': ' + item.product.name + ', stock: ' + item.product.stock,
+            stock: item.product.stock
           }]), // default items
           productsInput$.pipe(
             debounceTime(200),
@@ -76,7 +80,8 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
                   return response.data.products.map((p) => {
                     return {
                       id: p.id,
-                      name: p.sku + ": " + p.name,
+                      name: p.sku + ": " + p.name + ', stock: ' + p.stock,
+                      stock: p.stock
                     };
                   });
                 })
@@ -92,7 +97,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
         (this.orderForm.get('items') as FormArray).push(new FormGroup({
           id: new FormControl(item.id, Validators.required),
-          amount: new FormControl(item.amount, Validators.required)
+          amount: new FormControl(item.amount, [Validators.required, Validators.min(1), Validators.max(item.product.stock)])
         }))
       });
     }
@@ -111,13 +116,19 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
             return response.data.customers.map(c => {
               return {
                 id: c.id,
-                name: c.id + ": " + c.name
+                name: c.id + ": " + c.name + (c.active == 0 ? ": dectivated" : "")
               }
             })
           })
         ))
       )
     );
+  }
+
+  updateAmountMax(item, index){
+    if(item){
+      this.orderForm.get('items')['controls'][index].controls.amount.setValidators([Validators.required, Validators.min(1), Validators.max(item.stock)]);
+    }
   }
 
   addProduct() {
@@ -137,7 +148,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
               return response.data.products.map((p) => {
                 return {
                   id: p.id,
-                  name: p.sku + ": " + p.name,
+                  name: p.sku + ": " + p.name + ', stock: ' + p.stock,
                 };
               });
             })
@@ -153,14 +164,13 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
     (this.orderForm.get('items') as FormArray).push(new FormGroup({
       id: new FormControl('', Validators.required),
-      amount: new FormControl('', Validators.required)
+      amount: new FormControl('', [Validators.required, Validators.min(1)])
     }))
   }
 
   get productsData() { return <FormArray>this.orderForm.get('items'); }
 
   removeProduct(index, product_id) {
-    console.log(product_id);
 
     this.deleted_items.push(product_id);
 
@@ -169,54 +179,98 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     (this.orderForm.get("items") as FormArray).removeAt(index);
   }
 
+  addToDeletetItems(){
+    this.deleted_items.push(this.selectedProductToUpdate);
+  }
+
+  updateSelecteItem(product){
+    this.selectedProductToUpdate = product;
+  }
+
   selectCustomerAddresses() {
     let user_id = this.orderForm.get('user_id').value;
     if (user_id) {
       let ind = this.customers.findIndex(c => c.id == user_id);
-
+      this.orderForm.controls.address_id.setValue(null);
       if (ind !== -1) {
         this.addresses = this.customers[ind].addresses;
       }
-    } 
+    }
+  }
+
+  createCustomer(){
+    this.router.navigate(['/pages/manage-customer'], { queryParams: { fromOrder: true }})
+  }
+
+  createAddress(customerId){
+    localStorage.setItem("selectedCustomer", JSON.stringify(this.customers.find((name) => name.id === customerId)))
+    this.router.navigate(['/pages/manage-customer'], { queryParams: { fromOrderCreateAddress: true, customerId } })
   }
 
   submitOrder() {
     if (!this.orderForm.valid) {
-      console.log("INVALID FORM");
       this.markFormGroupTouched(this.orderForm);
       return;
     }
 
     let order = this.orderForm.value;
-    console.log(order);
 
     if (this.selectedOrder) {
+      this.loading = true;
       order.deleted_items = this.deleted_items;
       this.ordersService.updateItems(this.selectedOrder.id, order)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.code == 200) {
             this.closeSideBar(response.data);
+            this.addresses = [];
+            this.customers$ = EMPTY.pipe(delay(1000));
           } else {
-            this.toastrService.error(response.message, "Error");       
+            this.toastrService.error(response.message, "Error");
           }
+          this.loading = false;
         });
     } else {
+      this.loading = true;
       this.ordersService.createOrder(order)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.code == 200) {
             this.closeSideBar(response.data);
+            this.addresses = [];
+            this.customers$ = EMPTY.pipe(delay(1000));
           } else {
-            this.toastrService.error(response.message, "Error");       
+            this.toastrService.error(response.message, "Error");
           }
+          this.loading = false;
         });
     }
   }
 
   closeSideBar(data = null) {
     this.orderForm.reset();
+    this.loading = false;
     this.deleted_items = [];
+    this.addresses = [];
+    this.customers$ = concat(
+      of([]), // default items
+      this.customersInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => this.customersLoading = true),
+        switchMap(term => this.customerService.searchCustomers(term).pipe(
+          catchError(() => of([])), // empty list on error
+          tap(() => this.customersLoading = false),
+          map((response: any) => {
+            this.customers = response.data.customers;
+            return response.data.customers.map(c => {
+              return {
+                id: c.id,
+                name: c.id + ": " + c.name + (c.active == 0 ? ": dectivated" : "")
+              }
+            })
+          })
+        ))
+      )
+    );;
     this.closeSideBarEmit.emit(data);
   }
 

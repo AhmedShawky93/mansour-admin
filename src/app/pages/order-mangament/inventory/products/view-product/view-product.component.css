@@ -8,31 +8,32 @@
   bottom: 0;
   width: 435px;
   z-index: 5;
-  height: 100%;
-  min-height: 100vh;
+  height: 100vh;
   overflow: auto;
   overflow-x: hidden;
-  box-shadow: 0 12px 54px 0 rgba(6,40,59,.1);
-
+  box-shadow: 0 12px 54px 0 rgba(6, 40, 59, 0.1);
 }
 
-.s-price
-{
+.s-price {
   position: absolute;
   right: 100px;
-  background: #ed1c24;
+  background: var(--brand-color);
   padding: 5px 12px;
   border-radius: 8px 0px 8px 0px;
   font-size: 15px;
 }
-.s-price.discount
-{
+
+.s-price.discount {
   right: 28px;
   text-decoration: line-through;
 }
 
-.view-vindor-types
-{
+.view-vindor-types {
   left: auto;
   width: 100%;
+}
+
+.long-line-break {
+  max-width: 100%;
+  line-break: anywhere;
 }

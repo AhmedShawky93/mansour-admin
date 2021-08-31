@@ -11,7 +11,7 @@
       <label>Image</label>
       <div class="d-flex justify-content-center flex-column">
         <app-image-uploader [fileUrl]="variantForm.value?.image" [formControlChildName]="'image'" [myForm]="variantForm"
-          class="w-100" height="240px" width="100%">
+          class="w-100" height="340px" width="50%">
         </app-image-uploader>
         <div *ngIf="formControlValidator('image','required')" class="text-danger">
           Image Is Required
@@ -23,7 +23,7 @@
         <img src="assets/img/Expand.svg" alt="add image">
         <span>add image</span>
       </div>
-      <div formArrayName="images">
+      <div formArrayName="images" *ngIf="variantForm.get('images')['controls'].length">
         <div class="owls-upload owls-upload3"
           *ngFor="let image of variantForm.get('images')['controls']; let i = index">
 
@@ -142,7 +142,7 @@
 
     <div class="form-group">
       <label> Pricing</label>
-      <input [(ngModel)]="price" [max]="1000000" [min]="1" class="owl-input" formControlName="price"
+      <input [max]="1000000" [min]="1" class="owl-input" formControlName="price"
         pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
       <div *ngIf="formControlValidator('price','required')" class="alert alert-danger">
         Pricing is required.
@@ -156,6 +156,81 @@
       <div *ngIf="formControlValidator('price','pattern')" class="alert alert-danger">
         Invalid number format
       </div>
+    </div>
+
+    <div class="group-box mt-2">
+      <div class="form-group">
+        <label> Discount Price
+          <small> optional</small>
+        </label>
+        <input [min]="0" class="owl-input" formControlName="discount_price" pattern="[0-9]+(\.[0-9][0-9]?)?"
+               placeholder="Type.." type="number">
+        <div *ngIf="formControlValidator('discount_price','min')" class="alert alert-danger">
+          Discount price can't be a negative value
+        </div>
+        <div *ngIf="formControlValidator('discount_price','max')" class="alert alert-danger">
+          Discount Price must be less than the price
+        </div>
+        <div *ngIf="formControlValidator('discount_price','pattern')" class="alert alert-danger">
+          Invalid number format
+        </div>
+        <div *ngIf="formControlValidator('discount_price','lessThan')" class="text-danger">
+          Discount Can't Exceed The Price
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          Start Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_start_date'"
+                                     [placeholder]="'Start Date'">
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator('discount_start_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'start_time'" [myForm]="variantForm"
+                                     [placeholder]="'Pick Time'"></app-generic-time-picker>
+            <div *ngIf="formControlValidator('start_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="title">
+          Expiration Date-Time
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_end_date'"
+                                     [placeholder]="'Expiration Date'">
+            </app-generic-date-picker>
+            <div *ngIf="formControlValidator('discount_end_date','required')" class="text-danger">
+              Filed Is Required
+            </div>
+            <div *ngIf="formControlValidator('discount_end_date','dateRang')" class="text-danger">
+              Expiration Date Must Be Greater Than Start Date
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <app-generic-time-picker [formControlChildName]="'expiration_time'" [myForm]="variantForm"
+                                     [placeholder]="'Pick Time'"></app-generic-time-picker>
+            <div *ngIf="formControlValidator('expiration_time','required')" class="text-danger">
+              Filed Is Required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true"
+        formControlName="payment_method_discount_ids" bindLabel="name" bindValue="id" name="payment_method_discount_ids"
+        placeholder="Select Payment Methods">
+      </ng-select>
+
     </div>
 
     <div>
@@ -174,9 +249,9 @@
               </option>
             </select>
             <div
-              *ngIf="variantForm.controls.option_values?.controls[i]?.controls?.option_value_id?.invalid && (variantForm.controls?.option_values?.controls[i].controls?.option_value_id?.dirty || variantForm.controls.option_values?.controls[i].controls?.option_value_id?.touched)"
+              *ngIf="variantForm.controls.option_values['controls'][i]?.controls?.option_value_id?.invalid && (variantForm.controls?.option_values?.controls[i].controls?.option_value_id?.dirty || variantForm.controls.option_values?.controls[i].controls?.option_value_id?.touched)"
               class="alert alert-danger">
-              <div *ngIf="variantForm.controls.option_values?.controls[i]?.controls?.option_value_id?.errors?.required">
+              <div *ngIf="variantForm.controls.option_values['controls'][i]?.controls?.option_value_id?.errors?.required">
                 option is required.
               </div>
             </div>
@@ -360,7 +435,8 @@
 
           <label class="my-2">{{formGroupItem?.controls['optionData']?.value?.name_en}}</label>
 
-          <select class="owl-input" formControlName="option_value_id">
+          <select class="owl-input" formControlName="option_value_id"
+            *ngIf="formGroupItem.controls['optionData']?.value?.type !== '5'">
             <option hidden selected value="">Select Value</option>
             <option *ngFor="let val of formGroupItem?.controls['optionData']?.value?.values" value="{{val.id}}">
               {{val.name_en}}
@@ -375,7 +451,7 @@
             class="d-flex justify-content-center flex-column mt-2">
             <app-image-uploader [fileUrl]="formGroupItem?.controls['option_image'].value"
               [formControlChildName]="'option_image'" [myForm]="formGroupItem" class="w-100" height="240px"
-              width="100%">
+              width="50%">
             </app-image-uploader>
             <div *ngIf="formGroupControlsValidator(formGroupItem,'option_image','required')" class="alert alert-danger">
               Image Is Required

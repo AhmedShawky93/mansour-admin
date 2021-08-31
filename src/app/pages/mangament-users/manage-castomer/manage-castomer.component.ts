@@ -5,7 +5,10 @@ declare var jquery: any;
 declare var $: any;
 import { environment } from '@env/environment';
 import { AuthService } from '@app/shared/auth.service';
-import { animate, state, style, transition, trigger } from "@angular/animations";
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+// import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
   selector: 'app-manage-castomer',
@@ -44,31 +47,41 @@ export class ManageCastomerComponent implements OnInit {
   p = 1;
   filter: any = {
     ids: [],
-    name: "",
-    email: "",
-    phone: "",
+    name: '',
+    email: '',
+    phone: '',
     area_id: [],
     city_id: [],
     active: null,
-    page: "1"
+    page: '1'
 
-  }
-  customer;
+  };
+  customer: any;
   currentPoints: any;
   customerLoading: boolean;
   cities: any;
   areaList: any;
   areaListSearch: any[];
-  toggleAddCustomer: string = 'out';
+  toggleAddCustomer = 'out';
   selectedCustomer: any;
   selectedAddress: any;
+  customerId: any;
 
 
-  constructor(private cs: CustomerService, private auth: AuthService, private _areaService: AreasService,
-  ) { }
+  constructor(
+    private cs: CustomerService,
+    private auth: AuthService,
+    private _areaService: AreasService,
+    private activatedRoute: ActivatedRoute,
+    private toastrService: ToastrService
+  ) {
+    // this.navigatedCustomerData = JSON.parse(localStorage.getItem('selectedCustomer'));
+
+  }
 
   ngOnInit() {
-    this.getCities()
+    this.getCities();
+    this.customerId = Number(this.activatedRoute.snapshot.queryParams.id)
 
     $('.table').on('click', '.toggle-vindor-view', function () {
       $('#view-active').toggleClass('open-view-vindor-types');
@@ -103,6 +116,14 @@ export class ManageCastomerComponent implements OnInit {
     this.exportUrl = environment.api + '/admin/customers/export?token=' + token;
 
     this.loadCustomers();
+    if (this.activatedRoute.snapshot.queryParams.fromOrder) {
+      this.createCustomer();
+    }
+
+    if (this.activatedRoute.snapshot.queryParams.fromOrderCreateAddress && this.activatedRoute.snapshot.queryParams.customerId) {
+      let customer = JSON.parse(localStorage.getItem('selectedCustomer'));
+      this.createAddress(customer);
+    }
   }
 
   getCities() {
@@ -113,28 +134,38 @@ export class ManageCastomerComponent implements OnInit {
     });
   }
 
+  exportCustomers() {
+    this.cs.exportCustomers(this.exportUrl).subscribe({
+      next: ((rep: any) => {
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
+  }
+
   public selectCity(cityId) {
     if (cityId) {
 
-      console.log(' cityId===>', cityId)
-      this.filter.city_id = []
-      this.filter.area_id = []
+      this.filter.city_id = [];
+      this.filter.area_id = [];
 
       const index = this.cities.findIndex((item) => item.id == cityId);
       if (index !== -1) {
         if (this.cities[index].areas.length) {
           this.areaListSearch = this.cities[index].areas;
-          console.log(this.areaList, "if");
         } else {
           this.areaListSearch = [];
           this.areaListSearch.push(this.cities[index]);
-          console.log(this.areaList, "else");
         }
       }
 
-      this.filter.city_id = cityId
+      this.filter.city_id = cityId;
     } else {
-      this.filter.city_id = []
+      this.filter.city_id = [];
       this.areaListSearch = [];
 
     }
@@ -142,7 +173,7 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   selectArea(areaId) {
-    this.filter.area_id = areaId
+    this.filter.area_id = areaId;
     this.changePage(1);
   }
 
@@ -152,7 +183,6 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   changePage(p) {
-    console.log(this.filter);
     this.p = p;
     this.filter.page = this.p;
     this.cs.getCustomers(this.filter)
@@ -163,7 +193,7 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   searchInCustomers() {
-    this.filter.page = "1";
+    this.filter.page = '1';
     this.cs.getCustomers(this.filter)
       .subscribe((response: any) => {
         this.customers = response.data.customers;
@@ -177,6 +207,9 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   loadCustomers() {
+    /*شريف هو اللي قالي اعمل كدا وانا مش راضي (:*/
+    this.filter.ids = this.customerId ? [this.customerId] : [];
+
     this.cs.getCustomers(this.filter)
       .subscribe((response: any) => {
         this.customers = response.data.customers;
@@ -186,7 +219,20 @@ export class ManageCastomerComponent implements OnInit {
           return user;
         });
         this.total = response.data.total;
+        this.getCustomerDetails(this.customers);
       });
+  }
+
+  getCustomerDetails(data) {
+    /*شريف هو اللي قالي اعمل كدا وانا مش راضي (:*/
+    if (this.customerId) {
+      this.filter.q = this.customerId;
+      this.viewCustomer(data[0]);
+      document.querySelector('#view-active').classList.add('open-view-vindor-types');
+      this.customerId = null;
+      this.filter.ids = [];
+      // localStorage.removeItem('selectedCustomer');
+    }
   }
 
   searchCustomers(q) {
@@ -208,9 +254,10 @@ export class ManageCastomerComponent implements OnInit {
 
   viewCustomer(customer) {
     this.customerLoading = true;
+    this.customer = null;
     this.cs.getCustomer(customer.id)
       .subscribe((response: any) => {
-        this.customer = response.data;
+        this.customer = { ...response.data };
         this.customerLoading = false;
       });
   }
@@ -258,7 +305,7 @@ export class ManageCastomerComponent implements OnInit {
     this.cs.cancelPoints(this.currentPoints.id)
       .subscribe((response: any) => {
         this.currentPoints = response.data;
-        let ind = this.customer.points.findIndex(p => p.id == this.currentPoints.id);
+        const ind = this.customer.points.findIndex(p => p.id == this.currentPoints.id);
         if (ind !== -1) {
           this.customer.points[ind] = this.currentPoints;
         }
@@ -270,7 +317,6 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   verifyPhone() {
-    console.log(this.customer);
     this.cs.verifyPhone(this.customer.id)
       .subscribe((response: any) => {
         if (response.code == 200) {
@@ -282,9 +328,9 @@ export class ManageCastomerComponent implements OnInit {
   loginAsCustomer(id) {
     this.cs.getCustomerToken(id)
       .subscribe((response: any) => {
-        let token = response.data;
-
-        window.open(environment.website_url + "/session/signin?token=" + token, "_blank");
+        const token = response.data;
+        var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
+        window.open(`${environmentVariables.brandRelatedVariables.loginApi}session/signin?disabled_guard=true&token=${token}`, '_blank');
       });
   }
 
@@ -333,8 +379,8 @@ export class ManageCastomerComponent implements OnInit {
 
   closeSideBar(data = null) {
     this.selectedCustomer = null;
-    $("#view-deactive").removeClass("open-view-vindor-types");
-    $("#view-side-bar-return-order").removeClass("open-view-vindor-types");
+    $('#view-deactive').removeClass('open-view-vindor-types');
+    $('#view-side-bar-return-order').removeClass('open-view-vindor-types');
     this.toggleAddCustomer = 'out';
     if (data) {
       this.changePage(this.p);
@@ -344,7 +390,7 @@ export class ManageCastomerComponent implements OnInit {
   addOrUpdateCustomer(data) {
     this.selectedCustomer = null;
     if (data) {
-      let ind = this.customers.findIndex(c => c.id == data.id)
+      const ind = this.customers.findIndex(c => c.id == data.id);
 
       if (ind !== -1) {
         this.customers[ind] = data;
@@ -357,22 +403,22 @@ export class ManageCastomerComponent implements OnInit {
   createAddress(customer) {
     this.selectedCustomer = customer;
     this.selectedAddress = null;
-    $("#addressModal").modal("show");
+    $('#addressModal').modal('show');
   }
 
   editAddress(customer, address) {
     this.selectedCustomer = customer;
     this.selectedAddress = address;
-    $("#addressModal").modal("show");
+    $('#addressModal').modal('show');
   }
 
   closeAddressModal(data) {
     if (data) {
       if (this.selectedAddress) {
-        let ind = this.customer.addresses.findIndex(a => a.id == this.selectedAddress.id);
+        const ind = this.customer.addresses.findIndex(a => a.id == this.selectedAddress.id);
         if (ind !== -1) {
           this.customer.addresses.splice(ind, 1);
-          this.customer.addresses.push(data)
+          this.customer.addresses.push(data);
         }
       } else {
         this.customer.addresses.push(data);
@@ -380,6 +426,6 @@ export class ManageCastomerComponent implements OnInit {
     }
 
     this.selectedAddress = null;
-    $("#addressModal").modal("hide");
+    $('#addressModal').modal('hide');
   }
 }

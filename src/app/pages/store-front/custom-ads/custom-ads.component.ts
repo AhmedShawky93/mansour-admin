@@ -14,6 +14,9 @@ import { CategoryService } from '@app/pages/services/category.service';
 import { BrandsService } from '@app/pages/services/brands.service';
 import { CustomAdsService } from '@app/pages/services/custom-ads.service';
 import { ListsService } from '@app/pages/services/lists.service';
+import { Observable, Subject, concat, of, EMPTY } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, delay } from 'rxjs/operators';
+import { ProductsService } from '@app/pages/services/products.service';
 
 declare var jquery: any;
 declare var $: any;
@@ -29,6 +32,10 @@ export class CustomAdsComponent implements OnInit {
   brands = [];
   p = 1;
   total;
+  products: any = [];
+  products$: Observable<any>;
+  productsInput$ = new Subject<String>();
+  productsLoading: boolean;
 
   categories: any;
   adCrrentEdit: any = [];
@@ -59,6 +66,7 @@ export class CustomAdsComponent implements OnInit {
   currentAd: any;
 
   lists = [];
+  selectedAd: any;
 
   constructor(
     private adsService: CustomAdsService,
@@ -66,7 +74,8 @@ export class CustomAdsComponent implements OnInit {
     private toastrService: ToastrService,
     private _CategoriesService: CategoryService,
     private brandsService: BrandsService,
-    private listsService: ListsService
+    private listsService: ListsService,
+    private productsService: ProductsService
   ) {}
 
   ngOnInit() {
@@ -123,7 +132,7 @@ export class CustomAdsComponent implements OnInit {
       id: new FormControl(),
       name_en: new FormControl("", Validators.required),
       name_ar: new FormControl("", Validators.required),
-      type: new FormControl(""),
+      type: new FormControl(10),
       link: new FormControl(""),
       list_id: new FormControl(""),
       category: new FormControl(""),
@@ -136,6 +145,30 @@ export class CustomAdsComponent implements OnInit {
       dev_key: new FormControl("", Validators.required),
       brand: new FormControl(),
     });
+
+    this.products$ = concat(
+      of([]), // default items
+      this.productsInput$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => (this.productsLoading = true)),
+        switchMap((term) =>
+          this.productsService.searchProducts({ q: term, sub_category_id: this.newAdsForm.controls.subCategory.value }, 1).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.productsLoading = false)),
+            map((response: any) => {
+              this.productList = response.data.products;
+              return response.data.products.map((p) => {
+                return {
+                  id: p.id,
+                  name: p.name,
+                };
+              });
+            })
+          )
+        )
+      )
+    );
 
     this.ad.popup = "";
   }
@@ -158,7 +191,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   onFormSubmit(form: FormGroup) {
-    debugger;
     if (this.newAdsForm.value.id != null) {
       this.updateAd();
     } else {
@@ -167,8 +199,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   editAd(ad) {
-    debugger;
-    console.log(ad);
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
       type: new FormControl(ad.type),
@@ -186,30 +216,60 @@ export class CustomAdsComponent implements OnInit {
         Validators.required
       ),
       dev_key: new FormControl(ad.dev_key, Validators.required),
-      category: new FormControl(),
-      subCategory: new FormControl(),
       prod: new FormControl(),
+      subCategory: new FormControl(),
       brand: new FormControl(),
       list_id: new FormControl(),
-      /*dev_key: new FormControl(ad.dev_key)*/
+      category: new FormControl(),
     });
+
+    if (ad.type === 1) {
+      this.products = [{ name: ad.item_data.name, id: ad.item_data.id }]
+      this.productsService.searchProducts({ q: ad.item_data.name, sub_category_id: ad.item_data.category_id }, 1).subscribe((res : any)=> this.productList = res.data.products)
+      this.products$ = concat(
+        of(this.products), // default items
+        this.productsInput$.pipe(
+          debounceTime(200),
+          distinctUntilChanged(),
+          tap(() => (this.productsLoading = true)),
+          switchMap((term) =>
+            this.productsService.searchProducts({ q: term, sub_category_id: ad.item_data.category_id }, 1).pipe(
+              catchError(() => of([])), // empty list on error
+              tap(() => (this.productsLoading = false)),
+              map((response: any) => {
+                this.productList = response.data.products;
+                return response.data.products.map((p) => {
+                  return {
+                    id: p.id,
+                    name: p.name,
+                  };
+                });
+              })
+            )
+          )
+        )
+      );
+    }
+
+    this.selectedAd = ad;
     if (ad.type == 1) {
-      this.newAdsForm.get("prod").setValue(ad.item_id);
       this.newAdsForm.get("subCategory").setValue(ad.item_data.category_id);
       this.newAdsForm.get("category").setValue(ad.item_data.category.id);
+      // setTimeout(() => {
+      //   this.newAdsForm.get("prod").setValue(ad.item_data.id);
+      // }, 2000);
     } else if (ad.type == 2) {
       this.newAdsForm.get("subCategory").setValue(ad.item_id);
       this.newAdsForm.get("category").setValue(ad.item_data.parent_id);
     } else if (ad.type == 4) {
       this.newAdsForm.get("brand").setValue(ad.item_id);
     } else if (ad.type == 5) {
-      this.newAdsForm.get("list_id").setValue(ad.list_id);
+      this.newAdsForm.get("list_id").setValue(ad.item_id);
     } else if (ad.type == 6) {
       this.newAdsForm.get("category").setValue(ad.item_id);
     } else if (ad.type == 7) {
       this.newAdsForm.get("link").setValue(ad.link);
     }
-    console.log(this.newAdsForm.value);
 
     this.category_id = this.newAdsForm.get("category").value;
     this.selectedSubcategory = this.newAdsForm.get("subCategory").value;
@@ -217,11 +277,11 @@ export class CustomAdsComponent implements OnInit {
 
     // fill select options
     if (ad.type == 1 || ad.type == 2) {
-      this.onCategoryChange(this.category_id);
+      this.onCategoryChange();
 
-      if (ad.type == 1) {
-        this.onSubCategoryChange(this.selectedSubcategory);
-      }
+      // if (ad.type == 1) {
+      //   this.onSubCategoryChange();
+      // }
     }
 
     this.onAdTypeChanged(this.newAdsForm);
@@ -251,6 +311,7 @@ export class CustomAdsComponent implements OnInit {
       form.get("list_id").clearValidators();
     } else if (form.get("type").value == 7) {
       form.get("link").setValidators([Validators.required]);
+      form.get("link").setValue('');
       form.get("brand").clearValidators();
       form.get("category").clearValidators();
       form.get("subCategory").clearValidators();
@@ -285,6 +346,13 @@ export class CustomAdsComponent implements OnInit {
     form.get("subCategory").updateValueAndValidity();
     form.get("prod").updateValueAndValidity();
     form.get("brand").updateValueAndValidity();
+
+    if (form.get("category").value != null){
+      this.onCategoryChange();
+    }
+    if (form.get("subCategory").value != null){
+      this.onSubCategoryChange();
+    }
   }
 
   viewAd(ad) {
@@ -301,8 +369,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   createAd() {
-    debugger;
-    console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
     }
@@ -311,6 +377,8 @@ export class CustomAdsComponent implements OnInit {
 
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
+      let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0]
+      ad.link = ad.item_id;
     } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
@@ -335,8 +403,6 @@ export class CustomAdsComponent implements OnInit {
   }
 
   updateAd() {
-    debugger;
-    console.log(this.newAdsForm.value);
     if (!this.newAdsForm.valid) {
       return this.markFormGroupTouched(this.newAdsForm);
     }
@@ -345,14 +411,20 @@ export class CustomAdsComponent implements OnInit {
 
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
+      let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0];
+      ad.link = `${encodeURIComponent(selectedProduct.name.replace(/\s/g, '-'))}/${selectedProduct.parent_id}?variant=${ad.item_id}`;
     } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
+      ad.link = "";
     } else if (ad.type == 4) {
       ad.item_id = this.newAdsForm.get("brand").value;
+      ad.link = "";
     } else if (ad.type == 5) {
       ad.item_id = this.newAdsForm.get("list_id").value;
+      ad.link = "";
     } else if (ad.type == 6) {
       ad.item_id = this.newAdsForm.get("category").value;
+      ad.link = "";
     }
 
     this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {
@@ -387,26 +459,28 @@ export class CustomAdsComponent implements OnInit {
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
       this.categories = response.data;
-      console.log(this.categories);
     });
   }
 
-  onCategoryChange(cat_id) {
+  onCategoryChange() {
     const category_id = this.newAdsForm.get("category").value;
-    console.log(category_id, this.categories);
     const index = this.categories.findIndex((item) => item.id == category_id);
     const category = this.categories[index];
     this.sub_categories = category.sub_categories;
-    console.log(this.sub_categories);
   }
 
-  onSubCategoryChange(catId) {
+  onSubCategoryChange() {
     const subcategory_id = this.newAdsForm.get("subCategory").value;
-    console.log(subcategory_id);
     this._CategoriesService
       .getProducts(subcategory_id)
       .subscribe((response: any) => {
         this.productList = response.data;
+        this.newAdsForm.get("prod").setValue('');
+        if (this.selectedAd.type == 1) {
+          this.newAdsForm.get("prod").setValue(this.selectedAd.item_data.id);
+          // setTimeout(() => {
+          // }, 2000);
+        }
       });
   }
 

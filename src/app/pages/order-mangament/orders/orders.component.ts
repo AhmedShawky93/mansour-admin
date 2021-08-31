@@ -104,7 +104,7 @@ export class OrdersComponent implements OnInit {
   searchTerm = "";
   listSearch = "";
 
-  total: number = 0;
+  total: number = 1;
 
   filter$ = new Subject();
   exportUrl: string;
@@ -157,6 +157,8 @@ export class OrdersComponent implements OnInit {
   today: Date;
   affiliateUsersLoading: boolean;
   affiliateUsers: Array<any>;
+  aramixAccounts: any;
+
   constructor(
     private ordersService: OrdersService,
     private catService: CategoryService,
@@ -170,7 +172,7 @@ export class OrdersComponent implements OnInit {
     private productService: ProductsService,
     private promoService: PromosService,
     private affiliateService: AffiliateService,
-
+    private toastrService: ToastrService
   ) {
     this.affiliateSearch = debounce(this.affiliateSearch, 700);
     this.titleService.setTitle("Orders");
@@ -277,7 +279,6 @@ export class OrdersComponent implements OnInit {
             element.select = false;
           });
         }
-        console.log(this.total);
         if (this.total === 0) {
           this.p = 1;
         }
@@ -325,6 +326,10 @@ export class OrdersComponent implements OnInit {
     this.ordersService.getAvailablePickups().subscribe((response: any) => {
       this.available_pickups = response.data;
     });
+
+    this.ordersService.getAramexAccounts().subscribe((response: any) => {
+      this.aramixAccounts = response.data
+    })
   }
 
   getPaymentMethods() {
@@ -389,9 +394,46 @@ export class OrdersComponent implements OnInit {
     } else if (this.orderStatusId == 6) {
       // this.stateForm.get("status_notes").setValidators([Validators.required]);
       this.stateForm
-        .get("cancellation_id")
-        .setValidators([Validators.required]);
+        .get("cancellation_id");
     }
+  }
+
+  exportOrder() {
+    const token = this.auth.getToken();
+    const urlExport = environment.api + '/admin/orders/export?token=' + token;
+    this.ordersService.exportOrders(urlExport).subscribe({
+      next: ((rep: any) => {
+        if (rep.code === 200) {
+
+
+        }
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
+  }
+
+  exportProductSales() {
+    const token = this.auth.getToken();
+    const urlExport = environment.api + '/admin/products/export_sales?token=' + token;
+    this.ordersService.exportOrders(urlExport).subscribe({
+      next: ((rep: any) => {
+        if (rep.code === 200) {
+
+
+        }
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
   }
 
   selectAll() {
@@ -452,7 +494,6 @@ export class OrdersComponent implements OnInit {
     }
     // }
 
-    console.log(this.ordersBulk);
     this.setupStateForm();
     $("#confirmOrderStatus").modal("show");
   }
@@ -478,13 +519,11 @@ export class OrdersComponent implements OnInit {
       }
     }
 
-    console.log(this.ordersBulk);
     this.setupStateForm();
     $("#confirmOrderPickup").modal("show");
   }
 
   confirmPickup(notifyUser) {
-    console.log(this.stateForm.value);
     if (!this.stateForm.valid) {
       return this.markFormGroupTouched(this.stateForm);
     }
@@ -551,11 +590,9 @@ export class OrdersComponent implements OnInit {
 
     // if (this.orderStatusId == '6') {
     //   if (this.status_notesText == '' || this.status_notesText == undefined) {
-    //     console.log('if data');
     //     this.error_status_notes = true
     //     return
     //   } else {
-    //     console.log('else data');
     //   }
     // }
 
@@ -568,7 +605,6 @@ export class OrdersComponent implements OnInit {
         .setValidators([Validators.required]);
       this.stateForm.get("aramex_account_number").updateValueAndValidity();
     }
-    console.log(this.stateForm.value);
     if (!this.stateForm.valid) {
       return this.markFormGroupTouched(this.stateForm);
     }
@@ -636,22 +672,18 @@ export class OrdersComponent implements OnInit {
   selectStatus(id) {
     this.orderStatusId = id;
     let index = this.orderStatus.findIndex((item) => item.id == id);
-    console.log(index);
 
     if (index !== -1) {
       this.orderSubStates = this.orderStatus[index].sub_states;
-      console.log(this.orderSubStates);
     }
     // if (!this.firstTime) {
     //   $("#confirmOrderStatus").modal("show");
     //   this.firstTime = false;
     // }
-    // console.log(this.firstTime);
   }
 
   changePage(p) {
     this.p = p;
-    console.log(this.filter);
 
     this.filter$.next(this.filter);
   }
@@ -674,7 +706,6 @@ export class OrdersComponent implements OnInit {
     ) {
       this.filter.ids = [this.filter.ids];
     }
-    // console.log(this.serialize(this.filter));
     this.exportProductsUrl =
       this.productsUrl + "&" + this.serialize(this.filter);
 
@@ -756,14 +787,12 @@ export class OrdersComponent implements OnInit {
     this.ordersService
       .getAvailableDeliverers(order.id)
       .subscribe((response: any) => {
-        console.log(response.data);
         this.availableDeliverers = response.data;
         this.availableDeliverers.map((deliverer) => {
           deliverer.deliverer_profile.district_names = deliverer.deliverer_profile.districts
             .map((d) => d.name)
             .join(", ");
         });
-        console.log(this.availableDeliverers);
         this.viewFilter = "";
         this.listFilter = "";
         order.showPopup = 1;
@@ -901,8 +930,6 @@ export class OrdersComponent implements OnInit {
     this.loadingProductSideBar = true;
     this.product_list = [];
     this.catService.getProducts(cat_id).subscribe((response: any) => {
-      console.log(response);
-      console.log(this.currentOrder.items);
       if (response.code === 200) {
         this.loadingProductSideBar = false;
         this.product_list = response.data;
@@ -943,25 +970,21 @@ export class OrdersComponent implements OnInit {
   }
 
   addAmountOldItem(product) {
-    console.log(product);
     if (product.amount < product.product.stock) {
       product.amount++;
     }
   }
   removeAmountOldItem(product) {
-    console.log(product);
     product.amount > 1 ? product.amount-- : (product.amount = 1);
     // product.quantity > 0 ? product.quantity-- : (product.quantity = 0);
   }
 
   addAmountOldItemReturn(product) {
-    console.log(product);
     if (product.quantity < product.amount) {
       product.quantity++;
     }
   }
   removeAmountOldItemReturn(product) {
-    console.log(product);
 
     product.quantity > 1 ? product.quantity-- : (product.quantity = 0);
   }
@@ -973,8 +996,6 @@ export class OrdersComponent implements OnInit {
     if (productAmountIndex !== -1) {
       this.currentOrder.items[productAmountIndex].amount = product.amount;
     } else {
-      console.log(product);
-      console.log(this.currentOrder.items);
 
       this.currentOrder.items.push({
         id: product.id,
@@ -990,7 +1011,6 @@ export class OrdersComponent implements OnInit {
     }
   }
   removeAmount(product) {
-    console.log(product);
     product.amount > 0 ? product.amount-- : (product.amount = 1);
 
     const productAmountIndex = this.currentOrder.items.findIndex(
@@ -999,10 +1019,8 @@ export class OrdersComponent implements OnInit {
     if (productAmountIndex !== -1) {
       if (product.amount > 0) {
         this.currentOrder.items[productAmountIndex].amount = product.amount;
-        console.log("if");
       } else if (product.amount == 0) {
         this.currentOrder.items.splice(productAmountIndex, 1);
-        console.log("else if ");
       }
     }
   }
@@ -1042,7 +1060,6 @@ export class OrdersComponent implements OnInit {
           returned_quantity: item.quantity,
         };
       });
-    console.log(itemReturn);
 
     if (itemReturn.length) {
       this.ordersService
@@ -1126,14 +1143,12 @@ export class OrdersComponent implements OnInit {
 
   openPopupConfirmStatus(data, type) {
     // type 1 change order status and 2 sub statue
-    console.log(data);
     this.orderStatuId = data;
     this.typeStatusPopup = type;
     $("#confirmOrderStatus").modal("show");
   }
 
   changeStatus(notifyUser, type) {
-    console.log(notifyUser, type);
     if (type == 1) {
       this.ordersService
         .changeStatus(this.orderId, {
@@ -1181,7 +1196,6 @@ export class OrdersComponent implements OnInit {
   }
 
   openPopupAction(type, data) {
-    console.log(type, data);
     if (type == 1) {
       // assign delivery
       this.getDeliverers(data);
@@ -1213,29 +1227,23 @@ export class OrdersComponent implements OnInit {
   }
 
   SelectDistrict(event, data) {
-    console.log(event);
-    console.log(data);
   }
   public getArea(area) {
-    console.log(area);
     const index = this.cities.findIndex((item) => item.id == area);
     if (index !== -1) {
       if (this.cities[index].areas.length) {
         this.areaList = this.cities[index].areas;
-        console.log(this.areaList, "if");
       } else {
         this.areaList = [];
         this.areaList.push(this.cities[index]);
         this.districts.push(this.cities[index]);
 
-        console.log(this.areaList, "else");
       }
     }
     this.districts = [];
   }
   public selectCity(cityId) {
     if (cityId) {
-      console.log(" cityId===>", cityId);
       this.filter.customer_city_ids = [];
       this.filter.customer_area_ids = [];
 
@@ -1243,11 +1251,9 @@ export class OrdersComponent implements OnInit {
       if (index !== -1) {
         if (this.cities[index].areas.length) {
           this.areaListSearch = this.cities[index].areas;
-          console.log(this.areaList, "if");
         } else {
           this.areaListSearch = [];
           this.areaListSearch.push(this.cities[index]);
-          console.log(this.areaList, "else");
         }
       }
 
@@ -1274,11 +1280,9 @@ export class OrdersComponent implements OnInit {
     if (index !== -1) {
       if (this.areaList[index].districts.length) {
         this.districts = this.areaList[index].districts;
-        console.log(this.areaList, "if");
       } else {
         this.districts = [];
         this.districts.push(this.areaList[index]);
-        console.log(this.areaList, "else");
       }
     }
   }

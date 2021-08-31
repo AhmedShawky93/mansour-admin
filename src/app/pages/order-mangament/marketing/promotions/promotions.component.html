@@ -90,5 +90,5 @@
 
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
-<app-add-edit-promotion (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
+<app-add-edit-promotion (dataOptionEmit)="addOrUpdateOption($event)" class="parent-editor-viewer-sidebar" (closeSideBarEmit)="closeSideBar()"
   [@slideInOut]="toggleAddOption" [promotionData]="currentPromotion"></app-add-edit-promotion>

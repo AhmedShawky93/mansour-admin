@@ -59,7 +59,6 @@ export class BrandsComponent implements OnInit {
 
     this.brandsService.getBrands().subscribe((response: any) => {
       this.brands = response.data;
-      console.log(this.brands);
     });
 
     this.addBrandForm = new FormGroup({
@@ -92,16 +91,14 @@ export class BrandsComponent implements OnInit {
       id: new FormControl(brand.id, Validators.required),
       name: new FormControl(brand.name, Validators.required),
       name_ar: new FormControl(brand.name_ar, Validators.required),
-      image: new FormControl(brand.image),
+      image: new FormControl(brand.image, Validators.required),
     });
     this.imageUrl = brand.image;
     $("#edit-prod").toggleClass("open-view-vindor-types");
   }
 
   updateBrand() {
-    console.log(this.editForm.value);
     if (!this.editForm.valid) {
-      console.log("INVALID");
       return this.markFormGroupTouched(this.editForm);
     }
 
@@ -113,7 +110,6 @@ export class BrandsComponent implements OnInit {
         let ind = this.brands.findIndex((item) => {
           return item.id === brand.id;
         });
-        console.log(ind);
         if (ind !== -1) {
           this.brands[ind] = response.data;
         }
@@ -133,11 +129,17 @@ export class BrandsComponent implements OnInit {
       }
     });
   }
-
+  formControlValidator(controlName, err) {
+    if (this.editForm && this.editForm.controls[controlName].touched && this.editForm.controls[controlName].dirty) {
+      if (this.editForm.controls[controlName].errors) {
+        return this.editForm.controls[controlName].errors[err];
+      }
+    }
+  }
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
-
+      control.markAsDirty();
       if (control.controls) {
         this.markFormGroupTouched(control);
       }
