@@ -31,6 +31,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         "level1_image": false,
         "level2_image": false,
         "level3_image": false,
+        "order": 1,
         "level2": []
       },
       {
@@ -46,29 +47,34 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         "menu_padding": "2rem",
         "level1_image_dimentions": "300px",
         "fixed_width": "30%",
+        "order": 2,
         "level2": [
           {
             "link": "",
             "name": "Operating System",
             "name_ar": "نظام التشغيل",
             "image": "",
+            "order": 1,
             "level3": [{
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Android",
               "name_ar": "اندرويد",
-              "image": ""
+              "image": "",
+              "order": 1
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "IOS",
               "name_ar": "IOS",
-              "image": ""
+              "image": "",
+              "order": 2
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Classic",
               "name_ar": "كلاسيكى",
-              "image": ""
+              "image": "",
+              "order": 3
             }]
           },
           {
@@ -76,35 +82,41 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
             "name": "Shop By Price",
             "name_ar": "تسوق حسب السعر",
             "image": "",
+            "order": 2,
             "level3": [{
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "less than 1000 pounds",
               "name_ar": "أقل من 1000 جنيه",
-              "image": ""
+              "image": "",
+              "order": 1
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "from 1000 to 2900",
               "name_ar": "من 1000 إلى 2999 جنيه",
-              "image": ""
+              "image": "",
+              "order": 2
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "from 3000 to 5999",
               "name_ar": "من 3000 إلى 5999 جنيه",
-              "image": ""
+              "image": "",
+              "order": 3
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "from 6000 to 10000",
               "name_ar": "من 6000 إلى 10000",
-              "image": ""
+              "image": "",
+              "order": 4
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "more than 10000",
               "name_ar": "أكثر من 10000",
-              "image": ""
+              "image": "",
+              "order": 5
             }]
           },
           {
@@ -112,59 +124,69 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
             "name": "shop by brand",
             "name_ar": "تسوق حسب الماركة",
             "image": "",
+            "order": 3,
             "level3": [{
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Apple",
               "name_ar": "ابل",
-              "image": ""
+              "image": "",
+              "order": 1
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Samsung",
               "name_ar": "سامسونج",
-              "image": ""
+              "image": "",
+              "order": 2
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Xiaomi",
               "name_ar": "شاومى",
-              "image": ""
+              "image": "",
+              "order": 3
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "oppo",
               "name_ar": "اوبو",
-              "image": ""
+              "image": "",
+              "order": 4
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "realmi",
               "name_ar": "ريلمى",
-              "image": ""
+              "image": "",
+              "order": 5
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "huawei",
               "name_ar": "هواوى",
-              "image": ""
+              "image": "",
+              "order": 6
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "honor",
               "name_ar": "هونر",
-              "image": ""
+              "image": "",
+              "order": 7
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "vivo",
               "name_ar": "فيفو",
-              "image": ""
+              "image": "",
+              "order": 8
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "nokia",
               "name_ar": "نوكيا",
-              "image": ""
+              "image": "",
+              "order": 9
             }]
           }
         ]
@@ -189,7 +211,8 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         "level1_image": false,
         "level2_image": false,
         "level3_image": false,
-        "level2": []
+        "level2": [],
+        "order": 1
       },
       {
         "link": "https://www.mobilaty.com/products?category_id=687",
@@ -204,29 +227,34 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         "menu_padding":"2rem",
         "level1_image_dimentions" : "300px",
         "fixed_width":"30%",
+        "order": 2,
         "level2": [
           {
             "link": "",
             "name": "Operating System",
             "name_ar": "نظام التشغيل",
             "image": "",
+            "order": 1,
             "level3": [{
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Android",
               "name_ar": "اندرويد",
-              "image": ""
+              "image": "",
+              "order": 1
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "IOS",
               "name_ar": "IOS",
-              "image": ""
+              "image": "",
+              "order": 2
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Classic",
               "name_ar": "كلاسيكى",
-              "image": ""
+              "image": "",
+              "order": 3
             }]
           },
           {
@@ -234,35 +262,41 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
             "name": "Shop By Price",
             "name_ar": "تسوق حسب السعر",
             "image": "",
+            "order": 2,
             "level3": [{
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "less than 1000 pounds",
               "name_ar": "أقل من 1000 جنيه",
-              "image": ""
+              "image": "",
+              "order": 1
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "from 1000 to 2900",
               "name_ar": "من 1000 إلى 2999 جنيه",
-              "image": ""
+              "image": "",
+              "order": 2
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "from 3000 to 5999",
               "name_ar": "من 3000 إلى 5999 جنيه",
-              "image": ""
+              "image": "",
+              "order": 3
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "from 6000 to 10000",
               "name_ar": "من 6000 إلى 10000",
-              "image": ""
+              "image": "",
+              "order": 4
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "more than 10000",
               "name_ar": "أكثر من 10000",
-              "image": ""
+              "image": "",
+              "order": 5
             }]
           },
           {
@@ -270,59 +304,69 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
             "name": "shop by brand",
             "name_ar": "تسوق حسب الماركة",
             "image": "",
+            "order": 3,
             "level3": [{
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Apple",
               "name_ar": "ابل",
-              "image": ""
+              "image": "",
+              "order": 1
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Samsung",
               "name_ar": "سامسونج",
-              "image": ""
+              "image": "",
+              "order": 2
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "Xiaomi",
               "name_ar": "شاومى",
-              "image": ""
+              "image": "",
+              "order": 3
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "oppo",
               "name_ar": "اوبو",
-              "image": ""
+              "image": "",
+              "order": 4
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "realmi",
               "name_ar": "ريلمى",
-              "image": ""
+              "image": "",
+              "order": 5
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "huawei",
               "name_ar": "هواوى",
-              "image": ""
+              "image": "",
+              "order": 6
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "honor",
               "name_ar": "هونر",
-              "image": ""
+              "image": "",
+              "order": 7
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "vivo",
               "name_ar": "فيفو",
-              "image": ""
+              "image": "",
+              "order": 8
             },
             {
               "link": "https://www.mobilaty.com/products?category_id=687",
               "name": "nokia",
               "name_ar": "نوكيا",
-              "image": ""
+              "image": "",
+              "order": 9
             }]
           }
         ]
@@ -366,6 +410,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       menu_padding: new FormControl(data ? data.menu_padding : '2rem'),
       level1_image_dimentions: new FormControl(data ? data.level1_image_dimentions : '300px'),
       fixed_width: new FormControl(data ? data.fixed_width : '30%'),
+      order: new FormControl(data ? data.order : 0)
     })
   }
 
@@ -386,6 +431,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       name: new FormControl(data ? data.name : '', Validators.required),
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
       image: new FormControl(data ? data.image : ''),
+      order: new FormControl(data ? data.order : 0)
     })
   }
 
@@ -404,6 +450,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       name: new FormControl(data ? data.name : '', Validators.required),
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
       image: new FormControl(data ? data.image : ''),
+      order: new FormControl(data ? data.order : 0)
     })
   }
 
@@ -524,8 +571,14 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         this.formattedJson.level1[this.formattedJson.level1.length - 1].level2 = [];
         this.updateIndexHeader = this.formattedJson.level1.length - 1;
       }
+      this.sortHeaders();
       this.saveChanges();
     }
+  }
+
+  sortHeaders() {
+    this.formattedJson.level1.forEach(item => item.order == null && (item.order = 10000))
+    this.formattedJson.level1 = this.formattedJson.level1.sort((a, b) => (a.order < b.order ? -1 : 1))
   }
 
   saveGroup() {
@@ -541,8 +594,14 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.formattedJson.level1[this.updateIndexHeader].level2.length - 1].level3 = [];
         this.updateIndexGroup = this.formattedJson.level1[this.formattedJson.level1.length - 1].level2.length - 1;
       }
+      this.sortGroup();
       this.saveChanges();
     }
+  }
+
+  sortGroup() {
+    this.formattedJson.level1[this.updateIndexHeader].level2.forEach(item => item.order == null && (item.order = 10000))
+    this.formattedJson.level1[this.updateIndexHeader].level2 = this.formattedJson.level1[this.updateIndexHeader].level2.sort((a, b) => (a.order < b.order ? -1 : 1))
   }
 
   saveSubCategory() {
@@ -554,8 +613,14 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       } else {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.push(this.selectedSubcategory)
       }
+      this.sortSubCategory();
       this.saveChanges();
     }
+  }
+
+  sortSubCategory() {
+    this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.forEach(item => item.order == null && (item.order = 10000))
+    this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3 = this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.sort((a, b) => (a.order < b.order ? -1 : 1))
   }
 
   deleteItem(index, event, item, type) {

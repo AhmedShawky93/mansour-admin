@@ -687,6 +687,10 @@ hr {
   flex-wrap: wrap;
 }
 
+.column-view{
+  flex-direction: column;
+}
+
 .level-container {
   display: flex;
   flex-direction: column;
