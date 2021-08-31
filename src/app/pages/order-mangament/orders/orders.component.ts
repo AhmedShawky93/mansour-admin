@@ -165,7 +165,8 @@ export class OrdersComponent implements OnInit {
     private orderStatesService: OrderStatesService,
     private deliveryService: DeliveryService,
     private productService: ProductsService,
-    private promoService: PromosService
+    private promoService: PromosService,
+    private toastrService: ToastrService
   ) {
     this.titleService.setTitle("Orders");
   }
@@ -384,6 +385,44 @@ export class OrdersComponent implements OnInit {
       this.stateForm
         .get("cancellation_id");
     }
+  }
+
+  exportOrder() {
+    const token = this.auth.getToken();
+    const urlExport = environment.api + '/admin/orders/export?token=' + token;
+    this.ordersService.exportOrders(urlExport).subscribe({
+      next: ((rep: any) => {
+        if (rep.code === 200) {
+
+
+        }
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
+  }
+
+  exportProductSales() {
+    const token = this.auth.getToken();
+    const urlExport = environment.api + '/admin/products/export_sales?token=' + token;
+    this.ordersService.exportOrders(urlExport).subscribe({
+      next: ((rep: any) => {
+        if (rep.code === 200) {
+
+
+        }
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
   }
 
   selectAll() {

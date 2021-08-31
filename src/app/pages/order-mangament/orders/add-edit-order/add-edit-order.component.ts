@@ -191,7 +191,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     let user_id = this.orderForm.get('user_id').value;
     if (user_id) {
       let ind = this.customers.findIndex(c => c.id == user_id);
-
+      this.orderForm.controls.address_id.setValue(null);
       if (ind !== -1) {
         this.addresses = this.customers[ind].addresses;
       }

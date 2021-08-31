@@ -3,7 +3,10 @@
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>Create Customer</h3>
+    <h3 *ngIf="!selectedCustomer;else elseHeader">Create Customer</h3>
+    <ng-template #elseHeader>
+      <h3>Update Customer</h3>
+    </ng-template>
   </div>
 
   <form class="sideform" (ngSubmit)="submitCustomer()" [formGroup]="customerForm" novalidate>

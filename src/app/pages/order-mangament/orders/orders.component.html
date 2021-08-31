@@ -195,16 +195,12 @@
     </div>
     <div class="col-md-2  col-xs-6 text-right ">
       <div class="form-group">
-        <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
-          href="{{exportUrl}}">Export
-          Orders </a>
+        <a class=" btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0" (click)="exportOrder()">Export Orders </a>
       </div>
     </div>
     <div class="col-md-2   col-xs-6 text-right">
       <div class="form-group">
-        <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
-          href="{{exportProductsUrl}}">Export
-          Products Sales</a>
+        <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" (click)="exportProductSales()">Export Products Sales</a>
       </div>
     </div>
   </div>

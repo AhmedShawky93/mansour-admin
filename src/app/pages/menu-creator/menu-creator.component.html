@@ -5,7 +5,8 @@
       <li class="app-nav-item" [ngClass]="levelOneItem.level2.length > 0 ? 'mega' : ''"
         *ngFor="let levelOneItem of formattedJson.level1; let i = index">
         <ng-container>
-          <a class="nav-link main main-font" routerLinkActive="active-link" (click)="navigateToLink(levelOneItem.link)"
+          <a class="nav-link main main-font" [ngClass]="{'has-link' : levelOneItem.link}" routerLinkActive="active-link"
+            (click)="navigateToLink(levelOneItem.link)"
             (mouseleave)="clickedItem = false">
             {{ levelOneItem?.name }}
           </a>
@@ -20,19 +21,20 @@
                   <img *ngIf="levelOneItem.level2_image && levelTwoItem.image" [src]="levelTwoItem.image"
                     alt="secondary section image" />
                   <div class="menu-section-body">
-                    <h2 class="second-level-nav-link main-font" (click)="navigateToLink(levelTwoItem.link)">
+                    <h2 class="second-level-nav-link main-font" [ngClass]="{'has-link': levelTwoItem.link}"
+                      (click)="navigateToLink(levelTwoItem.link)">
                       {{ levelTwoItem?.name }}</h2>
                     <ul>
                       <li class="third-level-nav-link main-font"
                         [ngStyle]="{'line-height': levelOneItem.level3_items_spacing}"
                         *ngFor="let levelThreeItem of levelTwoItem.level3"
-                        (click)="navigateToLink(levelThreeItem.link)">
+                        (click)="navigateToLink(levelThreeItem.link)" [ngClass]="{'has-link': levelThreeItem.link}">
                         <div class="view-more main-font" *ngIf="levelThreeItem.highlighted;else seeMoreLink">
                           <img *ngIf="levelOneItem.level3_image && levelThreeItem.image" [src]="levelThreeItem.image" alt="item images">
                           {{levelThreeItem?.name}}
                         </div>
                         <ng-template #seeMoreLink>
-                          <img *ngIf="levelOneItem.level3_image" [src]="levelThreeItem.image" alt="item images">
+                          <img *ngIf="levelOneItem.level3_image && levelOneItem.level3_image && levelThreeItem.image" [src]="levelThreeItem.image" alt="item images">
                           - {{levelThreeItem?.name}}
                         </ng-template>
                       </li>
@@ -188,6 +190,11 @@
     </div>
 
     <div class="form-group">
+      <label>Order</label>
+      <input class="owl-input" formControlName="order" placeholder="Type.." type="number">
+    </div>
+
+    <div class="form-group">
       <label>Link</label>
       <input class="owl-input" formControlName="link" placeholder="Type.." type="text">
     </div>
@@ -250,7 +257,7 @@
     </div>
 
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green " [appLoading]="updating">Update</button>
+      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="updating">Update</button>
     </div>
   </form>
 </div>
@@ -271,6 +278,11 @@
       <div *ngIf="groupForm.controls.name_ar.errors?.required" class="alert alert-danger">
         Name arabic is required.
       </div>
+    </div>
+
+    <div class="form-group">
+      <label>Order</label>
+      <input class="owl-input" formControlName="order" placeholder="Type.." type="number">
     </div>
 
     <div class="form-group">
@@ -313,6 +325,11 @@
     </div>
 
     <div class="form-group">
+      <label>Order</label>
+      <input class="owl-input" formControlName="order" placeholder="Type.." type="number">
+    </div>
+
+    <div class="form-group">
       <label>Link</label>
       <input class="owl-input" formControlName="link" placeholder="Type.." type="text">
     </div>
@@ -335,8 +352,13 @@
 </div>
 
 <hr>
+<label class="switch">
+  <label for="">Show Advanced feature</label>
+  <input [(ngModel)]="showAdvanced" type="checkbox" value="1">
+  <span class="slider round"></span>
+</label>
 
-<div class="menu-items-container">
+<div class="menu-items-container column-view" *ngIf="showAdvanced">
   <h4>Or set menu with  json object</h4>
   <textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
   <button (click)="prettyPrint(true)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product"
