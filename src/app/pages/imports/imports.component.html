@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-3 col-xs-12">
       <div class="form-group">
-        <select class="owl-input" name="type" [(ngModel)]="filter.type">
+        <select class="owl-input" name="type" [(ngModel)]="filter.type" (ngModelChange)="filterImports($event,'type')">
           <option value="" selected>Select Type</option>
           <option value="1">Brands</option>
         </select>
@@ -10,7 +10,7 @@
     </div>
     <div class="col-md-3 col-xs-12">
       <div class="form-group">
-        <select class="owl-input" name="state" [(ngModel)]="filter.state">
+        <select class="owl-input" name="state" [(ngModel)]="filter.state"  (ngModelChange)="filterImports($event,'state')">
           <option [value]="''" selected>Select State</option>
           <option value="1">Cancelled</option>
         </select>
@@ -27,6 +27,7 @@
           [satDatepicker]="pickerFrom"
           [value]="date"
           [(ngModel)]="filter.date_from"
+          (ngModelChange)="filterImports($event,'dateFrom')"
         />
         <sat-datepicker #pickerFrom [rangeMode]="false"> </sat-datepicker>
         <sat-datepicker-toggle
@@ -46,6 +47,7 @@
           [satDatepicker]="pickerTo"
           [value]="date"
           [(ngModel)]="filter.date_to"
+          (ngModelChange)="filterImports($event,'dateTo')"
         />
         <sat-datepicker #pickerTo [rangeMode]="false"> </sat-datepicker>
         <sat-datepicker-toggle

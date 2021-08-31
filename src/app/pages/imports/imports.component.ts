@@ -1,23 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { ImportsService } from '../services/imports.service';
-import 'rxjs/Rx';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { environment } from '@env/environment';
-import { AuthService } from '@app/shared/auth.service';
+import { Component, OnInit } from "@angular/core";
+import { Subject } from "rxjs";
+import { tap } from "rxjs/operators";
+import { ImportsService } from "../services/imports.service";
+import "rxjs/Rx";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { environment } from "@env/environment";
+import { AuthService } from "@app/shared/auth.service";
+import * as moment from "moment";
 
 declare var jquery: any;
 declare var $: any;
 
 @Component({
-  selector: 'app-imports',
-  templateUrl: './imports.component.html',
-  styleUrls: ['./imports.component.scss']
+  selector: "app-imports",
+  templateUrl: "./imports.component.html",
+  styleUrls: ["./imports.component.scss"],
 })
 export class ImportsComponent implements OnInit {
-  step1:boolean;
-  type:string;
+  step1: boolean;
+  type: string;
   p = 1;
   filter$ = new Subject();
   filter: any = {
@@ -25,25 +26,28 @@ export class ImportsComponent implements OnInit {
     state: "",
     date_from: "",
     date_to: "",
-    page: 1
+    page: 1,
   };
   imports: any = [
     {
-      "id":1,
-      "type":null,
-      "user":{
-        "name":"test"
+      id: 1,
+      type: null,
+      user: {
+        name: "test",
       },
-      "progressVal":"40"
-    }
+      progressVal: "40",
+    },
   ];
   loading: boolean = false;
   importForm: FormGroup;
-  downloadLink = '';
+  downloadLink = "";
 
-  constructor(private importsService: ImportsService, private auth: AuthService) {
+  constructor(
+    private importsService: ImportsService,
+    private auth: AuthService
+  ) {
     this.step1 = false;
-    this.type = '2'
+    this.type = "2";
   }
 
   ngOnInit() {
@@ -71,22 +75,28 @@ export class ImportsComponent implements OnInit {
   }
 
   openNewImport() {
+    this.step1 = true;
+    this.type = '0';
     $("#newImport").modal("show");
 
     this.importForm = new FormGroup({
-      type: new FormControl('', Validators.required),
-      file: new FormControl('', [Validators.required]),
-      fileSource: new FormControl('', [Validators.required])
+      type: new FormControl("", Validators.required),
+      file: new FormControl("", [Validators.required]),
+      fileSource: new FormControl("", [Validators.required]),
     });
   }
 
-
-  closePopup(){
+  closePopup() {
     $("#newImport").modal("hide");
   }
 
   generateLink() {
-    this.downloadLink = environment.api + '/admin/files/import/templates?type=' + this.importForm.get('type').value + "&token=" + this.auth.getToken();
+    this.downloadLink =
+      environment.api +
+      "/admin/files/import/templates?type=" +
+      this.importForm.get("type").value +
+      "&token=" +
+      this.auth.getToken();
   }
 
   // downloadTemplate() {
@@ -104,7 +114,7 @@ export class ImportsComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.importForm.patchValue({
-        fileSource: file
+        fileSource: file,
       });
     }
   }
@@ -116,13 +126,12 @@ export class ImportsComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('file', this.importForm.get('fileSource').value);
-    formData.append('type', this.importForm.get('type').value);
+    formData.append("file", this.importForm.get("fileSource").value);
+    formData.append("type", this.importForm.get("type").value);
 
-    this.importsService.import(formData)
-      .subscribe((response: any) => {
-        console.log(response);
-      })
+    this.importsService.import(formData).subscribe((response: any) => {
+      console.log(response);
+    });
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
@@ -137,8 +146,34 @@ export class ImportsComponent implements OnInit {
       });
   }
 
-  backStep(){
+  backStep() {
     this.step1 = true;
   }
 
+  filterImports(e, typeImport) {
+    this.getFilterData(e, typeImport);
+    console.log(this.filter)
+  }
+
+
+  getFilterData(e, typeImport){
+    switch (typeImport) {
+      case "type":
+        this.filter.type = e;
+        break;
+      case "type":
+        this.filter.state = e;
+        break;
+      case "dateFrom":
+        this.filter.date_from = moment(this.filter.date_from).format(
+          "YYYY-MM-DD"
+        );
+        break;
+      case "dateTo":
+        this.filter.date_to = moment(this.filter.date_to).format("YYYY-MM-DD");
+        break;
+      default:
+      // code block
+    }
+  }
 }
