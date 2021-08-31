@@ -177,6 +177,15 @@ export class SettingComponent implements OnInit {
     });
   }
 
+  checkColorValidity(color) {
+    if (color.substring(0, 1) == '#') {
+      return;
+    } else {
+      color = `#${color}`;
+      this.systemForm.controls.softbar_bg_color.setValue(color);
+    }
+  }
+
   loadSettings() {
     if (!this.settings) {
       this.settingsLoading = true;
@@ -190,6 +199,10 @@ export class SettingComponent implements OnInit {
             except_cod_amount: new FormControl(this.settings.except_cod_amount),
             off_time: new FormControl(this.settings.off_time),
             open_time: new FormControl(this.settings.open_time),
+            showSoftLaunchBar: new FormControl(this.settings.showSoftLaunchBar ? this.settings.showSoftLaunchBar : false),
+            softbar_text_ar: new FormControl(this.settings.softbar_text_ar ? this.settings.softbar_text_ar : ''),
+            softbar_text_en: new FormControl(this.settings.softbar_text_en ? this.settings.softbar_text_en : ''),
+            softbar_bg_color: new FormControl(this.settings.softbar_bg_color ? this.settings.softbar_bg_color : ''),
           },
           timeValidator
         );
