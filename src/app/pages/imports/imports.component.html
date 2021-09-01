@@ -18,7 +18,6 @@
           <option value="7">Lists</option>
           <option value="8">Promo</option>
           <option value="9">Cities</option>
-          <option value="10">Delivers</option>
         </select>
       </div>
     </div>
@@ -122,7 +121,6 @@
             <span *ngSwitchCase="7">Lists</span>
             <span *ngSwitchCase="8">Promo</span>
             <span *ngSwitchCase="9">Cities</span>
-            <span *ngSwitchCase="10">Delivers</span>
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
@@ -241,7 +239,6 @@
                     <option value="7">Lists</option>
                     <option value="8">Promo</option>
                     <option value="9">Cities</option>
-                    <option value="10">Delivers</option>
                   </select>
                 </div>
                 <div
@@ -842,60 +839,20 @@
 
           <ul class="list-unstyled">
             <li>
-              <h6>name :</h6>
-              <span>{{ result?.name }}</span>
+              <h6>area name :</h6>
+              <span>{{ result?.area_name }}</span>
             </li>
             <li>
-              <h6>sku :</h6>
-              <span>{{ result?.sku }}</span>
-            </li>
-          </ul>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import" (click)="submitImport()">
-                import product
-              </button>
-            </div>
-          </div>
-        </section>
-      </ng-container>
-      <ng-container *ngIf="!step1 && type == '10'">
-        <section class="parent">
-          <div class="title d-flex align-items-center justify-content-between">
-            <h5>Preview Your Delivery</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
-          </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
-            <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
-            </p>
-          </div>
-
-          <ul class="list-unstyled">
-            <li>
-              <h6>name :</h6>
-              <span>{{ result?.name }}</span>
+              <h6>city fees :</h6>
+              <span>{{ result?.city_fees }}</span>
             </li>
             <li>
-              <h6>sku :</h6>
-              <span>{{ result?.sku }}</span>
+              <h6>city name :</h6>
+              <span>{{ result?.city_name }}</span>
+            </li>
+            <li>
+              <h6>city name :</h6>
+              <span>{{ result?.city_name }}</span>
             </li>
           </ul>
           <div class="d-flex justify-content-between p-2">
