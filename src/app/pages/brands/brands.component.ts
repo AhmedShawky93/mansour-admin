@@ -25,7 +25,7 @@ export class BrandsComponent implements OnInit {
     private brandsService: BrandsService,
     private uploadService: UploadFilesService,
     private cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     $(".add-product").on("click", function () {
@@ -126,11 +126,15 @@ export class BrandsComponent implements OnInit {
 
   onImageSelected(event) {
     let file = <File>event.target.files[0];
-    this.uploadService.uploadFile(file).subscribe((response: any) => {
-      if (response.body) {
-        this.imageUrl = response.body.data.filePath;
-      }
-    });
+    if (file.size > 1048576) {
+      alert('file size is too big max size is 1MB')
+    } else {
+      this.uploadService.uploadFile(file).subscribe((response: any) => {
+        if (response.body) {
+          this.imageUrl = response.body.data.filePath;
+        }
+      });
+    }
   }
   formControlValidator(controlName, err) {
     if (this.editForm && this.editForm.controls[controlName].touched && this.editForm.controls[controlName].dirty) {
