@@ -15,6 +15,14 @@ export class ImportsService {
 
   }
 
+
+  downloadTemplate(type) {
+    return this.http.get(this.url + "files/import/templates?type=" + type)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
   getImports(page,data) {
     return this.http.post(this.url + `import/filter?page=${page}`, data)
       .catch((error: any) => {
@@ -29,10 +37,17 @@ export class ImportsService {
       })
   }
 
-  downloadTemplate(type) {
-    return this.http.get(this.url + "files/import/templates?type=" + type)
+
+  fileValidation(data) {
+    return this.http.post(this.url + "import/File-validation", data)
       .catch((error: any) => {
         return Observable.throw(error.error || 'Server error');
       })
   }
+
+
 }
+
+
+
+

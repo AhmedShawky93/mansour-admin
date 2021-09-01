@@ -2,7 +2,12 @@
   <div class="row">
     <div class="col-md-3 col-xs-12">
       <div class="form-group">
-        <select class="owl-input" name="type" [(ngModel)]="filter.type" (ngModelChange)="filterImports($event,'type')">
+        <select
+          class="owl-input"
+          name="type"
+          [(ngModel)]="filter.type"
+          (ngModelChange)="filterImports($event, 'type')"
+        >
           <option value="" selected>Select Type</option>
           <option value="1">Brands</option>
           <option value="2">Product</option>
@@ -19,7 +24,12 @@
     </div>
     <div class="col-md-3 col-xs-12">
       <div class="form-group">
-        <select class="owl-input" name="state" [(ngModel)]="filter.state"  (ngModelChange)="filterImports($event,'state')">
+        <select
+          class="owl-input"
+          name="state"
+          [(ngModel)]="filter.state"
+          (ngModelChange)="filterImports($event, 'state')"
+        >
           <option [value]="''" selected>Select State</option>
           <option value="1">Cancelled</option>
         </select>
@@ -36,7 +46,7 @@
           [satDatepicker]="pickerFrom"
           [value]="date"
           [(ngModel)]="filter.date_from"
-          (ngModelChange)="filterImports($event,'dateFrom')"
+          (ngModelChange)="filterImports($event, 'dateFrom')"
         />
         <sat-datepicker #pickerFrom [rangeMode]="false"> </sat-datepicker>
         <sat-datepicker-toggle
@@ -56,7 +66,7 @@
           [satDatepicker]="pickerTo"
           [value]="date"
           [(ngModel)]="filter.date_to"
-          (ngModelChange)="filterImports($event,'dateTo')"
+          (ngModelChange)="filterImports($event, 'dateTo')"
         />
         <sat-datepicker #pickerTo [rangeMode]="false"> </sat-datepicker>
         <sat-datepicker-toggle
@@ -77,8 +87,11 @@
   </div>
 </div>
 
-<div class="table-responsive text-center fixed-table-scroll">
-  <table class="table owls-table" *ngIf="imports.length">
+<div
+  class="table-responsive text-center fixed-table-scroll"
+  *ngIf="imports.length > 0 && !loadingSpinner"
+>
+  <table class="table owls-table">
     <thead>
       <tr>
         <th scope="col">ID</th>
@@ -93,7 +106,7 @@
       <tr
         *ngFor="
           let import of imports
-            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total };
+            | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total };
           let idx = index
         "
       >
@@ -117,11 +130,21 @@
 
         <td>
           <span [ngSwitch]="import.state.id">
-            <span *ngSwitchCase="1" class="badge badge-pill badge-warning">Canclled</span>
-            <span *ngSwitchCase="2" class="badge badge-pill badge-primary">Progress</span>
-            <span *ngSwitchCase="3" class="badge badge-pill badge-success">Complete </span>
-            <span *ngSwitchCase="4" class="badge badge-pill badge-danger">Error</span>
-            <span *ngSwitchCase="5" class="badge badge-pill badge-secondary">Pending</span>
+            <span *ngSwitchCase="1" class="badge badge-pill badge-warning"
+              >Canclled</span
+            >
+            <span *ngSwitchCase="2" class="badge badge-pill badge-primary"
+              >Progress</span
+            >
+            <span *ngSwitchCase="3" class="badge badge-pill badge-success"
+              >Complete
+            </span>
+            <span *ngSwitchCase="4" class="badge badge-pill badge-danger"
+              >Error</span
+            >
+            <span *ngSwitchCase="5" class="badge badge-pill badge-secondary"
+              >Pending</span
+            >
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
@@ -154,10 +177,18 @@
       </tr>
     </tbody>
   </table>
-  <h4 class="text-center" *ngIf="!imports.length">There are no Imports</h4>
 </div>
-<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<div class="d-flex justify-content-center">
+  <img src="assets/img/loading-table.svg" *ngIf="loadingSpinner" />
+</div>
 
+<pagination-controls
+  (pageChange)="pagination($event)"
+  *ngIf="imports.length > 0 && !loadingSpinner"
+></pagination-controls>
+<h4 class="text-center" *ngIf="imports.length == 0 && !loadingSpinner">
+  There are no Imports
+</h4>
 <div
   class="modal fade"
   id="newImport"
@@ -168,7 +199,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="importForm">
       <ng-container *ngIf="step1 && type == '0'">
-        <form action="" [formGroup]="importForm" (submit)="importFile()">
+        <form action="" [formGroup]="importForm" (submit)="validationForm()">
           <div class="modal-header">
             <h5
               class="modal-title"
@@ -202,6 +233,15 @@
                       Select Type
                     </option>
                     <option value="1">Brands</option>
+                    <option value="2">Product</option>
+                    <option value="3">Category</option>
+                    <option value="4">Option</option>
+                    <option value="5">Group</option>
+                    <option value="6">Stock</option>
+                    <option value="7">Lists</option>
+                    <option value="8">Promo</option>
+                    <option value="9">Cities</option>
+                    <option value="10">Delivers</option>
                   </select>
                 </div>
                 <div
@@ -214,6 +254,21 @@
                 </div>
               </div>
             </div>
+            <div
+              *ngIf="
+                importForm.controls.type.invalid &&
+                (importForm.controls.type.dirty ||
+                  importForm.controls.type.touched)
+              "
+            >
+              <div
+                class="alert alert-danger"
+                *ngIf="importForm.controls.type?.errors?.required"
+              >
+                Type Is Required
+              </div>
+            </div>
+
             <div class="form-group">
               <label for="">Select File</label>
               <div>
@@ -221,13 +276,26 @@
                   type="file"
                   formControlName="file"
                   (change)="onFileChange($event)"
+                  accept=".xlsx, .xls, .csv"
                 />
               </div>
             </div>
-
-            <div class="alert alert-danger">Brand Is Required</div>
-            {{ importForm.value | json }}
+            <div
+              *ngIf="
+                importForm.controls.file.invalid &&
+                (importForm.controls.file.dirty ||
+                  importForm.controls.file.touched)
+              "
+            >
+              <h6
+                class="alert alert-danger"
+                *ngIf="importForm.controls.file?.errors?.required"
+              >
+                File Is Required
+              </h6>
+            </div>
           </div>
+          <h6 class="alert alert-danger" *ngIf="showMSG">Failed to import</h6>
 
           <div class="modal-footer" style="justify-content: center">
             <button
@@ -267,25 +335,29 @@
           <div class="second-box">
             <p>
               You will be importing approximately <span>3 product</span> with a
-              total of 5 SKUs and <span>3 images</span> importing will
-              <span>not overwrite any existing products</span> that have the
-              same product handle.
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
             </p>
           </div>
 
           <ul class="list-unstyled">
             <li>
-              <h6>Name : <span>Brand</span></h6>
+              <h6>
+                Name : <span>{{ result?.brand }}</span>
+              </h6>
             </li>
             <li>
-              <h6>Image : <img src="assets/img/logo.png" /></h6>
+              <h6>Image : <img src="{{ result?.image }}" /></h6>
             </li>
           </ul>
           <div class="d-flex justify-content-between p-2">
             <button class="btn back" (click)="backStep()">back</button>
             <div>
               <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import">import product</button>
+              <button class="btn ml-2 import" (click)="submitImport()">
+                import product
+              </button>
             </div>
           </div>
         </section>
@@ -311,48 +383,70 @@
           <div class="second-box">
             <p>
               You will be importing approximately <span>3 product</span> with a
-              total of 5 SKUs and <span>3 images</span> importing will
-              <span>not overwrite any existing products</span> that have the
-              same product handle.
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
             </p>
           </div>
           <ul class="list-unstyled">
             <li>
-              <h6>Title :</h6>
-              <span>example</span>
+              <h6>Name :</h6>
+              <span>{{ result?.name }}</span>
             </li>
             <li>
               <h6>description :</h6>
-              <span>example</span>
+              <span>{{ result?.description }}</span>
             </li>
             <li>
               <h6>product status :</h6>
-              <span>example</span>
+              <span [ngSwitch]="result.active">
+                <span *ngSwitchCase="0">Not active</span>
+                <span *ngSwitchCase="1">Active</span>
+                <span *ngSwitchDefault>-</span>
+              </span>
             </li>
             <li>
               <h6>type :</h6>
-              <span>example</span>
+              <span [ngSwitch]="result.type">
+                <span *ngSwitchCase="1">Brands</span>
+                <span *ngSwitchCase="2">Product</span>
+                <span *ngSwitchCase="3">Category</span>
+                <span *ngSwitchCase="4">Option</span>
+                <span *ngSwitchCase="5">Group</span>
+                <span *ngSwitchCase="6">Stock</span>
+                <span *ngSwitchCase="7">Lists</span>
+                <span *ngSwitchCase="8">Promo</span>
+                <span *ngSwitchCase="9">Cities</span>
+                <span *ngSwitchCase="10">Delivers</span>
+                <span *ngSwitchDefault>-</span>
+              </span>
             </li>
             <li>
-              <h6>vendor :</h6>
-              <span>example</span>
+              <h6>category :</h6>
+              <span>{{ result?.category }}</span>
+            </li>
+            <li>
+              <h6>brand :</h6>
+              <span>{{ result?.brand }}</span>
+            </li>
+            <li>
+              <h6>Image : </h6>
+              <img src="{{result?.main_image}}" />
             </li>
           </ul>
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Variant</th>
                 <th scope="col">Sku</th>
-                <th scope="col">Weight</th>
                 <th scope="col">Price</th>
+                <th scope="col">Discount Price</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Gray</td>
-                <td></td>
-                <td>270 K.G</td>
-                <td>250 EGP</td>
+                <td>{{ result?.variant_sku }}</td>
+                <td>{{ result?.price ? result?.price : '-' }}</td>
+                <td>{{ result?.discount_price ? result?.discount_price : '-'}}</td>
               </tr>
             </tbody>
           </table>

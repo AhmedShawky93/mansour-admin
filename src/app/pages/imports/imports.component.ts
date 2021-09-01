@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { environment } from "@env/environment";
 import { AuthService } from "@app/shared/auth.service";
 import * as moment from "moment";
+import { ToastrService } from "ngx-toastr";
 
 declare var jquery: any;
 declare var $: any;
@@ -18,8 +19,12 @@ declare var $: any;
 })
 export class ImportsComponent implements OnInit {
   step1: boolean;
+  loadingSpinner: boolean;
   type: string;
   total: number;
+  totalCount: number;
+  fileName: any;
+  result: any;
   p = 1;
   filter$ = new Subject();
   filter: any = {
@@ -42,13 +47,16 @@ export class ImportsComponent implements OnInit {
   loading: boolean = false;
   importForm: FormGroup;
   downloadLink = "";
-
+  showMSG:boolean;
   constructor(
     private importsService: ImportsService,
-    private auth: AuthService
+    private auth: AuthService,
+    private toastrService: ToastrService,
   ) {
     this.step1 = false;
     this.type = "2";
+    this.showMSG = false;
+    
   }
 
   ngOnInit() {
@@ -56,17 +64,15 @@ export class ImportsComponent implements OnInit {
   }
 
   getData() {
-    this.loading = true;
+    this.loadingSpinner = true;
     this.importsService
       .getImports(this.filter.page, this.filter)
       .subscribe((result: any) => {
         this.imports = result.data.items;
         this.total = result.data.total;
-        this.loading = false;
+        this.loadingSpinner = false;
       });
   }
-
- 
 
   changePage(p) {
     this.p = p;
@@ -76,12 +82,13 @@ export class ImportsComponent implements OnInit {
   openNewImport() {
     this.step1 = true;
     this.type = "0";
+    this.showMSG = false;
     $("#newImport").modal("show");
 
     this.importForm = new FormGroup({
       type: new FormControl("", Validators.required),
-      file: new FormControl("", [Validators.required]),
-      fileSource: new FormControl("", [Validators.required]),
+      file: new FormControl("", Validators.required),
+      fileSource: new FormControl("", Validators.required),
     });
   }
 
@@ -110,26 +117,51 @@ export class ImportsComponent implements OnInit {
   // }
 
   onFileChange(event) {
+    this.fileName = event.target.files[0];
     if (event.target.files.length > 0) {
-      const file = event.target.files[0];
       this.importForm.patchValue({
-        fileSource: file,
+        fileSource: this.fileName,
       });
     }
   }
 
-  importFile() {
+  validationForm() {
     if (!this.importForm.valid) {
       this.markFormGroupTouched(this.importForm);
       return;
     }
-
     const formData = new FormData();
     formData.append("file", this.importForm.get("fileSource").value);
     formData.append("type", this.importForm.get("type").value);
+    this.importsService.fileValidation(formData).subscribe((response: any) => {
+      console.log(response);
+      if (response.code === 200) {
+        this.step1 = false;
+        this.type = this.importForm.get("type").value;
+        this.result = response.data.first_row;
+        this.totalCount = response.data.total_rows_count;
+      }else{
+        this.showMSG = true;
+      }
+    });
+  }
 
+
+
+  submitImport(){
+    const formData = new FormData();
+    formData.append("file", this.importForm.get("fileSource").value);
+    formData.append("type", this.importForm.get("type").value);
     this.importsService.import(formData).subscribe((response: any) => {
       console.log(response);
+      if (response.code === 200) {
+        this.closePopup();
+        this.p = 1;
+        this.filter.page = 1;
+        this.getData();
+      }else{
+        this.toastrService.error(response.message);
+      }
     });
   }
 
@@ -147,6 +179,7 @@ export class ImportsComponent implements OnInit {
 
   backStep() {
     this.step1 = true;
+    this.type = "0";
   }
 
   filterImports(e, typeImport) {
@@ -174,4 +207,12 @@ export class ImportsComponent implements OnInit {
       // code block
     }
   }
+
+  pagination(page) {
+    this.p = page;
+    this.filter.page = page;
+    this.getData();
+  }
+
+
 }
