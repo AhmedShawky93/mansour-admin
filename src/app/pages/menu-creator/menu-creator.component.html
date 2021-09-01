@@ -245,7 +245,7 @@
       </div>
     </div>
 
-    <div class="form-group owls-upload owls-upload3 big" *ngIf="headerForm.controls.level1_image">
+    <div class="form-group owls-upload owls-upload3 big" *ngIf="headerForm.controls.level1_image.value">
       <label>Header image</label>
       <img class="owl-img img-fluid" [hidden]="headerForm.controls.image.value"
         src="./assets/img/placeholder200.jpg" style="width: 200px; height: 200px;" alt="">
