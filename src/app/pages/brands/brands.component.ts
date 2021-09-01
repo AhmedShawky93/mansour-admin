@@ -64,7 +64,7 @@ export class BrandsComponent implements OnInit {
     this.addBrandForm = new FormGroup({
       name: new FormControl("", Validators.required),
       name_ar: new FormControl("", Validators.required),
-      image: new FormControl(""),
+      image: new FormControl("", Validators.required),
     });
   }
 
