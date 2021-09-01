@@ -18,16 +18,16 @@ export class PagesComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.getAffiliate();
+    // this.getAffiliate();
   }
 
 
 
-  getAffiliate() {
-    this.settingsService.getSettings().subscribe((response: any) => {
-      if (response.code === 200) {
-        this.showAffiliateService.showAffiliate.next(response.data.enable_affiliate)
-      }
-    })
-  }
+  // getAffiliate() {
+  //   this.settingsService.getSettings().subscribe((response: any) => {
+  //     if (response.code === 200) {
+  //       this.showAffiliateService.showAffiliate.next(response.data.enable_affiliate)
+  //     }
+  //   })
+  // }
 }

@@ -283,11 +283,15 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
 
   getAffiliate() {
-    this.settingsService.getSettings().subscribe((response: any) => {
-      console.log(response.data.enable_affiliate)
-      this.showAffiliateService.showAffiliate.next(response.data.enable_affiliate);
-      this.isAffiliate = response.data.enable_affiliate;
+    this.showAffiliateService.showAffiliate.subscribe((rep: any) => {
+      console.log('#### rep ==>', rep)
+      this.isAffiliate = rep;
     })
+    // this.settingsService.getSettings().subscribe((response: any) => {
+    //   console.log(response.data.enable_affiliate)
+    //   this.showAffiliateService.showAffiliate.next(response.data.enable_affiliate);
+    //   this.isAffiliate = response.data.enable_affiliate;
+    // })
   }
 
   search() {

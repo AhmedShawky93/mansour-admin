@@ -54,15 +54,15 @@
           {{affiliate.id}}
         </td>
         <td class="relative">
-          {{((affiliate.name +' '+affiliate.last_name).length >= 25) ? ((affiliate.name +' '+affiliate.last_name) |
+          {{((affiliate.name +' '+affiliate.last_name ? affiliate.last_name: '').length >= 25) ? ((affiliate.name +' '+affiliate.last_name ? affiliate.last_name: '') |
           slice:0:25)+'...' :
-          affiliate.name +' '+affiliate.last_name }}
+          affiliate.name +' '+affiliate.last_name  ? affiliate.last_name: ''}}
           <div class="hover-reason text-left" *ngIf="(affiliate.name + affiliate.last_name).length >= 25">
             <div class="head">
               affiliate name
             </div>
             <div class="body">
-              {{affiliate.name +' '+ affiliate.last_name}}
+              {{affiliate.name +' '+( affiliate.last_name ? affiliate.last_name: '')}}
             </div>
           </div>
 
@@ -79,7 +79,7 @@
           <a style="margin-right: 10px" class="table-view open-show" (click)="viewData(affiliate)">
             <i class="icon-View"></i>
           </a>
-          <a class="table-view open-show wallet-icon" [routerLink]= "['/pages/affiliate/affliate-details',affiliate.id]">
+          <a class="table-view open-show wallet-icon" [routerLink]="['/pages/affiliate/affliate-details',affiliate.id]">
             <img src="assets/img/wallet.svg" />
           </a>
 

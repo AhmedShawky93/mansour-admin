@@ -373,3 +373,10 @@ bar-rating {
 
   }
 }
+
+.fa.fa-angle-left {
+  margin-right: 10px;
+  position: relative;
+  top: 4px;
+  font-size: 15px;
+}
