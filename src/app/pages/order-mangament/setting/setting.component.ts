@@ -14,7 +14,7 @@ import { Conditional } from "@angular/compiler";
 import { EventEmitter } from "@angular/core";
 import { delay } from "rxjs/operators";
 import * as moment from "moment";
-// import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
+import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
 
 
 function currentPasswordValidator(group: AbstractControl) {
@@ -76,7 +76,8 @@ export class SettingComponent implements OnInit {
   constructor(
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
-    private settingService: SettingService
+    private settingService: SettingService,
+    private showAffiliateService: ShowAffiliateService,
   ) { }
 
   ngOnInit() {
@@ -192,6 +193,8 @@ export class SettingComponent implements OnInit {
         this.settings = response.data;
         this.systemForm = new FormGroup(
           {
+            enable_affiliate: new FormControl(this.settings.enable_affiliate),
+            affiliate_pending_days: new FormControl(this.settings.affiliate_pending_days, [Validators.pattern("^[0-9]+$"), Validators.min(0)]),
             min_order_amount: new FormControl(this.settings.min_order_amount),
             except_cod_amount: new FormControl(this.settings.except_cod_amount),
             off_time: new FormControl(this.settings.off_time),
@@ -251,6 +254,7 @@ export class SettingComponent implements OnInit {
         if (response.code == 200) {
           this.settings = response.data;
           this.toastrService.success("System Settings Updated Successfully!");
+          this.showAffiliateService.showAffiliate.next(this.systemForm.get('enable_affiliate').value)
           this.systemLoading = false;
         }
       });
@@ -266,7 +270,7 @@ export class SettingComponent implements OnInit {
       .updateLoyalitySettings(this.starsForm.value)
       .subscribe((response: any) => {
         this.settings = response.data;
-        var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
+        var environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
         this.toastrService.success(
           `${environmentVariables.brandRelatedVariables.brand} Stars Settings Updated Successfully!`
         );

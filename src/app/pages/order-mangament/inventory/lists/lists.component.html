@@ -8,7 +8,8 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search" placeholder="search ...">
+        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search"
+          placeholder="search ...">
       </div>
     </div>
 
@@ -61,7 +62,7 @@
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
-        <td>{{ list.products_count }}</td>
+        <td>{{list?.products?.length == 0 ?list.products.length : 0   }}</td>
 
         <td class="hidden">{{list.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
         <td>
@@ -111,6 +112,6 @@
 <app-view-list (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar" [listData]="currentList"
   class="parent-editor-viewer-sidebar">
 </app-view-list>
-<app-add-edit-list class="parent-editor-viewer-sidebar" (dataOptionEmit)="addOrUpdateOption($event)"
-  (closeSideBarEmit)="closeSideBar()" [@slideInOut]="toggleListForm" [listData]="selectOptionData">
+<app-add-edit-list (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="toggleListForm" [listData]="selectOptionData">
 </app-add-edit-list>

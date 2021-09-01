@@ -169,6 +169,10 @@
           <bar-rating [readOnly]="true" [(rate)]="order.rate" [max]="5"></bar-rating>
         </div>
       </div>
+      <div class="block-item d-flex justify-content-start w-100">
+        <p>Affiliate Order</p>
+        <span *ngIf="order?.affiliate?.id">Yes</span>
+        <span *ngIf="!order?.affiliate?.id">No</span>
 
       <div class="block-item">
         <p>Transaction ID</p>
@@ -216,6 +220,8 @@
             <i class="icon-grey edit-price"></i>
           </a>
         </p>
+        <p *ngIf='order.affiliate' [hidden]='!item.affiliate_commission || item.affiliate_commission == 0'>Commission:
+          {{ item.affiliate_commission }} EGP</p>
       </div>
     </div>
 
@@ -268,34 +274,52 @@
 
 <div class="block-title">
   <h4>customer Details</h4>
+  <h4 *ngIf='order?.affiliate != null'>By affiliate : {{order?.by_affiliate ? "Yes" : "No"}}</h4>
+
 </div>
 
 <div class="block" *ngIf="order">
   <div class="row">
     <div class="col-md-5">
       <div class="block-item">
+        <p>{{ order?.by_affiliate ? 'Affiliate id' : 'Customer id' }}</p>
+        <span>{{order?.user != null ? order?.user?.id : 'Guest'}}</span>
+      </div>
+      <div class="block-item">
         <p>id</p>
         <span>{{ order?.user?.id }}</span>
       </div>
       <div class="block-item">
-        <p>name</p>
-        <span (click)="customerDetails(order?.user)" class="pointer">
-          {{ order?.user?.name + ' ' +( order.user?.last_name ? order.user?.last_name : '')}}
-        </span>
+        <p>Customer name</p>
+        <span (click)="customerDetails(order?.user)" class="pointer"
+          *ngIf='order?.user == null'>{{order?.address?.name}}</span>
+        <span (click)="customerDetails(order?.user)" class="pointer"
+          *ngIf='order?.affiliate == null'>{{order?.user?.name}}</span>
+        <span (click)="customerDetails(order?.user)" class="pointer"
+          *ngIf='order?.affiliate != null && order?.by_affiliate'>{{order?.address?.name}}</span>
+        <span (click)="customerDetails(order?.user)" class="pointer"
+          *ngIf='order?.affiliate != null && !order?.by_affiliate'>{{order?.user?.name}}</span>
       </div>
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-6">
       <div class="block-item">
-        <p>number</p>
-        <span>{{ order?.user?.phone }}</span>
+        <p> Customer number</p>
+        <span *ngIf='order?.user == null'>{{order?.address?.phone}}</span>
+        <span *ngIf='order?.affiliate == null'>{{order?.user?.phone}}</span>
+        <span *ngIf='order?.affiliate != null && order?.by_affiliate'>{{order?.address?.phone}}</span>
+        <span *ngIf='order?.affiliate != null && !order?.by_affiliate'>{{order?.user?.phone}}</span>
       </div>
-      <div class="block-item">
+      <div class="block-item" *ngIf='order.by_affiliate'>
         <p>email</p>
         <span>{{ order?.user?.email }}</span>
       </div>
     </div>
     <div class="col-sm-12">
+      <div class="block-item" *ngIf='order.by_affiliate || order.user != null'>
+        <p>Customer Email</p>
+        <span>{{order?.address?.email ? order?.address?.email : '-'}}</span>
+      </div>
       <div class="block-item">
         <p> User IP</p>
         <span>{{ order?.user_ip}}</span>
@@ -315,6 +339,21 @@
         <a (click)="editAddress(order)" class="table-view edit-product mx-1" href="javascript:void(0)">
           <i class="icon-grey"></i>
         </a>
+      </div>
+      <div class="block-item" *ngIf='order.affiliate != null' style="display: flex;
+      justify-content: space-between;">
+        <div>
+          <p> Affiliate name</p>
+          <span (click)="affiliateDetails(order.affiliate)" class="pointer">{{ order?.affiliate?.name}}</span>
+        </div>
+        <div>
+          <p> Affiliate phone</p>
+          <span>{{ order?.affiliate?.phone}}</span>
+        </div>
+        <div>
+          <p *ngIf='!order.by_affiliate'> Affiliate id</p>
+          <span *ngIf='!order.by_affiliate'>{{ order?.affiliate?.id}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -368,6 +407,10 @@
       <div *ngIf="order.payment_installment && order.payment_installment !=null" class="block-item">
         <p>Installment Plan</p>
         <span>{{order.payment_installment.name_en}}</span>
+      </div>
+      <div class="block-item" *ngIf='order.affiliate_total_commission != 0'>
+        <p>Total Commission</p>
+        <span>{{ order.affiliate_total_commission }} EGP</span>
       </div>
       <div
         *ngIf="(order.payment_method !== 3 && order.payment_method !== 5 && order.payment_method !== 9 &&
@@ -842,7 +885,7 @@
             <div class="form-group" [formGroupName]="i" *ngFor="let serial of serialsFormArr.controls; let i = index">
               <label for="">Serial Number {{i + 1}}</label>
               <input type="text" class="owl-input" placeholder="Type.." formControlName="name">
-              <div *ngIf='serial.controls.name.invalid && (serial.controls.name.dirty || serial.controls.name.touched)'
+              <div *ngIf='serial["controls"].name.invalid && (serial["controls"].name.dirty || serial["controls"].name.touched)'
                 class="invalid-serials">
                 Serial Number {{i + 1}} is
                 required</div>

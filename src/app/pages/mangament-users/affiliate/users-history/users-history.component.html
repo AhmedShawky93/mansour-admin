@@ -1,0 +1,184 @@
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
+<div class="top-table-bar">
+  <form>
+    <div class="row" style="border: 1px solid #dbdbdb;  margin-bottom: 24px; padding: 20px 0;  border-radius: 10px;">
+      <div class="col-md-4" style="margin-bottom:10px;">
+        <div class="left-search">
+          <span>
+            <i class="fa fa-search"></i>
+          </span>
+          <input type="text" (ngModelChange)="search()" class="owl-input owls-search"
+            placeholder="Search by name, phone" [(ngModel)]="filter.q" name='name'>
+        </div>
+      </div>
+      <!-- col -->
+      <div class="col-md-4 col-sm-10">
+        <mat-form-field class="datepicker">
+          <input matInput placeholder="Date From" [(ngModel)]="dateFrom" name='dateFrom' readonly
+            [satDatepicker]="pickerFrom" (click)="pickerFrom.open()" (dateChange)="setDateFrom($event)">
+          <sat-datepicker #pickerFrom>
+          </sat-datepicker>
+          <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
+        </mat-form-field>
+      </div>
+      <!-- col -->
+      <div class="col-md-4 col-sm-12">
+        <mat-form-field class="datepicker">
+          <input matInput #mdate placeholder="Date To" readonly (dateChange)="setDateTo($event)"
+            (click)="pickerTo.open()" [satDatepicker]="pickerTo" [(ngModel)]="dateTo" name='dateTo'>
+          <!-- (dateChange)="changePage(1)" -->
+          <sat-datepicker #pickerTo [rangeMode]="false">
+          </sat-datepicker>
+          <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
+        </mat-form-field>
+      </div>
+      <!-- col -->
+      <div class="col-md-4" style="margin-bottom: 20px;">
+        <select name="type" class="owl-input bg-white" [(ngModel)]="filter.type" (ngModelChange)="getAllAffiliates()">
+          <option value="" disabled>Select Types </option>
+          <option value="{{item.id}}" *ngFor="let item of typesList">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="col-md-4" style="margin-bottom: 20px;">
+        <select name="status" class="owl-input bg-white" [(ngModel)]="filter.status"
+          (ngModelChange)="getAllAffiliates()">
+          <option value="" disabled>Select Status </option>
+          <option value="{{item.id}}" *ngFor="let item of statusList">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="col-md-4  col-xs-6 text-right ">
+        <div class="form-group">
+          <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
+            (click)='goToLink()'>Export
+            CSV </a>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+  <div class="statics">
+    <div class="row">
+      <div class="col-md-4 col-xs-12 temp">
+
+        <div class="parent">
+          <h6></h6>
+          <h6>Order Count</h6>
+          <h6>Commession</h6>
+          <h6>Total</h6>
+          <h6>{{statistics?.order_statistics?.total_count | number : '1.2-2'}}</h6>
+          <h6>{{statistics?.order_statistics?.total_commission | number : '1.2-2'}}</h6>
+          <h6>Total Completed</h6>
+          <h6>{{statistics?.order_statistics?.completed_count | number : '1.2-2'}}</h6>
+          <h6>{{statistics?.order_statistics?.completed_commission | number : '1.2-2'}}</h6>
+          <h6>Total Pending</h6>
+          <h6>{{statistics?.order_statistics?.pending_count | number : '1.2-2'}}</h6>
+          <h6>{{statistics?.order_statistics?.pending_commission | number : '1.2-2'}}</h6>
+        </div>
+      </div>
+      <!-- col -->
+      <div class="col-md-4 col-xs-12 balance">
+        <div class="card-statics">
+          <h6 class="text-center title">Balance</h6>
+          <div class="parent">
+            <h6>Total</h6>
+            <h6>{{statistics?.balance_statistics?.total_balance | number : '1.2-2'}}</h6>
+            <h6>Available from orders</h6>
+            <h6>{{statistics?.balance_statistics?.available_from_orders | number : '1.2-2'}}</h6>
+            <h6>Pending</h6>
+            <h6>{{statistics?.balance_statistics?.pending_balance | number : '1.2-2'}}</h6>
+            <h6>Admin balance</h6>
+            <h6>{{statistics?.balance_statistics?.admin_balance | number : '1.2-2'}}</h6>
+            <h6>Available Currently</h6>
+            <h6>{{statistics?.balance_statistics?.total_currently | number : '1.2-2'}}</h6>
+          </div>
+        </div>
+      </div>
+      <!-- col -->
+      <div class="col-md-4 col-xs-12 balance">
+        <div class="card-statics">
+          <h6 class="text-center title">Withdraw</h6>
+          <div class="parent">
+            <h6>Total</h6>
+            <h6>{{statistics?.withdraw_statistics?.total_withdraw | number : '1.2-2'}}</h6>
+            <h6>Approved</h6>
+            <h6>{{statistics?.withdraw_statistics?.approved_withdraw | number : '1.2-2'}}</h6>
+            <h6>Pending</h6>
+            <h6>{{statistics?.withdraw_statistics?.pending_withdraw | number : '1.2-2'}}</h6>
+          </div>
+        </div>
+      </div>
+      <!-- col -->
+    </div>
+    <!-- row -->
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-12 d-flex justify-content-end">
+      <button class="btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0"
+        (click)='openPopupNewAdminCredit()'>New admin credit</button>
+    </div>
+  </div>
+
+  <div class="table-responsive mt-3">
+    <table class="table owls-table" *ngIf="walletHistoryAffiliates.length">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Type</th>
+          <th scope="col"> Date </th>
+          <th scope="col"> Affiliate user</th>
+          <th scope="col">State</th>
+          <th scope="col">Total</th>
+          <th scope="col">actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of walletHistoryAffiliates | paginate: { itemsPerPage: 20, currentPage: filter.page, totalItems: total }; let i = index">
+          <td>{{item.id}}</td>
+          <td>
+            <span [ngSwitch]="item.type">
+              <span *ngSwitchCase="1">Order</span>
+              <span *ngSwitchCase="2">Admin</span>
+              <span *ngSwitchCase="3">Request</span>
+              <span *ngSwitchDefault>-</span>
+            </span>
+          </td>
+          <td>{{item?.affiliate?.created_at | date:'d MMM , y h:mm a'}}</td>
+          <td>
+            <a [routerLink]="['/pages/affiliate/affliate-details', item.affiliate.id]">{{item.affiliate.id}} :
+              {{item.affiliate.name}}</a>
+          </td>
+          <td>
+            <span [ngSwitch]="item.status">
+              <span *ngSwitchCase="0">Pending</span>
+              <span *ngSwitchCase="1">Approved</span>
+              <span *ngSwitchCase="2">Rejected</span>
+              <span *ngSwitchDefault>-</span>
+            </span>
+          </td>
+          <td>{{item.amount}}</td>
+          <td>
+            <a *ngIf='item.type == 1'> <i class="material-icons"
+                [routerLink]="['/pages/orders/order-details', item.order_id]">
+                remove_red_eye
+              </i></a>
+
+            <a *ngIf='item.type == 2'> <i class="material-icons" (click)="openPopup(item)">
+                remove_red_eye
+              </i></a>
+            <a *ngIf='item.type == 3'> <i class="material-icons" (click)="openPopup(item)">
+                remove_red_eye
+              </i></a>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <h4 class="text-center" *ngIf="!walletHistoryAffiliates.length">There Are No Withdraw Requests</h4>
+  </div>
+  <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+
+
+</div>

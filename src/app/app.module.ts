@@ -8,7 +8,7 @@ import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { RouterModule, CanActivate } from "@angular/router";
-
+import { AffiliateService } from './pages/services/affiliate.service';
 // pagination
 import { NgxPaginationModule } from "ngx-pagination";
 //chart js
@@ -103,7 +103,6 @@ import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-de
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-order/add-edit-order.component';
 import { AddEditCustomerComponent } from './pages/mangament-users/manage-castomer/add-edit-customer/add-edit-customer.component';
-import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
 import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.component';
@@ -160,7 +159,6 @@ import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edi
     OrderDeliveryDetailsComponent,
     AddEditOrderComponent,
     AddEditCustomerComponent,
-    AddEditAddressComponent,
     DynamicSettingsComponent,
     MenuCreatorComponent,
     StaticPagesComponent,
@@ -220,7 +218,8 @@ import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edi
     AreasService,
     OrdersService,
     ProductsService,
-    PagesService
+    AffiliateService
+    // PagesService
   ],
   bootstrap: [AppComponent],
 })

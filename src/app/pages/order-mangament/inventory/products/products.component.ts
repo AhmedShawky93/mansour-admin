@@ -1,3 +1,4 @@
+import { SettingService } from './../../../services/setting.service';
 import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
 import { Component, ElementRef, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from '@app/pages/services/products.service';
@@ -15,6 +16,7 @@ import { Subject } from 'rxjs/Rx';
 import { tap } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounce } from 'lodash';
+import { ShowAffiliateService } from '@app/pages/services/show-affiliate.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DraftProductService } from '@app/pages/services/draft-product.service';
 import { s } from '@angular/core/src/render3';
@@ -119,6 +121,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     page: 1,
   };
   website_url: any;
+  isAffiliate: any;
   historyRoute: any;
   searchValueProduct: string;
   stateCloning: boolean;
@@ -133,6 +136,9 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService,
+    private showAffiliateService: ShowAffiliateService,
+    private settingsService: SettingService,
+
     private route: ActivatedRoute,
     private router: Router,
     private toasterService: ToastrService,
@@ -273,6 +279,15 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
         queryParams: params,
         queryParamsHandling: 'merge'
       });
+  }
+
+
+  getAffiliate() {
+    this.settingsService.getSettings().subscribe((response: any) => {
+      console.log(response.data.enable_affiliate)
+      this.showAffiliateService.showAffiliate.next(response.data.enable_affiliate);
+      this.isAffiliate = response.data.enable_affiliate;
+    })
   }
 
   search() {

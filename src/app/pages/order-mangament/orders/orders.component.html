@@ -105,7 +105,7 @@
           <i class="fa fa-search"></i>
         </span>
         <input type="number" class="owl-input owls-search" placeholder="Shipping Number"
-               [(ngModel)]="filter.shipping_id">
+          [(ngModel)]="filter.shipping_id">
         <!-- (keydown)="changePage(1)" -->
       </div>
     </div>
@@ -124,6 +124,14 @@
         <option [value]="'ios'">Ios</option>
       </select>
       <!-- (change)="changePage(p)" -->
+    </div>
+    <div class="col-md-4" style="margin-bottom: 20px;">
+      <select name="" class="owl-input bg-white" [(ngModel)]="filter.order_type" (ngModelChange)="selectOrder($event)">
+        <option value=null>Order Owner</option>
+        <option value=null>All Orders</option>
+        <option value="1">Affiliate Order</option>
+        <option value="2">Customer Order</option>
+      </select>
     </div>
     <!-- <div class="col-md-1 col-sm-1">
       <a class="clear-date" href="javascript:void(0)" (click)="clearDateFrom()"><i class="icon-Exit"></i></a>
@@ -869,7 +877,8 @@
 
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
-          (click)="confirmChangeStatus(notifyUser)" [appLoading]="stateSubmitting" [disabled]='stateSubmitting'>Yes</button>
+          (click)="confirmChangeStatus(notifyUser)" [appLoading]="stateSubmitting"
+          [disabled]='stateSubmitting'>Yes</button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">No</button>
       </div>
 

@@ -184,6 +184,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
+      affiliate_commission: new FormControl('', [
+        Validators.min(1), Validators.max(99), Validators.pattern('^[0-9]$')
+      ]),
       default_variant: new FormControl(data ? data.default_variant : 0),
       stock: new FormControl(data ? data.stock : 0, Validators.required),
       // preorder_price: new FormControl(0),
@@ -198,7 +201,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     }, {
       validator: [
         DateLessThan('discount_start_date', 'discount_end_date', 'start_time', 'expiration_time'),
-        DateLessThan('preorder_start_date', 'preorder_end_date','preorder_start_time','preorder_expiration_time'),
+        DateLessThan('preorder_start_date', 'preorder_end_date', 'preorder_start_time', 'preorder_expiration_time'),
         compareNumbers('discount_price', 'price')
       ]
     });
@@ -650,6 +653,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       bundle_checkout: product.bundle_checkout,
       preorder_start_date: product.preorder_start_date,
       preorder_end_date: product.preorder_end_date,
+      affiliate_commission: product.affiliate_commission,
       related_ids: product.related_ids ? product.related_ids.map(item => item.id) : ''
     };
     return data;
@@ -743,7 +747,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   save() {
     /*Check Is Valid Form Data & Fire Validation*/
-    if (this.componentForm.controls['discount_price'].value && !this.componentForm.controls['discount_start_date'].value){
+    if (this.componentForm.controls['discount_price'].value && !this.componentForm.controls['discount_start_date'].value) {
       let today = new Date();
       let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`;
       this.componentForm.controls['discount_start_date'].setValue(today);

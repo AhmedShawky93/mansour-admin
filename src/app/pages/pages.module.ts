@@ -11,4 +11,4 @@ import { MenuService } from "@app/pages/services/menu.service";
   providers: [CustomerService, MenuService],
   declarations: [],
 })
-export class PagesModule {}
+export class PagesModule { }

@@ -87,6 +87,7 @@ export class OrderDetailsComponent implements OnInit {
   submitted = false;
   stateForm: FormGroup;
   filter$ = new Subject();
+  no_orders: boolean = false
   toggleAddOrder: string;
   aramixAccounts: any;
 
@@ -620,11 +621,28 @@ export class OrderDetailsComponent implements OnInit {
         }
       });
   }
-
   customerDetails(customer) {
-    localStorage.setItem('selectedCustomer', JSON.stringify(customer));
-    this.router.navigate(['/pages/manage-customer'], { queryParams: { id: customer.id } });
+
+    if (!this.order.user) {
+      return;
+    }
+    if (this.order.affiliate.id === this.order.user.id) {
+      return;
+    }
+    if (this.order.affiliate.id !== this.order.user.id) {
+      this.router.navigate(['/pages/manage-customer'], { queryParams: { phone: customer.phone } });
+    }
+    if (this.order.customer && !this.order.affiliate) {
+      this.router.navigate(['/pages/manage-customer'], { queryParams: { phone: customer.phone } });
+    }
   }
+  affiliateDetails(customer) {
+    this.router.navigate(['/pages/affiliate/users'], { queryParams: { userId: customer.id } });
+  }
+  // customerDetails(customer) {
+  //   localStorage.setItem('selectedCustomer', JSON.stringify(customer));
+  //   this.router.navigate(['/pages/manage-customer'], { queryParams: { id: customer.id } });
+  // }
   closeSideBar(data) {
     this.order = data ? { ...data } : this.order;
     this.toggleAddOrder = 'out';

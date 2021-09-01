@@ -222,7 +222,26 @@
 .form-group {
   color: initial !important;
 }
-
+.icon-per {
+  position: relative;
+}
+.icon-per::before {
+  position: absolute;
+  top: 22px;
+  right: 1px;
+  bottom: 0;
+  content: "\f295";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  background: #eee;
+  color: #a7bdca;
+  height: 46px;
+  width: 58px;
+  font-size: 18px;
+  z-index: 2;
+  text-align: center;
+  line-height: 42px;
+}
 .form-sidebar.view-vindor-types {
   width: 76% !important;
 }

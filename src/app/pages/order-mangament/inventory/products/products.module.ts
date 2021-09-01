@@ -15,6 +15,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatIconModule } from '@angular/material';
 import { AddProductVariantsComponent } from '@app/pages/order-mangament/inventory/products/add-product-variants/add-product-variants.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { ShowAffiliateService } from '@app/pages/services/show-affiliate.service';
 
 
 const router = [
@@ -41,5 +42,7 @@ const router = [
     AddEditVariantsComponent,
     AddProductVariantsComponent
   ],
+  providers: [ShowAffiliateService]
+
 })
 export class ProductsModule { }

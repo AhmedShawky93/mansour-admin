@@ -20,6 +20,8 @@ import { DeliveryService } from "@app/pages/services/delivery.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
+import { AffiliateService } from '@app/pages/services/affiliate.service';
+import { debounce } from 'lodash';
 
 declare var jquery: any;
 declare var $: any;
@@ -92,6 +94,7 @@ export class OrdersComponent implements OnInit {
     shipping_id: "",
     payment_method: null,
     user_agent: "",
+    order_type: null,
   };
 
   p = 1;
@@ -152,6 +155,8 @@ export class OrdersComponent implements OnInit {
   orderSelectedPickup = [];
   enableSubmitPickupOrder: boolean;
   today: Date;
+  affiliateUsersLoading: boolean;
+  affiliateUsers: Array<any>;
   aramixAccounts: any;
 
   constructor(
@@ -166,8 +171,10 @@ export class OrdersComponent implements OnInit {
     private deliveryService: DeliveryService,
     private productService: ProductsService,
     private promoService: PromosService,
+    private affiliateService: AffiliateService,
     private toastrService: ToastrService
   ) {
+    this.affiliateSearch = debounce(this.affiliateSearch, 700);
     this.titleService.setTitle("Orders");
   }
 
@@ -332,6 +339,9 @@ export class OrdersComponent implements OnInit {
       }
     });
   }
+  selectOrder(orderId) {
+    this.filter.order_type = orderId;
+  }
   ClearSearch() {
     this.filter = {
       term: "",
@@ -347,6 +357,7 @@ export class OrdersComponent implements OnInit {
       customer_phone: "",
       shipping_id: "",
       user_agent: "",
+      order_type: null,
       payment_method: null,
     };
     this.changePage(1);
@@ -624,6 +635,27 @@ export class OrdersComponent implements OnInit {
         }
 
         this.stateSubmitting = false;
+      });
+  }
+
+  affiliateSearch(event) {
+    this.affiliateUsersLoading = true;
+    const filter = {
+      q: event.target.value,
+      page: 1,
+    };
+    this.affiliateService.getUsersAffiliates(filter)
+      .subscribe((res: any) => {
+        if (res.code === 200) {
+          this.affiliateUsers = res.data.affiliates;
+        } else {
+          this.toasterService.error(res.message);
+        }
+        this.affiliateUsers = this.affiliateUsers.map((item) => {
+          item.deactivated = !item.active;
+          return item;
+        });
+        this.affiliateUsersLoading = false;
       });
   }
 

@@ -160,7 +160,39 @@
           </li>
         </ul>
       </li>
+      <ng-container *ngIf="affiliate">
+        <li *ngIf="affiliate"  class="side-nav-item" routerLinkActive="active">
+          <a routerLinkActive="active" data-toggle="collapse" data-target="#Affiliate" aria-controls="Affiliate">
+            <i class="icon-None2" data-toggle="tooltip" data-placement="right" title="Affiliate"></i>
+            <span>Affiliate</span>
+            <i class="fa fa-fw fa-angle-down pull-right"></i>
+          </a>
 
+          <ul id="Affiliate" class="collapse">
+            <li *ngxPermissionsOnly="['ADMIN']">
+              <a routerLink="/pages/affiliate/users" routerLinkActive="active">
+                All Affiliates
+              </a>
+            </li>
+            <li *ngxPermissionsOnly="['ADMIN']">
+              <a routerLink="/pages/affiliate/requests-join" routerLinkActive="active">
+                Join Requests
+              </a>
+            </li>
+            <li *ngxPermissionsOnly="['ADMIN']">
+              <a routerLink="/pages/affiliate/withdraw-requests" routerLinkActive="active">
+                Withdraw Requests
+              </a>
+            </li>
+
+            <li *ngxPermissionsOnly="['ADMIN']">
+              <a routerLink="/pages/affiliate/users-history" routerLinkActive="active">
+                Wallets History
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
       <!-- <li class="side-nav-item">
         <a routerLink="/pages/reporting-center" routerLinkActive="active">
           <i class="icon-None5" data-toggle="tooltip" data-placement="right" title="dashboard"></i>
