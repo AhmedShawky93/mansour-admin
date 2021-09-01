@@ -588,8 +588,8 @@
                 <div class="col-sm-12 m-t-b-8">
                   <label for="">sub category (ar)</label>
                   <input type="text" class="owl-input" placeholder="اسم القسم الفرعي ..." name="subNameAr{{i}" formControlName="name_ar" required>
-                <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.image.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.image.dirty || categoriesForm.controls.sub_categories.controls[i].controls.image.touched)" class="alert alert-danger">
-                  <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.image.errors.required">
+                <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.name_ar.invalid && (categoriesForm.controls.sub_categories.controls[i].controls.name_ar.dirty || categoriesForm.controls.sub_categories.controls[i].controls.name_ar.touched)" class="alert alert-danger">
+                  <div *ngIf="categoriesForm.controls.sub_categories.controls[i].controls.name_ar.errors.required">
                     Name(ar) is required.
                   </div>
                 </div>

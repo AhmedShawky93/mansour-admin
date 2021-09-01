@@ -46,7 +46,7 @@
 
             <div class="first-level-image"
               [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
-              *ngIf="levelOneItem.level1_image">
+              *ngIf="levelOneItem.level1_image && levelOneItem.image">
               <img [src]="levelOneItem.image" alt="main section image" />
             </div>
           </ng-container>
@@ -65,7 +65,7 @@
 
             <div class="first-level-image"
               [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
-              *ngIf="levelOneItem.level1_image">
+              *ngIf="levelOneItem.level1_image && levelOneItem.image">
               <img [src]="levelOneItem.image" alt="main section image" />
             </div>
           </ng-template>
@@ -245,7 +245,7 @@
       </div>
     </div>
 
-    <div class="form-group owls-upload owls-upload3 big" *ngIf="headerForm.controls.level1_image">
+    <div class="form-group owls-upload owls-upload3 big" *ngIf="headerForm.controls.level1_image.value">
       <label>Header image</label>
       <img class="owl-img img-fluid" [hidden]="headerForm.controls.image.value"
         src="./assets/img/placeholder200.jpg" style="width: 200px; height: 200px;" alt="">

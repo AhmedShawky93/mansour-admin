@@ -177,14 +177,14 @@ export class SettingComponent implements OnInit {
     });
   }
 
-  checkColorValidity(color) {
-    if (color.substring(0, 1) == '#') {
-      return;
-    } else {
-      color = `#${color}`;
-      this.systemForm.controls.softbar_bg_color.setValue(color);
-    }
-  }
+  // checkColorValidity(color) {
+  //   if (color.substring(0, 1) == '#') {
+  //     return;
+  //   } else {
+  //     color = `#${color}`;
+  //     this.systemForm.controls.softbar_bg_color.setValue(color);
+  //   }
+  // }
 
   loadSettings() {
     if (!this.settings) {

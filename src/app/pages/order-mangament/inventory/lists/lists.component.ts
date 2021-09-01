@@ -10,6 +10,7 @@ import {
   style,
 } from "@angular/animations";
 import { ListsService } from "@app/pages/services/lists.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-lists",
@@ -62,7 +63,8 @@ export class ListsComponent implements OnInit {
   currentList: any;
   constructor(
     private toastrService: ToastrService,
-    private listsService: ListsService
+    private listsService: ListsService,
+    private spinner: NgxSpinnerService,
   ) { }
 
   ngOnInit() {
@@ -160,7 +162,9 @@ export class ListsComponent implements OnInit {
       this.viewOptionSidebar = "out";
       this.toggleListForm = "in";
     } else {
+      this.spinner.show()
       this.listsService.getListById(data.id).subscribe((res) => {
+        this.spinner.hide();
         if (res.code === 200) {
           this.selectOptionData = res.data;
           this.viewOptionSidebar = "out";

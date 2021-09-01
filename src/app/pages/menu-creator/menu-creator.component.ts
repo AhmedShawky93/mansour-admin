@@ -577,6 +577,9 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   saveHeader() {
     if (this.headerForm.valid) {
       this.updating = true;
+      if (!this.headerForm.controls['level1_image'].value){
+        this.headerForm.controls.image.setValue(null);
+      }
       this.selectedHeader = this.headerForm.value;
       if (this.updateIndexHeader != null) {
         let dumbLevel2 = this.formattedJson.level1[this.updateIndexHeader].level2;
@@ -627,7 +630,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       if (this.updateIndexHeader != null && this.updateIndexGroup != null && this.updateIndexSubCategory != null) {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3[this.updateIndexSubCategory] = this.selectedSubcategory;
       } else {
-        this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.push(this.selectedSubcategory)
+        this.formattedJson.level1[this.updateIndexHeader].level2[this.formattedJson.level1[this.updateIndexHeader].level2.length - 1].level3.push(this.selectedSubcategory)
       }
       this.saveChanges(true);
       this.sortSubCategory();

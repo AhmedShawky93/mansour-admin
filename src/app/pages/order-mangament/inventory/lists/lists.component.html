@@ -24,6 +24,10 @@
   </div>
 </div>
 
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading List Data... </p>
+</ngx-spinner>
+
 
 <!-- Tabel -->
 <div class="table-responsive text-center">
@@ -62,7 +66,7 @@
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
-        <td>{{list?.products?.length == 0 ?list.products.length : 0   }}</td>
+        <td>{{list?.products_count }}</td>
 
         <td class="hidden">{{list.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
         <td>
