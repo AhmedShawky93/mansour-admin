@@ -13,7 +13,7 @@ declare var $: any;
 })
 export class BrandsComponent implements OnInit {
   editForm: FormGroup;
-
+  submitting: boolean = false;
   brands = [];
 
   addBrandForm: FormGroup;
@@ -77,10 +77,12 @@ export class BrandsComponent implements OnInit {
     if (!this.addBrandForm.valid) {
       return this.markFormGroupTouched(this.addBrandForm);
     }
+    this.submitting = true;
 
     this.brandsService
       .createBrand(this.addBrandForm.value)
       .subscribe((response: any) => {
+        this.submitting = true;
         this.brands.push(response.data);
         $("#add-prod").toggleClass("open-view-vindor-types");
       });
@@ -101,12 +103,13 @@ export class BrandsComponent implements OnInit {
     if (!this.editForm.valid) {
       return this.markFormGroupTouched(this.editForm);
     }
-
+    this.submitting = true;
     let brand = this.editForm.value;
 
     this.brandsService
       .updateBrand(brand.id, brand)
       .subscribe((response: any) => {
+        this.submitting = false;
         let ind = this.brands.findIndex((item) => {
           return item.id === brand.id;
         });
