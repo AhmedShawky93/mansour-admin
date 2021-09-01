@@ -430,8 +430,8 @@
               <span>{{ result?.brand }}</span>
             </li>
             <li>
-              <h6>Image : </h6>
-              <img src="{{result?.main_image}}" />
+              <h6>Image :</h6>
+              <img src="{{ result?.main_image }}" />
             </li>
           </ul>
           <table class="table">
@@ -445,8 +445,10 @@
             <tbody>
               <tr>
                 <td>{{ result?.variant_sku }}</td>
-                <td>{{ result?.price ? result?.price : '-' }}</td>
-                <td>{{ result?.discount_price ? result?.discount_price : '-'}}</td>
+                <td>{{ result?.price ? result?.price : "-" }}</td>
+                <td>
+                  {{ result?.discount_price ? result?.discount_price : "-" }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -455,6 +457,454 @@
             <div>
               <button class="btn cancel" (click)="closePopup()">cancel</button>
               <button class="btn ml-2 import">import product</button>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '3'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your Category</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
+          </div>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
+            </p>
+          </div>
+
+          <ul class="list-unstyled">
+            <li>
+              <h6>Category :</h6>
+              <span>{{ result?.category }}</span>
+            </li>
+            <li>
+              <h6>Sub Category :</h6>
+              <span>{{ result?.subcategory }}</span>
+            </li>
+            <li>
+              <h6>Options :</h6>
+              <span>{{ result?.subcategory_options }}</span>
+            </li>
+            <li>
+              <h6>Image :</h6>
+              <img src="{{ result?.subcategory_image }}" />
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
+            <div>
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import" (click)="submitImport()">
+                import product
+              </button>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '4'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your Option</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
+          </div>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
+            </p>
+          </div>
+
+          <ul class="list-unstyled">
+            <li>
+              <h6>Option :</h6>
+              <span>{{ result?.option }}</span>
+            </li>
+            <li>
+              <h6>Type :</h6>
+              <span>{{ result?.type }}</span>
+            </li>
+            <li>
+              <h6>Values :</h6>
+              <span>{{ result?.values }}</span>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
+            <div>
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import" (click)="submitImport()">
+                import product
+              </button>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '5'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your Group</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
+          </div>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
+            </p>
+          </div>
+
+          <ul class="list-unstyled">
+            <li>
+              <h6>category :</h6>
+              <span>{{ result?.category }}</span>
+            </li>
+            <li>
+              <h6>group :</h6>
+              <span>{{ result?.group }}</span>
+            </li>
+            <li>
+              <h6>group slug :</h6>
+              <span>{{ result?.group_slug }}</span>
+            </li>
+            <li>
+              <h6>sub category :</h6>
+              <span>{{ result?.subcategory }}</span>
+            </li>
+            <li>
+              <h6>sub category slug :</h6>
+              <span>{{ result?.subcategory_slug }}</span>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
+            <div>
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import" (click)="submitImport()">
+                import product
+              </button>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '6'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your Stock</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
+          </div>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
+            </p>
+          </div>
+
+          <ul class="list-unstyled">
+            <li>
+              <h6>Active :</h6>
+              <span [ngSwitch]="result.active">
+                <span *ngSwitchCase="0">Not active</span>
+                <span *ngSwitchCase="1">Active</span>
+                <span *ngSwitchDefault>-</span>
+              </span>
+            </li>
+            <li>
+              <h6>group :</h6>
+              <span>{{ result?.group }}</span>
+            </li>
+            <li>
+              <h6>discount price :</h6>
+              <span>{{ result?.discount_price }}</span>
+            </li>
+            <li>
+              <h6>price :</h6>
+              <span>{{ result?.price }}</span>
+            </li>
+            <li>
+              <h6>sku :</h6>
+              <span>{{ result?.sku }}</span>
+            </li>
+            <li>
+              <h6>stock :</h6>
+              <span>{{ result?.stock }}</span>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
+            <div>
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import" (click)="submitImport()">
+                import product
+              </button>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '7'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your Lists</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
+          </div>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
+            </p>
+          </div>
+
+          <ul class="list-unstyled">
+            <li>
+              <h6>name :</h6>
+              <span>{{ result?.name }}</span>
+            </li>
+            <li>
+              <h6>sku :</h6>
+              <span>{{ result?.sku }}</span>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
+            <div>
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import" (click)="submitImport()">
+                import product
+              </button>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '8'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your Promo</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
+          </div>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
+            </p>
+          </div>
+
+          <ul class="list-unstyled">
+            <li>
+              <h6>Active :</h6>
+              <span [ngSwitch]="result.active">
+                <span *ngSwitchCase="0">Not active</span>
+                <span *ngSwitchCase="1">Active</span>
+                <span *ngSwitchDefault>-</span>
+              </span>
+            </li>
+            <li>
+              <h6>amount :</h6>
+              <span>{{ result?.amount }}</span>
+            </li>
+            <li>
+              <h6>description :</h6>
+              <span>{{ result?.description }}</span>
+            </li>
+            <li>
+              <h6>expiration date :</h6>
+              <span>{{ result?.expiration_date }}</span>
+            </li>
+            <li>
+              <h6>name :</h6>
+              <span>{{ result?.name }}</span>
+            </li>
+            <li>
+              <h6>type :</h6>
+              <span>{{ result?.type }}</span>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
+            <div>
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import" (click)="submitImport()">
+                import product
+              </button>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '9'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your Cities</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
+          </div>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
+            </p>
+          </div>
+
+          <ul class="list-unstyled">
+            <li>
+              <h6>name :</h6>
+              <span>{{ result?.name }}</span>
+            </li>
+            <li>
+              <h6>sku :</h6>
+              <span>{{ result?.sku }}</span>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
+            <div>
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import" (click)="submitImport()">
+                import product
+              </button>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+      <ng-container *ngIf="!step1 && type == '10'">
+        <section class="parent">
+          <div class="title d-flex align-items-center justify-content-between">
+            <h5>Preview Your Delivery</h5>
+            <i
+              class="fa fa-times"
+              aria-hidden="true"
+              (click)="closePopup()"
+            ></i>
+          </div>
+          <div class="first-box d-flex">
+            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+            <p>
+              You're importing a file into shopify. if this preview doesn't look
+              right ,
+              <span>you can try to change the order of column heading</span>
+            </p>
+          </div>
+          <div class="second-box">
+            <p>
+              You will be importing approximately <span>3 product</span> with a
+              total of {{ totalCount }} SKUs and <span>3 images</span> importing
+              will <span>not overwrite any existing products</span> that have
+              the same product handle.
+            </p>
+          </div>
+
+          <ul class="list-unstyled">
+            <li>
+              <h6>name :</h6>
+              <span>{{ result?.name }}</span>
+            </li>
+            <li>
+              <h6>sku :</h6>
+              <span>{{ result?.sku }}</span>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between p-2">
+            <button class="btn back" (click)="backStep()">back</button>
+            <div>
+              <button class="btn cancel" (click)="closePopup()">cancel</button>
+              <button class="btn ml-2 import" (click)="submitImport()">
+                import product
+              </button>
             </div>
           </div>
         </section>
