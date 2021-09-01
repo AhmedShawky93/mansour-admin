@@ -235,4 +235,40 @@ export class ImportsComponent implements OnInit {
     this.filter.page = page;
     this.getData();
   }
+
+  showItem(item) {
+    console.log(item);
+  }
+
+  retryImport(id) {
+    this.importsService.retry(id).subscribe((response: any) => {
+      console.log(response);
+      if (response.code === 200) {
+        this.toastrService.success(response.message);
+        this.p = 1;
+        this.filter.page = 1;
+        this.getData();
+      } else {
+        this.toastrService.error(response.message);
+      }
+    });
+  }
+
+  cancelImport(id) {
+    this.importsService.cancel({history_id:id}).subscribe((response: any) => {
+      console.log(response);
+      if (response.code === 200) {
+        this.toastrService.success(response.message);
+        this.p = 1;
+        this.filter.page = 1;
+        this.getData();
+      } else {
+        this.toastrService.error(response.message);
+      }
+    });
+  }
+
+
+
+
 }

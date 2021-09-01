@@ -38,6 +38,23 @@ export class ImportsService {
   }
 
 
+  retry(id) {
+    return this.http.post(this.url + `files/import/${id}/retry`, {})
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
+  cancel(data) {
+    return this.http.post(this.url + `import/cancel`, data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
+
+
+
   fileValidation(data) {
     return this.http.post(this.url + "import/File-validation", data)
       .catch((error: any) => {

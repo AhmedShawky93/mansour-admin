@@ -31,6 +31,10 @@
         >
           <option [value]="''" selected>Select State</option>
           <option value="1">Cancelled</option>
+          <option value="2">Progress</option>
+          <option value="3">Complete</option>
+          <option value="4">Error</option>
+          <option value="5">Pending</option>
         </select>
       </div>
     </div>
@@ -165,10 +169,10 @@
             >
               Actions
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item">Download File</a>
-              <a class="dropdown-item">Cancel</a>
-              <a class="dropdown-item">Restart</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" (click)='showItem(import)'>
+              <a class="dropdown-item" href='{{import.file_path}}'>Download File</a>
+              <a class="dropdown-item" *ngIf="import.state.id == '2' || import.state.id == '5'" (click)='cancelImport(import.id)'>Cancel</a>
+              <a class="dropdown-item" *ngIf="import.state.id == '1' || import.state.id == '3' || import.state.id == '4'" (click)='retryImport(import.id)'>Restart</a>
             </div>
           </div>
         </td>
