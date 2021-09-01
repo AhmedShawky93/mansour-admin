@@ -250,6 +250,22 @@
                   >
                 </div>
               </div>
+              <div class="col-md-9 p-0 mt-2">
+                <div class="form-group" *ngIf="importForm.get('type').value == 7">
+                  <label for="">List</label>
+                  <select type="text" class="owl-input" formControlName="list_id" name="list_id">
+                    <option value="" selected>Select List</option>
+                    <option value="{{list.id}}" *ngFor="let list of lists">{{list.name_en}}</option>
+                  </select>
+                  <div
+                    *ngIf="importForm.controls.list_id.invalid && (importForm.controls.list_id.dirty || importForm.controls.list_id.touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="importForm.controls.list_id.errors.required">
+                      List Is Required.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
               *ngIf="

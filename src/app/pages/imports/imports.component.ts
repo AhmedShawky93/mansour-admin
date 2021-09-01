@@ -8,6 +8,7 @@ import { environment } from "@env/environment";
 import { AuthService } from "@app/shared/auth.service";
 import * as moment from "moment";
 import { ToastrService } from "ngx-toastr";
+import { ListsService } from "../services/lists.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -24,6 +25,7 @@ export class ImportsComponent implements OnInit {
   total: number;
   totalCount: number;
   fileName: any;
+  lists = [];
   result: any;
   p = 1;
   filter$ = new Subject();
@@ -47,20 +49,21 @@ export class ImportsComponent implements OnInit {
   loading: boolean = false;
   importForm: FormGroup;
   downloadLink = "";
-  showMSG:boolean;
+  showMSG: boolean;
   constructor(
     private importsService: ImportsService,
     private auth: AuthService,
     private toastrService: ToastrService,
+    private listsService: ListsService
   ) {
     this.step1 = false;
     this.type = "2";
     this.showMSG = false;
-    
   }
 
   ngOnInit() {
     this.getData();
+    this.getLists();
   }
 
   getData() {
@@ -72,6 +75,12 @@ export class ImportsComponent implements OnInit {
         this.total = result.data.total;
         this.loadingSpinner = false;
       });
+  }
+
+  getLists() {
+    this.listsService.getLists({}).subscribe((response: any) => {
+      this.lists = response.data;
+    });
   }
 
   changePage(p) {
@@ -89,6 +98,7 @@ export class ImportsComponent implements OnInit {
       type: new FormControl("", Validators.required),
       file: new FormControl("", Validators.required),
       fileSource: new FormControl("", Validators.required),
+      list_id: new FormControl(""),
     });
   }
 
@@ -103,6 +113,14 @@ export class ImportsComponent implements OnInit {
       this.importForm.get("type").value +
       "&token=" +
       this.auth.getToken();
+
+    if (this.importForm.get("type").value == "7") {
+      this.importForm.get("list_id").setValidators(Validators.required);
+      this.importForm.get("list_id").updateValueAndValidity();
+    } else {
+      this.importForm.get("list_id").clearValidators();
+      this.importForm.get("list_id").updateValueAndValidity();
+    }
   }
 
   // downloadTemplate() {
@@ -133,6 +151,9 @@ export class ImportsComponent implements OnInit {
     const formData = new FormData();
     formData.append("file", this.importForm.get("fileSource").value);
     formData.append("type", this.importForm.get("type").value);
+    if (this.importForm.get("type").value == "7") {
+      formData.append("list_id", this.importForm.get("list_id").value);
+    }
     this.importsService.fileValidation(formData).subscribe((response: any) => {
       console.log(response);
       if (response.code === 200) {
@@ -140,18 +161,19 @@ export class ImportsComponent implements OnInit {
         this.type = this.importForm.get("type").value;
         this.result = response.data.first_row;
         this.totalCount = response.data.total_rows_count;
-      }else{
+      } else {
         this.showMSG = true;
       }
     });
   }
 
-
-
-  submitImport(){
+  submitImport() {
     const formData = new FormData();
     formData.append("file", this.importForm.get("fileSource").value);
     formData.append("type", this.importForm.get("type").value);
+    if (this.importForm.get("type").value == "7") {
+      formData.append("list_id", this.importForm.get("list_id").value);
+    }
     this.importsService.import(formData).subscribe((response: any) => {
       console.log(response);
       if (response.code === 200) {
@@ -159,7 +181,7 @@ export class ImportsComponent implements OnInit {
         this.p = 1;
         this.filter.page = 1;
         this.getData();
-      }else{
+      } else {
         this.toastrService.error(response.message);
       }
     });
@@ -213,6 +235,4 @@ export class ImportsComponent implements OnInit {
     this.filter.page = page;
     this.getData();
   }
-
-
 }
