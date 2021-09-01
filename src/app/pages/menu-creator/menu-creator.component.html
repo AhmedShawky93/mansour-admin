@@ -46,7 +46,7 @@
 
             <div class="first-level-image"
               [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
-              *ngIf="levelOneItem.level1_image">
+              *ngIf="levelOneItem.level1_image && levelOneItem.image">
               <img [src]="levelOneItem.image" alt="main section image" />
             </div>
           </ng-container>
@@ -65,7 +65,7 @@
 
             <div class="first-level-image"
               [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
-              *ngIf="levelOneItem.level1_image">
+              *ngIf="levelOneItem.level1_image && levelOneItem.image">
               <img [src]="levelOneItem.image" alt="main section image" />
             </div>
           </ng-template>
