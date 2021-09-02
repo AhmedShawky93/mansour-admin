@@ -218,8 +218,8 @@ import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edi
     AreasService,
     OrdersService,
     ProductsService,
-    AffiliateService
-    // PagesService
+    AffiliateService,
+    PagesService
   ],
   bootstrap: [AppComponent],
 })
