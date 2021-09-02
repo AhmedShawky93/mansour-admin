@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+// import { environmentVariables } from '../../../../../environments/enviromentalVariables';
 
 @Component({
   selector: "app-view-store",
@@ -8,6 +9,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 export class ViewStoreComponent implements OnInit {
   @Output() closeSideBarEmit = new EventEmitter();
   @Input("selectProductDataEdit") dataView;
+  environmentVariables =JSON.parse(localStorage.getItem("systemConfig"));
   constructor() { }
 
   ngOnInit() { }

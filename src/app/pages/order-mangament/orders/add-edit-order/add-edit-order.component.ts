@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { FormArray, Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AreasService } from '@app/pages/services/areas.service';
 import { CustomerService } from '@app/pages/services/customer.service';
 import { OrdersService } from '@app/pages/services/orders.service';
 import { ProductsService } from '@app/pages/services/products.service';
@@ -31,11 +32,34 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   orderForm: FormGroup;
   deleted_items: any[] = [];
   loading: boolean;
+  selectedProductToUpdate: any;
+  cities: any = [];
+  areas: any = [];
 
-  constructor(private customerService: CustomerService, private router: Router, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) { }
+  constructor(private citiesService: AreasService, private customerService: CustomerService, private router: Router, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) {
+    
+  }
+
+
+  onCitySelected() {
+    let city_id = this.orderForm.controls.address.get('city_id').value;
+
+    if (city_id) {
+      let ind = this.cities.findIndex(c => c.id == city_id);
+
+      if (ind !== -1) {
+        this.areas = this.cities[ind].areas;
+      }
+    }
+  }
 
   ngOnInit() {
     this.setupForm(this.selectedOrder);
+
+    this.citiesService.getCities()
+      .subscribe((response: any) => {
+        this.cities = response.data;
+      })
   }
 
   ngOnChanges() {
@@ -54,6 +78,16 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       admin_notes: new FormControl(data ? data.admin_notes : ''),
       overwrite_fees: new FormControl(0),
       delivery_fees: new FormControl(data ? data.delivery_fees : ''),
+      has_address: new FormControl(data ? data.has_address : false),
+      address: new FormGroup({
+        name: new FormControl(data ? data.name : ''),
+        address: new FormControl(data ? data.address : ''),
+        city_id: new FormControl(data ? data.city_id : ''),
+        area_id: new FormControl(data ? data.area_id : ''),
+        landmark: new FormControl(data ? data.landmark : ''),
+        floor: new FormControl(data ? data.floor : ''),
+        apartment: new FormControl(data ? data.apartment : ''),
+      }),
     });
 
     if (data) {
@@ -124,6 +158,27 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     );
   }
 
+  updateValidaty() {
+    if (this.orderForm.controls.has_address.value) {
+      this.orderForm.controls.address['controls'].name.setValidators([Validators.required]);
+      this.orderForm.controls.address_id.setValidators([]);
+      this.orderForm.controls.address_id.updateValueAndValidity();
+      this.orderForm.controls.address['controls'].address.setValidators([Validators.required]);
+      this.orderForm.controls.address['controls'].city_id.setValidators([Validators.required]);
+      this.orderForm.controls.address['controls'].area_id.setValidators([Validators.required]);
+      this.orderForm.controls.address['controls'].floor.setValidators([Validators.required]);
+      this.orderForm.controls.address['controls'].apartment.setValidators([Validators.required]);
+    } else {
+      this.orderForm.controls.address_id.setValidators([Validators.required]);
+      this.orderForm.controls.address['controls'].name.setValidators([]);
+      this.orderForm.controls.address['controls'].address.setValidators([]);
+      this.orderForm.controls.address['controls'].city_id.setValidators([]);
+      this.orderForm.controls.address['controls'].area_id.setValidators([]);
+      this.orderForm.controls.address['controls'].floor.setValidators([]);
+      this.orderForm.controls.address['controls'].apartment.setValidators([]);
+    }
+  }
+
   updateAmountMax(item, index){
     if(item){
       this.orderForm.get('items')['controls'][index].controls.amount.setValidators([Validators.required, Validators.min(1), Validators.max(item.stock)]);
@@ -178,11 +233,19 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     (this.orderForm.get("items") as FormArray).removeAt(index);
   }
 
+  addToDeletetItems(){
+    this.deleted_items.push(this.selectedProductToUpdate);
+  }
+
+  updateSelecteItem(product){
+    this.selectedProductToUpdate = product;
+  }
+
   selectCustomerAddresses() {
     let user_id = this.orderForm.get('user_id').value;
     if (user_id) {
       let ind = this.customers.findIndex(c => c.id == user_id);
-
+      this.orderForm.controls.address_id.setValue(null);
       if (ind !== -1) {
         this.addresses = this.customers[ind].addresses;
       }
@@ -218,6 +281,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           } else {
             this.toastrService.error(response.message, "Error");
           }
+          this.loading = false;
         });
     } else {
       this.loading = true;
@@ -230,12 +294,14 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           } else {
             this.toastrService.error(response.message, "Error");
           }
+          this.loading = false;
         });
     }
   }
 
   closeSideBar(data = null) {
     this.orderForm.reset();
+    this.loading = false;
     this.deleted_items = [];
     this.addresses = [];
     this.customers$ = concat(

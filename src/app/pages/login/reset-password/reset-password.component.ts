@@ -1,3 +1,4 @@
+// import { environmentVariables } from './../../../../environments/enviromentalVariables';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/shared/auth.service';
 import { Router } from '@angular/router';
@@ -9,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
-
+  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
   errorMessage: any = false;
   password;
   password_confirm;

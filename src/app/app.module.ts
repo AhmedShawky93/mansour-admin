@@ -8,7 +8,7 @@ import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { RouterModule, CanActivate } from "@angular/router";
-
+import { AffiliateService } from './pages/services/affiliate.service';
 // pagination
 import { NgxPaginationModule } from "ngx-pagination";
 //chart js
@@ -79,6 +79,7 @@ import { CustomFormsModule } from "ng2-validation";
 import { HttpClient } from "selenium-webdriver/http";
 import { LoaderComponent } from "./loader/loader.component";
 import { ProductsService } from "@app/pages/services/products.service";
+import { PagesService } from "@app/pages/services/pages.service";
 import { MomentModule } from "angular2-moment";
 import { adsComponent } from "@app/pages/order-mangament/marketing/ads/ads.component";
 import { RequiredIfDirective } from "@app/shared/required-if.directive";
@@ -102,11 +103,16 @@ import { OrderDeliveryDetailsComponent } from './pages/order-mangament/orders-de
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-order/add-edit-order.component';
 import { AddEditCustomerComponent } from './pages/mangament-users/manage-castomer/add-edit-customer/add-edit-customer.component';
-import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
 import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { ImportsComponent } from './pages/imports/imports.component';
 import {ProgressBarModule} from "angular-progress-bar"
+import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.component';
+import { StaticPagesComponent } from './pages/static-pages/static-pages.component';
+import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edit-page.component';
+import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
+
+
 
 @NgModule({
   declarations: [
@@ -157,8 +163,11 @@ import {ProgressBarModule} from "angular-progress-bar"
     AddEditOrderComponent,
     AddEditCustomerComponent,
     AddEditAddressComponent,
+    ImportsComponent,
     DynamicSettingsComponent,
-    ImportsComponent
+    MenuCreatorComponent,
+    StaticPagesComponent,
+    AddEditPageComponent
   ],
   imports: [
     AppRoutingModule,
@@ -215,6 +224,8 @@ import {ProgressBarModule} from "angular-progress-bar"
     AreasService,
     OrdersService,
     ProductsService,
+    AffiliateService,
+    PagesService
   ],
   bootstrap: [AppComponent],
 })

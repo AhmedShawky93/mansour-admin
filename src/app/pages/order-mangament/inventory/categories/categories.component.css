@@ -52,12 +52,12 @@
 }
 
 .add-sub {
-  color: #FD9B2A;
+  color: var(--brand-color);
   text-transform: capitalize;
 }
 
 .remove-sub {
-  color: #D74254;
+  color:var(--brand-color);
   text-transform: capitalize;
 }
 

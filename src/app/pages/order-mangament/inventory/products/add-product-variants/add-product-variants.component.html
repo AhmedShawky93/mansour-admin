@@ -126,9 +126,9 @@
             </option>
           </select>
           <div
-            *ngIf="componentForm.controls.option_values?.controls[i]?.controls?.option_value_id?.invalid && (componentForm.controls?.option_values?.controls[i].controls?.option_value_id?.dirty || componentForm.controls.option_values?.controls[i].controls?.option_value_id?.touched)"
+            *ngIf="componentForm.controls.option_values['controls'][i]?.controls?.option_value_id?.invalid && (componentForm.controls?.option_values['controls'][i].controls?.option_value_id?.dirty || componentForm.controls.option_values['controls'][i].controls?.option_value_id?.touched)"
             class="alert alert-danger">
-            <div *ngIf="componentForm.controls.option_values?.controls[i]?.controls?.option_value_id?.errors?.required">
+            <div *ngIf="componentForm.controls.option_values['controls'][i]?.controls?.option_value_id?.errors?.required">
               option is required.
             </div>
           </div>
@@ -248,12 +248,26 @@
           </div>
         </div>
       </div>
+      <div class="form-group icon-per">
+        <label> Commission
+          <small> optional</small>
+        </label>
+        <input class="owl-input" formControlName="affiliate_commission" placeholder="Type.." type="number">
+        <div
+          *ngIf="componentForm.controls.affiliate_commission.invalid && (componentForm.controls.affiliate_commission.dirty || componentForm.controls.affiliate_commission.touched)"
+          class="alert alert-danger">
+          <div *ngIf="componentForm.controls.affiliate_commission.errors.min">
+            Minimum percentage 1%
+          </div>
+          <div *ngIf="componentForm.controls.affiliate_commission.errors.max">
+            Max percentage 100 %
+          </div>
 
-      <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true"
-        formControlName="payment_method_discount_ids" bindLabel="name" bindValue="id" name="payment_method_discount_ids"
-        placeholder="Select Payment Methods">
-      </ng-select>
+        </div>
+      </div>
     </div>
+
+
 
     <div class="form-group">
       <label> Order</label>

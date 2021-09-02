@@ -10,6 +10,7 @@ import {
   style,
 } from "@angular/animations";
 import { ListsService } from "@app/pages/services/lists.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-lists",
@@ -62,8 +63,9 @@ export class ListsComponent implements OnInit {
   currentList: any;
   constructor(
     private toastrService: ToastrService,
-    private listsService: ListsService
-  ) {}
+    private listsService: ListsService,
+    private spinner: NgxSpinnerService,
+  ) { }
 
   ngOnInit() {
     this.getLists();
@@ -72,7 +74,7 @@ export class ListsComponent implements OnInit {
       searchTerm: new FormControl(),
     });
   }
-  
+
   getLists() {
     this.loading = true;
     this.productIsEmpty = false;
@@ -133,7 +135,7 @@ export class ListsComponent implements OnInit {
     list.notes = "";
     list.showReason = 0;
   }
-  
+
   submitDeactivate(list) {
     list.active = 0;
     this.listsService
@@ -146,6 +148,7 @@ export class ListsComponent implements OnInit {
       });
   }
 
+
   viewList(list) {
     this.currentList = list;
     this.toggleListForm = "out";
@@ -153,11 +156,22 @@ export class ListsComponent implements OnInit {
   }
 
   toggleMenu(data) {
-    this.listsService.getListById(data ? data.id : '').subscribe((res) => {
-      this.selectOptionData = res.data;
+    this.selectOptionData = null;
+    if (data == null) {
+      this.selectOptionData = null;
       this.viewOptionSidebar = "out";
       this.toggleListForm = "in";
-    })
+    } else {
+      this.spinner.show()
+      this.listsService.getListById(data.id).subscribe((res) => {
+        this.spinner.hide();
+        if (res.code === 200) {
+          this.selectOptionData = res.data;
+          this.viewOptionSidebar = "out";
+          this.toggleListForm = "in";
+        }
+      })
+    }
   }
 
   closeSideBar() {

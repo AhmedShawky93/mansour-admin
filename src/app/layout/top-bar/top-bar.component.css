@@ -35,7 +35,7 @@
 .top-header {
   height: 85px;
   line-height: 85px;
-  background-image: linear-gradient(-130deg, #e4002c 0, #e4002c 90%);
+  background-image: linear-gradient(-130deg, var(--brand-color) 0, var(--brand-color) 90%);
 }
 
 .avatar-part button {
@@ -87,7 +87,7 @@
 
 .admin-dropdown a:hover,
 .admin-dropdown a.active {
-  color: #D74254;
+  color: var(--brand-color);
 }
 
 .admin-dropdown a:last-child {

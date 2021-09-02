@@ -1,6 +1,10 @@
 .app-logo{
     margin: 0px 0px 50px 0;
 }
+.app-logo img {
+  max-height: 100px;
+  object-fit: contain;
+}
 .left-sidebar{
     background: #FFFFFF;
     box-shadow: 0 12px 54px 0 rgba(6,40,59,0.10);
@@ -53,17 +57,17 @@ display: block
 }
 
 .side-nav-item.active > a{
-    color: #e4002c  !important;
+    color: var(--brand-color)  !important;
     font-weight: bold;
 }
 .side-nav-item.active > a i{
-    color: #e4002c  !important;
+    color: var(--brand-color)  !important;
 
 }
 
 .side-nav-item.active > a i.pull-right{
     transition: 0.2s linear;
-    color: #e4002c  !important;
+    color: var(--brand-color)  !important;
     font-size: 18px
 
 }

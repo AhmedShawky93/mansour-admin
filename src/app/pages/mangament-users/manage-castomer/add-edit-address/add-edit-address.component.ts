@@ -12,14 +12,14 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-edit-address.component.css']
 })
 export class AddEditAddressComponent implements OnInit, OnChanges {
-  
+
   @Output() closeModalEmit = new EventEmitter();
   @Output() dataAddressEmit = new EventEmitter();
   @Input('selectedCustomer') selectedCustomer;
   @Input('selectedOrder') selectedOrder;
   @Input('selectedAddress') selectedAddress;
   @Input('orderAddress') orderAddress = false;
-  
+
   addressForm: FormGroup;
   cities: any = [];
   areas: any = [];
@@ -75,7 +75,7 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
           if (response.code == 200) {
             this.closeModal(response.data);
           } else {
-            this.toastrService.error(response.message, "Error");       
+            this.toastrService.error(response.message, "Error");
           }
         });
     } else if (this.selectedAddress) {
@@ -84,7 +84,7 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
           if (response.code == 200) {
             this.closeModal(response.data);
           } else {
-            this.toastrService.error(response.message, "Error");       
+            this.toastrService.error(response.message, "Error");
           }
         });
     } else {
@@ -93,7 +93,7 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
           if (response.code == 200) {
             this.closeModal(response.data);
           } else {
-            this.toastrService.error(response.message, "Error");       
+            this.toastrService.error(response.message, "Error");
           }
         });
     }

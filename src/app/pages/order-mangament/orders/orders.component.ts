@@ -20,6 +20,8 @@ import { DeliveryService } from "@app/pages/services/delivery.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
+import { AffiliateService } from '@app/pages/services/affiliate.service';
+import { debounce } from 'lodash';
 
 declare var jquery: any;
 declare var $: any;
@@ -92,6 +94,7 @@ export class OrdersComponent implements OnInit {
     shipping_id: "",
     payment_method: null,
     user_agent: "",
+    order_type: null,
   };
 
   p = 1;
@@ -152,6 +155,9 @@ export class OrdersComponent implements OnInit {
   orderSelectedPickup = [];
   enableSubmitPickupOrder: boolean;
   today: Date;
+  affiliateUsersLoading: boolean;
+  affiliateUsers: Array<any>;
+  aramixAccounts: any;
 
   constructor(
     private ordersService: OrdersService,
@@ -164,8 +170,11 @@ export class OrdersComponent implements OnInit {
     private orderStatesService: OrderStatesService,
     private deliveryService: DeliveryService,
     private productService: ProductsService,
-    private promoService: PromosService
+    private promoService: PromosService,
+    private affiliateService: AffiliateService,
+    private toastrService: ToastrService
   ) {
+    this.affiliateSearch = debounce(this.affiliateSearch, 700);
     this.titleService.setTitle("Orders");
   }
 
@@ -317,6 +326,10 @@ export class OrdersComponent implements OnInit {
     this.ordersService.getAvailablePickups().subscribe((response: any) => {
       this.available_pickups = response.data;
     });
+
+    this.ordersService.getAramexAccounts().subscribe((response: any) => {
+      this.aramixAccounts = response.data
+    })
   }
 
   getPaymentMethods() {
@@ -325,6 +338,9 @@ export class OrdersComponent implements OnInit {
         this.paymentMethods = rep.data.filter((item) => item.active == "1");
       }
     });
+  }
+  selectOrder(orderId) {
+    this.filter.order_type = orderId;
   }
   ClearSearch() {
     this.filter = {
@@ -341,6 +357,7 @@ export class OrdersComponent implements OnInit {
       customer_phone: "",
       shipping_id: "",
       user_agent: "",
+      order_type: null,
       payment_method: null,
     };
     this.changePage(1);
@@ -379,6 +396,44 @@ export class OrdersComponent implements OnInit {
       this.stateForm
         .get("cancellation_id");
     }
+  }
+
+  exportOrder() {
+    const token = this.auth.getToken();
+    const urlExport = environment.api + '/admin/orders/export?token=' + token;
+    this.ordersService.exportOrders(urlExport).subscribe({
+      next: ((rep: any) => {
+        if (rep.code === 200) {
+
+
+        }
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
+  }
+
+  exportProductSales() {
+    const token = this.auth.getToken();
+    const urlExport = environment.api + '/admin/products/export_sales?token=' + token;
+    this.ordersService.exportOrders(urlExport).subscribe({
+      next: ((rep: any) => {
+        if (rep.code === 200) {
+
+
+        }
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
   }
 
   selectAll() {
@@ -580,6 +635,27 @@ export class OrdersComponent implements OnInit {
         }
 
         this.stateSubmitting = false;
+      });
+  }
+
+  affiliateSearch(event) {
+    this.affiliateUsersLoading = true;
+    const filter = {
+      q: event.target.value,
+      page: 1,
+    };
+    this.affiliateService.getUsersAffiliates(filter)
+      .subscribe((res: any) => {
+        if (res.code === 200) {
+          this.affiliateUsers = res.data.affiliates;
+        } else {
+          this.toasterService.error(res.message);
+        }
+        this.affiliateUsers = this.affiliateUsers.map((item) => {
+          item.deactivated = !item.active;
+          return item;
+        });
+        this.affiliateUsersLoading = false;
       });
   }
 

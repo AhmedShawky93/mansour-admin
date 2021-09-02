@@ -1,6 +1,6 @@
 <div class="left-sidebar">
   <div class="app-logo">
-    <img src="assets/img/logo.png" alt="" width="132" />
+    <img [src]="environmentVariables.brands.logo" alt="" width="132" />
   </div>
 
   <nav class="side-nav accordion-group">
@@ -90,26 +90,28 @@
         </a>
       </li>
 
+      <li class="side-nav-item" *ngxPermissionsOnly="['ADMIN']" routerLinkActive="active">
+        <a routerLink="/pages/static-pages">
+          <i class="icon-None7" data-toggle="tooltip" data-placement="right" title="Manage Usder"></i>
+          <span>Static Pages</span>
+        </a>
+      </li>
+
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
         <a routerLink="/pages/orders">
           <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Orders"></i>
           <span>Orders</span>
         </a>
       </li>
-      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
-        <a routerLink="/pages/imports">
-          <i class="fa fa-download" data-toggle="tooltip" data-placement="right" title="Imports"></i>
-          <span>Imports</span>
-        </a>
-      </li>
+      
       
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
         <a routerLink="/pages/transactions">
           <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Transactions"></i>
-          <span>Transactions</span>
+          <span>Online Transactions</span>
         </a>
       </li>
-      
+
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Contacts']">
         <a routerLink="/pages/contact-us" routerLinkActive="active">
           <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Contact us"></i>
@@ -126,6 +128,20 @@
         <a routerLink="/pages/manage-customer" routerLinkActive="active">
           <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Customers"></i>
           <span>Customers</span>
+        </a>
+      </li>
+
+      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
+        <a routerLink="/pages/imports">
+          <i class="fa fa-download" data-toggle="tooltip" data-placement="right" title="Imports"></i>
+          <span>Imports</span>
+        </a>
+      </li>
+
+      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Customers']">
+        <a routerLink="/pages/menu-creator" routerLinkActive="active">
+          <i class="icon-None" data-toggle="tooltip" data-placement="right" title="Menu creator"></i>
+          <span>Menu Creator</span>
         </a>
       </li>
 
@@ -153,7 +169,39 @@
           </li>
         </ul>
       </li>
+      <ng-container *ngIf="affiliate">
+        <li *ngIf="affiliate"  class="side-nav-item" routerLinkActive="active">
+          <a routerLinkActive="active" data-toggle="collapse" data-target="#Affiliate" aria-controls="Affiliate">
+            <i class="icon-None2" data-toggle="tooltip" data-placement="right" title="Affiliate"></i>
+            <span>Affiliate</span>
+            <i class="fa fa-fw fa-angle-down pull-right"></i>
+          </a>
 
+          <ul id="Affiliate" class="collapse">
+            <li *ngxPermissionsOnly="['ADMIN']">
+              <a routerLink="/pages/affiliate/users" routerLinkActive="active">
+                All Affiliates
+              </a>
+            </li>
+            <li *ngxPermissionsOnly="['ADMIN']">
+              <a routerLink="/pages/affiliate/requests-join" routerLinkActive="active">
+                Join Requests
+              </a>
+            </li>
+            <li *ngxPermissionsOnly="['ADMIN']">
+              <a routerLink="/pages/affiliate/withdraw-requests" routerLinkActive="active">
+                Withdraw Requests
+              </a>
+            </li>
+
+            <li *ngxPermissionsOnly="['ADMIN']">
+              <a routerLink="/pages/affiliate/users-history" routerLinkActive="active">
+                Wallets History
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
       <!-- <li class="side-nav-item">
         <a routerLink="/pages/reporting-center" routerLinkActive="active">
           <i class="icon-None5" data-toggle="tooltip" data-placement="right" title="dashboard"></i>
@@ -191,23 +239,25 @@
           </li>
         </ul>
       </li>
-      <!-- <li class="side-nav-item" routerLinkActive="active"  *ngxPermissionsOnly="['ADMIN', 'View Rewards', 'View Gift Requests']">
-        <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-7" aria-controls="submenu-7">
-          <i class="icon-None3" data-toggle="tooltip" data-placement="right" title="Mobilaty Stars"></i>
-          <span>Mobilaty Stars</span>
-          <i class="fa fa-fw fa-angle-down pull-right"></i>
-        </a>
-        <ul id="submenu-7" class="collapse">
-          <li *ngxPermissionsOnly="['ADMIN', 'View Rewards']">
-            <a routerLink="/pages/stars/rewards" routerLinkActive="active">
-              Rewards</a>
-          </li>
-          <li *ngxPermissionsOnly="['ADMIN', 'View Gift Requests']">
-            <a routerLink="/pages/stars/gifts" routerLinkActive="active">
-              Gift Requests</a>
-          </li>
-        </ul>
-      </li> -->
+      <ng-container *ngIf="environmentVariables.showLoyality">
+        <li class="side-nav-item" routerLinkActive="active"
+          *ngxPermissionsOnly="['ADMIN', 'View Rewards', 'View Gift Requests']">
+          <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-7" aria-controls="submenu-7">
+            <i class="icon-None3" data-toggle="tooltip" data-placement="right" title="Mobilaty Stars"></i>
+            <span>Mobilaty Stars</span>
+            <i class="fa fa-fw fa-angle-down pull-right"></i>
+          </a>
+          <ul id="submenu-7" class="collapse">
+            <li *ngxPermissionsOnly="['ADMIN', 'View Rewards']">
+              <a routerLink="/pages/stars/rewards" routerLinkActive="active">Rewards</a>
+            </li>
+            <li *ngxPermissionsOnly="['ADMIN', 'View Gift Requests']">
+              <a routerLink="/pages/stars/gifts" routerLinkActive="active">Gift Requests</a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+
       <!-- <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']">
         <a routerLink="/pages/medical" routerLinkActive="active">
           <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Medical Prescriptions"></i>

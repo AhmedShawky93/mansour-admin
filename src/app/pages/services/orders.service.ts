@@ -18,6 +18,12 @@ export class OrdersService {
     });
   }
 
+  getAramexAccounts(){
+    return this.http.get(this.url + "/aramex-sub-accounts").catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
+
   getUnassignedOrders() {
     return this.http.get(this.url + "/orders/unassigned");
   }
@@ -221,5 +227,13 @@ export class OrdersService {
     return this.http.post(this.url + "/orders/shipments/Aramex/create/shipment", data).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
     });
+  }
+
+  exportOrders(url) {
+    return this.http
+      .get(url)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      });
   }
 }

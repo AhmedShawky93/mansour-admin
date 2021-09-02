@@ -1,5 +1,5 @@
-
-<form *ngIf="settings" class="px-3 py-2 mt-1" (ngSubmit)="save()" [formGroup]="componentForm" novalidate autocomplete="off">
+<form *ngIf="settings" class="px-3 py-2 mt-1" (ngSubmit)="save()" [formGroup]="componentForm" novalidate
+  autocomplete="off">
 
   <ng-container *ngIf="formGroups.length">
     <fieldset class="group-box mt-1 mb-5 row" *ngFor="let groupArray of formGroups">
@@ -8,7 +8,8 @@
         <h6 class="group-title">{{groupArray.title}}</h6>
       </div>
 
-      <div class="col-md-6 col-xs-12 d-flex align-items-sm-start" *ngFor="let group of groupArray.controls; let i = index;" [formArrayName]="groupArray.name">
+      <div class="col-md-6 col-xs-12 d-flex align-items-sm-start"
+        *ngFor="let group of groupArray.controls; let i = index;" [formArrayName]="groupArray.name">
 
 
         <ng-container *ngIf="group.value.type === 'text'">
@@ -30,7 +31,8 @@
         <ng-container *ngIf="group.value.type === 'number'">
           <div class="form-group w-100 mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
-            <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.." formControlName="value">
+            <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
+              formControlName="value">
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
         </ng-container>
@@ -38,7 +40,7 @@
         <ng-container *ngIf="group.value.type === 'single_select'">
           <div class="form-group w-100 mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
-            <select class="owl-input" formControlName="value" >
+            <select class="owl-input" formControlName="value">
               <option value="">select option</option>
               <option *ngFor="let item of group.value.options" value="{{item}}">{{item}}</option>
             </select>
@@ -49,10 +51,8 @@
         <ng-container *ngIf="group.value.type === 'multiple_select'">
           <div class="form-group w-100 mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
-            <ng-select [closeOnSelect]="false" class="owl-input multi-select"
-                       [items]="group.value.options" [multiple]="true"
-                       formControlName="value"
-                       placeholder="Select Option">
+            <ng-select [closeOnSelect]="false" class="owl-input multi-select" [items]="group.value.options"
+              [multiple]="true" formControlName="value" placeholder="Select Option">
             </ng-select>
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
@@ -74,10 +74,8 @@
         <ng-container *ngIf="group.value.type === 'file'">
           <div class="form-group w-100 mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
-            <app-image-uploader [formControlChildName]="'value'"
-                                [myForm]="group" class="w-100"
-                                height="285px"
-                                width="100%">
+            <app-image-uploader [formControlChildName]="'value'" [myForm]="group" class="w-100" height="285px"
+              width="100%">
             </app-image-uploader>
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
@@ -85,10 +83,8 @@
 
         <ng-container *ngIf="group.value.type === 'date'">
           <div class="form-group w-100 mt-2" [formGroupName]="i">
-            <app-generic-date-picker [myForm]="group"
-                                     [formControlChildName]="'value'"
-                                     [label]="group.value.name"
-                                     [placeholder]="'Choose Date'">
+            <app-generic-date-picker [myForm]="group" [formControlChildName]="'value'" [label]="group.value.name"
+              [placeholder]="'Choose Date'">
             </app-generic-date-picker>
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
@@ -105,11 +101,9 @@
         <ng-container *ngIf="group.value.type === 'color'">
           <div class="form-group w-100 mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
-            <input class="owl-input text-white" required formControlName="value"
-                   [disabled]="true"
-                   [style.background]="group.value.value"
-                   [colorPicker]="group.value.value"
-                   (colorPickerChange)="setColor($event, group.controls.value)"/>
+            <input class="owl-input text-white" formControlName="value" [disabled]="true"
+              [style.background]="group.value.value" [colorPicker]="group.value.value"
+              (colorPickerChange)="setColor($event, group.controls.value)" />
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
         </ng-container>

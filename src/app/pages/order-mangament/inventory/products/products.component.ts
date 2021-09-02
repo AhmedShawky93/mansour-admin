@@ -1,3 +1,4 @@
+import { SettingService } from './../../../services/setting.service';
 import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
 import { Component, ElementRef, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from '@app/pages/services/products.service';
@@ -7,14 +8,15 @@ import { UploadFilesService } from '@app/pages/services/upload-files.service';
 import { environment } from '@env/environment';
 import { AuthService } from '@app/shared/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { animate, state, style, transition, trigger, } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/Rx';
 import { Subject } from 'rxjs/Rx';
 import { tap } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounce } from 'lodash';
+import { ShowAffiliateService } from '@app/pages/services/show-affiliate.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DraftProductService } from '@app/pages/services/draft-product.service';
 import { s } from '@angular/core/src/render3';
@@ -119,6 +121,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     page: 1,
   };
   website_url: any;
+  isAffiliate: any;
   historyRoute: any;
   searchValueProduct: string;
   stateCloning: boolean;
@@ -133,6 +136,9 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService,
+    private showAffiliateService: ShowAffiliateService,
+    private settingsService: SettingService,
+
     private route: ActivatedRoute,
     private router: Router,
     private toasterService: ToastrService,
@@ -221,7 +227,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.exportStock = environment.api + '/admin/products/export_prices?token=' + token;
 
-    this.website_url = environment.website_url;
+    this.website_url = JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl;
 
   }
 
@@ -273,6 +279,19 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
         queryParams: params,
         queryParamsHandling: 'merge'
       });
+  }
+
+
+  getAffiliate() {
+    this.showAffiliateService.showAffiliate.subscribe((rep: any) => {
+      console.log('#### rep ==>', rep)
+      this.isAffiliate = rep;
+    })
+    // this.settingsService.getSettings().subscribe((response: any) => {
+    //   console.log(response.data.enable_affiliate)
+    //   this.showAffiliateService.showAffiliate.next(response.data.enable_affiliate);
+    //   this.isAffiliate = response.data.enable_affiliate;
+    // })
   }
 
   search() {
@@ -854,7 +873,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   encodedProductName(name) {
-    return name.replace(/\s/g, '-').replace('/', '-')
+    return name.replace(/\s/g, '-').replace('/', '-').replace('(', '-').replace(')', '-')
   }
 
   confirmDelete() {

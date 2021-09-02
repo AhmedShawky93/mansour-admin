@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<ngx-loading-bar [color]="'#4AC356'"></ngx-loading-bar>
 
 <nav class="">
   <div class="row nav nav-tabs" id="nav-tab" role="tablist">
@@ -10,6 +10,10 @@
       aria-controls="nav-profile" aria-selected="false">Mobilaty Stars</a> -->
     <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-system" role="tab"
       aria-controls="nav-profile" aria-selected="false">System Settings</a>
+    <!-- <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-stars" role="tab"
+      aria-controls="nav-profile" aria-selected="false">Mobilaty Stars</a> -->
+    <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#configuration-settings" role="tab"
+      aria-controls="nav-profile" aria-selected="false">Configuration Settings</a>
   </div>
 </nav>
 
@@ -174,6 +178,10 @@
 
   </div>
 
+  <div class="tab-pane fade" id="configuration-settings" role="tabpanel" aria-labelledby="configuration-settings-tab">
+    <app-dynamic-settings></app-dynamic-settings>
+
+  </div>
   <!-- <div class="tab-pane terms fade" id="nav-stars" role="tabpanel" aria-labelledby="nav-contact-tab">
     <div class="min-height: 200px;">
       <app-loader *ngIf="settingsLoading"></app-loader>
@@ -325,7 +333,8 @@
             <input formControlName="except_cod_amount" min="0" type="number" id="except_cod_amount" class="owl-input"
               name="except_cod_amount"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46" />
-            <small id="except_cod_amount_help" class="form-text text-muted">Orders with amount above this number cannot use COD payment</small>
+            <small id="except_cod_amount_help" class="form-text text-muted">Orders with amount above this number cannot
+              use COD payment</small>
           </div>
         </div>
 
@@ -357,6 +366,72 @@
               day</small>
           </div>
         </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Affiliate pending days</label>
+            <input formControlName="affiliate_pending_days" type="text" id="affiliate_pending_days" class="owl-input"
+              name="affiliate_pending_days" />
+            <div
+              *ngIf="systemForm.controls.affiliate_pending_days.invalid && (systemForm.controls.affiliate_pending_days.dirty || systemForm.controls.affiliate_pending_days.touched)"
+              class="alert alert-danger">
+              <div *ngIf="systemForm.controls.affiliate_pending_days.errors.min">
+                pending days mustn't be negative number.
+              </div>
+              <div *ngIf="systemForm.controls.affiliate_pending_days.errors.pattern">
+                pending days must be number.
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Enable Affiliate System</label>
+            <label class="switch">
+              <input type="checkbox" formControlName="enable_affiliate">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Show soft launch bar</label>
+            <label class="switch">
+            <input formControlName="showSoftLaunchBar" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+
+        <ng-container *ngIf="systemForm.controls.showSoftLaunchBar.value">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">Softbar text ar</label>
+              <input formControlName="softbar_text_ar" type="text" id="softbarTextAr" class="owl-input"
+                name="softbar_text_ar" />
+            </div>
+          </div>
+  
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">Softbar text er</label>
+              <input formControlName="softbar_text_en" type="text" id="softbarTextEn" class="owl-input"
+                name="softbar_text_en" />
+            </div>
+          </div>
+  
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">Softbar background color</label>
+              <input formControlName="softbar_bg_color" type="text" id="softbarBgColor" class="owl-input"
+                name="softbar_bg_color" (blur)="checkColorValidity(systemForm.controls.softbar_bg_color.value)" />
+            </div>
+          </div>
+        </ng-container> -->
 
         <div class="col-md-4" style="margin-top: 25px;">
           <button class="btn btn-green btn-rounded btn-owls" [appLoading]="systemLoading">save</button>

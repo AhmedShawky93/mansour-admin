@@ -4,7 +4,8 @@
   <div class="row mb-2">
     <div *ngIf="selectedMainProduct" class="col-lg-12">
       <div (click)="backToProducts()" class="d-inline-flex back-arrow ">
-        <mat-icon class="mx-2">arrow_back_ios</mat-icon>
+        <!-- <mat-icon class="mx-2">arrow_back_ios</mat-icon> -->
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
         <p>Back</p>
       </div>
     </div>
@@ -21,7 +22,7 @@
           type="text">
       </div>
     </div>
-    <div class="col-md-3  col-xs-12 text-right">
+    <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
         <!--<button (click)="createNew()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center" *ngIf="!selectedMainProduct">+ New product</div>
@@ -142,6 +143,8 @@
         <!-- <th  scope="col" class="hidden">creator</th> -->
         <th scope="col">Stock
         </th>
+        <th scope="col" *ngIf='isAffiliate'>Commission
+        </th>
         <!--<th scope="col">main price</th>
       <th scope="col">discount price</th>-->
         <th scope="col">action</th>
@@ -151,7 +154,17 @@
 
       <tr
         *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let idx = index;">
-        <td> <span class="text-danger" *ngIf="product.isDraft">(Draft) </span>{{product.sku}}</td>
+        <td class="relative">{{product.sku | summary : 24 }}
+          <div *ngIf="product.sku.length >= 20" class="hover-reason text-left">
+            <!--<div class="head">
+            product name
+          </div>-->
+            <div class="body">
+              {{product.sku}}
+            </div>
+          </div>
+
+        </td>
         <td class="relative">{{product.name | summary : 24 }}
           <div *ngIf="product.name.length >= 20" class="hover-reason text-left">
             <!--<div class="head">
@@ -175,9 +188,11 @@
         </td>
         <!-- <td class="hidden">{{product.creator?.name}}</td> -->
         <td class="hidden">{{product.stock ? product.stock : '0'}}</td>
+        <td *ngIf='isAffiliate'>{{product.affiliate_commission ? product.affiliate_commission : '-'}}</td>
+
         <!--<td>{{product.price}}</td>
       <td>{{product.discount_price ? product.discount_price : "-"}}</td>-->
-        <td *ngIf="!product.isDraft">
+        <td>
           <!--<a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
           <i class="icon-View"></i>
         </a>-->
@@ -204,9 +219,9 @@
             <div [hidden]="!product.showReason" class="reason-popup text-left">
               <textarea [(ngModel)]="product.notes" class="owl-input" name=""
                 placeholder="Why Do yo want to deactivate this product?"></textarea>
-                <!-- [disabled]="!product.notes"
+              <!-- [disabled]="!product.notes"
                 [ngClass]="{'not-allowed' : !product.notes }" -->
-              <button (click)="submitDeactivate(product)"  class="btn btn-owls btn-rounded btn-green2">submit
+              <button (click)="submitDeactivate(product)" class="btn btn-owls btn-rounded btn-green2">submit
               </button>
               <button (click)="cancelDeactivate(product)" class="btn btn-owls btn-rounded btn-blue2 cancel-check">cancel
               </button>
