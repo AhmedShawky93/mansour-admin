@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
         this.systemConfig.envApi.env.checkoutUrl = res.data.WEBSITE_URL?res.data.WEBSITE_URL:'';
         this.systemConfig.brandRelatedVariables.brand = res.data.APP_NAME ? res.data.APP_NAME : 'Dashboard';
         this.systemConfig.brandRelatedVariables.brandArabic = res.data.APP_NAME_AR ? res.data.APP_NAME_AR : 'Dashboard';
-        this.systemConfig.brandRelatedVariables.branchType = res.data.BRANCH_TYPES_ARRAY?res.data.BRANCH_TYPES_ARRAY:[];
+        this.systemConfig.brandRelatedVariables.branchType = res.data.BRANCH_TYPES_ARRAY?JSON.parse(res.data.BRANCH_TYPES_ARRAY):[];
         this.systemConfig.brandRelatedVariables.email = res.data.ONLINE_EMAIL?res.data.ONLINE_EMAIL:'';
         this.systemConfig.brandRelatedVariables.hotline = res.data.HOTPHONE?res.data.HOTPHONE:'';
         this.systemConfig.brandRelatedVariables.loginApi =  res.data.WEBSITE_URL?res.data.WEBSITE_URL:'';
