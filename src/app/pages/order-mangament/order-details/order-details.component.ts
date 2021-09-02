@@ -28,7 +28,7 @@ declare var $: any;
       state(
         'out',
         style({
-          transform: 'translate3d(-100%, 0, 0)',
+          transform: 'translate3d(-110%, 0, 0)',
         })
       ),
       transition('in => out', animate('300ms ease-in-out')),
