@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
       logoWhite: "",
     },
     brand_color: '',
-    enable_affiliate: false;
+    enable_affiliate: false
   };
   ConfigLoaded = false;
   constructor(
