@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
         this.systemConfig.brandRelatedVariables.email = res.data.ONLINE_EMAIL?res.data.ONLINE_EMAIL:'';
         this.systemConfig.brandRelatedVariables.hotline = res.data.HOTPHONE?res.data.HOTPHONE:'';
         this.systemConfig.brandRelatedVariables.loginApi =  res.data.WEBSITE_URL?res.data.WEBSITE_URL:'';
-        this.systemConfig.brands.logo = res.data.LOGO_IMAGE_URL?res.data.LOGO_IMAGE_URL:'';
+        this.systemConfig.brands.logo = res.data.COLORED_LOGO_EN?res.data.COLORED_LOGO_EN:'';
         this.systemConfig.brands.logoBlack = res.data.BLACK_LOGO?res.data.BLACK_LOGO:'';
         this.systemConfig.brands.favIcon = res.data.FAV_ICON?res.data.FAV_ICON:'';
         this.systemConfig.brands.logoWhite = res.data.WHITE_LOGO_EN?res.data.WHITE_LOGO_EN:'';
