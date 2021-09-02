@@ -162,7 +162,6 @@ import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer
     OrderDeliveryDetailsComponent,
     AddEditOrderComponent,
     AddEditCustomerComponent,
-    AddEditAddressComponent,
     ImportsComponent,
     DynamicSettingsComponent,
     MenuCreatorComponent,
