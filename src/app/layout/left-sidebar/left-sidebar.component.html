@@ -42,6 +42,7 @@
             <a routerLink="/pages/products" routerLinkActive="active">
               products</a>
           </li>
+          
           <li *ngxPermissionsOnly="['ADMIN', 'View Brands']">
             <a routerLink="/pages/brands" routerLinkActive="active"> Brands</a>
           </li>
@@ -102,7 +103,8 @@
           <span>Orders</span>
         </a>
       </li>
-
+      
+      
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
         <a routerLink="/pages/transactions">
           <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Transactions"></i>
@@ -126,6 +128,13 @@
         <a routerLink="/pages/manage-customer" routerLinkActive="active">
           <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Customers"></i>
           <span>Customers</span>
+        </a>
+      </li>
+
+      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
+        <a routerLink="/pages/imports">
+          <i class="fa fa-download" data-toggle="tooltip" data-placement="right" title="Imports"></i>
+          <span>Imports</span>
         </a>
       </li>
 

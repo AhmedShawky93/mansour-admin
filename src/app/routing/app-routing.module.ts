@@ -34,6 +34,7 @@ import { ReportsComponent } from '@app/pages/reports/reports.component';
 import { OrdersDeliveryComponent } from '@app/pages/order-mangament/orders-delivery/orders-delivery.component';
 import { OrderDeliveryDetailsComponent } from '@app/pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
 import { AdminLogComponent } from '@app/pages/mangament-users/admin-log/admin-log.component';
+import { ImportsComponent } from '@app/pages/imports/imports.component';
 import { MenuCreatorComponent } from '@app/pages/menu-creator/menu-creator.component';
 import { StaticPagesComponent } from '@app/pages/static-pages/static-pages.component';
 
@@ -200,6 +201,12 @@ const routes: Routes = [
         component: ContactusComponent,
         canActivate: [NgxPermissionsGuard],
         data: { title: "Contact Us", permissions: { only: ['ADMIN', 'View Contacts'], redirectTo: '/pages/home' } }
+      },
+      {
+        path: "imports",
+        component: ImportsComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {title: "Imports", permissions: {only: ['ADMIN', 'View Imports'], redirectTo: '/pages/home'}}
       },
       {
         path: "options",

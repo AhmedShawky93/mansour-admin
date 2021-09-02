@@ -105,9 +105,12 @@ import { AddEditOrderComponent } from './pages/order-mangament/orders/add-edit-o
 import { AddEditCustomerComponent } from './pages/mangament-users/manage-castomer/add-edit-customer/add-edit-customer.component';
 import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { ImportsComponent } from './pages/imports/imports.component';
+import {ProgressBarModule} from "angular-progress-bar"
 import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.component';
 import { StaticPagesComponent } from './pages/static-pages/static-pages.component';
 import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edit-page.component';
+import { AddEditAddressComponent } from './pages/mangament-users/manage-castomer/add-edit-address/add-edit-address.component';
 
 
 
@@ -159,6 +162,7 @@ import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edi
     OrderDeliveryDetailsComponent,
     AddEditOrderComponent,
     AddEditCustomerComponent,
+    ImportsComponent,
     DynamicSettingsComponent,
     MenuCreatorComponent,
     StaticPagesComponent,
@@ -197,7 +201,8 @@ import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edi
     SharedModule,
     NgxPermissionsModule.forRoot(),
     AngularEditorModule,
-    ColorPickerModule
+    ColorPickerModule,
+    ProgressBarModule
   ],
   exports: [
     DynamicSettingsComponent
