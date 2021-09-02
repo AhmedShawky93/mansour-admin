@@ -150,8 +150,8 @@
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
-
-        <td>
+        <td *ngIf="!import.progress">-</td>
+        <td *ngIf="import.progress">
           <!-- <mat-progress-bar mode="determinate" [value]="import?.progressVal"></mat-progress-bar> -->
           <progress-bar [progress]="import.progress" [color]="'#e4002c'">
           </progress-bar>
@@ -169,11 +169,36 @@
             >
               Actions
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" (click)='showItem(import)'>
-              <a class="dropdown-item" href='{{import.file_path}}'>Download File</a>
-              <a class="dropdown-item" *ngIf="import.state.id == '2' || import.state.id == '5'" (click)='cancelImport(import.id)'>Cancel</a>
-              <a class="dropdown-item" *ngIf="import.state.id == '1' || import.state.id == '3' || import.state.id == '4'" (click)='retryImport(import.id)'>Restart</a>
-              <a class="dropdown-item" *ngIf="import.state.id == '3'" (click)='reportPopup(import)'>Report</a>
+            <div
+              class="dropdown-menu"
+              aria-labelledby="dropdownMenuButton"
+              (click)="showItem(import)"
+            >
+              <a class="dropdown-item" href="{{ import.file_path }}"
+                >Download File</a
+              >
+              <a
+                class="dropdown-item"
+                *ngIf="import.state.id == '2' || import.state.id == '5'"
+                (click)="cancelImport(import.id)"
+                >Cancel</a
+              >
+              <a
+                class="dropdown-item"
+                *ngIf="
+                  import.state.id == '1' ||
+                  import.state.id == '3' ||
+                  import.state.id == '4'
+                "
+                (click)="retryImport(import.id)"
+                >Restart</a
+              >
+              <a
+                class="dropdown-item"
+                *ngIf="import.state.id == '3'"
+                (click)="reportPopup(import)"
+                >Report</a
+              >
             </div>
           </div>
         </td>
@@ -256,15 +281,30 @@
                 </div>
               </div>
               <div class="col-md-9 p-0 mt-2">
-                <div class="form-group" *ngIf="importForm.get('type').value == 7">
+                <div
+                  class="form-group"
+                  *ngIf="importForm.get('type').value == 7"
+                >
                   <label for="">List</label>
-                  <select type="text" class="owl-input" formControlName="list_id" name="list_id">
+                  <select
+                    type="text"
+                    class="owl-input"
+                    formControlName="list_id"
+                    name="list_id"
+                  >
                     <option value="" selected>Select List</option>
-                    <option value="{{list.id}}" *ngFor="let list of lists">{{list.name_en}}</option>
+                    <option value="{{ list.id }}" *ngFor="let list of lists">
+                      {{ list.name_en }}
+                    </option>
                   </select>
                   <div
-                    *ngIf="importForm.controls.list_id.invalid && (importForm.controls.list_id.dirty || importForm.controls.list_id.touched)"
-                    class="alert alert-danger">
+                    *ngIf="
+                      importForm.controls.list_id.invalid &&
+                      (importForm.controls.list_id.dirty ||
+                        importForm.controls.list_id.touched)
+                    "
+                    class="alert alert-danger"
+                  >
                     <div *ngIf="importForm.controls.list_id.errors.required">
                       List Is Required.
                     </div>
@@ -318,7 +358,9 @@
           <div class="modal-footer" style="justify-content: center">
             <button
               type="submit"
-              class="btn-owls btn-rounded btn-green btn-blue2"
+              [disabled]='buttonSpinner'
+              [appLoading]="buttonSpinner"
+              class="btn-owls btn-rounded btn-green btn-blue2 position-relative"
             >
               Import
             </button>
@@ -342,42 +384,27 @@
               (click)="closePopup()"
             ></i>
           </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+          <div class="first-box">
             <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
+              You're importing a <span>Brand</span> file. Approximately
+              <span>{{ totalCount }}</span> rows.
             </p>
           </div>
 
           <ul class="list-unstyled">
             <li>
-              <h6>
-                Name : <span>{{ result?.brand }}</span>
-              </h6>
+              <h6>Name :</h6>
+              <span>{{ result?.brand }}</span>
             </li>
             <li>
-              <h6>Image : <img src="{{ result?.image }}" /></h6>
+              <h6>Image :</h6>
+              <img
+                src="{{ result?.image }}"
+                default="assets/img/placeholder70.png"
+                onError="this.src='assets/img/placeholder70.png';"
+              />
             </li>
           </ul>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import" (click)="submitImport()">
-                import product
-              </button>
-            </div>
-          </div>
         </section>
       </ng-container>
       <ng-container *ngIf="!step1 && type == '2'">
@@ -390,41 +417,15 @@
               (click)="closePopup()"
             ></i>
           </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+          <div class="first-box">
             <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
+              You're importing a <span>Product</span> file. Approximately
+              <span>{{ totalCount }}</span> rows.
             </p>
           </div>
           <ul class="list-unstyled">
             <li>
-              <h6>Name :</h6>
-              <span>{{ result?.name }}</span>
-            </li>
-            <li>
-              <h6>description :</h6>
-              <span>{{ result?.description }}</span>
-            </li>
-            <li>
-              <h6>product status :</h6>
-              <span [ngSwitch]="result.active">
-                <span *ngSwitchCase="0">Not active</span>
-                <span *ngSwitchCase="1">Active</span>
-                <span *ngSwitchDefault>-</span>
-              </span>
-            </li>
-            <li>
-              <h6>type :</h6>
+              <h6>import type :</h6>
               <span [ngSwitch]="result.type">
                 <span *ngSwitchCase="1">Brands</span>
                 <span *ngSwitchCase="2">Product</span>
@@ -440,6 +441,23 @@
               </span>
             </li>
             <li>
+              <h6>Name :</h6>
+              <span>{{ result?.name }}</span>
+            </li>
+            <li>
+              <h6>description:</h6>
+              <p [innerHtml]="result?.description"></p>
+            </li>
+            <li>
+              <h6>product status :</h6>
+              <span [ngSwitch]="result.active">
+                <span *ngSwitchCase="0">Not active</span>
+                <span *ngSwitchCase="1">Active</span>
+                <span *ngSwitchDefault>-</span>
+              </span>
+            </li>
+
+            <li>
               <h6>category :</h6>
               <span>{{ result?.category }}</span>
             </li>
@@ -449,7 +467,11 @@
             </li>
             <li>
               <h6>Image :</h6>
-              <img src="{{ result?.main_image }}" />
+              <img
+                src="{{ result?.main_image }}"
+                default="assets/img/placeholder70.png"
+                onError="this.src='assets/img/placeholder70.png';"
+              />
             </li>
           </ul>
           <table class="table">
@@ -470,13 +492,6 @@
               </tr>
             </tbody>
           </table>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import">import product</button>
-            </div>
-          </div>
         </section>
       </ng-container>
       <ng-container *ngIf="!step1 && type == '3'">
@@ -489,20 +504,10 @@
               (click)="closePopup()"
             ></i>
           </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+          <div class="first-box">
             <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
+              You're importing a <span>Category</span> file. Approximately
+              <span>{{ totalCount }}</span> rows.
             </p>
           </div>
 
@@ -521,18 +526,13 @@
             </li>
             <li>
               <h6>Image :</h6>
-              <img src="{{ result?.subcategory_image }}" />
+              <img
+                src="{{ result?.subcategory_image }}"
+                default="assets/img/placeholder70.png"
+                onError="this.src='assets/img/placeholder70.png';"
+              />
             </li>
           </ul>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import" (click)="submitImport()">
-                import product
-              </button>
-            </div>
-          </div>
         </section>
       </ng-container>
       <ng-container *ngIf="!step1 && type == '4'">
@@ -545,20 +545,10 @@
               (click)="closePopup()"
             ></i>
           </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+          <div class="first-box">
             <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
+              You're importing a <span>Option</span> file. Approximately
+              <span>{{ totalCount }}</span> rows.
             </p>
           </div>
 
@@ -576,15 +566,6 @@
               <span>{{ result?.values }}</span>
             </li>
           </ul>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import" (click)="submitImport()">
-                import product
-              </button>
-            </div>
-          </div>
         </section>
       </ng-container>
       <ng-container *ngIf="!step1 && type == '5'">
@@ -597,20 +578,10 @@
               (click)="closePopup()"
             ></i>
           </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+          <div class="first-box">
             <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
+              You're importing a <span>Group</span> file. Approximately
+              <span>{{ totalCount }}</span> rows.
             </p>
           </div>
 
@@ -636,15 +607,6 @@
               <span>{{ result?.subcategory_slug }}</span>
             </li>
           </ul>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import" (click)="submitImport()">
-                import product
-              </button>
-            </div>
-          </div>
         </section>
       </ng-container>
       <ng-container *ngIf="!step1 && type == '6'">
@@ -657,20 +619,10 @@
               (click)="closePopup()"
             ></i>
           </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+          <div class="first-box">
             <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
+              You're importing a <span>Stock</span> file. Approximately
+              <span>{{ totalCount }}</span> rows.
             </p>
           </div>
 
@@ -704,15 +656,6 @@
               <span>{{ result?.stock }}</span>
             </li>
           </ul>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import" (click)="submitImport()">
-                import product
-              </button>
-            </div>
-          </div>
         </section>
       </ng-container>
       <ng-container *ngIf="!step1 && type == '7'">
@@ -725,20 +668,10 @@
               (click)="closePopup()"
             ></i>
           </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+          <div class="first-box">
             <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
+              You're importing a <span>Lists</span> file. Approximately
+              <span>{{ totalCount }}</span> rows.
             </p>
           </div>
 
@@ -752,15 +685,6 @@
               <span>{{ result?.sku }}</span>
             </li>
           </ul>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import" (click)="submitImport()">
-                import product
-              </button>
-            </div>
-          </div>
         </section>
       </ng-container>
       <ng-container *ngIf="!step1 && type == '8'">
@@ -773,20 +697,10 @@
               (click)="closePopup()"
             ></i>
           </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+          <div class="first-box">
             <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
+              You're importing a <span>Promo</span> file. Approximately
+              <span>{{ totalCount }}</span> rows.
             </p>
           </div>
 
@@ -805,7 +719,7 @@
             </li>
             <li>
               <h6>description :</h6>
-              <span>{{ result?.description }}</span>
+              <p [innerHtml]="result?.description"></p>
             </li>
             <li>
               <h6>expiration date :</h6>
@@ -820,15 +734,6 @@
               <span>{{ result?.type }}</span>
             </li>
           </ul>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import" (click)="submitImport()">
-                import product
-              </button>
-            </div>
-          </div>
         </section>
       </ng-container>
       <ng-container *ngIf="!step1 && type == '9'">
@@ -841,20 +746,10 @@
               (click)="closePopup()"
             ></i>
           </div>
-          <div class="first-box d-flex">
-            <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>
+          <div class="first-box">
             <p>
-              You're importing a file into shopify. if this preview doesn't look
-              right ,
-              <span>you can try to change the order of column heading</span>
-            </p>
-          </div>
-          <div class="second-box">
-            <p>
-              You will be importing approximately <span>3 product</span> with a
-              total of {{ totalCount }} SKUs and <span>3 images</span> importing
-              will <span>not overwrite any existing products</span> that have
-              the same product handle.
+              You're importing a <span>Cities</span> file. Approximately
+              <span>{{ totalCount }} </span>rows.
             </p>
           </div>
 
@@ -876,22 +771,24 @@
               <span>{{ result?.city_name }}</span>
             </li>
           </ul>
-          <div class="d-flex justify-content-between p-2">
-            <button class="btn back" (click)="backStep()">back</button>
-            <div>
-              <button class="btn cancel" (click)="closePopup()">cancel</button>
-              <button class="btn ml-2 import" (click)="submitImport()">
-                import product
-              </button>
-            </div>
-          </div>
         </section>
       </ng-container>
+      <div
+        class="d-flex justify-content-between p-2"
+        *ngIf="!step1 && type != '0'"
+      >
+        <button class="btn back" (click)="backStep()">back</button>
+        <div>
+          <button class="btn cancel" (click)="closePopup()">cancel</button>
+          <button class="btn ml-2 import" (click)="submitImport()"  [disabled]='buttonSpinner'
+          [appLoading]="buttonSpinner">
+            import product
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-
 
 <div
   class="modal fade"
@@ -901,7 +798,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content" >
+    <div class="modal-content">
       <div class="d-flex justify-content-end p-3">
         <i
           class="fa fa-times"
@@ -909,12 +806,15 @@
           (click)="closeReportPopup()"
         ></i>
       </div>
-        <ul class="mb-0 pl-3 pr-3 pb-3">
-            <li class="d-flex justify-content-between"  *ngFor='let report of reports'>
-                <h6>{{report?.name}} : </h6>
-                <span>{{report?.value}}</span>
-            </li>
-        </ul>
+      <ul class="mb-0 pl-3 pr-3 pb-3">
+        <li
+          class="d-flex justify-content-between"
+          *ngFor="let report of reports"
+        >
+          <h6>{{ report?.name }} :</h6>
+          <span>{{ report?.value }}</span>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

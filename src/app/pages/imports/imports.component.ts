@@ -21,6 +21,7 @@ declare var $: any;
 export class ImportsComponent implements OnInit {
   step1: boolean;
   loadingSpinner: boolean;
+  buttonSpinner: boolean;
   type: string;
   total: number;
   totalCount: number;
@@ -60,6 +61,7 @@ export class ImportsComponent implements OnInit {
     this.step1 = false;
     this.type = "2";
     this.showMSG = false;
+    this.buttonSpinner = false;
   }
 
   ngOnInit() {
@@ -147,6 +149,7 @@ export class ImportsComponent implements OnInit {
       this.markFormGroupTouched(this.importForm);
       return;
     }
+    this.buttonSpinner = true;
     const formData = new FormData();
     formData.append("file", this.importForm.get("fileSource").value);
     formData.append("type", this.importForm.get("type").value);
@@ -160,6 +163,7 @@ export class ImportsComponent implements OnInit {
         this.type = this.importForm.get("type").value;
         this.result = response.data.first_row;
         this.totalCount = response.data.total_rows_count;
+        this.buttonSpinner = false;
       } else {
         this.showMSG = true;
       }
@@ -167,12 +171,14 @@ export class ImportsComponent implements OnInit {
   }
 
   submitImport() {
+    this.buttonSpinner = true;
     const formData = new FormData();
     formData.append("file", this.importForm.get("fileSource").value);
     formData.append("type", this.importForm.get("type").value);
     if (this.importForm.get("type").value == "7") {
       formData.append("list_id", this.importForm.get("list_id").value);
     }
+    
     this.importsService.import(formData).subscribe((response: any) => {
       console.log(response);
       if (response.code === 200) {
@@ -180,6 +186,7 @@ export class ImportsComponent implements OnInit {
         this.p = 1;
         this.filter.page = 1;
         this.getData();
+        this.buttonSpinner = false;
       } else {
         this.toastrService.error(response.message);
       }
