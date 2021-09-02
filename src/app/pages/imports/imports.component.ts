@@ -50,6 +50,7 @@ export class ImportsComponent implements OnInit {
   importForm: FormGroup;
   downloadLink = "";
   showMSG: boolean;
+  reports = [];
   constructor(
     private importsService: ImportsService,
     private auth: AuthService,
@@ -102,9 +103,7 @@ export class ImportsComponent implements OnInit {
     });
   }
 
-  closePopup() {
-    $("#newImport").modal("hide");
-  }
+
 
   generateLink() {
     this.downloadLink =
@@ -240,6 +239,17 @@ export class ImportsComponent implements OnInit {
     console.log(item);
   }
 
+  reportPopup(item) {
+    this.reports = [];
+    $("#repoort").modal("show");
+    for (const property in item.report) {
+      this.reports.push({
+        name: property.split("_").join(" ").toUpperCase(),
+        value: item.report[property],
+      });
+    }
+  }
+
   retryImport(id) {
     this.importsService.retry(id).subscribe((response: any) => {
       console.log(response);
@@ -255,20 +265,28 @@ export class ImportsComponent implements OnInit {
   }
 
   cancelImport(id) {
-    this.importsService.cancel({history_id:id}).subscribe((response: any) => {
-      console.log(response);
-      if (response.code === 200) {
-        this.toastrService.success(response.message);
-        this.p = 1;
-        this.filter.page = 1;
-        this.getData();
-      } else {
-        this.toastrService.error(response.message);
-      }
-    });
+    this.importsService
+      .cancel({ history_id: id })
+      .subscribe((response: any) => {
+        console.log(response);
+        if (response.code === 200) {
+          this.toastrService.success(response.message);
+          this.p = 1;
+          this.filter.page = 1;
+          this.getData();
+        } else {
+          this.toastrService.error(response.message);
+        }
+      });
   }
 
 
 
+  closePopup() {
+    $("#newImport").modal("hide");
+  }
 
+  closeReportPopup() {
+    $("#repoort").modal("hide");
+  }
 }

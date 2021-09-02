@@ -173,6 +173,7 @@
               <a class="dropdown-item" href='{{import.file_path}}'>Download File</a>
               <a class="dropdown-item" *ngIf="import.state.id == '2' || import.state.id == '5'" (click)='cancelImport(import.id)'>Cancel</a>
               <a class="dropdown-item" *ngIf="import.state.id == '1' || import.state.id == '3' || import.state.id == '4'" (click)='retryImport(import.id)'>Restart</a>
+              <a class="dropdown-item" *ngIf="import.state.id == '3'" (click)='reportPopup(import)'>Report</a>
             </div>
           </div>
         </td>
@@ -886,6 +887,34 @@
           </div>
         </section>
       </ng-container>
+    </div>
+  </div>
+</div>
+
+
+
+<div
+  class="modal fade"
+  id="repoort"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" >
+      <div class="d-flex justify-content-end p-3">
+        <i
+          class="fa fa-times"
+          aria-hidden="true"
+          (click)="closeReportPopup()"
+        ></i>
+      </div>
+        <ul class="mb-0 pl-3 pr-3 pb-3">
+            <li class="d-flex justify-content-between"  *ngFor='let report of reports'>
+                <h6>{{report?.name}} : </h6>
+                <span>{{report?.value}}</span>
+            </li>
+        </ul>
     </div>
   </div>
 </div>

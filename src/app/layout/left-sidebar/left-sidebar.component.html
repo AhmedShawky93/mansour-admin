@@ -42,6 +42,7 @@
             <a routerLink="/pages/products" routerLinkActive="active">
               products</a>
           </li>
+          
           <li *ngxPermissionsOnly="['ADMIN', 'View Brands']">
             <a routerLink="/pages/brands" routerLinkActive="active"> Brands</a>
           </li>
@@ -93,6 +94,12 @@
         <a routerLink="/pages/orders">
           <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Orders"></i>
           <span>Orders</span>
+        </a>
+      </li>
+      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
+        <a routerLink="/pages/imports">
+          <i class="fa fa-download" data-toggle="tooltip" data-placement="right" title="Imports"></i>
+          <span>Imports</span>
         </a>
       </li>
       
