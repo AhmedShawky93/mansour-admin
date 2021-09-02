@@ -519,7 +519,19 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     this.saveChanges();
   }
 
+  fixColorCode(){
+    this.formattedJson['menu_background_color'] = this.formattedJson['menu_background_color'].replace(' ', '');
+    this.formattedJson['drop_menu_background_color'] = this.formattedJson['drop_menu_background_color'].replace(' ', '');
+    this.formattedJson['level1_text_color'] = this.formattedJson['level1_text_color'].replace(' ', '');
+    this.formattedJson['level1_hover_color'] = this.formattedJson['level1_hover_color'].replace(' ', '');
+    this.formattedJson['level2_text_color'] = this.formattedJson['level2_text_color'].replace(' ', '');
+    this.formattedJson['level2_hover_color'] = this.formattedJson['level2_hover_color'].replace(' ', '');
+    this.formattedJson['level3_text_color'] = this.formattedJson['level3_text_color'].replace(' ', '');
+    this.formattedJson['level3_hover_color'] = this.formattedJson['level3_hover_color'].replace(' ', '');
+  }
+
   updateColorsTest() {
+    this.fixColorCode();
     this.formattedJson['menu_background_color'] ? document.documentElement.style.setProperty('--dynamic-menu-background-color', this.formattedJson['menu_background_color']) : document.documentElement.style.setProperty('--dynamic-menu-background-color', '--second-color');
     this.formattedJson['drop_menu_background_color'] ? document.documentElement.style.setProperty('--dynamic-drob-down-menu-background-color', this.formattedJson['drop_menu_background_color']) : document.documentElement.style.setProperty('--dynamic-drob-down-menu-background-color', 'white');
     this.formattedJson['level1_text_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-1-color', this.formattedJson['level1_text_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-1-color', 'white');
