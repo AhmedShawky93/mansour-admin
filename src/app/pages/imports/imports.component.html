@@ -353,12 +353,18 @@
               </h6>
             </div>
           </div>
-          <h6 class="alert alert-danger" *ngIf="showMSG">Failed to import</h6>
+          <div *ngIf="showMSG">
+            <h6 class="alert alert-danger pt-0 pb-0 m-0">
+              There are some missing fields in the import sheet:
+            </h6>
+            <h6 class="alert alert-danger">{{ messageError }}</h6>
+            <p></p>
+          </div>
 
           <div class="modal-footer" style="justify-content: center">
             <button
               type="submit"
-              [disabled]='buttonSpinner'
+              [disabled]="buttonSpinner"
               [appLoading]="buttonSpinner"
               class="btn-owls btn-rounded btn-green btn-blue2 position-relative"
             >
@@ -393,11 +399,11 @@
 
           <ul class="list-unstyled">
             <li>
-              <h6>Name :</h6>
+              <h6>Name:</h6>
               <span>{{ result?.brand }}</span>
             </li>
             <li>
-              <h6>Image :</h6>
+              <h6>Image:</h6>
               <img
                 src="{{ result?.image }}"
                 default="assets/img/placeholder70.png"
@@ -425,8 +431,8 @@
           </div>
           <ul class="list-unstyled">
             <li>
-              <h6>import type :</h6>
-              <span [ngSwitch]="result.type">
+              <h6>import type:</h6>
+              <span [ngSwitch]="importForm.get('type').value">
                 <span *ngSwitchCase="1">Brands</span>
                 <span *ngSwitchCase="2">Product</span>
                 <span *ngSwitchCase="3">Category</span>
@@ -436,12 +442,11 @@
                 <span *ngSwitchCase="7">Lists</span>
                 <span *ngSwitchCase="8">Promo</span>
                 <span *ngSwitchCase="9">Cities</span>
-                <span *ngSwitchCase="10">Delivers</span>
                 <span *ngSwitchDefault>-</span>
               </span>
             </li>
             <li>
-              <h6>Name :</h6>
+              <h6>Name:</h6>
               <span>{{ result?.name }}</span>
             </li>
             <li>
@@ -449,7 +454,7 @@
               <p [innerHtml]="result?.description"></p>
             </li>
             <li>
-              <h6>product status :</h6>
+              <h6>product status:</h6>
               <span [ngSwitch]="result.active">
                 <span *ngSwitchCase="0">Not active</span>
                 <span *ngSwitchCase="1">Active</span>
@@ -458,15 +463,15 @@
             </li>
 
             <li>
-              <h6>category :</h6>
+              <h6>category:</h6>
               <span>{{ result?.category }}</span>
             </li>
             <li>
-              <h6>brand :</h6>
+              <h6>brand:</h6>
               <span>{{ result?.brand }}</span>
             </li>
             <li>
-              <h6>Image :</h6>
+              <h6>Image:</h6>
               <img
                 src="{{ result?.main_image }}"
                 default="assets/img/placeholder70.png"
@@ -513,19 +518,19 @@
 
           <ul class="list-unstyled">
             <li>
-              <h6>Category :</h6>
+              <h6>Category:</h6>
               <span>{{ result?.category }}</span>
             </li>
             <li>
-              <h6>Sub Category :</h6>
+              <h6>Sub Category:</h6>
               <span>{{ result?.subcategory }}</span>
             </li>
             <li>
-              <h6>Options :</h6>
+              <h6>Options:</h6>
               <span>{{ result?.subcategory_options }}</span>
             </li>
             <li>
-              <h6>Image :</h6>
+              <h6>Image:</h6>
               <img
                 src="{{ result?.subcategory_image }}"
                 default="assets/img/placeholder70.png"
@@ -554,15 +559,15 @@
 
           <ul class="list-unstyled">
             <li>
-              <h6>Option :</h6>
+              <h6>Option:</h6>
               <span>{{ result?.option }}</span>
             </li>
             <li>
-              <h6>Type :</h6>
+              <h6>Type:</h6>
               <span>{{ result?.type }}</span>
             </li>
             <li>
-              <h6>Values :</h6>
+              <h6>Values:</h6>
               <span>{{ result?.values }}</span>
             </li>
           </ul>
@@ -587,23 +592,23 @@
 
           <ul class="list-unstyled">
             <li>
-              <h6>category :</h6>
+              <h6>category:</h6>
               <span>{{ result?.category }}</span>
             </li>
             <li>
-              <h6>group :</h6>
+              <h6>group:</h6>
               <span>{{ result?.group }}</span>
             </li>
             <li>
-              <h6>group slug :</h6>
+              <h6>group slug:</h6>
               <span>{{ result?.group_slug }}</span>
             </li>
             <li>
-              <h6>sub category :</h6>
+              <h6>sub category:</h6>
               <span>{{ result?.subcategory }}</span>
             </li>
             <li>
-              <h6>sub category slug :</h6>
+              <h6>sub category slug:</h6>
               <span>{{ result?.subcategory_slug }}</span>
             </li>
           </ul>
@@ -628,7 +633,7 @@
 
           <ul class="list-unstyled">
             <li>
-              <h6>Active :</h6>
+              <h6>Active:</h6>
               <span [ngSwitch]="result.active">
                 <span *ngSwitchCase="0">Not active</span>
                 <span *ngSwitchCase="1">Active</span>
@@ -636,23 +641,23 @@
               </span>
             </li>
             <li>
-              <h6>group :</h6>
+              <h6>group:</h6>
               <span>{{ result?.group }}</span>
             </li>
             <li>
-              <h6>discount price :</h6>
+              <h6>discount price:</h6>
               <span>{{ result?.discount_price }}</span>
             </li>
             <li>
-              <h6>price :</h6>
+              <h6>price:</h6>
               <span>{{ result?.price }}</span>
             </li>
             <li>
-              <h6>sku :</h6>
+              <h6>sku:</h6>
               <span>{{ result?.sku }}</span>
             </li>
             <li>
-              <h6>stock :</h6>
+              <h6>stock:</h6>
               <span>{{ result?.stock }}</span>
             </li>
           </ul>
@@ -677,11 +682,11 @@
 
           <ul class="list-unstyled">
             <li>
-              <h6>name :</h6>
+              <h6>name:</h6>
               <span>{{ result?.name }}</span>
             </li>
             <li>
-              <h6>sku :</h6>
+              <h6>sku:</h6>
               <span>{{ result?.sku }}</span>
             </li>
           </ul>
@@ -706,7 +711,7 @@
 
           <ul class="list-unstyled">
             <li>
-              <h6>Active :</h6>
+              <h6>Active:</h6>
               <span [ngSwitch]="result.active">
                 <span *ngSwitchCase="0">Not active</span>
                 <span *ngSwitchCase="1">Active</span>
@@ -714,23 +719,23 @@
               </span>
             </li>
             <li>
-              <h6>amount :</h6>
+              <h6>amount:</h6>
               <span>{{ result?.amount }}</span>
             </li>
             <li>
-              <h6>description :</h6>
+              <h6>description:</h6>
               <p [innerHtml]="result?.description"></p>
             </li>
             <li>
-              <h6>expiration date :</h6>
+              <h6>expiration date:</h6>
               <span>{{ result?.expiration_date }}</span>
             </li>
             <li>
-              <h6>name :</h6>
+              <h6>name:</h6>
               <span>{{ result?.name }}</span>
             </li>
             <li>
-              <h6>type :</h6>
+              <h6>type:</h6>
               <span>{{ result?.type }}</span>
             </li>
           </ul>
@@ -755,19 +760,19 @@
 
           <ul class="list-unstyled">
             <li>
-              <h6>area name :</h6>
+              <h6>area name:</h6>
               <span>{{ result?.area_name }}</span>
             </li>
             <li>
-              <h6>city fees :</h6>
+              <h6>city fees:</h6>
               <span>{{ result?.city_fees }}</span>
             </li>
             <li>
-              <h6>city name :</h6>
+              <h6>city name:</h6>
               <span>{{ result?.city_name }}</span>
             </li>
             <li>
-              <h6>city name :</h6>
+              <h6>city name:</h6>
               <span>{{ result?.city_name }}</span>
             </li>
           </ul>
@@ -780,8 +785,12 @@
         <button class="btn back" (click)="backStep()">back</button>
         <div>
           <button class="btn cancel" (click)="closePopup()">cancel</button>
-          <button class="btn ml-2 import" (click)="submitImport()"  [disabled]='buttonSpinner'
-          [appLoading]="buttonSpinner">
+          <button
+            class="btn ml-2 import"
+            (click)="submitImport()"
+            [disabled]="buttonSpinner"
+            [appLoading]="buttonSpinner"
+          >
             import product
           </button>
         </div>

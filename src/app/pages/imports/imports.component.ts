@@ -51,6 +51,7 @@ export class ImportsComponent implements OnInit {
   importForm: FormGroup;
   downloadLink = "";
   showMSG: boolean;
+  messageError:string = '';
   reports = [];
   constructor(
     private importsService: ImportsService,
@@ -114,7 +115,7 @@ export class ImportsComponent implements OnInit {
       this.importForm.get("type").value +
       "&token=" +
       this.auth.getToken();
-
+    console.log(this.importForm.get("type").value)
     if (this.importForm.get("type").value == "7") {
       this.importForm.get("list_id").setValidators(Validators.required);
       this.importForm.get("list_id").updateValueAndValidity();
@@ -166,6 +167,8 @@ export class ImportsComponent implements OnInit {
         this.buttonSpinner = false;
       } else {
         this.showMSG = true;
+        this.buttonSpinner = false;
+        this.messageError = response.errors.errorMessage.join(' - ')
       }
     });
   }
@@ -189,6 +192,7 @@ export class ImportsComponent implements OnInit {
         this.buttonSpinner = false;
       } else {
         this.toastrService.error(response.message);
+        this.buttonSpinner = false;
       }
     });
   }
