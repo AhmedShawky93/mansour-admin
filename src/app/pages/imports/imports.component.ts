@@ -115,7 +115,6 @@ export class ImportsComponent implements OnInit {
       this.importForm.get("type").value +
       "&token=" +
       this.auth.getToken();
-    console.log(this.importForm.get("type").value)
     if (this.importForm.get("type").value == "7") {
       this.importForm.get("list_id").setValidators(Validators.required);
       this.importForm.get("list_id").updateValueAndValidity();
