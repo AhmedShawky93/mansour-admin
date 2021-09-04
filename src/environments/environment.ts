@@ -9,6 +9,6 @@ var variables=JSON.parse(localStorage.getItem("systemConfig"));
 export const environment = {
   production: false,
   // api: "http://soleek-lap.test/mobilaty-backend/public/api",
-  api: `https://mobilatyapi-staging.el-dokan.com/api`,
+  api: `${variables.envApi.env.apiEndPoint}`,
   website_url: `${variables?variables.envApi.env.checkoutUrl:''}`,
 };
