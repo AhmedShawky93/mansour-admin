@@ -309,7 +309,7 @@ export class AffiliateUsersComponent implements OnInit {
 
   goToLink() {
     const token = this.auth.getToken();
-    const urlBasic = environment.api + '/admin/affiliates/affiliates_export?token=' + token + '&' + this.serialize(this.filter);
+    const urlBasic = environment.api + "/api" + '/admin/affiliates/affiliates_export?token=' + token + '&' + this.serialize(this.filter);
     this.affiliateService.exportFileProducts(urlBasic).subscribe({
       next: ((rep: any) => {
         if (rep.code === 200) {

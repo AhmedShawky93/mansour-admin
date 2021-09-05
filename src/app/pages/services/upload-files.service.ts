@@ -14,7 +14,7 @@ export class UploadFilesService {
   private url: any;
 
   constructor(private http: HttpClient) {
-    this.url = environment.api + '/admin';
+    this.url = environment.api + "/api" + '/admin';
   }
 
   getUploadedFiles(page = 1) {

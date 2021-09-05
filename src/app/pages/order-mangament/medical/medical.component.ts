@@ -32,7 +32,7 @@ export class MedicalComponent implements OnInit {
 
     const token = this.auth.getToken();
 
-    this.exportUrl = environment.api + '/admin/promos/export?token=' + token;
+    this.exportUrl = environment.api + "/api" + '/admin/promos/export?token=' + token;
   }
 
   getMedical() {

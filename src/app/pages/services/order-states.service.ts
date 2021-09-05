@@ -11,7 +11,7 @@ export class OrderStatesService {
   private url: string;
 
   constructor(private http: HttpClient) {
-    this.url = environment.api + "/admin/order_states";
+    this.url = environment.api + "/api" + "/admin/order_states";
   }
 
   getOrderStatus() {

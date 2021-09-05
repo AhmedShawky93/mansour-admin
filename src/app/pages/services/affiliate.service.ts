@@ -11,8 +11,8 @@ export class AffiliateService {
   private wallet_store: string;
 
   constructor(private http: HttpClient) {
-    this.wallet_store = environment.api + "/admin/wallet";
-    this.url = environment.api + "/admin/affiliates";
+    this.wallet_store = environment.api + "/api" + "/admin/wallet";
+    this.url = environment.api + "/api" + "/admin/affiliates";
   }
 
   getUserRequests(data) {
