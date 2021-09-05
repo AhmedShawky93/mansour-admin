@@ -473,7 +473,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       if (this.updateIndexHeader != null && this.updateIndexGroup != null && this.updateIndexSubCategory != null) {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3[this.updateIndexSubCategory] = this.selectedSubcategory;
       } else {
-        this.formattedJson.level1[this.updateIndexHeader].level2[this.formattedJson.level1[this.updateIndexHeader].level2.length - 1].level3.push(this.selectedSubcategory)
+        this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.push(this.selectedSubcategory)
       }
       this.saveChanges(true);
       this.sortSubCategory();
