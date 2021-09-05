@@ -58,6 +58,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         "level3_items_spacing": "20px",
         "menu_padding":"2rem",
         "level1_image_dimentions" : "300px",
+        "menu_fixed_width" : "300px",
         "fixed_width":"30%",
         "order": 2,
         "level2": [
@@ -241,6 +242,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       level3_items_spacing: new FormControl(data ? data.level3_items_spacing : '20px'),
       menu_padding: new FormControl(data ? data.menu_padding : '2rem'),
       level1_image_dimentions: new FormControl(data ? data.level1_image_dimentions : '300px'),
+      menu_fixed_width: new FormControl(data && data.menu_fixed_width ? data.menu_fixed_width : '99%'),
       fixed_width: new FormControl(data ? data.fixed_width : '30%'),
       order: new FormControl(data ? data.order : 1000)
     })

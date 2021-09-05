@@ -12,7 +12,7 @@
           </a>
         </ng-container>
 
-        <div class="sub-menu main-submenu dynamic-menu" [ngStyle]="{'padding': levelOneItem.menu_padding}">
+        <div class="sub-menu main-submenu dynamic-menu" [ngStyle]="{'padding': levelOneItem.menu_padding, 'width': levelOneItem.menu_fixed_width}">
           <ng-container *ngIf="levelOneItem.level2.length > 0 && levelOneItem.levels_length == 3;else simpleMenu">
             <ul class="sub-menu-items-container">
               <li class="sub-level-items-container main-font" [ngClass]="levelOneItem.fixed_width ? 'fixed-width' : ''"
@@ -217,6 +217,11 @@
     <div class="form-group">
       <label>Image fixed width</label>
       <input class="owl-input" formControlName="level1_image_dimentions" placeholder="Type.." type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Menu fixed width</label>
+      <input class="owl-input" formControlName="menu_fixed_width" placeholder="Type.." type="text">
     </div>
 
     <div class="form-group radio-group">
