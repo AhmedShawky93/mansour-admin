@@ -38,7 +38,7 @@ export class ViewUserComponent implements OnInit, OnChanges {
       .subscribe((response: any) => {
         const token = response.data;
         console.log('CustomerTokenFromAdmin:', token);
-        window.open(environment.website_url + "/session/signin?token=" + token, "_blank");
+        window.open(JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl + "/session/signin?token=" + token, "_blank");
       });
   }
 

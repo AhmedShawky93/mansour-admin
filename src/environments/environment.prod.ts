@@ -1,6 +1,6 @@
 import { environmentVariables as variables } from './enviromentalVariables'
 
 export const environment = {
-  production: false,
+  production: true,
   api: `${variables.apiEndPoint}`
 };
