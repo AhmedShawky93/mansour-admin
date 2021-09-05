@@ -492,6 +492,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     this.deleteItemIndex = index;
     this.deleteItemName = item.name;
     this.deleteItemType = type;
+    this.editorType = 0;
   }
 
   confirmDelete() {
