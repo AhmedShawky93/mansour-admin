@@ -291,9 +291,9 @@ export class OrdersComponent implements OnInit {
     });
 
     let token = this.auth.getToken();
-    this.exportUrl = environment.api + "/admin/orders/export?token=" + token;
+    this.exportUrl = environment.api + "/api" + "/admin/orders/export?token=" + token;
     this.productsUrl =
-      environment.api + "/admin/products/export_sales?token=" + token;
+      environment.api + "/api" + "/admin/products/export_sales?token=" + token;
     this.exportProductsUrl = this.productsUrl;
 
     this.deliveryService.getAllDeliverers().subscribe((response: any) => {
@@ -402,7 +402,7 @@ export class OrdersComponent implements OnInit {
 
   exportOrder() {
     const token = this.auth.getToken();
-    const urlExport = environment.api + '/admin/orders/export?token=' + token;
+    const urlExport = environment.api + "/api" + '/admin/orders/export?token=' + token;
     this.ordersService.exportOrders(urlExport).subscribe({
       next: ((rep: any) => {
         if (rep.code === 200) {
@@ -421,7 +421,7 @@ export class OrdersComponent implements OnInit {
 
   exportProductSales() {
     const token = this.auth.getToken();
-    const urlExport = environment.api + '/admin/products/export_sales?token=' + token;
+    const urlExport = environment.api + "/api" + '/admin/products/export_sales?token=' + token;
     this.ordersService.exportOrders(urlExport).subscribe({
       next: ((rep: any) => {
         if (rep.code === 200) {

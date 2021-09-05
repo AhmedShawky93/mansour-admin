@@ -110,7 +110,7 @@ export class ImportsComponent implements OnInit {
 
   generateLink() {
     this.downloadLink =
-      environment.api +
+      environment.api + "/api" +
       "/admin/files/import/templates?type=" +
       this.importForm.get("type").value +
       "&token=" +

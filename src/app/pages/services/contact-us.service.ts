@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 export class ContactUsService {
   private url: string;
   constructor(private http: HttpClient) {
-    this.url = environment.api + "/admin/contact_us";
+    this.url = environment.api + "/api" + "/admin/contact_us";
   }
 
   getContactUs(data) {

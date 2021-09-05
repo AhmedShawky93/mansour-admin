@@ -1,3 +1,3 @@
 export const environment = {
-  api: `https://mobilatyapi-staging.el-dokan.com/api`
+  api: `https://mobilatyapi-staging.el-dokan.com`
 };

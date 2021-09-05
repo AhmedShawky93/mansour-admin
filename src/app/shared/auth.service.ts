@@ -8,7 +8,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 export class AuthService {
   url;
   constructor( private http: HttpClient, private permissionsService: NgxPermissionsService) {
-    this.url = environment.api + "/admin";
+    this.url = environment.api + "/api" + "/admin";
   }
 
   getToken() {

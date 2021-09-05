@@ -11,7 +11,7 @@ import "rxjs/add/operator/map";
 export class AreasService {
   private url: string;
   constructor(private _HttpClient: HttpClient) {
-    this.url = environment.api + "/admin";
+    this.url = environment.api + "/api" + "/admin";
   }
 
   // start City

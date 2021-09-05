@@ -121,7 +121,7 @@ export class WithdrawRequestsComponent implements OnInit {
 
   goToLink() {
     const token = this.auth.getToken();
-    const urlBasic = environment.api + '/admin/affiliates/export?token=' + token + "&" + this.serialize(this.filter);
+    const urlBasic = environment.api + "/api" + '/admin/affiliates/export?token=' + token + "&" + this.serialize(this.filter);
     console.log(urlBasic)
     console.log(this.filter)
     this.affiliateService.exportFileProducts(urlBasic).subscribe({
