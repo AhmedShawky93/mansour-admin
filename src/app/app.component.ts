@@ -29,32 +29,7 @@ declare var $: any;
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
-  systemConfig = {
-    themeType: null,
-    showLoyality: null,
-    envApi: {
-      env: {
-        apiEndPoint: environment.api,
-        checkoutUrl: '',
-      },
-    },
-    brandRelatedVariables: {
-      brand: '',
-      brandArabic: '',
-      branchType: [],
-      email: '',
-      hotline: '',
-      loginApi: ''
-    },
-    brands: {
-      logo: "",
-      logoBlack: "",
-      favIcon: "",
-      logoWhite: "",
-    },
-    brand_color: '',
-    enable_affiliate: false
-  };
+  systemConfig:any;
   ConfigLoaded = false;
   constructor(
     private router: Router,
@@ -79,21 +54,33 @@ export class AppComponent implements OnInit {
 
     this.settingsServ.getEnv_variables().subscribe((res: any) => {
       if (res.code === 200) {
-        this.systemConfig.themeType = res.data.ADMIN_THEME_TYPE?res.data.ADMIN_THEME_TYPE:1;
-        this.systemConfig.showLoyality = res.data.showLoyality?res.data.showLoyality:'';
-        this.systemConfig.envApi.env.checkoutUrl = res.data.WEBSITE_URL?res.data.WEBSITE_URL:'';
-        this.systemConfig.brandRelatedVariables.brand = res.data.APP_NAME ? res.data.APP_NAME : 'Dashboard';
-        this.systemConfig.brandRelatedVariables.brandArabic = res.data.APP_NAME_AR ? res.data.APP_NAME_AR : 'Dashboard';
-        this.systemConfig.brandRelatedVariables.branchType = res.data.BRANCH_TYPES_ARRAY?JSON.parse(res.data.BRANCH_TYPES_ARRAY):[];
-        this.systemConfig.brandRelatedVariables.email = res.data.ONLINE_EMAIL?res.data.ONLINE_EMAIL:'';
-        this.systemConfig.brandRelatedVariables.hotline = res.data.HOTPHONE?res.data.HOTPHONE:'';
-        this.systemConfig.brandRelatedVariables.loginApi =  res.data.WEBSITE_URL?res.data.WEBSITE_URL:'';
-        this.systemConfig.brands.logo = res.data.COLORED_LOGO_EN?res.data.COLORED_LOGO_EN:'';
-        this.systemConfig.brands.logoBlack = res.data.BLACK_LOGO?res.data.BLACK_LOGO:'';
-        this.systemConfig.brands.favIcon = res.data.FAV_ICON?res.data.FAV_ICON:'';
-        this.systemConfig.brands.logoWhite = res.data.WHITE_LOGO_EN?res.data.WHITE_LOGO_EN:'';
-        this.systemConfig.enable_affiliate = res.data.enable_affiliate?res.data.enable_affiliate:false;
+        this.systemConfig={
+          themeType:  res.data.ADMIN_THEME_TYPE ? res.data.ADMIN_THEME_TYPE : 1,
+          showLoyality:  res.data.showLoyality ? res.data.showLoyality : '',
+          envApi: {
+            env: {
+              checkoutUrl: res.data.WEBSITE_URL ? res.data.WEBSITE_URL : ''
+            }
+          },
+          brandRelatedVariables: {
+            brand: res.data.APP_NAME ? res.data.APP_NAME : 'Dashboard',
+            brandArabic: res.data.APP_NAME_AR ? res.data.APP_NAME_AR : 'Dashboard',
+            branchType: res.data.BRANCH_TYPES_ARRAY ? JSON.parse(res.data.BRANCH_TYPES_ARRAY) : [],
+            email: res.data.ONLINE_EMAIL ? res.data.ONLINE_EMAIL : '',
+            hotline: res.data.HOTPHONE ? res.data.HOTPHONE : '',
+            loginApi: res.data.WEBSITE_URL ? res.data.WEBSITE_URL : '',
+          },
+          brands:{
+            logo:  res.data.COLORED_LOGO_EN ? res.data.COLORED_LOGO_EN : '',
+            logoBlack:  res.data.BLACK_LOGO ? res.data.BLACK_LOGO : '',
+            favIcon:  res.data.FAV_ICON ? res.data.FAV_ICON : '',
+            logoWhite:  res.data.WHITE_LOGO_EN ? res.data.WHITE_LOGO_EN : '',
+          },
+          enable_affiliate: res.data.enable_affiliate ? res.data.enable_affiliate : false,
+        }
         this.showAffiliateService.showAffiliate.next(res.data.enable_affiliate)
+
+
         if (this.systemConfig.brand_color) {
           document.documentElement.style.setProperty('--brand-color', this.systemConfig.brand_color)
         }
