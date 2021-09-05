@@ -222,6 +222,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   statedeleting: boolean = false;
   updating: boolean = false;
   showAdvanced: boolean = false;
+  metrics: any = [{ id: 1, value: 'px' }, { id: 2, value: 'em' }, { id: 3, value: 'rem' }, { id: 4, value: '%' }];
 
   constructor(private uploadService: UploadFilesService, private menuService: MenuService, private toastrService: ToastrService) {
     this.setHeaderForm();
@@ -231,20 +232,25 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
 
   setHeaderForm(data = null) {
     this.headerForm = new FormGroup({
-      link: new FormControl(data ? data.link : ''),
-      name: new FormControl(data ? data.name : '', Validators.required),
-      name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
-      image: new FormControl(data ? data.image : ''),
-      levels_length: new FormControl(data ? data.levels_length : 1, Validators.required),
-      level1_image: new FormControl(data ? data.level1_image : false),
-      level2_image: new FormControl(data ? data.level2_image : false),
-      level3_image: new FormControl(data ? data.level3_image : false),
-      level3_items_spacing: new FormControl(data ? data.level3_items_spacing : '20px'),
-      menu_padding: new FormControl(data ? data.menu_padding : '2rem'),
-      level1_image_dimentions: new FormControl(data ? data.level1_image_dimentions : '300px'),
-      menu_fixed_width: new FormControl(data && data.menu_fixed_width ? data.menu_fixed_width : '99%'),
-      fixed_width: new FormControl(data ? data.fixed_width : '30%'),
-      order: new FormControl(data ? data.order : 1000)
+      link: new FormControl(data && data.link ? data.link : ''),
+      name: new FormControl(data && data.name ? data.name : '', Validators.required),
+      name_ar: new FormControl(data && data.name_ar ? data.name_ar : '', Validators.required),
+      image: new FormControl(data && data.image ? data.image : ''),
+      levels_length: new FormControl(data && data.levels_length ? data.levels_length : 1, Validators.required),
+      level1_image: new FormControl(data && data.level1_image ? data.level1_image : false),
+      level2_image: new FormControl(data && data.level2_image ? data.level2_image : false),
+      level3_image: new FormControl(data && data.level3_image ? data.level3_image : false),
+      level3_items_spacing: new FormControl(data && data.level3_items_spacing ? data.level3_items_spacing : '20'),
+      level3_items_spacing_metric: new FormControl(data && data.level3_items_spacing_metric ? data.level3_items_spacing_metric : 'px'),
+      menu_padding: new FormControl(data && data.menu_padding ? data.menu_padding : '2'),
+      menu_padding_metric: new FormControl(data && data.menu_padding_metric ? data.menu_padding_metric : 'rem'),
+      level1_image_dimentions: new FormControl(data && data.level1_image_dimentions ? data.level1_image_dimentions : '300'),
+      level1_image_dimentions_metric: new FormControl(data && data.level1_image_dimentions_metric ? data.level1_image_dimentions_metric : 'px'),
+      menu_fixed_width: new FormControl(data && data.menu_fixed_width ? data.menu_fixed_width : '99'),
+      menu_fixed_width_metric: new FormControl(data && data.menu_fixed_width_metric ? data.menu_fixed_width_metric : '%'),
+      fixed_width: new FormControl(data && data.fixed_width ? data.fixed_width : '30'),
+      fixed_width_metric: new FormControl(data && data.fixed_width_metric ? data.fixed_width_metric : '%'),
+      order: new FormControl(data && data.order ? data.order : 1000)
     })
   }
 
@@ -324,7 +330,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
 
   prettyPrint(save = null) {
     var element = <HTMLTextAreaElement>document.getElementById('formattedJsonString');
-    if(element){
+    if (element) {
       var ugly = element.value;
       if (ugly) {
         var obj = JSON.parse(ugly);
@@ -352,7 +358,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     this.saveChanges();
   }
 
-  fixColorCode(){
+  fixColorCode() {
     this.formattedJson['menu_background_color'] = this.formattedJson['menu_background_color'].replace(' ', '');
     this.formattedJson['drop_menu_background_color'] = this.formattedJson['drop_menu_background_color'].replace(' ', '');
     this.formattedJson['level1_text_color'] = this.formattedJson['level1_text_color'].replace(' ', '');
@@ -422,7 +428,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   saveHeader() {
     if (this.headerForm.valid) {
       this.updating = true;
-      if (!this.headerForm.controls['level1_image'].value){
+      if (!this.headerForm.controls['level1_image'].value) {
         this.headerForm.controls.image.setValue(null);
       }
       this.selectedHeader = this.headerForm.value;
