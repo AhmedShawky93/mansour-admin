@@ -14,6 +14,8 @@ import { Conditional } from "@angular/compiler";
 import { EventEmitter } from "@angular/core";
 import { delay } from "rxjs/operators";
 import * as moment from "moment";
+import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
+
 
 function currentPasswordValidator(group: AbstractControl) {
   if (group.get("password").value && !group.get("current_password").value) {
@@ -74,8 +76,9 @@ export class SettingComponent implements OnInit {
   constructor(
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
-    private settingService: SettingService
-  ) {}
+    private settingService: SettingService,
+    private showAffiliateService: ShowAffiliateService,
+  ) { }
 
   ngOnInit() {
     this.getUser();
@@ -174,6 +177,15 @@ export class SettingComponent implements OnInit {
     });
   }
 
+  // checkColorValidity(color) {
+  //   if (color.substring(0, 1) == '#') {
+  //     return;
+  //   } else {
+  //     color = `#${color}`;
+  //     this.systemForm.controls.softbar_bg_color.setValue(color);
+  //   }
+  // }
+
   loadSettings() {
     if (!this.settings) {
       this.settingsLoading = true;
@@ -181,10 +193,16 @@ export class SettingComponent implements OnInit {
         this.settings = response.data;
         this.systemForm = new FormGroup(
           {
+            enable_affiliate: new FormControl(this.settings.enable_affiliate),
+            affiliate_pending_days: new FormControl(this.settings.affiliate_pending_days, [Validators.pattern("^[0-9]+$"), Validators.min(0)]),
             min_order_amount: new FormControl(this.settings.min_order_amount),
             except_cod_amount: new FormControl(this.settings.except_cod_amount),
             off_time: new FormControl(this.settings.off_time),
             open_time: new FormControl(this.settings.open_time),
+            showSoftLaunchBar: new FormControl(this.settings.showSoftLaunchBar ? this.settings.showSoftLaunchBar : false),
+            softbar_text_ar: new FormControl(this.settings.softbar_text_ar ? this.settings.softbar_text_ar : ''),
+            softbar_text_en: new FormControl(this.settings.softbar_text_en ? this.settings.softbar_text_en : ''),
+            softbar_bg_color: new FormControl(this.settings.softbar_bg_color ? this.settings.softbar_bg_color : ''),
           },
           timeValidator
         );
@@ -233,9 +251,10 @@ export class SettingComponent implements OnInit {
     this.settingService
       .updateSystemSettings(this.systemForm.value)
       .subscribe((response: any) => {
-        if(response.code ==200 ){
+        if (response.code == 200) {
           this.settings = response.data;
           this.toastrService.success("System Settings Updated Successfully!");
+          this.showAffiliateService.showAffiliate.next(this.systemForm.get('enable_affiliate').value)
           this.systemLoading = false;
         }
       });
@@ -251,8 +270,9 @@ export class SettingComponent implements OnInit {
       .updateLoyalitySettings(this.starsForm.value)
       .subscribe((response: any) => {
         this.settings = response.data;
+        var environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
         this.toastrService.success(
-          "Mobilaty Stars Settings Updated Successfully!"
+          `${environmentVariables.brandRelatedVariables.brand} Stars Settings Updated Successfully!`
         );
         this.starsLoading = false;
       });

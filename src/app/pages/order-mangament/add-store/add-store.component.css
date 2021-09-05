@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
   height: 50%;
-  background-image: linear-gradient(-130deg, #e4002c 0, #e4002c 90%);
+  background-image: linear-gradient(-130deg, var(--brand-color) 0, var(--brand-color) 90%);
 }
 
 .store-form-up {
@@ -41,7 +41,10 @@
 }
 
 .login-image img {
-  margin-top: 50px
+  margin-top: 50px;
+  max-height: 100px;
+  object-fit: contain;
+  margin-bottom: -40px;
 }
 
 .form-forget {

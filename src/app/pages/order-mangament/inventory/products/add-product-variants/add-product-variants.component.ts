@@ -1,18 +1,18 @@
-import {DraftProductService} from './../../../../services/draft-product.service';
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {ProductsService} from '@app/pages/services/products.service';
-import {CategoryService} from '@app/pages/services/category.service';
-import {ToastrService} from 'ngx-toastr';
-import {OptionsService} from '@app/pages/services/options.service';
-import {compareNumbers, DateLessThan} from '@app/shared/date-range-validation';
+import { DraftProductService } from './../../../../services/draft-product.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { ProductsService } from '@app/pages/services/products.service';
+import { CategoryService } from '@app/pages/services/category.service';
+import { ToastrService } from 'ngx-toastr';
+import { OptionsService } from '@app/pages/services/options.service';
+import { compareNumbers, DateLessThan } from '@app/shared/date-range-validation';
 import * as moment from 'moment';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {AngularEditorConfig} from '@kolkov/angular-editor';
-import {Observable, combineLatest, Subject, concat, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
-import {environment} from '@env/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Observable, combineLatest, Subject, concat, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import { environment } from '@env/environment';
 import { PromosService } from '@app/pages/services/promos.service';
 
 @Component({
@@ -139,9 +139,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       optional_sub_category_id: new FormControl(data ? (data.optional_sub_category_id) : ''),
       preorder: new FormControl(data ? data.preorder : 0),
       preorder_start_date: new FormControl(data ? data.preorder_start_date : '', []),
-      preorder_start_time: new FormControl(data ? data.preorder_start_time : '00:00:00', []),
+      preorder_start_time: new FormControl(data ? data.preorder_start_time : '23:59:00', []),
       preorder_end_date: new FormControl(data ? data.preorder_end_date : '', []),
-      preorder_expiration_time: new FormControl(data ? data.preorder_expiration_time : '00:00:00', []),
+      preorder_expiration_time: new FormControl(data ? data.preorder_expiration_time : '23:59:00', []),
       available_soon: new FormControl(data ? data.available_soon : ''),
       max_per_order: new FormControl(data ? data.max_per_order : ''),
       min_days: new FormControl(data ? data.min_days : ''),
@@ -149,9 +149,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       order: new FormControl(data ? data.order : ''),
       option_values: this.formBuilder.array([]),
       discount_start_date: new FormControl(data ? data.discount_start_date : '', []),
-      start_time: new FormControl(data ? data.start_time : '00:00:00', []),
+      start_time: new FormControl(data ? data.start_time : '23:59:00', []),
       discount_end_date: new FormControl(data ? data.discount_end_date : '', []),
-      expiration_time: new FormControl(data ? data.expiration_time : '00:00:00', []),
+      expiration_time: new FormControl(data ? data.expiration_time : '23:59:00', []),
       payment_method_discount_ids: new FormControl((data && data.payment_method_discount_ids) ? data.payment_method_discount_ids : [], []),
       product_variant_options: new FormControl(data ? data.product_variant_options : '', []),
 
@@ -184,6 +184,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
+      affiliate_commission: new FormControl('', [
+        Validators.min(1), Validators.max(99), Validators.pattern('^[0-9]$')
+      ]),
       default_variant: new FormControl(data ? data.default_variant : 0),
       stock: new FormControl(data ? data.stock : 0, Validators.required),
       // preorder_price: new FormControl(0),
@@ -197,8 +200,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       related_ids: new FormControl((data && data.related_ids) ? data.related_ids : ''),
     }, {
       validator: [
-        DateLessThan('discount_start_date', 'discount_end_date'),
-        DateLessThan('preorder_start_date', 'preorder_end_date'),
+        DateLessThan('discount_start_date', 'discount_end_date', 'start_time', 'expiration_time'),
+        DateLessThan('preorder_start_date', 'preorder_end_date', 'preorder_start_time', 'preorder_expiration_time'),
         compareNumbers('discount_price', 'price')
       ]
     });
@@ -232,7 +235,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         distinctUntilChanged(),
         tap(() => (this.productsLoading = true)),
         switchMap((term) =>
-          this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
+          this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
             catchError(() => of([])), // empty list on error
             tap(() => (this.productsLoading = false)),
             map((response: any) => {
@@ -255,7 +258,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         distinctUntilChanged(),
         tap(() => (this.relatedProductsLoading = true)),
         switchMap((term) =>
-          this.productsService.searchProducts({q: term, variant: 1}, 1).pipe(
+          this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
             catchError(() => of([])), // empty list on error
             tap(() => (this.relatedProductsLoading = false)),
             map((response: any) => {
@@ -293,7 +296,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   SetDraftProduct(event) {
     event.stopPropagation();
     let msg: string;
-    const data = {...this.componentForm.value};
+    const data = { ...this.componentForm.value };
 
     if (!this.validateDraftData(data)) {
       this.toasterService.warning('Please fill at least one field');
@@ -608,7 +611,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   mappingMainProductData() {
-    const product = {...this.componentForm.value};
+    const product = { ...this.componentForm.value };
     product.option_values.forEach(item => {
       delete item.optionValues;
       delete item.name_en;
@@ -650,6 +653,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       bundle_checkout: product.bundle_checkout,
       preorder_start_date: product.preorder_start_date,
       preorder_end_date: product.preorder_end_date,
+      affiliate_commission: product.affiliate_commission,
       related_ids: product.related_ids ? product.related_ids.map(item => item.id) : ''
     };
     return data;
@@ -672,21 +676,23 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   mappingVariantData() {
-    const product = {...this.componentForm.value};
+    const product = { ...this.componentForm.value };
 
     product.options.forEach(item => {
       delete item.optionData;
     });
     this.formatDateForSaving(product, this.componentForm);
+    let today = new Date();
+    let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`
 
     const data = {
       product_with_variant: true,
       default_variant: product.default_variant,
       description: product.description,
       description_ar: product.description_ar,
-      discount_end_date: product.discount_end_date,
+      discount_end_date: product.discount_price ? product.discount_end_date : '',
       discount_price: product.discount_price,
-      discount_start_date: product.discount_start_date,
+      discount_start_date: product.discount_price ? (product.discount_start_date ? product.discount_start_date : today) : '',
       expiration_time: product.expiration_time,
       start_time: product.start_time,
       image: product.image,
@@ -709,6 +715,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       stock: product.stock,
       weight: product.weight,
       bundle_products_ids: (product.bundle_products_ids) ? product.bundle_products_ids.map(item => item.id) : '',
+      payment_method_discount_ids: product.payment_method_discount_ids
     };
     return data;
   }
@@ -719,7 +726,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       .subscribe((response: any) => {
         if (response.code === 200) {
           if (this.selectedProduct && this.selectedProduct.isDraft) {
-            const deleteDraft = {...this.selectedProduct};
+            const deleteDraft = { ...this.selectedProduct };
             deleteDraft.delete = true;
             this.draftProductService.clearDraftProduct(this.selectedProduct);
             this.dataProductEmit.emit(deleteDraft);
@@ -740,6 +747,13 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   save() {
     /*Check Is Valid Form Data & Fire Validation*/
+    if (this.componentForm.controls['discount_price'].value && !this.componentForm.controls['discount_start_date'].value) {
+      let today = new Date();
+      let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`;
+      this.componentForm.controls['discount_start_date'].setValue(today);
+      this.componentForm.controls['discount_start_date'].updateValueAndValidity();
+      this.componentForm.updateValueAndValidity();
+    }
     if (this.formValidator()) {
       this.spinner.show();
       this.createMainProduct();

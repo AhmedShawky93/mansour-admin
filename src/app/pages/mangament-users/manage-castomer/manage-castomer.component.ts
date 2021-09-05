@@ -6,7 +6,9 @@ declare var $: any;
 import { environment } from '@env/environment';
 import { AuthService } from '@app/shared/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+// import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
   selector: 'app-manage-castomer',
@@ -70,7 +72,8 @@ export class ManageCastomerComponent implements OnInit {
     private cs: CustomerService,
     private auth: AuthService,
     private _areaService: AreasService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastrService: ToastrService
   ) {
     // this.navigatedCustomerData = JSON.parse(localStorage.getItem('selectedCustomer'));
 
@@ -113,7 +116,7 @@ export class ManageCastomerComponent implements OnInit {
     this.exportUrl = environment.api + '/admin/customers/export?token=' + token;
 
     this.loadCustomers();
-    if (this.activatedRoute.snapshot.queryParams.fromOrder){
+    if (this.activatedRoute.snapshot.queryParams.fromOrder) {
       this.createCustomer();
     }
 
@@ -129,6 +132,19 @@ export class ManageCastomerComponent implements OnInit {
         this.cities = response.data;
       }
     });
+  }
+
+  exportCustomers() {
+    this.cs.exportCustomers(this.exportUrl).subscribe({
+      next: ((rep: any) => {
+      })
+    });
+    setTimeout(() => {
+      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
+        enableHtml: true,
+        timeOut: 3000
+      });
+    }, 500);
   }
 
   public selectCity(cityId) {
@@ -241,7 +257,7 @@ export class ManageCastomerComponent implements OnInit {
     this.customer = null;
     this.cs.getCustomer(customer.id)
       .subscribe((response: any) => {
-        this.customer = {...response.data};
+        this.customer = { ...response.data };
         this.customerLoading = false;
       });
   }
@@ -313,8 +329,8 @@ export class ManageCastomerComponent implements OnInit {
     this.cs.getCustomerToken(id)
       .subscribe((response: any) => {
         const token = response.data;
-
-        window.open('http://mobilaty-staging.el-dokan.com/session/signin?disabled_guard=true&token=' + token, '_blank');
+        var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
+        window.open(`${environmentVariables.brandRelatedVariables.loginApi}session/signin?disabled_guard=true&token=${token}`, '_blank');
       });
   }
 

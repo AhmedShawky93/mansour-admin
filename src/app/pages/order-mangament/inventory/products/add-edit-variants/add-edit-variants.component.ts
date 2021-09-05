@@ -34,6 +34,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   addSubImages: FormArray;
   price: any;
   editorConfig: AngularEditorConfig;
+  regex = '^(?!00)([1-9][0-9]*)$';
   products: any = [];
   products$: Observable<any>;
   productsInput$ = new Subject<String>();
@@ -146,6 +147,9 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       discount_price: new FormControl(data ? data.discount_price : '', [
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
+      affiliate_commission: new FormControl(data ? data.affiliate_commission : '', [
+        Validators.min(1), Validators.max(99) ,Validators.pattern(this.regex),
+      ]),
       default_variant: new FormControl(data ? data.default_variant : 0),
       bundle_products_ids: new FormControl((data && data.bundleProducts) ? data.bundleProducts.map(bp => bp.id) : []),
       stock: new FormControl(data ? data.stock : 0, Validators.required),
@@ -156,18 +160,19 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       sku: new FormControl(data ? data.sku : '', Validators.required),
       options: this.formBuilder.array([]),
       discount_start_date: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[0] : '', []),
-      start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
+      start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '23:59:00', []),
       discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
-      expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),
+      expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '23:59:00', []),
       payment_method_discount_ids: new FormControl((data && data.payment_method_discount_ids) ? data.payment_method_discount_ids : [], []),
       option_values: this.formBuilder.array([]),
     }, {
       validator: [
-        DateLessThan('discount_start_date', 'discount_end_date'),
+        DateLessThan('discount_start_date', 'discount_end_date', 'start_time', 'expiration_time'),
         compareNumbers('discount_price', 'price')
       ]
     });
   }
+
   getPaymentMethods() {
     this.promoService.getPaymentMethods()
       .subscribe((rep) => {
@@ -466,6 +471,13 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
 
   save() {
     /*Check Is Valid Form Data & Fire Validation*/
+    if (this.variantForm.controls['discount_price'].value && !this.variantForm.controls['discount_start_date'].value) {
+      let today = new Date();
+      let startDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()} 23:59`;
+      this.variantForm.controls['discount_start_date'].setValue(today);
+      this.variantForm.controls['discount_start_date'].updateValueAndValidity();
+      this.variantForm.updateValueAndValidity();
+    }
     if (this.formValidator()) {
       if (!this.selectVariant) {
         /*Case Create*/

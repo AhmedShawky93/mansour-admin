@@ -28,7 +28,7 @@ declare var $: any;
       state(
         'out',
         style({
-          transform: 'translate3d(-100%, 0, 0)',
+          transform: 'translate3d(-110%, 0, 0)',
         })
       ),
       transition('in => out', animate('300ms ease-in-out')),
@@ -87,7 +87,9 @@ export class OrderDetailsComponent implements OnInit {
   submitted = false;
   stateForm: FormGroup;
   filter$ = new Subject();
+  no_orders: boolean = false
   toggleAddOrder: string;
+  aramixAccounts: any;
 
 
   constructor(
@@ -140,6 +142,10 @@ export class OrderDetailsComponent implements OnInit {
     this.SerialNumberForm = this._formBuilder.group({
       serials: new FormArray([])
     });
+
+    this.ordersService.getAramexAccounts().subscribe((response: any) => {
+      this.aramixAccounts = response.data
+    })
   }
 
   getDynamicFormControlSerialNumberNames() {
@@ -597,10 +603,11 @@ export class OrderDetailsComponent implements OnInit {
       this.stateForm.get('branch_id').setValidators([Validators.required]);
       this.stateForm.get('shipping_method').setValidators([Validators.required]);
       this.stateForm.get('aramex_account_number').setValidators([Validators.required]);
-    } else if (Number(this.orderStatusId) === 6) {
-      // this.stateForm.get('status_notes').setValidators([Validators.required]);
-      this.stateForm.get('cancellation_id').setValidators([Validators.required]);
     }
+    // else if (Number(this.orderStatusId) === 6) {
+    // this.stateForm.get('status_notes').setValidators([Validators.required]);
+    // this.stateForm.get('cancellation_id').setValidators([Validators.required]);
+    // }
   }
 
   markFormGroupTouched(formGroup: FormGroup) {
@@ -614,11 +621,28 @@ export class OrderDetailsComponent implements OnInit {
         }
       });
   }
-
   customerDetails(customer) {
-    localStorage.setItem('selectedCustomer', JSON.stringify(customer));
-    this.router.navigate(['/pages/manage-customer'], { queryParams: { id: customer.id } });
+
+    if (!this.order.user) {
+      return;
+    }
+    if (this.order.affiliate.id === this.order.user.id) {
+      return;
+    }
+    if (this.order.affiliate.id !== this.order.user.id) {
+      this.router.navigate(['/pages/manage-customer'], { queryParams: { phone: customer.phone } });
+    }
+    if (this.order.customer && !this.order.affiliate) {
+      this.router.navigate(['/pages/manage-customer'], { queryParams: { phone: customer.phone } });
+    }
   }
+  affiliateDetails(customer) {
+    this.router.navigate(['/pages/affiliate/users'], { queryParams: { userId: customer.id } });
+  }
+  // customerDetails(customer) {
+  //   localStorage.setItem('selectedCustomer', JSON.stringify(customer));
+  //   this.router.navigate(['/pages/manage-customer'], { queryParams: { id: customer.id } });
+  // }
   closeSideBar(data) {
     this.order = data ? { ...data } : this.order;
     this.toggleAddOrder = 'out';

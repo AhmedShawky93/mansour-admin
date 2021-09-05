@@ -1,0 +1,43 @@
+<form (ngSubmit)="addAdminCredit()" [formGroup]="newAdminCredit">
+  <div class="form-group" *ngIf='data?.nameAffiliate != undefined'>
+    <label>affiliate</label>
+    <input type="text" class="owl-input" formControlName="affiliate" placeholder="Enter affiliate name" disabled>
+  </div>
+
+
+
+
+  <div class="form-group" *ngIf='data?.nameAffiliate == undefined'>
+    <label>affiliate</label>
+    <ng-select [typeahead]="affiliatesInput$" [loading]="affiliatesLoading" [(ngModel)]="affiliate"
+      name="affiliate" [items]="affiliates$ | async" bindLabel="name" bindValue="id" [multiple]="false"
+      placeholder="Enter affiliate name" formControlName="affiliate">
+    </ng-select>
+    <div
+      *ngIf="newAdminCredit.controls.affiliate.invalid && (newAdminCredit.controls.affiliate.dirty || newAdminCredit.controls.affiliate.touched)"
+      class="alert alert-danger">
+      <div *ngIf="newAdminCredit.controls.affiliate.errors.required">
+        Affiliate Name is required.
+      </div>
+    </div>
+    <!-- End Errors Rolues -->
+  </div>
+  <div class="form-group">
+    <label>Amount</label>
+    <input type="number" class="owl-input" formControlName="amount" placeholder="Amount">
+    <!-- Start  Errors Rolues -->
+    <div
+      *ngIf="newAdminCredit.controls.amount.invalid && (newAdminCredit.controls.amount.dirty || newAdminCredit.controls.amount.touched)"
+      class="alert alert-danger">
+      <div *ngIf="newAdminCredit.controls.amount.errors.required">
+        Amount is required.
+      </div>
+    </div>
+    <!-- End Errors Rolues -->
+  </div>
+  <div class="form-group">
+    <label>comment</label>
+    <textarea type="text" class="owl-input" formControlName="comment" placeholder="comment"></textarea>
+  </div>
+  <button class="btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0"  [appLoading]="stateSubmitting">Submit</button>
+</form>

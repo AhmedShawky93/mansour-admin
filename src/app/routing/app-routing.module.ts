@@ -35,6 +35,8 @@ import { OrdersDeliveryComponent } from '@app/pages/order-mangament/orders-deliv
 import { OrderDeliveryDetailsComponent } from '@app/pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
 import { AdminLogComponent } from '@app/pages/mangament-users/admin-log/admin-log.component';
 import { ImportsComponent } from '@app/pages/imports/imports.component';
+import { MenuCreatorComponent } from '@app/pages/menu-creator/menu-creator.component';
+import { StaticPagesComponent } from '@app/pages/static-pages/static-pages.component';
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, data: { title: "Login" } },
@@ -68,7 +70,19 @@ const routes: Routes = [
         path: "manage-customer",
         component: ManageCastomerComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Customers", permissions: {only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home'}},
+        data: { title: "Customers", permissions: { only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home' } },
+      },
+      {
+        path: "menu-creator",
+        component: MenuCreatorComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { title: "Menu", permissions: { only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home' } },
+      },
+      {
+        path: "static-pages",
+        component: StaticPagesComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { title: "static", permissions: { only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home' } },
       },
       {
         path: "admin-log",
@@ -80,19 +94,19 @@ const routes: Routes = [
         path: "promocodes",
         component: OffersComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Promo Codes", permissions: {only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home'}},
+        data: { title: "Promo Codes", permissions: { only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home' } },
       },
       {
         path: "promocodes/edit-offers/:id",
         component: EditOfferComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Edit Offers", permissions: {only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home'} },
+        data: { title: "Edit Offers", permissions: { only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home' } },
       },
       {
         path: "ads",
         component: adsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Slider", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'} }
+        data: { title: "Slider", permissions: { only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home' } }
       },
       {
         path: "stores",
@@ -105,19 +119,19 @@ const routes: Routes = [
         path: "promocodes/add-offers",
         component: AddOfferComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Add Offers", permissions: {only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home'} },
+        data: { title: "Add Offers", permissions: { only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home' } },
       },
       {
         path: "promocodes/edit-offers",
         component: EditOfferComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Edit Offers", permissions: {only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home'} },
+        data: { title: "Edit Offers", permissions: { only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home' } },
       },
       {
         path: "notifications",
         component: NotificationsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Notifications", permissions: {only: ['ADMIN', 'View Notifications'], redirectTo: '/pages/home'} },
+        data: { title: "Notifications", permissions: { only: ['ADMIN', 'View Notifications'], redirectTo: '/pages/home' } },
       },
       // {
       //   path: "medical",
@@ -129,19 +143,19 @@ const routes: Routes = [
         path: "settings",
         component: SettingComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Settings", permissions: {only: ['ADMIN', 'View Settings'], redirectTo: '/pages/home'} },
+        data: { title: "Settings", permissions: { only: ['ADMIN', 'View Settings'], redirectTo: '/pages/home' } },
       },
-      { path: "orders", component: OrdersComponent, canActivate: [NgxPermissionsGuard], data: { title: "Orders", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} } },
-      { path: "orders-delivery", component: OrdersDeliveryComponent, canActivate: [NgxPermissionsGuard], data: { title: "Orders Delivery", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} } },
-      { path: "orders-delivery/details/:id", component: OrderDeliveryDetailsComponent, canActivate: [NgxPermissionsGuard], data: { title: "Details", permissions: {only: ['ADMIN', 'View Details'], redirectTo: '/pages/home'} } },
+      { path: "orders", component: OrdersComponent, canActivate: [NgxPermissionsGuard], data: { title: "Orders", permissions: { only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home' } } },
+      { path: "orders-delivery", component: OrdersDeliveryComponent, canActivate: [NgxPermissionsGuard], data: { title: "Orders Delivery", permissions: { only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home' } } },
+      { path: "orders-delivery/details/:id", component: OrderDeliveryDetailsComponent, canActivate: [NgxPermissionsGuard], data: { title: "Details", permissions: { only: ['ADMIN', 'View Details'], redirectTo: '/pages/home' } } },
       {
         path: "categories",
         component: CategoriesComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Categories", permissions: {only: ['ADMIN', 'View Categories'], redirectTo: '/pages/home'} },
+        data: { title: "Categories", permissions: { only: ['ADMIN', 'View Categories'], redirectTo: '/pages/home' } },
       },
 
-      { path: "staff", component: StaffComponent, canActivate: [NgxPermissionsGuard], data: { title: "Staff", permissions: {only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home'} } },
+      { path: "staff", component: StaffComponent, canActivate: [NgxPermissionsGuard], data: { title: "Staff", permissions: { only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home' } } },
       {
         path: "reporting-center",
         component: ReportingCenterComponent,
@@ -161,32 +175,32 @@ const routes: Routes = [
         path: "orders/order-details/:id",
         component: OrderDetailsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Order Details", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} },
+        data: { title: "Order Details", permissions: { only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home' } },
       },
       {
         path: "print-receipt/:id",
         component: PrintReceiptComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "print-receipt", permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'} },
+        data: { title: "print-receipt", permissions: { only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home' } },
       },
-      { path: "brands", component: BrandsComponent, canActivate: [NgxPermissionsGuard], data: { title: "Brands", permissions: {only: ['ADMIN', 'View Brands'], redirectTo: '/pages/home'} } },
+      { path: "brands", component: BrandsComponent, canActivate: [NgxPermissionsGuard], data: { title: "Brands", permissions: { only: ['ADMIN', 'View Brands'], redirectTo: '/pages/home' } } },
       {
         path: "stars",
         loadChildren: "../pages/stars/stars.module#StarsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Rewards', 'View Gift Requests'], redirectTo: '/pages/home'}}
+        data: { permissions: { only: ['ADMIN', 'View Rewards', 'View Gift Requests'], redirectTo: '/pages/home' } }
       },
       {
         path: "custom-ads",
         component: CustomAdsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: {title: "Custom Ads", permissions: {only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home'}}
+        data: { title: "Custom Ads", permissions: { only: ['ADMIN', 'View Ads'], redirectTo: '/pages/home' } }
       },
       {
         path: "contact-us",
         component: ContactusComponent,
         canActivate: [NgxPermissionsGuard],
-        data: {title: "Contact Us", permissions: {only: ['ADMIN', 'View Contacts'], redirectTo: '/pages/home'}}
+        data: { title: "Contact Us", permissions: { only: ['ADMIN', 'View Contacts'], redirectTo: '/pages/home' } }
       },
       {
         path: "imports",
@@ -199,68 +213,75 @@ const routes: Routes = [
         loadChildren:
           "../pages/order-mangament/inventory/options/options.module#OptionsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Options'], redirectTo: '/pages/home'}}
+        data: { permissions: { only: ['ADMIN', 'View Options'], redirectTo: '/pages/home' } }
       },
       {
         path: "products",
         loadChildren:
           "../pages/order-mangament/inventory/products/products.module#ProductsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Products'], redirectTo: '/pages/home'}}
+        data: { permissions: { only: ['ADMIN', 'View Products'], redirectTo: '/pages/home' } }
       },
       {
         path: "sub-admins",
         loadChildren: "../pages/access-admins/sub-admin.module#SubAdminModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Admins'], redirectTo: '/pages/home'}}
+        data: { permissions: { only: ['ADMIN', 'View Admins'], redirectTo: '/pages/home' } }
       },
       {
         path: "groups",
         component: GroupsComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "groups", permissions: {only: ['ADMIN', 'View Groups'], redirectTo: '/pages/home'} },
+        data: { title: "groups", permissions: { only: ['ADMIN', 'View Groups'], redirectTo: '/pages/home' } },
       },
       {
         path: "cities",
         loadChildren:
           "../pages/order-mangament/delivery/cities/cities.module#CitiesModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Cities'], redirectTo: '/pages/home'}}
+        data: { permissions: { only: ['ADMIN', 'View Cities'], redirectTo: '/pages/home' } }
       },
       {
         path: "order-status",
         loadChildren:
           "../pages/order-mangament/order-states/order-states.module#OrderStatesModule",
         // canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Order States'], redirectTo: '/pages/home'}}
+        data: { permissions: { only: ['ADMIN', 'View Order States'], redirectTo: '/pages/home' } }
       },
       {
         path: "branches",
         loadChildren:
           "../pages/order-mangament/delivery/staff-delivery/staff-delivery.module#StaffDeliveryModule",
         canActivate: [NgxPermissionsGuard],
-        data: {permissions: {only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home'}}
+        data: { permissions: { only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home' } }
+      },
+      {
+        path: "affiliate",
+        loadChildren:
+          "../pages/mangament-users/affiliate/affiliate.module#AffiliateModule",
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: ['ADMIN'], redirectTo: '/pages/home' } }
       },
       {
         path: "lists",
         loadChildren:
           "../pages/order-mangament/inventory/lists/lists.module#ListsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {title: "Custom Lists", permissions: {only: ['ADMIN', 'View Lists'], redirectTo: '/pages/home'}}
+        data: { title: "Custom Lists", permissions: { only: ['ADMIN', 'View Lists'], redirectTo: '/pages/home' } }
       },
       {
         path: "sections",
         loadChildren:
           "../pages/store-front/sections/sections.module#SectionsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {title: "Sections", permissions: {only: ['ADMIN', 'View Sections'], redirectTo: '/pages/home'}}
+        data: { title: "Sections", permissions: { only: ['ADMIN', 'View Sections'], redirectTo: '/pages/home' } }
       },
       {
         path: "promotions",
         loadChildren:
           "../pages/order-mangament/marketing/promotions/promotions.module#PromotionsModule",
         canActivate: [NgxPermissionsGuard],
-        data: {title: "Promotions", permissions: {only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home'}}
+        data: { title: "Promotions", permissions: { only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home' } }
       },
       {
         path: "reports",
@@ -288,4 +309,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
