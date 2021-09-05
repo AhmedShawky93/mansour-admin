@@ -488,7 +488,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   deleteItem(index, event, item, type) {
     $('#deleteMenuItem').modal('show');
     this.statedeleting = false;
-    event.preventDefault();
+    event.stopPropagation();
     this.deleteItemIndex = index;
     this.deleteItemName = item.name;
     this.deleteItemType = type;
