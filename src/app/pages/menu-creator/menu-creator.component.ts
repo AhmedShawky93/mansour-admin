@@ -10,7 +10,7 @@ declare var $: any;
 @Component({
   selector: 'app-menu-creator',
   templateUrl: './menu-creator.component.html',
-  styleUrls: ['./menu-creator.component.css']
+  styleUrls: ['./menu-creator.component.scss']
 })
 export class MenuCreatorComponent implements OnInit, AfterViewInit {
   formattedJson: any = {

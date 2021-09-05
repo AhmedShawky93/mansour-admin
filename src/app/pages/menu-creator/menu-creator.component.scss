@@ -822,3 +822,11 @@ hr {
 .switch label:hover {
   color: rgba(0, 0, 0, 1)
 }
+
+.menu-colors{
+  .owl-input{
+    background: transparent;
+    border: 0px !important;
+    padding: 0;
+  }
+}
