@@ -14,184 +14,15 @@ declare var $: any;
 })
 export class MenuCreatorComponent implements OnInit, AfterViewInit {
   formattedJson: any = {
-    "menu_background_color": "#050708",
+    "menu_background_color": "#ffffff",
     "drop_menu_background_color": "#ffffff",
     "level1_text_color": "#ffffff",
-    "level1_hover_color": "#da1e42",
-    "level2_text_color": "#da1e42",
-    "level2_hover_color": "#050708",
-    "level3_text_color": "#050708",
-    "level3_hover_color": "#da1e42",
-    "level1": [
-      {
-        "link": "https://www.mobilaty.com/",
-        "name": "Home",
-        "name_ar": "الصفحة الرئيسية",
-        "image": "",
-        "levels_length": 1,
-        "level1_image": false,
-        "level2_image": false,
-        "level3_image": false,
-        "order": 1,
-        "level2": []
-      },
-      {
-        "link": "https://www.mobilaty.com/products?category_id=687",
-        "name": "Mobiles",
-        "name_ar": "هواتف",
-        "image": "https://mobilatyapi.el-dokan.com/storage/uploads/qJpEpk-1609759077.jpg",
-        "levels_length": 3,
-        "level1_image": true,
-        "level2_image": false,
-        "level3_image": false,
-        "level3_items_spacing": "20px",
-        "menu_padding": "2rem",
-        "level1_image_dimentions": "300px",
-        "fixed_width": "30%",
-        "order": 2,
-        "level2": [
-          {
-            "link": "",
-            "name": "Operating System",
-            "name_ar": "نظام التشغيل",
-            "image": "",
-            "order": 1,
-            "level3": [{
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "Android",
-              "name_ar": "اندرويد",
-              "image": "",
-              "order": 1
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "IOS",
-              "name_ar": "IOS",
-              "image": "",
-              "order": 2
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "Classic",
-              "name_ar": "كلاسيكى",
-              "image": "",
-              "order": 3
-            }]
-          },
-          {
-            "link": "",
-            "name": "Shop By Price",
-            "name_ar": "تسوق حسب السعر",
-            "image": "",
-            "order": 2,
-            "level3": [{
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "less than 1000 pounds",
-              "name_ar": "أقل من 1000 جنيه",
-              "image": "",
-              "order": 1
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "from 1000 to 2900",
-              "name_ar": "من 1000 إلى 2999 جنيه",
-              "image": "",
-              "order": 2
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "from 3000 to 5999",
-              "name_ar": "من 3000 إلى 5999 جنيه",
-              "image": "",
-              "order": 3
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "from 6000 to 10000",
-              "name_ar": "من 6000 إلى 10000",
-              "image": "",
-              "order": 4
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "more than 10000",
-              "name_ar": "أكثر من 10000",
-              "image": "",
-              "order": 5
-            }]
-          },
-          {
-            "link": "",
-            "name": "shop by brand",
-            "name_ar": "تسوق حسب الماركة",
-            "image": "",
-            "order": 3,
-            "level3": [{
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "Apple",
-              "name_ar": "ابل",
-              "image": "",
-              "order": 1
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "Samsung",
-              "name_ar": "سامسونج",
-              "image": "",
-              "order": 2
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "Xiaomi",
-              "name_ar": "شاومى",
-              "image": "",
-              "order": 3
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "oppo",
-              "name_ar": "اوبو",
-              "image": "",
-              "order": 4
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "realmi",
-              "name_ar": "ريلمى",
-              "image": "",
-              "order": 5
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "huawei",
-              "name_ar": "هواوى",
-              "image": "",
-              "order": 6
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "honor",
-              "name_ar": "هونر",
-              "image": "",
-              "order": 7
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "vivo",
-              "name_ar": "فيفو",
-              "image": "",
-              "order": 8
-            },
-            {
-              "link": "https://www.mobilaty.com/products?category_id=687",
-              "name": "nokia",
-              "name_ar": "نوكيا",
-              "image": "",
-              "order": 9
-            }]
-          }
-        ]
-      }]
+    "level1_hover_color": "#ffffff",
+    "level2_text_color": "#ffffff",
+    "level2_hover_color": "#ffffff",
+    "level3_text_color": "#ffffff",
+    "level3_hover_color": "#ffffff",
+    "level1": []
   }
   formattedJsonString = `{
     "menu_background_color": "#050708",
@@ -642,7 +473,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
       if (this.updateIndexHeader != null && this.updateIndexGroup != null && this.updateIndexSubCategory != null) {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3[this.updateIndexSubCategory] = this.selectedSubcategory;
       } else {
-        this.formattedJson.level1[this.updateIndexHeader].level2[this.formattedJson.level1[this.updateIndexHeader].level2.length - 1].level3.push(this.selectedSubcategory)
+        this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3.push(this.selectedSubcategory)
       }
       this.saveChanges(true);
       this.sortSubCategory();
@@ -657,10 +488,11 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   deleteItem(index, event, item, type) {
     $('#deleteMenuItem').modal('show');
     this.statedeleting = false;
-    event.preventDefault();
+    event.stopPropagation();
     this.deleteItemIndex = index;
     this.deleteItemName = item.name;
     this.deleteItemType = type;
+    this.editorType = 0;
   }
 
   confirmDelete() {

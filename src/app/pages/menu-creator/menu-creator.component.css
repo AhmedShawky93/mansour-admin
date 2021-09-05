@@ -805,3 +805,20 @@ hr {
 .radio-group input {
   margin-right: 10px;
 }
+
+.slider{
+  top: 5px;
+}
+
+.slider:before{
+  background-color: #c4c8ca;
+  border: 1px solid #c4c8ca;
+}
+
+.switch label{
+  color:rgba(0, 0, 0, .7)
+}
+
+.switch label:hover {
+  color: rgba(0, 0, 0, 1)
+}
