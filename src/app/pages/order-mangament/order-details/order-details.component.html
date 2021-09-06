@@ -641,6 +641,16 @@
               <option [value]="'placeholder'" hidden>Select Cancellation Reason</option>
               <option value="{{reason.id}}" *ngFor="let reason of cancelReasons">{{reason.text}}</option>
             </select>
+
+            <label class="checkup" *ngIf="orderStatusId == '6'"> Remove Points
+              <input type="checkbox" formControlName="remove_loyalty_points">
+              <span class="checkmark"></span>
+            </label>
+
+            <label class="checkup" *ngIf="orderStatusId == '4'"> Add Points
+              <input type="checkbox" checked="checked" formControlName="add_loyalty_points">
+              <span class="checkmark"></span>
+            </label>
             <!-- <div *ngIf="stateForm.controls.cancellation_id.invalid &&
               (stateForm.controls.cancellation_id.dirty || stateForm.controls.cancellation_id.touched)"
               class="alert alert-danger">
