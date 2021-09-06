@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Observable, observable } from 'rxjs';
+import { BehaviorSubject, Observable, observable } from 'rxjs';
 import 'rxjs/add/operator/catch';
 import { EventEmitter } from '@angular/core';
 
@@ -12,6 +12,7 @@ import { EventEmitter } from '@angular/core';
 })
 export class SettingService {
 
+  envConfigration = new BehaviorSubject(null);
   public imagesEmitter: EventEmitter<SettingService>;
 
   private url: string;
@@ -20,6 +21,13 @@ export class SettingService {
     this.url = environment.api + "/api" + '/admin/';
     this.imagesEmitter = new EventEmitter();
 
+  }
+  setenvConfig(envValue:any){
+     this.envConfigration.next(envValue);
+  }
+  getenvConfig():Observable<any>{
+    // console.log("get config");
+     return this.envConfigration.asObservable();
   }
 
   getNotification() {
@@ -44,6 +52,9 @@ export class SettingService {
 
   getSettings() {
     return this.http.get(this.url + 'settings');
+  }
+  get_branch_types() {
+    return this.http.get(this.url + 'branches-type');
   }
   getConfigurations() {
     return this.http.get(this.url + 'configurations/manager/index');

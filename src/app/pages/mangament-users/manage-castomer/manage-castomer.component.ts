@@ -8,6 +8,7 @@ import { AuthService } from '@app/shared/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { SettingService } from '@app/pages/services/setting.service';
 // import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
@@ -66,17 +67,25 @@ export class ManageCastomerComponent implements OnInit {
   selectedCustomer: any;
   selectedAddress: any;
   customerId: any;
+  environmentVariables;
 
-
+ 
   constructor(
     private cs: CustomerService,
     private auth: AuthService,
     private _areaService: AreasService,
     private activatedRoute: ActivatedRoute,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private settingService:SettingService
   ) {
+    this.getConfig();
     // this.navigatedCustomerData = JSON.parse(localStorage.getItem('selectedCustomer'));
 
+  }
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+     this.environmentVariables=res;
+    })
   }
 
   ngOnInit() {
@@ -329,8 +338,8 @@ export class ManageCastomerComponent implements OnInit {
     this.cs.getCustomerToken(id)
       .subscribe((response: any) => {
         const token = response.data;
-        var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
-        window.open(`${environmentVariables.brandRelatedVariables.loginApi}/session/signin?disabled_guard=true&token=${token}`, '_blank');
+        // var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
+        window.open(`${this.environmentVariables.brandRelatedVariables.loginApi}/session/signin?disabled_guard=true&token=${token}`, '_blank');
       });
   }
 

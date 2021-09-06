@@ -72,13 +72,22 @@ export class SettingComponent implements OnInit {
   starsForm: FormGroup;
   systemLoading: boolean;
   starsLoading: boolean;
-
+  environmentVariables;
   constructor(
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
     private settingService: SettingService,
     private showAffiliateService: ShowAffiliateService,
-  ) { }
+    
+  ) { 
+    this.getConfig();
+  }
+
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+     this.environmentVariables=res;
+    })
+  }
 
   ngOnInit() {
     this.getUser();
@@ -270,9 +279,9 @@ export class SettingComponent implements OnInit {
       .updateLoyalitySettings(this.starsForm.value)
       .subscribe((response: any) => {
         this.settings = response.data;
-        var environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
+        // var environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
         this.toastrService.success(
-          `${environmentVariables.brandRelatedVariables.brand} Stars Settings Updated Successfully!`
+          `${this.environmentVariables.brandRelatedVariables.brand} Stars Settings Updated Successfully!`
         );
         this.starsLoading = false;
       });

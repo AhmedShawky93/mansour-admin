@@ -13,6 +13,7 @@ import {
   animate,
   style,
 } from "@angular/animations";
+import { SettingService } from '@app/pages/services/setting.service';
 declare var $: any;
 @Component({
   selector: "app-stores",
@@ -68,12 +69,22 @@ export class StoresComponent implements OnInit {
     page: 1,
   };
   removeBranchObj: any;
-  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
+  environmentVariables;
   constructor(
     private toastrService: ToastrService,
-    private bracnhesStoreService: BracnhesStoreService
-  ) { }
+    private bracnhesStoreService: BracnhesStoreService,
+    private settingService:SettingService
+  ) { 
+    this.getConfig();
+  }
 
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+     this.environmentVariables=res;
+    })
+  }
+
+  
   ngOnInit() {
     this.getBranches();
 
