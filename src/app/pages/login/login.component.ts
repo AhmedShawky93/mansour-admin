@@ -2,6 +2,7 @@
 import { AuthService } from "@app/shared/auth.service";
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SettingService } from "../services/setting.service";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
+  environmentVariables;
   user: any = {
     email: "",
     password: ""
@@ -18,14 +19,21 @@ export class LoginComponent implements OnInit {
   errorMessage = "";
 
   constructor(private router: Router,
-    private _auth: AuthService) { }
+    private settingService:SettingService,
+    private _auth: AuthService) {
+      this.getConfig();
+     }
 
   ngOnInit() {
     if(this._auth.isAuthenticated()) {
       this.router.navigate(["/pages/home"]);
     }
   }
-
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+     this.environmentVariables=res;
+    })
+  }
   login() {
     this.showError = false;
     this._auth.login(this.user.email, this.user.password)

@@ -99,6 +99,7 @@
         <th scope="col">Type</th>
         <th scope="col">User</th>
         <th scope="col">State</th>
+        <th scope="col">Date</th>
         <th scope="col">Progress</th>
         <th scope="col">Actions</th>
       </tr>
@@ -148,8 +149,9 @@
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
-        <td *ngIf="!import.progress">-</td>
-        <td *ngIf="import.progress">
+        <td>{{import?.finish_date | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td *ngIf="import.state.id == '5'">-</td>
+        <td *ngIf="import.state.id != '5'">
           <!-- <mat-progress-bar mode="determinate" [value]="import?.progressVal"></mat-progress-bar> -->
           <progress-bar [progress]="import.progress" [color]="'#e4002c'">
           </progress-bar>
@@ -769,10 +771,6 @@
               <h6>city name:</h6>
               <span>{{ result?.city_name }}</span>
             </li>
-            <li>
-              <h6>city name:</h6>
-              <span>{{ result?.city_name }}</span>
-            </li>
           </ul>
         </section>
       </ng-container>
@@ -789,7 +787,7 @@
             [disabled]="buttonSpinner"
             [appLoading]="buttonSpinner"
           >
-            import product
+            import
           </button>
         </div>
       </div>
@@ -822,6 +820,9 @@
           <span>{{ report?.value }}</span>
         </li>
       </ul>
+      <ng-container *ngIf="!reports.length">
+        <h5 class="text-center mb-4">No Data</h5>
+      </ng-container>
     </div>
   </div>
 </div>

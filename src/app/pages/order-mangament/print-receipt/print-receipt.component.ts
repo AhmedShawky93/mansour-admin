@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { OrdersService } from '@app/pages/services/orders.service';
+import { SettingService } from '@app/pages/services/setting.service';
 // import { environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
@@ -20,11 +21,13 @@ export class PrintReceiptComponent implements OnInit {
     }
 
   ];
-  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
+  environmentVariables;
 
   item: any;
 
-  constructor(private router: Router, private activeRoute: ActivatedRoute, private orderService: OrdersService) { }
+  constructor(private router: Router, private activeRoute: ActivatedRoute, private orderService: OrdersService,private settingService:SettingService) { 
+    this.getConfig();
+  }
 
   ngOnInit() {
 
@@ -40,5 +43,9 @@ export class PrintReceiptComponent implements OnInit {
         })
     });
   }
-
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+     this.environmentVariables=res;
+    })
+  }
 }

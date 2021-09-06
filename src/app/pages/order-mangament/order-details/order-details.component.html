@@ -173,7 +173,7 @@
         <p>Affiliate Order</p>
         <span *ngIf="order?.affiliate?.id">Yes</span>
         <span *ngIf="!order?.affiliate?.id">No</span>
-
+      </div>
       <div class="block-item">
         <p>Transaction ID</p>
         <span>{{ order.transaction_id }}</span>
@@ -412,8 +412,7 @@
         <p>Total Commission</p>
         <span>{{ order.affiliate_total_commission }} EGP</span>
       </div>
-      <div
-        *ngIf="(order.payment_method !== 3 && order.payment_method !== 5 && order.payment_method !== 9 &&
+      <div *ngIf="(order.payment_method !== 3 && order.payment_method !== 5 && order.payment_method !== 9 &&
         order.payment_method !== 10 && order.payment_method !== 11); else valuPayment">
         <div class="block-item">
           <p>Item Total</p>
@@ -808,8 +807,9 @@
             <label for="">Price after discount</label>
             <input type="number" name="discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
               [min]="0" [(ngModel)]="discount">
-              <mat-error *ngIf="currentItem?.price < discount">Price after discount must not exceed the original price</mat-error>
-              <mat-error *ngIf="discount < 0">Price after discount can't be negative</mat-error>
+            <mat-error *ngIf="currentItem?.price < discount">Price after discount must not exceed the original price
+            </mat-error>
+            <mat-error *ngIf="discount < 0">Price after discount can't be negative</mat-error>
           </div>
 
         </form>
@@ -820,7 +820,8 @@
 
       </div>
       <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" [ngClass]="currentItem?.price < discount || discount < 0 ? 'disabled' : ''" (click)="submitItemUpdate()">
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2"
+          [ngClass]="currentItem?.price < discount || discount < 0 ? 'disabled' : ''" (click)="submitItemUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
@@ -851,11 +852,12 @@
             </label>
             <input type="number" name="invoice_discount" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input"
               placeholder="Type.." [min]="0" [(ngModel)]="invoiceDiscount">
-              <mat-error *ngIf="invoiceDiscount != null && order?.amount < invoiceDiscount">Price after discount must not exceed the
-                original
-                price
-              </mat-error>
-              <mat-error *ngIf="invoiceDiscount < 0">discount price can't be a negative number</mat-error>
+            <mat-error *ngIf="invoiceDiscount != null && order?.amount < invoiceDiscount">Price after discount must not
+              exceed the
+              original
+              price
+            </mat-error>
+            <mat-error *ngIf="invoiceDiscount < 0">discount price can't be a negative number</mat-error>
           </div>
 
         </form>
@@ -867,7 +869,8 @@
       </div>
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green btn-blue2"
-          [ngClass]="(invoiceDiscount != null && order?.amount < invoiceDiscount) || invoiceDiscount < 0 ? 'disabled' : ''" (click)="submitInvoiceUpdate()">
+          [ngClass]="(invoiceDiscount != null && order?.amount < invoiceDiscount) || invoiceDiscount < 0 ? 'disabled' : ''"
+          (click)="submitInvoiceUpdate()">
           Yes
         </button>
         <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
@@ -895,7 +898,8 @@
             <div class="form-group" [formGroupName]="i" *ngFor="let serial of serialsFormArr.controls; let i = index">
               <label for="">Serial Number {{i + 1}}</label>
               <input type="text" class="owl-input" placeholder="Type.." formControlName="name">
-              <div *ngIf='serial["controls"].name.invalid && (serial["controls"].name.dirty || serial["controls"].name.touched)'
+              <div
+                *ngIf='serial["controls"].name.invalid && (serial["controls"].name.dirty || serial["controls"].name.touched)'
                 class="invalid-serials">
                 Serial Number {{i + 1}} is
                 required</div>

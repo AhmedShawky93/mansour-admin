@@ -18,6 +18,7 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { CategoryService } from "@app/pages/services/category.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import { SettingService } from '@app/pages/services/setting.service';
 // import { environmentVariables } from '../../../../../environments/enviromentalVariables';
 
 @Component({
@@ -42,14 +43,28 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   marker_lng;
   phones: FormArray
   public zoom: number = 12;
-  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
+  // environmentVariables;
+  branchTypes=[];
   constructor(
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private formbuilder: FormBuilder,
     private bracnhesStoreService: BracnhesStoreService,
-  ) { }
-
+    private settingService:SettingService
+  ) { 
+    this.getTypes();
+    // this.getConfig();
+  }
+  // getConfig(){
+  //   this.settingService.getenvConfig().subscribe(res=>{
+  //    this.environmentVariables=res;
+  //   })
+  // }
+  getTypes(){
+    this.settingService.get_branch_types().subscribe((res:any)=>{
+      this.branchTypes=res.data;
+    })
+  }
   ngOnInit() {
     this.getForm(this.selectProductDataEdit);
   }

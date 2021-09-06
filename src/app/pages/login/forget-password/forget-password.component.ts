@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/shared/auth.service';
 import { Router } from '@angular/router';
+import { SettingService } from '@app/pages/services/setting.service';
 
 @Component({
   selector: 'app-forget-password',
@@ -9,13 +10,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./forget-password.component.css']
 })
 export class ForgetPasswordComponent implements OnInit {
-environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
+environmentVariables;
   email;
   errorMessage;
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router,private settingService:SettingService) { 
+    this.getConfig();
+  }
 
   ngOnInit() {
+  }
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+     this.environmentVariables=res;
+    })
   }
 
   forgetPassword() {
