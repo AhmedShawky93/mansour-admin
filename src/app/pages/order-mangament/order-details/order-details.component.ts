@@ -209,6 +209,8 @@ export class OrderDetailsComponent implements OnInit {
       shipping_notes: new FormControl(),
       shipping_method: new FormControl(3),
       aramex_account_number: new FormControl(1),
+      remove_loyalty_points: new FormControl(true),
+      add_loyalty_points: new FormControl(true),
       branch_id: new FormControl(this.branches.length ? this.branches[0].id : '')
     });
   }
