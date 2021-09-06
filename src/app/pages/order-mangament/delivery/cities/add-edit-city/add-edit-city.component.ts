@@ -28,6 +28,10 @@ export class AddEditCityComponent implements OnInit {
         data ? data.delivery_fees : 0,
         Validators.required
       ),
+      range: new FormControl(data ? data.range : false),
+      from: new FormControl(data ? data.from : "",Validators.pattern('\\d*(\\.\\d{1,2})?$')),
+      to: new FormControl(data ? data.to : "",Validators.pattern('\\d*(\\.\\d{1,2})?$')),
+
       // apply_with_other: new FormControl(false),
     });
   }

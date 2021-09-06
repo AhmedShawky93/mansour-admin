@@ -4,21 +4,31 @@
     <span class="close" id="close-add-area" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{selectDataEdit ? 'Edit City':'new City'}} </h3>
+    <h3>{{ selectDataEdit ? "Edit City" : "new City" }}</h3>
   </div>
   <div class="add-area-form">
-
     <form [formGroup]="cityForm" (ngSubmit)="submitForm()" novalidate>
       <div class="form-group">
         <label for="">Name </label>
 
-        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name">
-
+        <input
+          type="text"
+          class="owl-input"
+          placeholder="type here.."
+          name="name"
+          required
+          formControlName="name"
+        />
       </div>
       <!-- Errors Rolues -->
-      <div *ngIf="cityForm.controls.name.invalid && (cityForm.controls.name.dirty || cityForm.controls.name.touched)"
-        class="alert alert-danger">
-        <div *ngIf="cityForm.controls.name.errors.required ">
+      <div
+        *ngIf="
+          cityForm.controls.name.invalid &&
+          (cityForm.controls.name.dirty || cityForm.controls.name.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="cityForm.controls.name.errors.required">
           Name is required.
         </div>
       </div>
@@ -26,26 +36,49 @@
       <div class="form-group">
         <label for="">Name (ar)</label>
 
-        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name_ar">
-
+        <input
+          type="text"
+          class="owl-input"
+          placeholder="type here.."
+          name="name"
+          required
+          formControlName="name_ar"
+        />
       </div>
       <!-- Errors Rolues -->
       <div
-        *ngIf="cityForm.controls.name_ar.invalid && (cityForm.controls.name_ar.dirty || cityForm.controls.name_ar.touched)"
-        class="alert alert-danger">
-        <div *ngIf="cityForm.controls.name_ar.errors.required ">
+        *ngIf="
+          cityForm.controls.name_ar.invalid &&
+          (cityForm.controls.name_ar.dirty || cityForm.controls.name_ar.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="cityForm.controls.name_ar.errors.required">
           Name (Ar)is required.
         </div>
       </div>
 
       <div class="form-group">
         <label for="">Delivery Fees</label>
-        <input type="text" class="owl-input" placeholder="type here.." name="delivery_fees" required min="0" max="500"
-          formControlName="delivery_fees">
+        <input
+          type="text"
+          class="owl-input"
+          placeholder="type here.."
+          name="delivery_fees"
+          required
+          min="0"
+          max="500"
+          formControlName="delivery_fees"
+        />
       </div>
       <div
-        *ngIf="cityForm.controls.delivery_fees.invalid && (cityForm.controls.delivery_fees.dirty || cityForm.controls.delivery_fees.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          cityForm.controls.delivery_fees.invalid &&
+          (cityForm.controls.delivery_fees.dirty ||
+            cityForm.controls.delivery_fees.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="cityForm.controls.delivery_fees.errors.required">
           Delivery Fees is required.
         </div>
@@ -56,6 +89,71 @@
           Delivery Fees can't be more than 500
         </div>
       </div>
+      <div class="col-md-12">
+        <label class="checkup"
+          >Range
+          <input type="checkbox" formControlName="range" />
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="row" *ngIf="cityForm.controls.range.value == true">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">From</label>
+            <input
+              type="text"
+              class="owl-input"
+              placeholder="type here.."
+              required
+              formControlName="from"
+            />
+          </div>
+          <div
+            *ngIf="
+              cityForm.controls.from.invalid &&
+              (cityForm.controls.from.dirty || cityForm.controls.from.touched)
+            "
+            class="alert alert-danger"
+          >
+            <div *ngIf="cityForm.controls.from.errors.pattern">
+              From not valid
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">to</label>
+            <input
+              type="text"
+              class="owl-input"
+              placeholder="type here.."
+              required
+              formControlName="to"
+            />
+          </div>
+          <div
+            *ngIf="
+              cityForm.controls.to.invalid &&
+              (cityForm.controls.to.dirty || cityForm.controls.to.touched)
+            "
+            class="alert alert-danger"
+          >
+            <div *ngIf="cityForm.controls.to.errors.pattern">
+              To not valid
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Errors Rolues -->
+      <!-- <div *ngIf="cityForm.controls.name.invalid && (cityForm.controls.name.dirty || cityForm.controls.name.touched)"
+        class="alert alert-danger">
+        <div *ngIf="cityForm.controls.name.errors.required ">
+          Name is required.
+        </div>
+      </div> -->
 
       <!-- Errors Rolues -->
 
@@ -65,9 +163,10 @@
       </label> -->
 
       <div class="btn-group">
-        <button type="submit" class="btn btn-owls btn-rounded btn-green">Save</button>
+        <button type="submit" class="btn btn-owls btn-rounded btn-green">
+          Save
+        </button>
       </div>
     </form>
   </div>
-
 </div>
