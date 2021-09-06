@@ -330,7 +330,7 @@ export class ManageCastomerComponent implements OnInit {
       .subscribe((response: any) => {
         const token = response.data;
         var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
-        window.open(`${environmentVariables.brandRelatedVariables.loginApi}session/signin?disabled_guard=true&token=${token}`, '_blank');
+        window.open(`${environmentVariables.brandRelatedVariables.loginApi}/session/signin?disabled_guard=true&token=${token}`, '_blank');
       });
   }
 
