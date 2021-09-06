@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/shared/auth.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { SettingService } from '@app/pages/services/setting.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -10,19 +11,26 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
-  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
+  environmentVariables;
   errorMessage: any = false;
   password;
   password_confirm;
   token;
 
-  constructor(private auth: AuthService, private router: Router, private activeRoute: ActivatedRoute) { }
+  constructor(private auth: AuthService, private router: Router, private activeRoute: ActivatedRoute,private settingService:SettingService) {
+    this.getConfig();
+   }
 
   ngOnInit() {
     this.activeRoute.queryParams.subscribe((params) => {
       let token = params['token'];
       this.token = token;
     });
+  }
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+     this.environmentVariables=res;
+    })
   }
 
   resetPassword() {

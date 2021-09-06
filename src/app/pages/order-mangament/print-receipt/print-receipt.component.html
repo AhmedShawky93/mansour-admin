@@ -286,7 +286,7 @@
       </div>
     </div>
     <div class="col-5 text-center">
-      <img class="img-logo" [src]="environmentVariables.brands.logoBlack" alt="" />
+      <img *ngIf="environmentVariables" class="img-logo" [src]="environmentVariables.brands.logoBlack" alt="" />
     </div>
     <div class="col-12">
       <div class="table-product">
@@ -439,15 +439,15 @@
       <div class="info">
         <p>
           For any inquiries or requests please contact our customer service at:<br>
-          Hotline: {{environmentVariables.brandRelatedVariables.hotline}}<br>
-          Email: {{environmentVariables.brandRelatedVariables.email}}<br>
-          Thanks for shopping at {{environmentVariables.brandRelatedVariables.brand}}!<br>
+          Hotline: {{environmentVariables?environmentVariables.brandRelatedVariables.hotline:''}}<br>
+          Email: {{environmentVariables?environmentVariables.brandRelatedVariables.email:''}}<br>
+          Thanks for shopping at {{environmentVariables?environmentVariables.brandRelatedVariables.brand:''}}!<br>
         </p>
         <p class="text-ar">
           : لأي إستفسارات برجاء التواصل معنا على خدمة العملاء علي<br>
-          الخط الساخن: {{environmentVariables.brandRelatedVariables.hotline}} <br>
-          {{environmentVariables.brandRelatedVariables.email}} : بريد إلكتروني<br>
-          !شكرا لتسوقك علي {{environmentVariables.brandRelatedVariables.brandArabic}}
+          الخط الساخن: {{environmentVariables?environmentVariables.brandRelatedVariables.hotline:''}} <br>
+          {{environmentVariables?environmentVariables.brandRelatedVariables.email:''}} : بريد إلكتروني<br>
+          !شكرا لتسوقك علي {{environmentVariables?environmentVariables.brandRelatedVariables.brandArabic:''}}
         </p>
       </div>
     </div>

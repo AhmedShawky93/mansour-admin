@@ -84,7 +84,8 @@ export class AppComponent implements OnInit {
         if (this.systemConfig.brand_color) {
           document.documentElement.style.setProperty('--brand-color', this.systemConfig.brand_color)
         }
-        localStorage.setItem('systemConfig', JSON.stringify(this.systemConfig));
+        this.settingsServ.setenvConfig(this.systemConfig);
+        // localStorage.setItem('systemConfig', JSON.stringify(this.systemConfig));
         // this.setLink(this.systemConfig);
         this.setConfig(this.systemConfig);
         this.setFirstFav(this.systemConfig);
@@ -102,13 +103,13 @@ export class AppComponent implements OnInit {
     // }
     link['href'] = environmentVariables.brands.favIcon;
   }
-  setLink(environmentVariables) {
-    var link = document.createElement('link');
-    var environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
-    link.rel = 'icon';
-    link.href = `${environmentVariables.brands.favIcon}`;
-    document.getElementsByTagName('head')[0].appendChild(link);
-  }
+  // setLink(environmentVariables) {
+  //   var link = document.createElement('link');
+  //   var environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
+  //   link.rel = 'icon';
+  //   link.href = `${environmentVariables.brands.favIcon}`;
+  //   document.getElementsByTagName('head')[0].appendChild(link);
+  // }
   setConfig(environmentVariables) {
     this.router.events
       .filter((event) => event instanceof NavigationEnd)

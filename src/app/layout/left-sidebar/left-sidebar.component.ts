@@ -1,5 +1,6 @@
 // import { environmentVariables } from './../../../environments/enviromentalVariables';
 import { Component, OnInit } from '@angular/core';
+import { SettingService } from '@app/pages/services/setting.service';
 import { ShowAffiliateService } from '@app/pages/services/show-affiliate.service';
 
 declare var jquery: any;
@@ -13,12 +14,18 @@ declare var $: any;
 export class LeftSidebarComponent implements OnInit {
 
   affiliate: boolean;
-  environmentVariables = JSON.parse(localStorage.getItem("systemConfig"));
+  environmentVariables;
 
-  constructor(private showAffiliateService: ShowAffiliateService) {
+  constructor(private showAffiliateService: ShowAffiliateService,private settingService:SettingService) {
+     this.getConfig();
     this.showAffiliateService.showAffiliate.subscribe((response: any) => {
       this.affiliate = response
     });
+  }
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+     this.environmentVariables=res;
+    })
   }
 
   ngOnInit() {
