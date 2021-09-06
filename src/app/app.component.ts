@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
       logoWhite: "",
     },
     brand_color: '',
-    enable_affiliate: false;
+    enable_affiliate: false
   };
   ConfigLoaded = false;
   constructor(
@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
     this.settingsServ.getEnv_variables().subscribe((res: any) => {
       if (res.code === 200) {
         this.systemConfig.themeType = res.data.theme_type;
-        this.systemConfig.showLoyality = res.data.show_loyality;
+        this.systemConfig.showLoyality = res.data.showLoyality;
         this.systemConfig.envApi.env.checkoutUrl = res.data.website_url;
         this.systemConfig.brandRelatedVariables.brand = res.data.APP_NAME ? res.data.APP_NAME : 'Dashboard';
         this.systemConfig.brandRelatedVariables.brandArabic = res.data.APP_NAME_AR ? res.data.APP_NAME_AR : 'Dashboard';
