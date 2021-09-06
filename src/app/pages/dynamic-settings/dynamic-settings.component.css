@@ -89,3 +89,6 @@ textarea.owl-input {
   min-height: 150px;
 
 }
+.alert-danger {
+  padding-left: 0px !important;
+}
