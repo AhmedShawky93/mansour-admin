@@ -47,7 +47,6 @@
           readonly
           (click)="pickerFrom.open()"
           [satDatepicker]="pickerFrom"
-          [value]="date"
           [(ngModel)]="filter.date_from"
           (ngModelChange)="filterImports($event, 'dateFrom')"
         />
@@ -67,7 +66,6 @@
           readonly
           (click)="pickerTo.open()"
           [satDatepicker]="pickerTo"
-          [value]="date"
           [(ngModel)]="filter.date_to"
           (ngModelChange)="filterImports($event, 'dateTo')"
         />

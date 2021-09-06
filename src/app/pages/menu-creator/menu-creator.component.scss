@@ -198,6 +198,7 @@
   transition: all 0.3s ease;
   display: flex !important;
 }
+
 /* 
 .app-nav-list .app-nav-item .nav-link {
   cursor: pointer;
@@ -211,7 +212,7 @@
   color: var(--dynamic-menu-level-1-hover-color) !important;
 }
 
-.has-link{
+.has-link {
   cursor: pointer;
 }
 
@@ -688,7 +689,7 @@ hr {
   flex-wrap: wrap;
 }
 
-.column-view{
+.column-view {
   flex-direction: column;
 }
 
@@ -804,4 +805,43 @@ hr {
 
 .radio-group input {
   margin-right: 10px;
+}
+
+.slider {
+  top: 5px;
+}
+
+.slider:before {
+  background-color: #c4c8ca;
+  border: 1px solid #c4c8ca;
+}
+
+.switch label {
+  color: rgba(0, 0, 0, .7)
+}
+
+.switch label:hover {
+  color: rgba(0, 0, 0, 1)
+}
+
+.menu-colors {
+  .owl-input {
+    background: transparent;
+    border: 0px !important;
+    padding: 0;
+  }
+}
+
+.dimention-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  input{
+    margin-right: 10px;
+  }
+
+  ng-select{
+    width: 20%;
+  }
 }

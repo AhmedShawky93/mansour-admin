@@ -165,7 +165,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   addCustomUser = (term) => ({ id: term, name: term });
 
   ngOnInit() {
-    this.syncFbSheet = environment.api + "/admin/products/export_fb";
+    this.syncFbSheet = environment.api + "/api" + "/admin/products/export_fb";
     this.getCategories();
     // this.getProducts();
     this.productsService.getBrands().subscribe((response: any) => {
@@ -221,11 +221,11 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     const token = this.auth.getToken();
 
     if (this.sub_category_id) {
-      this.exportUrl = environment.api + '/admin/products/fullExport?sub_category_id=' + this.sub_category_id + '&token=' + token;
+      this.exportUrl = environment.api + "/api" + '/admin/products/fullExport?sub_category_id=' + this.sub_category_id + '&token=' + token;
     } else {
-      this.exportUrl = environment.api + '/admin/products/fullExport?token=' + token;
+      this.exportUrl = environment.api + "/api" + '/admin/products/fullExport?token=' + token;
     }
-    this.exportStock = environment.api + '/admin/products/export_prices?token=' + token;
+    this.exportStock = environment.api + "/api" + '/admin/products/export_prices?token=' + token;
 
     this.website_url = JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl;
 
@@ -374,8 +374,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   goToLink() {
     const token = this.auth.getToken();
-    const urlBasic = environment.api + '/admin/products/fullExport';
-    const urlBasicWithsubCategory = environment.api + '/admin/products/fullExport?sub_category_id=' + this.sub_category_id;
+    const urlBasic = environment.api + "/api" + '/admin/products/fullExport';
+    const urlBasicWithsubCategory = environment.api + "/api" + '/admin/products/fullExport?sub_category_id=' + this.sub_category_id;
     if (this.sub_category_id) {
       this.productsService.exportFileProducts(urlBasicWithsubCategory).subscribe({
         next: ((rep: any) => {
@@ -409,7 +409,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   exportStocks() {
-    const exportStock = environment.api + '/admin/products/exportStocks';
+    const exportStock = environment.api + "/api" + '/admin/products/exportStocks';
 
     this.productsService.exportFileStocks(exportStock).subscribe({
       next: ((rep: any) => {

@@ -113,7 +113,7 @@ export class ManageCastomerComponent implements OnInit {
     });
 
     const token = this.auth.getToken();
-    this.exportUrl = environment.api + '/admin/customers/export?token=' + token;
+    this.exportUrl = environment.api + "/api" + '/admin/customers/export?token=' + token;
 
     this.loadCustomers();
     if (this.activatedRoute.snapshot.queryParams.fromOrder) {
@@ -330,7 +330,7 @@ export class ManageCastomerComponent implements OnInit {
       .subscribe((response: any) => {
         const token = response.data;
         var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
-        window.open(`${environmentVariables.brandRelatedVariables.loginApi}session/signin?disabled_guard=true&token=${token}`, '_blank');
+        window.open(`${environmentVariables.brandRelatedVariables.loginApi}/session/signin?disabled_guard=true&token=${token}`, '_blank');
       });
   }
 

@@ -8,15 +8,21 @@
         <h6 class="group-title">{{groupArray.title}}</h6>
       </div>
 
-      <div class="col-md-6 col-xs-12 d-flex align-items-sm-start"
-        *ngFor="let group of groupArray.controls; let i = index;" [formArrayName]="groupArray.name">
+      <div class="col-md-6 col-xs-12   align-items-sm-start" *ngFor="let group of groupArray.controls; let i = index;"
+        [formArrayName]="groupArray.name">
 
-
-        <ng-container *ngIf="group.value.type === 'text'">
+        <ng-container *ngIf="group.value.type === 'text' ||group.value.type ===  'email'">
           <div class="form-group w-100 mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
             <input class="owl-input" required formControlName="value" placeholder="Type..." type="text">
             <small class="form-text text-muted">{{group.value.description}}</small>
+          </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
           </div>
         </ng-container>
 
@@ -26,14 +32,45 @@
             <textarea class="owl-input owl-textarea" placeholder="Type..." formControlName="value"></textarea>
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="group.value.type === 'switch'">
+          <div class="form-group w-100 mt-2" [formGroupName]="i">
+            <label>{{group.value.name}}</label>
+            <label class="switch">
+              <input formControlName="value" type="checkbox" value="1">
+              <span class="slider round"></span>
+            </label>
+            <small class="form-text text-muted">{{group.value.description}}</small>
+          </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
+          </div>
         </ng-container>
 
-        <ng-container *ngIf="group.value.type === 'number'">
+        <ng-container *ngIf="group.value.type === 'number' ||  group.value.type === 'float'">
           <div class="form-group w-100 mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
             <input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" class="owl-input" placeholder="Type.."
               formControlName="value">
             <small class="form-text text-muted">{{group.value.description}}</small>
+          </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
           </div>
         </ng-container>
 
@@ -46,6 +83,13 @@
             </select>
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
+          </div>
         </ng-container>
 
         <ng-container *ngIf="group.value.type === 'multiple_select'">
@@ -55,6 +99,13 @@
               [multiple]="true" formControlName="value" placeholder="Select Option">
             </ng-select>
             <small class="form-text text-muted">{{group.value.description}}</small>
+          </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
           </div>
         </ng-container>
 
@@ -69,6 +120,13 @@
             </div>
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
+          </div>
         </ng-container>
 
         <ng-container *ngIf="group.value.type === 'file'">
@@ -79,6 +137,13 @@
             </app-image-uploader>
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
+          </div>
         </ng-container>
 
         <ng-container *ngIf="group.value.type === 'date'">
@@ -88,6 +153,13 @@
             </app-generic-date-picker>
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
+          </div>
         </ng-container>
 
         <ng-container *ngIf="group.value.type === 'html'">
@@ -95,6 +167,13 @@
             <label>{{group.value.name}}</label>
             <angular-editor [id]="i" formControlName="value" [config]="editorConfig"></angular-editor>
             <small class="form-text text-muted">{{group.value.description}}</small>
+          </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
           </div>
         </ng-container>
 
@@ -105,6 +184,13 @@
               [style.background]="group.value.value" [colorPicker]="group.value.value"
               (colorPickerChange)="setColor($event, group.controls.value)" />
             <small class="form-text text-muted">{{group.value.description}}</small>
+          </div>
+          <div
+            *ngIf="groupArray['controls'][i].controls.value.invalid && (groupArray['controls'][i].controls.value.dirty || groupArray['controls'][i].controls.value.touched)"
+            class="alert alert-danger">
+            <div *ngIf="groupArray['controls'][i].controls.value.errors.required">
+              {{groupArray.title}} is required.
+            </div>
           </div>
         </ng-container>
 

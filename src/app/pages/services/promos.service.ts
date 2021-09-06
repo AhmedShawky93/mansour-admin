@@ -10,7 +10,7 @@ import "rxjs/add/operator/catch";
 export class PromosService {
   private url: string;
   constructor(private http: HttpClient) {
-    this.url = environment.api + "/admin";
+    this.url = environment.api + "/api" + "/admin";
   }
 
   // get Promos

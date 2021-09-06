@@ -72,7 +72,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       sanitize: false,
       defaultFontSize: '',
       toolbarPosition: 'top',
-      uploadUrl: environment.api + '/admin/upload_ckeditor',
+      uploadUrl: environment.api + "/api" + '/admin/upload_ckeditor',
       customClasses: [{
         name: 'imgEditor',
         class: 'imgEditor',

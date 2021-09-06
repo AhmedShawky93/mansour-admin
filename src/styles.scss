@@ -1866,3 +1866,9 @@ pointer {
   pointer-events: none;
   opacity: .5;
 }
+
+.dimention-picker{
+  .ng-select-container{
+    height: 43px !important;
+  }
+}

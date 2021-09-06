@@ -106,7 +106,7 @@ import { AddEditCustomerComponent } from './pages/mangament-users/manage-castome
 import { DynamicSettingsComponent } from '@app/pages/dynamic-settings/dynamic-settings.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { ImportsComponent } from './pages/imports/imports.component';
-import {ProgressBarModule} from "angular-progress-bar"
+import { ProgressBarModule } from "angular-progress-bar"
 import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.component';
 import { StaticPagesComponent } from './pages/static-pages/static-pages.component';
 import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edit-page.component';

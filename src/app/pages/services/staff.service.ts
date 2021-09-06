@@ -12,7 +12,7 @@ export class StaffService {
   private url : any;
 
   constructor(private _HttpClient : HttpClient) {  
-      this.url = environment.api + "/admin"
+      this.url = environment.api + "/api" + "/admin"
   }
 
   // create Staff

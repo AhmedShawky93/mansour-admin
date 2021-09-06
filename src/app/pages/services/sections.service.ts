@@ -11,7 +11,7 @@ export class SectionsService {
   private url: string;
 
   constructor(private http: HttpClient) {
-    this.url = environment.api + "/admin";
+    this.url = environment.api + "/api" + "/admin";
   }
 
   getSections(data) {
