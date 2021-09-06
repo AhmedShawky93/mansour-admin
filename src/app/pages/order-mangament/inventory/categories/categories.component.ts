@@ -107,7 +107,7 @@ export class CategoriesComponent implements OnInit {
     this.getOptions();
   }
 
-  addCaregory(){
+  addCaregory() {
     this.categoriesForm = new FormGroup({
       name: new FormControl("", [
         Validators.required,
@@ -306,34 +306,39 @@ export class CategoriesComponent implements OnInit {
   }
 
   uploadImage(image, e: any) {
-    let fileList: FileList = e.target.files;
-    if (fileList.length > 0) {
-      let file: File = fileList[0];
-
-      // if(file.size > 3000000) {
-      //   this.showVendorSizeError = true;
-      //   return
-      // }else{
-      //   this.showVendorSizeError = false;
-      // }
-
-      // var reader = new FileReader();
-
-      // reader.onload = (e: any) => {
-      //   category.imageUrl = e.target.result;
-      // }
-
-      // reader.readAsDataURL(e.target.files[0]);
-
-      this.uploadService.uploadFile(file).subscribe((response: any) => {
-        // this.isUploadingVendor = false;
-        if (response.body) {
-          image.setValue(response.body.data.filePath);
-          // category.image = response.body.data.name;
-          // category.imageUrl = response.body.data.filePath;
-          // category.showError = 0;
-        }
-      });
+    let file = <File>e.target.files[0];
+    if (file.size > 1048576) {
+      alert('file size is too big max size is 1MB')
+    } else {
+      let fileList: FileList = e.target.files;
+      if (fileList.length > 0) {
+        let file: File = fileList[0];
+  
+        // if(file.size > 3000000) {
+        //   this.showVendorSizeError = true;
+        //   return
+        // }else{
+        //   this.showVendorSizeError = false;
+        // }
+  
+        // var reader = new FileReader();
+  
+        // reader.onload = (e: any) => {
+        //   category.imageUrl = e.target.result;
+        // }
+  
+        // reader.readAsDataURL(e.target.files[0]);
+  
+        this.uploadService.uploadFile(file).subscribe((response: any) => {
+          // this.isUploadingVendor = false;
+          if (response.body) {
+            image.setValue(response.body.data.filePath);
+            // category.image = response.body.data.name;
+            // category.imageUrl = response.body.data.filePath;
+            // category.showError = 0;
+          }
+        });
+      }
     }
   }
 

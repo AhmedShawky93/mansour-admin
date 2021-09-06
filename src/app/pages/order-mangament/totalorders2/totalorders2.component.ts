@@ -42,7 +42,7 @@ export class TotalComponent implements OnInit {
 
     this.activeRoute.params.subscribe((params) => {
       let id = params['id'];
-      this.exportUrl = environment.api + '/admin/deliverers/' + id + '/exportOrders?token=' + token;
+      this.exportUrl = environment.api + "/api" + '/admin/deliverers/' + id + '/exportOrders?token=' + token;
       this.deliverService.getDelivererOrders(id)
         .subscribe((response: any) => {
           this.orders = response.data;

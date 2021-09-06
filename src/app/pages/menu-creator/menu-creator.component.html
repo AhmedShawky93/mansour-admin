@@ -2,7 +2,7 @@
   <nav class="app-nav" (click)="updateColorsTest()">
     <ul class="app-nav-list my-0" *ngIf="formattedJson" [ngClass]="{ 'hide-menu': clickedItem }"
       (mouseleave)="clickedItem = false">
-      <li class="app-nav-item" [ngClass]="levelOneItem.level2.length > 0 ? 'mega' : ''"
+      <li class="app-nav-item" [ngClass]="levelOneItem.level2?.length > 0 ? 'mega' : ''"
         *ngFor="let levelOneItem of formattedJson.level1; let i = index">
         <ng-container>
           <a class="nav-link main main-font" [ngClass]="{'has-link' : levelOneItem.link}" routerLinkActive="active-link"
@@ -12,11 +12,12 @@
           </a>
         </ng-container>
 
-        <div class="sub-menu main-submenu dynamic-menu" [ngStyle]="{'padding': levelOneItem.menu_padding}">
-          <ng-container *ngIf="levelOneItem.level2.length > 0 && levelOneItem.levels_length == 3;else simpleMenu">
+        <div class="sub-menu main-submenu dynamic-menu"
+          [ngStyle]="{'padding': levelOneItem.menu_padding+levelOneItem.menu_padding_metric, 'width': levelOneItem.menu_fixed_width+levelOneItem.menu_fixed_width_metric}">
+          <ng-container *ngIf="levelOneItem.level2?.length > 0 && levelOneItem.levels_length == 3;else simpleMenu">
             <ul class="sub-menu-items-container">
               <li class="sub-level-items-container main-font" [ngClass]="levelOneItem.fixed_width ? 'fixed-width' : ''"
-                [ngStyle]="{'width': levelOneItem.fixed_width}" *ngFor="let levelTwoItem of levelOneItem.level2">
+                [ngStyle]="{'width': levelOneItem.fixed_width+levelOneItem.fixed_width_metric}" *ngFor="let levelTwoItem of levelOneItem.level2">
                 <div class="sub-level-items">
                   <img *ngIf="levelOneItem.level2_image && levelTwoItem.image" [src]="levelTwoItem.image"
                     alt="secondary section image" />
@@ -26,7 +27,7 @@
                       {{ levelTwoItem?.name }}</h2>
                     <ul>
                       <li class="third-level-nav-link main-font"
-                        [ngStyle]="{'line-height': levelOneItem.level3_items_spacing}"
+                        [ngStyle]="{'line-height': levelOneItem.level3_items_spacing+levelOneItem.level3_items_spacing_metric}"
                         *ngFor="let levelThreeItem of levelTwoItem.level3"
                         (click)="navigateToLink(levelThreeItem.link)" [ngClass]="{'has-link': levelThreeItem.link}">
                         <div class="view-more main-font" *ngIf="levelThreeItem.highlighted;else seeMoreLink">
@@ -45,7 +46,7 @@
             </ul>
 
             <div class="first-level-image"
-              [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
+              [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions+levelOneItem.level1_image_dimentions_metric, 'max-width': levelOneItem.level1_image_dimentions+levelOneItem.level1_image_dimentions_metric, 'width' : levelOneItem.level1_image_dimentions+levelOneItem.level1_image_dimentions_metric}"
               *ngIf="levelOneItem.level1_image && levelOneItem.image">
               <img [src]="levelOneItem.image" alt="main section image" />
             </div>
@@ -64,7 +65,7 @@
             </ul>
 
             <div class="first-level-image"
-              [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions, 'max-width': levelOneItem.level1_image_dimentions, 'width' : levelOneItem.level1_image_dimentions}"
+              [ngStyle]="{'min-width': levelOneItem.level1_image_dimentions+levelOneItem.level1_image_dimentions_metric, 'max-width': levelOneItem.level1_image_dimentions+levelOneItem.level1_image_dimentions_metric, 'width' : levelOneItem.level1_image_dimentions+levelOneItem.level1_image_dimentions_metric}"
               *ngIf="levelOneItem.level1_image && levelOneItem.image">
               <img [src]="levelOneItem.image" alt="main section image" />
             </div>
@@ -75,52 +76,52 @@
   </nav>
 </div>
 
-<div class="main-menu-items">
+<div class="main-menu-items menu-colors">
   <div class="item form-group">
     <label for="menu_background_color">Menu background color</label>
-    <input class="owl-input" matInput name="menu_background_color" type="text"
+    <input class="owl-input" matInput name="menu_background_color" type="color"
       (blur)="checkColorValidity(formattedJson.menu_background_color, 'menu_background_color')"
       [(ngModel)]="formattedJson.menu_background_color">
   </div>
   <div class="item form-group">
     <label for="drop_menu_background_color">Drop menu background color</label>
-    <input class="owl-input" matInput name="drop_menu_background_color" type="text"
+    <input class="owl-input" matInput name="drop_menu_background_color" type="color"
       (blur)="checkColorValidity(formattedJson.drop_menu_background_color, 'drop_menu_background_color')"
       [(ngModel)]="formattedJson.drop_menu_background_color">
   </div>
   <div class="item form-group">
     <label for="level1_text_color">Headers text color</label>
-    <input class="owl-input" matInput name="level1_text_color" type="text"
+    <input class="owl-input" matInput name="level1_text_color" type="color"
       (blur)="checkColorValidity(formattedJson.level1_text_color, 'level1_text_color')"
       [(ngModel)]="formattedJson.level1_text_color">
   </div>
   <div class="item form-group">
     <label for="level1_hover_color">Headers hover text color</label>
-    <input class="owl-input" matInput name="level1_hover_color" type="text"
+    <input class="owl-input" matInput name="level1_hover_color" type="color"
       (blur)="checkColorValidity(formattedJson.level1_hover_color, 'level1_hover_color')"
       [(ngModel)]="formattedJson.level1_hover_color">
   </div>
   <div class="item form-group">
     <label for="level2_text_color">Groups text color</label>
-    <input class="owl-input" matInput name="level2_text_color" type="text"
+    <input class="owl-input" matInput name="level2_text_color" type="color"
       (blur)="checkColorValidity(formattedJson.level2_text_color, 'level2_text_color')"
       [(ngModel)]="formattedJson.level2_text_color">
   </div>
   <div class="item form-group">
     <label for="level2_hover_color">Groups hover text color</label>
-    <input class="owl-input" matInput name="level2_hover_color" type="text"
+    <input class="owl-input" matInput name="level2_hover_color" type="color"
       (blur)="checkColorValidity(formattedJson.level2_hover_color, 'level2_hover_color')"
       [(ngModel)]="formattedJson.level2_hover_color">
   </div>
   <div class="item form-group">
     <label for="level3_text_color">Sub category text color</label>
-    <input class="owl-input" matInput name="level3_text_color" type="text"
+    <input class="owl-input" matInput name="level3_text_color" type="color"
       (blur)="checkColorValidity(formattedJson.level3_text_color, 'level3_text_color')"
       [(ngModel)]="formattedJson.level3_text_color">
   </div>
   <div class="item form-group">
     <label for="level3_hover_color">Sub category hover text color</label>
-    <input class="owl-input" matInput name="level3_hover_color" type="text"
+    <input class="owl-input" matInput name="level3_hover_color" type="color"
       (blur)="checkColorValidity(formattedJson.level3_hover_color, 'level3_hover_color')"
       [(ngModel)]="formattedJson.level3_hover_color">
   </div>
@@ -201,22 +202,42 @@
     
     <div class="form-group">
       <label>Level 3 item spacing</label>
-      <input class="owl-input" formControlName="level3_items_spacing" placeholder="Type.." type="text">
+      <div class="dimention-picker">
+        <input class="owl-input" formControlName="level3_items_spacing" placeholder="Type.." type="number">
+        <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="level3_items_spacing_metric" [clearable]="false"></ng-select>
+      </div>
     </div>
 
     <div class="form-group">
       <label>Menu padding</label>
-      <input class="owl-input" formControlName="menu_padding" placeholder="Type.." type="text">
+      <div class="dimention-picker">
+      <input class="owl-input" formControlName="menu_padding" placeholder="Type.." type="number">
+      <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="menu_padding_metric" [clearable]="false"></ng-select>
+      </div>
     </div>
 
     <div class="form-group">
       <label>Columns fixed width</label>
-      <input class="owl-input" formControlName="fixed_width" placeholder="Type.." type="text">
+      <div class="dimention-picker">
+      <input class="owl-input" formControlName="fixed_width" placeholder="Type.." type="number">
+      <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="fixed_width_metric" [clearable]="false"></ng-select>
+      </div>
     </div>
     
     <div class="form-group">
       <label>Image fixed width</label>
-      <input class="owl-input" formControlName="level1_image_dimentions" placeholder="Type.." type="text">
+      <div class="dimention-picker">
+      <input class="owl-input" formControlName="level1_image_dimentions" placeholder="Type.." type="number">
+      <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="level1_image_dimentions_metric" [clearable]="false"></ng-select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Menu fixed width</label>
+      <div class="dimention-picker">
+      <input class="owl-input" formControlName="menu_fixed_width" placeholder="Type.." type="number">
+      <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="menu_fixed_width_metric" [clearable]="false"></ng-select>
+      </div>
     </div>
 
     <div class="form-group radio-group">

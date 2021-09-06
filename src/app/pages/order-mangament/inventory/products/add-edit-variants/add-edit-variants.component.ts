@@ -77,7 +77,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       defaultFontSize: '',
       sanitize: false,
       toolbarPosition: 'top',
-      uploadUrl: environment.api + '/admin/upload_ckeditor',
+      uploadUrl: environment.api + "/api" + '/admin/upload_ckeditor',
     };
   }
 

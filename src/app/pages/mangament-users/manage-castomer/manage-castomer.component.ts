@@ -113,7 +113,7 @@ export class ManageCastomerComponent implements OnInit {
     });
 
     const token = this.auth.getToken();
-    this.exportUrl = environment.api + '/admin/customers/export?token=' + token;
+    this.exportUrl = environment.api + "/api" + '/admin/customers/export?token=' + token;
 
     this.loadCustomers();
     if (this.activatedRoute.snapshot.queryParams.fromOrder) {

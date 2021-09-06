@@ -32,10 +32,12 @@
   background-color: #e9eef1 !important;
   width: 100% !important;
   height: 100% !important;
+  max-height: 200px;
 }
 
 .owls-upload3 .img-fluid{
   max-width: 200px !important;
+  max-height: 200px;
 }
 
 .owls-upload3 input[type=file] {

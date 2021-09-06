@@ -17,7 +17,7 @@ export class SettingService {
   private url: string;
 
   constructor(private http: HttpClient) {
-    this.url = environment.api + '/admin/';
+    this.url = environment.api + "/api" + '/admin/';
     this.imagesEmitter = new EventEmitter();
 
   }

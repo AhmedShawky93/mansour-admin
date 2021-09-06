@@ -41,9 +41,9 @@
       <tr *ngFor="let group of groups | groupsFilter: searchTerm | paginate: { itemsPerPage: 10, currentPage: p }">
         <td>{{group.name_en}}</td>
         <td>{{group.name_ar}}</td>
-        <td>{{group.sub_categories[0].parent.name}}</td>
+        <td>{{group.sub_categories[0]?.parent.name}}</td>
         <td style="
-        text-align:center;">{{group.sub_categories.length }}</td>
+        text-align:center;">{{group.sub_categories?.length }}</td>
         <td class="hidden">{{group.created_at | date : "yyyy-MM-dd hh:mm a" }}</td>
         <td>
           <a href="javascript:void(0)" class="table-view view-c" (click)="viewGroup(group)">

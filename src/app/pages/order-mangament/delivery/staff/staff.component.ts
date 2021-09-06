@@ -218,7 +218,7 @@ export class StaffComponent implements OnInit {
     this.token = this.auth.getToken();
 
     this.exportUrl =
-      environment.api + "/admin/deliverers/export?token=" + this.token;
+      environment.api + "/api" + "/admin/deliverers/export?token=" + this.token;
 
     this.loadDeliverers();
     this.loadCities();

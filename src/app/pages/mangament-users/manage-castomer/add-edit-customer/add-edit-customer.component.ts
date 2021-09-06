@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AreasService } from '@app/pages/services/areas.service';
 import { CustomerService } from '@app/pages/services/customer.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -14,11 +15,29 @@ export class AddEditCustomerComponent implements OnInit {
   @Output() dataCustomerEmit = new EventEmitter();
   @Input('selectedCustomer') selectedCustomer;
   customerForm: FormGroup;
+  cities: any = [];
+  areas: any = [];
 
-  constructor(private customerService: CustomerService, private toastrService: ToastrService) { }
+  constructor(private customerService: CustomerService, private toastrService: ToastrService, private citiesService: AreasService) { }
 
   ngOnInit() {
     this.setupForm(this.selectedCustomer);
+    this.citiesService.getCities()
+      .subscribe((response: any) => {
+        this.cities = response.data;
+      })
+  }
+
+  onCitySelected() {
+    let city_id = this.customerForm.controls.address.get('city_id').value;
+
+    if (city_id) {
+      let ind = this.cities.findIndex(c => c.id == city_id);
+
+      if (ind !== -1) {
+        this.areas = this.cities[ind].areas;
+      }
+    }
   }
 
   ngOnChanges() {
