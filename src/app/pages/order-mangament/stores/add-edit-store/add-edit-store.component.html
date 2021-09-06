@@ -182,8 +182,8 @@
       <label for="">Types </label>
       <select class="owl-input" formControlName="type" required name="type">
         <option value="" selected hidden>Select types </option>
-        <option value="branch.type" *ngFor="let branch of branchTypes">
-          {{branch.branchName}}</option>
+        <option *ngFor="let branch of branchTypes"   [value]="branch">
+          {{branch}}</option>
       </select>
       <!-- Start  Errors Rolues -->
 
