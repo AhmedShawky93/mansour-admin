@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PagesService } from '@app/pages/services/pages.service';
+import { SettingService } from '@app/pages/services/setting.service';
 import { environment } from '@env/environment';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ToastrService } from 'ngx-toastr';
@@ -17,11 +18,12 @@ export class AddEditPageComponent implements OnInit, OnChanges {
   @Input() curentAction;
   addEditPageForm: any;
   submitting = false;
-  website_url = JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl;
+  website_url;
   editorConfig: AngularEditorConfig;
   currentslug='';
   loading=false;
-  constructor(private formBuilder: FormBuilder, private pagesService: PagesService, private toastrService: ToastrService) {
+  constructor(private formBuilder: FormBuilder, private pagesService: PagesService, private toastrService: ToastrService,private settingService:SettingService) {
+    this.getConfig();
     this.editorConfig = {
       editable: true,
       spellcheck: true,
@@ -39,6 +41,11 @@ export class AddEditPageComponent implements OnInit, OnChanges {
       sanitize: false,
       toolbarPosition: 'top',
     };
+  }
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+    if(res) this.website_url=res.envApi.env.checkoutUrl;
+    })
   }
 
   ngOnInit() {
