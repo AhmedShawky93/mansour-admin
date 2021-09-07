@@ -137,7 +137,6 @@ import { SlugifyPipe } from './pages/static-pages/pipes/slugify.pipe';
     DeliveryFilterPipe,
     NotificationFilterPipe,
     GroupByDatePipe,
-    SlugifyPipe,
     NotificationsComponent,
     OffersComponent,
     AddOfferComponent,
@@ -155,6 +154,7 @@ import { SlugifyPipe } from './pages/static-pages/pipes/slugify.pipe';
     PrintReceiptComponent,
     CategoryPipe,
     GroupsPipe,
+    SlugifyPipe,
     OrderFilterPipe,
     BrandsComponent,
     ReportsComponent,
@@ -209,6 +209,7 @@ import { SlugifyPipe } from './pages/static-pages/pipes/slugify.pipe';
     DynamicSettingsComponent
   ],
   providers: [
+    SlugifyPipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthHttpInterceptor,
