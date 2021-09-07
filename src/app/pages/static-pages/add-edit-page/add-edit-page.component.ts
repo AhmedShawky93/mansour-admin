@@ -5,7 +5,7 @@ import { SettingService } from '@app/pages/services/setting.service';
 import { environment } from '@env/environment';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ToastrService } from 'ngx-toastr';
-
+import { SlugifyPipe } from './../pipes/slugify.pipe';
 @Component({
   selector: 'app-add-edit-page',
   templateUrl: './add-edit-page.component.html',
@@ -22,7 +22,9 @@ export class AddEditPageComponent implements OnInit, OnChanges {
   editorConfig: AngularEditorConfig;
   currentslug='';
   loading=false;
-  constructor(private formBuilder: FormBuilder, private pagesService: PagesService, private toastrService: ToastrService,private settingService:SettingService) {
+  constructor(private formBuilder: FormBuilder, private pagesService: PagesService, private toastrService: ToastrService,private settingService:SettingService
+    ,private slugifyPipe: SlugifyPipe
+    ) {
     this.getConfig();
     this.editorConfig = {
       editable: true,
@@ -128,12 +130,14 @@ else{
   }
   detectpageChange(){
     // this.addEditPageForm.value.title_en=this.addEditPageForm.value.title_en.replace(/ /g,'-');
+    this.currentslug= this.slugifyPipe.transform(this.addEditPageForm.value.title_en);
     this.currentslug=this.addEditPageForm.value.title_en.replace(/[^a-zA-Z ]/g,'').replaceAll(/\s\s+/g,'-');
     // console.log("value : ",this.addEditPageForm.value.title_en);
     
   }
   detectslugChange(){
-    (document.getElementById("webslug") as HTMLInputElement).value=this.addEditPageForm.value.slug.replace(/[\W_]/g,'');
+    (document.getElementById("webslug") as HTMLInputElement).value=this.slugifyPipe.transform(this.addEditPageForm.value.slug);
+    // (document.getElementById("webslug") as HTMLInputElement).value=this.addEditPageForm.value.slug.replace(/[^a-zA-Z ]/g,'').replaceAll(/\s\s+/g,'-');
     // this.currentslug=this.addEditPageForm.value.slug.replace(/[\W_]/g,'');
     // this.currentslug=this.currentslug.replace(/[\W_]/g,'');
   }
