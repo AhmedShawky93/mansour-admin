@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild, } from '@angular/core';
 import { environment } from '@env/environment';
 import { ToastrService } from 'ngx-toastr';
 import { PagesService } from '../services/pages.service';
+import { SettingService } from '../services/setting.service';
 declare var jquery: any;
 declare var $: any;
 
@@ -38,16 +39,21 @@ export class StaticPagesComponent implements OnInit {
   @ViewChild('elViewPage', { read: false }) elViewPage: any;
   pages: any[] = [];
   loading=false;
-  website_url = JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl;
+  website_url;
   p = 1;
   total;
   currentPage: any;
   toggleAddPage = 'out';
   statedeleting: boolean = false;
 
-  constructor(private pagesService: PagesService, private toastrService: ToastrService) {
+  constructor(private pagesService: PagesService, private toastrService: ToastrService,private settingService:SettingService) {
+    this.getConfig();
   }
-
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+    if(res) this.website_url=res.envApi.env.checkoutUrl;
+    })
+  }
   ngOnInit() {
     this.loading=true;
     this.pagesService.getPages().subscribe((res) => {
