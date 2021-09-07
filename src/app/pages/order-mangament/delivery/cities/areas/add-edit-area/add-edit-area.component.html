@@ -39,24 +39,102 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="col-md-12">
+        <label class="checkup" (change)="selectTypePrice('1')">Fixed price
+          <input type="radio" name="fees_type" [value]="1"  formControlName="fees_type" />
+          <span class="checkmark"></span>
+        </label>
+        <label class="checkup" (change)="selectTypePrice('2')">Range
+          <input type="radio" name="fees_type" [value]="2"  formControlName="fees_type" />
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div formArrayName="fees_range" *ngIf="cityForm.controls.fees_type.value == 2">
+        <div *ngFor="let item of cityForm.get('fees_range')['controls']; let i = index">
+          <div class="row box-range"  [formGroupName]="i">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="">From</label>
+                <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_from" />
+              </div>
+              <!-- <div *ngIf="
+                  cityForm.controls.from.invalid &&
+                  (cityForm.controls.from.dirty || cityForm.controls.from.touched)
+                " class="alert alert-danger">
+                <div *ngIf="cityForm.controls.from.errors.pattern">
+                  From not valid
+                </div>
+              </div> -->
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="">to</label>
+                <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_to" />
+              </div>
+              <!-- <div *ngIf="
+                  cityForm.controls.to.invalid &&
+                  (cityForm.controls.to.dirty || cityForm.controls.to.touched)
+                " class="alert alert-danger">
+                <div *ngIf="cityForm.controls.to.errors.pattern">
+                  To not valid
+                </div>
+              </div> -->
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="">Delivery Fees</label>
+                <input type="text" class="owl-input" placeholder="type here.." name="fees" required min="0" max="500"
+                  formControlName="fees" />
+                <!-- <div *ngIf="
+                  cityForm.controls.fees.invalid &&
+                  (cityForm.controls.fees.dirty ||
+                    cityForm.controls.fees.touched)
+                " class="alert alert-danger">
+                  <div *ngIf="cityForm.controls.fees.errors.required">
+                    Delivery Fees is required.
+                  </div>
+                  <div *ngIf="cityForm.controls.fees.errors.min">
+                    Delivery Fees can't be a negative number
+                  </div>
+                  <div *ngIf="cityForm.controls.fees.errors.max">
+                    Delivery Fees can't be more than 500
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="col-md-12">
+              <a href="javascript:void(0)" class="add-sub" (click)="removeRangeForm(i)">Remove Values</a>
+            </div>
+          </div>
+        </div>
+
+
+        <a href="javascript:void(0)" class="add-sub mian-color" (click)="addRangeForm(null)">Add Values</a>
+      </div>
+
+
+      <div class="form-group" *ngIf="cityForm.controls.fees_type.value == 1">
         <label for="">Delivery Fees</label>
-        <input type="text" class="owl-input" placeholder="type here.." name="delivery_fees" required min="0" max="500"
-          formControlName="delivery_fees">
+        <input type="text" class="owl-input" placeholder="type here.." name="delivery_fees"   min="0" max="500"
+          formControlName="delivery_fees" />
+        <div *ngIf="
+          cityForm.controls.delivery_fees.invalid &&
+          (cityForm.controls.delivery_fees.dirty ||
+            cityForm.controls.delivery_fees.touched)
+        " class="alert alert-danger">
+          <div *ngIf="cityForm.controls.delivery_fees.errors.required">
+            Delivery Fees is required.
+          </div>
+          <div *ngIf="cityForm.controls.delivery_fees.errors.min">
+            Delivery Fees can't be a negative number
+          </div>
+          <div *ngIf="cityForm.controls.delivery_fees.errors.max">
+            Delivery Fees can't be more than 500
+          </div>
+        </div>
       </div>
-      <div
-        *ngIf="cityForm.controls.delivery_fees.invalid && (cityForm.controls.delivery_fees.dirty || cityForm.controls.delivery_fees.touched)"
-        class="alert alert-danger">
-        <div *ngIf="cityForm.controls.delivery_fees.errors.required">
-          Delivery Fees is required.
-        </div>
-        <div *ngIf="cityForm.controls.delivery_fees.errors.min">
-          Delivery Fees can't be a negative number
-        </div>
-        <div *ngIf="cityForm.controls.delivery_fees.errors.max">
-          Delivery Fees can't be more than 500
-        </div>
-      </div>
+
 
       <!-- Errors Rolues -->
 

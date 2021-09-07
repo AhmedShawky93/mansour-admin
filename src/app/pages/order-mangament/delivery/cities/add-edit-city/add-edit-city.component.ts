@@ -31,19 +31,19 @@ export class AddEditCityComponent implements OnInit {
       // from: new FormControl(data ? data.from : "", Validators.pattern('\\d*(\\.\\d{1,2})?$')),
       // to: new FormControl(data ? data.to : "", Validators.pattern('\\d*(\\.\\d{1,2})?$')),
       // ranges:new FormArray([], [Validators.minLength(1), Validators.required])
-      ranges: new FormArray([])
+      fees_range: new FormArray([])
       // apply_with_other: new FormControl(false),
     });
     if (data) {
       this.selectTypePrice(data.fees_type)
-      data.values.forEach((element) => {
+      data.fees_range.forEach((element) => {
         this.addRangeForm(element);
       });
     }
   }
 
   addRangeForm(data): void {
-    this.ranges = this.cityForm.get("ranges") as FormArray;
+    this.ranges = this.cityForm.get("fees_range") as FormArray;
     this.ranges.push(this.createItem(data));
   }
   createItem(data): FormGroup {
@@ -59,15 +59,15 @@ export class AddEditCityComponent implements OnInit {
   selectTypePrice(type) {
     console.log(type)
     if (type == 1) {
-      this.cityForm.get('ranges').setValue([]);
-      this.cityForm.get('ranges').clearValidators();
+      this.cityForm.get('fees_range').setValue([]);
+      this.cityForm.get('fees_range').clearValidators();
       this.cityForm.get('delivery_fees').setValidators([Validators.required])
     } else if (type == 2) {
       this.cityForm.get('delivery_fees').setValue('');
-      this.cityForm.get('ranges').setValidators([Validators.minLength(1), Validators.required]);
+      this.cityForm.get('fees_range').setValidators([Validators.minLength(1), Validators.required]);
       this.cityForm.get('delivery_fees').clearValidators()
     }
-    this.cityForm.get('ranges').updateValueAndValidity()
+    this.cityForm.get('fees_range').updateValueAndValidity()
     this.cityForm.get('delivery_fees').updateValueAndValidity()
   }
 
@@ -80,7 +80,7 @@ export class AddEditCityComponent implements OnInit {
     }
     const data = this.cityForm.value;
     if (data.fees_type == '1') {
-      delete data.ranges
+      delete data.fees_range
     } else if(data.fees_type == '2') {
       delete data.delivery_fees
     }
