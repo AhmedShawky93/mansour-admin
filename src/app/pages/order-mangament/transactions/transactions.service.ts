@@ -9,7 +9,7 @@ export class TransactionsService {
   baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = `${environment.api}/admin`;
+    this.baseUrl = `${environment.api}/api/admin`;
   }
 
   getTransactions(data) {
