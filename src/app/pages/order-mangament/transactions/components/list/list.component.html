@@ -86,8 +86,8 @@
     <tr
       *ngFor="let item of list | paginate:  { itemsPerPage: itemsPerPage, currentPage: filter.page, totalItems: totalPages}">
       <td>{{item.id}}</td>
-      <td>{{item?.payment_reference}}</td>
-      <td>{{item?.payment_Method}}</td>
+      <td>{{item?.order_pay_id}}</td>
+      <td>{{item?.payment_method?.name}}</td>
       <td>{{item.customer.name}}</td>
       <td>{{item.created_at | date :'dd-MM-y h:m:s a'}}</td>
       <td>{{item.total_amount}}</td>

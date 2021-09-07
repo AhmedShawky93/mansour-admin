@@ -142,8 +142,8 @@
 
     <div class="form-group">
       <label> Pricing</label>
-      <input [max]="1000000" [min]="1" class="owl-input" formControlName="price"
-        pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
+      <input [max]="1000000" [min]="1" class="owl-input" formControlName="price" pattern="[0-9]+(\.[0-9][0-9]?)?"
+        placeholder="Type.." type="number">
       <div *ngIf="formControlValidator('price','required')" class="alert alert-danger">
         Pricing is required.
       </div>
@@ -164,7 +164,7 @@
           <small> optional</small>
         </label>
         <input [min]="0" class="owl-input" formControlName="discount_price" pattern="[0-9]+(\.[0-9][0-9]?)?"
-               placeholder="Type.." type="number">
+          placeholder="Type.." type="number">
         <div *ngIf="formControlValidator('discount_price','min')" class="alert alert-danger">
           Discount price can't be a negative value
         </div>
@@ -176,139 +176,6 @@
         </div>
         <div *ngIf="formControlValidator('discount_price','lessThan')" class="text-danger">
           Discount Can't Exceed The Price
-        </div>
-      </div>
-      <div>
-        <div class="title">
-          Start Date-Time
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_start_date'"
-                                     [placeholder]="'Start Date'">
-            </app-generic-date-picker>
-            <div *ngIf="formControlValidator('discount_start_date','required')" class="text-danger">
-              Filed Is Required
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <app-generic-time-picker [formControlChildName]="'start_time'" [myForm]="variantForm"
-                                     [placeholder]="'Pick Time'"></app-generic-time-picker>
-            <div *ngIf="formControlValidator('start_time','required')" class="text-danger">
-              Filed Is Required
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="title">
-          Expiration Date-Time
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <app-generic-date-picker [myForm]="variantForm" [formControlChildName]="'discount_end_date'"
-                                     [placeholder]="'Expiration Date'">
-            </app-generic-date-picker>
-            <div *ngIf="formControlValidator('discount_end_date','required')" class="text-danger">
-              Filed Is Required
-            </div>
-            <div *ngIf="formControlValidator('discount_end_date','dateRang')" class="text-danger">
-              Expiration Date Must Be Greater Than Start Date
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <app-generic-time-picker [formControlChildName]="'expiration_time'" [myForm]="variantForm"
-                                     [placeholder]="'Pick Time'"></app-generic-time-picker>
-            <div *ngIf="formControlValidator('expiration_time','required')" class="text-danger">
-              Filed Is Required
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true"
-        formControlName="payment_method_discount_ids" bindLabel="name" bindValue="id" name="payment_method_discount_ids"
-        placeholder="Select Payment Methods">
-      </ng-select>
-
-    </div>
-
-    <div>
-      <div formArrayName="option_values" class="form-group"
-        *ngFor="let option of variantForm.get('option_values')['controls']; let i = index">
-        <span [formGroupName]='i'>
-
-          <div class="" *ngIf="option?.value.type != '5'">
-            <label> {{option?.controls['name_en']?.value}} </label>
-            <select class="owl-input" name="option" (change)="selectOptionValue(option, $event, i)"
-              formControlName="option_value_id">
-              <option value="" hidden selected>Select option </option>
-              <!--<option value="{{value.id}}" *ngFor="let value of option?.values">{{value.name_en}}</option>-->
-              <option *ngFor="let val of option?.controls['optionValues']?.value" value="{{val.id}}">
-                {{val.name_en}}
-              </option>
-            </select>
-            <div
-              *ngIf="variantForm.controls.option_values['controls'][i]?.controls?.option_value_id?.invalid && (variantForm.controls?.option_values?.controls[i].controls?.option_value_id?.dirty || variantForm.controls.option_values?.controls[i].controls?.option_value_id?.touched)"
-              class="alert alert-danger">
-              <div *ngIf="variantForm.controls.option_values['controls'][i]?.controls?.option_value_id?.errors?.required">
-                option is required.
-              </div>
-            </div>
-          </div>
-
-          <div class="" *ngIf="option?.value.type == '5'">
-            <label> {{option?.controls['name_en']?.value}} </label>
-            <div class="form-group w-100 mt-2">
-              <angular-editor [id]="i" formControlName="input_ar" [config]="editorConfig" [placeholder]="'Arabic'">
-              </angular-editor>
-            </div>
-            <div class="form-group w-100 mt-2">
-              <angular-editor [id]="i" formControlName="input_en" [config]="editorConfig" [placeholder]="'English'">
-              </angular-editor>
-            </div>
-            <!--<div class="form-group">
-              <input type="text" class="owl-input" (click)="takeInputId(option, i)" placeholder="English" formControlName="input_en">
-            </div>
-            <div class="form-group">
-              <input type="text"   class="owl-input" placeholder="Arabic" formControlName="input_ar">
-            </div>-->
-          </div>
-        </span>
-      </div>
-    </div>
-
-    <!--<div class="form-group">
-      <label> Discount Price
-        <small> optional</small>
-      </label>
-      <input [min]="0" class="owl-input" formControlName="discount_price" pattern="[0-9]+(\.[0-9][0-9]?)?"
-             placeholder="Type.." type="number">
-      <div *ngIf="formControlValidator('discount_price','min')" class="alert alert-danger">
-        Discount price can't be a negative value
-      </div>
-      <div *ngIf="formControlValidator('discount_price','max')" class="alert alert-danger">
-        Discount Price must be less than the price
-      </div>
-      <div *ngIf="formControlValidator('discount_price','pattern')" class="alert alert-danger">
-        Invalid number format
-      </div>
-    </div>-->
-    <div class="group-box mt-2">
-      <div class="form-group">
-        <label> Discount Price
-          <small> optional</small>
-        </label>
-        <input [min]="0" class="owl-input" formControlName="discount_price" pattern="[0-9]+(\.[0-9][0-9]?)?"
-          placeholder="Type.." type="number">
-        <div *ngIf="formControlValidator('discount_price','min')" class="alert alert-danger">
-          Discount price can't be a negative value
-        </div>
-        <div *ngIf="formControlValidator('discount_price','max')" class="alert alert-danger">
-          Discount Price must be less than the price
-        </div>
-        <div *ngIf="formControlValidator('discount_price','pattern')" class="alert alert-danger">
-          Invalid number format
         </div>
       </div>
       <div>
@@ -378,19 +245,65 @@
           </div>
         </div>
       </div>
+      <div class="form-group">
+        <label> Payment Methods
+          <!-- <small> optional</small> -->
+        </label>
+        <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true"
+          formControlName="payment_method_discount_ids" bindLabel="name" bindValue="id" name="payment_method_discount_ids"
+          placeholder="Select Payment Methods">
+        </ng-select>
+      </div>
+
     </div>
 
-    <!-- <div class="form-group" *ngIf="parentProduct?.preorder">
-      <label>Pre-order Pricing</label>
-      <input class="owl-input"
-             formControlName="preorder_price" pattern="[0-9]+(\.[0-9][0-9]?)?" placeholder="Type.." type="number">
-      <div *ngIf="formControlValidator('preorder_price','required')" class="alert alert-danger">
-        Pre-order Pricing is required.
+    <div>
+      <div formArrayName="option_values" class="form-group"
+        *ngFor="let option of variantForm.get('option_values')['controls']; let i = index">
+        <span [formGroupName]='i'>
+
+          <div class="" *ngIf="option?.value.type != '5'">
+            <label> {{option?.controls['name_en']?.value}} </label>
+            <select class="owl-input" name="option" (change)="selectOptionValue(option, $event, i)"
+              formControlName="option_value_id">
+              <option value="" hidden selected>Select option </option>
+              <!--<option value="{{value.id}}" *ngFor="let value of option?.values">{{value.name_en}}</option>-->
+              <option *ngFor="let val of option?.controls['optionValues']?.value" value="{{val.id}}">
+                {{val.name_en}}
+              </option>
+            </select>
+            <div
+              *ngIf="variantForm.controls.option_values['controls'][i]?.controls?.option_value_id?.invalid && (variantForm.controls?.option_values?.controls[i].controls?.option_value_id?.dirty || variantForm.controls.option_values?.controls[i].controls?.option_value_id?.touched)"
+              class="alert alert-danger">
+              <div
+                *ngIf="variantForm.controls.option_values['controls'][i]?.controls?.option_value_id?.errors?.required">
+                option is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="" *ngIf="option?.value.type == '5'">
+            <label> {{option?.controls['name_en']?.value}} </label>
+            <div class="form-group w-100 mt-2">
+              <angular-editor [id]="i" formControlName="input_ar" [config]="editorConfig" [placeholder]="'Arabic'">
+              </angular-editor>
+            </div>
+            <div class="form-group w-100 mt-2">
+              <angular-editor [id]="i" formControlName="input_en" [config]="editorConfig" [placeholder]="'English'">
+              </angular-editor>
+            </div>
+            <!--<div class="form-group">
+              <input type="text" class="owl-input" (click)="takeInputId(option, i)" placeholder="English" formControlName="input_en">
+            </div>
+            <div class="form-group">
+              <input type="text"   class="owl-input" placeholder="Arabic" formControlName="input_ar">
+            </div>-->
+          </div>
+        </span>
       </div>
-      <div *ngIf="formControlValidator('preorder_price','pattern')" class="alert alert-danger">
-        Invalid number format
-      </div>
-    </div> -->
+    </div>
+
+
 
     <div class="form-group" *ngIf="parentProduct?.type == 2">
       <label>Bundle Products</label>
@@ -450,8 +363,7 @@
           <div *ngIf="formGroupItem.controls['optionData']?.value?.type == 4"
             class="d-flex justify-content-center flex-column mt-2">
             <app-image-uploader [fileUrl]="formGroupItem?.controls['option_image'].value"
-              [formControlChildName]="'option_image'" [myForm]="formGroupItem" class="w-100" height="240px"
-              width="50%">
+              [formControlChildName]="'option_image'" [myForm]="formGroupItem" class="w-100" height="240px" width="50%">
             </app-image-uploader>
             <div *ngIf="formGroupControlsValidator(formGroupItem,'option_image','required')" class="alert alert-danger">
               Image Is Required
