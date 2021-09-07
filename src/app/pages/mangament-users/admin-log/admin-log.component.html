@@ -1,1 +1,28 @@
-admin log working !
+<div *ngIf="list.length && !loading else noData" class="table-responsive">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th scope="col"> username</th>
+        <th scope="col"> user_type</th>
+        <th scope="col"> url</th>
+        <th scope="col"> request</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let log of list | paginate:  { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalPages }">
+        <td>{{log?.username}}</td>
+        <td>{{log?.user_type}}</td>
+        <td>{{log?.url}}</td>
+        <td>{{log?.request}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<pagination-controls *ngIf="list.length" (pageChange)="loadData($event)"></pagination-controls>
+
+
+<ng-template #noData>
+  <h5 class="text-center text-capitalize text-info">No Data Available</h5>
+</ng-template>
