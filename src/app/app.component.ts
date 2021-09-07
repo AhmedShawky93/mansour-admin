@@ -55,8 +55,9 @@ export class AppComponent implements OnInit {
     this.settingsServ.getEnv_variables().subscribe((res: any) => {
       if (res.code === 200) {
         this.systemConfig={
-          themeType:  res.data.ADMIN_THEME_TYPE ? res.data.ADMIN_THEME_TYPE : 1,
-          showLoyality:  res.data.showLoyality ? res.data.showLoyality : '',
+          themeType:  res.data.ADMIN_THEME_TYPE ? parseInt(res.data.ADMIN_THEME_TYPE) : 1,
+          showLoyality:  res.data.ENABLE_LOYALITY ? res.data.ENABLE_LOYALITY : false,
+          WEB_BRAND_COLOR: res.data.WEB_BRAND_COLOR?res.data.WEB_BRAND_COLOR:null,
           envApi: {
             env: {
               checkoutUrl: res.data.WEBSITE_URL ? res.data.WEBSITE_URL : ''
@@ -65,7 +66,7 @@ export class AppComponent implements OnInit {
           brandRelatedVariables: {
             brand: res.data.APP_NAME ? res.data.APP_NAME : 'Dashboard',
             brandArabic: res.data.APP_NAME_AR ? res.data.APP_NAME_AR : 'Dashboard',
-            branchType: res.data.BRANCH_TYPES_ARRAY ? JSON.parse(res.data.BRANCH_TYPES_ARRAY) : [],
+            // branchType: res.data.BRANCH_TYPES_ARRAY ? JSON.parse(res.data.BRANCH_TYPES_ARRAY) : [],
             email: res.data.ONLINE_EMAIL ? res.data.ONLINE_EMAIL : '',
             hotline: res.data.HOTPHONE ? res.data.HOTPHONE : '',
             loginApi: res.data.WEBSITE_URL ? res.data.WEBSITE_URL : '',
@@ -81,8 +82,8 @@ export class AppComponent implements OnInit {
         this.showAffiliateService.showAffiliate.next(res.data.enable_affiliate)
 
 
-        if (this.systemConfig.brand_color) {
-          document.documentElement.style.setProperty('--brand-color', this.systemConfig.brand_color)
+        if (this.systemConfig.WEB_BRAND_COLOR) {
+          document.documentElement.style.setProperty('--brand-color', this.systemConfig.WEB_BRAND_COLOR)
         }
         this.settingsServ.setenvConfig(this.systemConfig);
         // localStorage.setItem('systemConfig', JSON.stringify(this.systemConfig));

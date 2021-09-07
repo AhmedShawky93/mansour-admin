@@ -239,12 +239,12 @@
           </li>
         </ul>
       </li>
-      <!-- <ng-container *ngIf="environmentVariables.showLoyality">
+      <ng-container *ngIf="environmentVariables.showLoyality">
         <li class="side-nav-item" routerLinkActive="active"
           *ngxPermissionsOnly="['ADMIN', 'View Rewards', 'View Gift Requests']">
           <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-7" aria-controls="submenu-7">
-            <i class="icon-None3" data-toggle="tooltip" data-placement="right" title="Mobilaty Stars"></i>
-            <span>Mobilaty Stars</span>
+            <i class="icon-None3" data-toggle="tooltip" data-placement="right" title="{{environmentVariables.brandRelatedVariables.brand}} Stars"></i>
+            <span>{{environmentVariables.brandRelatedVariables.brand}} Stars</span>
             <i class="fa fa-fw fa-angle-down pull-right"></i>
           </a>
           <ul id="submenu-7" class="collapse">
@@ -256,7 +256,7 @@
             </li>
           </ul>
         </li>
-      </ng-container> -->
+      </ng-container>
 
       <!-- <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']">
         <a routerLink="/pages/medical" routerLinkActive="active">
