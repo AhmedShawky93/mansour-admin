@@ -49,8 +49,8 @@
           <span class="checkmark"></span>
         </label>
       </div>
-      <div formArrayName="ranges" *ngIf="cityForm.controls.fees_type.value == 2">
-        <div *ngFor="let item of cityForm.get('ranges')['controls']; let i = index">
+      <div formArrayName="fees_range" *ngIf="cityForm.controls.fees_type.value == 2">
+        <div *ngFor="let item of cityForm.get('fees_range')['controls']; let i = index">
           <div class="row box-range"  [formGroupName]="i">
             <div class="col-md-4">
               <div class="form-group">
