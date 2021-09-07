@@ -110,6 +110,7 @@ import { ProgressBarModule } from "angular-progress-bar"
 import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.component';
 import { StaticPagesComponent } from './pages/static-pages/static-pages.component';
 import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edit-page.component';
+import { SlugifyPipe } from './pages/static-pages/pipes/slugify.pipe';
 
 
 
@@ -136,6 +137,7 @@ import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edi
     DeliveryFilterPipe,
     NotificationFilterPipe,
     GroupByDatePipe,
+    SlugifyPipe,
     NotificationsComponent,
     OffersComponent,
     AddOfferComponent,
