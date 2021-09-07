@@ -14,6 +14,10 @@ export class AdminsService {
     this.url = environment.api + "/api" + "/admin";
   }
 
+  getLog(page = 1){
+    return this.http.get<any>(this.url + `/logs/index?page=${page}`)
+  }
+
   getAdmins() {
     return this.http.get<any>(this.url + "/admins").catch((error: any) => {
       return Observable.throw(error.error || "admins Error");
