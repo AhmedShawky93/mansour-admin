@@ -93,7 +93,6 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
 
   createDynamicForm() {
     this.componentForm = this.formBuilder.group(this.createMainGroupsControls());
-
   }
 
   createMainGroupsControls() {
@@ -114,12 +113,12 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
 
 
       this.formGroups.push(mainGroups[ele.key]);
-      // }
 
     });
 
     return mainGroups;
   }
+
 
   createFromGroup(data): FormGroup {
     return this.formBuilder.group({
@@ -127,7 +126,7 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
       order: new FormControl(data ? data.order : ''),
       type: new FormControl(data ? data.type : ''),
       name: new FormControl(data ? data.name : ''),
-      value: new FormControl(data ? data.value : '', [data.required ? Validators.required : null]),
+      value: new FormControl(data ? data.value : '', [data.required ? Validators.required : Validators.nullValidator]),
       options: new FormControl(data ? data.options : ''),
       group: new FormControl(data ? data.group : ''),
       slug: new FormControl(data ? data.slug : ''),
@@ -192,11 +191,11 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   save() {
-    console.log('this.componentForm ==>',this.componentForm.value )
-    console.log('this.componentForm ==>',this.componentForm.valid )
-    // if (this.componentForm.invalid) {
-    //   return this.componentForm.markAsTouched()
-    // }
+
+    if (this.componentForm.invalid) {
+      this.componentForm.markAsTouched()
+      return
+    }
     const mappingData = {
       configs: this.mappingData()
     }
@@ -210,7 +209,6 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
           } else {
             this.toasterService.error(res.message);
           }
-        }
-      );
+        });
   }
 }
