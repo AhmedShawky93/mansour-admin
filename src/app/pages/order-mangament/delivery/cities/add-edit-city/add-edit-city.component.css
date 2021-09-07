@@ -131,3 +131,18 @@
   margin-bottom: 20px;
   border-radius: 10px;
 }
+
+.checkup {
+  padding-left: 30px !important;
+  padding-right: 50px !important;
+}
+.box-range {
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.mian-color {
+  color: var(--brand-color);
+}
