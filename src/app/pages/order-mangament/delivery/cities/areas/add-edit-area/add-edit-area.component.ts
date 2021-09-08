@@ -60,7 +60,7 @@ export class AddEditAreaComponent implements OnInit {
   selectTypePrice(type) {
     console.log(type)
     if (type == 1) {
-      this.cityForm.get('fees_range').setValue([]);
+      this.cityForm.get('fees_range').reset();
       this.cityForm.get('fees_range').clearValidators();
       this.cityForm.get('delivery_fees').setValidators([Validators.required])
     } else if (type == 2) {

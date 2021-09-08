@@ -44,7 +44,7 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
     private uploadService: UploadFilesService,
     private deliveryService: DeliveryService,
     private _areaService: AreasService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getForm(this.selectProductDataEdit);
@@ -64,6 +64,8 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
   getForm(data) {
     this.OptionForm = this.formBuilder.group({
       name: new FormControl(data ? data.name : "", Validators.required),
+      email: new FormControl(data ? data.email : "", [Validators.required, Validators.email]),
+      password: new FormControl("", data ? [] : [Validators.required, Validators.minLength(8)]),
       address: new FormControl(data ? data.address : "", Validators.required),
       city_id: new FormControl(
         data ? data.delivererProfile.city.id : "",
@@ -86,7 +88,7 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
 
   closeSideBar() {
     this.closeSideBarEmit.emit();
-    if(!this.selectProductDataEdit){
+    if (!this.selectProductDataEdit) {
       this.OptionForm.reset();
     }
   }
