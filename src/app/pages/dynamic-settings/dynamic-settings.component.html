@@ -79,7 +79,8 @@
             <label>{{group.value.name}}</label>
             <select class="owl-input" formControlName="value">
               <option value="">select option</option>
-              <option *ngFor="let item of group.value.options" value="{{item}}">{{item}}</option>
+              <option *ngFor="let item of group.value.options  | keyvalue" [value]="(item.value | keyvalue)[0].key">
+                {{(item.value | keyvalue)[0].value }}</option>
             </select>
             <small class="form-text text-muted">{{group.value.description}}</small>
           </div>
@@ -193,7 +194,29 @@
             </div>
           </div>
         </ng-container>
-
+        <ng-container *ngIf="group.value.type === 'image'">
+          <div class="form-group mt-2" [formGroupName]="i">
+            <label>{{group.value.name}}</label>
+            <label>{{group.value.name}}</label>
+            <app-image-uploader [fileUrl]="group.value.value" [formControlChildName]="'value'" [myForm]="group"
+              class="w-100" height="275px" width="100%">
+            </app-image-uploader>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="group.value.type === 'date'">
+          <div class="form-group mt-2" [formGroupName]="i">
+            <label>{{group.value.name}}</label>
+            <app-generic-date-picker [myForm]="group" [formControlChildName]="'value'" [placeholder]="'Choose Date'">
+            </app-generic-date-picker>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="group.value.type === 'time'">
+          <div class="form-group mt-2" [formGroupName]="i">
+            <label>{{group.value.name}}</label>
+            <app-generic-time-picker [formControlChildName]="'value'" [myForm]="group" [placeholder]="'Pick Time'">
+            </app-generic-time-picker>
+          </div>
+        </ng-container>
         <!-- <ng-container *ngIf="group.value.type === 'file'">
            <div class="form-group w-100 mt-2" [formGroupName]="i">
              <label>Upload File</label>
