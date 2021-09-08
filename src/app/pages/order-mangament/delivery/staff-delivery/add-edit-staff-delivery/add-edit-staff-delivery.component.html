@@ -18,6 +18,34 @@
         </div>
       </div>
     </div>
+    <div class="form-group">
+      <label for=""> email</label>
+      <input type="text" class="owl-input" placeholder="Type.." formControlName="email">
+      <div
+        *ngIf="OptionForm.controls.email.invalid && (OptionForm.controls.email.dirty || OptionForm.controls.email.touched)"
+        class="alert alert-danger">
+        <div *ngIf="OptionForm.controls.email.errors.required">
+          email is required.
+        </div>
+        <div *ngIf="OptionForm.controls.email.errors.email">
+          email not valid.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for=""> password</label>
+      <input type="password" class="owl-input" placeholder="Type.." formControlName="password">
+      <div
+        *ngIf="OptionForm.controls.password.invalid && (OptionForm.controls.password.dirty || OptionForm.controls.password.touched)"
+        class="alert alert-danger">
+        <div *ngIf="OptionForm.controls.password.errors.required">
+          password is required.
+        </div>
+        <div *ngIf="OptionForm.controls.password.errors.minLength">
+          min Length password 8
+        </div>
+      </div>
+    </div>
 
     <div class="form-group">
       <label for="">description</label>
@@ -35,7 +63,8 @@
     </div>
     <div class="form-group">
       <label for="">City </label>
-      <select class="owl-input" formControlName="city_id" required name="city_id" (change)="selectCity($event.target.value)">
+      <select class="owl-input" formControlName="city_id" required name="city_id"
+        (change)="selectCity($event.target.value)">
         <option value="" selected hidden>Select City </option>
         <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}
         </option>
@@ -54,7 +83,8 @@
     </div>
     <div class="form-group">
       <label for="">Area </label>
-      <select class="owl-input" formControlName="area_id" required name="area_id" (change)="selectArea($event.target.value)">
+      <select class="owl-input" formControlName="area_id" required name="area_id"
+        (change)="selectArea($event.target.value)">
         <option value="" selected hidden>Select Area </option>
         <option value="{{cat.id}}" *ngFor="let cat of areas">{{cat.name}}
         </option>
