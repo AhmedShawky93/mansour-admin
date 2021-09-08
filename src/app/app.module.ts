@@ -22,6 +22,10 @@ import {
   MatButtonModule,
   MatCheckboxModule,
   MatFormFieldModule,
+  MatExpansionModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatRadioGroup
 } from "@angular/material";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatIconModule } from "@angular/material/icon";
@@ -183,10 +187,13 @@ import { SlugifyPipe } from './pages/static-pages/pipes/slugify.pipe';
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
+    MatExpansionModule,
     MatButtonModule,
     MatStepperModule,
     MatIconModule,
+    MatRadioModule,
     NgSelectModule,
+    MatSelectModule,
     ChartsModule,
     ToastrModule.forRoot(),
     SatDatepickerModule,
@@ -206,7 +213,10 @@ import { SlugifyPipe } from './pages/static-pages/pipes/slugify.pipe';
     ProgressBarModule
   ],
   exports: [
-    DynamicSettingsComponent
+    DynamicSettingsComponent,
+    MatRadioModule,
+    MatSelectModule,
+    MatRadioGroup
   ],
   providers: [
     SlugifyPipe,

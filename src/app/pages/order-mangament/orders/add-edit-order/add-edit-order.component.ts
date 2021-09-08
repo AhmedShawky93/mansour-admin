@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormArray, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AreasService } from '@app/pages/services/areas.service';
@@ -13,36 +13,46 @@ import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, de
 @Component({
   selector: 'app-add-edit-order',
   templateUrl: './add-edit-order.component.html',
-  styleUrls: ['./add-edit-order.component.css']
+  styleUrls: ['./add-edit-order.component.scss']
 })
 export class AddEditOrderComponent implements OnInit, OnChanges {
 
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataProductEmit = new EventEmitter();
   @Input('selectedOrder') selectedOrder;
+  addresseNames: any[] = [{ id: 0, name: 'Home', name_ar: "المنزل" }, { id: 1, name: 'Work', name_ar: "العمل" }, { id: 2, name: "Others", name_ar: "أخرى" }]
 
   customers: any = [];
   addresses: any = [];
   customers$: Observable<any>;
   customersInput$ = new Subject<String>();
   customersLoading: boolean;
+  loadingCustomer: boolean;
 
   products = [];
 
   orderForm: FormGroup;
+  addressForm: FormGroup;
+  customerForm: FormGroup;
   deleted_items: any[] = [];
   loading: boolean;
   selectedProductToUpdate: any;
   cities: any = [];
   areas: any = [];
+  step: number = 0;
+  isDisabledPaymentStepTwo: boolean = true;
+  isDisabledPaymentStepThree: boolean = true;
+  thirdTrigger: any;
+  plan_id: any;
+  loadingAddress: boolean = false;
 
   constructor(private citiesService: AreasService, private customerService: CustomerService, private router: Router, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) {
-    
+
   }
 
 
   onCitySelected() {
-    let city_id = this.orderForm.controls.address.get('city_id').value;
+    let city_id = this.addressForm.get('city_id').value;
 
     if (city_id) {
       let ind = this.cities.findIndex(c => c.id == city_id);
@@ -54,6 +64,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.setStep(0);
     this.setupForm(this.selectedOrder);
 
     this.citiesService.getCities()
@@ -62,13 +73,113 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       })
   }
 
+  public setStep(index: number) {
+    this.step = index;
+    switch (index) {
+      case 0:
+        this.isDisabledPaymentStepTwo = true;
+        this.isDisabledPaymentStepThree = true;
+        break;
+      case 1:
+        this.isDisabledPaymentStepThree = true;
+        break;
+      default:
+        this.thirdTrigger = this.plan_id;
+        break;
+    }
+  }
+
   ngOnChanges() {
     this.setupForm(this.selectedOrder);
+  }
+
+  addCustomer() {
+    if (this.orderForm.get('has_customer').value == 0 && !this.customerForm.valid) {
+      this.markFormGroupTouched(this.customerForm);
+      return;
+    } else if (this.orderForm.get('has_customer').value == 0 && this.customerForm.valid) {
+      this.loadingCustomer = true;
+
+      let customer = this.customerForm.value;
+      this.customerService.createCustomer(customer)
+        .subscribe((response: any) => {
+          this.loadingCustomer = false;
+          if (response.code == 200) {
+            this.orderForm.controls['user_id'].setValue(response.data.id);
+            this.setStep(1);
+          } else {
+            this.toastrService.error(response.message, "Error");
+          }
+        });
+    } else {
+      this.setStep(1);
+    }
+  }
+
+  submitAddress() {
+    if (this.orderForm.get('has_address').value == 0 && !this.addressForm.valid) {
+      this.markFormGroupTouched(this.addressForm);
+      return;
+    } else if (this.orderForm.get('has_address').value == 0 && this.customerForm.valid) {
+      this.loadingAddress = true;
+
+      if (!(this.areas.filter((area) => area.id == this.addressForm.value.area_id).length > 0)) {
+        this.addressForm.controls.area_id.setValue(this.areas[0].id)
+      }
+
+      let address = this.addressForm.value;
+      if (this.orderForm.get('has_address').value == 0) {
+        this.customerService.createAddress(this.orderForm.get('user_id').value, address)
+          .subscribe((response: any) => {
+            this.loadingAddress = false;
+            if (response.code == 200) {
+              this.orderForm['controls']['address_id'].setValue(response.data.id);
+              this.setStep(2);
+            } else {
+              this.toastrService.error(response.message, "Error");
+            }
+          });
+      }
+    } else {
+      this.setStep(2);
+    }
+  }
+
+  regexValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (!control.value) {
+        return null;
+      }
+      const valid = regex.test(control.value);
+      return valid ? null : error;
+    };
   }
 
   setupForm(data) {
     this.products = [];
     this.deleted_items = [];
+
+    this.customerForm = new FormGroup({
+      name: new FormControl(data ? data.name : ''),
+      last_name: new FormControl(data ? data.last_name : ''),
+      email: new FormControl(data ? data.email : ''),
+      phone: new FormControl(data ? data.phone : ''),
+      password: new FormControl(''),
+      closed_payment_methods: new FormControl(data ? data.closed_payment_methods.map(c => c.id) : []),
+    });
+
+    this.addressForm = new FormGroup({
+      name: new FormControl(data ? data.name : ''),
+      address: new FormControl(data ? data.address : ''),
+      city_id: new FormControl(data ? data.city_id : ''),
+      area_id: new FormControl(data ? data.area_id : ''),
+      landmark: new FormControl(data ? data.landmark : ''),
+      floor: new FormControl(data ? data.floor : ''),
+      apartment: new FormControl(data ? data.apartment : ''),
+      lat: new FormControl(26.81910634209373),
+      lng: new FormControl(30.7979080581665)
+    })
+
     this.orderForm = new FormGroup({
       user_id: new FormControl(data ? data.user.id : '', Validators.required),
       address_id: new FormControl(data ? data.address.id : '', Validators.required),
@@ -78,16 +189,8 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       admin_notes: new FormControl(data ? data.admin_notes : ''),
       overwrite_fees: new FormControl(0),
       delivery_fees: new FormControl(data ? data.delivery_fees : ''),
-      has_address: new FormControl(data ? data.has_address : false),
-      address: new FormGroup({
-        name: new FormControl(data ? data.name : ''),
-        address: new FormControl(data ? data.address : ''),
-        city_id: new FormControl(data ? data.city_id : ''),
-        area_id: new FormControl(data ? data.area_id : ''),
-        landmark: new FormControl(data ? data.landmark : ''),
-        floor: new FormControl(data ? data.floor : ''),
-        apartment: new FormControl(data ? data.apartment : ''),
-      }),
+      has_address: new FormControl(data ? 1 : 0),
+      has_customer: new FormControl(data ? 1 : 0),
     });
 
     if (data) {
@@ -160,27 +263,52 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
 
   updateValidaty() {
     if (this.orderForm.controls.has_address.value) {
-      this.orderForm.controls.address['controls'].name.setValidators([Validators.required]);
+      this.addressForm.controls.name.setValidators([Validators.required]);
       this.orderForm.controls.address_id.setValidators([]);
       this.orderForm.controls.address_id.updateValueAndValidity();
-      this.orderForm.controls.address['controls'].address.setValidators([Validators.required]);
-      this.orderForm.controls.address['controls'].city_id.setValidators([Validators.required]);
-      this.orderForm.controls.address['controls'].area_id.setValidators([Validators.required]);
-      this.orderForm.controls.address['controls'].floor.setValidators([Validators.required]);
-      this.orderForm.controls.address['controls'].apartment.setValidators([Validators.required]);
+      this.addressForm.controls.address.setValidators([Validators.required]);
+      this.addressForm.controls.city_id.setValidators([Validators.required]);
+      this.addressForm.controls.area_id.setValidators([Validators.required]);
+      this.addressForm.controls.floor.setValidators([Validators.required]);
+      this.addressForm.controls.apartment.setValidators([Validators.required]);
     } else {
       this.orderForm.controls.address_id.setValidators([Validators.required]);
-      this.orderForm.controls.address['controls'].name.setValidators([]);
-      this.orderForm.controls.address['controls'].address.setValidators([]);
-      this.orderForm.controls.address['controls'].city_id.setValidators([]);
-      this.orderForm.controls.address['controls'].area_id.setValidators([]);
-      this.orderForm.controls.address['controls'].floor.setValidators([]);
-      this.orderForm.controls.address['controls'].apartment.setValidators([]);
+      this.addressForm.controls.name.setValidators([]);
+      this.addressForm.controls.address.setValidators([]);
+      this.addressForm.controls.city_id.setValidators([]);
+      this.addressForm.controls.area_id.setValidators([]);
+      this.addressForm.controls.floor.setValidators([]);
+      this.addressForm.controls.apartment.setValidators([]);
     }
   }
 
-  updateAmountMax(item, index){
-    if(item){
+  updateCustomerValidaty(){
+    if (this.orderForm.controls.has_customer.value) {
+      this.customerForm.controls.name.setValidators([Validators.required]);
+      this.orderForm.controls.user_id.setValidators([]);
+      this.orderForm.controls.user_id.updateValueAndValidity();
+      this.customerForm.controls.last_name.setValidators([Validators.required]);
+      this.customerForm.controls.email.setValidators([Validators.required, Validators.email]);
+      this.customerForm.controls.phone.setValidators([
+        Validators.required,
+        this.regexValidator(new RegExp('^\\d+$'), { 'numbers': 'Numeric Only' }),
+        this.regexValidator(new RegExp('^01'), { 'startWith': 'Must Start With 01' }),
+        this.regexValidator(new RegExp('^[0-9]+$'), { 'englishNumbers': 'English Numeric' }),
+        Validators.minLength(11),
+        Validators.maxLength(11)]);
+      this.customerForm.controls.password.setValidators([Validators.required]);
+    } else {
+      this.orderForm.controls.address_id.setValidators([Validators.required]);
+      this.customerForm.controls.name.setValidators([]);
+      this.customerForm.controls.last_name.setValidators([]);
+      this.customerForm.controls.email.setValidators([]);
+      this.customerForm.controls.phone.setValidators([]);
+      this.customerForm.controls.password.setValidators([]);
+    }
+  }
+
+  updateAmountMax(item, index) {
+    if (item) {
       this.orderForm.get('items')['controls'][index].controls.amount.setValidators([Validators.required, Validators.min(1), Validators.max(item.stock)]);
     }
   }
@@ -233,11 +361,11 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     (this.orderForm.get("items") as FormArray).removeAt(index);
   }
 
-  addToDeletetItems(){
+  addToDeletetItems() {
     this.deleted_items.push(this.selectedProductToUpdate);
   }
 
-  updateSelecteItem(product){
+  updateSelecteItem(product) {
     this.selectedProductToUpdate = product;
   }
 
@@ -252,11 +380,11 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     }
   }
 
-  createCustomer(){
-    this.router.navigate(['/pages/manage-customer'], { queryParams: { fromOrder: true }})
+  createCustomer() {
+    this.router.navigate(['/pages/manage-customer'], { queryParams: { fromOrder: true } })
   }
 
-  createAddress(customerId){
+  createAddress(customerId) {
     localStorage.setItem("selectedCustomer", JSON.stringify(this.customers.find((name) => name.id === customerId)))
     this.router.navigate(['/pages/manage-customer'], { queryParams: { fromOrderCreateAddress: true, customerId } })
   }
