@@ -17,9 +17,9 @@
         <td>{{log?.url}}</td>
         <td class="request-message relative">
 
-          {{(log?.request.length  >= 180 ) ? (log?.request | summary : 180 ) : log?.request }}
+          {{(log?.request.length  >= 30 ) ? (log?.request | summary : 30 ) : log?.request }}
 
-          <div class="hover-reason text-left" *ngIf="log?.request.length >= 180">
+          <div class="hover-reason text-left" *ngIf="log?.request.length >= 30">
             <div class="head">
               Log Request
             </div>
@@ -29,8 +29,7 @@
           </div>
 
         </td>
-        <td>{{log?.request}}</td>
-        <td>{{log?.created_at}}</td>
+        <td>{{log?.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
       </tr>
     </tbody>
   </table>
