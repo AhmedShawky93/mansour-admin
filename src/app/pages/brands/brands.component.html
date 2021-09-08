@@ -3,7 +3,7 @@
 <div class="top-table-bar">
 
   <div class="row">
-    <div class="col-md-5 col-sm-12 col-xs-12">
+    <div class="col-md-6 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
@@ -15,20 +15,26 @@
       </div>
     </div>
 
-    <div class="col-md-2  col-xs-6">
-
-    </div>
-    <div class="col-md-2  col-xs-6">
-
-
-
-    </div>
-    <div class="col-md-3  col-xs-12 text-right">
+ 
+    <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100" (click)="resetForm()"> + Brand
+        <button class="btn btn-owls btn-rounded actionBtns btn-blue2 btn-big add-product w-100" (click)="resetForm()"> + Brand
         </button>
       </div>
     </div>
+
+    <div class="col-md-2 col-sm-3 col-xs-12 text-right">
+      <button class="btn btn-owls actionBtns btn-rounded btn-green  owl-input-file inputFile" style="overflow: hidden">
+        Import File
+        <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
+          (change)="uploadFile($event)">
+      </button>
+  </div>
+  <div class="col-md-2 col-sm-3 col-xs-12 text-right">
+    <button class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big  ml-auto"
+      (click)="exportCsv()">
+      export CSV</button>
+</div>
 
   </div>
 </div>

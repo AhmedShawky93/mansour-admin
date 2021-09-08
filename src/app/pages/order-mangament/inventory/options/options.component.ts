@@ -1,6 +1,6 @@
 import { OptionsService } from "./../../../services/options.service";
 import { ToastrService } from "ngx-toastr";
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import "rxjs/Rx";
 import { Subject } from "rxjs/Rx";
@@ -37,6 +37,7 @@ declare var $: any;
   ],
 })
 export class OptionsComponent implements OnInit {
+  @ViewChild("myInput") importFile: ElementRef;
   dateRange: any;
   showError: number;
   currentProduct: any;
@@ -103,6 +104,39 @@ export class OptionsComponent implements OnInit {
     // this.filter.page = p;
     this.getOptions();
   }
+  uploadFile(event) {
+    const formData = new FormData();
+    const selectFile = <File>event.target.files[0];
+    formData.append("file",selectFile);
+    this.optionsService
+      .ImportOptions(formData)
+      .subscribe((response: any) => {
+        if(response.code===200){
+        this.toastrService.success("File uploaded successfully");
+        this.importFile.nativeElement.value = "";
+        }
+        else{
+          this.toastrService.error(response.errors[0]);
+        }
+      });
+
+   
+  }
+  exportCsv(){
+    this.optionsService.exportOptions().subscribe((data:any)=>{
+        const blob = new Blob([data], { type: 'text/csv' });
+        // const url= window.URL.createObjectURL(blob);
+        // window.open(url);
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(blob);
+        // Give filename you wish to download
+        a.download = "Options.xls";
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+    })
+  }
+
 
   changeActive(clinic) {
     this.clinics
