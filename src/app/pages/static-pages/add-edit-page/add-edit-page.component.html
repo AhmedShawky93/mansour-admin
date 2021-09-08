@@ -44,7 +44,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon3">{{website_url}}/pages/</span>
         </div>
-        <input type="text" id="webslug" class="owl-input" placeholder="Type.." required formControlName="slug" [(ngModel)]="currentslug" (input)="detectslugChange()">
+        <input type="text" id="webslug" class="owl-input" placeholder="Type.." required formControlName="slug" [(ngModel)]="currentslug" (keyup)="detectslugChange()">
       </div>
     
       <!-- Start  Errors Rolues -->

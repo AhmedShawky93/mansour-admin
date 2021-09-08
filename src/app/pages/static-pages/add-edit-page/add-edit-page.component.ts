@@ -22,8 +22,8 @@ export class AddEditPageComponent implements OnInit, OnChanges {
   editorConfig: AngularEditorConfig;
   currentslug='';
   loading=false;
-  constructor(private formBuilder: FormBuilder, private pagesService: PagesService, private toastrService: ToastrService,private settingService:SettingService
-    ,private slugifyPipe: SlugifyPipe
+  constructor(private formBuilder: FormBuilder, private pagesService: PagesService, private toastrService: ToastrService,private settingService:SettingService,
+    private slugifyPipe:SlugifyPipe
     ) {
     this.getConfig();
     this.editorConfig = {
@@ -131,7 +131,7 @@ else{
   detectpageChange(){
     // this.addEditPageForm.value.title_en=this.addEditPageForm.value.title_en.replace(/ /g,'-');
     this.currentslug= this.slugifyPipe.transform(this.addEditPageForm.value.title_en);
-    this.currentslug=this.addEditPageForm.value.title_en.replace(/[^a-zA-Z ]/g,'').replaceAll(/\s\s+/g,'-');
+    // this.currentslug=this.addEditPageForm.value.title_en.replace(/[^a-zA-Z ]/g,'').replaceAll(/\s\s+/g,'-');
     // console.log("value : ",this.addEditPageForm.value.title_en);
     
   }

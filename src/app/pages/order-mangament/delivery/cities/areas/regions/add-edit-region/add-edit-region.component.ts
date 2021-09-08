@@ -1,6 +1,6 @@
 import { AreasService } from "@app/pages/services/areas.service";
 import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormControl, FormArray, FormBuilder } from "@angular/forms";
 import { Validators } from "@angular/forms";
 @Component({
   selector: "app-add-edit-region",
@@ -13,7 +13,9 @@ export class AddEditRegionComponent implements OnInit {
   @Output() dataEmit = new EventEmitter();
   @Input("selectDataEdit") selectDataEdit;
   @Input("idParent") idParent;
-  constructor(private _areaService: AreasService) {}
+  ranges: FormArray;
+
+  constructor(private _areaService: AreasService, private formbuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getForm(this.selectDataEdit);
@@ -27,10 +29,47 @@ export class AddEditRegionComponent implements OnInit {
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       delivery_fees: new FormControl(
         data ? data.delivery_fees : 0,
-        Validators.required
       ),
+      fees_type: new FormControl(data ? data.fees_type : 1),
+
+      fees_range: new FormArray([])
       // apply_with_other: new FormControl(false),
     });
+    if (data) {
+      this.selectTypePrice(data.fees_type)
+      data.fees_range.forEach((element) => {
+        this.addRangeForm(element);
+      });
+    }
+  }
+
+  addRangeForm(data): void {
+    this.ranges = this.cityForm.get("fees_range") as FormArray;
+    this.ranges.push(this.createItem(data));
+  }
+  createItem(data): FormGroup {
+    return this.formbuilder.group({
+      fees: new FormControl(data ? data.fees : "", [Validators.required]),
+      weight_from: new FormControl(data ? data.weight_from : "", [Validators.required]),
+      weight_to: new FormControl(data ? data.weight_to : "", [Validators.required]),
+    });
+  }
+  removeRangeForm(index) {
+    this.ranges.removeAt(index);
+  }
+  selectTypePrice(type) {
+    console.log(type)
+    if (type == 1) {
+      this.cityForm.get('fees_range').setValue([]);
+      this.cityForm.get('fees_range').clearValidators();
+      this.cityForm.get('delivery_fees').setValidators([Validators.required])
+    } else if (type == 2) {
+      this.cityForm.get('delivery_fees').setValue('');
+      this.cityForm.get('fees_range').setValidators([Validators.minLength(1), Validators.required]);
+      this.cityForm.get('delivery_fees').clearValidators()
+    }
+    this.cityForm.get('fees_range').updateValueAndValidity()
+    this.cityForm.get('delivery_fees').updateValueAndValidity()
   }
 
   submitForm() {
@@ -39,6 +78,11 @@ export class AddEditRegionComponent implements OnInit {
       return;
     }
     const data = this.cityForm.value;
+    if (data.fees_type == '1') {
+      delete data.fees_range
+    } else if (data.fees_type == '2') {
+      delete data.delivery_fees
+    }
     if (this.selectDataEdit) {
       this._areaService
         .updateDistrict(this.idParent, data, this.selectDataEdit.id)

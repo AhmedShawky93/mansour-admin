@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from "@angular/core";
 import { BrandsService } from "@app/pages/services/brands.service";
 import { FormGroup, FormControl } from "@angular/forms";
 import { Validators } from "@angular/forms";
 import { UploadFilesService } from "../services/upload-files.service";
+import { ToastrService } from "ngx-toastr";
 declare var jquery: any;
 declare var $: any;
 
@@ -13,6 +14,7 @@ declare var $: any;
 })
 export class BrandsComponent implements OnInit {
   editForm: FormGroup;
+  @ViewChild("myInput") importFile: ElementRef;
   submitting: boolean = false;
   brands = [];
 
@@ -24,6 +26,7 @@ export class BrandsComponent implements OnInit {
   constructor(
     private brandsService: BrandsService,
     private uploadService: UploadFilesService,
+    private toastrService: ToastrService,
     private cd: ChangeDetectorRef
   ) { }
 
@@ -97,6 +100,39 @@ export class BrandsComponent implements OnInit {
     });
     this.imageUrl = brand.image;
     $("#edit-prod").toggleClass("open-view-vindor-types");
+  }
+
+  uploadFile(event) {
+    const formData = new FormData();
+    const selectFile = <File>event.target.files[0];
+    formData.append("file",selectFile);
+    this.brandsService
+      .ImportBrands(formData)
+      .subscribe((response: any) => {
+        if(response.code===200){
+        this.toastrService.success("File uploaded successfully");
+        this.importFile.nativeElement.value = "";
+        }
+        else{
+          this.toastrService.error(response.errors[0]);
+        }
+      });
+
+   
+  }
+  exportCsv(){
+    this.brandsService.exportBrands().subscribe((data:any)=>{
+        const blob = new Blob([data], { type: 'text/csv' });
+        // const url= window.URL.createObjectURL(blob);
+        // window.open(url);
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(blob);
+        // Give filename you wish to download
+        a.download = "Brands.xls";
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+    })
   }
 
   updateBrand() {

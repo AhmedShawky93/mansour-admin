@@ -1,5 +1,5 @@
 import { OptionsService } from "./../../../services/options.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from "@angular/core";
 import { CategoryService } from "@app/pages/services/category.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { ViewChild } from "@angular/core";
@@ -17,6 +17,7 @@ declare var $: any;
   styleUrls: ["./categories.component.css"],
 })
 export class CategoriesComponent implements OnInit {
+  @ViewChild("myInput") importFile: ElementRef;
   showSubError: number;
 
   categories: any;
@@ -122,6 +123,24 @@ export class CategoriesComponent implements OnInit {
       sub_categories: new FormArray([], [Validators.minLength(1), Validators.required]),
     });
   }
+  uploadFile(event) {
+    const formData = new FormData();
+    const selectFile = <File>event.target.files[0];
+    formData.append("file",selectFile);
+    this._CategoriesService
+      .ImportCategories(formData)
+      .subscribe((response: any) => {
+        if(response.code===200){
+        this.toastrService.success("File uploaded successfully");
+        this.importFile.nativeElement.value = "";
+        }
+        else{
+          this.toastrService.error(response.errors[0]);
+        }
+      });
+
+   
+  }
 
   getOptions() {
     this.optionsService.getOptions({ page: 0 }).subscribe({
@@ -139,7 +158,20 @@ export class CategoriesComponent implements OnInit {
   get edit_sub_categories() {
     return this.editCatForm.get("sub_categories") as FormArray;
   }
-
+  exportCsv(){
+    this._CategoriesService.exportCategories().subscribe((data:any)=>{
+        const blob = new Blob([data], { type: 'text/csv' });
+        // const url= window.URL.createObjectURL(blob);
+        // window.open(url);
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(blob);
+        // Give filename you wish to download
+        a.download = "Categories.xls";
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+    })
+  }
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
       this.categories = response.data;
