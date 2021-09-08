@@ -2,3 +2,8 @@
   display: block;
     margin: 0px auto;
 }
+
+.actionBtns {
+  width: 100% !important;
+  padding: 0 10px !important;
+}

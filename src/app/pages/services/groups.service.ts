@@ -22,6 +22,21 @@ export class GroupsService {
                 return Observable.throw(error.error || 'Server error');
             })
     }
+    exportGroups() {
+        const httpOptions = {
+            responseType: 'blob' as 'json',
+          };
+        return this.http.post(this.url + "/groups/export",{},httpOptions)
+            .catch((error: any) => {
+                return Observable.throw(error.error || 'Server error');
+            })
+    }
+    ImportGroups(importParams) {
+        return this.http.post(this.url + "/groups/import",importParams)
+            .catch((error: any) => {
+                return Observable.throw(error.error || 'Server error');
+            })
+    }
 
     createGroup(data) {
         return this.http.post(this.url + "/groups", data)

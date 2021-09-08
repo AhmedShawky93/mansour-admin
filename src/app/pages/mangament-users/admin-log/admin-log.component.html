@@ -6,6 +6,7 @@
         <th scope="col"> user_type</th>
         <th scope="col"> url</th>
         <th scope="col"> request</th>
+        <th scope="col"> created at</th>
       </tr>
     </thead>
     <tbody>
@@ -14,7 +15,22 @@
         <td>{{log?.username}}</td>
         <td>{{log?.user_type}}</td>
         <td>{{log?.url}}</td>
+        <td class="request-message relative">
+
+          {{(log?.request.length  >= 180 ) ? (log?.request | summary : 180 ) : log?.request }}
+
+          <div class="hover-reason text-left" *ngIf="log?.request.length >= 180">
+            <div class="head">
+              Log Request
+            </div>
+            <div class="body">
+              {{log?.request}}
+            </div>
+          </div>
+
+        </td>
         <td>{{log?.request}}</td>
+        <td>{{log?.created_at}}</td>
       </tr>
     </tbody>
   </table>

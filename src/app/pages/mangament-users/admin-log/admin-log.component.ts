@@ -21,7 +21,8 @@ export class AdminLogComponent implements OnInit {
     this.loading = true;
     this.adminService.getLog(this.page).subscribe((res) => {
       if (res.code === 200) {
-        this.list = res.data;
+        this.list = res.data.logs;
+        this.totalPages = res.data.total;
       } else {
         this.toasterService.error(res.message);
       }
@@ -36,7 +37,7 @@ export class AdminLogComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.code === 200) {
-            this.list = res.data.transactions;
+            this.list = res.data.logs;
             this.totalPages = res.data.total;
           } else {
             this.toasterService.error(res.message);

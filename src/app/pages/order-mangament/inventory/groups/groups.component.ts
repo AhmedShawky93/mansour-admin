@@ -1,7 +1,7 @@
 import { CategoryService } from '@app/pages/services/category.service';
 import { GroupsService } from './../../../services/groups.service';
 import { OptionsService } from "./../../../services/options.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from "@angular/core";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
@@ -19,7 +19,7 @@ declare var $: any;
 })
 export class GroupsComponent implements OnInit {
   showSubError: number;
-
+  @ViewChild("myInput") importFile: ElementRef;
   groups: any;
   newCategory: any = {
     name: "",
@@ -116,6 +116,39 @@ export class GroupsComponent implements OnInit {
       }
     });
   }
+  uploadFile(event) {
+    const formData = new FormData();
+    const selectFile = <File>event.target.files[0];
+    formData.append("file",selectFile);
+    this.groupsService
+      .ImportGroups(formData)
+      .subscribe((response: any) => {
+        if(response.code===200){
+        this.toastrService.success("File uploaded successfully");
+        this.importFile.nativeElement.value = "";
+        }
+        else{
+          this.toastrService.error(response.errors[0]);
+        }
+      });
+
+   
+  }
+  exportCsv(){
+    this.groupsService.exportGroups().subscribe((data:any)=>{
+        const blob = new Blob([data], { type: 'text/csv' });
+        // const url= window.URL.createObjectURL(blob);
+        // window.open(url);
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(blob);
+        // Give filename you wish to download
+        a.download = "Groups.xls";
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+    })
+  }
+
   selectCategory(cat_id) {
     let index = this.categories.findIndex((item) => item.id == cat_id);
     if (index !== -1) {

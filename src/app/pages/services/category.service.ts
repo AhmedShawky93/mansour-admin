@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -19,7 +19,21 @@ export class CategoryService {
                 return Observable.throw(error.error || 'Server error');
             })
     }
-
+    exportCategories() {
+        const httpOptions = {
+            responseType: 'blob' as 'json',
+          };
+        return this.http.post(this.url + "/categories/export",{},httpOptions)
+            .catch((error: any) => {
+                return Observable.throw(error.error || 'Server error');
+            })
+    }
+    ImportCategories(importParams) {
+        return this.http.post(this.url + "/categories/import",importParams)
+            .catch((error: any) => {
+                return Observable.throw(error.error || 'Server error');
+            })
+    }
     createCategory(data) {
         return this.http.post(this.url + "/categories", data)
             .catch((error: any) => {

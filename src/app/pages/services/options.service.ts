@@ -22,6 +22,21 @@ export class OptionsService {
         return Observable.throw(error.error || "Server error");
       });
   }
+  exportOptions() {
+    const httpOptions = {
+        responseType: 'blob' as 'json',
+      };
+    return this.http.post(this.url + "/options/export",{},httpOptions)
+        .catch((error: any) => {
+            return Observable.throw(error.error || 'Server error');
+        })
+}
+ImportOptions(importParams) {
+    return this.http.post(this.url + "/options/import",importParams)
+        .catch((error: any) => {
+            return Observable.throw(error.error || 'Server error');
+        })
+}
   createOption(data) {
     return this.http.post(this.url + "/options", data).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
