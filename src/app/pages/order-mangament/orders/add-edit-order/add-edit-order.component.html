@@ -156,7 +156,11 @@
             <div class="modal-body">
               <div class="form-group">
                 <label for="">Name</label>
-                <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name">
+                <select name="name" class="owl-input bg-white" formControlName="name">
+                  <option value="" disabled selected>Select Address</option>
+                  <option value="{{address.id}}" *ngFor="let address of addresseNames">{{address.name}}</option>
+                </select>
+                <!-- <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name"> -->
 
                 <div *ngIf="addressForm['controls']['name'].errors" class="alert alert-danger">
                   Name is required.
