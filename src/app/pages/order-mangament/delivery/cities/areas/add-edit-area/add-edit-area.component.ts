@@ -28,7 +28,7 @@ export class AddEditAreaComponent implements OnInit {
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       delivery_fees: new FormControl(
-        data ? data.delivery_fees : 0 ),
+        data ? data.delivery_fees : 0),
       fees_type: new FormControl(data ? data.fees_type : 1),
 
       fees_range: new FormArray([])
@@ -58,7 +58,6 @@ export class AddEditAreaComponent implements OnInit {
     this.ranges.removeAt(index);
   }
   selectTypePrice(type) {
-    console.log(type)
     if (type == 1) {
       // reset data array form
       const control = <FormArray>this.cityForm.controls['fees_range'];
@@ -69,7 +68,7 @@ export class AddEditAreaComponent implements OnInit {
       this.cityForm.get('fees_range').clearValidators();
       this.cityForm.get('delivery_fees').setValidators([Validators.required])
     } else if (type == 2) {
-      this.addRangeForm(null)
+      if (this.selectDataEdit == null) this.addRangeForm(null)
       this.cityForm.get('delivery_fees').setValue('');
       this.cityForm.get('fees_range').setValidators([Validators.minLength(1), Validators.required]);
       this.cityForm.get('delivery_fees').clearValidators()
