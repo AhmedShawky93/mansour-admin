@@ -52,7 +52,7 @@
       <div formArrayName="fees_range" *ngIf="cityForm.controls.fees_type.value == 2">
         <div *ngFor="let item of cityForm.get('fees_range')['controls']; let i = index">
           <div class="row box-range" [formGroupName]="i">
-            <div class="col-md-4">
+            <div class="col-md-12">
               <div class="form-group">
                 <label for="">From</label>
                 <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_from"
@@ -76,7 +76,7 @@
               </div> -->
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-12">
               <div class="form-group">
                 <label for="">to</label>
                 <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_to"
@@ -99,7 +99,7 @@
                 </div>
               </div> -->
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
               <div class="form-group">
                 <label for="">Delivery Fees</label>
                 <input type="text" class="owl-input" placeholder="type here.." name="fees" min="0" max="500"
