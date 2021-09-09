@@ -17,6 +17,7 @@ export class AddEditCustomerComponent implements OnInit {
   customerForm: FormGroup;
   cities: any = [];
   areas: any = [];
+  addresseNames: any[] = [{ id: 0, name: 'Home', name_ar: "المنزل" }, { id: 1, name: 'Work', name_ar: "العمل" }, { id: 2, name: "Others", name_ar: "أخرى" }]
 
   constructor(private customerService: CustomerService, private toastrService: ToastrService, private citiesService: AreasService) { }
 
