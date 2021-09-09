@@ -316,7 +316,7 @@
 
     <div class="form-group">
       <label>Weight</label>
-      <input [min]="0" class="owl-input" formControlName="weight" maxlength="6"
+      <input [min]="0" class="owl-input" formControlName="weight" maxlength="6" pattern="^\d+(?:\.\d{1,2})?$"
         onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' placeholder="Weight" type="text">
       <div *ngIf="formControlValidator('weight','required')" class="alert alert-danger">
         Weight is required

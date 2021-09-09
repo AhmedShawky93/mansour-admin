@@ -19,6 +19,8 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
   @Input('selectedOrder') selectedOrder;
   @Input('selectedAddress') selectedAddress;
   @Input('orderAddress') orderAddress = false;
+  addresseNames: any[] = [{ id: 0, name: 'Home', name_ar: "المنزل" }, { id: 1, name: 'Work', name_ar: "العمل" }, { id: 2, name: "Others", name_ar: "أخرى" }]
+
 
   addressForm: FormGroup;
   cities: any = [];
