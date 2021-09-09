@@ -190,7 +190,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       default_variant: new FormControl(data ? data.default_variant : 0),
       stock: new FormControl(data ? data.stock : 0, Validators.required),
       // preorder_price: new FormControl(0),
-      weight: new FormControl(data ? data.weight : 0, [Validators.min(1), Validators.required]),
+      weight: new FormControl(data ? data.weight : 0, [Validators.min(1), Validators.max(1000), Validators.required]),
       sku: new FormControl(data ? data.sku : '', Validators.required),
       options: this.formBuilder.array([]),
       type: new FormControl(data ? data.type : '', Validators.required),
