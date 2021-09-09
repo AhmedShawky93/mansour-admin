@@ -51,12 +51,21 @@
       </div>
       <div formArrayName="fees_range" *ngIf="cityForm.controls.fees_type.value == 2">
         <div *ngFor="let item of cityForm.get('fees_range')['controls']; let i = index">
-          <div class="row box-range"  [formGroupName]="i">
-            <div class="col-md-12">
+          <div class="row box-range" [formGroupName]="i">
+            <div class="col-md-4">
               <div class="form-group">
                 <label for="">From</label>
-                <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_from" />
+                <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_from"
+                  onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' />
+                <div
+                  *ngIf="cityForm.controls.fees_range['controls'][i].controls.weight_from.invalid && (cityForm.controls.fees_range['controls'][i].controls.weight_from.dirty || cityForm.controls.fees_range['controls'][i].controls.weight_from.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="cityForm.controls.fees_range['controls'][i].controls.weight_from.errors.required">
+                    weight from is required.
+                  </div>
+                </div>
               </div>
+
               <!-- <div *ngIf="
                   cityForm.controls.from.invalid &&
                   (cityForm.controls.from.dirty || cityForm.controls.from.touched)
@@ -67,11 +76,20 @@
               </div> -->
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-4">
               <div class="form-group">
                 <label for="">to</label>
-                <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_to" />
+                <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_to"
+                  onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' />
+                <div
+                  *ngIf="cityForm.controls.fees_range['controls'][i].controls.weight_to.invalid && (cityForm.controls.fees_range['controls'][i].controls.weight_to.dirty || cityForm.controls.fees_range['controls'][i].controls.weight_to.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="cityForm.controls.fees_range['controls'][i].controls.weight_to.errors.required">
+                    weight to is required.
+                  </div>
+                </div>
               </div>
+
               <!-- <div *ngIf="
                   cityForm.controls.to.invalid &&
                   (cityForm.controls.to.dirty || cityForm.controls.to.touched)
@@ -81,11 +99,18 @@
                 </div>
               </div> -->
             </div>
-            <div class="col-md-12">
+            <div class="col-md-4">
               <div class="form-group">
                 <label for="">Delivery Fees</label>
-                <input type="text" class="owl-input" placeholder="type here.." name="fees" required min="0" max="500"
-                  formControlName="fees" />
+                <input type="text" class="owl-input" placeholder="type here.." name="fees" min="0" max="500"
+                  formControlName="fees" onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' />
+                <div
+                  *ngIf="cityForm.controls.fees_range['controls'][i].controls.fees.invalid && (cityForm.controls.fees_range['controls'][i].controls.fees.dirty || cityForm.controls.fees_range['controls'][i].controls.fees.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="cityForm.controls.fees_range['controls'][i].controls.fees.errors.required">
+                    fees is required.
+                  </div>
+                </div>
                 <!-- <div *ngIf="
                   cityForm.controls.fees.invalid &&
                   (cityForm.controls.fees.dirty ||
@@ -103,7 +128,7 @@
                 </div> -->
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-4">
               <a href="javascript:void(0)" class="add-sub" (click)="removeRangeForm(i)">Remove Values</a>
             </div>
           </div>
@@ -112,12 +137,10 @@
 
         <a href="javascript:void(0)" class="add-sub mian-color" (click)="addRangeForm(null)">Add Values</a>
       </div>
-
-
       <div class="form-group" *ngIf="cityForm.controls.fees_type.value == 1">
         <label for="">Delivery Fees</label>
-        <input type="text" class="owl-input" placeholder="type here.." name="delivery_fees"   min="0" max="500"
-          formControlName="delivery_fees" />
+        <input type="text" class="owl-input" onkeypress='return event.charCode >= 48 && event.charCode <= 57 '
+          placeholder="type here.." name="delivery_fees" min="0" max="500" formControlName="delivery_fees" />
         <div *ngIf="
           cityForm.controls.delivery_fees.invalid &&
           (cityForm.controls.delivery_fees.dirty ||

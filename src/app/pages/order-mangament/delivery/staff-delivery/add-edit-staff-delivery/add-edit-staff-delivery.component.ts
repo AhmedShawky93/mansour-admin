@@ -1,3 +1,4 @@
+import { RolesService } from './../../../../services/roles.service';
 import { AreasService } from "./../../../../services/areas.service";
 import { OptionsService } from "./../../../../services/options.service";
 import {
@@ -36,6 +37,7 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
   submitting: boolean;
   loading: boolean;
   districts: any;
+  roles: any;
   constructor(
     private formBuilder: FormBuilder,
     private uploadFile: UploadFilesService,
@@ -43,12 +45,15 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
     private formbuilder: FormBuilder,
     private uploadService: UploadFilesService,
     private deliveryService: DeliveryService,
-    private _areaService: AreasService
+    private _areaService: AreasService,
+    private rolesService: RolesService,
+
   ) { }
 
   ngOnInit() {
     this.getForm(this.selectProductDataEdit);
     this.getCities();
+    this.getRoles()
   }
   ngOnChanges(): void {
     this.getForm(this.selectProductDataEdit);
@@ -61,12 +66,21 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
     });
   }
 
+  getRoles() {
+    this.rolesService.getRoles().subscribe((response) => {
+      this.roles = response.data;
+    });
+  }
+
   getForm(data) {
     this.OptionForm = this.formBuilder.group({
       name: new FormControl(data ? data.name : "", Validators.required),
+      role_id: new FormControl(data ? data.role_id : "", Validators.required),
       email: new FormControl(data ? data.email : "", [Validators.required, Validators.email]),
       password: new FormControl("", data ? [] : [Validators.required, Validators.minLength(8)]),
       address: new FormControl(data ? data.address : "", Validators.required),
+      phone: new FormControl(data ? data.phone : '', Validators.required),
+
       city_id: new FormControl(
         data ? data.delivererProfile.city.id : "",
         Validators.required
