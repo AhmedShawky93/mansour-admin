@@ -501,7 +501,7 @@
         <tbody>
 
           <tr *ngFor="let shipment of order.shipments; let i = index">
-            <td>{{ shipment.shipping_id }}</td>
+            <td><a href="{{shipment.shipment_url}}">{{ shipment.shipping_id }}</a></td>
             <td>{{ shipment.pickup?.shipping_guid }}</td>
             <td>{{ shipment.created_at | date: 'd-M-yyyy h:mm a' }}</td>
             <td>{{ shipment.pickup?.pickup_time | date: 'd-M-yyyy h:mm a' }}</td>
