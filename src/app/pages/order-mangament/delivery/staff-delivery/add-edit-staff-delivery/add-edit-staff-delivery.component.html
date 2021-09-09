@@ -33,6 +33,18 @@
       </div>
     </div>
     <div class="form-group">
+      <label for=""> phone</label>
+      <input type="text" class="owl-input" placeholder="Type.." formControlName="phone" [maxlength]="11">
+      <div
+        *ngIf="OptionForm.controls.phone.invalid && (OptionForm.controls.phone.dirty || OptionForm.controls.phone.touched)"
+        class="alert alert-danger">
+        <div *ngIf="OptionForm.controls.phone.errors.required">
+          phone is required.
+        </div>
+
+      </div>
+    </div>
+    <div class="form-group">
       <label for=""> password</label>
       <input type="password" class="owl-input" placeholder="Type.." formControlName="password">
       <div
@@ -61,6 +73,26 @@
         <!-- End Errors Rolues -->
       </div>
     </div>
+    <div class="form-group">
+      <label for="">Roles</label>
+      <select class="owl-input" formControlName="role_id" required name="role_id">
+        <option value="" selected hidden>Select role  </option>
+        <option value="{{cat.id}}" *ngFor="let cat of roles">{{cat.name}}
+        </option>
+      </select>
+      <!-- Start  Errors Rolues -->
+
+      <div
+        *ngIf="OptionForm.controls.area_id.invalid && (OptionForm.controls.area_id.dirty || OptionForm.controls.area_id.touched)"
+        class="alert alert-danger">
+
+        <div *ngIf="OptionForm.controls.area_id.errors.required">
+          Select role required
+        </div>
+        <!-- End Errors Rolues -->
+      </div>
+    </div>
+
     <div class="form-group">
       <label for="">City </label>
       <select class="owl-input" formControlName="city_id" required name="city_id"
@@ -102,16 +134,16 @@
       </div>
     </div>
     <!-- <div class="form-group">
-      <label> districts </label>
+      <label> Role  </label>
       <ng-select name="bransName" [items]="districts" bindLabel="name" bindValue="id" [multiple]="true"
-        placeholder=" Select districts" formControlName="districts_id" required>
+        placeholder=" Select districts" formControlName="role_id" required>
       </ng-select>
       <div
-        *ngIf="OptionForm.controls.districts_id.invalid && (OptionForm.controls.districts_id.dirty || OptionForm.controls.districts_id.touched)"
+        *ngIf="OptionForm.controls.role_id.invalid && (OptionForm.controls.role_id.dirty || OptionForm.controls.role_id.touched)"
         class="alert alert-danger">
 
-        <div *ngIf="OptionForm.controls.districts_id.errors.required">
-          Select districts
+        <div *ngIf="OptionForm.controls.role_id.errors.required">
+          Select role
         </div>
       </div>
     </div> -->
