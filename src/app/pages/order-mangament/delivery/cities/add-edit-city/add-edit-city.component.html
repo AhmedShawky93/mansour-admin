@@ -139,7 +139,7 @@
       </div>
       <div class="form-group" *ngIf="cityForm.controls.fees_type.value == 1">
         <label for="">Delivery Fees</label>
-        <input type="text" class="owl-input" onkeypress='return event.charCode >= 48 && event.charCode <= 57 '
+        <input type="text" class="owl-input" onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 110'
           placeholder="type here.." name="delivery_fees" min="0" max="500" formControlName="delivery_fees" />
         <div *ngIf="
           cityForm.controls.delivery_fees.invalid &&

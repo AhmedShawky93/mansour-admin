@@ -34,7 +34,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   addSubImages: FormArray;
   price: any;
   editorConfig: AngularEditorConfig;
-  regex = '^(?!00)([1-9][0-9]*)$';
+  regex = '\\d*(\\.\\d{1,2})?$';
   products: any = [];
   products$: Observable<any>;
   productsInput$ = new Subject<String>();
@@ -148,7 +148,8 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
       ]),
       affiliate_commission: new FormControl(data ? data.affiliate_commission : '', [
-        Validators.min(1), Validators.max(99) ,Validators.pattern(this.regex),
+        Validators.min(1), Validators.max(99)
+        //  ,Validators.pattern(this.regex),
       ]),
       default_variant: new FormControl(data ? data.default_variant : 0),
       bundle_products_ids: new FormControl((data && data.bundleProducts) ? data.bundleProducts.map(bp => bp.id) : []),
