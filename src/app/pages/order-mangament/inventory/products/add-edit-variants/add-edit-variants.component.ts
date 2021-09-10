@@ -156,7 +156,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       stock: new FormControl(data ? data.stock : 0, Validators.required),
       preorder: new FormControl(data ? data.preorder : 0),
       // preorder_price: new FormControl(data ? data.preorder_price : 0),
-      weight: new FormControl(data ? data.weight : 0, [Validators.required, Validators.min(1000)]),
+      weight: new FormControl(data ? data.weight : 0, Validators.required),
       /*stock_alert: new FormControl(data ? data.stock_alert : ''),*/
       sku: new FormControl(data ? data.sku : '', Validators.required),
       options: this.formBuilder.array([]),

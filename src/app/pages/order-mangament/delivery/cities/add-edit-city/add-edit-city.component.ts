@@ -123,4 +123,8 @@ export class AddEditCityComponent implements OnInit {
       }
     });
   }
+  numberOnly(event: any) {
+    console.log('event ==>', event.charCode)
+    return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46;
+  }
 }
