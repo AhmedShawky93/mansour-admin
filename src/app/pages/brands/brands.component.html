@@ -158,7 +158,7 @@
           (change)="onImageSelected($event)" name="image" />
         <input type="hidden" [(ngModel)]="imageUrl" formControlName="image">
       </div>
-      <div *ngIf="formControlValidator('image', 'required')">
+      <div class="alert alert-danger" *ngIf="formControlValidator('image', 'required')">
         Image is required.
       </div>
     </div>
@@ -171,7 +171,7 @@
       <div
         *ngIf="addBrandForm.controls.name.invalid && (addBrandForm.controls.name.dirty || addBrandForm.controls.name.touched)"
         class="alert alert-danger">
-        <div *ngIf="addBrandForm.controls.name.errors.required">
+        <div class="alert alert-danger" *ngIf="addBrandForm.controls.name.errors.required">
           Name is required.
         </div>
       </div>
@@ -187,7 +187,7 @@
       <div
         *ngIf="addBrandForm.controls.name_ar.invalid && (addBrandForm.controls.name_ar.dirty || addBrandForm.controls.name_ar.touched)"
         class="alert alert-danger">
-        <div *ngIf="addBrandForm.controls.name_ar.errors.required">
+        <div class="alert alert-danger" *ngIf="addBrandForm.controls.name_ar.errors.required">
           Arabic Name is required.
         </div>
       </div>
