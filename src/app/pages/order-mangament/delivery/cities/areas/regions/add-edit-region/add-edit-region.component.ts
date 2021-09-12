@@ -61,10 +61,10 @@ export class AddEditRegionComponent implements OnInit {
     console.log(type)
     if (type == 1) {
       // reset data array form
-      const control = <FormArray>this.cityForm.controls['fees_range'];
-      for (let i = control.length - 1; i >= 0; i--) {
-        control.removeAt(i)
-      }
+      // const control = <FormArray>this.cityForm.controls['fees_range'];
+      // for (let i = control.length - 1; i >= 0; i--) {
+      //   control.removeAt(i)
+      // }
 
       this.cityForm.get('fees_range').clearValidators();
       this.cityForm.get('delivery_fees').setValidators([Validators.required])
