@@ -23,6 +23,7 @@ import {
   map,
 } from "rxjs/operators";
 import { ListsService } from "@app/pages/services/lists.service";
+import { ProductsService } from "@app/pages/services/products.service";
 
 @Component({
   selector: "app-add-category",
@@ -62,7 +63,8 @@ export class AddOfferComponent implements OnInit {
     private customerService: CustomerService,
     private router: Router,
     private uploadFile: UploadFilesService,
-    private listsService: ListsService
+    private listsService: ListsService,
+    private productsService: ProductsService
   ) { }
 
   // add Promo
@@ -84,18 +86,22 @@ export class AddOfferComponent implements OnInit {
       }
     });
   }
-  onImageSelected(data, event) {
-    this.selectFile = <File>event.target.files[0];
-    this.uploadFile.uploadFile(this.selectFile).subscribe((response: any) => {
-      if (response.body) {
-        data = response.body.data.filePath;
-        this.promo.customer_phones = response.body.data.filePath;
-        // this.toastrService.success(response.message);
-      } else {
-        // this.toastrService.error(response.message);
+
+
+  importExcel(event) {
+    let fileName = <File>event.target.files[0];
+    this.productsService.import(fileName,'8').subscribe((response: any) => {
+      console.log(response);
+      if(response.code == 200){
+        this.toastrService.success('File uploaded successfully')
+      }  else{
+        this.toastrService.error(response.message);
       }
     });
   }
+
+
+
 
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control) => {
