@@ -115,6 +115,7 @@ import { MenuCreatorComponent } from './pages/menu-creator/menu-creator.componen
 import { StaticPagesComponent } from './pages/static-pages/static-pages.component';
 import { AddEditPageComponent } from './pages/static-pages/add-edit-page/add-edit-page.component';
 import { SlugifyPipe } from './pages/static-pages/pipes/slugify.pipe';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -189,6 +190,7 @@ import { SlugifyPipe } from './pages/static-pages/pipes/slugify.pipe';
     MatInputModule,
     MatExpansionModule,
     MatButtonModule,
+    NgxSpinnerModule,
     MatStepperModule,
     MatIconModule,
     MatRadioModule,
