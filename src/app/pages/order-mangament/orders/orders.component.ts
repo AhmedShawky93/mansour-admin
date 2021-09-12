@@ -9,6 +9,8 @@ import { ToastrService } from "ngx-toastr";
 import { MatInput } from "@angular/material";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/map";
+import { NgxSpinnerService } from 'ngx-spinner';
+
 import * as moment from "moment";
 
 import { Title } from "@angular/platform-browser";
@@ -172,7 +174,8 @@ export class OrdersComponent implements OnInit {
     private productService: ProductsService,
     private promoService: PromosService,
     private affiliateService: AffiliateService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private spinner: NgxSpinnerService
   ) {
     this.affiliateSearch = debounce(this.affiliateSearch, 700);
     this.titleService.setTitle("Orders");
@@ -261,14 +264,16 @@ export class OrdersComponent implements OnInit {
     //     this.orders = response.data.orders;
     //     this.total = response.data.total;
     //   });
+    
     this.filter$
       .debounceTime(400)
       .pipe(
-        tap((e) => ((this.loading = true), (this.no_orders = false))),
+        tap((e) => ((this.loading = true), (this.spinner.show()), (this.no_orders = false))),
         switchMap((filter) => this.filterOrders())
       )
       .subscribe((response: any) => {
         this.loading = false;
+        this.spinner.hide();
 
         this.orders = response.data.orders;
         this.total = response.data.total;

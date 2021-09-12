@@ -372,7 +372,9 @@
 </div>
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
-
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
 
 <!-- cancel  Popup-->
 <div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -397,9 +399,6 @@
   </div>
 </div>
 
-
-
-
 <!-- return for cancel sidebar Popup-->
 <div class="modal fade" id="removePopUp3" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -420,8 +419,6 @@
     </div>
   </div>
 </div>
-
-
 
 <div class="form-sidebar view-vindor-types" id="view-deactive">
   <div class="head" *ngIf="currentOrder">
@@ -684,7 +681,6 @@
   </div>
 </div>
 
-
 <div class="modal fade" id="confirmOrderUpdate" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -711,6 +707,7 @@
     </div>
   </div>
 </div>
+
 <div class="modal fade" id="returnOrder" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -897,6 +894,7 @@
     </div>
   </div>
 </div>
+
 <div class="modal fade" id="confirmOrderPickup" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="stateForm">
