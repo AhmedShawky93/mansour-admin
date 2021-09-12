@@ -18,7 +18,7 @@
             {{dataView.phone}}
             <span style="cursor: pointer;" class="text-success" *ngIf="dataView.phone_verified"><i
                 class="fa fa-check"></i> Verified</span>
-            <span data-toggle="modal" (click)="verifyPhoneUser(dataView)" style="cursor: pointer;" class="text-warning"
+            <span data-toggle="modal" (click)="verifyPhoneUser(dataView)" style="cursor: pointer;" class="warning"
               *ngIf="dataView.phone && !dataView.phone_verified"><i class="fa fa-exclamation-circle"></i> Not
               Verified</span>
           </h5>

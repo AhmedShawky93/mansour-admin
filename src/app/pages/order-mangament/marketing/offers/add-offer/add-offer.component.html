@@ -51,7 +51,7 @@
       <div class="form-group" *ngIf="promo.target_type == '2'">
         <button class=" btn btn-owls import-file btn-rounded btn-green  btn-special owl-input-file inputFile"
           style="overflow: hidden">Import Customers phone
-          <input #myInput (change)="onImageSelected(newPromo.customer_phones, $event)" type="file" class="input-style"
+          <input #myInput (change)="importExcel(newPromo.customer_phones, $event)" type="file" class="input-style"
             placeholder="type here " accept=".xlsx, .xls, .csv">
         </button>
       </div>

@@ -99,6 +99,31 @@ export class ProductsService {
       });
   }
 
+
+
+  import(file,type) {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('type', type);
+    return this.http.post(this.url + "/files/import", fd)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
+
+  importList(file,type,id) {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('type', type);
+    fd.append('list_id', id);
+    return this.http.post(this.url + "/files/import", fd)
+      .catch((error: any) => {
+        return Observable.throw(error.error || 'Server error');
+      })
+  }
+
+
   uploadFileStock(file) {
     const fd = new FormData();
     fd.append('file', file);

@@ -8,6 +8,7 @@ import {
   style,
 } from "@angular/animations";
 import { ToastrService } from "ngx-toastr";
+import { ProductsService } from "@app/pages/services/products.service";
 declare var jquery: any;
 declare var $: any;
 
@@ -47,7 +48,9 @@ export class CitiesComponent implements OnInit {
 
   constructor(
     private _areaService: AreasService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private productsService: ProductsService,
+
   ) {}
 
   ngOnInit() {
@@ -126,16 +129,21 @@ export class CitiesComponent implements OnInit {
     }
   }
 
-  importExcel(event) {
-    this.selectFile = <File>event.target.files[0];
+ 
 
-    this._areaService.uploadFile(this.selectFile).subscribe((response: any) => {
-      if (response.code === 200) {
-        this.toastrService.success("File uploaded successfully");
-        this.importFile.nativeElement.value = "";
+  importExcel(event) {
+    let fileName = <File>event.target.files[0];
+    this.productsService.import(fileName,'9').subscribe((response: any) => {
+      console.log(response);
+      if(response.code == 200){
+        this.toastrService.success('File uploaded successfully')
+      }  else{
+        this.toastrService.error(response.message);
       }
     });
   }
+
+
   cancelDeactivate(area) {
     area.active = 1;
     area.notes = "";

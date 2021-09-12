@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from "@angular/forms";
 import { Validators } from "@angular/forms";
 import { UploadFilesService } from "../services/upload-files.service";
 import { ToastrService } from "ngx-toastr";
+import { ProductsService } from "../services/products.service";
 declare var jquery: any;
 declare var $: any;
 
@@ -27,7 +28,9 @@ export class BrandsComponent implements OnInit {
     private brandsService: BrandsService,
     private uploadService: UploadFilesService,
     private toastrService: ToastrService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private productsService: ProductsService,
+
   ) { }
 
   ngOnInit() {
@@ -102,24 +105,38 @@ export class BrandsComponent implements OnInit {
     $("#edit-prod").toggleClass("open-view-vindor-types");
   }
 
-  uploadFile(event) {
-    const formData = new FormData();
-    const selectFile = <File>event.target.files[0];
-    formData.append("file",selectFile);
-    this.brandsService
-      .ImportBrands(formData)
-      .subscribe((response: any) => {
-        if(response.code===200){
-        this.toastrService.success("File uploaded successfully");
-        this.importFile.nativeElement.value = "";
-        }
-        else{
-          this.toastrService.error(response.errors[0]);
-        }
-      });
+  // uploadFile(event) {
+  //   const formData = new FormData();
+  //   const selectFile = <File>event.target.files[0];
+  //   formData.append("file",selectFile);
+  //   this.brandsService
+  //     .ImportBrands(formData)
+  //     .subscribe((response: any) => {
+  //       if(response.code===200){
+  //       this.toastrService.success("File uploaded successfully");
+  //       this.importFile.nativeElement.value = "";
+  //       }
+  //       else{
+  //         this.toastrService.error(response.errors[0]);
+  //       }
+  //     });
+  // }
 
-   
+
+  uploadFile(event) {
+    let fileName = <File>event.target.files[0];
+    this.productsService.import(fileName,'1').subscribe((response: any) => {
+      console.log(response);
+      if(response.code == 200){
+        this.toastrService.success('File uploaded successfully')
+      }  else{
+        this.toastrService.error(response.message);
+      }
+    });
   }
+
+
+
   exportCsv(){
     this.brandsService.exportBrands().subscribe((data:any)=>{
         const blob = new Blob([data], { type: 'text/csv' });
@@ -172,6 +189,11 @@ export class BrandsComponent implements OnInit {
       });
     }
   }
+
+
+
+
+
   formControlValidator(controlName, err) {
     if (this.editForm && this.editForm.controls[controlName].touched && this.editForm.controls[controlName].dirty) {
       if (this.editForm.controls[controlName].errors) {

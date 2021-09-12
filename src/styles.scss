@@ -2005,3 +2005,15 @@ body .mat-drawer-backdrop {
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
 }
+
+.warning {
+  color: #DAB21F;
+}
+
+.mat-radio-inner-circle {
+  background-color: var(--brand-color) !important;
+}
+
+.mat-radio-outer-circle {
+  border-color: var(--brand-color) !important;
+}
