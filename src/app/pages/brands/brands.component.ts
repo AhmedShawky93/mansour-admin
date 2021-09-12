@@ -177,6 +177,10 @@ export class BrandsComponent implements OnInit {
       if (this.editForm.controls[controlName].errors) {
         return this.editForm.controls[controlName].errors[err];
       }
+    } else if (this.addBrandForm && this.addBrandForm.controls[controlName].touched && this.addBrandForm.controls[controlName].dirty){
+      if (this.addBrandForm.controls[controlName].errors) {
+        return this.addBrandForm.controls[controlName].errors[err];
+      }
     }
   }
   private markFormGroupTouched(formGroup: FormGroup) {
