@@ -430,6 +430,8 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   closeSideBar(data = null) {
+    this.customerForm.reset();
+    this.addressForm.reset();
     this.orderForm.reset();
     this.loading = false;
     this.deleted_items = [];
