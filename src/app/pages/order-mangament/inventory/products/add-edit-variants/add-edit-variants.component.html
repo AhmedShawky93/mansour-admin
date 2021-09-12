@@ -231,7 +231,7 @@
           <small> optional</small>
         </label>
         <!-- (ngModelChange)='editText($event)' -->
-        <input class="owl-input" formControlName="affiliate_commission" placeholder="Type..">
+        <input class="owl-input" formControlName="affiliate_commission" placeholder="Type.." onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46'>
         <div
           *ngIf="variantForm.controls.affiliate_commission.invalid && (variantForm.controls.affiliate_commission.dirty || variantForm.controls.affiliate_commission.touched)"
           class="alert alert-danger">
@@ -316,13 +316,10 @@
 
     <div class="form-group">
       <label>Weight</label>
-      <input [min]="0" class="owl-input" formControlName="weight" pattern="^\d+(?:\.\d{1,2})?$" step="any"
-        placeholder="Weight" type="number">
+      <input [min]="0" class="owl-input" formControlName="weight" maxlength="6" pattern="^\d+(?:\.\d{1,2})?$"
+      onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46' placeholder="Weight" type="text">
       <div *ngIf="formControlValidator('weight','required')" class="alert alert-danger">
         Weight is required
-      </div>
-      <div *ngIf="formControlValidator('weight','max')" class="alert alert-danger">
-        Weight must be less than 1000
       </div>
     </div>
 
