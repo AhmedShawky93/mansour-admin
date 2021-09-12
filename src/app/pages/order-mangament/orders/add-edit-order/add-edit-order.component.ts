@@ -82,8 +82,10 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         break;
       case 1:
         this.isDisabledPaymentStepThree = true;
+        this.isDisabledPaymentStepTwo = false;
         break;
       default:
+        this.isDisabledPaymentStepThree = false;
         this.thirdTrigger = this.plan_id;
         break;
     }
@@ -282,7 +284,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     }
   }
 
-  updateCustomerValidaty(){
+  updateCustomerValidaty() {
     if (this.orderForm.controls.has_customer.value) {
       this.customerForm.controls.name.setValidators([Validators.required]);
       this.orderForm.controls.user_id.setValidators([]);
@@ -428,6 +430,8 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   closeSideBar(data = null) {
+    this.customerForm.reset();
+    this.addressForm.reset();
     this.orderForm.reset();
     this.loading = false;
     this.deleted_items = [];
