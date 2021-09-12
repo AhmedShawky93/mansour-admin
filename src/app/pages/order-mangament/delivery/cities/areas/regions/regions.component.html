@@ -3,9 +3,8 @@
 
   <div class="row">
     <div class="col-md-12">
-      <a class="back-btn"  (click)="backClicked()">
-        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a
-      >
+      <a class="back-btn" (click)="backClicked()">
+        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a>
     </div>
     <div class="col-md-8">
       <div class="left-search">
@@ -40,7 +39,8 @@
       <tr *ngFor="let area of cities ">
         <td>{{(area.name) ? (area.name) : '-'}}</td>
         <td>{{(area.name_ar) ? (area.name_ar) : '-'}}</td>
-        <td>{{(area.delivery_fees) ? (area.delivery_fees) : '-'}}</td>
+        <td *ngIf="area.fees_type == 1">{{(area.delivery_fees) ? (area.delivery_fees) : '-'}}</td>
+        <td *ngIf="area.fees_type == 2">Fees Range</td>
         <td style="text-align: center">
           <a style="margin-right: 10px" class="table-view open-show" (click)="viewDataInSidebar(area)">
             <i class="icon-View"></i>
@@ -57,7 +57,7 @@
                 [(ngModel)]="area.notes"></textarea>
 
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!area.notes"
-                (click)="submitDeactivate(area)" [ngClass]="{'not-allowed' : !area.notes }"  >submit</button>
+                (click)="submitDeactivate(area)" [ngClass]="{'not-allowed' : !area.notes }">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(area)">cancel</button>
             </div>

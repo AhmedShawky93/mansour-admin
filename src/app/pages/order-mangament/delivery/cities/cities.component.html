@@ -54,7 +54,8 @@
             {{area?.areas?.length}}
           </span>
         </td>
-        <td>{{(area.delivery_fees) ? (area.delivery_fees) : '-'}}</td>
+        <td *ngIf="area.fees_type == 1">{{(area.delivery_fees) ? (area.delivery_fees) : '-'}}</td>
+        <td *ngIf="area.fees_type == 2">Fees Range</td>
         <td style="text-align: center">
           <a style="margin-right: 10px" class="table-view open-show" (click)="viewDataInSidebar(area)">
             <i class="icon-View"></i>

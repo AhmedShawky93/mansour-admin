@@ -25,6 +25,17 @@
       <p>{{dataView?.deactivation_notes}}</p>
     </div>
 
+    <div *ngIf="dataView?.fees_range.length">
+      <h5>Fees Range </h5>
+
+      <p *ngIf="dataView?.fees_range">
+        <span *ngFor="let fee of  dataView?.fees_range">
+          <p>Weight from : {{fee.weight_from}} - Weight to: {{fee.weight_to}} - Fee: {{fee.fees}}</p>
+
+        </span>
+      </p>
+    </div>
+
     <div>
       <h5>districts Name </h5>
 
