@@ -1,4 +1,4 @@
-<div *ngIf="list.length && !loading else noData" class="table-responsive">
+<div *ngIf="list.length; else noData" class="table-responsive">
   <table class="table owls-table">
     <thead>
       <tr>
@@ -37,7 +37,10 @@
 
 <pagination-controls *ngIf="list.length" (pageChange)="loadData($event)"></pagination-controls>
 
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
 
 <ng-template #noData>
-  <h5 class="text-center text-capitalize text-info">No Data Available</h5>
+  <h5 *ngIf="!loading" class="text-center text-capitalize text-info">No Data Available</h5>
 </ng-template>
