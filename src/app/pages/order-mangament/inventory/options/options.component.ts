@@ -12,6 +12,7 @@ import {
   animate,
   style,
 } from "@angular/animations";
+import { ProductsService } from "@app/pages/services/products.service";
 declare var $: any;
 @Component({
   selector: "app-clinics",
@@ -64,6 +65,7 @@ export class OptionsComponent implements OnInit {
   options = [];
   constructor(
     private toastrService: ToastrService,
+    private productsService: ProductsService,
     private optionsService: OptionsService
   ) {}
 
@@ -104,23 +106,19 @@ export class OptionsComponent implements OnInit {
     // this.filter.page = p;
     this.getOptions();
   }
-  uploadFile(event) {
-    const formData = new FormData();
-    const selectFile = <File>event.target.files[0];
-    formData.append("file",selectFile);
-    this.optionsService
-      .ImportOptions(formData)
-      .subscribe((response: any) => {
-        if(response.code===200){
-        this.toastrService.success("File uploaded successfully");
-        this.importFile.nativeElement.value = "";
-        }
-        else{
-          this.toastrService.error(response.errors[0]);
-        }
-      });
 
-   
+
+
+  uploadFile(event) {
+    let fileName = <File>event.target.files[0];
+    this.productsService.import(fileName,'4').subscribe((response: any) => {
+      console.log(response);
+      if(response.code == 200){
+        this.toastrService.success('File uploaded successfully')
+      }  else{
+        this.toastrService.error(response.message);
+      }
+    });
   }
   exportCsv(){
     this.optionsService.exportOptions().subscribe((data:any)=>{

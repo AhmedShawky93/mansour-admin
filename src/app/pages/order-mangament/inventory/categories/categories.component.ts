@@ -7,6 +7,7 @@ import { NgForm } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { FormGroup, FormControl, FormArray } from "@angular/forms";
 import { Validators } from "@angular/forms";
+import { ProductsService } from "@app/pages/services/products.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -48,7 +49,9 @@ export class CategoriesComponent implements OnInit {
     private _CategoriesService: CategoryService,
     private uploadService: UploadFilesService,
     private toastrService: ToastrService,
-    private optionsService: OptionsService
+    private optionsService: OptionsService,
+    private productsService: ProductsService,
+
   ) { }
 
   ngOnInit() {
@@ -123,23 +126,19 @@ export class CategoriesComponent implements OnInit {
       sub_categories: new FormArray([], [Validators.minLength(1), Validators.required]),
     });
   }
-  uploadFile(event) {
-    const formData = new FormData();
-    const selectFile = <File>event.target.files[0];
-    formData.append("file",selectFile);
-    this._CategoriesService
-      .ImportCategories(formData)
-      .subscribe((response: any) => {
-        if(response.code===200){
-        this.toastrService.success("File uploaded successfully");
-        this.importFile.nativeElement.value = "";
-        }
-        else{
-          this.toastrService.error(response.errors[0]);
-        }
-      });
 
-   
+
+
+  uploadFile(event) {
+    let fileName = <File>event.target.files[0];
+    this.productsService.import(fileName,'3').subscribe((response: any) => {
+      console.log(response);
+      if(response.code == 200){
+        this.toastrService.success('File uploaded successfully')
+      }  else{
+        this.toastrService.error(response.message);
+      }
+    });
   }
 
   getOptions() {

@@ -56,6 +56,7 @@ declare var $: any;
 })
 export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   searchForm: FormGroup;
+  fileName: any;
   searchValue: string;
   dateRange: any;
   showError: number;
@@ -138,7 +139,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     private spinner: NgxSpinnerService,
     private showAffiliateService: ShowAffiliateService,
     private settingsService: SettingService,
-
     private route: ActivatedRoute,
     private router: Router,
     private toasterService: ToastrService,
@@ -649,50 +649,59 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       });
   }
 
+
+
   importExcel(event) {
     this.selectFile = <File>event.target.files[0];
-    this.productsService
-      .uploadFile(this.selectFile)
-      .subscribe((response: any) => {
-        // if (response.body) {
-        //   this.product.image = response.body.data.name;
-        //   this.product.imageUrl = response.body.data.filePath;
-        //   this.showError = 0;
-        // }
-      });
-    setTimeout(() => {
-      this.toastrService.success('You’ll receive a notification when the import is done', 'Your import is now being generated.', {
-        enableHtml: true,
-        timeOut: 3000
-      });
-    }, 500);
-    this.importFile.nativeElement.value = '';
+    this.productsService.import(this.selectFile,'2').subscribe((response: any) => {
+      console.log(response);
+      if(response.code == 200){
+        this.toastrService.success('File uploaded successfully')
+      }  else{
+        this.toastrService.error(response.message);
+      }
+    });
   }
 
   importStock(event) {
     this.selectFile = <File>event.target.files[0];
-
-    this.productsService
-      .uploadFileStock(this.selectFile)
-      .subscribe((response: any) => {
-        if (response.code === 200) {
-
-        }
-        // if (response.body) {
-        //   this.product.image = response.body.data.name;
-        //   this.product.imageUrl = response.body.data.filePath;
-        //   this.showError = 0;
-        // }
-      });
-    setTimeout(() => {
-      this.toastrService.success('You’ll receive a notification when the import is done.', 'Your import is now being generated', {
-        enableHtml: true,
-        timeOut: 3000
-      });
-    }, 500);
-    this.importFileStock.nativeElement.value = '';
-
+    this.productsService.import(this.selectFile,'6').subscribe((response: any) => {
+      console.log(response);
+      if(response.code == 200){
+        this.toastrService.success('File uploaded successfully')
+      }  else{
+        this.toastrService.error(response.message);
+      }
+    });
   }
+
+
+
+
+  // importStock(event) {
+  //   this.selectFile = <File>event.target.files[0];
+
+  //   this.productsService
+  //     .uploadFileStock(this.selectFile)
+  //     .subscribe((response: any) => {
+  //       if (response.code === 200) {
+
+  //       }
+  //       // if (response.body) {
+  //       //   this.product.image = response.body.data.name;
+  //       //   this.product.imageUrl = response.body.data.filePath;
+  //       //   this.showError = 0;
+  //       // }
+  //     });
+  //   setTimeout(() => {
+  //     this.toastrService.success('You’ll receive a notification when the import is done.', 'Your import is now being generated', {
+  //       enableHtml: true,
+  //       timeOut: 3000
+  //     });
+  //   }, 500);
+  //   this.importFileStock.nativeElement.value = '';
+
+  // }
 
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
