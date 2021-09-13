@@ -6,8 +6,7 @@
         *ngFor="let levelOneItem of formattedJson.level1; let i = index">
         <ng-container>
           <a class="nav-link main main-font" [ngClass]="{'has-link' : levelOneItem.link}" routerLinkActive="active-link"
-            (click)="navigateToLink(levelOneItem.link)"
-            (mouseleave)="clickedItem = false">
+            (click)="navigateToLink(levelOneItem.link)" (mouseleave)="clickedItem = false">
             {{ levelOneItem?.name }}
           </a>
         </ng-container>
@@ -17,7 +16,8 @@
           <ng-container *ngIf="levelOneItem.level2?.length > 0 && levelOneItem.levels_length == 3;else simpleMenu">
             <ul class="sub-menu-items-container">
               <li class="sub-level-items-container main-font" [ngClass]="levelOneItem.fixed_width ? 'fixed-width' : ''"
-                [ngStyle]="{'width': levelOneItem.fixed_width + levelOneItem.fixed_width_metric}" *ngFor="let levelTwoItem of levelOneItem.level2">
+                [ngStyle]="{'width': levelOneItem.fixed_width + levelOneItem.fixed_width_metric}"
+                *ngFor="let levelTwoItem of levelOneItem.level2">
                 <div class="sub-level-items">
                   <img *ngIf="levelOneItem.level2_image && levelTwoItem.image" [src]="levelTwoItem.image"
                     alt="secondary section image" />
@@ -28,14 +28,16 @@
                     <ul>
                       <li class="third-level-nav-link main-font"
                         [ngStyle]="{'line-height': levelOneItem.level3_items_spacing+levelOneItem.level3_items_spacing_metric}"
-                        *ngFor="let levelThreeItem of levelTwoItem.level3"
-                        (click)="navigateToLink(levelThreeItem.link)" [ngClass]="{'has-link': levelThreeItem.link}">
+                        *ngFor="let levelThreeItem of levelTwoItem.level3" (click)="navigateToLink(levelThreeItem.link)"
+                        [ngClass]="{'has-link': levelThreeItem.link}">
                         <div class="view-more main-font" *ngIf="levelThreeItem.highlighted;else seeMoreLink">
-                          <img *ngIf="levelOneItem.level3_image && levelThreeItem.image" [src]="levelThreeItem.image" alt="item images">
+                          <img *ngIf="levelOneItem.level3_image && levelThreeItem.image" [src]="levelThreeItem.image"
+                            alt="item images">
                           {{levelThreeItem?.name}}
                         </div>
                         <ng-template #seeMoreLink>
-                          <img *ngIf="levelOneItem.level3_image && levelOneItem.level3_image && levelThreeItem.image" [src]="levelThreeItem.image" alt="item images">
+                          <img *ngIf="levelOneItem.level3_image && levelOneItem.level3_image && levelThreeItem.image"
+                            [src]="levelThreeItem.image" alt="item images">
                           - {{levelThreeItem?.name}}
                         </ng-template>
                       </li>
@@ -126,8 +128,8 @@
       [(ngModel)]="formattedJson.level3_hover_color">
   </div>
 
-  <!-- <button (click)="updateColorsTest()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply colors
-    change</button> -->
+  <button (click)="saveChanges(true)" [appLoading]="updatingSave" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply colors
+    change</button>
 </div>
 
 <hr>
@@ -135,7 +137,8 @@
   <div class="level-container">
     <h4>Headers</h4>
     <div class="items-container">
-      <div class="cat-item" *ngFor="let itemLevelOne of formattedJson.level1;let index = index" (click)="selectHeader(itemLevelOne, index)">
+      <div class="cat-item" *ngFor="let itemLevelOne of formattedJson.level1;let index = index"
+        (click)="selectHeader(itemLevelOne, index)">
         {{itemLevelOne.name}}
         <span (click)="deleteItem(index, $event, itemLevelOne, 1)">X</span>
       </div>
@@ -145,7 +148,8 @@
   <div class="level-container" [ngClass]="selectedHeader ? 'show' : 'hidden'">
     <h4>Groups</h4>
     <div class="items-container">
-      <div class="cat-item" *ngFor="let levelTwoItem of selectedHeader?.level2;let index = index" (click)="selectGroup(levelTwoItem, index)">
+      <div class="cat-item" *ngFor="let levelTwoItem of selectedHeader?.level2;let index = index"
+        (click)="selectGroup(levelTwoItem, index)">
         {{levelTwoItem?.name}}
         <span (click)="deleteItem(index, $event, levelTwoItem, 2)">X</span>
       </div>
@@ -155,7 +159,8 @@
   <div class="level-container" [ngClass]="selectedGroup ? 'show' : 'hidden'">
     <h4>Sub Categories</h4>
     <div class="items-container">
-      <div class="cat-item" *ngFor="let levelThreeItem of selectedGroup?.level3;let index = index" (click)="selectSubCategory(levelThreeItem, index)">
+      <div class="cat-item" *ngFor="let levelThreeItem of selectedGroup?.level3;let index = index"
+        (click)="selectSubCategory(levelThreeItem, index)">
         {{levelThreeItem?.name}}
         <span (click)="deleteItem(index, $event, levelThreeItem, 3)">X</span>
       </div>
@@ -199,44 +204,49 @@
       <label>Link</label>
       <input class="owl-input" formControlName="link" placeholder="Type.." type="text">
     </div>
-    
+
     <div class="form-group">
       <label>Level 3 item spacing</label>
       <div class="dimention-picker">
         <input class="owl-input" formControlName="level3_items_spacing" placeholder="Type.." type="number">
-        <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="level3_items_spacing_metric" [clearable]="false"></ng-select>
+        <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="level3_items_spacing_metric"
+          [clearable]="false"></ng-select>
       </div>
     </div>
 
     <div class="form-group">
       <label>Menu padding</label>
       <div class="dimention-picker">
-      <input class="owl-input" formControlName="menu_padding" placeholder="Type.." type="number">
-      <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="menu_padding_metric" [clearable]="false"></ng-select>
+        <input class="owl-input" formControlName="menu_padding" placeholder="Type.." type="number">
+        <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="menu_padding_metric"
+          [clearable]="false"></ng-select>
       </div>
     </div>
 
     <div class="form-group">
       <label>Columns fixed width</label>
       <div class="dimention-picker">
-      <input class="owl-input" formControlName="fixed_width" placeholder="Type.." type="number">
-      <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="fixed_width_metric" [clearable]="false"></ng-select>
+        <input class="owl-input" formControlName="fixed_width" placeholder="Type.." type="number">
+        <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="fixed_width_metric"
+          [clearable]="false"></ng-select>
       </div>
     </div>
-    
+
     <div class="form-group">
       <label>Image fixed width</label>
       <div class="dimention-picker">
-      <input class="owl-input" formControlName="level1_image_dimentions" placeholder="Type.." type="number">
-      <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="level1_image_dimentions_metric" [clearable]="false"></ng-select>
+        <input class="owl-input" formControlName="level1_image_dimentions" placeholder="Type.." type="number">
+        <ng-select bindLabel="value" [items]="metrics" [multiple]="false"
+          formControlName="level1_image_dimentions_metric" [clearable]="false"></ng-select>
       </div>
     </div>
 
     <div class="form-group">
       <label>Menu fixed width</label>
       <div class="dimention-picker">
-      <input class="owl-input" formControlName="menu_fixed_width" placeholder="Type.." type="number">
-      <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="menu_fixed_width_metric" [clearable]="false"></ng-select>
+        <input class="owl-input" formControlName="menu_fixed_width" placeholder="Type.." type="number">
+        <ng-select bindLabel="value" [items]="metrics" [multiple]="false" formControlName="menu_fixed_width_metric"
+          [clearable]="false"></ng-select>
       </div>
     </div>
 
@@ -268,8 +278,8 @@
 
     <div class="form-group owls-upload owls-upload3 big" *ngIf="headerForm.controls.level1_image.value">
       <label>Header image</label>
-      <img class="owl-img img-fluid" [hidden]="headerForm.controls.image.value"
-        src="./assets/img/placeholder200.jpg" style="width: 200px; height: 200px;" alt="">
+      <img class="owl-img img-fluid" [hidden]="headerForm.controls.image.value" src="./assets/img/placeholder200.jpg"
+        style="width: 200px; height: 200px;" alt="">
       <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!headerForm.controls.image.value"
         [src]="headerForm.controls.image.value" alt="">
       <input type="file" id="editHeaderImg" class="owl-input" placeholder="upload your image"
@@ -313,7 +323,8 @@
 
     <div class="form-group owls-upload owls-upload3 big" *ngIf="selectedHeader?.level2_image">
       <label>Group image</label>
-      <img class="owl-img img-fluid" [hidden]="groupForm.controls.image.value" style="width: 200px; height: 200px;" src="./assets/img/placeholder200.jpg" alt="">
+      <img class="owl-img img-fluid" [hidden]="groupForm.controls.image.value" style="width: 200px; height: 200px;"
+        src="./assets/img/placeholder200.jpg" alt="">
       <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!groupForm.controls.image.value"
         [src]="groupForm.controls.image.value" alt="">
       <input type="file" id="editHeaderImg" class="owl-input" placeholder="upload your image"
@@ -357,10 +368,10 @@
 
     <div class="form-group owls-upload owls-upload3 big" *ngIf="selectedHeader?.level3_image">
       <label>Sub category image</label>
-      <img class="owl-img img-fluid" [hidden]="subCategoryForm.controls.image.value" style="width: 200px; height: 200px;" src="./assets/img/placeholder200.jpg"
-        alt="">
-      <img class="owl-img img-fluid" style="width: 200px; height: 200px;" [hidden]="!subCategoryForm.controls.image.value"
-        [src]="subCategoryForm.controls.image.value" alt="">
+      <img class="owl-img img-fluid" [hidden]="subCategoryForm.controls.image.value"
+        style="width: 200px; height: 200px;" src="./assets/img/placeholder200.jpg" alt="">
+      <img class="owl-img img-fluid" style="width: 200px; height: 200px;"
+        [hidden]="!subCategoryForm.controls.image.value" [src]="subCategoryForm.controls.image.value" alt="">
       <input type="file" id="editHeaderImg" class="owl-input" placeholder="upload your image"
         (change)="uploadImage(subCategoryForm.controls.image, $event)" name="image" />
       <input type="hidden" [(ngModel)]="subCategoryForm.image" formControlName="image">
@@ -380,10 +391,14 @@
 </label>
 
 <div class="menu-items-container column-view" *ngIf="showAdvanced">
-  <h4>Or set menu with  json object</h4>
+  <h4>Or set menu with json object</h4>
   <textarea [(ngModel)]="formattedJsonString" id="formattedJsonString"></textarea>
-  <button (click)="prettyPrint(true)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product"
-    [appLoading]="updating">Apply Json changes</button>
+  <div class="d-flex">
+    <button (click)="prettyPrint(true)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product mr-10"
+      [appLoading]="updating">Apply Json changes</button>
+    <button (click)="generateMenu()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product"
+      [appLoading]="generating">Generate from categories</button>
+  </div>
 </div>
 
 <div class="modal fade" id="deleteMenuItem" tabindex="-1" role="dialog" aria-hidden="true">

@@ -23,4 +23,8 @@ export class MenuService {
   updateMenu(data) {
     return this.http.post<any>(this.url + '/menu', data);
   }
+
+  generateMenu(){
+    return this.http.get<any>(this.url + '/menu/generate')
+  }
 }

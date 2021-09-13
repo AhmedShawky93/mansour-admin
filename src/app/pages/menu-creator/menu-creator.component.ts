@@ -222,6 +222,8 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   statedeleting: boolean = false;
   updating: boolean = false;
   showAdvanced: boolean = false;
+  generating: boolean = false;
+  updatingSave: boolean = false;
   metrics: any = [{ id: 1, value: 'px' }, { id: 2, value: 'em' }, { id: 3, value: 'rem' }, { id: 4, value: '%' }];
 
   constructor(private uploadService: UploadFilesService, private menuService: MenuService, private toastrService: ToastrService) {
@@ -358,6 +360,22 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     this.saveChanges();
   }
 
+  generateMenu(){
+    this.generating = true;
+    this.menuService.generateMenu().subscribe((res) => {
+      this.generating = false;
+      if(res.code === 200){
+        this.formattedJson = res.data;
+        this.formattedJsonString = JSON.stringify(res.data);
+        var element = <HTMLTextAreaElement>document.getElementById('formattedJsonString');
+        element.value = JSON.stringify(res.data);
+        setTimeout(() => {
+          this.prettyPrint(false);
+        }, 500)
+      }
+    })
+  }
+
   fixColorCode() {
     this.formattedJson['menu_background_color'] = this.formattedJson['menu_background_color'].replace(' ', '');
     this.formattedJson['drop_menu_background_color'] = this.formattedJson['drop_menu_background_color'].replace(' ', '');
@@ -380,7 +398,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     this.formattedJson['level3_text_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-3-color', this.formattedJson['level3_text_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-3-color', 'black');
     this.formattedJson['level3_hover_color'] ? document.documentElement.style.setProperty('--dynamic-menu-level-3-hover-color', this.formattedJson['level3_hover_color']) : document.documentElement.style.setProperty('--dynamic-menu-level-3-hover-color', '--menu-font-hover-color');
 
-    this.saveChanges();
+    // this.saveChanges();
   }
 
   checkColorValidity(color, colorName) {
@@ -410,8 +428,9 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     this.formattedJsonString = `${localStorage.getItem('formattedJsonString')}`;
     this.statedeleting = false;
     this.updating = false;
-
+    
     if (save) {
+      this.updatingSave = true;
       this.updating = true;
       this.menuService.updateMenu({ menu: this.formattedJsonString }).subscribe((res => {
         if (res.code === 200) {
@@ -419,6 +438,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         } else {
           this.toastrService.error(res.message);
         }
+        this.updatingSave = false;
         this.statedeleting = false;
         this.updating = false;
       }))

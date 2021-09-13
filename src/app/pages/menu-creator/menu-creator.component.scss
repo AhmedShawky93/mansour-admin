@@ -290,7 +290,7 @@ menu {
 
 .app-nav .app-nav-list>li {
   display: inline-block;
-  margin: 0 10px;
+  // margin: 0 10px;
   position: relative;
 }
 
@@ -844,4 +844,8 @@ hr {
   ng-select{
     width: 20%;
   }
+}
+
+.mr-10{
+  margin-right: 10px;
 }
