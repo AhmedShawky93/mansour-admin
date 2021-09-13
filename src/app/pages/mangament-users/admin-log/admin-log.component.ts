@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AdminLogComponent implements OnInit {
   list: any[] = [];
   loading: boolean = false;
-  itemsPerPage: number = 20;
+  itemsPerPage: number = 15;
   totalPages: number = 1;
   page: 1;
   constructor(private adminService: AdminsService, private toasterService: ToastrService, private spinner: NgxSpinnerService) {
