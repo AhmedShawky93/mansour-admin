@@ -76,6 +76,7 @@
   padding: 0 !important;
   max-height: 100%;
   overflow: auto;
+  max-height: 300px;
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container.simple-sub-menu {
@@ -844,8 +845,4 @@ hr {
   ng-select{
     width: 20%;
   }
-}
-
-.mr-10{
-  margin-right: 10px;
 }
