@@ -1,21 +1,51 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import {ProductsService} from '@app/pages/services/products.service';
-import {CategoryService} from '@app/pages/services/category.service';
-import {ToastrService} from 'ngx-toastr';
-import {OptionsService} from '@app/pages/services/options.service';
-import {DateLessThan} from '@app/shared/date-range-validation';
-import {compareNumbers} from '@app/shared/date-range-validation';
-import * as moment from 'moment';
-import {AngularEditorConfig} from '@kolkov/angular-editor';
-import {Observable, Subject, concat, of, combineLatest} from 'rxjs';
-import {debounceTime, distinctUntilChanged, tap, switchMap, catchError, map} from 'rxjs/operators';
-import {uniqBy} from 'lodash';
-import {environment} from '@env/environment';
-import {NgxSpinnerService} from 'ngx-spinner';
-import { PromosService } from '@app/pages/services/promos.service';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from "@angular/core";
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 
+import { uniqBy } from "lodash";
+import * as moment from "moment";
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+import {
+  combineLatest,
+  concat,
+  Observable,
+  of,
+  Subject,
+} from "rxjs";
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
+} from "rxjs/operators";
+
+import { CategoryService } from "@app/pages/services/category.service";
+import { OptionsService } from "@app/pages/services/options.service";
+import { ProductsService } from "@app/pages/services/products.service";
+import { PromosService } from "@app/pages/services/promos.service";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import {
+  compareNumbers,
+  DateLessThan,
+} from "@app/shared/date-range-validation";
+import { environment } from "@env/environment";
+import { AngularEditorConfig } from "@kolkov/angular-editor";
 
 @Component({
   selector: 'app-add-edit-variants',
@@ -126,6 +156,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       name: new FormControl(data ? data.name : '', Validators.required),
       name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
       product_with_variant: new FormControl(false),
+      free_delivery: new FormControl(data ? data.free_delivery : false),
       description: new FormControl(data ? data.description : '', [
         Validators.required,
       ]),

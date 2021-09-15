@@ -1,19 +1,54 @@
-import { DraftProductService } from './../../../../services/draft-product.service';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UploadFilesService } from '@app/pages/services/upload-files.service';
-import { ProductsService } from '@app/pages/services/products.service';
-import { CategoryService } from '@app/pages/services/category.service';
-import { ToastrService } from 'ngx-toastr';
-import { OptionsService } from '@app/pages/services/options.service';
-import { compareNumbers, DateLessThan } from '@app/shared/date-range-validation';
-import * as moment from 'moment';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { Observable, combineLatest, Subject, concat, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
-import { environment } from '@env/environment';
-import { PromosService } from '@app/pages/services/promos.service';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from "@angular/core";
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+
+import * as moment from "moment";
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+import {
+  combineLatest,
+  concat,
+  Observable,
+  of,
+  Subject,
+} from "rxjs";
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
+} from "rxjs/operators";
+
+import { CategoryService } from "@app/pages/services/category.service";
+import { OptionsService } from "@app/pages/services/options.service";
+import { ProductsService } from "@app/pages/services/products.service";
+import { PromosService } from "@app/pages/services/promos.service";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import {
+  compareNumbers,
+  DateLessThan,
+} from "@app/shared/date-range-validation";
+import { environment } from "@env/environment";
+import { AngularEditorConfig } from "@kolkov/angular-editor";
+
+import {
+  DraftProductService,
+} from "../../../../services/draft-product.service";
 
 @Component({
   selector: 'app-add-product-variants',
@@ -143,6 +178,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       preorder_end_date: new FormControl(data ? data.preorder_end_date : '', []),
       preorder_expiration_time: new FormControl(data ? data.preorder_expiration_time : '23:59:00', []),
       available_soon: new FormControl(data ? data.available_soon : ''),
+      free_delivery: new FormControl(data ? data.free_delivery : false),
       max_per_order: new FormControl(data ? data.max_per_order : ''),
       min_days: new FormControl(data ? data.min_days : ''),
       stock_alert: new FormControl(data ? data.stock_alert : ''),
@@ -709,7 +745,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       meta_description_ar: product.meta_description_ar,
       options: product.options,
       option_values: product.option_values,
-      // preorder_price: product.preorder_price,
+      free_delivery: product.free_delivery,
       price: product.price,
       sku: product.sku + '_variant',
       stock: product.stock,
