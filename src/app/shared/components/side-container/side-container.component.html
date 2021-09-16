@@ -1,0 +1,9 @@
+<div class="side-bar-container form-sidebar" [@slideInOut]="animationStyle">
+  <div class="head">
+    <span (click)="closeSideBar()" class="close">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>{{sideContainerProp?.title}}</h3>
+    <ng-content #bodyContent></ng-content>
+  </div>
+</div>

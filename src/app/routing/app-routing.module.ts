@@ -37,6 +37,7 @@ import { AdminLogComponent } from '@app/pages/mangament-users/admin-log/admin-lo
 import { ImportsComponent } from '@app/pages/imports/imports.component';
 import { MenuCreatorComponent } from '@app/pages/menu-creator/menu-creator.component';
 import { StaticPagesComponent } from '@app/pages/static-pages/static-pages.component';
+import { PrescriptionComponent } from '@app/pages/prescription/prescription.component';
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, data: { title: "Login" } },
@@ -208,6 +209,12 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: {title: "Imports", permissions: {only: ['ADMIN', 'View Imports'], redirectTo: '/pages/home'}}
       },
+      {
+        path: 'prescription',
+        canActivate: [NgxPermissionsGuard],
+        loadChildren: '../pages/e-prescription/e-prescription.module#EPrescriptionModule',
+        data: {title: 'E-PrescriptionModule', permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'}}
+      },      
       {
         path: "options",
         loadChildren:

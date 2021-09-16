@@ -137,6 +137,13 @@
           <span>Imports</span>
         </a>
       </li>
+      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
+        <a routerLink="/pages/prescription">
+          <i class="fa fa-sticky-note-o" data-toggle="tooltip" data-placement="right" title="Prescription"></i>
+          <span>Prescription</span>
+        </a>
+      </li>
+      
 
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Customers']">
         <a routerLink="/pages/menu-creator" routerLinkActive="active">
