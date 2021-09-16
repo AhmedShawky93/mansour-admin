@@ -76,6 +76,7 @@
   padding: 0 !important;
   max-height: 100%;
   overflow: auto;
+  max-height: 300px;
 }
 
 .app-nav-list .app-nav-item.mega .main-submenu.dynamic-menu .sub-menu-items-container.simple-sub-menu {
@@ -290,7 +291,7 @@ menu {
 
 .app-nav .app-nav-list>li {
   display: inline-block;
-  margin: 0 10px;
+  // margin: 0 10px;
   position: relative;
 }
 

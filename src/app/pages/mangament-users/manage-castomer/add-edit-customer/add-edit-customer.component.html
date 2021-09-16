@@ -30,6 +30,99 @@
     </div>
 
     <div class="form-group">
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+        <label class="container">add Address
+          <input type="checkbox" (change)="updateValidaty()" class="form-control checkbox-style" name="has_address"
+            id="has_address" [value]="1" formControlName="has_address">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div formGroupName="address" *ngIf="customerForm.controls['has_address'].value">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="">Name</label>
+          <select name="name" class="owl-input bg-white" formControlName="name">
+            <option value="" disabled selected>Select Address</option>
+            <option value="{{address.name}}" *ngFor="let address of addresseNames">{{address.name}}</option>
+          </select>
+          <!-- <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name"> -->
+
+          <div
+            *ngIf="customerForm.controls.address['controls']['name'].errors && (customerForm.controls.address['controls']['name'].touched || customerForm.controls.address['controls']['name'].dirty)"
+            class="alert alert-danger">
+            Name is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Building</label>
+          <input type="text" class="owl-input" name="floor" placeholder="Type here..." formControlName="floor">
+
+          <div
+            *ngIf="customerForm.controls.address['controls']['floor'].errors && (customerForm.controls.address['controls']['floor'].touched || customerForm.controls.address['controls']['floor'].dirty)"
+            class="alert alert-danger">
+            Building is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Street</label>
+          <input type="text" class="owl-input" name="address" placeholder="Type here..." formControlName="address">
+
+          <div
+            *ngIf="customerForm.controls.address['controls']['address'].errors && (customerForm.controls.address['controls']['address'].touched || customerForm.controls.address['controls']['address'].dirty)"
+            class="alert alert-danger">
+            Street is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">apartment</label>
+          <input type="text" class="owl-input" name="apartment" placeholder="Type here..." formControlName="apartment">
+
+          <div
+            *ngIf="customerForm.controls.address['controls']['apartment'].errors && (customerForm.controls.address['controls']['apartment'].touched || customerForm.controls.address['controls']['apartment'].dirty)"
+            class="alert alert-danger">
+            Apartment is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Landmark (optional)</label>
+          <input type="text" class="owl-input" name="landmark" placeholder="Type here..." formControlName="landmark">
+        </div>
+
+        <div class="form-group">
+          <label for="amount">City</label>
+          <select name="city_id" class="owl-input bg-white" formControlName="city_id" (change)="onCitySelected()">
+            <option value="" disabled selected>Select City</option>
+            <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+          </select>
+          <div
+            *ngIf="customerForm.controls.address['controls']['city_id'].errors && (customerForm.controls.address['controls']['city_id'].touched || customerForm.controls.address['controls']['city_id'].dirty)"
+            class="alert alert-danger">
+            City is required.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Area</label>
+          <select name="area_id" class="owl-input bg-white" formControlName="area_id">
+            <option value="" disabled selected>Select Area</option>
+            <option value="{{area.id}}" *ngFor="let area of areas">{{area.name}}</option>
+          </select>
+          <div
+            *ngIf="customerForm.controls.address['controls']['area_id'].errors && (customerForm.controls.address['controls']['area_id'].touched || customerForm.controls.address['controls']['area_id'].dirty)"
+            class="alert alert-danger">
+            Area is required.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
       <label for="">email address </label>
       <input type="email" class="owl-input" name="email" placeholder="Type here..." formControlName="email">
 

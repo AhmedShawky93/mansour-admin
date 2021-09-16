@@ -15,6 +15,9 @@ export class MenuService {
   }
 
   // Create Products
+  getMenuItems(){
+    return this.http.get<any>('https://mobilatyapi-staging.el-dokan.com/api/customer/home/menu');
+  }
 
   getMenu() {
     return this.http.get<any>(this.url + '/menu');
@@ -22,5 +25,9 @@ export class MenuService {
 
   updateMenu(data) {
     return this.http.post<any>(this.url + '/menu', data);
+  }
+
+  generateMenu(){
+    return this.http.get<any>(this.url + '/menu/generate')
   }
 }

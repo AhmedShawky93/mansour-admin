@@ -356,6 +356,14 @@
       <p class="text-muted">Checking this optional will make product viewable only and cannot be purchased</p>
     </div>
 
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+      <label class="container">Free Delivery
+        <input type="checkbox"
+          class="form-control checkbox-style" name="free_delivery" id="free_delivery" [value]="1"
+          formControlName="free_delivery">
+        <span class="checkmark"></span>
+      </label>
+    </div>
     <!-- <div *ngIf="componentForm.value.preorder" class="form-group">
       <label>Pre-order Pricing</label>
       <input class="owl-input"
