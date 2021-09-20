@@ -1,42 +1,99 @@
-import { GroupsComponent } from './../pages/order-mangament/inventory/groups/groups.component';
-import { ContactusComponent } from './../pages/contact-us/contact-us.component';
-import { PagesComponent } from "../pages/pages.component";
-import { ResetPasswordComponent } from "../pages/login/reset-password/reset-password.component";
-import { DoneComponent } from "../pages/mangament-users/done/done.component";
-import { NgModule, Component } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { LoginComponent } from "../pages/login/login.component";
-import { ManageCastomerComponent } from "../pages/mangament-users/manage-castomer/manage-castomer.component";
-import { TotalOrdersComponent } from "../pages/mangament-users/total-orders/total-orders.component";
-import { OrderDetailsComponent } from "../pages/order-mangament/order-details/order-details.component";
-import { ForgetPasswordComponent } from "../pages/login/forget-password/forget-password.component";
-import { AddStoreComponent } from "../pages/order-mangament/add-store/add-store.component";
-import { AuthGuard } from "../shared/auth.guard";
-import { OffersComponent } from "../pages/order-mangament/marketing/offers/offers.component";
-import { AddOfferComponent } from "../pages/order-mangament/marketing/offers/add-offer/add-offer.component";
-import { EditOfferComponent } from "../pages/order-mangament/marketing/offers/edit-offer/edit-category.component";
-import { NotificationsComponent } from "../pages/order-mangament/marketing/notifications/notifications.component";
-import { adsComponent } from "@app/pages/order-mangament/marketing/ads/ads.component";
-import { MedicalComponent } from "../pages/order-mangament/medical/medical.component";
-import { SettingComponent } from "../pages/order-mangament/setting/setting.component";
-import { OrdersComponent } from "../pages/order-mangament/orders/orders.component";
-import { CategoriesComponent } from "../pages/order-mangament/inventory/categories/categories.component";
-import { StaffComponent } from "../pages/order-mangament/delivery/staff/staff.component";
-import { HomeComponent } from "../pages/home/home.component";
-import { ReportingCenterComponent } from "../pages/order-mangament/reporting-center/reporting-center.component";
-import { TotalComponent } from "../pages/order-mangament/totalorders2/totalorders2.component";
-import { PrintReceiptComponent } from "@app/pages/order-mangament/print-receipt/print-receipt.component";
-import { BrandsComponent } from "@app/pages/brands/brands.component";
+import { NgModule } from "@angular/core";
+import {
+  RouterModule,
+  Routes,
+} from "@angular/router";
+
 import { NgxPermissionsGuard } from "ngx-permissions";
-import { CustomAdsComponent } from "@app/pages/store-front/custom-ads/custom-ads.component";
-import { ProfileResolver } from '@app/shared/profile.resolver';
-import { ReportsComponent } from '@app/pages/reports/reports.component';
-import { OrdersDeliveryComponent } from '@app/pages/order-mangament/orders-delivery/orders-delivery.component';
-import { OrderDeliveryDetailsComponent } from '@app/pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component';
-import { AdminLogComponent } from '@app/pages/mangament-users/admin-log/admin-log.component';
-import { ImportsComponent } from '@app/pages/imports/imports.component';
-import { MenuCreatorComponent } from '@app/pages/menu-creator/menu-creator.component';
-import { StaticPagesComponent } from '@app/pages/static-pages/static-pages.component';
+
+import { BrandsComponent } from "@app/pages/brands/brands.component";
+import { ImportsComponent } from "@app/pages/imports/imports.component";
+import {
+  AdminLogComponent,
+} from "@app/pages/mangament-users/admin-log/admin-log.component";
+import {
+  MenuCreatorComponent,
+} from "@app/pages/menu-creator/menu-creator.component";
+import {
+  FilemanagerComponent,
+} from "@app/pages/order-mangament/filemanager/filemanager.component";
+import {
+  adsComponent,
+} from "@app/pages/order-mangament/marketing/ads/ads.component";
+import {
+  OrderDeliveryDetailsComponent,
+} from "@app/pages/order-mangament/orders-delivery/order-delivery-details/order-delivery-details.component";
+import {
+  OrdersDeliveryComponent,
+} from "@app/pages/order-mangament/orders-delivery/orders-delivery.component";
+import {
+  PrintReceiptComponent,
+} from "@app/pages/order-mangament/print-receipt/print-receipt.component";
+import { ReportsComponent } from "@app/pages/reports/reports.component";
+import {
+  StaticPagesComponent,
+} from "@app/pages/static-pages/static-pages.component";
+import {
+  CustomAdsComponent,
+} from "@app/pages/store-front/custom-ads/custom-ads.component";
+
+import { ContactusComponent } from "../pages/contact-us/contact-us.component";
+import { HomeComponent } from "../pages/home/home.component";
+import {
+  ForgetPasswordComponent,
+} from "../pages/login/forget-password/forget-password.component";
+import { LoginComponent } from "../pages/login/login.component";
+import {
+  ResetPasswordComponent,
+} from "../pages/login/reset-password/reset-password.component";
+import { DoneComponent } from "../pages/mangament-users/done/done.component";
+import {
+  ManageCastomerComponent,
+} from "../pages/mangament-users/manage-castomer/manage-castomer.component";
+import {
+  TotalOrdersComponent,
+} from "../pages/mangament-users/total-orders/total-orders.component";
+import {
+  AddStoreComponent,
+} from "../pages/order-mangament/add-store/add-store.component";
+import {
+  StaffComponent,
+} from "../pages/order-mangament/delivery/staff/staff.component";
+import {
+  CategoriesComponent,
+} from "../pages/order-mangament/inventory/categories/categories.component";
+import {
+  GroupsComponent,
+} from "../pages/order-mangament/inventory/groups/groups.component";
+import {
+  NotificationsComponent,
+} from "../pages/order-mangament/marketing/notifications/notifications.component";
+import {
+  AddOfferComponent,
+} from "../pages/order-mangament/marketing/offers/add-offer/add-offer.component";
+import {
+  EditOfferComponent,
+} from "../pages/order-mangament/marketing/offers/edit-offer/edit-category.component";
+import {
+  OffersComponent,
+} from "../pages/order-mangament/marketing/offers/offers.component";
+import {
+  OrderDetailsComponent,
+} from "../pages/order-mangament/order-details/order-details.component";
+import {
+  OrdersComponent,
+} from "../pages/order-mangament/orders/orders.component";
+import {
+  ReportingCenterComponent,
+} from "../pages/order-mangament/reporting-center/reporting-center.component";
+import {
+  SettingComponent,
+} from "../pages/order-mangament/setting/setting.component";
+import {
+  TotalComponent,
+} from "../pages/order-mangament/totalorders2/totalorders2.component";
+import { PagesComponent } from "../pages/pages.component";
+import { AuthGuard } from "../shared/auth.guard";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, data: { title: "Login" } },
@@ -144,6 +201,12 @@ const routes: Routes = [
         component: SettingComponent,
         canActivate: [NgxPermissionsGuard],
         data: { title: "Settings", permissions: { only: ['ADMIN', 'View Settings'], redirectTo: '/pages/home' } },
+      },
+      {
+        path: "filemanager",
+        component: FilemanagerComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { title: "File Manager", permissions: { only: ['ADMIN', 'View Settings'], redirectTo: '/pages/home' } },
       },
       { path: "orders", component: OrdersComponent, canActivate: [NgxPermissionsGuard], data: { title: "Orders", permissions: { only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home' } } },
       { path: "orders-delivery", component: OrdersDeliveryComponent, canActivate: [NgxPermissionsGuard], data: { title: "Orders Delivery", permissions: { only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home' } } },
