@@ -1,21 +1,22 @@
-import { Component, OnInit } from "@angular/core";
-import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-  NgForm,
+  Component,
+  OnInit,
+} from "@angular/core";
+import {
   AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
 } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
-import { SettingService } from "@app/pages/services/setting.service";
-import { Conditional } from "@angular/compiler";
-import { EventEmitter } from "@angular/core";
-import { delay } from "rxjs/operators";
-import * as moment from "moment";
-import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
 
+import * as moment from "moment";
+import { ToastrService } from "ngx-toastr";
+
+import { SettingService } from "@app/pages/services/setting.service";
+import {
+  ShowAffiliateService,
+} from "@app/pages/services/show-affiliate.service";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
 
 function currentPasswordValidator(group: AbstractControl) {
   if (group.get("password").value && !group.get("current_password").value) {
@@ -196,59 +197,107 @@ export class SettingComponent implements OnInit {
   // }
 
   loadSettings() {
-    if (!this.settings) {
-      this.settingsLoading = true;
-      this.settingService.getSettings().subscribe((response: any) => {
-        this.settings = response.data;
-        this.systemForm = new FormGroup(
-          {
-            enable_affiliate: new FormControl(this.settings.enable_affiliate),
-            affiliate_pending_days: new FormControl(this.settings.affiliate_pending_days, [Validators.pattern("^[0-9]+$"), Validators.min(0)]),
-            min_order_amount: new FormControl(this.settings.min_order_amount),
-            except_cod_amount: new FormControl(this.settings.except_cod_amount),
-            off_time: new FormControl(this.settings.off_time),
-            open_time: new FormControl(this.settings.open_time),
-            showSoftLaunchBar: new FormControl(this.settings.showSoftLaunchBar ? this.settings.showSoftLaunchBar : false),
-            softbar_text_ar: new FormControl(this.settings.softbar_text_ar ? this.settings.softbar_text_ar : ''),
-            softbar_text_en: new FormControl(this.settings.softbar_text_en ? this.settings.softbar_text_en : ''),
-            softbar_bg_color: new FormControl(this.settings.softbar_bg_color ? this.settings.softbar_bg_color : ''),
-          },
-          timeValidator
-        );
+    // this.settingsLoading = true;
+    // if (!this.settings) {
+    //   this.settingsLoading = true;
+    //   this.settingService.getSettings().subscribe((response: any) => {
+    //     this.settings = response.data;
+    //     this.systemForm = new FormGroup(
+    //       {
+    //         enable_affiliate: new FormControl(this.settings.enable_affiliate),
+    //         affiliate_pending_days: new FormControl(this.settings.affiliate_pending_days, [Validators.pattern("^[0-9]+$"), Validators.min(0)]),
+    //         min_order_amount: new FormControl(this.settings.min_order_amount),
+    //         except_cod_amount: new FormControl(this.settings.except_cod_amount),
+    //         off_time: new FormControl(this.settings.off_time),
+    //         open_time: new FormControl(this.settings.open_time),
+    //         showSoftLaunchBar: new FormControl(this.settings.showSoftLaunchBar ? this.settings.showSoftLaunchBar : false),
+    //         softbar_text_ar: new FormControl(this.settings.softbar_text_ar ? this.settings.softbar_text_ar : ''),
+    //         softbar_text_en: new FormControl(this.settings.softbar_text_en ? this.settings.softbar_text_en : ''),
+    //         softbar_bg_color: new FormControl(this.settings.softbar_bg_color ? this.settings.softbar_bg_color : ''),
+    //       },
+    //       timeValidator
+    //     );
 
-        this.starsForm = new FormGroup({
-          ex_rate_pts: new FormControl(
-            this.settings.ex_rate_pts,
-            Validators.required
-          ),
-          ex_rate_egp: new FormControl(
-            this.settings.ex_rate_egp,
-            Validators.required
-          ),
-          ex_rate_gold: new FormControl(
-            this.settings.ex_rate_gold,
-            Validators.required
-          ),
-          refer_points: new FormControl(
-            this.settings.refer_points,
-            Validators.required
-          ),
-          refer_minimum: new FormControl(
-            this.settings.refer_minimum,
-            Validators.required
-          ),
-          egp_gold: new FormControl(
-            this.settings.egp_gold,
-            Validators.required
-          ),
-          pending_days: new FormControl(
-            this.settings.pending_days,
-            Validators.required
-          ),
-        });
-        this.settingsLoading = false;
-      });
-    }
+    //     this.starsForm = new FormGroup({
+    //       ex_rate_pts: new FormControl(
+    //         this.settings.ex_rate_pts,
+    //         Validators.required
+    //       ),
+    //       ex_rate_egp: new FormControl(
+    //         this.settings.ex_rate_egp,
+    //         Validators.required
+    //       ),
+    //       ex_rate_gold: new FormControl(
+    //         this.settings.ex_rate_gold,
+    //         Validators.required
+    //       ),
+    //       refer_points: new FormControl(
+    //         this.settings.refer_points,
+    //         Validators.required
+    //       ),
+    //       refer_minimum: new FormControl(
+    //         this.settings.refer_minimum,
+    //         Validators.required
+    //       ),
+    //       egp_gold: new FormControl(
+    //         this.settings.egp_gold,
+    //         Validators.required
+    //       ),
+    //       pending_days: new FormControl(
+    //         this.settings.pending_days,
+    //         Validators.required
+    //       ),
+    //     });
+    //     this.settingsLoading = false;
+    //   });
+    // }
+    this.systemForm = new FormGroup(
+      {
+        enable_affiliate: new FormControl(''),
+        affiliate_pending_days: new FormControl('', [Validators.pattern("^[0-9]+$"), Validators.min(0)]),
+        min_order_amount: new FormControl(''),
+        except_cod_amount: new FormControl(''),
+        off_time: new FormControl(''),
+        open_time: new FormControl(''),
+        showSoftLaunchBar: new FormControl(false),
+        softbar_text_ar: new FormControl(''),
+        softbar_text_en: new FormControl(''),
+        softbar_bg_color: new FormControl(''),
+      },
+      timeValidator
+    );
+
+    this.starsForm = new FormGroup({
+      ex_rate_pts: new FormControl(
+        '',
+        Validators.required
+      ),
+      ex_rate_egp: new FormControl(
+        '',
+        Validators.required
+      ),
+      ex_rate_gold: new FormControl(
+        '',
+        Validators.required
+      ),
+      refer_points: new FormControl(
+        '',
+        Validators.required
+      ),
+      refer_minimum: new FormControl(
+        '',
+        Validators.required
+      ),
+      egp_gold: new FormControl(
+       '',
+        Validators.required
+      ),
+      pending_days: new FormControl(
+       '',
+        Validators.required
+      ),
+    });
+    // this.settingsLoading = false;
   }
 
   updateSystemSettings() {
