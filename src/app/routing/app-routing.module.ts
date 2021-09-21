@@ -209,6 +209,12 @@ const routes: Routes = [
         data: {title: "Imports", permissions: {only: ['ADMIN', 'View Imports'], redirectTo: '/pages/home'}}
       },
       {
+        path: 'prescription',
+        canActivate: [NgxPermissionsGuard],
+        loadChildren: '../pages/e-prescription/e-prescription.module#EPrescriptionModule',
+        data: {title: 'E-PrescriptionModule', permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'}}
+      },      
+      {
         path: "options",
         loadChildren:
           "../pages/order-mangament/inventory/options/options.module#OptionsModule",

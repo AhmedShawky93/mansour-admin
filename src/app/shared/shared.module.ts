@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SatDatepickerModule } from 'saturn-datepicker';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { SideContainerComponent } from './components/side-container/side-container.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     GenericDatePickerComponent,
     GenericTimePickerComponent,
     AddEditAddressComponent,
-
+    SideContainerComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -36,7 +37,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     GenericDatePickerComponent,
     GenericTimePickerComponent,
     AddEditAddressComponent,
-
+    SideContainerComponent
   ],
 })
 export class SharedModule { }

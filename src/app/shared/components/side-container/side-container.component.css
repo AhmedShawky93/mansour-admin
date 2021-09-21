@@ -1,0 +1,18 @@
+.side-bar-container {
+  background: #ffffff;
+  position: absolute;
+  right: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 435px;
+  z-index: 5;
+  height: 100%;
+  min-height: 100vh;
+  padding: 25px;
+  overflow: auto;
+  overflow-x: hidden;
+  box-shadow: 0 5px 5px 0 rgba(6, 40, 59, 0.1);
+}
+
+

@@ -1,0 +1,48 @@
+<p class="title mt-4">ID: {{selectedItem.id}}</p>
+
+<img *ngFor="let img of selectedItem?.images" class="image-preview my-2" [src]="img" alt="">
+
+<div class="my-2">
+  <p class="title">Name</p>
+  <p class="item">{{selectedItem.user.name}}</p>
+</div>
+
+<div class="my-2">
+  <p class="title">Phone</p>
+  <p class="item">{{selectedItem.user.phone}}</p>
+</div>
+
+<div class="my-2">
+  <p class="title">Address</p>
+  <p class="item">{{selectedItem.address.formatted_address}}</p>
+</div>
+
+<div class="my-2">
+  <p class="title">Notes</p>
+  <p class="item">{{selectedItem.note}}</p>
+</div>
+
+<div class="my-2">
+  <p class="title">Status</p>
+  <p *ngIf="selectedItem.status === 1" class="item">Created</p>
+  <p *ngIf="selectedItem.status === 2" class="item">InProgress</p>
+  <p *ngIf="selectedItem.status === 3" class="item">Delivered</p>
+  <p *ngIf="selectedItem.status === 4" class="item">Canceled</p>
+</div>
+
+<div class="my-2">
+  <p class="title">Comment</p>
+  <p class="item">{{selectedItem.comment}}</p>
+</div>
+
+
+<div class="my-2">
+  <p class="title">Invoice</p>
+  <p class="item">{{selectedItem.invoice_id}}</p>
+</div>
+
+<div class="my-2">
+  <p class="title">Amount</p>
+  <p class="item">{{selectedItem.amount}}</p>
+</div>
+
