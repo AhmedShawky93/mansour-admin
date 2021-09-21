@@ -47,7 +47,7 @@ export class StoresComponent implements OnInit {
   selectedUserIds: number[];
   clinics = [];
   q = 1;
-
+  deleteLoading: boolean = false;
   categories: any;
   searchForm: FormGroup;
   total = 0;
@@ -137,6 +137,7 @@ export class StoresComponent implements OnInit {
   }
 
   confirmRemoveBranch() {
+    this.deleteLoading = true;
     this.bracnhesStoreService.deleteBranch(this.removeBranchObj.id).subscribe((response: any) => {
       if (response.code === 200) {
         const index = this.branches.findIndex(item => item.id == this.removeBranchObj)
@@ -144,6 +145,7 @@ export class StoresComponent implements OnInit {
         this.toastrService.success('Branche is removed')
         $("#removePopUp").modal("hide");
       }
+      this.deleteLoading = true;
     });
   }
 
