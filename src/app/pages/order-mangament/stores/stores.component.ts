@@ -145,7 +145,7 @@ export class StoresComponent implements OnInit {
         this.toastrService.success('Branche is removed')
         $("#removePopUp").modal("hide");
       }
-      this.deleteLoading = true;
+      this.deleteLoading = false;
     });
   }
 
