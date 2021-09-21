@@ -1,27 +1,55 @@
-import { SettingService } from './../../../services/setting.service';
-import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
-import { Component, ElementRef, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ProductsService } from '@app/pages/services/products.service';
-import { CategoryService } from '@app/pages/services/category.service';
-import 'rxjs/add/operator/take';
-import { UploadFilesService } from '@app/pages/services/upload-files.service';
-import { environment } from '@env/environment';
-import { AuthService } from '@app/shared/auth.service';
-import { ToastrService } from 'ngx-toastr';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import "rxjs/add/operator/take";
+import "rxjs/Rx";
 
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import 'rxjs/Rx';
-import { Subject } from 'rxjs/Rx';
-import { tap } from 'rxjs/operators';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { debounce } from 'lodash';
-import { ShowAffiliateService } from '@app/pages/services/show-affiliate.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { DraftProductService } from '@app/pages/services/draft-product.service';
-import { s } from '@angular/core/src/render3';
-import { DOCUMENT } from '@angular/common';
-import { Inject } from '@angular/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from "@angular/animations";
+import { DOCUMENT } from "@angular/common";
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+} from "@angular/router";
+
+import { debounce } from "lodash";
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+import { tap } from "rxjs/operators";
+import { Subject } from "rxjs/Rx";
+
+import { CategoryService } from "@app/pages/services/category.service";
+import { DraftProductService } from "@app/pages/services/draft-product.service";
+import { ProductsService } from "@app/pages/services/products.service";
+import {
+  ShowAffiliateService,
+} from "@app/pages/services/show-affiliate.service";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import { AuthService } from "@app/shared/auth.service";
+import { environment } from "@env/environment";
+
+import { SettingService } from "../../../services/setting.service";
+import {
+  AddEditProductComponent,
+} from "./add-edit-product/add-edit-product.component";
 
 declare var jquery: any;
 declare var $: any;

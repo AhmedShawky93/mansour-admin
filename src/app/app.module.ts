@@ -32,7 +32,7 @@ import {
 import { ProgressBarModule } from "angular-progress-bar";
 import { MomentModule } from "angular2-moment";
 //chart js
-import { ChartsModule } from "ng2-charts";
+// import { ChartsModule } from "ng2-charts";
 // maxlength text
 import { TruncateModule } from "ng2-truncate";
 import { CustomFormsModule } from "ng2-validation";
@@ -275,7 +275,7 @@ import { SharedModule } from "./shared/shared.module";
     MatRadioModule,
     NgSelectModule,
     MatSelectModule,
-    ChartsModule,
+    // ChartsModule,
     ToastrModule.forRoot(),
     SatDatepickerModule,
     SatNativeDateModule,

@@ -36,7 +36,7 @@ declare var $: any;
   ],
 })
 export class StaticPagesComponent implements OnInit {
-  @ViewChild('elViewPage', { read: false }) elViewPage: any;
+  @ViewChild('elViewPage') elViewPage: any;
   pages: any[] = [];
   loading=false;
   website_url;

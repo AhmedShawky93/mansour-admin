@@ -1,19 +1,30 @@
-import { BracnhesStoreService } from './../../services/stores.service';
-import { ToastrService } from "ngx-toastr";
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
 import "rxjs/Rx";
-import { Subject } from "rxjs/Rx";
-import { tap, delay } from "rxjs/operators";
+
 // import { environmentVariables } from '../../../../environments/enviromentalVariables'
 import {
-  trigger,
-  state,
-  transition,
   animate,
+  state,
   style,
+  transition,
+  trigger,
 } from "@angular/animations";
-import { SettingService } from '@app/pages/services/setting.service';
+import {
+  Component,
+  OnInit,
+} from "@angular/core";
+import {
+  FormControl,
+  FormGroup,
+} from "@angular/forms";
+
+import { ToastrService } from "ngx-toastr";
+import { tap } from "rxjs/operators";
+import { Subject } from "rxjs/Rx";
+
+import { SettingService } from "@app/pages/services/setting.service";
+
+import { BracnhesStoreService } from "../../services/stores.service";
+
 declare var $: any;
 @Component({
   selector: "app-stores",

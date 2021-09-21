@@ -1,25 +1,32 @@
-import {CustomerService} from './../../../services/customer.service';
-import {AffiliateService} from './../../../services/affiliate.service';
-import {OptionsService} from '../../../services/options.service';
-import {ToastrService} from 'ngx-toastr';
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormControl} from '@angular/forms';
-import 'rxjs/Rx';
-import {Subject} from 'rxjs/Rx';
-import {tap, delay} from 'rxjs/operators';
+import "rxjs/Rx";
+
 import {
-  trigger,
-  state,
-  transition,
   animate,
+  state,
   style,
-} from '@angular/animations';
-import {DeliveryService} from '@app/pages/services/delivery.service';
-import {E} from '@angular/core/src/render3';
-import {AuthService} from '@app/shared/auth.service';
-import {environment} from '@env/environment';
-import {ActivatedRoute} from '@angular/router';
-import {NgxSpinnerService} from 'ngx-spinner';
+  transition,
+  trigger,
+} from "@angular/animations";
+import {
+  Component,
+  OnInit,
+} from "@angular/core";
+import {
+  FormControl,
+  FormGroup,
+} from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+import { tap } from "rxjs/operators";
+import { Subject } from "rxjs/Rx";
+
+import { AuthService } from "@app/shared/auth.service";
+import { environment } from "@env/environment";
+
+import { AffiliateService } from "../../../services/affiliate.service";
+import { CustomerService } from "../../../services/customer.service";
 
 declare var $: any;
 

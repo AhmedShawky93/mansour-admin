@@ -1,8 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+} from "@angular/core";
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+
 import { LoyalityService } from "@app/pages/services/loyality.service";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
-import { T } from "@angular/core/src/render3";
 
 declare var jquery: any;
 declare var $: any;

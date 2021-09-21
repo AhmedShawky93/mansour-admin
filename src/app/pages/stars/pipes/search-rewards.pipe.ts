@@ -1,6 +1,7 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { pipe } from '@angular/core/src/render3/pipe';
+import {
+  Pipe,
+  PipeTransform,
+} from "@angular/core";
 
 @Pipe({
   name: 'rewardsFilter',

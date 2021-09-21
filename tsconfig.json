@@ -4,11 +4,12 @@
     "outDir": "./dist/out-tsc",
     // "skipLibCheck": true,
     "sourceMap": true,
+    "downlevelIteration": true,
     "declaration": false,
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "importHelpers": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -16,7 +17,7 @@
       "es2017",
       "dom"
     ],
-    "module": "es2015",
+    "module": "es2020",
     "baseUrl": "src",
     "paths": {
       "@app/*": ["app/*"],

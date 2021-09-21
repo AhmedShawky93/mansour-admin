@@ -1,8 +1,20 @@
-import {Component, EventEmitter, Input, Output, OnInit, OnChanges} from '@angular/core';
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {UploadFilesService} from '@app/pages/services/upload-files.service';
-import { FormGroup } from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from "@angular/core";
+import { FormGroup } from "@angular/forms";
+import {
+  DomSanitizer,
+  SafeUrl,
+} from "@angular/platform-browser";
+
+import { ToastrService } from "ngx-toastr";
+
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
 
 @Component({
   selector: 'app-image-uploader',
@@ -17,7 +29,7 @@ export class ImageUploaderComponent implements OnInit, OnChanges {
   @Input() width: string;
   @Output() uploadedImageUrl = new EventEmitter();
 
-  imageUrl: string;
+  imageUrl: any;
   isPdf: boolean;
   trustedUrl: SafeUrl;
   loading: boolean;

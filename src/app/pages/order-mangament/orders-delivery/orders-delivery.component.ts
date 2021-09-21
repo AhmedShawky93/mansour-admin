@@ -1,21 +1,26 @@
-import { AreasService } from "@app/pages/services/areas.service";
-import { Router } from "@angular/router";
-import { Console } from "@angular/core/src/console";
-import { OrderStatesService } from "./../../services/order-states.service";
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { OrdersService } from "@app/pages/services/orders.service";
-import { CategoryService } from "@app/pages/services/category.service";
-import { ToastrService } from "ngx-toastr";
-import { MatInput } from "@angular/material";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/map";
-import * as moment from "moment";
 
+import {
+  Component,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { MatInput } from "@angular/material";
 import { Title } from "@angular/platform-browser";
+import { Router } from "@angular/router";
+
+import * as moment from "moment";
+import { ToastrService } from "ngx-toastr";
 import { Subject } from "rxjs";
-import { tap, switchMap } from "rxjs/operators";
+
+import { AreasService } from "@app/pages/services/areas.service";
+import { CategoryService } from "@app/pages/services/category.service";
+import { OrdersService } from "@app/pages/services/orders.service";
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "@env/environment";
+
+// import { Console } from "@angular/core/src/r3_symbols";
+import { OrderStatesService } from "../../services/order-states.service";
 
 declare var jquery: any;
 declare var $: any;

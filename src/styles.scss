@@ -186,6 +186,7 @@
   padding: 0;
   margin: 0;
   font-family: "Poppins", sans-serif;
+
 }
 
 h1,
@@ -2032,4 +2033,19 @@ body .mat-drawer-backdrop {
 
 .mb-10 {
   margin-bottom: 10px;
+}
+
+.filemanager{
+  .fas{
+      font-family: 'FontAwesome' !important;
+  }
+  i,.side-view-preview-title,.node-lister-app-node:hover,.file-manager-node.highlighted,.file-manager-node.file-manager-item:hover{
+    color:var(--brand-color);
+    }
+    .file-manager-item.highlighted, .file-manager-item:hover,.file-manager-item:hover .file-name{
+      background-color:var(--brand-color) ;
+    }
+    .side-view,.file-manager-navbar,.file-manager-left,.file-manager-item:hover .file-name,.navigation-search,.navigation-search-icon{
+    border-color:var(--brand-color);
+    }    
 }

@@ -168,7 +168,7 @@ const routes: Routes = [
       {
         path: "stores",
         loadChildren:
-          "../pages/order-mangament/stores/stores.module#StoresModule",
+          () => import('../pages/order-mangament/stores/stores.module').then(m => m.StoresModule),
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: ['ADMIN', 'View Stores'], redirectTo: '/pages/home' } }
       },
@@ -249,7 +249,7 @@ const routes: Routes = [
       { path: "brands", component: BrandsComponent, canActivate: [NgxPermissionsGuard], data: { title: "Brands", permissions: { only: ['ADMIN', 'View Brands'], redirectTo: '/pages/home' } } },
       {
         path: "stars",
-        loadChildren: "../pages/stars/stars.module#StarsModule",
+        loadChildren: () => import('../pages/stars/stars.module').then(m => m.StarsModule),
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: ['ADMIN', 'View Rewards', 'View Gift Requests'], redirectTo: '/pages/home' } }
       },
@@ -274,26 +274,26 @@ const routes: Routes = [
       {
         path: 'prescription',
         canActivate: [NgxPermissionsGuard],
-        loadChildren: '../pages/e-prescription/e-prescription.module#EPrescriptionModule',
+        loadChildren: () => import('../pages/e-prescription/e-prescription.module').then(m => m.EPrescriptionModule),
         data: {title: 'E-PrescriptionModule', permissions: {only: ['ADMIN', 'View Orders'], redirectTo: '/pages/home'}}
       },      
       {
         path: "options",
         loadChildren:
-          "../pages/order-mangament/inventory/options/options.module#OptionsModule",
+          () => import('../pages/order-mangament/inventory/options/options.module').then(m => m.OptionsModule),
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: ['ADMIN', 'View Options'], redirectTo: '/pages/home' } }
       },
       {
         path: "products",
         loadChildren:
-          "../pages/order-mangament/inventory/products/products.module#ProductsModule",
+          () => import('../pages/order-mangament/inventory/products/products.module').then(m => m.ProductsModule),
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: ['ADMIN', 'View Products'], redirectTo: '/pages/home' } }
       },
       {
         path: "sub-admins",
-        loadChildren: "../pages/access-admins/sub-admin.module#SubAdminModule",
+        loadChildren: () => import('../pages/access-admins/sub-admin.module').then(m => m.SubAdminModule),
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: ['ADMIN', 'View Admins'], redirectTo: '/pages/home' } }
       },
@@ -306,49 +306,49 @@ const routes: Routes = [
       {
         path: "cities",
         loadChildren:
-          "../pages/order-mangament/delivery/cities/cities.module#CitiesModule",
+          () => import('../pages/order-mangament/delivery/cities/cities.module').then(m => m.CitiesModule),
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: ['ADMIN', 'View Cities'], redirectTo: '/pages/home' } }
       },
       {
         path: "order-status",
         loadChildren:
-          "../pages/order-mangament/order-states/order-states.module#OrderStatesModule",
+          () => import('../pages/order-mangament/order-states/order-states.module').then(m => m.OrderStatesModule),
         // canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: ['ADMIN', 'View Order States'], redirectTo: '/pages/home' } }
       },
       {
         path: "branches",
         loadChildren:
-          "../pages/order-mangament/delivery/staff-delivery/staff-delivery.module#StaffDeliveryModule",
+          () => import('../pages/order-mangament/delivery/staff-delivery/staff-delivery.module').then(m => m.StaffDeliveryModule),
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: ['ADMIN', 'View Staff'], redirectTo: '/pages/home' } }
       },
       {
         path: "affiliate",
         loadChildren:
-          "../pages/mangament-users/affiliate/affiliate.module#AffiliateModule",
+          () => import('../pages/mangament-users/affiliate/affiliate.module').then(m => m.AffiliateModule),
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: ['ADMIN'], redirectTo: '/pages/home' } }
       },
       {
         path: "lists",
         loadChildren:
-          "../pages/order-mangament/inventory/lists/lists.module#ListsModule",
+          () => import('../pages/order-mangament/inventory/lists/lists.module').then(m => m.ListsModule),
         canActivate: [NgxPermissionsGuard],
         data: { title: "Custom Lists", permissions: { only: ['ADMIN', 'View Lists'], redirectTo: '/pages/home' } }
       },
       {
         path: "sections",
         loadChildren:
-          "../pages/store-front/sections/sections.module#SectionsModule",
+          () => import('../pages/store-front/sections/sections.module').then(m => m.SectionsModule),
         canActivate: [NgxPermissionsGuard],
         data: { title: "Sections", permissions: { only: ['ADMIN', 'View Sections'], redirectTo: '/pages/home' } }
       },
       {
         path: "promotions",
         loadChildren:
-          "../pages/order-mangament/marketing/promotions/promotions.module#PromotionsModule",
+          () => import('../pages/order-mangament/marketing/promotions/promotions.module').then(m => m.PromotionsModule),
         canActivate: [NgxPermissionsGuard],
         data: { title: "Promotions", permissions: { only: ['ADMIN', 'View Promos'], redirectTo: '/pages/home' } }
       },
@@ -360,7 +360,7 @@ const routes: Routes = [
       {
         path: 'transactions',
         canActivate: [NgxPermissionsGuard],
-        loadChildren: '../pages/order-mangament/transactions/transactions.module#TransactionsModule',
+        loadChildren: () => import('../pages/order-mangament/transactions/transactions.module').then(m => m.TransactionsModule),
         data: {
           title: 'Transactions',
           permissions: {
@@ -375,7 +375,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule { }

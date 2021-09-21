@@ -1,7 +1,9 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { pipe } from '@angular/core/src/render3/pipe';
-import * as moment from 'moment';
+import {
+  Pipe,
+  PipeTransform,
+} from "@angular/core";
+
+import * as moment from "moment";
 
 @Pipe({
   name: 'groupBy',
