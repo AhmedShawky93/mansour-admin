@@ -153,9 +153,9 @@
       </div>
       <div class="modal-body">
       </div>
-      <div class="modal-footer" style="justify-content: center;
-      ">
-        <button type="button" class="btn-owls btn-rounded btn-green  btn-blue2"
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" [appLoading]="deleteLoading" style="position: relative;"
+          class="btn-owls btn-rounded btn-green btn-blue2"
           (click)="confirmRemoveBranch()">Yes</button>
         <button type="button" data-dismiss="modal"
           class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>

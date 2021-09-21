@@ -1,7 +1,20 @@
-import { AreasService } from "./../../../../services/areas.service";
-import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
-import { FormGroup, FormControl, FormArray, FormBuilder } from "@angular/forms";
-import { Validators } from "@angular/forms";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+
+import { AreasService } from "../../../../services/areas.service";
+
 @Component({
   selector: "app-add-edit-city",
   templateUrl: "./add-edit-city.component.html",
@@ -66,15 +79,15 @@ export class AddEditCityComponent implements OnInit {
       // }
 
       this.cityForm.get('fees_range').clearValidators();
-      this.cityForm.get('delivery_fees').setValidators([Validators.required])
+      // this.cityForm.get('delivery_fees').setValidators([Validators.required])
     } else if (type == 2) {
       if (this.selectDataEdit == null) this.addRangeForm(null)
       // this.cityForm.get('delivery_fees').setValue('');
       this.cityForm.get('fees_range').setValidators([Validators.minLength(1), Validators.required]);
-      this.cityForm.get('delivery_fees').clearValidators()
+      // this.cityForm.get('delivery_fees').clearValidators()
     }
     this.cityForm.get('fees_range').updateValueAndValidity()
-    this.cityForm.get('delivery_fees').updateValueAndValidity()
+    // this.cityForm.get('delivery_fees').updateValueAndValidity()
   }
 
   submitForm() {
