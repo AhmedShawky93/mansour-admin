@@ -1,6 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  waitForAsync,
+} from "@angular/core/testing";
 
-import { MenuCreatorComponent } from './menu-creator.component';
+import { MenuCreatorComponent } from "./menu-creator.component";
 
 describe('MenuCreatorComponent', () => {
   let component: MenuCreatorComponent;

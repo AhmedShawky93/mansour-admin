@@ -319,6 +319,11 @@
               <span>Order Status</span>
             </a>
           </li>
+          <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Order States']">
+            <a routerLink="/pages/filemanager">
+              <span>File Manager</span>
+            </a>
+          </li>
         </ul>
       </li>
     </ul>
