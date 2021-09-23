@@ -2035,6 +2035,15 @@ body .mat-drawer-backdrop {
   margin-bottom: 10px;
 }
 
+i{
+  color: #b5b5b5 !important;
+  transition: .5s ease-in-out;
+
+  &:hover{
+    color: #000 !important;
+  }
+}
+
 .filemanager{
   .fas{
       font-family: 'FontAwesome' !important;

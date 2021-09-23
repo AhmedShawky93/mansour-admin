@@ -17,7 +17,7 @@ declare var $: any;
 @Component({
   selector: 'top-bar',
   templateUrl: './top-bar.component.html',
-  styleUrls: ['./top-bar.component.css']
+  styleUrls: ['./top-bar.component.scss']
 })
 export class TopBarComponent implements OnInit {
   pollingData: any;

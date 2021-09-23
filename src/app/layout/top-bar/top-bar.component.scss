@@ -36,6 +36,10 @@
   height: 85px;
   line-height: 85px;
   background-image: linear-gradient(-130deg, var(--brand-color) 0, var(--brand-color) 90%);
+
+  i{
+    color: #fff !important;
+  }
 }
 
 .avatar-part button {
