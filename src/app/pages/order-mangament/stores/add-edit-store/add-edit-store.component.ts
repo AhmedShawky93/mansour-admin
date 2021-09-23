@@ -30,6 +30,7 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataOptionEmit = new EventEmitter();
   @Input("selectProductDataEdit") selectProductDataEdit;
+  addSubImages: FormArray;
   OptionForm: FormGroup;
   showError: number;
   cities: any;
@@ -88,6 +89,7 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
       direction_link: new FormControl(data ? data.direction_link : "", Validators.required),
       order: new FormControl(data ? data.order : "", Validators.required),
       type: new FormControl(data ? data.type : "", Validators.required),
+      images: this.formBuilder.array(data && data.images ? data.images : []),
     });
     if (!data) {
       this.addPhoneForm(null)
@@ -101,6 +103,31 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
       this.lng = parseFloat(data.lng)
     }
 
+  }
+
+  formGroupControlsValidator(formGroup, controlName, err) {
+    if (formGroup.controls[controlName].touched && formGroup.controls[controlName].dirty) {
+      if (formGroup.controls[controlName].errors) {
+        return formGroup.controls[controlName].errors[err];
+      }
+    }
+  }
+
+  addImage(data: any = null) {
+    this.addSubImages = this.OptionForm.get('images') as FormArray;
+    this.addSubImages.push(this.createImageFormControl(data));
+  }
+
+  createImageFormControl(data): FormGroup {
+    return this.formBuilder.group({
+      url: new FormControl(data ? data.url : ''),
+    });
+  }
+
+  removeImage(index) {
+    this.addSubImages = this.OptionForm.get('images') as FormArray;
+    this.addSubImages.removeAt(index);
+    this.OptionForm.updateValueAndValidity();
   }
 
 

@@ -213,6 +213,28 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <div class="add-img" (click)="addImage()">
+        <img src="assets/img/Expand.svg" alt="add image">
+        <span>add image</span>
+      </div>
+      <div formArrayName="images" *ngIf="OptionForm.get('images')['controls'].length">
+        <div class="owls-upload owls-upload3"
+          *ngFor="let image of OptionForm.get('images')['controls']; let i = index">
+
+          <div [formGroupName]="i">
+            <app-image-uploader [fileUrl]="image?.value.url" [formControlChildName]="'url'" [myForm]="image"
+              class="w-100" height="80px" width="80px">
+            </app-image-uploader>
+            <i class="icon-Exit" (click)="removeImage(i)" *ngIf='image'></i>
+          </div>
+          <div *ngIf="formGroupControlsValidator(image,'url','required')" class="alert alert-danger">
+            Image Is Required
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="form-sidebar-btns">
       <button class="btn btn-owls btn-rounded btn-green">Save</button>
     </div>
