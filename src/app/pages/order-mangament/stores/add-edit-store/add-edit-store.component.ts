@@ -106,9 +106,9 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   }
 
   formGroupControlsValidator(formGroup, controlName, err) {
-    if (formGroup.controls[controlName].touched && formGroup.controls[controlName].dirty) {
-      if (formGroup.controls[controlName].errors) {
-        return formGroup.controls[controlName].errors[err];
+    if (formGroup.touched && formGroup.dirty) {
+      if (formGroup.errors) {
+        return formGroup.errors[err];
       }
     }
   }

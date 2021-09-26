@@ -16,6 +16,10 @@
   min-height: 100vh;
 }
 
+.uploaded-image{
+  margin-right: 10px;
+}
+
 agm-map {
   height: 300px;
 }

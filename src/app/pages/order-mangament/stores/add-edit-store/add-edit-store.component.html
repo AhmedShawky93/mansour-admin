@@ -222,7 +222,7 @@
         <div class="owls-upload owls-upload3"
           *ngFor="let image of OptionForm.get('images')['controls']; let i = index">
 
-          <div [formGroupName]="i">
+          <div [formGroupName]="i" class="uploaded-image">
             <app-image-uploader [fileUrl]="image?.value.url" [formControlChildName]="'url'" [myForm]="image"
               class="w-100" height="80px" width="80px">
             </app-image-uploader>
