@@ -139,23 +139,25 @@
 
       <!-- End Errors Rolues -->
     </div>
-    <div class="form-group form-lat">
-      <label for=""> Lat </label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="lat">
-      <div *ngIf="OptionForm.controls.lat.invalid && (OptionForm.controls.lat.dirty || OptionForm.controls.lat.touched)"
-        class="alert alert-danger">
-        <div *ngIf="OptionForm.controls.lat.errors.required">
-          Lat is required.
+    <div class="lat-lng">
+      <div class="form-group form-lat">
+        <label for=""> Lat </label>
+        <input type="text" class="owl-input" placeholder="Type.." required formControlName="lat">
+        <div *ngIf="OptionForm.controls.lat.invalid && (OptionForm.controls.lat.dirty || OptionForm.controls.lat.touched)"
+          class="alert alert-danger">
+          <div *ngIf="OptionForm.controls.lat.errors.required">
+            Lat is required.
+          </div>
         </div>
       </div>
-    </div>
-    <div class="form-group form-lng">
-      <label for=""> Lng</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="lng">
-      <div *ngIf="OptionForm.controls.lng.invalid && (OptionForm.controls.lng.dirty || OptionForm.controls.lng.touched)"
-        class="alert alert-danger">
-        <div *ngIf="OptionForm.controls.lng.errors.required">
-          Lng is required.
+      <div class="form-group form-lng">
+        <label for=""> Lng</label>
+        <input type="text" class="owl-input" placeholder="Type.." required formControlName="lng">
+        <div *ngIf="OptionForm.controls.lng.invalid && (OptionForm.controls.lng.dirty || OptionForm.controls.lng.touched)"
+          class="alert alert-danger">
+          <div *ngIf="OptionForm.controls.lng.errors.required">
+            Lng is required.
+          </div>
         </div>
       </div>
     </div>
