@@ -641,12 +641,12 @@
               <option value="{{reason.id}}" *ngFor="let reason of cancelReasons">{{reason.text}}</option>
             </select>
 
-            <label class="checkup" *ngIf="orderStatusId == '6'"> Remove Points
+            <label class="checkup" *ngIf="orderStatusId == '6' && environmentVariables.showLoyality"> Remove Points
               <input type="checkbox" formControlName="remove_loyalty_points">
               <span class="checkmark"></span>
             </label>
 
-            <label class="checkup" *ngIf="orderStatusId == '4'"> Add Points
+            <label class="checkup" *ngIf="orderStatusId == '4' && environmentVariables.showLoyality"> Add Points
               <input type="checkbox" checked="checked" formControlName="add_loyalty_points">
               <span class="checkmark"></span>
             </label>

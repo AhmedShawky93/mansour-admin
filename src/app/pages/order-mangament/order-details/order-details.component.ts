@@ -9,6 +9,7 @@ import { DeliveryService } from '@app/pages/services/delivery.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { SettingService } from '@app/pages/services/setting.service';
 
 declare var jquery: any;
 declare var $: any;
@@ -90,6 +91,7 @@ export class OrderDetailsComponent implements OnInit {
   no_orders: boolean = false
   toggleAddOrder: string;
   aramixAccounts: any;
+  environmentVariables: any;
 
 
   constructor(
@@ -100,7 +102,8 @@ export class OrderDetailsComponent implements OnInit {
     private toastrService: ToastrService,
     private ordersService: OrdersService,
     private orderStatesService: OrderStatesService,
-    private deliveryService: DeliveryService
+    private deliveryService: DeliveryService,
+    private settingService: SettingService
   ) {
     this.toggleAddOrder = 'out';
   }
@@ -114,7 +117,15 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.settingService.getenvConfig().subscribe(res => {
+      this.environmentVariables = res;
+      if (!this.environmentVariables.showLoyality) {
+        this.shipmentForm.controls.remove_loyalty_points.setValue(false);
+        this.shipmentForm.controls.remove_loyalty_points.updateValueAndValidity();
+        this.shipmentForm.controls.add_loyalty_points.setValue(false);
+        this.shipmentForm.controls.add_loyalty_points.updateValueAndValidity();
+      }
+    })
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);
 

@@ -24,6 +24,7 @@ import { ProductsService } from "@app/pages/services/products.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { AffiliateService } from '@app/pages/services/affiliate.service';
 import { debounce } from 'lodash';
+import { SettingService } from '@app/pages/services/setting.service';
 
 declare var jquery: any;
 declare var $: any;
@@ -160,6 +161,7 @@ export class OrdersComponent implements OnInit {
   affiliateUsersLoading: boolean;
   affiliateUsers: Array<any>;
   aramixAccounts: any;
+  environmentVariables: any;
 
   constructor(
     private ordersService: OrdersService,
@@ -175,7 +177,8 @@ export class OrdersComponent implements OnInit {
     private promoService: PromosService,
     private affiliateService: AffiliateService,
     private toastrService: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService, 
+    private settingService: SettingService
   ) {
     this.affiliateSearch = debounce(this.affiliateSearch, 700);
     this.titleService.setTitle("Orders");
@@ -193,6 +196,16 @@ export class OrdersComponent implements OnInit {
         (item) => item.user_type == "admin"
       );
     });
+
+    this.settingService.getenvConfig().subscribe(res => {
+      this.environmentVariables = res;
+      if (!this.environmentVariables.showLoyality){
+        this.stateForm.controls.remove_loyalty_points.setValue(false);
+        this.stateForm.controls.remove_loyalty_points.updateValueAndValidity();
+        this.stateForm.controls.add_loyalty_points.setValue(false);
+        this.stateForm.controls.add_loyalty_points.updateValueAndValidity();
+      }
+    })
 
     $(".payment-open").on("click", function () {
       $(".payment-area").slideToggle(100);
