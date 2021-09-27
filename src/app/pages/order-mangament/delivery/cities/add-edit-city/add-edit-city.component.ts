@@ -38,8 +38,7 @@ export class AddEditCityComponent implements OnInit {
     this.cityForm = new FormGroup({
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-      delivery_fees: new FormControl(
-        data ? data.delivery_fees : 0),
+      delivery_fees: new FormControl(data ? data.delivery_fees : 0),
       fees_type: new FormControl(data ? data.fees_type : 1),
       // from: new FormControl(data ? data.from : "", Validators.pattern('\\d*(\\.\\d{1,2})?$')),
       // to: new FormControl(data ? data.to : "", Validators.pattern('\\d*(\\.\\d{1,2})?$')),

@@ -141,21 +141,21 @@
         <label for="">Delivery Fees</label>
         <input type="text" class="owl-input"  onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46'
           placeholder="type here.." name="delivery_fees" min="0" max="500" formControlName="delivery_fees" />
-        <div *ngIf="
+        <!-- <div *ngIf="
           cityForm.controls.delivery_fees.invalid &&
           (cityForm.controls.delivery_fees.dirty ||
             cityForm.controls.delivery_fees.touched)
         " class="alert alert-danger">
-          <!-- <div *ngIf="cityForm.controls.delivery_fees.errors.required">
+          <div *ngIf="cityForm.controls.delivery_fees.errors.required">
             Delivery Fees is required.
-          </div> -->
+          </div> 
           <div *ngIf="cityForm.controls.delivery_fees.errors.min">
             Delivery Fees can't be a negative number
           </div>
           <div *ngIf="cityForm.controls.delivery_fees.errors.max">
             Delivery Fees can't be more than 500
           </div>
-        </div>
+        </div> -->
       </div>
 
 

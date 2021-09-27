@@ -174,7 +174,7 @@
     <div class="form-group" *ngIf="!(selectedHeader?.auto_category)">
       <label>Name</label>
       <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
-      <div *ngIf="headerForm.controls.name.errors?.required" class="alert alert-danger">
+      <div *ngIf="headerForm.controls.name.errors?.required && headerForm.controls.name.touched" class="alert alert-danger">
         Name is required.
       </div>
     </div>
@@ -182,7 +182,7 @@
     <div class="form-group" *ngIf="!(selectedHeader?.auto_category)">
       <label>Name Arabic</label>
       <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
-      <div *ngIf="headerForm.controls.name_ar.errors?.required" class="alert alert-danger">
+      <div *ngIf="headerForm.controls.name_ar.errors?.required && headerForm.controls.name_ar.touched" class="alert alert-danger">
         Name arabic is required.
       </div>
     </div>
@@ -190,7 +190,7 @@
     <div class="form-group">
       <label>Level length</label>
       <input class="owl-input" formControlName="levels_length" placeholder="Type.." required type="text">
-      <div *ngIf="headerForm.controls.levels_length.errors?.required" class="alert alert-danger">
+      <div *ngIf="headerForm.controls.levels_length.errors?.required && headerForm.controls.levels_length.touched" class="alert alert-danger">
         Level length is required.
       </div>
     </div>
@@ -298,7 +298,7 @@
     <div class="form-group">
       <label>Name</label>
       <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
-      <div *ngIf="groupForm.controls.name.errors?.required" class="alert alert-danger">
+      <div *ngIf="groupForm.controls.name.errors?.required && groupForm.controls.name.touched" class="alert alert-danger">
         Name is required.
       </div>
     </div>
@@ -306,7 +306,7 @@
     <div class="form-group">
       <label>Name Arabic</label>
       <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
-      <div *ngIf="groupForm.controls.name_ar.errors?.required" class="alert alert-danger">
+      <div *ngIf="groupForm.controls.name_ar.errors?.required && groupForm.controls.name_ar.touched" class="alert alert-danger">
         Name arabic is required.
       </div>
     </div>
@@ -343,7 +343,7 @@
     <div class="form-group">
       <label>Name</label>
       <input class="owl-input" formControlName="name" placeholder="Type.." required type="text">
-      <div *ngIf="subCategoryForm.controls.name.errors?.required" class="alert alert-danger">
+      <div *ngIf="subCategoryForm.controls.name.errors?.required && subCategoryForm.controls.name.touched" class="alert alert-danger">
         Name is required.
       </div>
     </div>
@@ -351,7 +351,7 @@
     <div class="form-group">
       <label>Name Arabic</label>
       <input class="owl-input" formControlName="name_ar" placeholder="Type.." required type="text">
-      <div *ngIf="subCategoryForm.controls.name_ar.errors?.required" class="alert alert-danger">
+      <div *ngIf="subCategoryForm.controls.name_ar.errors?.required && subCategoryForm.controls.name_ar.touched" class="alert alert-danger">
         Name arabic is required.
       </div>
     </div>
