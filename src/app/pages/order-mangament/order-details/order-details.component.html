@@ -398,7 +398,10 @@
             <td>{{ shipment.created_at | date: 'd-M-yyyy h:mm a' }}</td>
             <td>{{ shipment.pickup?.pickup_time | date: 'd-M-yyyy h:mm a' }}</td>
             <td>{{ shipment.update_description }}</td>
-            <td><a href="{{shipment.shipment_url}}" target="_blank">AWB</a></td>
+            <td>
+              <a href="{{shipment.shipment_url}}" class="mr-10" target="_blank">Track</a>
+              <a href="{{shipment.shipment_url}}" target="_blank">AWB</a>
+            </td>
           </tr>
 
         </tbody>
