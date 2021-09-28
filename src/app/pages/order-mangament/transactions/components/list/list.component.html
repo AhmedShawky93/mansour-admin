@@ -92,7 +92,7 @@
       <td>{{item.created_at | date :'dd-MM-y h:m:s a'}}</td>
       <td>{{item.total_amount}}</td>
       <td>
-        <p *ngIf="!item.transaction_status">-</p>
+        <p *ngIf="item.transaction_status == null">Pending</p>
         <p *ngIf="item.transaction_status == 0">UnAuthorized</p>
         <p *ngIf="item.transaction_status == 1">Authorized</p>
       </td>
