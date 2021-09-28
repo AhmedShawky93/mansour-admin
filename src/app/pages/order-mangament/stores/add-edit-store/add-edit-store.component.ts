@@ -89,7 +89,7 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
       direction_link: new FormControl(data ? data.direction_link : "", Validators.required),
       order: new FormControl(data ? data.order : "", Validators.required),
       type: new FormControl(data ? data.type : "", Validators.required),
-      images: this.formBuilder.array(data && data.images ? data.images : []),
+      images: this.formBuilder.array([]),
     });
     if (!data) {
       this.addPhoneForm(null)
@@ -97,6 +97,11 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
       if (data.phone.length) {
         data.phone.forEach(element => {
           this.addPhoneForm(element)
+        });
+      }
+      if (data && data.images.length){
+        data.images.forEach(element => {
+          this.addImage(element)
         });
       }
       this.lat = parseFloat(data.lat)
