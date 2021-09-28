@@ -44,7 +44,7 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   marker_lng;
   phones: FormArray
   public zoom: number = 12;
-  // environmentVariables;
+  environmentVariables: any;
   branchTypes=[];
   constructor(
     private formBuilder: FormBuilder,
@@ -54,13 +54,13 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
     private settingService:SettingService
   ) { 
     this.getTypes();
-    // this.getConfig();
+    this.getConfig();
   }
-  // getConfig(){
-  //   this.settingService.getenvConfig().subscribe(res=>{
-  //    this.environmentVariables=res;
-  //   })
-  // }
+  getConfig(){
+    this.settingService.getenvConfig().subscribe(res=>{
+     this.environmentVariables=res;
+    })
+  }
   getTypes(){
     this.settingService.get_branch_types().subscribe((res:any)=>{
       this.branchTypes=res.data;
@@ -143,7 +143,7 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   }
   createItem(data): FormGroup {
     return this.formbuilder.group({
-      phone: new FormControl(data ? data : ""),
+      phone: new FormControl(data ? data : "", Validators.pattern(this.environmentVariables.phone_pattern)),
     });
   }
   reomvePhoneForm(index) {

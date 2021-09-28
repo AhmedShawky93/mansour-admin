@@ -604,6 +604,7 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
   deleteHeader() {
     if (this.deleteItemIndex == this.updateIndexHeader) {
       this.selectedHeader = null;
+      this.selectedGroup = null;
     }
     this.formattedJson.level1.splice(this.deleteItemIndex, 1);
     this.saveChanges(true);
