@@ -37,7 +37,7 @@ agm-map {
   display: inline-block;
   margin: 10px 5px;
   width: 70px !important;
-  height: 70px;
+  height: fit-content;
   padding: 0;
   background-color: transparent;
 }
@@ -190,4 +190,15 @@ agm-map {
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+}
+
+.images-uploaders{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  .alert{
+    padding: 0 !important;
+  }
 }

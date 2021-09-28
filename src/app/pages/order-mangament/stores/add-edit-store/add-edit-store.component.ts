@@ -66,14 +66,14 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
       this.branchTypes=res.data;
     })
   }
+  
   ngOnInit() {
     this.getForm(this.selectProductDataEdit);
   }
+  
   ngOnChanges(): void {
     this.getForm(this.selectProductDataEdit);
   }
-
-
 
   getForm(data) {
     this.OptionForm = this.formBuilder.group({
@@ -106,9 +106,9 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   }
 
   formGroupControlsValidator(formGroup, controlName, err) {
-    if (formGroup.touched && formGroup.dirty) {
-      if (formGroup.errors) {
-        return formGroup.errors[err];
+    if (formGroup.touched) {
+      if (formGroup["controls"] && formGroup["controls"][controlName] && formGroup["controls"][controlName]["errors"]) {
+        return formGroup["controls"][controlName]["errors"][err];
       }
     }
   }
@@ -120,8 +120,9 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
 
   createImageFormControl(data): FormGroup {
     return this.formBuilder.group({
-      url: new FormControl(data ? data.url : ''),
+      url: new FormControl(data ? data.url : '', Validators.required),
     });
+    
   }
 
   removeImage(index) {
@@ -152,7 +153,7 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   }
   submitForm() {
     const data = this.OptionForm.value;
-    data.phone = data.phones.map(item => {
+    data.phones = data.phones.map(item => {
       return item.phone
     });
     delete data.phones
