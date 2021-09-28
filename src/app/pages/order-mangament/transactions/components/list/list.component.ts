@@ -90,7 +90,7 @@ export class ListComponent implements OnInit {
   }
 
   createOrder() {
-    this.service.createOrder(this.selectedItem.payment_reference)
+    this.service.createOrder(this.selectedItem.id)
       .subscribe(
         (res: any) => {
           if (res.code === 200) {

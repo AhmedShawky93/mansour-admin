@@ -203,7 +203,7 @@
     <div class="form-group mt-2">
       <div class="form-group">
         <label> Product Options </label>
-        <ng-select [closeOnSelect]="false" class="owl-input" [items]="allOptions" [multiple]="true"
+        <ng-select [closeOnSelect]="true" class="owl-input" [items]="allOptions" [multiple]="true"
           formControlName="product_variant_options" bindLabel="name_en" bindValue="id" name="productVariantOptions"
           placeholder="Select Options">
         </ng-select>
