@@ -145,7 +145,7 @@ const routes: Routes = [
         path: "admin-log",
         component: AdminLogComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { title: "Customers", permissions: { only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home' } },
+        data: { title: "Admin log", permissions: { only: ['ADMIN', 'View Customers'], redirectTo: '/pages/home' } },
       },
       {
         path: "promocodes",
