@@ -158,10 +158,10 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   }
   submitForm() {
     const data = this.OptionForm.value;
-    data.phones = data.phones.map(item => {
+    data.phone = data.phones.map(item => {
       return item.phone
     });
-    delete data.phones
+    // delete data.phones
     if (this.selectProductDataEdit) {  // edit
 
       delete data.phones
