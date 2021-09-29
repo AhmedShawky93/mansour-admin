@@ -167,7 +167,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       email: new FormControl(data ? data.email : ''),
       phone: new FormControl(data ? data.phone : ''),
       password: new FormControl(''),
-      closed_payment_methods: new FormControl(data ? data.closed_payment_methods.map(c => c.id) : []),
+      closed_payment_methods: new FormControl(data && data.closed_payment_methods ? data.closed_payment_methods.map(c => c.id) : []),
     });
 
     this.addressForm = new FormGroup({
