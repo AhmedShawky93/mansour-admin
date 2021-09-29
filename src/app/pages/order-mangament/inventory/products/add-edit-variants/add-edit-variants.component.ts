@@ -46,6 +46,7 @@ import {
 } from "@app/shared/date-range-validation";
 import { environment } from "@env/environment";
 import { AngularEditorConfig } from "@kolkov/angular-editor";
+import { ReactivityService } from "@app/shared/services/reactivity.service";
 
 @Component({
   selector: 'app-add-edit-variants',
@@ -87,7 +88,8 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     private toasterService: ToastrService,
     private spinner: NgxSpinnerService,
     private optionsService: OptionsService,
-    private promoService: PromosService
+    private promoService: PromosService,
+    private reactivityService: ReactivityService
   ) {
     this.allOptions$ = this.optionsService.getOptions();
     this.categories$ = this._CategoriesService.getCategories();
@@ -296,6 +298,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   formValidator() {
     if (!this.variantForm.valid) {
       this.markFormGroupTouched(this.variantForm);
+      this.reactivityService.scrollToFirstError('add-edit-product-form')
       return false;
     } else {
       return true;

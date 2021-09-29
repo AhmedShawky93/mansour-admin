@@ -49,6 +49,7 @@ import { AngularEditorConfig } from "@kolkov/angular-editor";
 import {
   DraftProductService,
 } from "../../../../services/draft-product.service";
+import { ReactivityService } from "@app/shared/services/reactivity.service";
 
 @Component({
   selector: 'app-add-product-variants',
@@ -100,7 +101,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     private optionsService: OptionsService,
     private spinner: NgxSpinnerService,
     private draftProductService: DraftProductService,
-    private promoService: PromosService
+    private promoService: PromosService,
+    private reactivityService: ReactivityService
   ) {
     this.allOptions$ = this.optionsService.getOptions();
     this.categories$ = this.categoriesService.getCategories();
@@ -527,8 +529,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   formValidator() {
     if (!this.componentForm.valid) {
       this.markFormGroupTouched(this.componentForm);
-      debugger;
-      this.toasterService.error('Please fill all required fields');
+      this.reactivityService.scrollToFirstError('add-edit-product-form')
+      // this.toasterService.error('Please fill all required fields');
       return false;
     } else {
       return true;

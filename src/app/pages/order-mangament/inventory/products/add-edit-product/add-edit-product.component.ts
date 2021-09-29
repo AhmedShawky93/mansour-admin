@@ -11,6 +11,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Observable, Subject, concat, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
 import { environment } from '@env/environment';
+import { ReactivityService } from '@app/shared/services/reactivity.service';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -54,7 +55,8 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     private productsService: ProductsService,
     private _CategoriesService: CategoryService,
     private optionsService: OptionsService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private reactivityService: ReactivityService
   ) {
     this.editorConfig = {
       editable: true,
@@ -402,6 +404,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       }*/
       if (!this.addProductForm.valid) {
         this.markFormGroupTouched(this.addProductForm);
+        this.reactivityService.scrollToFirstError('add-edit-product-form')
         return;
       }
       product.option_values.forEach(item => {
