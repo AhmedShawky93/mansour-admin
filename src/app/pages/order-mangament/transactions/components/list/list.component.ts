@@ -120,8 +120,8 @@ export class ListComponent implements OnInit {
 
   }
 
-  goToDetails(order) {
-    this.router.navigate(['/pages/orders/order-details', order.order_id]);
+  goToDetails(item) {
+    this.router.navigate(['/pages/orders/order-details', item.order.id]);
   }
 
   setDateFilters(data , key) {
