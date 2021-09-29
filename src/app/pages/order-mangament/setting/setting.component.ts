@@ -50,10 +50,14 @@ function timeValidator(group: AbstractControl) {
   return null;
 }
 
+
+declare var jquery: any;
+declare var $: any;
+
 @Component({
   selector: "app-setting",
   templateUrl: "./setting.component.html",
-  styleUrls: ["./setting.component.css"],
+  styleUrls: ["./setting.component.scss"],
 })
 export class SettingComponent implements OnInit {
   page: any = 1;
@@ -74,6 +78,9 @@ export class SettingComponent implements OnInit {
   systemLoading: boolean;
   starsLoading: boolean;
   environmentVariables;
+  passwordForm: FormGroup;
+  stateSubmitting: boolean;
+  showUpdateForm: boolean;
   constructor(
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
@@ -116,12 +123,25 @@ export class SettingComponent implements OnInit {
           Validators.maxLength(20),
         ]),
         email: new FormControl(user.email, Validators.required),
-        current_password: new FormControl(""),
-        password: new FormControl("", Validators.minLength(8)),
-        confirmPassword: new FormControl(""),
+        // current_password: new FormControl(""),
+        // password: new FormControl("", [Validators.minLength(8), Validators.required]),
+        // confirmPassword: new FormControl(""),
+      },
+      // { validators: [currentPasswordValidator, confirmPasswordValidator] }
+    );
+    this.passwordForm = new FormGroup(
+      {
+        name: new FormControl(user.name, [
+          Validators.required,
+          Validators.maxLength(20),
+        ]),
+        email: new FormControl(user.email, Validators.required),
+        current_password: new FormControl("", Validators.required),
+        password: new FormControl("", [Validators.minLength(8), Validators.required]),
+        confirmPassword: new FormControl("", Validators.required),
       },
       { validators: [currentPasswordValidator, confirmPasswordValidator] }
-    );
+    )
   }
 
   getUser() {
@@ -173,11 +193,46 @@ export class SettingComponent implements OnInit {
       user.image = "";
     }
 
+    // delete user.confirmPassword;
+
     this.settingService.updateNotification(user).subscribe((response: any) => {
       if (response.code === 200) {
         this.user = response.data;
         this.user.imageUrl = this.user.image;
         this.formSetting.reset();
+        this.setForm(this.user);
+        this.settingService.imageload(response.data);
+        this.toastrService.success(response.message);
+      } else {
+        this.toastrService.error(response.message);
+      }
+    });
+  }
+
+  openResetPasswordForm(){
+    this.showUpdateForm = true;
+    $('#updatePassword').modal('show')
+  }
+
+  updatePassword(user){
+    this.stateSubmitting = true;
+    if (!this.passwordForm.valid) {
+      this.markFormGroupTouched(this.passwordForm);
+      this.stateSubmitting = false;
+      return;
+    }
+
+    user = this.passwordForm.value;
+
+
+    delete user.confirmPassword;
+
+    this.settingService.updateNotification(user).subscribe((response: any) => {
+      this.stateSubmitting = false;
+      if (response.code === 200) {
+        this.user = response.data;
+        this.user.imageUrl = this.user.image;
+        this.passwordForm.reset();
         this.setForm(this.user);
         this.settingService.imageload(response.data);
         this.toastrService.success(response.message);

@@ -574,7 +574,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.viewProductSidebar = 'out';
     this.toggleProductVariant = 'out';
     document.body.style.overflow = 'auto';
-
   }
 
   addOrUpdateProduct(data) {
