@@ -537,6 +537,11 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
     this.formattedJson.level1 = this.formattedJson.level1.sort((a, b) => (a.order < b.order ? -1 : 1))
   }
 
+  setColor(color: any, colorFormControl) {
+    this.formattedJson[colorFormControl] = color;
+    this.checkColorValidity(colorFormControl, color)
+  }
+
   saveGroup() {
     if (this.groupForm.valid) {
       this.updating = true;

@@ -79,53 +79,60 @@
 </div>
 
 <div class="main-menu-items menu-colors">
+  <!-- <div class="form-group w-100 mt-2">
+    <label>Menu background color fixed</label>
+    <input class="owl-input text-white" [(ngModel)]="formattedJson.menu_background_color"
+      [style.background]="formattedJson.menu_background_color"
+      [colorPicker]="formattedJson.menu_background_color" (colorPickerChange)="setColor($event, formattedJson.menu_background_color)" />
+    <small class="form-text text-muted">Menu background color fixed</small>
+  </div> -->
   <div class="item form-group">
     <label for="menu_background_color">Menu background color</label>
-    <input class="owl-input" matInput name="menu_background_color" type="color"
-      (blur)="checkColorValidity(formattedJson.menu_background_color, 'menu_background_color')"
-      [(ngModel)]="formattedJson.menu_background_color">
+    <input class="owl-input text-white" name="menu_background_color" 
+      [(ngModel)]="formattedJson.menu_background_color" [style.background]="formattedJson.menu_background_color"
+      [colorPicker]="formattedJson.menu_background_color" (colorPickerChange)="setColor($event, 'menu_background_color')">
   </div>
   <div class="item form-group">
     <label for="drop_menu_background_color">Drop menu background color</label>
-    <input class="owl-input" matInput name="drop_menu_background_color" type="color"
-      (blur)="checkColorValidity(formattedJson.drop_menu_background_color, 'drop_menu_background_color')"
-      [(ngModel)]="formattedJson.drop_menu_background_color">
+    <input class="owl-input text-white" name="drop_menu_background_color" 
+      [(ngModel)]="formattedJson.drop_menu_background_color" [style.background]="formattedJson.drop_menu_background_color"
+      [colorPicker]="formattedJson.drop_menu_background_color" (colorPickerChange)="setColor($event, 'drop_menu_background_color')">
   </div>
   <div class="item form-group">
     <label for="level1_text_color">Headers text color</label>
-    <input class="owl-input" matInput name="level1_text_color" type="color"
-      (blur)="checkColorValidity(formattedJson.level1_text_color, 'level1_text_color')"
-      [(ngModel)]="formattedJson.level1_text_color">
+    <input class="owl-input text-white" name="level1_text_color" 
+      [(ngModel)]="formattedJson.level1_text_color" [style.background]="formattedJson.level1_text_color"
+      [colorPicker]="formattedJson.level1_text_color" (colorPickerChange)="setColor($event, 'level1_text_color')">
   </div>
   <div class="item form-group">
     <label for="level1_hover_color">Headers hover text color</label>
-    <input class="owl-input" matInput name="level1_hover_color" type="color"
-      (blur)="checkColorValidity(formattedJson.level1_hover_color, 'level1_hover_color')"
-      [(ngModel)]="formattedJson.level1_hover_color">
+    <input class="owl-input text-white" name="level1_hover_color"
+      [(ngModel)]="formattedJson.level1_hover_color" [style.background]="formattedJson.level1_hover_color"
+      [colorPicker]="formattedJson.level1_hover_color" (colorPickerChange)="setColor($event, 'level1_hover_color')">
   </div>
   <div class="item form-group">
     <label for="level2_text_color">Groups text color</label>
-    <input class="owl-input" matInput name="level2_text_color" type="color"
-      (blur)="checkColorValidity(formattedJson.level2_text_color, 'level2_text_color')"
-      [(ngModel)]="formattedJson.level2_text_color">
+    <input class="owl-input text-white" name="level2_text_color" 
+      [(ngModel)]="formattedJson.level2_text_color" [style.background]="formattedJson.level2_text_color"
+      [colorPicker]="formattedJson.level2_text_color" (colorPickerChange)="setColor($event, 'level2_text_color')">
   </div>
   <div class="item form-group">
     <label for="level2_hover_color">Groups hover text color</label>
-    <input class="owl-input" matInput name="level2_hover_color" type="color"
-      (blur)="checkColorValidity(formattedJson.level2_hover_color, 'level2_hover_color')"
-      [(ngModel)]="formattedJson.level2_hover_color">
+    <input class="owl-input text-white" name="level2_hover_color"
+      [(ngModel)]="formattedJson.level2_hover_color"
+      [colorPicker]="formattedJson.level2_hover_color" (colorPickerChange)="setColor($event, 'level2_hover_color')">
   </div>
   <div class="item form-group">
     <label for="level3_text_color">Sub category text color</label>
-    <input class="owl-input" matInput name="level3_text_color" type="color"
-      (blur)="checkColorValidity(formattedJson.level3_text_color, 'level3_text_color')"
-      [(ngModel)]="formattedJson.level3_text_color">
+    <input class="owl-input text-white" name="level3_text_color" 
+      [(ngModel)]="formattedJson.level3_text_color" [style.background]="formattedJson.level3_text_color"
+      [colorPicker]="formattedJson.level3_text_color" (colorPickerChange)="setColor($event, 'level3_text_color')">
   </div>
   <div class="item form-group">
     <label for="level3_hover_color">Sub category hover text color</label>
-    <input class="owl-input" matInput name="level3_hover_color" type="color"
-      (blur)="checkColorValidity(formattedJson.level3_hover_color, 'level3_hover_color')"
-      [(ngModel)]="formattedJson.level3_hover_color">
+    <input class="owl-input text-white" name="level3_hover_color"
+      [(ngModel)]="formattedJson.level3_hover_color" [style.background]="formattedJson.level3_hover_color"
+      [colorPicker]="formattedJson.level3_hover_color" (colorPickerChange)="setColor($event, 'level3_hover_color')">
   </div>
 
   <button (click)="saveChanges(true)" [appLoading]="updatingSave" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product">Apply colors
