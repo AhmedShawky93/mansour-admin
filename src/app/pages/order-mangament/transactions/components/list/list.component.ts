@@ -24,6 +24,7 @@ export class ListComponent implements OnInit {
   page: number;
   filter: any;
   showModal: boolean;
+  submittingOrder: boolean = false;
 
 
   constructor(
@@ -90,9 +91,11 @@ export class ListComponent implements OnInit {
   }
 
   createOrder() {
+    this.submittingOrder = true;
     this.service.createOrder(this.selectedItem.id)
       .subscribe(
         (res: any) => {
+          this.submittingOrder = false;
           if (res.code === 200) {
             this.updateTable(res.data);
             this.toasterService.success('Order Created Successfully');
