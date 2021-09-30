@@ -136,13 +136,21 @@
 
     <div class="form-group">
       <label for="">Phone</label>
-      <input [minLength]='11' [maxLength]='11' class="owl-input" name="phone" placeholder="Type here..."
+      <input class="owl-input" name="phone" placeholder="Type here..."
         formControlName="phone">
 
       <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
         Phone is required.
       </div>
-      <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'minlength') && 
+      <div *ngIf="formControlValidator(customerForm, 'phone', 'minLength') || formControlValidator(customerForm, 'phone', 'maxLength')" class="alert alert-danger">
+        Phone must be {{environmentVariables.localization.phone_length}} numbers.
+      </div>
+      <div
+        *ngIf="formControlValidator(customerForm, 'phone', 'pattern') && !(formControlValidator(customerForm, 'phone', 'minLength') || formControlValidator(customerForm, 'phone', 'maxLength'))"
+        class="alert alert-danger">
+        Invalid phone number.
+      </div>
+      <!-- <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'minlength') && 
                       !formControlValidator(customerForm, 'phone', 'required')">
         Phone number length must be 11 numbers
       </div>
@@ -151,9 +159,9 @@
                     !formControlValidator(customerForm, 'phone', 'required'))">
         Phone number length must be 11 numbers
       </div>
-      <!--<mat-error *ngIf="formControlValidator(RegisterForm, 'phone', 'pattern')">
+      <mat-error *ngIf="formControlValidator(RegisterForm, 'phone', 'pattern')">
                       {{'validation_Input.phoneNumberPattern' | translate}}
-                    </mat-error>-->
+                    </mat-error>
       <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'startWith') && 
                     (!formControlValidator(customerForm, 'phone', 'maxlength')
                     && !formControlValidator(customerForm, 'phone', 'minlength') &&
@@ -166,7 +174,7 @@
                     && !formControlValidator(customerForm, 'phone', 'minlength') &&
                     !formControlValidator(customerForm, 'phone', 'required'))">
         phone number must be of english numeric only
-      </div>
+      </div> -->
     </div>
 
     <div class="form-group">

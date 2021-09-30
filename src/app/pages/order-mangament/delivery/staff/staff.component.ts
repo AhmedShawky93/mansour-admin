@@ -7,6 +7,7 @@ import { AuthService } from "@app/shared/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { environment } from "@env/environment";
 import { ToastrService } from "ngx-toastr";
+import { SettingService } from "@app/pages/services/setting.service";
 declare var jquery: any;
 declare var $: any;
 
@@ -52,17 +53,34 @@ export class StaffComponent implements OnInit {
   city_id: any;
 
   today = new Date();
+  environmentVariables: any;
 
   constructor(
     private deliverService: DeliveryService,
     private uploadFiles: UploadFilesService,
     private areaService: AreasService,
     private auth: AuthService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private settingService: SettingService
   ) {}
 
   ngOnChanges() {
     // this.onFileSelected(event);
+  }
+
+  getConfig() {
+    this.settingService.getenvConfig().subscribe(res => {
+      this.environmentVariables = res;
+      this.addStaff.controls.phone.setValidators(
+        [
+          Validators.required,
+          Validators.minLength(this.environmentVariables.localization.phone_length),
+          Validators.maxLength(this.environmentVariables.localization.phone_length),
+          Validators.pattern(this.environmentVariables.localization.phone_pattern)
+        ]
+      )
+      this.addStaff.controls.phone.updateValueAndValidity()
+    })
   }
 
   onFileSelected(event, user) {
@@ -137,8 +155,8 @@ export class StaffComponent implements OnInit {
       ]),
       phone: new FormControl(this.newDeliverer.phone, [
         Validators.required,
-        Validators.minLength(11),
-        Validators.pattern(/[0-9]+/),
+        // Validators.minLength(11),
+        // Validators.pattern(/[0-9]+/),
       ]),
       email: new FormControl(this.newDeliverer.email, [
         // Validators.required,
@@ -167,6 +185,8 @@ export class StaffComponent implements OnInit {
       ]),
       // name: new FormControl(this.newDeliverer.name, Validators.required)
     });
+
+    this.getConfig();
 
     // this.editStaff = new FormGroup({
     //   name: new FormControl(this.editUser.name,

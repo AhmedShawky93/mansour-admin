@@ -66,19 +66,23 @@
                 <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
                   Phone is required.
                 </div>
-                <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'minlength') && 
-                      !formControlValidator(customerForm, 'phone', 'required')">
-                  Phone number length must be 11 numbers
+                <div class="alert alert-danger"
+                  *ngIf="formControlValidator(customerForm, 'phone', 'minlength') || formControlValidator(customerForm, 'phone', 'maxlength')">
+                  Phone must be {{environmentVariables.localization.phone_length}} numbers.
                 </div>
-                <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'maxlength') 
+                <div class="alert alert-danger"
+                  *ngIf="formControlValidator(customerForm, 'phone', 'pattern')">
+                  Invalid phone number
+                </div>
+                <!-- <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'maxlength') 
                     && (!formControlValidator(customerForm, 'phone', 'minlength') &&
                     !formControlValidator(customerForm, 'phone', 'required'))">
                   Phone number length must be 11 numbers
-                </div>
+                </div> -->
                 <!--<mat-error *ngIf="formControlValidator(RegisterForm, 'phone', 'pattern')">
                       {{'validation_Input.phoneNumberPattern' | translate}}
                     </mat-error>-->
-                <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'startWith') && 
+                <!-- <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'startWith') && 
                     (!formControlValidator(customerForm, 'phone', 'maxlength')
                     && !formControlValidator(customerForm, 'phone', 'minlength') &&
                     !formControlValidator(customerForm, 'phone', 'required'))">
@@ -90,7 +94,7 @@
                     && !formControlValidator(customerForm, 'phone', 'minlength') &&
                     !formControlValidator(customerForm, 'phone', 'required'))">
                   phone number must be of english numeric only
-                </div>
+                </div> -->
               </div>
 
 

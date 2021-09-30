@@ -232,13 +232,13 @@
         <!-- Start Errors Rolues -->
         <div *ngIf="addStaff.controls.phone.invalid && (addStaff.controls.phone.dirty || addStaff.controls.phone.touched)" class="alert alert-danger">
           <div *ngIf="addStaff.controls.phone.errors.required">
-            Number Phone is required
+            Phone Number is required.
           </div>
-          <div *ngIf="addStaff.controls.phone.errors.minlength">
-            Name must be at least 11 characters long.
+          <div *ngIf="addStaff.controls.phone.errors.minlength || addStaff.controls.phone.errors.maxlength">
+            Phone must be {{environmentVariables.localization.phone_length}} numbers.
           </div>
           <div *ngIf="addStaff.controls.phone.errors.pattern">
-            Must Be Number Only.
+            Invalid phone number.
           </div>
         </div>
         <!-- End  Errors Rolues -->

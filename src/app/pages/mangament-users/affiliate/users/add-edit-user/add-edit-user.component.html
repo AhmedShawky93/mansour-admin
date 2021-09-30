@@ -45,6 +45,12 @@
       <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
         Phone is required.
       </div>
+      <div *ngIf="formControlValidator(customerForm, 'phone', 'minLength') || formControlValidator(customerForm, 'phone', 'maxLength')" class="alert alert-danger">
+        phone must be {{environmentVariables?.localization?.phone_length}} numbers.
+      </div>
+      <div *ngIf="formControlValidator(customerForm, 'phone', 'pattern')" class="alert alert-danger">
+        invalid phone number.
+      </div>
     </div>
 
 

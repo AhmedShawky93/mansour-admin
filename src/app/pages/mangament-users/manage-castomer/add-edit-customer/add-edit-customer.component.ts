@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AreasService } from '@app/pages/services/areas.service';
 import { CustomerService } from '@app/pages/services/customer.service';
+import { SettingService } from '@app/pages/services/setting.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -18,8 +19,9 @@ export class AddEditCustomerComponent implements OnInit {
   cities: any = [];
   areas: any = [];
   addresseNames: any[] = [{ id: 0, name: 'Home', name_ar: "المنزل" }, { id: 1, name: 'Work', name_ar: "العمل" }, { id: 2, name: "Others", name_ar: "أخرى" }]
+  environmentVariables: any;
 
-  constructor(private customerService: CustomerService, private toastrService: ToastrService, private citiesService: AreasService) { }
+  constructor(private customerService: CustomerService, private toastrService: ToastrService, private citiesService: AreasService, private settingService:SettingService) { }
 
   ngOnInit() {
     this.setupForm(this.selectedCustomer);
@@ -27,6 +29,22 @@ export class AddEditCustomerComponent implements OnInit {
       .subscribe((response: any) => {
         this.cities = response.data;
       })
+    // this.getConfig()
+  }
+
+  getConfig() {
+    this.settingService.getenvConfig().subscribe(res => {
+      this.environmentVariables = res;
+      this.customerForm.controls.phone.setValidators(
+        [
+          Validators.required,
+          Validators.minLength(this.environmentVariables.localization.phone_length),
+          Validators.maxLength(this.environmentVariables.localization.phone_length),
+          Validators.pattern(this.environmentVariables.localization.phone_pattern)
+        ]
+      )
+      this.customerForm.controls.phone.updateValueAndValidity()
+    })
   }
 
   onCitySelected() {
@@ -73,14 +91,16 @@ export class AddEditCustomerComponent implements OnInit {
       phone: new FormControl(data ? data.phone : '', [
         Validators.required,
         /*Validators.pattern(numberReg),*/
-        this.regexValidator(new RegExp('^\\d+$'), { 'numbers': 'Numeric Only' }),
-        this.regexValidator(new RegExp('^01'), { 'startWith': 'Must Start With 01' }),
-        this.regexValidator(new RegExp('^[0-9]+$'), { 'englishNumbers': 'English Numeric' }),
-        Validators.minLength(11),
-        Validators.maxLength(11)]),
+        // this.regexValidator(new RegExp('^\\d+$'), { 'numbers': 'Numeric Only' }),
+        // this.regexValidator(new RegExp('^01'), { 'startWith': 'Must Start With 01' }),
+        // this.regexValidator(new RegExp('^[0-9]+$'), { 'englishNumbers': 'English Numeric' }),
+        // Validators.minLength(11),
+        // Validators.maxLength(11)
+      ]),
       password: new FormControl('', this.selectedCustomer ? [] : Validators.required),
       closed_payment_methods: new FormControl(data ? data.closed_payment_methods.map(c => c.id) : []),
     });
+    this.getConfig();
   }
 
   updateValidaty() {

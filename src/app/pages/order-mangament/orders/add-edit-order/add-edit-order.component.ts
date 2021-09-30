@@ -6,6 +6,7 @@ import { AreasService } from '@app/pages/services/areas.service';
 import { CustomerService } from '@app/pages/services/customer.service';
 import { OrdersService } from '@app/pages/services/orders.service';
 import { ProductsService } from '@app/pages/services/products.service';
+import { SettingService } from '@app/pages/services/setting.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, concat, of, EMPTY } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, delay } from 'rxjs/operators';
@@ -45,8 +46,9 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   thirdTrigger: any;
   plan_id: any;
   loadingAddress: boolean = false;
+  environmentVariables: any;
 
-  constructor(private citiesService: AreasService, private customerService: CustomerService, private router: Router, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) {
+  constructor(private settingService: SettingService, private citiesService: AreasService, private customerService: CustomerService, private router: Router, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) {
 
   }
 
@@ -155,6 +157,20 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       const valid = regex.test(control.value);
       return valid ? null : error;
     };
+  }
+
+  getConfig() {
+    this.settingService.getenvConfig().subscribe(res => {
+      this.environmentVariables = res;
+      this.customerForm.controls.phone.setValidators(
+        [
+          Validators.minLength(this.environmentVariables.localization.phone_length),
+          Validators.maxLength(this.environmentVariables.localization.phone_length),
+          Validators.pattern(this.environmentVariables.localization.phone_pattern)
+        ]
+      )
+      this.customerForm.controls.phone.updateValueAndValidity()
+    })
   }
 
   setupForm(data) {

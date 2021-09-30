@@ -21,6 +21,7 @@ import { CategoryService } from "@app/pages/services/category.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { DeliveryService } from "@app/pages/services/delivery.service";
 import { AffiliateService } from '@app/pages/services/affiliate.service';
+import { SettingService } from '@app/pages/services/setting.service';
 
 @Component({
   selector: "app-add-edit-user",
@@ -32,12 +33,30 @@ export class AddEditUserComponent implements OnInit, OnChanges {
   @Output() dataCustomerEmit = new EventEmitter();
   @Input('selectedCustomer') selectedCustomer;
   customerForm: FormGroup;
+  environmentVariables: any;
 
   constructor(private customerService: CustomerService, private toastrService: ToastrService,
-    private affiliateService: AffiliateService) { }
+    private affiliateService: AffiliateService, private settingService: SettingService) { }
 
   ngOnInit() {
     this.setupForm(this.selectedCustomer);
+    this.getConfig();
+  }
+
+  getConfig() {
+    this.settingService.getenvConfig().subscribe(res => {
+      this.environmentVariables = res;
+      this.customerForm.controls.phone.setValidators(
+        [
+          Validators.required,
+          Validators.minLength(this.environmentVariables.localization.phone_length),
+          Validators.maxLength(this.environmentVariables.localization.phone_length),
+          Validators.pattern(this.environmentVariables.localization.phone_pattern)
+        ]
+      )
+      this.customerForm.controls.phone.updateValueAndValidity()
+
+    })
   }
 
   ngOnChanges() {

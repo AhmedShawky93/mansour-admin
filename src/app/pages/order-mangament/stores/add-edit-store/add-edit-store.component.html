@@ -96,7 +96,11 @@
               Phone is required.
             </div>
             <div *ngIf="OptionForm.controls.phones['controls'][i].controls.phone.errors.pattern">
-              Must Be Number Only.
+              Invalid phone number
+            </div>
+            <div
+              *ngIf="OptionForm.controls.phones['controls'][i].controls.phone.errors.minlength || OptionForm.controls.phones['controls'][i].controls.phone.errors.maxlength">
+              Phone must be {{environmentVariables.localization.phone_length}} numbers.
             </div>
           </div>
           <!-- <div

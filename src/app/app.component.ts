@@ -78,6 +78,7 @@ export class AppComponent implements OnInit {
             logoWhite:  res.data.WHITE_LOGO_EN ? res.data.WHITE_LOGO_EN : '',
           },
           enable_affiliate: res.data.enable_affiliate ? res.data.enable_affiliate : false,
+          localization: res.data.localization
         }
         this.showAffiliateService.showAffiliate.next(res.data.enable_affiliate)
 

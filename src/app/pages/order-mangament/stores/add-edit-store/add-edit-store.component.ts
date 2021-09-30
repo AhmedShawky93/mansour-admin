@@ -143,7 +143,11 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   }
   createItem(data): FormGroup {
     return this.formbuilder.group({
-      phone: new FormControl(data ? data : "", Validators.pattern(this.environmentVariables.phone_pattern)),
+      phone: new FormControl(data ? data : "", [
+        Validators.minLength(this.environmentVariables.localization.phone_length),
+        Validators.maxLength(this.environmentVariables.localization.phone_length),
+        Validators.pattern(this.environmentVariables.localization.phone_pattern)
+      ]),
     });
   }
   reomvePhoneForm(index) {

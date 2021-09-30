@@ -20,6 +20,7 @@ import { ToastrService } from "ngx-toastr";
 import { CategoryService } from "@app/pages/services/category.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { DeliveryService } from "@app/pages/services/delivery.service";
+import { SettingService } from '@app/pages/services/setting.service';
 
 @Component({
   selector: "app-add-edit-staff-delivery",
@@ -38,6 +39,7 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
   loading: boolean;
   districts: any;
   roles: any;
+  environmentVariables: any;
   constructor(
     private formBuilder: FormBuilder,
     private uploadFile: UploadFilesService,
@@ -47,7 +49,7 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
     private deliveryService: DeliveryService,
     private _areaService: AreasService,
     private rolesService: RolesService,
-
+    private settingService: SettingService
   ) { }
 
   ngOnInit() {
@@ -72,6 +74,21 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
     });
   }
 
+  getConfig() {
+    this.settingService.getenvConfig().subscribe(res => {
+      this.environmentVariables = res;
+      this.OptionForm.controls.phone.setValidators(
+        [
+          Validators.required,
+          Validators.minLength(this.environmentVariables.localization.phone_length),
+          Validators.maxLength(this.environmentVariables.localization.phone_length),
+          Validators.pattern(this.environmentVariables.localization.phone_pattern)
+        ]
+      )
+      this.OptionForm.controls.phone.updateValueAndValidity()
+    })
+  }
+
   getForm(data) {
     this.OptionForm = this.formBuilder.group({
       name: new FormControl(data ? data.name : "", Validators.required),
@@ -94,6 +111,7 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
       //   Validators.required
       // ),
     });
+    this.getConfig();
     if (data) {
       this.selectCity(data.delivererProfile.city.id);
       this.selectArea(data.delivererProfile.area.id);
