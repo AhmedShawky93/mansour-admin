@@ -58,11 +58,14 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group phone-form-field">
                 <label for="">Phone</label>
                 <input [minLength]='11' [maxLength]='11' class="owl-input" name="phone" placeholder="Type here..."
                   formControlName="phone">
-
+                <span class="localization-data" *ngIf="environmentVariables.localization">
+                  <img [src]="environmentVariables.localization?.flag" alt="country flag">
+                  {{environmentVariables.localization?.phone_prefix}}
+                </span>
                 <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
                   Phone is required.
                 </div>

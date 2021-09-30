@@ -2058,3 +2058,23 @@ i{
     border-color:var(--brand-color);
     }    
 }
+
+.phone-form-field {
+  position: relative;
+
+  input {
+    text-indent: 60px;
+    line-height: initial !important;
+  }
+
+  .localization-data {
+    position: absolute;
+    top: 35px;
+    left: 10px;
+
+    img {
+      width: 20px;
+      margin-left: 5px;
+    }
+  }
+}

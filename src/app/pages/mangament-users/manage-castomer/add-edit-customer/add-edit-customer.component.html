@@ -134,15 +134,19 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group phone-form-field">
       <label for="">Phone</label>
-      <input class="owl-input" name="phone" placeholder="Type here..."
-        formControlName="phone">
-
+      <input class="owl-input" name="phone" placeholder="Type here..." formControlName="phone">
+      <span class="localization-data" *ngIf="environmentVariables.localization">
+        <img [src]="environmentVariables.localization?.flag" alt="country flag">
+        {{environmentVariables.localization?.phone_prefix}}
+      </span>
       <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
         Phone is required.
       </div>
-      <div *ngIf="formControlValidator(customerForm, 'phone', 'minLength') || formControlValidator(customerForm, 'phone', 'maxLength')" class="alert alert-danger">
+      <div
+        *ngIf="formControlValidator(customerForm, 'phone', 'minLength') || formControlValidator(customerForm, 'phone', 'maxLength')"
+        class="alert alert-danger">
         Phone must be {{environmentVariables.localization.phone_length}} numbers.
       </div>
       <div
