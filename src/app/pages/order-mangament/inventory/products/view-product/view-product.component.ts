@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { SettingService } from '@app/pages/services/setting.service';
 
 @Component({
   selector: 'app-view-product',
@@ -8,8 +9,13 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 export class ViewProductComponent implements OnInit , OnChanges{
   @Output() closeSideBarEmit = new EventEmitter()
   @Input('selectProductDataEdit') currentProduct;
-  constructor() { }
-
+  environmentVariables: any;
+  constructor(private settingService: SettingService) { }
+  getConfig() {
+    this.settingService.getenvConfig().subscribe(res => {
+      this.environmentVariables = res;
+    })
+  }
   ngOnInit() {
   }
   ngOnChanges(): void {

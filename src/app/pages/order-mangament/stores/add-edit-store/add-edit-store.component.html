@@ -9,9 +9,9 @@
   <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="OptionForm" novalidate>
     <div class="form-group phone-form-field">
       <label for=""> Shop name</label>
-      <span class="localization-data" *ngIf="environmentVariables.localization">
-        <img [src]="environmentVariables.localization?.flag" alt="country flag">
-        {{environmentVariables.localization?.phone_prefix}}
+      <span class="localization-data" *ngIf="environmentVariables?.localization">
+        <img [src]="environmentVariables?.localization?.flag" alt="country flag">
+        {{environmentVariables?.localization?.phone_prefix}}
       </span>
       <input type="text" class="owl-input" placeholder="Type.." required formControlName="shop_name">
       <div *ngIf="OptionForm.controls.shop_name.invalid && (OptionForm.controls.shop_name.dirty || OptionForm.controls.shop_name.touched)"
@@ -104,7 +104,7 @@
             </div>
             <div
               *ngIf="OptionForm.controls.phones['controls'][i].controls.phone.errors.minlength || OptionForm.controls.phones['controls'][i].controls.phone.errors.maxlength">
-              Phone must be {{environmentVariables.localization.phone_length}} numbers.
+              Phone must be {{environmentVariables?.localization.phone_length}} numbers.
             </div>
           </div>
           <!-- <div

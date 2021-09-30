@@ -221,14 +221,14 @@
           </a>
         </p>
         <p *ngIf='order.affiliate' [hidden]='!item.affiliate_commission || item.affiliate_commission == 0'>Commission:
-          {{ item.affiliate_commission }} EGP</p>
+          {{ item.affiliate_commission }} {{environmentVariables?.localization?.currency_code_en}}</p>
       </div>
     </div>
 
     <div class="qty-item">
       <p>QTY: {{ item.amount }}</p>
-      <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }} EGP</span>
-      <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }} EGP</span>
+      <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }} {{environmentVariables?.localization?.currency_code_en}}</span>
+      <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }} {{environmentVariables?.localization?.currency_code_en}}</span>
       <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
         <i class="icon-grey edit-price"></i>
       </a>
@@ -368,7 +368,7 @@
       <div class="block-item">
         <p>Applied Offer</p>
         <span *ngIf="order.promo">{{ order.promo.name }} -{{ order.promo.amount }}
-          <span *ngIf="order.promo.type == 2">%</span><span *ngIf="order.promo.type == 1">EGP</span></span>
+          <span *ngIf="order.promo.type == 2">%</span><span *ngIf="order.promo.type == 1">{{environmentVariables?.localization?.currency_code_en}}</span></span>
       </div>
 
       <!-- <div class="block-item">
@@ -410,13 +410,14 @@
       </div>
       <div class="block-item" *ngIf='order.affiliate_total_commission != 0'>
         <p>Total Commission</p>
-        <span>{{ order.affiliate_total_commission }} EGP</span>
+        <span>{{ order.affiliate_total_commission }} {{environmentVariables?.localization?.currency_code_en}}</span>
       </div>
       <div *ngIf="(order.payment_method !== 3 && order.payment_method !== 5 && order.payment_method !== 9 &&
         order.payment_method !== 10 && order.payment_method !== 11); else valuPayment">
         <div class="block-item">
           <p>Item Total</p>
-          <span>{{ order.invoice.total_amount | number : '1.2-2'}}</span>
+          <span>{{ order.invoice.total_amount | number : '1.2-2'}}
+            {{environmentVariables?.localization?.currency_code_en}}</span>
         </div>
 
         <div class="block-item">
@@ -431,7 +432,8 @@
 
         <div class="block-item">
           <p>Grand Total</p>
-          <span>{{ (order.amount + order.delivery_fees) | number : '1.2-2' }}</span>
+          <span>{{ (order.amount + order.delivery_fees) | number : '1.2-2' }}
+            {{environmentVariables?.localization?.currency_code_en}}</span>
         </div>
       </div>
 
@@ -537,8 +539,8 @@
 
       <div class="qty-item">
         <p>QTY: {{ item.returned_quantity }}</p>
-        <span *ngIf="item?.product.discount_price === null">{{ item.product.price }} EGP</span>
-        <span *ngIf="item?.product.discount_price !== null">{{ item.product.discount_price }} EGP</span>
+        <span *ngIf="item?.product.discount_price === null">{{ item.product.price }} {{environmentVariables?.localization?.currency_code_en}}</span>
+        <span *ngIf="item?.product.discount_price !== null">{{ item.product.discount_price }} {{environmentVariables?.localization?.currency_code_en}}</span>
       </div>
     </div>
   </div>

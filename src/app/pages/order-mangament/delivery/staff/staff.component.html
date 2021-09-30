@@ -230,16 +230,16 @@
         <label for=""> phone number</label>
         <input type="text" id="" placeholder="type" class="owl-input" name="phone" [(ngModel)]="newDeliverer.phone" required formControlName="phone">
         <!-- Start Errors Rolues -->
-        <span class="localization-data" *ngIf="environmentVariables.localization">
-          <img [src]="environmentVariables.localization?.flag" alt="country flag">
-          {{environmentVariables.localization?.phone_prefix}}
+        <span class="localization-data" *ngIf="environmentVariables?.localization">
+          <img [src]="environmentVariables?.localization?.flag" alt="country flag">
+          {{environmentVariables?.localization?.phone_prefix}}
         </span>
         <div *ngIf="addStaff.controls.phone.invalid && (addStaff.controls.phone.dirty || addStaff.controls.phone.touched)" class="alert alert-danger">
           <div *ngIf="addStaff.controls.phone.errors.required">
             Phone Number is required.
           </div>
           <div *ngIf="addStaff.controls.phone.errors.minlength || addStaff.controls.phone.errors.maxlength">
-            Phone must be {{environmentVariables.localization.phone_length}} numbers.
+            Phone must be {{environmentVariables?.localization.phone_length}} numbers.
           </div>
           <div *ngIf="addStaff.controls.phone.errors.pattern">
             Invalid phone number.

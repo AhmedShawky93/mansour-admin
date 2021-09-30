@@ -332,7 +332,7 @@
         <div class="box-col" *ngFor="let item of order?.items;let i = index">
           <div class="value-col" style=" direction: ltr;">
             <p>
-              {{ item?.discount_price ? (item?.discount_price) + ' EGP' : '-'}}
+              {{ item?.discount_price ? (item?.discount_price) + environmentVariables?.localization?.currency_code_en : '-'}}
             </p>
 
           </div>
@@ -349,7 +349,7 @@
           </div> -->
           <div class="value-col">
             <p>
-              {{item?.price }} EGP
+              {{item?.price }} {{environmentVariables?.localization?.currency_code_en}}
             </p>
           </div>
           <div class="value-col">
@@ -379,23 +379,23 @@
           <div style="page-break-inside: avoid;page-break-before: always;" *ngIf="i+1 == 10 "></div>
         </div>
         <div class="box-price">
-          <div class="value-price" style="direction: ltr;">{{order?.actual_amount}} EGP</div>
+          <div class="value-price" style="direction: ltr;">{{order?.actual_amount}} {{environmentVariables?.localization?.currency_code_en}}</div>
           <div class="name-price">Subtotal</div>
         </div>
         <div class="box-price">
           <div class="value-price " style="direction: ltr;">
 
-            {{order.discount_amount ? (order.actual_amount - order.discount_amount ) + ' EGP' : '-'}} </div>
+            {{order.discount_amount ? (order.actual_amount - order.discount_amount ) + environmentVariables?.localization?.currency_code_en : '-'}} </div>
           <div class="name-price">Discount</div>
         </div>
         <div class="box-price">
-          <div class="value-price" style="direction: ltr;">{{order.delivery_fees ? order.delivery_fees + ' EGP' : '-'}}
+          <div class="value-price" style="direction: ltr;">{{order.delivery_fees ? order.delivery_fees + environmentVariables?.localization?.currency_code_en : '-'}}
           </div>
           <div class="name-price">Shiping cost</div>
         </div>
         <div class="box-price">
           <div class="value-price" style="direction: ltr;">
-            {{order.amount + order.delivery_fees }} EGP </div>
+            {{order.amount + order.delivery_fees }} {{environmentVariables?.localization?.currency_code_en}} </div>
           <div class="name-price">Total amount</div>
         </div>
       </div>

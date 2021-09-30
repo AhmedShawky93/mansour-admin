@@ -35,9 +35,9 @@
     <div class="form-group phone-form-field">
       <label for=""> phone</label>
       <input type="text" class="owl-input" placeholder="Type.." formControlName="phone" [maxlength]="11">
-      <span class="localization-data" *ngIf="environmentVariables.localization">
-        <img [src]="environmentVariables.localization?.flag" alt="country flag">
-        {{environmentVariables.localization?.phone_prefix}}
+      <span class="localization-data" *ngIf="environmentVariables?.localization">
+        <img [src]="environmentVariables?.localization?.flag" alt="country flag">
+        {{environmentVariables?.localization?.phone_prefix}}
       </span>
       <div
         *ngIf="OptionForm.controls.phone.invalid && (OptionForm.controls.phone.dirty || OptionForm.controls.phone.touched)"
@@ -46,7 +46,7 @@
           phone is required.
         </div>
         <div *ngIf="OptionForm.controls.phone.errors.minlength || OptionForm.controls.phone.errors.maxlength">
-          Phone must be {{environmentVariables.localization.phone_length}} numbers.
+          Phone must be {{environmentVariables?.localization.phone_length}} numbers.
         </div>
         <div *ngIf="OptionForm.controls.phone.errors.pattern">
           Invalid phone number.
