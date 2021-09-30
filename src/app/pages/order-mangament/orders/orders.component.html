@@ -259,7 +259,7 @@
           </label>
         </td>
         <td scope="row">{{order.id}}</td>
-        <td>{{order.user?.name + ' ' + order.user?.last_name}}</td>
+        <td>{{order.user?.full_name}}</td>
         <td>
           <span *ngIf="order.scheduled_at">{{order.scheduled_at | date: 'd-M-yyyy h:mm a'}}</span>
           <span *ngIf="!order.scheduled_at">{{order.created_at | date: 'd-M-yyyy h:mm a'}}</span>
