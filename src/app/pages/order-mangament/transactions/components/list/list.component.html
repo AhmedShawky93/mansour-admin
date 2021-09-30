@@ -97,10 +97,10 @@
         <p *ngIf="item.transaction_status == 1">Authorized</p>
       </td>
       <td class="d-inline-flex justify-content-center align-items-center">
-        <a (click)="goToDetails(item)" *ngIf="item.order_id" class="table-view view-c mx-1">
+        <a (click)="goToDetails(item)" *ngIf="item.order.id" class="table-view view-c mx-1">
           <i class="icon-View"></i>
         </a>
-        <a (click)="createOrderConfirmation(item)" *ngIf="!item.order_id" class="table-view view-c mx-1"
+        <a (click)="createOrderConfirmation(item)" *ngIf="!item.order.id" class="table-view view-c mx-1"
            data-target="#confirmationModal" data-toggle="modal">
           <i class="fa fa-clipboard"></i>
         </a>
