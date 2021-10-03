@@ -168,7 +168,8 @@
 
     <div class="form-group">
       <label for="">Description</label>
-      <textarea rows="5" class="owl-input" placeholder="Description..." name="description" id="description" formControlName="description"></textarea>
+      <angular-editor [id]="'description'" formControlName="description" [config]="editorConfig" required></angular-editor>
+      <!-- <textarea rows="5" class="owl-input" placeholder="Description..." name="description" id="description" formControlName="description"></textarea> -->
 
       <div *ngIf="addForm.controls.description.invalid && (addForm.controls.description.dirty || addForm.controls.description.touched)" class="alert alert-danger">
         <div *ngIf="addForm.controls.description.errors.required">
@@ -179,7 +180,8 @@
 
     <div class="form-group">
       <label for="">Description (Ar)</label>
-      <textarea rows="5" class="owl-input" placeholder="Description (Ar)..." name="description_ar" id="description_ar" formControlName="description_ar"></textarea>
+      <angular-editor [id]="'description'" formControlName="description_ar" [config]="editorConfig" required></angular-editor>
+      <!-- <textarea rows="5" class="owl-input" placeholder="Description (Ar)..." name="description_ar" id="description_ar" formControlName="description_ar"></textarea> -->
 
       <div *ngIf="addForm.controls.description_ar.invalid && (addForm.controls.description_ar.dirty || addForm.controls.description_ar.touched)" class="alert alert-danger">
         <div *ngIf="addForm.controls.description_ar.errors.required">

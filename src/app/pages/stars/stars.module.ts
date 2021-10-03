@@ -11,6 +11,8 @@ import { SearchRewardsPipe } from './pipes/search-rewards.pipe';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ButtonSpinnerDirective } from '@app/shared/directives/button-spinner.directive';
 import { SharedModule } from '@app/shared/shared.module';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+
 
 export const routes = [
   { path: "gifts", component: GiftsComponent },
@@ -24,6 +26,7 @@ export const routes = [
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
+    AngularEditorModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     // SharedModule // TODO
     SharedModule
