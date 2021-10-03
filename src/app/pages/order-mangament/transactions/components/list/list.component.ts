@@ -25,6 +25,7 @@ export class ListComponent implements OnInit {
   filter: any;
   showModal: boolean;
   submittingOrder: boolean = false;
+  updateIndex: any;
 
 
   constructor(
@@ -72,11 +73,11 @@ export class ListComponent implements OnInit {
   }
 
   updateTable(item) {
-    this.selectedItem.order_id = item.id;
-    /*const itemIndex = this.list.findIndex(obj => obj.id === item.id);
-    if (itemIndex !== -1) {
-      this.list.splice(itemIndex, 1, item);
-    }*/
+    this.list[this.updateIndex] = item;
+    // const itemIndex = this.list.findIndex(obj => obj.id === item.id);
+    // if (itemIndex !== -1) {
+    //   this.list.splice(itemIndex, 1, item);
+    // }
     this.closeModal();
   }
 
@@ -85,8 +86,9 @@ export class ListComponent implements OnInit {
     this.showModal = false;
   }
 
-  createOrderConfirmation(data) {
+  createOrderConfirmation(data, index) {
     this.selectedItem = data;
+    this.updateIndex = index;
     this.showModal = true;
   }
 

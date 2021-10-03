@@ -85,7 +85,7 @@
     <tbody>
 
     <tr
-      *ngFor="let item of list | paginate:  { itemsPerPage: itemsPerPage, currentPage: filter.page, totalItems: totalPages}">
+      *ngFor="let item of list | paginate:  { itemsPerPage: itemsPerPage, currentPage: filter.page, totalItems: totalPages}; let index = index">
       <td>{{item.id}}</td>
       <td>{{item?.order_pay_id}}</td>
       <td>{{item?.payment_method?.name}}</td>
@@ -101,7 +101,7 @@
         <a (click)="goToDetails(item)" *ngIf="item?.order?.id" class="table-view view-c mx-1">
           <i class="icon-View"></i>
         </a>
-        <a (click)="createOrderConfirmation(item)" *ngIf="!item?.order?.id" class="table-view view-c mx-1"
+        <a (click)="createOrderConfirmation(item, index)" *ngIf="!item?.order?.id" class="table-view view-c mx-1"
            data-target="#confirmationModal" data-toggle="modal">
           <i class="fa fa-clipboard"></i>
         </a>
