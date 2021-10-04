@@ -242,7 +242,7 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
               if (systemConfig.WEB_BRAND_COLOR) {
                 document.documentElement.style.setProperty('--brand-color', systemConfig.WEB_BRAND_COLOR)
               }
-              res.data && this.settingService.setenvConfig(res.data)
+              res.data && this.settingService.setenvConfig(systemConfig)
             })
           } else {
             this.toasterService.error(res.message);
