@@ -119,7 +119,7 @@
   <div class="item form-group">
     <label for="level2_hover_color">Groups hover text color</label>
     <input class="owl-input text-white" name="level2_hover_color"
-      [(ngModel)]="formattedJson.level2_hover_color"
+      [(ngModel)]="formattedJson.level2_hover_color" [style.background]="formattedJson.level2_hover_color"
       [colorPicker]="formattedJson.level2_hover_color" (colorPickerChange)="setColor($event, 'level2_hover_color')">
   </div>
   <div class="item form-group">
