@@ -6,6 +6,7 @@ import { SettingService } from '@app/pages/services/setting.service';
 import { Observable } from 'rxjs/Observable';
 import { ToastrService } from 'ngx-toastr';
 import { ReactivityService } from '@app/shared/services/reactivity.service';
+import { ShowAffiliateService } from '../services/show-affiliate.service';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
     private settingService: SettingService,
     private toasterService: ToastrService,
     private reactivityService: ReactivityService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private showAffiliateService: ShowAffiliateService
   ) {
     this.settings$ = this.settingService.getConfigurations();
     this.formGroups = [];
@@ -208,6 +210,38 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
             this.toasterService.success('Updated Successfully');
 
             this.settingService.getEnv_variables().subscribe(configs => {
+              let systemConfig = {
+                themeType: res.data.ADMIN_THEME_TYPE ? parseInt(res.data.ADMIN_THEME_TYPE) : 1,
+                showLoyality: res.data.ENABLE_LOYALITY ? res.data.ENABLE_LOYALITY : false,
+                WEB_BRAND_COLOR: res.data.WEB_BRAND_COLOR ? res.data.WEB_BRAND_COLOR : null,
+                envApi: {
+                  env: {
+                    checkoutUrl: res.data.WEBSITE_URL ? res.data.WEBSITE_URL : ''
+                  }
+                },
+                brandRelatedVariables: {
+                  brand: res.data.APP_NAME ? res.data.APP_NAME : 'Dashboard',
+                  brandArabic: res.data.APP_NAME_AR ? res.data.APP_NAME_AR : 'Dashboard',
+                  // branchType: res.data.BRANCH_TYPES_ARRAY ? JSON.parse(res.data.BRANCH_TYPES_ARRAY) : [],
+                  email: res.data.ONLINE_EMAIL ? res.data.ONLINE_EMAIL : '',
+                  hotline: res.data.HOTPHONE ? res.data.HOTPHONE : '',
+                  loginApi: res.data.WEBSITE_URL ? res.data.WEBSITE_URL : '',
+                },
+                brands: {
+                  logo: res.data.COLORED_LOGO_EN ? res.data.COLORED_LOGO_EN : '',
+                  logoBlack: res.data.BLACK_LOGO ? res.data.BLACK_LOGO : '',
+                  favIcon: res.data.FAV_ICON ? res.data.FAV_ICON : '',
+                  logoWhite: res.data.WHITE_LOGO_EN ? res.data.WHITE_LOGO_EN : '',
+                },
+                enable_affiliate: res.data.enable_affiliate ? res.data.enable_affiliate : false,
+                localization: res.data.localization
+              }
+              this.showAffiliateService.showAffiliate.next(res.data.enable_affiliate)
+
+
+              if (systemConfig.WEB_BRAND_COLOR) {
+                document.documentElement.style.setProperty('--brand-color', systemConfig.WEB_BRAND_COLOR)
+              }
               configs.data && this.settingService.setenvConfig(configs.data)
             })
           } else {
