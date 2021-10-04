@@ -206,6 +206,10 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
           if (res.code === 200) {
             this.saveDataToStore(res.data);
             this.toasterService.success('Updated Successfully');
+
+            this.settingService.getEnv_variables().subscribe(configs => {
+              configs.data && this.settingService.setenvConfig(configs.data)
+            })
           } else {
             this.toasterService.error(res.message);
           }
