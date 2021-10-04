@@ -29,7 +29,7 @@ export class ReactivityService {
   scrollToFirstError(parentName){
     setTimeout(() => {
       let element = document.getElementsByClassName('alert-danger')[0] as HTMLElement;
-      element ? document.getElementsByClassName(parentName)[0].scrollTop = element.offsetTop - 30 : '';
+      element && element.scrollIntoView();
     }, 100)
   }
 }
