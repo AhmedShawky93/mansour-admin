@@ -209,7 +209,7 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
             this.saveDataToStore(res.data);
             this.toasterService.success('Updated Successfully');
 
-            this.settingService.getEnv_variables().subscribe(configs => {
+            this.settingService.getEnv_variables().subscribe(res => {
               let systemConfig = {
                 themeType: res.data.ADMIN_THEME_TYPE ? parseInt(res.data.ADMIN_THEME_TYPE) : 1,
                 showLoyality: res.data.ENABLE_LOYALITY ? res.data.ENABLE_LOYALITY : false,
@@ -242,7 +242,7 @@ export class DynamicSettingsComponent implements OnInit, AfterViewInit, AfterCon
               if (systemConfig.WEB_BRAND_COLOR) {
                 document.documentElement.style.setProperty('--brand-color', systemConfig.WEB_BRAND_COLOR)
               }
-              configs.data && this.settingService.setenvConfig(configs.data)
+              res.data && this.settingService.setenvConfig(res.data)
             })
           } else {
             this.toasterService.error(res.message);
