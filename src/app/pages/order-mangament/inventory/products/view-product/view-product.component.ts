@@ -17,6 +17,7 @@ export class ViewProductComponent implements OnInit , OnChanges{
     })
   }
   ngOnInit() {
+    this.getConfig();
   }
   ngOnChanges(): void {
   }
