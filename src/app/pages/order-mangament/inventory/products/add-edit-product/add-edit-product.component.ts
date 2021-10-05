@@ -404,7 +404,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       }*/
       if (!this.addProductForm.valid) {
         this.markFormGroupTouched(this.addProductForm);
-        this.reactivityService.scrollToFirstError('add-edit-product-form')
+        this.reactivityService.scrollToFirstError('add-edit-product-form');
         return;
       }
       product.option_values.forEach(item => {

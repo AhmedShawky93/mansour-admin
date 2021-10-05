@@ -151,7 +151,7 @@ export class StoresComponent implements OnInit {
     this.deleteLoading = true;
     this.bracnhesStoreService.deleteBranch(this.removeBranchObj.id).subscribe((response: any) => {
       if (response.code === 200) {
-        const index = this.branches.findIndex(item => item.id == this.removeBranchObj)
+        const index = this.branches.findIndex(item => item.id == this.removeBranchObj.id)
         this.branches.splice(index, 1);
         this.toastrService.success('Branche is removed')
         $("#removePopUp").modal("hide");

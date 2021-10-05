@@ -337,7 +337,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     const data = { ...this.componentForm.value };
 
     if (!this.validateDraftData(data)) {
-      this.toasterService.warning('Please fill at least one field');
+      this.reactivityService.scrollToFirstError('add-edit-product-form');
       return;
     }
 
