@@ -228,7 +228,9 @@
       </div>
       <div class="form-group phone-form-field">
         <label for=""> phone number</label>
-        <input type="text" id="" placeholder="type" class="owl-input" name="phone" [(ngModel)]="newDeliverer.phone" required formControlName="phone">
+        <input type="text" id="" [minLength]='environmentVariables.localization.phone_length'
+          [maxLength]='environmentVariables.localization.phone_length' placeholder="type" class="owl-input" name="phone"
+          [(ngModel)]="newDeliverer.phone" required formControlName="phone">
         <!-- Start Errors Rolues -->
         <span class="localization-data" *ngIf="environmentVariables?.localization">
           <img [src]="environmentVariables?.localization?.flag" alt="country flag">

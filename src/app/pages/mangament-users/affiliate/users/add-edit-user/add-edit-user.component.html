@@ -44,7 +44,9 @@
         <img [src]="environmentVariables?.localization?.flag" alt="country flag">
         {{environmentVariables?.localization?.phone_prefix}}
       </span>
-      <input type="text" class="owl-input" name="phone" placeholder="Type here..." formControlName="phone">
+      <input type="text" [minLength]='environmentVariables.localization.phone_length'
+        [maxLength]='environmentVariables.localization.phone_length' class="owl-input" name="phone"
+        placeholder="Type here..." formControlName="phone">
 
       <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
         Phone is required.

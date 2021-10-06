@@ -97,7 +97,9 @@
             {{environmentVariables?.localization?.phone_prefix}}
           </span>
           <input type="text" class="owl-input input-number" placeholder="Type.." required formControlName="phone"
-            pattern="[0-9]+" required onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' maxlength="11">
+            required onkeypress='return event.charCode >= 48 && event.charCode <= 57 ' [minLength]='
+               environmentVariables.localization.phone_length'
+            [maxLength]='environmentVariables.localization.phone_length'>
           <span class="remove-number" (click)="reomvePhoneForm(i)" *ngIf="i != 0">x</span>
 
           <div *ngIf="OptionForm.controls.phones['controls'][i].controls.phone.invalid && (OptionForm.controls.phones['controls'][i].controls.phone.dirty ||
