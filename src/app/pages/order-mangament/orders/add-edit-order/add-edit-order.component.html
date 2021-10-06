@@ -76,7 +76,8 @@
                   Phone must be {{environmentVariables?.localization.phone_length}} numbers.
                 </div>
                 <div class="alert alert-danger"
-                  *ngIf="formControlValidator(customerForm, 'phone', 'pattern')">
+                  *ngIf="formControlValidator(customerForm, 'phone', 'pattern') && !(formControlValidator(customerForm,
+                  'phone', 'minlength') || formControlValidator(customerForm, 'phone', 'maxlength'))">
                   Invalid phone number
                 </div>
                 <!-- <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'maxlength') 
