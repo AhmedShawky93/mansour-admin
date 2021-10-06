@@ -61,6 +61,7 @@ export class AddEditUserComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.setupForm(this.selectedCustomer);
+    this.getConfig();
   }
 
   setupForm(data) {
