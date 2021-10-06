@@ -29,7 +29,7 @@ export class AddEditCustomerComponent implements OnInit {
       .subscribe((response: any) => {
         this.cities = response.data;
       })
-    // this.getConfig()
+    this.getConfig();
   }
 
   getConfig() {

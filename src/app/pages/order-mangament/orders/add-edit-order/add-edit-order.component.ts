@@ -171,6 +171,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         ]
       )
       this.customerForm.controls.phone.updateValueAndValidity()
+      this.customerForm.updateValueAndValidity()
     })
   }
 
