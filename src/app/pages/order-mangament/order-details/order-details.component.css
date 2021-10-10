@@ -28,6 +28,10 @@
   width: 160px;
 }
 
+.wide-text{
+  width: 200px !important;
+}
+
 .block-item span {
   font-size: 18px;
   color: #003c62;

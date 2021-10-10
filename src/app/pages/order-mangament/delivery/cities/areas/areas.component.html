@@ -30,7 +30,8 @@
     <thead>
       <tr>
         <th style="width: 250px" scope="col">Name</th>
-        <th style="width: 390px" scope="col"> name ar </th>
+        <th style="width: 250px" scope="col"> name ar </th>
+        <th style="width: 250px" scope="col"> Aramex Name </th>
         <th scope="col"> Districts </th>
         <th scope="col"> Delivery Fees </th>
         <th style="text-align: center" scope="col"> action </th>
@@ -40,6 +41,7 @@
       <tr *ngFor="let area of cities ">
         <td>{{(area.name) ? (area.name) : '-'}}</td>
         <td>{{(area.name_ar) ? (area.name_ar) : '-'}}</td>
+        <td>{{(area.aramex_name) ? (area.aramex_name) : '-'}}</td>
         <td>
           <span style="text-decoration: underline; cursor: pointer ;outline: none;color: #03a9f4;  font-weight: bold;"
             [routerLink]="[area.id,'districts']">

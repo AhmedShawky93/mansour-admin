@@ -39,6 +39,21 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label for="">Aramex name</label>
+
+        <input type="text" class="owl-input" placeholder="type here.." name="aramex_name" formControlName="aramex_name">
+
+      </div>
+
+      <div
+        *ngIf="cityForm.controls.aramex_name.invalid && (cityForm.controls.aramex_name.dirty || cityForm.controls.aramex_name.touched)"
+        class="alert alert-danger">
+        <div *ngIf="cityForm.controls.aramex_name.errors.required ">
+          Aramex Name (Ar)is required.
+        </div>
+      </div>
+
       <div class="col-md-12">
         <label class="checkup" (change)="selectTypePrice('1')">Fixed price
           <input type="radio" name="fees_type" [value]="1"  formControlName="fees_type" />

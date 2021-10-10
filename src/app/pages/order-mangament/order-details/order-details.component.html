@@ -304,7 +304,7 @@
     <div class="col-md-1"></div>
     <div class="col-md-6">
       <div class="block-item">
-        <p> Customer number</p>
+        <p class="wide-text"> Customer number</p>
         <span *ngIf='order?.user == null'>{{order?.address?.phone}}</span>
         <span *ngIf='order?.affiliate == null'>{{order?.user?.phone}}</span>
         <span *ngIf='order?.affiliate != null && order?.by_affiliate'>{{order?.address?.phone}}</span>

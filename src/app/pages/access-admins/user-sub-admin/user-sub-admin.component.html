@@ -32,8 +32,7 @@
     </thead>
     <tbody>
 
-      <tr
-        *ngFor="let admin of admins  | paginate: { id: 'p1', itemsPerPage: 10,currentPage: p, totalItems: admins.length }">
+      <tr *ngFor="let admin of admins  | paginate: { id: 'p1', itemsPerPage: 10,currentPage: p, totalItems: admins.length }">
         <td scope="row"> {{admin.name}} </td>
         <td scope="row"> {{admin.created_at | date : "yyyy-MM-dd hh:mm a"}} </td>
         <td><span *ngIf="admin.roles.length">{{admin.roles[0].name}}</span></td>
@@ -67,7 +66,7 @@
     </tbody>
   </table>
 </div>
-<!-- <pagination-controls id="p1" (pageChange)="p1 = $event"></pagination-controls> -->
+<!-- <pagination-controls id="p1" (pageChange)="p = $event"></pagination-controls> -->
 
 <!-- add sidebar -->
 <div class="form-sidebar view-vindor-types" id="add-admin">

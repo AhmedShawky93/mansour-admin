@@ -27,6 +27,7 @@ export class AddEditAreaComponent implements OnInit {
     this.cityForm = new FormGroup({
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
+      aramex_name: new FormControl(data && data.aramex_name ? data.aramex_name : ""),
       delivery_fees: new FormControl(
         data ? data.delivery_fees : 0),
       fees_type: new FormControl(data ? data.fees_type : 1),
