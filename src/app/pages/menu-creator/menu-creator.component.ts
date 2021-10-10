@@ -556,9 +556,9 @@ export class MenuCreatorComponent implements OnInit, AfterViewInit {
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup] = this.selectedGroup;
         this.formattedJson.level1[this.updateIndexHeader].level2[this.updateIndexGroup].level3 = dumbLevel3;
       } else {
-        this.formattedJson.level1[this.updateIndexHeader].level2.push(this.selectedGroup);
+        this.formattedJson.level1[this.updateIndexHeader].level2 = [this.selectedGroup];
         this.formattedJson.level1[this.updateIndexHeader].level2[this.formattedJson.level1[this.updateIndexHeader].level2.length - 1].level3 = [];
-        this.updateIndexGroup = this.formattedJson.level1[this.formattedJson.level1.length - 1].level2.length - 1;
+        this.updateIndexGroup = this.formattedJson.level1[this.updateIndexHeader].level2.length;
       }
       this.saveChanges(true);
       this.sortGroup();
