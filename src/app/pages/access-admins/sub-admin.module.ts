@@ -1,4 +1,4 @@
-import { AccessAdminsComponent } from './access-admins.component';
+import { AccessAdminsComponent } from "./access-admins.component";
 import { SharedModule } from "./../../shared/shared.module";
 import { RolesComponent } from "./roles/roles.component";
 import { UserSubAdminComponent } from "./user-sub-admin/user-sub-admin.component";
@@ -13,7 +13,7 @@ const router = [
   {
     path: "admins-users",
     component: UserSubAdminComponent,
-    data: { title: "Admins users" },
+    data: { title: "Admins" },
   },
   {
     path: "admins-roles",
@@ -32,7 +32,6 @@ const router = [
     NgSelectModule,
     SharedModule,
   ],
-  declarations: [UserSubAdminComponent, RolesComponent,     AccessAdminsComponent,
-  ],
+  declarations: [UserSubAdminComponent, RolesComponent, AccessAdminsComponent],
 })
 export class SubAdminModule {}
