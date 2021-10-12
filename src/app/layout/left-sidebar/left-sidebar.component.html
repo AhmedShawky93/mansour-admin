@@ -42,7 +42,7 @@
             <a routerLink="/pages/products" routerLinkActive="active">
               products</a>
           </li>
-          
+
           <li *ngxPermissionsOnly="['ADMIN', 'View Brands']">
             <a routerLink="/pages/brands" routerLinkActive="active"> Brands</a>
           </li>
@@ -103,8 +103,8 @@
           <span>Orders</span>
         </a>
       </li>
-      
-      
+
+
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
         <a routerLink="/pages/transactions">
           <i class="icon-None4" data-toggle="tooltip" data-placement="right" title="Transactions"></i>
@@ -143,7 +143,7 @@
           <span>Prescription</span>
         </a>
       </li>
-      
+
 
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Customers']">
         <a routerLink="/pages/menu-creator" routerLinkActive="active">
@@ -177,7 +177,7 @@
         </ul>
       </li>
       <ng-container *ngIf="affiliate">
-        <li *ngIf="affiliate"  class="side-nav-item" routerLinkActive="active">
+        <li *ngIf="affiliate" class="side-nav-item" routerLinkActive="active">
           <a routerLinkActive="active" data-toggle="collapse" data-target="#Affiliate" aria-controls="Affiliate">
             <i class="icon-None2" data-toggle="tooltip" data-placement="right" title="Affiliate"></i>
             <span>Affiliate</span>
@@ -250,8 +250,9 @@
         <li class="side-nav-item" routerLinkActive="active"
           *ngxPermissionsOnly="['ADMIN', 'View Rewards', 'View Gift Requests']">
           <a routerLinkActive="active" data-toggle="collapse" data-target="#submenu-7" aria-controls="submenu-7">
-            <i class="icon-None3" data-toggle="tooltip" data-placement="right" title="{{environmentVariables.brandRelatedVariables.brand}} Stars"></i>
-            <span>{{environmentVariables.brandRelatedVariables.brand}} Stars</span>
+            <i class="icon-None3" data-toggle="tooltip" data-placement="right"
+              title="{{environmentVariables.brandRelatedVariables.brand}} Stars"></i>
+            <span>Stars Program</span>
             <i class="fa fa-fw fa-angle-down pull-right"></i>
           </a>
           <ul id="submenu-7" class="collapse">
