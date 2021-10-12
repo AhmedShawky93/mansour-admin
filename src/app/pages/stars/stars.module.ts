@@ -15,8 +15,28 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 export const routes = [
-  { path: "gifts", component: GiftsComponent },
-  { path: "rewards", component: RewardsComponent }
+  {
+    path: "gifts",
+    component: GiftsComponent,
+    data: {
+      title: "gifts",
+      permissions: {
+        only: ["ADMIN", "View Products"],
+        redirectTo: "/pages/home",
+      },
+    },
+  },
+  {
+    path: "rewards",
+    component: RewardsComponent,
+    data: {
+      title: "rewards",
+      permissions: {
+        only: ["ADMIN", "View Products"],
+        redirectTo: "/pages/home",
+      },
+    },
+  },
 ];
 
 @NgModule({
