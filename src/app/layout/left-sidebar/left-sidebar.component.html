@@ -137,12 +137,14 @@
           <span>Imports</span>
         </a>
       </li>
-      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
-        <a routerLink="/pages/prescription">
-          <i class="fa fa-sticky-note-o" data-toggle="tooltip" data-placement="right" title="Prescription"></i>
-          <span>Prescription</span>
-        </a>
-      </li>
+      <ng-container *ngIf="environmentVariables?.showPrescription">
+        <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN']">
+          <a routerLink="/pages/prescription">
+            <i class="fa fa-sticky-note-o" data-toggle="tooltip" data-placement="right" title="Prescription"></i>
+            <span>Prescription</span>
+          </a>
+        </li>
+      </ng-container>
 
 
       <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Customers']">
@@ -265,14 +267,14 @@
           </ul>
         </li>
       </ng-container>
-      <ng-container *ngIf="environmentVariables?.showPrescription">
+      <!-- <ng-container *ngIf="environmentVariables?.showPrescription">
         <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']">
           <a routerLink="/pages/medical" routerLinkActive="active">
             <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Medical Prescriptions"></i>
             <span>Medical Prescriptions</span>
           </a>
         </li>
-      </ng-container>
+      </ng-container> -->
       <li class="side-nav-item" routerLinkActive="active">
         <a routerLink="/pages/reports" routerLinkActive="active">
           <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Reports"></i>
