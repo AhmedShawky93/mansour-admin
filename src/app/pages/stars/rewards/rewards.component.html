@@ -5,12 +5,14 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm" name="searchTerm">
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm"
+          name="searchTerm">
       </div>
     </div>
     <div class="col-md-3  col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100" (click)="addForm.reset()"> + New Reward</button>
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100" (click)="addForm.reset()"> + New
+          Reward</button>
       </div>
     </div>
   </div>
@@ -45,10 +47,13 @@
           <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="reward.active" (change)="changeActive(reward, $event)">
             <span class="slider round"></span>
-            <div class="reason-popup text-left" [hidden]="!reward.showReason" >
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this reward?" [(ngModel)]="reward.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [ngClass]="{'not-allowed' : !reward.notes }" [disabled]="!reward.notes" (click)="submitDeactivate(reward)">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(reward)">cancel</button>
+            <div class="reason-popup text-left" [hidden]="!reward.showReason">
+              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this reward?"
+                [(ngModel)]="reward.notes"></textarea>
+              <button class="btn btn-owls btn-rounded btn-green2" [ngClass]="{'not-allowed' : !reward.notes }"
+                [disabled]="!reward.notes" (click)="submitDeactivate(reward)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(reward)">cancel</button>
             </div>
             <div class="hover-reason text-left" *ngIf="!reward.active">
               <div class="head">
@@ -149,7 +154,8 @@
       <label for="">Name</label>
       <input type="text" class="owl-input" placeholder="Name..." name="name" formControlName="name">
 
-      <div *ngIf="addForm.controls.name.invalid && (addForm.controls.name.dirty || addForm.controls.name.touched)" class="alert alert-danger">
+      <div *ngIf="addForm.controls.name.invalid && (addForm.controls.name.dirty || addForm.controls.name.touched)"
+        class="alert alert-danger">
         <div *ngIf="addForm.controls.name.errors.required">
           Name is required.
         </div>
@@ -159,7 +165,9 @@
       <label for="">Name (Ar)</label>
       <input type="text" class="owl-input" placeholder="Name (Ar)..." name="name_ar" formControlName="name_ar">
 
-      <div *ngIf="addForm.controls.name_ar.invalid && (addForm.controls.name_ar.dirty || addForm.controls.name_ar.touched)" class="alert alert-danger">
+      <div
+        *ngIf="addForm.controls.name_ar.invalid && (addForm.controls.name_ar.dirty || addForm.controls.name_ar.touched)"
+        class="alert alert-danger">
         <div *ngIf="addForm.controls.name_ar.errors.required">
           Name (Ar) is required.
         </div>
@@ -168,10 +176,13 @@
 
     <div class="form-group">
       <label for="">Description</label>
-      <angular-editor [id]="'description'" formControlName="description" [config]="editorConfig" required></angular-editor>
+      <angular-editor [id]="'description'" formControlName="description" [config]="editorConfig" required>
+      </angular-editor>
       <!-- <textarea rows="5" class="owl-input" placeholder="Description..." name="description" id="description" formControlName="description"></textarea> -->
 
-      <div *ngIf="addForm.controls.description.invalid && (addForm.controls.description.dirty || addForm.controls.description.touched)" class="alert alert-danger">
+      <div
+        *ngIf="addForm.controls.description.invalid && (addForm.controls.description.dirty || addForm.controls.description.touched)"
+        class="alert alert-danger">
         <div *ngIf="addForm.controls.description.errors.required">
           Description is required.
         </div>
@@ -180,10 +191,13 @@
 
     <div class="form-group">
       <label for="">Description (Ar)</label>
-      <angular-editor [id]="'description'" formControlName="description_ar" [config]="editorConfig" required></angular-editor>
+      <angular-editor [id]="'description'" formControlName="description_ar" [config]="editorConfig" required>
+      </angular-editor>
       <!-- <textarea rows="5" class="owl-input" placeholder="Description (Ar)..." name="description_ar" id="description_ar" formControlName="description_ar"></textarea> -->
 
-      <div *ngIf="addForm.controls.description_ar.invalid && (addForm.controls.description_ar.dirty || addForm.controls.description_ar.touched)" class="alert alert-danger">
+      <div
+        *ngIf="addForm.controls.description_ar.invalid && (addForm.controls.description_ar.dirty || addForm.controls.description_ar.touched)"
+        class="alert alert-danger">
         <div *ngIf="addForm.controls.description_ar.errors.required">
           Description (Ar) is required.
         </div>
@@ -192,9 +206,13 @@
 
     <div class="form-group">
       <label for="">Point Cost</label>
-      <input type="number" min="0" class="owl-input" placeholder="Point Cost..." name="point_cost" formControlName="point_cost" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+      <input type="number" min="0" class="owl-input" placeholder="Point Cost..." name="point_cost"
+        formControlName="point_cost"
+        onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
 
-      <div *ngIf="addForm.controls.point_cost.invalid && (addForm.controls.point_cost.dirty || addForm.controls.point_cost.touched)" class="alert alert-danger">
+      <div
+        *ngIf="addForm.controls.point_cost.invalid && (addForm.controls.point_cost.dirty || addForm.controls.point_cost.touched)"
+        class="alert alert-danger">
         <div *ngIf="addForm.controls.point_cost.errors.required">
           Point Cost is required.
         </div>
@@ -203,18 +221,21 @@
 
     <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
       <label class="container">Is Gold
-        <input type="checkbox"  class="form-control checkbox-style" name="is_gold" id="is_gold" [value]="1" formControlName="is_gold">
+        <input type="checkbox" class="form-control checkbox-style" name="is_gold" id="is_gold" [value]="1"
+          formControlName="is_gold">
         <span class="checkmark"></span>
       </label>
     </div>
 
     <div class="form-group">
       <select class="owl-input" name="type" (change)="changeType(addForm)" formControlName="type">
+        <option value="" hidden selected>Select type...</option>
         <option value="1">Promo Code</option>
         <option value="2">Gift</option>
       </select>
 
-      <div *ngIf="addForm.controls.type.invalid && (addForm.controls.type.dirty || addForm.controls.type.touched)" class="alert alert-danger">
+      <div *ngIf="addForm.controls.type.invalid && (addForm.controls.type.dirty || addForm.controls.type.touched)"
+        class="alert alert-danger">
         <div *ngIf="addForm.controls.type.errors.required">
           Type is required.
         </div>
@@ -227,9 +248,11 @@
         <label for="">images</label>
 
         <div class="owls-upload owls-upload3 big">
-          <img class="owl-img img-fluid" *ngIf="!addForm.get('image').value" src="http://via.placeholder.com/328x177" alt="">
+          <img class="owl-img img-fluid" *ngIf="!addForm.get('image').value" src="http://via.placeholder.com/328x177"
+            alt="">
           <img class="owl-img img-fluid" *ngIf="addForm.get('image').value" [src]="addForm.get('image').value" alt="">
-          <input type="file" class="owl-input" placeholder="upload your image" (change)="onImageSelected($event, addForm)" name="image" accept="image/*" />
+          <input type="file" class="owl-input" placeholder="upload your image"
+            (change)="onImageSelected($event, addForm)" name="image" accept="image/*" />
         </div>
 
         <div *ngIf="addForm.controls.image.invalid && (addForm.controls.image.dirty || addForm.controls.image.touched)"
@@ -254,9 +277,12 @@
 
       <div class="form-group" *ngIf="addForm.get('amount_type').value == 1">
         <label for="">Amount</label>
-        <input type="number" min="0" class="owl-input" placeholder="Amount..." name="amount" formControlName="amount" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+        <input type="number" min="0" class="owl-input" placeholder="Amount..." name="amount" formControlName="amount"
+          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
 
-        <div *ngIf="addForm.controls.amount.invalid && (addForm.controls.amount.dirty || addForm.controls.amount.touched)" class="alert alert-danger">
+        <div
+          *ngIf="addForm.controls.amount.invalid && (addForm.controls.amount.dirty || addForm.controls.amount.touched)"
+          class="alert alert-danger">
           <div *ngIf="addForm.controls.amount.errors.required">
             Amount is required.
           </div>
@@ -265,9 +291,13 @@
 
       <div class="form-group" *ngIf="addForm.get('amount_type').value == 2">
         <label for="">Percentage</label>
-        <input type="number" min="0" class="owl-input" placeholder="Percentage..." name="amount" formControlName="amount" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+        <input type="number" min="0" class="owl-input" placeholder="Percentage..." name="amount"
+          formControlName="amount"
+          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
 
-        <div *ngIf="addForm.controls.amount.invalid && (addForm.controls.amount.dirty || addForm.controls.amount.touched)" class="alert alert-danger">
+        <div
+          *ngIf="addForm.controls.amount.invalid && (addForm.controls.amount.dirty || addForm.controls.amount.touched)"
+          class="alert alert-danger">
           <div *ngIf="addForm.controls.amount.errors.required">
             Percentage is required.
           </div>
@@ -276,9 +306,13 @@
 
       <div class="form-group" *ngIf="addForm.get('amount_type').value == 2">
         <label for="">Max Amount</label>
-        <input type="number" min="0" class="owl-input" placeholder="Max Amount..." name="max_amount" formControlName="max_amount" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+        <input type="number" min="0" class="owl-input" placeholder="Max Amount..." name="max_amount"
+          formControlName="max_amount"
+          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
 
-        <div *ngIf="addForm.controls.max_amount.invalid && (addForm.controls.max_amount.dirty || addForm.controls.max_amount.touched)" class="alert alert-danger">
+        <div
+          *ngIf="addForm.controls.max_amount.invalid && (addForm.controls.max_amount.dirty || addForm.controls.max_amount.touched)"
+          class="alert alert-danger">
           <div *ngIf="addForm.controls.max_amount.errors.required">
             Max Amount is required.
           </div>
@@ -286,7 +320,8 @@
       </div>
     </div>
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">{{addForm.get('id').value ? "Update" : "Add" }}</button>
+      <button class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="submitting">{{addForm.get('id').value ? "Update" : "Add" }}</button>
     </div>
   </form>
 </div>

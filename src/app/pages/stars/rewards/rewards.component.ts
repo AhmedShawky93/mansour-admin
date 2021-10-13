@@ -1,17 +1,9 @@
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { LoyalityService } from "@app/pages/services/loyality.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
-import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { environment } from '@env/environment';
-
+import { AngularEditorConfig } from "@kolkov/angular-editor";
+import { environment } from "@env/environment";
 
 declare var jquery: any;
 declare var $: any;
@@ -38,25 +30,27 @@ export class RewardsComponent implements OnInit {
     this.editorConfig = {
       editable: true,
       spellcheck: true,
-      height: '175px',
-      minHeight: '5rem',
-      maxHeight: 'auto',
-      width: '100%',
-      translate: 'yes',
+      height: "175px",
+      minHeight: "5rem",
+      maxHeight: "auto",
+      width: "100%",
+      translate: "yes",
       enableToolbar: true,
       showToolbar: true,
-      placeholder: 'Enter text here...',
-      defaultParagraphSeparator: '',
-      defaultFontName: '',
+      placeholder: "Enter text here...",
+      defaultParagraphSeparator: "",
+      defaultFontName: "",
       sanitize: false,
-      defaultFontSize: '',
-      toolbarPosition: 'top',
-      uploadUrl: environment.api + "/api" + '/admin/upload_ckeditor',
-      customClasses: [{
-        name: 'imgEditor',
-        class: 'imgEditor',
-        tag: 'img',
-      },]
+      defaultFontSize: "",
+      toolbarPosition: "top",
+      uploadUrl: environment.api + "/api" + "/admin/upload_ckeditor",
+      customClasses: [
+        {
+          name: "imgEditor",
+          class: "imgEditor",
+          tag: "img",
+        },
+      ],
     };
   }
 
