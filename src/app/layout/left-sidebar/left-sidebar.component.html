@@ -265,14 +265,14 @@
           </ul>
         </li>
       </ng-container>
-
-      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']"
-        *ngIf="environmentVariables?.showPrescription">
-        <a routerLink="/pages/medical" routerLinkActive="active">
-          <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Medical Prescriptions"></i>
-          <span>Medical Prescriptions</span>
-        </a>
-      </li>
+      <ng-container *ngIf="environmentVariables?.showPrescription">
+        <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']">
+          <a routerLink="/pages/medical" routerLinkActive="active">
+            <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Medical Prescriptions"></i>
+            <span>Medical Prescriptions</span>
+          </a>
+        </li>
+      </ng-container>
       <li class="side-nav-item" routerLinkActive="active">
         <a routerLink="/pages/reports" routerLinkActive="active">
           <i class="icon-None8" data-toggle="tooltip" data-placement="right" title="Reports"></i>
