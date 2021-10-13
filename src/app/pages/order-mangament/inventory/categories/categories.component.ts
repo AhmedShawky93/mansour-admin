@@ -53,7 +53,7 @@ export class CategoriesComponent implements OnInit {
     private optionsService: OptionsService,
     private productsService: ProductsService,
     private reactivityService: ReactivityService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getCategories();
@@ -107,7 +107,10 @@ export class CategoriesComponent implements OnInit {
       description: new FormControl("", Validators.required),
       description_ar: new FormControl("", Validators.required),
       order: new FormControl("", Validators.required),
-      sub_categories: new FormArray([], [Validators.minLength(1), Validators.required]),
+      sub_categories: new FormArray(
+        [],
+        [Validators.minLength(1), Validators.required]
+      ),
     });
     this.getOptions();
   }
@@ -124,19 +127,20 @@ export class CategoriesComponent implements OnInit {
       description: new FormControl("", Validators.required),
       description_ar: new FormControl("", Validators.required),
       order: new FormControl("", Validators.required),
-      sub_categories: new FormArray([], [Validators.minLength(1), Validators.required]),
+      sub_categories: new FormArray(
+        [],
+        [Validators.minLength(1), Validators.required]
+      ),
     });
   }
 
-
-
   uploadFile(event) {
     let fileName = <File>event.target.files[0];
-    this.productsService.import(fileName,'3').subscribe((response: any) => {
+    this.productsService.import(fileName, "3").subscribe((response: any) => {
       console.log(response);
-      if(response.code == 200){
-        this.toastrService.success('File uploaded successfully')
-      }  else{
+      if (response.code == 200) {
+        this.toastrService.success("File uploaded successfully");
+      } else {
         this.toastrService.error(response.message);
       }
     });
@@ -158,19 +162,19 @@ export class CategoriesComponent implements OnInit {
   get edit_sub_categories() {
     return this.editCatForm.get("sub_categories") as FormArray;
   }
-  exportCsv(){
-    this._CategoriesService.exportCategories().subscribe((data:any)=>{
-        const blob = new Blob([data], { type: 'text/csv' });
-        // const url= window.URL.createObjectURL(blob);
-        // window.open(url);
-        const a = document.createElement('a');
-        a.href = window.URL.createObjectURL(blob);
-        // Give filename you wish to download
-        a.download = "Categories.xls";
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-    })
+  exportCsv() {
+    this._CategoriesService.exportCategories().subscribe((data: any) => {
+      const blob = new Blob([data], { type: "text/csv" });
+      // const url= window.URL.createObjectURL(blob);
+      // window.open(url);
+      const a = document.createElement("a");
+      a.href = window.URL.createObjectURL(blob);
+      // Give filename you wish to download
+      a.download = "Categories.xlsx";
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+    });
   }
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
@@ -185,7 +189,7 @@ export class CategoriesComponent implements OnInit {
   createCategory(category) {
     if (!this.categoriesForm.valid) {
       this.markFormGroupTouched(this.categoriesForm);
-      this.reactivityService.scrollToFirstError('open-view-vindor-types')
+      this.reactivityService.scrollToFirstError("open-view-vindor-types");
       return;
     }
 
@@ -256,8 +260,7 @@ export class CategoriesComponent implements OnInit {
           image: new FormControl(item.image, Validators.required),
           slug: new FormControl(item.slug, Validators.required),
           order: new FormControl(item.order),
-          options: new FormControl(
-            item.options.map((p) => p.id)),
+          options: new FormControl(item.options.map((p) => p.id)),
         })
       );
     });
@@ -285,7 +288,9 @@ export class CategoriesComponent implements OnInit {
           });
 
           this.currentCategory = category;
-          const ind = this.categories.findIndex((item) => item.id == category.id);
+          const ind = this.categories.findIndex(
+            (item) => item.id == category.id
+          );
           if (ind !== -1) {
             this.categories[ind] = category;
             this.categories.splice(ind, 1, category);
@@ -341,27 +346,27 @@ export class CategoriesComponent implements OnInit {
   uploadImage(image, e: any) {
     let file = <File>e.target.files[0];
     if (file.size > 1048576) {
-      alert('file size is too big max size is 1MB')
+      alert("file size is too big max size is 1MB");
     } else {
       let fileList: FileList = e.target.files;
       if (fileList.length > 0) {
         let file: File = fileList[0];
-  
+
         // if(file.size > 3000000) {
         //   this.showVendorSizeError = true;
         //   return
         // }else{
         //   this.showVendorSizeError = false;
         // }
-  
+
         // var reader = new FileReader();
-  
+
         // reader.onload = (e: any) => {
         //   category.imageUrl = e.target.result;
         // }
-  
+
         // reader.readAsDataURL(e.target.files[0]);
-  
+
         this.uploadService.uploadFile(file).subscribe((response: any) => {
           // this.isUploadingVendor = false;
           if (response.body) {
