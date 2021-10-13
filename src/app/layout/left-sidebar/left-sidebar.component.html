@@ -266,8 +266,9 @@
         </li>
       </ng-container>
 
-      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']">
-        <a routerLink="/pages/medical" routerLinkActive="active" *ngIf="environmentVariables?.showPrescription">
+      <li class="side-nav-item" routerLinkActive="active" *ngxPermissionsOnly="['ADMIN', 'View Medical']"
+        *ngIf="environmentVariables?.showPrescription">
+        <a routerLink="/pages/medical" routerLinkActive="active">
           <i class="icon-None6" data-toggle="tooltip" data-placement="right" title="Medical Prescriptions"></i>
           <span>Medical Prescriptions</span>
         </a>
