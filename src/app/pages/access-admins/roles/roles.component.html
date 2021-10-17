@@ -35,7 +35,7 @@
       <tr
         *ngFor="let role of roles | paginate: { id: 'p1', itemsPerPage: 10, currentPage: p, totalItems: roles.length }">
         <td scope="row">{{role.name}}</td>
-        <td scope="row">{{role.created_at}}</td>
+        <td scope="row">{{role.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
         <td>{{role.permissions?.length}}</td>
         <td>{{role.states.length}}</td>
         <td>
@@ -48,8 +48,8 @@
             <div class="reason-popup text-left" [hidden]="!role.showReason">
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this role?"
                 [(ngModel)]="role.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!role.notes" [ngClass]="{'not-allowed' : !role.notes }"
-                (click)="submitDeactivate(role)">submit</button>
+              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!role.notes"
+                [ngClass]="{'not-allowed' : !role.notes }" (click)="submitDeactivate(role)">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(role)">cancel</button>
             </div>
@@ -67,7 +67,7 @@
     </tbody>
   </table>
 </div>
-<!-- <pagination-controls id="p1" (pageChange)="p1 = $event"></pagination-controls> -->
+<pagination-controls id="p1" (pageChange)="p = $event"></pagination-controls>
 
 <!-- add sidebar -->
 <div class="form-sidebar view-vindor-types" id="add-admin">
@@ -84,7 +84,8 @@
       <label for="">Role Name</label>
       <input type="text" class="owl-input" placeholder="Type here..." formControlName="name">
       <!-- Start  Errors Rolues -->
-      <div *ngIf="roleForm.controls.name.invalid && (roleForm.controls.name.dirty || roleForm.controls.name.touched)" class="alert alert-danger">
+      <div *ngIf="roleForm.controls.name.invalid && (roleForm.controls.name.dirty || roleForm.controls.name.touched)"
+        class="alert alert-danger">
         <div *ngIf="roleForm.controls.name.errors.required">
           Role Name is required.
         </div>
@@ -99,7 +100,9 @@
         [items]="permissions" [multiple]="true" ngDefaultControl formControlName="permissions" required>
       </ng-select>
       <!-- Start  Errors Rolues  -->
-      <div *ngIf="roleForm.controls.permissions.invalid && (roleForm.controls.permissions.dirty || roleForm.controls.permissions.touched)" class="alert alert-danger">
+      <div
+        *ngIf="roleForm.controls.permissions.invalid && (roleForm.controls.permissions.dirty || roleForm.controls.permissions.touched)"
+        class="alert alert-danger">
         <div *ngIf="roleForm.controls.permissions.errors.required">
           Permissions is required.
         </div>
@@ -108,7 +111,8 @@
     </div>
     <div class="form-group">
       <label for="">Order Status</label>
-      <ng-select id="vendor_types" name="types" bindLabel="name" bindValue="id" [closeOnSelect]="false" [items]="states" [multiple]="true" ngDefaultControl formControlName="order_states">
+      <ng-select id="vendor_types" name="types" bindLabel="name" bindValue="id" [closeOnSelect]="false" [items]="states"
+        [multiple]="true" ngDefaultControl formControlName="order_states">
       </ng-select>
     </div>
 
@@ -133,8 +137,7 @@
       <label for=""> name rule</label>
       <input type="text" class="owl-input" placeholder="Type here..." formControlName="name">
       <!-- Start  Errors Rolues -->
-      <div
-        *ngIf="roleForm.controls.name.invalid && (roleForm.controls.name.dirty || roleForm.controls.name.touched)"
+      <div *ngIf="roleForm.controls.name.invalid && (roleForm.controls.name.dirty || roleForm.controls.name.touched)"
         class="alert alert-danger">
         <div *ngIf="roleForm.controls.name.errors.required">
           rule Name is required.
@@ -149,7 +152,9 @@
         [items]="permissions" [multiple]="true" ngDefaultControl formControlName="permissions" required>
       </ng-select>
       <!-- Start  Errors Rolues  -->
-      <div *ngIf="roleForm.controls.permissions.invalid && (roleForm.controls.permissions.dirty || roleForm.controls.permissions.touched)" class="alert alert-danger">
+      <div
+        *ngIf="roleForm.controls.permissions.invalid && (roleForm.controls.permissions.dirty || roleForm.controls.permissions.touched)"
+        class="alert alert-danger">
         <div *ngIf="roleForm.controls.permissions.errors.required">
           Permissions is required.
         </div>
@@ -158,7 +163,8 @@
     </div>
     <div class="form-group">
       <label for="">Order Status</label>
-      <ng-select id="vendor_types" name="types" bindLabel="name" bindValue="id" [closeOnSelect]="false" [items]="states" [multiple]="true" ngDefaultControl formControlName="order_states">
+      <ng-select id="vendor_types" name="types" bindLabel="name" bindValue="id" [closeOnSelect]="false" [items]="states"
+        [multiple]="true" ngDefaultControl formControlName="order_states">
       </ng-select>
     </div>
 
