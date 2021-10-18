@@ -1,27 +1,51 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AreasService } from '@app/pages/services/areas.service';
-import { CustomerService } from '@app/pages/services/customer.service';
-import { OrdersService } from '@app/pages/services/orders.service';
-import { ProductsService } from '@app/pages/services/products.service';
-import { SettingService } from '@app/pages/services/setting.service';
-import { ToastrService } from 'ngx-toastr';
-import { Observable, Subject, concat, of, EMPTY } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, delay } from 'rxjs/operators';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from "@angular/core";
+import {
+  AbstractControl,
+  FormArray,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
+import { Router } from "@angular/router";
+import { AreasService } from "@app/pages/services/areas.service";
+import { CustomerService } from "@app/pages/services/customer.service";
+import { OrdersService } from "@app/pages/services/orders.service";
+import { ProductsService } from "@app/pages/services/products.service";
+import { SettingService } from "@app/pages/services/setting.service";
+import { ToastrService } from "ngx-toastr";
+import { Observable, Subject, concat, of, EMPTY } from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  tap,
+  switchMap,
+  catchError,
+  map,
+  delay,
+} from "rxjs/operators";
 
 @Component({
-  selector: 'app-add-edit-order',
-  templateUrl: './add-edit-order.component.html',
-  styleUrls: ['./add-edit-order.component.scss']
+  selector: "app-add-edit-order",
+  templateUrl: "./add-edit-order.component.html",
+  styleUrls: ["./add-edit-order.component.scss"],
 })
 export class AddEditOrderComponent implements OnInit, OnChanges {
-
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataProductEmit = new EventEmitter();
-  @Input('selectedOrder') selectedOrder;
-  addresseNames: any[] = [{ id: 0, name: 'Home', name_ar: "المنزل" }, { id: 1, name: 'Work', name_ar: "العمل" }, { id: 2, name: "Others", name_ar: "أخرى" }]
+  @Input("selectedOrder") selectedOrder;
+  addresseNames: any[] = [
+    { id: 0, name: "Home", name_ar: "المنزل" },
+    { id: 1, name: "Work", name_ar: "العمل" },
+    { id: 2, name: "Others", name_ar: "أخرى" },
+  ];
 
   customers: any = [];
   addresses: any = [];
@@ -48,16 +72,21 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   loadingAddress: boolean = false;
   environmentVariables: any;
 
-  constructor(private settingService: SettingService, private citiesService: AreasService, private customerService: CustomerService, private router: Router, private productService: ProductsService, private ordersService: OrdersService, private toastrService: ToastrService) {
-
-  }
-
+  constructor(
+    private settingService: SettingService,
+    private citiesService: AreasService,
+    private customerService: CustomerService,
+    private router: Router,
+    private productService: ProductsService,
+    private ordersService: OrdersService,
+    private toastrService: ToastrService
+  ) {}
 
   onCitySelected() {
-    let city_id = this.addressForm.get('city_id').value;
+    let city_id = this.addressForm.get("city_id").value;
 
     if (city_id) {
-      let ind = this.cities.findIndex(c => c.id == city_id);
+      let ind = this.cities.findIndex((c) => c.id == city_id);
 
       if (ind !== -1) {
         this.areas = this.cities[ind].areas;
@@ -70,10 +99,9 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     this.setupForm(this.selectedOrder);
     this.getConfig();
 
-    this.citiesService.getCities()
-      .subscribe((response: any) => {
-        this.cities = response.data;
-      })
+    this.citiesService.getCities().subscribe((response: any) => {
+      this.cities = response.data;
+    });
   }
 
   public setStep(index: number) {
@@ -100,53 +128,83 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   addCustomer() {
-    if (this.orderForm.get('has_customer').value == 0 && !this.customerForm.valid) {
+    if (
+      this.orderForm.get("has_customer").value == 0 &&
+      !this.customerForm.valid
+    ) {
       this.markFormGroupTouched(this.customerForm);
       return;
-    } else if (this.orderForm.get('has_customer').value == 0 && this.customerForm.valid) {
+    } else if (
+      this.orderForm.get("has_customer").value == 0 &&
+      this.customerForm.valid
+    ) {
       this.loadingCustomer = true;
 
       let customer = this.customerForm.value;
-      this.customerService.createCustomer(customer)
+      this.customerService
+        .createCustomer(customer)
         .subscribe((response: any) => {
           this.loadingCustomer = false;
           if (response.code == 200) {
-            this.orderForm.controls['user_id'].setValue(response.data.id);
+            this.orderForm.controls["user_id"].setValue(response.data.id);
             this.setStep(1);
           } else {
             this.toastrService.error(response.message, "Error");
           }
         });
-    } else {
+    } else if (
+      this.orderForm.get("has_customer").value == 1 &&
+      this.orderForm.valid
+    ) {
       this.setStep(1);
+    } else {
+      this.markFormGroupTouched(this.orderForm);
+      this.markFormGroupTouched(this.customerForm);
     }
   }
 
   submitAddress() {
-    if (this.orderForm.get('has_address').value == 0 && !this.addressForm.valid) {
+    if (
+      this.orderForm.get("has_address").value == 0 &&
+      !this.addressForm.valid
+    ) {
       this.markFormGroupTouched(this.addressForm);
       return;
-    } else if (this.orderForm.get('has_address').value == 0 && this.customerForm.valid) {
+    } else if (
+      this.orderForm.get("has_address").value == 0 &&
+      this.customerForm.valid
+    ) {
       this.loadingAddress = true;
 
-      if (!(this.areas.filter((area) => area.id == this.addressForm.value.area_id).length > 0)) {
-        this.addressForm.controls.area_id.setValue(this.areas[0].id)
+      if (
+        !(
+          this.areas.filter((area) => area.id == this.addressForm.value.area_id)
+            .length > 0
+        )
+      ) {
+        this.addressForm.controls.area_id.setValue(this.areas[0].id);
       }
 
       let address = this.addressForm.value;
-      if (this.orderForm.get('has_address').value == 0) {
-        this.customerService.createAddress(this.orderForm.get('user_id').value, address)
+      if (this.orderForm.get("has_address").value == 0) {
+        this.customerService
+          .createAddress(this.orderForm.get("user_id").value, address)
           .subscribe((response: any) => {
             this.loadingAddress = false;
             if (response.code == 200) {
-              this.orderForm['controls']['address_id'].setValue(response.data.id);
+              this.orderForm["controls"]["address_id"].setValue(
+                response.data.id
+              );
               this.setStep(2);
             } else {
               this.toastrService.error(response.message, "Error");
             }
           });
       }
-    } else {
+    } else if (
+      this.orderForm.get("has_address").value == 1 &&
+      this.customerForm.valid
+    ) {
       this.setStep(2);
     }
   }
@@ -162,18 +220,22 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   getConfig() {
-    this.settingService.getenvConfig().subscribe(res => {
+    this.settingService.getenvConfig().subscribe((res) => {
       this.environmentVariables = res;
-      this.customerForm.controls.phone.setValidators(
-        [
-          Validators.minLength(this.environmentVariables.localization.phone_length),
-          Validators.maxLength(this.environmentVariables.localization.phone_length),
-          Validators.pattern(this.environmentVariables.localization.phone_pattern)
-        ]
-      )
-      this.customerForm.controls.phone.updateValueAndValidity()
-      this.customerForm.updateValueAndValidity()
-    })
+      this.customerForm.controls.phone.setValidators([
+        Validators.minLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.maxLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.pattern(
+          this.environmentVariables.localization.phone_pattern
+        ),
+      ]);
+      this.customerForm.controls.phone.updateValueAndValidity();
+      this.customerForm.updateValueAndValidity();
+    });
   }
 
   setupForm(data) {
@@ -181,81 +243,106 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     this.deleted_items = [];
 
     this.customerForm = new FormGroup({
-      name: new FormControl(data ? data.name : ''),
-      last_name: new FormControl(data ? data.last_name : ''),
-      email: new FormControl(data ? data.email : ''),
-      phone: new FormControl(data ? data.phone : ''),
-      password: new FormControl(''),
-      closed_payment_methods: new FormControl(data && data.closed_payment_methods ? data.closed_payment_methods.map(c => c.id) : []),
+      name: new FormControl(data ? data.name : ""),
+      last_name: new FormControl(data ? data.last_name : ""),
+      email: new FormControl(data ? data.email : ""),
+      phone: new FormControl(data ? data.phone : ""),
+      password: new FormControl(""),
+      closed_payment_methods: new FormControl(
+        data && data.closed_payment_methods
+          ? data.closed_payment_methods.map((c) => c.id)
+          : []
+      ),
     });
 
     this.addressForm = new FormGroup({
-      name: new FormControl(data ? data.name : ''),
-      address: new FormControl(data ? data.address : ''),
-      city_id: new FormControl(data ? data.city_id : ''),
-      area_id: new FormControl(data ? data.area_id : ''),
-      landmark: new FormControl(data ? data.landmark : ''),
-      floor: new FormControl(data ? data.floor : ''),
-      apartment: new FormControl(data ? data.apartment : ''),
+      name: new FormControl(data ? data.name : ""),
+      address: new FormControl(data ? data.address : ""),
+      city_id: new FormControl(data ? data.city_id : ""),
+      area_id: new FormControl(data ? data.area_id : ""),
+      landmark: new FormControl(data ? data.landmark : ""),
+      floor: new FormControl(data ? data.floor : ""),
+      apartment: new FormControl(data ? data.apartment : ""),
       lat: new FormControl(26.81910634209373),
-      lng: new FormControl(30.7979080581665)
-    })
+      lng: new FormControl(30.7979080581665),
+    });
 
     this.orderForm = new FormGroup({
-      user_id: new FormControl(data ? data.user.id : '', Validators.required),
-      address_id: new FormControl(data ? data.address.id : '', Validators.required),
-      payment_method: new FormControl(data ? data.payment_method : '', Validators.required),
+      user_id: new FormControl(data ? data.user.id : "", Validators.required),
+      address_id: new FormControl(
+        data ? data.address.id : "",
+        Validators.required
+      ),
+      payment_method: new FormControl(
+        data ? data.payment_method : "",
+        Validators.required
+      ),
       items: new FormArray([], Validators.required),
-      notes: new FormControl(data ? data.notes : ''),
-      admin_notes: new FormControl(data ? data.admin_notes : ''),
+      notes: new FormControl(data ? data.notes : ""),
+      admin_notes: new FormControl(data ? data.admin_notes : ""),
       overwrite_fees: new FormControl(0),
-      delivery_fees: new FormControl(data ? data.delivery_fees : ''),
+      delivery_fees: new FormControl(data ? data.delivery_fees : ""),
       has_address: new FormControl(data ? 1 : 0),
       has_customer: new FormControl(data ? 1 : 0),
     });
 
     if (data) {
       this.addresses = data.user.addresses;
-      data.items.forEach(item => {
+      data.items.forEach((item) => {
         const productsInput$ = new Subject<String>();
         let productsLoading = false;
         const products$ = concat(
-          of([{
-            id: item.id,
-            name: item.product.sku + ': ' + item.product.name + ', stock: ' + item.product.stock,
-            stock: item.product.stock
-          }]), // default items
+          of([
+            {
+              id: item.id,
+              name:
+                item.product.sku +
+                ": " +
+                item.product.name +
+                ", stock: " +
+                item.product.stock,
+              stock: item.product.stock,
+            },
+          ]), // default items
           productsInput$.pipe(
             debounceTime(200),
             distinctUntilChanged(),
             tap(() => (productsLoading = true)),
             switchMap((term) =>
-              this.productService.searchProducts({ q: term, variant: 1 }, 1).pipe(
-                catchError(() => of([])), // empty list on error
-                tap(() => (productsLoading = false)),
-                map((response: any) => {
-                  return response.data.products.map((p) => {
-                    return {
-                      id: p.id,
-                      name: p.sku + ": " + p.name + ', stock: ' + p.stock,
-                      stock: p.stock
-                    };
-                  });
-                })
-              )
+              this.productService
+                .searchProducts({ q: term, variant: 1 }, 1)
+                .pipe(
+                  catchError(() => of([])), // empty list on error
+                  tap(() => (productsLoading = false)),
+                  map((response: any) => {
+                    return response.data.products.map((p) => {
+                      return {
+                        id: p.id,
+                        name: p.sku + ": " + p.name + ", stock: " + p.stock,
+                        stock: p.stock,
+                      };
+                    });
+                  })
+                )
             )
           )
         );
         this.products.push({
           products$: products$,
           productsInput$: productsInput$,
-          productsLoading: productsLoading
+          productsLoading: productsLoading,
         });
 
-        (this.orderForm.get('items') as FormArray).push(new FormGroup({
-          id: new FormControl(item.id, Validators.required),
-          amount: new FormControl(item.amount, [Validators.required, Validators.min(1), Validators.max(item.product.stock)])
-        }))
+        (this.orderForm.get("items") as FormArray).push(
+          new FormGroup({
+            id: new FormControl(item.id, Validators.required),
+            amount: new FormControl(item.amount, [
+              Validators.required,
+              Validators.min(1),
+              Validators.max(item.product.stock),
+            ]),
+          })
+        );
       });
     }
 
@@ -264,20 +351,26 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       this.customersInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
-        tap(() => this.customersLoading = true),
-        switchMap(term => this.customerService.searchCustomers(term).pipe(
-          catchError(() => of([])), // empty list on error
-          tap(() => this.customersLoading = false),
-          map((response: any) => {
-            this.customers = response.data.customers;
-            return response.data.customers.map(c => {
-              return {
-                id: c.id,
-                name: c.id + ": " + c.name + (c.active == 0 ? ": dectivated" : "")
-              }
+        tap(() => (this.customersLoading = true)),
+        switchMap((term) =>
+          this.customerService.searchCustomers(term).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.customersLoading = false)),
+            map((response: any) => {
+              this.customers = response.data.customers;
+              return response.data.customers.map((c) => {
+                return {
+                  id: c.id,
+                  name:
+                    c.id +
+                    ": " +
+                    c.name +
+                    (c.active == 0 ? ": dectivated" : ""),
+                };
+              });
             })
-          })
-        ))
+          )
+        )
       )
     );
   }
@@ -304,33 +397,62 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   updateCustomerValidaty() {
-    if (this.orderForm.controls.has_customer.value) {
+    if (!this.orderForm.controls.has_customer.value) {
       this.customerForm.controls.name.setValidators([Validators.required]);
       this.orderForm.controls.user_id.setValidators([]);
-      this.orderForm.controls.user_id.updateValueAndValidity();
       this.customerForm.controls.last_name.setValidators([Validators.required]);
-      this.customerForm.controls.email.setValidators([Validators.required, Validators.email]);
+      this.customerForm.controls.email.setValidators([
+        Validators.required,
+        Validators.email,
+      ]);
       this.customerForm.controls.phone.setValidators([
         Validators.required,
-        this.regexValidator(new RegExp('^\\d+$'), { 'numbers': 'Numeric Only' }),
-        this.regexValidator(new RegExp('^01'), { 'startWith': 'Must Start With 01' }),
-        this.regexValidator(new RegExp('^[0-9]+$'), { 'englishNumbers': 'English Numeric' }),
+        this.regexValidator(new RegExp("^\\d+$"), { numbers: "Numeric Only" }),
+        this.regexValidator(new RegExp("^01"), {
+          startWith: "Must Start With 01",
+        }),
+        this.regexValidator(new RegExp("^[0-9]+$"), {
+          englishNumbers: "English Numeric",
+        }),
         Validators.minLength(11),
-        Validators.maxLength(11)]);
+        Validators.maxLength(11),
+      ]);
       this.customerForm.controls.password.setValidators([Validators.required]);
+      this.customerForm.controls.name.updateValueAndValidity();
+      this.orderForm.controls.user_id.updateValueAndValidity();
+      this.customerForm.controls.last_name.updateValueAndValidity();
+      this.customerForm.controls.email.updateValueAndValidity();
+      this.customerForm.controls.phone.updateValueAndValidity();
+      this.customerForm.controls.password.updateValueAndValidity();
     } else {
       this.orderForm.controls.address_id.setValidators([Validators.required]);
+      this.orderForm.controls.user_id.setValidators([Validators.required]);
       this.customerForm.controls.name.setValidators([]);
       this.customerForm.controls.last_name.setValidators([]);
       this.customerForm.controls.email.setValidators([]);
       this.customerForm.controls.phone.setValidators([]);
       this.customerForm.controls.password.setValidators([]);
+      this.orderForm.controls.user_id.updateValueAndValidity();
+      this.customerForm.controls.name.updateValueAndValidity();
+      this.customerForm.controls.last_name.updateValueAndValidity();
+      this.customerForm.controls.email.updateValueAndValidity();
+      this.customerForm.controls.phone.updateValueAndValidity();
+      this.customerForm.controls.password.updateValueAndValidity();
     }
+
+    this.unmarkFormGroupTouched(this.customerForm);
+    this.unmarkFormGroupTouched(this.orderForm);
   }
 
   updateAmountMax(item, index) {
     if (item) {
-      this.orderForm.get('items')['controls'][index].controls.amount.setValidators([Validators.required, Validators.min(1), Validators.max(item.stock)]);
+      this.orderForm
+        .get("items")
+        ["controls"][index].controls.amount.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(item.stock),
+        ]);
     }
   }
 
@@ -351,7 +473,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
               return response.data.products.map((p) => {
                 return {
                   id: p.id,
-                  name: p.sku + ": " + p.name + ', stock: ' + p.stock,
+                  name: p.sku + ": " + p.name + ", stock: " + p.stock,
                 };
               });
             })
@@ -362,19 +484,22 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     this.products.push({
       products$: products$,
       productsInput$: productsInput$,
-      productsLoading: productsLoading
+      productsLoading: productsLoading,
     });
 
-    (this.orderForm.get('items') as FormArray).push(new FormGroup({
-      id: new FormControl('', Validators.required),
-      amount: new FormControl('', [Validators.required, Validators.min(1)])
-    }))
+    (this.orderForm.get("items") as FormArray).push(
+      new FormGroup({
+        id: new FormControl("", Validators.required),
+        amount: new FormControl("", [Validators.required, Validators.min(1)]),
+      })
+    );
   }
 
-  get productsData() { return <FormArray>this.orderForm.get('items'); }
+  get productsData() {
+    return <FormArray>this.orderForm.get("items");
+  }
 
   removeProduct(index, product_id) {
-
     this.deleted_items.push(product_id);
 
     this.products.splice(index, 1);
@@ -391,9 +516,9 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   selectCustomerAddresses() {
-    let user_id = this.orderForm.get('user_id').value;
+    let user_id = this.orderForm.get("user_id").value;
     if (user_id) {
-      let ind = this.customers.findIndex(c => c.id == user_id);
+      let ind = this.customers.findIndex((c) => c.id == user_id);
       this.orderForm.controls.address_id.setValue(null);
       if (ind !== -1) {
         this.addresses = this.customers[ind].addresses;
@@ -402,12 +527,19 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   createCustomer() {
-    this.router.navigate(['/pages/manage-customer'], { queryParams: { fromOrder: true } })
+    this.router.navigate(["/pages/manage-customer"], {
+      queryParams: { fromOrder: true },
+    });
   }
 
   createAddress(customerId) {
-    localStorage.setItem("selectedCustomer", JSON.stringify(this.customers.find((name) => name.id === customerId)))
-    this.router.navigate(['/pages/manage-customer'], { queryParams: { fromOrderCreateAddress: true, customerId } })
+    localStorage.setItem(
+      "selectedCustomer",
+      JSON.stringify(this.customers.find((name) => name.id === customerId))
+    );
+    this.router.navigate(["/pages/manage-customer"], {
+      queryParams: { fromOrderCreateAddress: true, customerId },
+    });
   }
 
   submitOrder() {
@@ -421,7 +553,8 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     if (this.selectedOrder) {
       this.loading = true;
       order.deleted_items = this.deleted_items;
-      this.ordersService.updateItems(this.selectedOrder.id, order)
+      this.ordersService
+        .updateItems(this.selectedOrder.id, order)
         .subscribe((response: any) => {
           if (response.code == 200) {
             this.closeSideBar(response.data);
@@ -434,17 +567,16 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         });
     } else {
       this.loading = true;
-      this.ordersService.createOrder(order)
-        .subscribe((response: any) => {
-          if (response.code == 200) {
-            this.closeSideBar(response.data);
-            this.addresses = [];
-            this.customers$ = EMPTY.pipe(delay(1000));
-          } else {
-            this.toastrService.error(response.message, "Error");
-          }
-          this.loading = false;
-        });
+      this.ordersService.createOrder(order).subscribe((response: any) => {
+        if (response.code == 200) {
+          this.closeSideBar(response.data);
+          this.addresses = [];
+          this.customers$ = EMPTY.pipe(delay(1000));
+        } else {
+          this.toastrService.error(response.message, "Error");
+        }
+        this.loading = false;
+      });
     }
   }
 
@@ -460,22 +592,28 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       this.customersInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
-        tap(() => this.customersLoading = true),
-        switchMap(term => this.customerService.searchCustomers(term).pipe(
-          catchError(() => of([])), // empty list on error
-          tap(() => this.customersLoading = false),
-          map((response: any) => {
-            this.customers = response.data.customers;
-            return response.data.customers.map(c => {
-              return {
-                id: c.id,
-                name: c.id + ": " + c.name + (c.active == 0 ? ": dectivated" : "")
-              }
+        tap(() => (this.customersLoading = true)),
+        switchMap((term) =>
+          this.customerService.searchCustomers(term).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.customersLoading = false)),
+            map((response: any) => {
+              this.customers = response.data.customers;
+              return response.data.customers.map((c) => {
+                return {
+                  id: c.id,
+                  name:
+                    c.id +
+                    ": " +
+                    c.name +
+                    (c.active == 0 ? ": dectivated" : ""),
+                };
+              });
             })
-          })
-        ))
+          )
+        )
       )
-    );;
+    );
     this.closeSideBarEmit.emit(data);
   }
 
@@ -489,8 +627,22 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     });
   }
 
+  private unmarkFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object).values(formGroup.controls).forEach((control) => {
+      control.markAsUntouched();
+
+      if (control.controls) {
+        this.unmarkFormGroupTouched(control);
+      }
+    });
+  }
+
   formControlValidator(formGroup, controlName, err) {
-    if (formGroup.controls[controlName].invalid && (formGroup.controls[controlName].touched || formGroup.controls[controlName].dirty)) {
+    if (
+      formGroup.controls[controlName].invalid &&
+      (formGroup.controls[controlName].touched ||
+        formGroup.controls[controlName].dirty)
+    ) {
       if (formGroup.controls[controlName].errors) {
         return formGroup.controls[controlName].errors[err];
       }
