@@ -154,7 +154,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         });
     } else if (
       this.orderForm.get("has_customer").value == 1 &&
-      this.orderForm.valid
+      this.orderForm.controls["user_id"].valid
     ) {
       this.setStep(1);
     } else {
@@ -180,13 +180,17 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
         !(
           this.areas.filter((area) => area.id == this.addressForm.value.area_id)
             .length > 0
-        )
+        ) &&
+        this.areas.length > 0
       ) {
         this.addressForm.controls.area_id.setValue(this.areas[0].id);
       }
 
       let address = this.addressForm.value;
-      if (this.orderForm.get("has_address").value == 0) {
+      if (
+        this.orderForm.get("has_address").value == 0 &&
+        this.addressForm.valid
+      ) {
         this.customerService
           .createAddress(this.orderForm.get("user_id").value, address)
           .subscribe((response: any) => {
@@ -201,6 +205,11 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
             }
           });
       }
+    } else if (
+      this.orderForm.get("has_address").value == 0 &&
+      !this.addressForm.valid
+    ) {
+      this.markFormGroupTouched(this.addressForm);
     } else if (
       this.orderForm.get("has_address").value == 1 &&
       this.customerForm.valid
@@ -376,15 +385,21 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   updateValidaty() {
-    if (this.orderForm.controls.has_address.value) {
-      this.addressForm.controls.name.setValidators([Validators.required]);
+    if (!this.orderForm.controls.has_address.value) {
       this.orderForm.controls.address_id.setValidators([]);
-      this.orderForm.controls.address_id.updateValueAndValidity();
+      this.addressForm.controls.name.setValidators([Validators.required]);
       this.addressForm.controls.address.setValidators([Validators.required]);
       this.addressForm.controls.city_id.setValidators([Validators.required]);
       this.addressForm.controls.area_id.setValidators([Validators.required]);
       this.addressForm.controls.floor.setValidators([Validators.required]);
       this.addressForm.controls.apartment.setValidators([Validators.required]);
+      this.orderForm.controls.address_id.updateValueAndValidity();
+      this.addressForm.controls.name.updateValueAndValidity();
+      this.addressForm.controls.address.updateValueAndValidity();
+      this.addressForm.controls.city_id.updateValueAndValidity();
+      this.addressForm.controls.area_id.updateValueAndValidity();
+      this.addressForm.controls.floor.updateValueAndValidity();
+      this.addressForm.controls.apartment.updateValueAndValidity();
     } else {
       this.orderForm.controls.address_id.setValidators([Validators.required]);
       this.addressForm.controls.name.setValidators([]);
@@ -393,7 +408,15 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       this.addressForm.controls.area_id.setValidators([]);
       this.addressForm.controls.floor.setValidators([]);
       this.addressForm.controls.apartment.setValidators([]);
+      this.orderForm.controls.address_id.updateValueAndValidity();
+      this.addressForm.controls.name.updateValueAndValidity();
+      this.addressForm.controls.address.updateValueAndValidity();
+      this.addressForm.controls.city_id.updateValueAndValidity();
+      this.addressForm.controls.area_id.updateValueAndValidity();
+      this.addressForm.controls.floor.updateValueAndValidity();
+      this.addressForm.controls.apartment.updateValueAndValidity();
     }
+    this.unmarkFormGroupTouched(this.addressForm);
   }
 
   updateCustomerValidaty() {
