@@ -185,15 +185,14 @@ export class DynamicSettingsComponent
       data.push(...values);
     });
 
-    data = data
-      .map((item) => {
-        return { id: item.id, value: item.value };
-      })
-      .filter((obj) => {
-        if (obj.value !== null) {
-          return obj;
-        }
-      });
+    data = data.map((item) => {
+      return { id: item.id, value: item.value };
+    });
+    // .filter((obj) => {
+    //   if (obj.value !== null) {
+    //     return obj;
+    //   }
+    // });
 
     return data;
   }
@@ -212,7 +211,6 @@ export class DynamicSettingsComponent
     const mappingData = {
       configs: this.mappingData(),
     };
-    console.log("mappingData ==>", mappingData);
     this.submitting = true;
     this.settingService
       .updateDynamicSettings(mappingData)
