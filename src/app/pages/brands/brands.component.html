@@ -138,9 +138,9 @@
 
 
 
-<div class="form-sidebar view-vindor-types " id="add-prod">
+<div class="form-sidebar view-vindor-types " id="add-prod" [ngClass]="addBrand ? 'open-view-vindor-types' : ''">
   <div class="head">
-    <span class="close" id="close-vindors1">
+    <span class="close" id="close-vindors1" (click)="addBrand = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>new Brand</h3>
@@ -201,9 +201,9 @@
 </div>
 
 
-<div class="form-sidebar view-vindor-types " id="edit-prod">
+<div class="form-sidebar view-vindor-types " id="edit-prod" [ngClass]="viewEditBrand ? 'open-view-vindor-types' : ''">
   <div class="head">
-    <span class="close" id="close-vindors2">
+    <span class="close" id="close-vindors2" (click)="viewEditBrand = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>edit Brand</h3>

@@ -31,6 +31,8 @@ export class BrandsComponent implements OnInit {
   imageUrl;
   searchTerm: string;
   p = 1;
+  addBrand: boolean;
+  viewEditBrand: boolean;
   constructor(
     private brandsService: BrandsService,
     private uploadService: UploadFilesService,
@@ -41,33 +43,9 @@ export class BrandsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    $(".add-product").on("click", function () {
-      $("#add-prod").toggleClass("open-view-vindor-types");
-    });
-
-    $(".edit-product").on("click", function () {
-      $("#edit-prod").toggleClass("open-view-vindor-types");
-    });
-
-    $(".open-show").on("click", function () {
-      $("#show-p-details").toggleClass("open-view-vindor-types");
-    });
-
     $(".slider").on("click", function () {
       const then = $(this).siblings(".reason-popup").slideToggle(100);
       $(".reason-popup").not(then).slideUp(50);
-    });
-
-    $("#close-vindors1").on("click", function () {
-      $("#add-prod").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-vindors2").on("click", function () {
-      $("#edit-prod").removeClass("open-view-vindor-types");
-    });
-
-    $("#show-p-details").on("click", "#close-vindors4", function () {
-      $("#show-p-details").removeClass("open-view-vindor-types");
     });
 
     this.spinner.show();
@@ -84,6 +62,7 @@ export class BrandsComponent implements OnInit {
   }
 
   resetForm() {
+    this.addBrand = true;
     this.addBrandForm.reset();
     this.imageUrl = "";
   }
@@ -104,6 +83,7 @@ export class BrandsComponent implements OnInit {
   }
 
   editBrand(brand) {
+    this.viewEditBrand = true;
     this.editForm = new FormGroup({
       id: new FormControl(brand.id, Validators.required),
       name: new FormControl(brand.name, Validators.required),
