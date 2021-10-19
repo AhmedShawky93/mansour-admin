@@ -50,7 +50,7 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
     private formbuilder: FormBuilder,
     private uploadService: UploadFilesService,
     private optionsService: OptionsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getForm(this.selectProductDataEdit);
@@ -67,7 +67,7 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
       description_ar: new FormControl(data ? data.description_ar : "", []),
       appear_in_search: new FormControl(data ? data.appear_in_search : false),
       type: new FormControl(data ? data.type : "1", [Validators.required]),
-      values: this.formBuilder.array([],[Validators.minLength(1)]),
+      values: this.formBuilder.array([], [Validators.minLength(1)]),
     });
     if (data) {
       data.values.forEach((element) => {
@@ -87,18 +87,15 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
       name_ar: new FormControl(data ? data.name_ar : ""),
       color_code: new FormControl(data ? data.color_code : ""),
       image: new FormControl(data ? data.image : ""),
-
     });
   }
   closeSideBar() {
     this.closeSideBarEmit.emit();
     if (!this.selectProductDataEdit) {
       this.OptionForm.reset();
-
     }
   }
   submitForm() {
-
     if (this.selectProductDataEdit) {
       // edit
       const data = this.OptionForm.value;
