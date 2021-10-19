@@ -13,7 +13,8 @@
 
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls actionBtns btn-block btn-rounded btn-blue2 btn-big add-category ml-auto"> + New
+        <button (click)="openCategory = true"
+          class="btn btn-owls actionBtns btn-block btn-rounded btn-blue2 btn-big add-category ml-auto"> + New
           Group</button>
       </div>
     </div>
@@ -90,9 +91,9 @@
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
 
-<div class="form-sidebar view-vindor-types" id="view-category">
+<div class="form-sidebar view-vindor-types" id="view-category" [ngClass]="viewCategory ? 'open-view-vindor-types' : ''">
   <div class="head">
-    <span class="close" id="close-vindors3">
+    <span class="close" id="close-vindors3" (click)="viewCategory = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>Group ID : {{currentGroup?.id}}</h3>
@@ -142,9 +143,9 @@
   </div>
 </div>
 
-<div class="form-sidebar view-vindor-types " id="edit-cat">
+<div class="form-sidebar view-vindor-types " id="edit-cat" [ngClass]="editCat ? 'open-view-vindor-types' : ''">
   <div class="head">
-    <span class="close" id="close-vindors2">
+    <span class="close" id="close-vindors2" (click)="editCat = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>edit Group</h3>
@@ -321,16 +322,16 @@
 
 
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green ">update</button>
+      <button class="btn btn-owls btn-rounded btn-gree" [appLoading]="updating">update</button>
     </div>
   </form>
 </div>
 
 
 <!--  Add Group -->
-<div class="form-sidebar view-vindor-types " id="add-cat">
+<div class="form-sidebar view-vindor-types " id="add-cat" [ngClass]="openCategory ? 'open-view-vindor-types' : ''">
   <div class="head">
-    <span class="close" id="close-vindors1">
+    <span class="close" id="close-vindors1" (click)="openCategory = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>new Group</h3>
@@ -498,7 +499,7 @@
 
 
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green ">create</button>
+      <button class="btn btn-owls btn-rounded btn-green " [appLoading]="creating">create</button>
     </div>
   </form>
 </div>

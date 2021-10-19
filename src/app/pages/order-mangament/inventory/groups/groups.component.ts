@@ -1,5 +1,5 @@
-import { CategoryService } from '@app/pages/services/category.service';
-import { GroupsService } from './../../../services/groups.service';
+import { CategoryService } from "@app/pages/services/category.service";
+import { GroupsService } from "./../../../services/groups.service";
 import { OptionsService } from "./../../../services/options.service";
 import { Component, ElementRef, OnInit } from "@angular/core";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
@@ -8,7 +8,7 @@ import { NgForm } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { FormGroup, FormControl, FormArray } from "@angular/forms";
 import { Validators } from "@angular/forms";
-import { ProductsService } from '@app/pages/services/products.service';
+import { ProductsService } from "@app/pages/services/products.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -43,6 +43,11 @@ export class GroupsComponent implements OnInit {
   options: any;
   categories: any;
   sub_categories: any;
+  updating: boolean;
+  creating: boolean;
+  openCategory: boolean = false;
+  editCat: boolean;
+  viewCategory: boolean;
 
   constructor(
     private groupsService: GroupsService,
@@ -50,50 +55,16 @@ export class GroupsComponent implements OnInit {
     private toastrService: ToastrService,
     private _CategoriesService: CategoryService,
     private optionsService: OptionsService,
-    private productsService: ProductsService,
-
-  ) { }
+    private productsService: ProductsService
+  ) {}
 
   ngOnInit() {
     this.getGroups();
     this.getCategories();
-    $(".add-category").on("click", function () {
-      $("#add-cat").toggleClass("open-view-vindor-types");
-    });
-
-    $("#edit-category").on("click", function () {
-      $("#edit-cat").toggleClass("open-view-vindor-types");
-    });
-
-    $(".table").on("click", ".view-c", function () {
-      $("#view-category").toggleClass("open-view-vindor-types");
-    });
-    //   $(".btn-big add-category").on("click", function () {
-    //     $("#add-cat").removeClass("open-view-vindor-types")
-    //   })
 
     $(".switch").on("click", ".slider", function () {
       var then = $(this).siblings(".reason-popup").slideToggle(100);
       $(".reason-popup").not(then).slideUp(50);
-    });
-
-    //      // manage-charges
-    //  $(".owls-table").on("click", ".edit-manage-charges", function () {
-    //   $("#manage-charges").toggleClass("open-view-vindor-types")
-    //   // $(".left-sidebar").toggleClass("toggle-left-sidebar")
-    //   // $("i", this).toggleClass(" icon-Exit fa fa-bars");
-    // })
-
-    $("#close-vindors1").on("click", function () {
-      $("#add-cat").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-vindors2").on("click", function () {
-      $("#edit-cat").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-vindors3").on("click", function () {
-      $("#view-category").removeClass("open-view-vindor-types");
     });
 
     this.groupForm = new FormGroup({
@@ -111,7 +82,6 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
       if (response.code === 200) {
@@ -120,34 +90,31 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-
-
   uploadFile(event) {
     let fileName = <File>event.target.files[0];
-    this.productsService.import(fileName,'5').subscribe((response: any) => {
+    this.productsService.import(fileName, "5").subscribe((response: any) => {
       console.log(response);
-      if(response.code == 200){
-        this.toastrService.success('File uploaded successfully')
-      }  else{
+      if (response.code == 200) {
+        this.toastrService.success("File uploaded successfully");
+      } else {
         this.toastrService.error(response.message);
       }
     });
   }
 
-
-  exportCsv(){
-    this.groupsService.exportGroups().subscribe((data:any)=>{
-        const blob = new Blob([data], { type: 'text/csv' });
-        // const url= window.URL.createObjectURL(blob);
-        // window.open(url);
-        const a = document.createElement('a');
-        a.href = window.URL.createObjectURL(blob);
-        // Give filename you wish to download
-        a.download = "Groups.xls";
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-    })
+  exportCsv() {
+    this.groupsService.exportGroups().subscribe((data: any) => {
+      const blob = new Blob([data], { type: "text/csv" });
+      // const url= window.URL.createObjectURL(blob);
+      // window.open(url);
+      const a = document.createElement("a");
+      a.href = window.URL.createObjectURL(blob);
+      // Give filename you wish to download
+      a.download = "Groups.xls";
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+    });
   }
 
   selectCategory(cat_id) {
@@ -173,24 +140,24 @@ export class GroupsComponent implements OnInit {
       this.markFormGroupTouched(this.groupForm);
       return;
     }
-
+    this.creating = true;
     group = this.groupForm.value;
 
-    this.groupsService
-      .createGroup(group)
-      .subscribe((response: any) => {
-        if (response.code == 200) {
-          this.groups.push(response.data);
-          $("#add-cat").toggleClass("open-view-vindor-types");
-          this.showSubError = 0;
-          this.groupForm.reset();
-        } else {
-          this.toastrService.error(response.message);
-        }
-      });
+    this.groupsService.createGroup(group).subscribe((response: any) => {
+      this.creating = false;
+      if (response.code == 200) {
+        this.groups.push(response.data);
+        $("#add-cat").toggleClass("open-view-vindor-types");
+        this.showSubError = 0;
+        this.groupForm.reset();
+      } else {
+        this.toastrService.error(response.message);
+      }
+    });
   }
   viewGroup(group) {
-    this.currentGroup = group
+    this.currentGroup = group;
+    this.viewCategory = true;
     // this.currentGroup.sub_categories.map((cat) => {
     //   cat.deactivated = !cat.active;
     //   return cat;
@@ -199,6 +166,7 @@ export class GroupsComponent implements OnInit {
 
   editCategory(category) {
     this.editGroup = JSON.parse(JSON.stringify(category));
+    this.editCat = true;
 
     // this.editCat.sub_categories.map(cat => {
     //   cat.imageUrl = cat.image;
@@ -214,18 +182,27 @@ export class GroupsComponent implements OnInit {
         Validators.pattern(/[A-Za-z0-9\-\&\s]+$/),
       ]),
       name_ar: new FormControl(category.name_ar, [Validators.required]),
-      description_en: new FormControl(category.description_en, Validators.required),
+      description_en: new FormControl(
+        category.description_en,
+        Validators.required
+      ),
       description_ar: new FormControl(
         category.description_ar,
         Validators.required
       ),
       image: new FormControl(category.image, [Validators.required]),
       categories_id: new FormControl(category.category_id, Validators.required),
-      sub_categories: new FormControl(category.sub_categories.map(c => c.id), Validators.required),
-      order: new FormControl(category.order ? category.order : 0, Validators.required),
+      sub_categories: new FormControl(
+        category.sub_categories.map((c) => c.id),
+        Validators.required
+      ),
+      order: new FormControl(
+        category.order ? category.order : 0,
+        Validators.required
+      ),
     });
 
-    this.selectCategory(category.category_id)
+    this.selectCategory(category.category_id);
   }
 
   updateGroup(group) {
@@ -235,10 +212,11 @@ export class GroupsComponent implements OnInit {
     }
 
     group = this.editGroupForm.value;
-
+    this.updating = true;
     this.groupsService
       .updateGroup(group.id, group)
       .subscribe((response: any) => {
+        this.updating = false;
         if (response.code) {
           $("#edit-cat").toggleClass("open-view-vindor-types");
           let group = response.data;
@@ -298,7 +276,6 @@ export class GroupsComponent implements OnInit {
     if (fileList.length > 0) {
       let file: File = fileList[0];
 
-
       this.uploadService.uploadFile(file).subscribe((response: any) => {
         // this.isUploadingVendor = false;
         if (response.body) {
@@ -309,8 +286,6 @@ export class GroupsComponent implements OnInit {
       });
     }
   }
-
-
 
   changeActive(group) {
     this.groups
@@ -329,14 +304,12 @@ export class GroupsComponent implements OnInit {
       group.showReason = 0;
       group.notes = "";
       if (group.deactivated) {
-        this.groupsService
-          .activateGroup(group.id)
-          .subscribe((data: any) => {
-            group.active = 1;
-            group.notes = "";
-            group.deactivation_notes = "";
-            group.deactivated = 0;
-          });
+        this.groupsService.activateGroup(group.id).subscribe((data: any) => {
+          group.active = 1;
+          group.notes = "";
+          group.deactivation_notes = "";
+          group.deactivated = 0;
+        });
       }
     } else {
       group.notes = group.deactivation_notes;
