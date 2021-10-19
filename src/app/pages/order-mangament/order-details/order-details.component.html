@@ -227,8 +227,10 @@
 
     <div class="qty-item">
       <p>QTY: {{ item.amount }}</p>
-      <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }} {{environmentVariables?.localization?.currency_code_en}}</span>
-      <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }} {{environmentVariables?.localization?.currency_code_en}}</span>
+      <span [ngClass]="item?.discount_price !== null ? 'line-through':''">{{ item.price }}
+        {{environmentVariables?.localization?.currency_code_en}}</span>
+      <span *ngIf="item?.discount_price !== null" style="color: #ea5859 ;">{{ item.discount_price }}
+        {{environmentVariables?.localization?.currency_code_en}}</span>
       <a href="javascript:void(0)" class="table-view edit-product" (click)="openEditPriceProduct(item)">
         <i class="icon-grey edit-price"></i>
       </a>
@@ -368,7 +370,8 @@
       <div class="block-item">
         <p>Applied Offer</p>
         <span *ngIf="order.promo">{{ order.promo.name }} -{{ order.promo.amount }}
-          <span *ngIf="order.promo.type == 2">%</span><span *ngIf="order.promo.type == 1">{{environmentVariables?.localization?.currency_code_en}}</span></span>
+          <span *ngIf="order.promo.type == 2">%</span><span
+            *ngIf="order.promo.type == 1">{{environmentVariables?.localization?.currency_code_en}}</span></span>
       </div>
 
       <!-- <div class="block-item">
@@ -404,9 +407,9 @@
         <!-- <span *ngIf="order.payment_method == 4">Miza</span> -->
         <!-- <span *ngIf="order.payment_method == 5">Premium</span> -->
       </div>
-      <div *ngIf="order.payment_installment && order.payment_installment !=null" class="block-item">
+      <div *ngIf="order.payment_installment_plan && order.payment_installment_plan !=null" class="block-item">
         <p>Installment Plan</p>
-        <span>{{order.payment_installment.name_en}}</span>
+        <span>{{order.payment_installment_plan.name_en}}</span>
       </div>
       <div class="block-item" *ngIf='order.affiliate_total_commission != 0'>
         <p>Total Commission</p>
@@ -539,8 +542,10 @@
 
       <div class="qty-item">
         <p>QTY: {{ item.returned_quantity }}</p>
-        <span *ngIf="item?.product.discount_price === null">{{ item.product.price }} {{environmentVariables?.localization?.currency_code_en}}</span>
-        <span *ngIf="item?.product.discount_price !== null">{{ item.product.discount_price }} {{environmentVariables?.localization?.currency_code_en}}</span>
+        <span *ngIf="item?.product.discount_price === null">{{ item.product.price }}
+          {{environmentVariables?.localization?.currency_code_en}}</span>
+        <span *ngIf="item?.product.discount_price !== null">{{ item.product.discount_price }}
+          {{environmentVariables?.localization?.currency_code_en}}</span>
       </div>
     </div>
   </div>
