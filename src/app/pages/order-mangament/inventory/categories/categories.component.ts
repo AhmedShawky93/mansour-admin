@@ -46,6 +46,7 @@ export class CategoriesComponent implements OnInit {
   categoriesForm;
   options: any;
   submitting: boolean;
+  updating: boolean;
 
   constructor(
     private _CategoriesService: CategoryService,
@@ -277,10 +278,12 @@ export class CategoriesComponent implements OnInit {
     }
 
     category = this.editCatForm.value;
+    this.updating = true;
 
     this._CategoriesService
       .updateCategory(category.id, category)
       .subscribe((response: any) => {
+        this.updating = false;
         if (response.code === 200) {
           $("#edit-cat").toggleClass("open-view-vindor-types");
           const category = response.data;

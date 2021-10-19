@@ -64,6 +64,7 @@ export class OptionsComponent implements OnInit {
   // loading: boolean;
   productIsEmpty: boolean;
   options = [];
+  deactivateLoading: boolean;
   constructor(
     private toastrService: ToastrService,
     private productsService: ProductsService,
@@ -175,10 +176,12 @@ export class OptionsComponent implements OnInit {
   }
   submitDeactivate(clinic) {
     clinic.active = 0;
+    this.deactivateLoading = true;
     this.optionsService
       .deactivate(clinic.id, { deactivation_notes: clinic.notes })
       .subscribe((data: any) => {
         clinic.active = 0;
+        this.deactivateLoading = false;
         clinic.deactivation_notes = clinic.notes;
         clinic.showReason = 0;
         clinic.deactivated = 1;

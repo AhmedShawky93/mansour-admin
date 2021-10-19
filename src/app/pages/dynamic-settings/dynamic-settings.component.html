@@ -8,7 +8,7 @@
         <h6 class="group-title">{{groupArray.title}}</h6>
       </div>
 
-      <div class="col-md-6 col-xs-12   align-items-sm-start" *ngFor="let group of groupArray.controls; let i = index;"
+      <div class="col-md-6 col-xs-12 align-items-sm-start" *ngFor="let group of groupArray.controls; let i = index;"
         [formArrayName]="groupArray.name">
 
         <ng-container *ngIf="group.value.type === 'text' ||group.value.type ===  'email'">
@@ -40,6 +40,7 @@
             </div>
           </div>
         </ng-container>
+
         <ng-container *ngIf="group.value.type === 'switch'">
           <div class="form-group w-100 mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
@@ -194,6 +195,7 @@
             </div>
           </div>
         </ng-container>
+
         <ng-container *ngIf="group.value.type === 'image'">
           <div class="form-group mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
@@ -203,6 +205,7 @@
             </app-image-uploader>
           </div>
         </ng-container>
+
         <ng-container *ngIf="group.value.type === 'date'">
           <div class="form-group mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>
@@ -210,6 +213,7 @@
             </app-generic-date-picker>
           </div>
         </ng-container>
+
         <ng-container *ngIf="group.value.type === 'time'">
           <div class="form-group mt-2" [formGroupName]="i">
             <label>{{group.value.name}}</label>

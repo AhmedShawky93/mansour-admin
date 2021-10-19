@@ -18,6 +18,7 @@ import { Observable } from "rxjs/Observable";
 import { ToastrService } from "ngx-toastr";
 import { ReactivityService } from "@app/shared/services/reactivity.service";
 import { ShowAffiliateService } from "../services/show-affiliate.service";
+import * as _ from "lodash";
 
 @Component({
   selector: "app-dynamic-settings",
@@ -97,6 +98,20 @@ export class DynamicSettingsComponent
   getSettings() {
     this.settings$.subscribe((res: any) => {
       if (res.code === 200) {
+        // var groupedObject = [];
+        // res.data.forEach((element) => {
+        //   let index = groupedObject.findIndex(
+        //     (item) => item.name == element.group
+        //   );
+        //   if (index != -1) {
+        //     groupedObject[index].value.push(element);
+        //   } else {
+        //     groupedObject.push({
+        //       name: element.group,
+        //       value: [element],
+        //     });
+        //   }
+        // });
         this.settings = res.data;
         this.createDynamicForm();
       }
@@ -115,6 +130,7 @@ export class DynamicSettingsComponent
     const mainGroups: Object = {};
 
     /*loop over groups to create groups as form array*/
+    // this.settingGroups.forEach((group) => {
     this.settingGroups.forEach((ele) => {
       const value = ele;
 
@@ -126,6 +142,7 @@ export class DynamicSettingsComponent
       mainGroups[ele.key].push(this.createFromGroup(value));
 
       this.formGroups.push(mainGroups[ele.key]);
+      // });
     });
 
     return mainGroups;
