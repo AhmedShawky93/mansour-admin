@@ -9,6 +9,7 @@ import { FormGroup, FormControl, FormArray } from "@angular/forms";
 import { Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
 import { ReactivityService } from "@app/shared/services/reactivity.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var jquery: any;
 declare var $: any;
@@ -52,7 +53,8 @@ export class CategoriesComponent implements OnInit {
     private toastrService: ToastrService,
     private optionsService: OptionsService,
     private productsService: ProductsService,
-    private reactivityService: ReactivityService
+    private reactivityService: ReactivityService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -177,8 +179,10 @@ export class CategoriesComponent implements OnInit {
     });
   }
   getCategories() {
+    this.spinner.show();
     this._CategoriesService.getCategories().subscribe((response: any) => {
       this.categories = response.data;
+      this.spinner.hide();
       this.categories = this.categories.map((item) => {
         item.deactivated = !item.active;
         return item;

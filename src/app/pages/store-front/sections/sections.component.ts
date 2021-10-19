@@ -10,6 +10,7 @@ import {
   style,
 } from "@angular/animations";
 import { SectionsService } from "@app/pages/services/sections.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-sections",
@@ -62,8 +63,9 @@ export class SectionsComponent implements OnInit {
   currentSection: any;
   constructor(
     private toastrService: ToastrService,
-    private sectionsService: SectionsService
-  ) { }
+    private sectionsService: SectionsService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     this.getSections();
@@ -72,10 +74,10 @@ export class SectionsComponent implements OnInit {
       searchTerm: new FormControl(),
     });
   }
-  openViewProduct(data) { }
+  openViewProduct(data) {}
 
   getSections() {
-    this.loading = true;
+    this.spinner.show();
     this.productIsEmpty = false;
 
     this.sectionsService
@@ -83,7 +85,7 @@ export class SectionsComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.sections = response.data;
-          this.loading = false;
+          this.spinner.hide();
           this.sections.map((section) => {
             section.deactivated = !section.active;
             return section;
@@ -157,13 +159,13 @@ export class SectionsComponent implements OnInit {
   }
 
   deleteSection(data) {
-    this.sectionsService.deleteSection(data.id).subscribe(res => {
+    this.sectionsService.deleteSection(data.id).subscribe((res) => {
       if (res.code === 200) {
-        this.sections = this.sections.filter(item => item.id !== data.id)
+        this.sections = this.sections.filter((item) => item.id !== data.id);
       } else {
         this.toastrService.error(res.message);
       }
-    })
+    });
   }
 
   closeSideBar() {

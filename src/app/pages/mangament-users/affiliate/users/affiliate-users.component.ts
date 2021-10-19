@@ -7,14 +7,8 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-} from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 
 import { NgxSpinnerService } from "ngx-spinner";
@@ -31,25 +25,25 @@ import { CustomerService } from "../../../services/customer.service";
 declare var $: any;
 
 @Component({
-  selector: 'app-affiliate-users',
-  templateUrl: './affiliate-users.component.html',
-  styleUrls: ['./affiliate-users.component.css'],
+  selector: "app-affiliate-users",
+  templateUrl: "./affiliate-users.component.html",
+  styleUrls: ["./affiliate-users.component.css"],
   animations: [
-    trigger('slideInOut', [
+    trigger("slideInOut", [
       state(
-        'in',
+        "in",
         style({
-          transform: 'translate3d(0px, 0, 0)',
+          transform: "translate3d(0px, 0, 0)",
         })
       ),
       state(
-        'out',
+        "out",
         style({
-          transform: 'translate3d(-100%, 0, 0)',
+          transform: "translate3d(-100%, 0, 0)",
         })
       ),
-      transition('in => out', animate('300ms ease-in-out')),
-      transition('out => in', animate('300ms ease-in-out')),
+      transition("in => out", animate("300ms ease-in-out")),
+      transition("out => in", animate("300ms ease-in-out")),
     ]),
   ],
 })
@@ -68,11 +62,11 @@ export class AffiliateUsersComponent implements OnInit {
   p = 1;
   searchObj = {
     page: 1,
-    q: '',
+    q: "",
   };
-  toggleAddOption: string = 'out';
-  viewOptionSidebar: string = 'out';
-  toggleAddCustomer: string = 'out';
+  toggleAddOption: string = "out";
+  viewOptionSidebar: string = "out";
+  toggleAddCustomer: string = "out";
   selectOptionData: any;
   selectOptionDataView: any;
   loading: boolean;
@@ -80,7 +74,7 @@ export class AffiliateUsersComponent implements OnInit {
   affiliates: any;
   filter$ = new Subject();
   filter = {
-    q: '',
+    q: "",
     page: 1,
   };
   userData: any;
@@ -94,9 +88,8 @@ export class AffiliateUsersComponent implements OnInit {
     private cs: CustomerService,
     private auth: AuthService,
     private activatedRoute: ActivatedRoute,
-    private spinner: NgxSpinnerService,
-  ) {
-  }
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     this.getAffiliateDetails();
@@ -107,7 +100,7 @@ export class AffiliateUsersComponent implements OnInit {
 
     this.filter$
       .debounceTime(400)
-      .pipe(tap((e) => (this.loading = true)))
+      .pipe(tap((e) => this.spinner.show()))
       .switchMap((filter) => this.searchDeliverers())
       .subscribe((result: any) => {
         this.affiliates = result.data.affiliates;
@@ -116,16 +109,16 @@ export class AffiliateUsersComponent implements OnInit {
           return item;
         });
         this.total = result.data.total;
-        this.loading = false;
+        this.spinner.hide();
       });
   }
 
-  openViewProduct(data) {
-  }
+  openViewProduct(data) {}
 
   getAffiliatesUser() {
     this.spinner.show();
-    this.affiliateService.getUsersAffiliates(this.filter)
+    this.affiliateService
+      .getUsersAffiliates(this.filter)
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.affiliates = response.data.affiliates;
@@ -153,7 +146,9 @@ export class AffiliateUsersComponent implements OnInit {
 
   showAffiliateDetails() {
     if (this.userId) {
-      const affiliate = this.affiliates.find(item => item.id === Number(this.userId));
+      const affiliate = this.affiliates.find(
+        (item) => item.id === Number(this.userId)
+      );
       this.viewData(affiliate);
     }
   }
@@ -185,16 +180,14 @@ export class AffiliateUsersComponent implements OnInit {
     if (data.active) {
       // currently checked
       data.showReason = 0;
-      data.notes = '';
+      data.notes = "";
       if (data.deactivated) {
-        this.affiliateService
-          .activate(data.id)
-          .subscribe((data: any) => {
-            data.active = 1;
-            data.notes = '';
-            data.deactivation_notes = '';
-            data.deactivated = 0;
-          });
+        this.affiliateService.activate(data.id).subscribe((data: any) => {
+          data.active = 1;
+          data.notes = "";
+          data.deactivation_notes = "";
+          data.deactivated = 0;
+        });
       }
     } else {
       data.notes = data.deactivation_notes;
@@ -204,14 +197,14 @@ export class AffiliateUsersComponent implements OnInit {
 
   cancelDeactivate(data) {
     data.active = 1;
-    data.notes = '';
+    data.notes = "";
     data.showReason = 0;
   }
 
   submitDeactivate(data) {
     data.active = 0;
     this.affiliateService
-      .deactivate(data.id, {deactivation_notes: data.notes})
+      .deactivate(data.id, { deactivation_notes: data.notes })
       .subscribe((rep: any) => {
         if (rep.code === 200) {
           data.active = 0;
@@ -225,19 +218,19 @@ export class AffiliateUsersComponent implements OnInit {
   viewData(data) {
     console.log(data);
     this.selectOptionDataView = data;
-    this.toggleAddOption = 'out';
-    this.viewOptionSidebar = 'in';
+    this.toggleAddOption = "out";
+    this.viewOptionSidebar = "in";
   }
 
   toggleMenu(data) {
     this.selectOptionData = data;
-    this.viewOptionSidebar = 'out';
-    this.toggleAddOption = 'in';
+    this.viewOptionSidebar = "out";
+    this.toggleAddOption = "in";
   }
 
   closeSideBar(data?) {
-    this.toggleAddOption = 'out';
-    this.viewOptionSidebar = 'out';
+    this.toggleAddOption = "out";
+    this.viewOptionSidebar = "out";
     if (data != null) {
       this.getAffiliatesUser();
     }
@@ -246,34 +239,33 @@ export class AffiliateUsersComponent implements OnInit {
   verifyPhoneUser(data) {
     if (data) {
       this.userData = data;
-      $('#verifyPopUp').modal('show');
+      $("#verifyPopUp").modal("show");
     }
   }
 
   verifyPhone(data) {
-    this.cs.verifyPhone(data.id)
-      .subscribe((response: any) => {
-        if (response.code == 200) {
-          data.phone_verified = response.data.phone_verified;
-          this.selectOptionDataView = data;
-          $('#verifyPopUp').modal('hide');
-        }
-      });
+    this.cs.verifyPhone(data.id).subscribe((response: any) => {
+      if (response.code == 200) {
+        data.phone_verified = response.data.phone_verified;
+        this.selectOptionDataView = data;
+        $("#verifyPopUp").modal("hide");
+      }
+    });
   }
-
 
   addOrUpdateAddress(data) {
     this.selectedUserAddress = data;
-    data.new_address ? this.selectedAddress = null : this.selectedAddress = data.select_address;
-    $('#addressModal').modal('show');
-    this.toggleAddCustomer = 'in';
+    data.new_address
+      ? (this.selectedAddress = null)
+      : (this.selectedAddress = data.select_address);
+    $("#addressModal").modal("show");
+    this.toggleAddCustomer = "in";
   }
-
 
   addOrUpdateCustomer(data) {
     this.selectedUserAddress = null;
     if (data) {
-      let ind = this.affiliates.findIndex(c => c.id == data.id);
+      let ind = this.affiliates.findIndex((c) => c.id == data.id);
 
       if (ind !== -1) {
         this.affiliates[ind] = data;
@@ -296,7 +288,9 @@ export class AffiliateUsersComponent implements OnInit {
   closeAddressModal(data) {
     if (data) {
       if (this.selectedAddress) {
-        let ind = this.selectedUserAddress.addresses.findIndex(a => a.id == this.selectedAddress.id);
+        let ind = this.selectedUserAddress.addresses.findIndex(
+          (a) => a.id == this.selectedAddress.id
+        );
         if (ind !== -1) {
           this.selectedUserAddress.addresses.splice(ind, 1);
           this.selectedUserAddress.addresses.push(data);
@@ -310,37 +304,43 @@ export class AffiliateUsersComponent implements OnInit {
     this.selectOptionDataView = null;
     this.selectOptionDataView = this.selectedUserAddress;
     this.selectedAddress = null;
-    $('#addressModal').modal('hide');
+    $("#addressModal").modal("hide");
   }
-
 
   goToLink() {
     const token = this.auth.getToken();
-    const urlBasic = environment.api + "/api" + '/admin/affiliates/affiliates_export?token=' + token + '&' + this.serialize(this.filter);
+    const urlBasic =
+      environment.api +
+      "/api" +
+      "/admin/affiliates/affiliates_export?token=" +
+      token +
+      "&" +
+      this.serialize(this.filter);
     this.affiliateService.exportFileProducts(urlBasic).subscribe({
-      next: ((rep: any) => {
+      next: (rep: any) => {
         if (rep.code === 200) {
-
         }
-      })
+      },
     });
     setTimeout(() => {
-      this.toastr.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
-        enableHtml: true,
-        timeOut: 3000
-      });
+      this.toastr.success(
+        "You’ll receive a notification when the export is ready for download.",
+        " Your export is now being generated ",
+        {
+          enableHtml: true,
+          timeOut: 3000,
+        }
+      );
     }, 500);
-
   }
 
   serialize(obj) {
     var str = [];
     for (var p in obj) {
       if (obj.hasOwnProperty(p)) {
-        str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
       }
     }
-    return str.join('&');
+    return str.join("&");
   }
-
 }

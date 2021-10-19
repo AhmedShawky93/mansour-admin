@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
   <div class="row">
     <div class="col-md-7 col-xs-12">
@@ -26,8 +26,8 @@
   <table class="table owls-table text-center ">
     <thead>
       <tr>
-        <th  scope="col">iD</th>
-        <th  scope="col"> time </th>
+        <th scope="col">iD</th>
+        <th scope="col"> time </th>
         <th scope="col">sender</th>
         <th scope="col"> phone </th>
         <th scope="col"> address </th>
@@ -42,8 +42,10 @@
         <td>{{med.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
         <td>{{med.user.name}}</td>
         <td>{{med.user.phone}}</td>
-        <td class="relative"><span *ngIf="med.user.addresses.length">{{med.user.addresses[0].formatted_address | summary : 25}}</span>
-          <div class="hover-reason text-left" *ngIf="med.user.addresses.length && med.user.addresses[0].formatted_address && med.user.addresses[0].formatted_address.length >= 25">
+        <td class="relative"><span
+            *ngIf="med.user.addresses.length">{{med.user.addresses[0].formatted_address | summary : 25}}</span>
+          <div class="hover-reason text-left"
+            *ngIf="med.user.addresses.length && med.user.addresses[0].formatted_address && med.user.addresses[0].formatted_address.length >= 25">
             <div class="head">
               address
             </div>
@@ -105,15 +107,14 @@
         </td> -->
 
         <td>
-          <a href="javascript:void(0)" 
-          (click)="viewMed(med)"
-          data-toggle="modal" data-target="#viewPopUp" class="table-view">
+          <a href="javascript:void(0)" (click)="viewMed(med)" data-toggle="modal" data-target="#viewPopUp"
+            class="table-view">
             <i class="icon-View"></i>
           </a>
         </td>
       </tr>
 
-      
+
 
     </tbody>
   </table>
@@ -127,7 +128,7 @@
 <div class="modal fade" *ngIf="viewMedical" id="viewPopUp" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 
-    <div class="modal-content" >
+    <div class="modal-content">
 
 
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -143,7 +144,7 @@
       <div class="content">
         <h4>customer note</h4>
         <p>
-            {{viewMedical.note}}
+          {{viewMedical.note}}
         </p>
       </div>
 

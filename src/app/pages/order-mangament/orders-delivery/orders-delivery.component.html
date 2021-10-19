@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
 
   <div class="row">
@@ -55,7 +55,8 @@
     </thead>
     <tbody>
 
-      <tr *ngFor="let pickup of pickups | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let i = index">
+      <tr
+        *ngFor="let pickup of pickups | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let i = index">
 
         <td scope="row">{{pickup.id}}</td>
         <td>
@@ -90,13 +91,11 @@
         </td>
 
         <td>
-          <a [routerLink]="['details', pickup.id]"
-           class="toggle-view-category table-view">
-            <i class="icon-View" ></i>
+          <a [routerLink]="['details', pickup.id]" class="toggle-view-category table-view">
+            <i class="icon-View"></i>
           </a>
-          <a *ngIf="pickup.status == 1" href="javascript:void(0)"
-            data-toggle="modal" data-target="#removePopUp" (click)="promtCancel(pickup)"
-            class="toggle-view-category table-remove">
+          <a *ngIf="pickup.status == 1" href="javascript:void(0)" data-toggle="modal" data-target="#removePopUp"
+            (click)="promtCancel(pickup)" class="toggle-view-category table-remove">
             <i class="icon-Exit"></i>
           </a>
         </td>
@@ -124,7 +123,8 @@
       </div>
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" class="btn-owls btn-rounded btn-green  btn-blue2" (click)="cancelPickup()">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
+        <button type="button" data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
       </div>
     </div>
   </div>

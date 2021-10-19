@@ -10,6 +10,7 @@ import {
   style,
 } from "@angular/animations";
 import { PromotionsService } from "@app/pages/services/promotions.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-promotions",
@@ -61,7 +62,8 @@ export class PromotionsComponent implements OnInit {
   promotions = [];
   currentPromotion: any;
   constructor(
-    private promotionsService: PromotionsService
+    private promotionsService: PromotionsService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -71,9 +73,9 @@ export class PromotionsComponent implements OnInit {
       searchTerm: new FormControl(),
     });
   }
-  
+
   getPromotions() {
-    this.loading = true;
+    this.spinner.show();
     this.productIsEmpty = false;
 
     this.promotionsService
@@ -81,7 +83,7 @@ export class PromotionsComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.promotions = response.data;
-          this.loading = false;
+          this.spinner.hide();
           this.promotions.map((section) => {
             section.deactivated = !section.active;
             return section;
@@ -141,7 +143,6 @@ export class PromotionsComponent implements OnInit {
         promotion.deactivated = 1;
       });
   }
-
 
   toggleMenu(data) {
     this.currentPromotion = data;

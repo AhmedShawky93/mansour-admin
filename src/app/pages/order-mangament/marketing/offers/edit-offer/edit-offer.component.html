@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
 
   <div class="row">
@@ -25,7 +25,7 @@
         <label for="charge">Select type Customers</label>
         <select name="" id="charge" class="owl-input" required name="target_type" formControlName="target_type"
           [(ngModel)]="promo.target_type" (change)="typeCustmerSelect($event)">
-          <option value="null"  selected>Select type Customers  </option>
+          <option value="null" selected>Select type Customers </option>
           <option value="1">Select Customers</option>
           <option value="2">Upload Customers</option>
         </select>
@@ -112,7 +112,7 @@
         <!--Start For Amount -->
         <label for=""> amount </label>
         <input type="number" class="owl-input" id="" placeholder="amount..." name="amount" [(ngModel)]="promo.amount"
-            [min]="1" formControlName="editAmount">
+          [min]="1" formControlName="editAmount">
         <!-- Start  Errors Rolues -->
         <div
           *ngIf="editForm.controls.editAmount.invalid && (editForm.controls.editAmount.dirty || editForm.controls.editAmount.touched)"
@@ -167,13 +167,13 @@
         <label for=""> Minimum order </label>
         <input type="number" class="owl-input" id="" placeholder=" max amount" name="minimum_amount"
           [(ngModel)]="promo.minimum_amount" formControlName="minimum_amount" [max]="1000000">
-          <div
-            *ngIf="editForm.controls.minimum_amount.invalid && (editForm.controls.minimum_amount.dirty || editForm.controls.minimum_amount.touched)"
-            class="alert alert-danger">
-            <div *ngIf="editForm.controls.minimum_amount.errors.max">
-              Minimum Order Amount Must Be Less than 1000000
-            </div>
+        <div
+          *ngIf="editForm.controls.minimum_amount.invalid && (editForm.controls.minimum_amount.dirty || editForm.controls.minimum_amount.touched)"
+          class="alert alert-danger">
+          <div *ngIf="editForm.controls.minimum_amount.errors.max">
+            Minimum Order Amount Must Be Less than 1000000
           </div>
+        </div>
       </div>
       <!--END For Max Amount -->
       <label class="checkup">First order only
@@ -185,8 +185,8 @@
       height: auto;
       width: auto;">
         <label> Payment Methods </label>
-        <ng-select [closeOnSelect]="false"   [items]="paymentMethods" [multiple]="true"
-          formControlName="payment_methods" [(ngModel)]="promo.payment_methods"  bindLabel="name" bindValue="id" name="payment_method"
+        <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true" formControlName="payment_methods"
+          [(ngModel)]="promo.payment_methods" bindLabel="name" bindValue="id" name="payment_method"
           placeholder="Select Payment Methods">
         </ng-select>
 
@@ -209,7 +209,7 @@
       <div class="form-group">
         <label for="charge">Apply to Custom List Only (optional)</label>
         <select formControlName="list_id" class="owl-input" [(ngModel)]="promo.list_id">
-          <option  [value]="''" selected>select list</option>
+          <option [value]="''" selected>select list</option>
           <option *ngFor="let list of lists" value="{{list.id}}">{{list.name_en}}</option>
         </select>
       </div>

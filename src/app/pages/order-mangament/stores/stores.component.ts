@@ -8,14 +8,8 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-} from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 
 import { ToastrService } from "ngx-toastr";
 import { tap } from "rxjs/operators";
@@ -24,6 +18,7 @@ import { Subject } from "rxjs/Rx";
 import { SettingService } from "@app/pages/services/setting.service";
 
 import { BracnhesStoreService } from "../../services/stores.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any;
 @Component({
@@ -84,18 +79,18 @@ export class StoresComponent implements OnInit {
   constructor(
     private toastrService: ToastrService,
     private bracnhesStoreService: BracnhesStoreService,
-    private settingService:SettingService
-  ) { 
+    private settingService: SettingService,
+    private spinner: NgxSpinnerService
+  ) {
     this.getConfig();
   }
 
-  getConfig(){
-    this.settingService.getenvConfig().subscribe(res=>{
-     this.environmentVariables=res;
-    })
+  getConfig() {
+    this.settingService.getenvConfig().subscribe((res) => {
+      this.environmentVariables = res;
+    });
   }
 
-  
   ngOnInit() {
     this.getBranches();
 
@@ -105,7 +100,7 @@ export class StoresComponent implements OnInit {
 
     this.filter$
       .debounceTime(400)
-      .pipe(tap((e) => (this.loading = true)))
+      .pipe(tap((e) => this.spinner.show()))
       .switchMap((filter) => this.searchBranches())
       .subscribe((result: any) => {
         if (result.code == 200) {
@@ -115,27 +110,27 @@ export class StoresComponent implements OnInit {
           //   return item;
           // });
           this.total = result.data.total;
-          this.loading = false;
+          this.spinner.hide();
         }
       });
   }
 
   getBranches() {
-    this.bracnhesStoreService.getBranches(this.filter).subscribe((response: any) => {
-      if (response.code == 200) {
-        this.branches = response.data.branches;
+    this.bracnhesStoreService
+      .getBranches(this.filter)
+      .subscribe((response: any) => {
+        if (response.code == 200) {
+          this.branches = response.data.branches;
 
-        // this.deliverers = this.deliverers.map((item) => {
-        //   item.deactivated = !item.active;
-        //   return item;
-        // });
-        this.total = response.data.total;
-        this.loading = false;
-      }
-    });
+          // this.deliverers = this.deliverers.map((item) => {
+          //   item.deactivated = !item.active;
+          //   return item;
+          // });
+          this.total = response.data.total;
+          this.loading = false;
+        }
+      });
   }
-
-
 
   searchBranches() {
     return this.bracnhesStoreService.getBranches(this.filter);
@@ -144,22 +139,24 @@ export class StoresComponent implements OnInit {
   removeBranche(data) {
     this.removeBranchObj = data;
     $("#removePopUp").modal("show");
-
   }
 
   confirmRemoveBranch() {
     this.deleteLoading = true;
-    this.bracnhesStoreService.deleteBranch(this.removeBranchObj.id).subscribe((response: any) => {
-      if (response.code === 200) {
-        const index = this.branches.findIndex(item => item.id == this.removeBranchObj.id)
-        this.branches.splice(index, 1);
-        this.toastrService.success('Branche is removed')
-        $("#removePopUp").modal("hide");
-      }
-      this.deleteLoading = false;
-    });
+    this.bracnhesStoreService
+      .deleteBranch(this.removeBranchObj.id)
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          const index = this.branches.findIndex(
+            (item) => item.id == this.removeBranchObj.id
+          );
+          this.branches.splice(index, 1);
+          this.toastrService.success("Branche is removed");
+          $("#removePopUp").modal("hide");
+        }
+        this.deleteLoading = false;
+      });
   }
-
 
   changePage(p) {
     this.p = p;
@@ -185,14 +182,12 @@ export class StoresComponent implements OnInit {
       clinic.showReason = 0;
       clinic.notes = "";
       if (clinic.deactivated) {
-        this.bracnhesStoreService
-          .activate(clinic.id)
-          .subscribe((data: any) => {
-            clinic.active = 1;
-            clinic.notes = "";
-            clinic.deactivation_notes = "";
-            clinic.deactivated = 0;
-          });
+        this.bracnhesStoreService.activate(clinic.id).subscribe((data: any) => {
+          clinic.active = 1;
+          clinic.notes = "";
+          clinic.deactivation_notes = "";
+          clinic.deactivated = 0;
+        });
       }
     } else {
       clinic.notes = clinic.deactivation_notes;

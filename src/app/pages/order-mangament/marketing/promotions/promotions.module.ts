@@ -7,8 +7,14 @@ import { PromotionsComponent } from "./promotions.component";
 import { AddEditPromotionComponent } from "./add-edit-promotion/add-edit-promotion.component";
 import { RouterModule } from "@angular/router";
 import { SatDatepickerModule, SatNativeDateModule } from "saturn-datepicker";
-import { MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule } from "@angular/material";
+import {
+  MatFormFieldModule,
+  MatInputModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+} from "@angular/material";
 import { SharedModule } from "@app/shared/shared.module";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 const router = [
   { path: "", component: PromotionsComponent, data: { title: "Promotions" } },
@@ -28,11 +34,9 @@ const router = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule,
   ],
-  declarations: [
-    PromotionsComponent,
-    AddEditPromotionComponent
-  ],
+  declarations: [PromotionsComponent, AddEditPromotionComponent],
 })
 export class PromotionsModule {}

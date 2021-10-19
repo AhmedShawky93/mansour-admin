@@ -13,6 +13,7 @@ import {
   style,
 } from "@angular/animations";
 import { ProductsService } from "@app/pages/services/products.service";
+import { NgxSpinnerService } from "ngx-spinner";
 declare var $: any;
 @Component({
   selector: "app-clinics",
@@ -60,13 +61,14 @@ export class OptionsComponent implements OnInit {
   viewOptionSidebar: string = "out";
   selectOptionData: any;
   selectOptionDataView: any;
-  loading: boolean;
+  // loading: boolean;
   productIsEmpty: boolean;
   options = [];
   constructor(
     private toastrService: ToastrService,
     private productsService: ProductsService,
-    private optionsService: OptionsService
+    private optionsService: OptionsService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -78,16 +80,18 @@ export class OptionsComponent implements OnInit {
   }
   openViewProduct(data) {}
   getOptions() {
-    this.loading = true;
+    this.spinner.show();
+    // this.loading = true;
     this.productIsEmpty = false;
 
     this.optionsService
       .getOptions(this.searchObj)
       .subscribe((response: any) => {
+        this.spinner.hide();
         if (response.code === 200) {
           this.options = response.data.options;
           this.total = response.data.total;
-          this.loading = false;
+          // this.loading = false;
           this.options.map((option) => {
             option.deactivated = !option.active;
             return option;
@@ -107,34 +111,31 @@ export class OptionsComponent implements OnInit {
     this.getOptions();
   }
 
-
-
   uploadFile(event) {
     let fileName = <File>event.target.files[0];
-    this.productsService.import(fileName,'4').subscribe((response: any) => {
+    this.productsService.import(fileName, "4").subscribe((response: any) => {
       console.log(response);
-      if(response.code == 200){
-        this.toastrService.success('File uploaded successfully')
-      }  else{
+      if (response.code == 200) {
+        this.toastrService.success("File uploaded successfully");
+      } else {
         this.toastrService.error(response.message);
       }
     });
   }
-  exportCsv(){
-    this.optionsService.exportOptions().subscribe((data:any)=>{
-        const blob = new Blob([data], { type: 'text/csv' });
-        // const url= window.URL.createObjectURL(blob);
-        // window.open(url);
-        const a = document.createElement('a');
-        a.href = window.URL.createObjectURL(blob);
-        // Give filename you wish to download
-        a.download = "Options.xls";
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-    })
+  exportCsv() {
+    this.optionsService.exportOptions().subscribe((data: any) => {
+      const blob = new Blob([data], { type: "text/csv" });
+      // const url= window.URL.createObjectURL(blob);
+      // window.open(url);
+      const a = document.createElement("a");
+      a.href = window.URL.createObjectURL(blob);
+      // Give filename you wish to download
+      a.download = "Options.xls";
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+    });
   }
-
 
   changeActive(clinic) {
     this.clinics
@@ -217,7 +218,10 @@ export class OptionsComponent implements OnInit {
     const scrollDuration = 200;
     const scrollStep = -window.pageYOffset / (scrollDuration / 20);
     const scrollInterval = setInterval(
-      () => (window.pageYOffset !== 0 ? window.scrollBy(0, scrollStep) : clearInterval(scrollInterval)),
+      () =>
+        window.pageYOffset !== 0
+          ? window.scrollBy(0, scrollStep)
+          : clearInterval(scrollInterval),
       10
     );
   }

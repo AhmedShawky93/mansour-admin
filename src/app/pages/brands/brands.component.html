@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#0EAFF5 '"></ngx-loading-bar>
+<!-- <ngx-loading-bar [color]="'#0EAFF5 '"></ngx-loading-bar> -->
 
 <div class="top-table-bar">
 
@@ -15,10 +15,11 @@
       </div>
     </div>
 
- 
+
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded actionBtns btn-blue2 btn-big add-product w-100" (click)="resetForm()"> + Brand
+        <button class="btn btn-owls btn-rounded actionBtns btn-blue2 btn-big add-product w-100" (click)="resetForm()"> +
+          Brand
         </button>
       </div>
     </div>
@@ -29,12 +30,11 @@
         <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
           (change)="uploadFile($event)">
       </button>
-  </div>
-  <div class="col-md-2 col-sm-3 col-xs-12 text-right">
-    <button class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big  ml-auto"
-      (click)="exportCsv()">
-      export CSV</button>
-</div>
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-12 text-right">
+      <button class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big  ml-auto" (click)="exportCsv()">
+        export CSV</button>
+    </div>
 
   </div>
 </div>
@@ -265,3 +265,6 @@
     </div>
   </form>
 </div>
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

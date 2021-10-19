@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356'"></ngx-loading-bar>
+<!-- <ngx-loading-bar [color]="'#4AC356'"></ngx-loading-bar> -->
 
 <nav class="">
   <div class="row nav nav-tabs" id="nav-tab" role="tablist">
@@ -406,8 +406,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="">current password</label>
-            <input type="password" class="owl-input" formControlName="current_password"
-              placeholder="Type here...">
+            <input type="password" class="owl-input" formControlName="current_password" placeholder="Type here...">
             <!-- Start  Errors Rolues -->
             <div
               *ngIf="passwordForm?.invalid && passwordForm?.errors?.currentPassword && (passwordForm?.controls?.current_password?.dirty || passwordForm?.controls?.current_password?.touched)"
@@ -422,8 +421,7 @@
 
           <div class="form-group">
             <label for="">new password</label>
-            <input type="password" class="owl-input" formControlName="password"
-              placeholder="Type here...">
+            <input type="password" class="owl-input" formControlName="password" placeholder="Type here...">
             <!-- Start  Errors Rolues -->
             <div
               *ngIf="passwordForm?.controls?.password?.invalid &&  (passwordForm?.controls?.password?.dirty || passwordForm?.controls?.password?.touched)"
@@ -440,8 +438,7 @@
 
           <div class="form-group">
             <label for="">confirm new password</label>
-            <input type="password" class="owl-input" formControlName="confirmPassword"
-              placeholder="Type here...">
+            <input type="password" class="owl-input" formControlName="confirmPassword" placeholder="Type here...">
             <!-- Start  Errors Rolues -->
 
             <div

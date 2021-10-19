@@ -1,10 +1,17 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
 import { BrandsService } from "@app/pages/services/brands.service";
 import { FormGroup, FormControl } from "@angular/forms";
 import { Validators } from "@angular/forms";
 import { UploadFilesService } from "../services/upload-files.service";
 import { ToastrService } from "ngx-toastr";
 import { ProductsService } from "../services/products.service";
+import { NgxSpinnerService } from "ngx-spinner";
 declare var jquery: any;
 declare var $: any;
 
@@ -30,8 +37,8 @@ export class BrandsComponent implements OnInit {
     private toastrService: ToastrService,
     private cd: ChangeDetectorRef,
     private productsService: ProductsService,
-
-  ) { }
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     $(".add-product").on("click", function () {
@@ -63,7 +70,9 @@ export class BrandsComponent implements OnInit {
       $("#show-p-details").removeClass("open-view-vindor-types");
     });
 
+    this.spinner.show();
     this.brandsService.getBrands().subscribe((response: any) => {
+      this.spinner.hide();
       this.brands = response.data;
     });
 
@@ -122,34 +131,31 @@ export class BrandsComponent implements OnInit {
   //     });
   // }
 
-
   uploadFile(event) {
     let fileName = <File>event.target.files[0];
-    this.productsService.import(fileName,'1').subscribe((response: any) => {
+    this.productsService.import(fileName, "1").subscribe((response: any) => {
       console.log(response);
-      if(response.code == 200){
-        this.toastrService.success('File uploaded successfully')
-      }  else{
+      if (response.code == 200) {
+        this.toastrService.success("File uploaded successfully");
+      } else {
         this.toastrService.error(response.message);
       }
     });
   }
 
-
-
-  exportCsv(){
-    this.brandsService.exportBrands().subscribe((data:any)=>{
-        const blob = new Blob([data], { type: 'text/csv' });
-        // const url= window.URL.createObjectURL(blob);
-        // window.open(url);
-        const a = document.createElement('a');
-        a.href = window.URL.createObjectURL(blob);
-        // Give filename you wish to download
-        a.download = "Brands.xls";
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-    })
+  exportCsv() {
+    this.brandsService.exportBrands().subscribe((data: any) => {
+      const blob = new Blob([data], { type: "text/csv" });
+      // const url= window.URL.createObjectURL(blob);
+      // window.open(url);
+      const a = document.createElement("a");
+      a.href = window.URL.createObjectURL(blob);
+      // Give filename you wish to download
+      a.download = "Brands.xls";
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+    });
   }
 
   updateBrand() {
@@ -180,7 +186,7 @@ export class BrandsComponent implements OnInit {
   onImageSelected(event) {
     let file = <File>event.target.files[0];
     if (file.size > 1048576) {
-      alert('file size is too big max size is 1MB')
+      alert("file size is too big max size is 1MB");
     } else {
       this.uploadService.uploadFile(file).subscribe((response: any) => {
         if (response.body) {
@@ -190,16 +196,20 @@ export class BrandsComponent implements OnInit {
     }
   }
 
-
-
-
-
   formControlValidator(controlName, err) {
-    if (this.editForm && this.editForm.controls[controlName].touched && this.editForm.controls[controlName].dirty) {
+    if (
+      this.editForm &&
+      this.editForm.controls[controlName].touched &&
+      this.editForm.controls[controlName].dirty
+    ) {
       if (this.editForm.controls[controlName].errors) {
         return this.editForm.controls[controlName].errors[err];
       }
-    } else if (this.addBrandForm && this.addBrandForm.controls[controlName].touched && this.addBrandForm.controls[controlName].dirty){
+    } else if (
+      this.addBrandForm &&
+      this.addBrandForm.controls[controlName].touched &&
+      this.addBrandForm.controls[controlName].dirty
+    ) {
       if (this.addBrandForm.controls[controlName].errors) {
         return this.addBrandForm.controls[controlName].errors[err];
       }

@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
 
   <div class="row">
@@ -208,8 +208,8 @@
       height: auto;
       width: auto;">
         <label> Payment Methods </label>
-        <ng-select [closeOnSelect]="false"   [items]="paymentMethods" [multiple]="true"
-          formControlName="payment_methods" [(ngModel)]="promo.payment_methods"  bindLabel="name" bindValue="id" name="payment_method"
+        <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true" formControlName="payment_methods"
+          [(ngModel)]="promo.payment_methods" bindLabel="name" bindValue="id" name="payment_method"
           placeholder="Select Payment Methods">
         </ng-select>
 

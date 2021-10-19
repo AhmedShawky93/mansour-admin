@@ -125,7 +125,10 @@
     </tbody>
   </table>
 </div>
-<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+<!-- <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading"> -->
 <h4 class="text-center" *ngIf="productIsEmpty">No Store</h4>
 
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
@@ -158,8 +161,7 @@
       </div>
       <div class="modal-footer" style="justify-content: center;">
         <button type="button" [appLoading]="deleteLoading" style="position: relative;"
-          class="btn-owls btn-rounded btn-green btn-blue2"
-          (click)="confirmRemoveBranch()">Yes</button>
+          class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmRemoveBranch()">Yes</button>
         <button type="button" data-dismiss="modal"
           class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
       </div>

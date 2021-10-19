@@ -26,37 +26,37 @@
     </thead>
     <tbody>
       <ng-container *ngFor="let page of pages | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
-      <tr  *ngIf="page.id != 1 && page.id != 2">
-        <td>{{page.slug}}</td>
-        <td>{{page.title_en}}</td>
-        <td>
-          <p>{{page.order}}</p>
-        </td>
-        <td>
-          {{page.in_footer?'Yes':'No'}}
-          <!-- <label class="switch">
+        <tr *ngIf="page.id != 1 && page.id != 2">
+          <td>{{page.slug}}</td>
+          <td>{{page.title_en}}</td>
+          <td>
+            <p>{{page.order}}</p>
+          </td>
+          <td>
+            {{page.in_footer?'Yes':'No'}}
+            <!-- <label class="switch">
             <input type="checkbox"  [(ngModel)]="page.in_footer" (change)="changeActive(page)">
             <span class="slider round"></span>
           </label> -->
-        </td>
-        <td>
-          <a style="margin-right: 10px" (click)="viewPage(page)" class="toggle-view-pages table-view">
-            <i class="icon-View"></i>
-          </a>
+          </td>
+          <td>
+            <a style="margin-right: 10px" (click)="viewPage(page)" class="toggle-view-pages table-view">
+              <i class="icon-View"></i>
+            </a>
 
-          <a href="javascript:void(0)" style="margin-right: 10px" (click)="editCurrentPage(page)"
-            class="table-view edit-new">
-            <i class="icon-grey"></i>
-          </a>
+            <a href="javascript:void(0)" style="margin-right: 10px" (click)="editCurrentPage(page)"
+              class="table-view edit-new">
+              <i class="icon-grey"></i>
+            </a>
 
-          <a href="javascript:void(0)" style="margin-right: 10px"
-           (click)="deleteCurrentPage(page)"
-            class="table-view edit-product">
-            <i class="fa fa-trash"></i>
-          </a>
-          <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}/pages/{{page.slug}}"><i class="fa fa-external-link"></i></a>
+            <a href="javascript:void(0)" style="margin-right: 10px" (click)="deleteCurrentPage(page)"
+              class="table-view edit-product">
+              <i class="fa fa-trash"></i>
+            </a>
+            <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}/pages/{{page.slug}}"><i
+                class="fa fa-external-link"></i></a>
 
-          <!-- <label class="switch">
+            <!-- <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="page.active" (change)="changeActive(page)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!page.showReason">
@@ -76,14 +76,17 @@
               </div>
             </div>
           </label> -->
-        </td>
-      </tr>
+          </td>
+        </tr>
       </ng-container>
-    
+
     </tbody>
   </table>
 </div>
-<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+<!-- <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading"> -->
 <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
 
 <div class="form-sidebar view-vindor-types" #elViewPage>

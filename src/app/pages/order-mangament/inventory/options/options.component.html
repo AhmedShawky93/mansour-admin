@@ -20,19 +20,18 @@
           style="margin-left: 0px;"> + New Option</button>
       </div>
     </div>
-        
+
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <button class="btn btn-owls actionBtns btn-rounded btn-green  owl-input-file inputFile" style="overflow: hidden">
         Import File
         <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
           (change)="uploadFile($event)">
       </button>
-  </div>
-  <div class="col-md-2 col-sm-3 col-xs-12 text-right">
-    <button class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big  ml-auto"
-      (click)="exportCsv()">
-      export CSV</button>
-</div>
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-12 text-right">
+      <button class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big  ml-auto" (click)="exportCsv()">
+        export CSV</button>
+    </div>
 
 
   </div>
@@ -55,7 +54,8 @@
     </thead>
     <tbody>
       <!-- <tr *ngFor="let option of options"> -->
-      <tr *ngFor="let option of options | stringFilter: searchTerm  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
+      <tr
+        *ngFor="let option of options | stringFilter: searchTerm  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
 
         <td class="relative">
           {{(option.name_en.length >= 25) ? (option.name_en | slice:0:25)+'...' : option.name_en }}
@@ -120,16 +120,20 @@
     </tbody>
   </table>
 </div>
-<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+<!-- <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading"> -->
 <h4 class="text-center" *ngIf="productIsEmpty">No Option</h4>
 
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
 <!-- view product -->
-<app-view-option (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar" class="parent-editor-viewer-sidebar"
-  [selectProductDataEdit]="selectOptionDataView">
+<app-view-option (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
+  class="parent-editor-viewer-sidebar" [selectProductDataEdit]="selectOptionDataView">
 
 </app-view-option>
 <!-- Add / edit Product -->
-<app-add-edit-options (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()" class="parent-editor-viewer-sidebar"
-  [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData"></app-add-edit-options>
+<app-add-edit-options (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
+  class="parent-editor-viewer-sidebar" [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData">
+</app-add-edit-options>

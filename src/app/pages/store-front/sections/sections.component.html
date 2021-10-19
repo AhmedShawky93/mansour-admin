@@ -8,7 +8,8 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search" placeholder="search ...">
+        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search"
+          placeholder="search ...">
       </div>
     </div>
 
@@ -73,10 +74,12 @@
           </a>
 
           <div class="delete-ad">
-            <a href="javascript:void(0)" class="table-view edit-product ml-10" (click)="section.deleteSectionConfirmation = true">
-            <i class="fa fa-trash"></i>
-          </a>
-            <div class="reason-popup reason-popup-delete text-left" [ngClass]="section.deleteSectionConfirmation ? 'show' : ''">
+            <a href="javascript:void(0)" class="table-view edit-product ml-10"
+              (click)="section.deleteSectionConfirmation = true">
+              <i class="fa fa-trash"></i>
+            </a>
+            <div class="reason-popup reason-popup-delete text-left"
+              [ngClass]="section.deleteSectionConfirmation ? 'show' : ''">
               <p>Are you sure you want to delete this section ({{section.id}})</p>
               <div class="delete-popup-functions">
                 <button class="btn btn-owls btn-rounded btn-green2" (click)="deleteSection(section)">submit</button>
@@ -113,15 +116,17 @@
     </tbody>
   </table>
 </div>
-<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
+<!-- <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading"> -->
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
 <h4 class="text-center" *ngIf="productIsEmpty">No Option</h4>
 
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
 <app-view-section class="parent-editor-viewer-sidebar" (closeSideBarEmit)="closeSideBar()"
-  [@slideInOut]="viewOptionSidebar"
-  [sectionData]="currentSection">
+  [@slideInOut]="viewOptionSidebar" [sectionData]="currentSection">
 </app-view-section>
 <app-add-edit-section (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
   [@slideInOut]="toggleAddOption" [sectionData]="currentSection" class="parent-editor-viewer-sidebar">
-  </app-add-edit-section>
+</app-add-edit-section>

@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
 
   <div class="row">
@@ -20,7 +20,7 @@
 
     <div class="col-md-3 text-right">
       <div class="owl-btn-list">
-          <a target="_blank" href="{{exportUrl}}" class="btn btn-owls btn-rounded btn-blue2">Export to CSV</a>
+        <a target="_blank" href="{{exportUrl}}" class="btn btn-owls btn-rounded btn-blue2">Export to CSV</a>
       </div>
     </div>
 
@@ -44,7 +44,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of orders | orderFilter: searchTerm | paginate: { itemsPerPage: 20, currentPage: p, totalItems: orders.length }">
+      <tr
+        *ngFor="let order of orders | orderFilter: searchTerm | paginate: { itemsPerPage: 20, currentPage: p, totalItems: orders.length }">
         <td>{{order.id}}</td>
         <td>{{order.amount}}</td>
         <td>{{order.user?.name}}</td>
@@ -99,7 +100,8 @@
 
     <div>
       <h5>address</h5>
-      <p style="cursor: pointer;" (click)="toggleShow()" *ngIf="currentCustomer.addresses.length">{{currentCustomer.addresses[0].formatted_address}}
+      <p style="cursor: pointer;" (click)="toggleShow()" *ngIf="currentCustomer.addresses.length">
+        {{currentCustomer.addresses[0].formatted_address}}
         <i *ngIf="hide" class="fa fa-angle-down"></i> <i *ngIf="show" class="fa fa-angle-up"></i>
       </p>
       <div *ngIf="show">
@@ -145,7 +147,7 @@
           <h4>Order ID: {{order.id}}</h4>
         </a>
 
-     
+
 
         <!-- <p>
           <span *ngFor="let product of order.products; index as i "> {{i + 1 }} - {{product.name}} <br></span>

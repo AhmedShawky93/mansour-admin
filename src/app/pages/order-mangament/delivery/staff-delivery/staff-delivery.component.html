@@ -8,8 +8,8 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text"  [(ngModel)]="filter.q" (change)="changePage(p)" name="searchTerm" class="owl-input owls-search"
-          placeholder="search ...">
+        <input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" name="searchTerm"
+          class="owl-input owls-search" placeholder="search ...">
       </div>
     </div>
 
@@ -90,7 +90,7 @@
               <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this delivery?"
                 [(ngModel)]="delivery.notes"></textarea>
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!delivery.notes"
-                (click)="submitDeactivate(delivery)" [ngClass]="{'not-allowed' : !delivery.notes }"  >submit</button>
+                (click)="submitDeactivate(delivery)" [ngClass]="{'not-allowed' : !delivery.notes }">submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(delivery)">cancel</button>
             </div>
@@ -110,7 +110,10 @@
     </tbody>
   </table>
 </div>
-<img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading">
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+<!-- <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading"> -->
 <h4 class="text-center" *ngIf="productIsEmpty">No delivery</h4>
 
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
@@ -121,5 +124,6 @@
 
 </app-view-staff-delivery>
 <!-- Add / edit Product -->
-<app-add-edit-staff-delivery class="parent-editor-viewer-sidebar" (dataOptionEmit)="addOrUpdateOption($event)" 
-  (closeSideBarEmit)="closeSideBar()" [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData"></app-add-edit-staff-delivery>
+<app-add-edit-staff-delivery class="parent-editor-viewer-sidebar" (dataOptionEmit)="addOrUpdateOption($event)"
+  (closeSideBarEmit)="closeSideBar()" [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData">
+</app-add-edit-staff-delivery>

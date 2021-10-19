@@ -7,22 +7,24 @@ import { OptionsComponent } from "./options.component";
 import { AddEditoOptionsComponent } from "./add-edit-options/add-edit-options.component";
 import { ViewOptionComponent } from "./view-option/view-option.component";
 import { RouterModule } from "@angular/router";
-import {SharedModule} from '@app/shared/shared.module';
+import { SharedModule } from "@app/shared/shared.module";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 const router = [
   { path: "", component: OptionsComponent, data: { title: "options" } },
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(router),
-        NgxPaginationModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        SharedModule,
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(router),
+    NgxPaginationModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    SharedModule,
+    NgxSpinnerModule,
+  ],
   declarations: [
     OptionsComponent,
     AddEditoOptionsComponent,

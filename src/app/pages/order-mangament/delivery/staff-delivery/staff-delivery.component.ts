@@ -13,6 +13,7 @@ import {
   style,
 } from "@angular/animations";
 import { DeliveryService } from "@app/pages/services/delivery.service";
+import { NgxSpinnerService } from "ngx-spinner";
 declare var $: any;
 @Component({
   selector: "app-staff-delivery",
@@ -69,7 +70,8 @@ export class StaffDeliveryComponent implements OnInit {
   };
   constructor(
     private toastrService: ToastrService,
-    private deliveryService: DeliveryService
+    private deliveryService: DeliveryService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -81,7 +83,7 @@ export class StaffDeliveryComponent implements OnInit {
 
     this.filter$
       .debounceTime(400)
-      .pipe(tap((e) => (this.loading = true)))
+      .pipe(tap((e) => this.spinner.show()))
       .switchMap((filter) => this.searchDeliverers())
       .subscribe((result: any) => {
         this.deliverers = result.data.deliverers;
@@ -90,20 +92,22 @@ export class StaffDeliveryComponent implements OnInit {
           return item;
         });
         this.total = result.data.total;
-        this.loading = false;
+        this.spinner.hide();
       });
   }
   openViewProduct(data) {}
 
   getDeliverers() {
-    this.deliveryService.getDeliverers(this.filter).subscribe((response: any) => {
-      this.deliverers = response.data.deliverers;
-      this.deliverers = this.deliverers.map((item) => {
-        item.deactivated = !item.active;
-        return item;
+    this.deliveryService
+      .getDeliverers(this.filter)
+      .subscribe((response: any) => {
+        this.deliverers = response.data.deliverers;
+        this.deliverers = this.deliverers.map((item) => {
+          item.deactivated = !item.active;
+          return item;
+        });
+        this.total = response.data.total;
       });
-      this.total = response.data.total;
-    });
   }
 
   searchDeliverers() {

@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
 
   <div class="row">
@@ -8,8 +8,8 @@
           <i class="fa fa-search"></i>
         </span>
         <form>
-          <input [(ngModel)]="searchTerm" (input)="search()" class="owl-input owls-search" name="search" placeholder="search ..."
-                 type="text">
+          <input [(ngModel)]="searchTerm" (input)="search()" class="owl-input owls-search" name="search"
+            placeholder="search ..." type="text">
         </form>
       </div>
     </div>
@@ -30,7 +30,7 @@
         <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
           are you sure to changes status to {{changeStatusData.status.value}}?
         </h5>
-        <button type="button" class="close"  #closebutton data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -39,14 +39,14 @@
           <div *ngIf="changeStatusData.status.id === 2">
             <div class="form-group">
               <label>Invoice ID</label>
-              <input type="text" formControlName="invoice_id"  class="owl-input my-1" placeholder="invoice">
+              <input type="text" formControlName="invoice_id" class="owl-input my-1" placeholder="invoice">
               <div *ngIf="formControlValidator('invoice_id','required')" class="text-danger">
                 Filed Is Required
               </div>
             </div>
             <div class="form-group">
               <label>Amount</label>
-              <input type="text" formControlName="amount"  class="owl-input my-2" placeholder="amount">
+              <input type="text" formControlName="amount" class="owl-input my-2" placeholder="amount">
               <div *ngIf="formControlValidator('amount','required')" class="text-danger">
                 Filed Is Required
               </div>
@@ -62,7 +62,8 @@
 
           <div class="form-group" *ngIf="changeStatusData.status.id === 4">
             <label>Cancel Reason</label>
-            <textarea style="height: 100px;" rows="4" class="owl-input my-1" placeholder="type a reason" formControlName="cancel_reason"></textarea>
+            <textarea style="height: 100px;" rows="4" class="owl-input my-1" placeholder="type a reason"
+              formControlName="cancel_reason"></textarea>
             <div *ngIf="formControlValidator('cancel_reason','required')" class="text-danger">
               Filed Is Required
             </div>
@@ -71,8 +72,9 @@
       </div>
       <div class="modal-footer" style="justify-content: center;
       ">
-        <button type="button" class="btn-owls btn-rounded btn-green  btn-blue2"(click)="onSave()">Yes</button>
-        <button type="button" data-dismiss="modal" (click)="close()"  class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
+        <button type="button" class="btn-owls btn-rounded btn-green  btn-blue2" (click)="onSave()">Yes</button>
+        <button type="button" data-dismiss="modal" (click)="close()"
+          class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
       </div>
     </div>
   </div>
@@ -82,56 +84,61 @@
 <div *ngIf="list.length else noData" class="table-responsive">
   <table class="table owls-table">
     <thead>
-    <tr>
-      <th scope="col"> Id</th>
-      <th scope="col"> Name</th>
-      <th scope="col"> Phone</th>
-      <th scope="col"> Address</th>
-      <th scope="col"> Image</th>
-      <th scope="col"> DateTime</th>
-      <th scope="col"> Status</th>
-      <th scope="col" style="width: 150px;">Actions</th>
-    </tr>
+      <tr>
+        <th scope="col"> Id</th>
+        <th scope="col"> Name</th>
+        <th scope="col"> Phone</th>
+        <th scope="col"> Address</th>
+        <th scope="col"> Image</th>
+        <th scope="col"> DateTime</th>
+        <th scope="col"> Status</th>
+        <th scope="col" style="width: 150px;">Actions</th>
+      </tr>
     </thead>
     <tbody>
 
-    <tr *ngFor="let item of list | paginate:  { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalPages}">
-      <td>{{item.id}}</td>
-      <td>{{item.user.name}}</td>
-      <td>{{item.user.phone}}</td>
-      <td>
-        <span *ngIf="item.address">
-          {{item.address.city.name}} - {{item.address.area.name}}
-        </span>
-      </td>
-      <td>
-        <a [href]="item?.images[0]" target="_blank" class="cursor-pointer">
-          <img class="img-preview" [src]="item?.images[0]" (error)="setFallbackImage($event, item)"  alt="">
-        </a>
-      </td>
-      <td>{{item.created_at.date | date :'dd-MM-y h:m:s a'}}</td>
-      <td>
-        <p *ngIf="item.status === 1">Created</p>
-        <p *ngIf="item.status === 2">In Progress</p>
-        <p *ngIf="item.status === 3">Delivered</p>
-        <p *ngIf="item.status === 4">Cancelled</p>
-      </td>
-      <td class="d-inline-flex justify-content-center align-items-center">
-        <a (click)="view(item)" class="table-view view-c mx-1">
-          <i class="icon-View"></i>
-        </a>
-        <div class="dropdown mx-1">
-          <button class="btn btn-secondary dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Status
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" (click)="setStatusData(item,2)" data-toggle="modal" data-target="#confirmationModal">Process</a>
-            <a class="dropdown-item" *ngIf="item.status == 2" (click)="setStatusData(item,3)" data-toggle="modal" data-target="#confirmationModal">Delivered</a>
-            <a class="dropdown-item" (click)="setStatusData(item,4)" data-toggle="modal" data-target="#confirmationModal">Canceled</a>
+      <tr
+        *ngFor="let item of list | paginate:  { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalPages}">
+        <td>{{item.id}}</td>
+        <td>{{item.user.name}}</td>
+        <td>{{item.user.phone}}</td>
+        <td>
+          <span *ngIf="item.address">
+            {{item.address.city.name}} - {{item.address.area.name}}
+          </span>
+        </td>
+        <td>
+          <a [href]="item?.images[0]" target="_blank" class="cursor-pointer">
+            <img class="img-preview" [src]="item?.images[0]" (error)="setFallbackImage($event, item)" alt="">
+          </a>
+        </td>
+        <td>{{item.created_at.date | date :'dd-MM-y h:m:s a'}}</td>
+        <td>
+          <p *ngIf="item.status === 1">Created</p>
+          <p *ngIf="item.status === 2">In Progress</p>
+          <p *ngIf="item.status === 3">Delivered</p>
+          <p *ngIf="item.status === 4">Cancelled</p>
+        </td>
+        <td class="d-inline-flex justify-content-center align-items-center">
+          <a (click)="view(item)" class="table-view view-c mx-1">
+            <i class="icon-View"></i>
+          </a>
+          <div class="dropdown mx-1">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+              Status
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" (click)="setStatusData(item,2)" data-toggle="modal"
+                data-target="#confirmationModal">Process</a>
+              <a class="dropdown-item" *ngIf="item.status == 2" (click)="setStatusData(item,3)" data-toggle="modal"
+                data-target="#confirmationModal">Delivered</a>
+              <a class="dropdown-item" (click)="setStatusData(item,4)" data-toggle="modal"
+                data-target="#confirmationModal">Canceled</a>
+            </div>
           </div>
-        </div>
-      </td>
-    </tr>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

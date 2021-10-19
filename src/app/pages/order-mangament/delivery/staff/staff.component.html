@@ -1,4 +1,4 @@
-<ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar>
+<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
 
   <div class="row">
@@ -61,9 +61,12 @@
                   <span class="slider round"></span>
 
                   <div class="reason-popup" [hidden]="!user.showReason">
-                    <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this delivery man?" [(ngModel)]="user.notes"></textarea>
-                    <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!user.notes" (click)="submitDeactivate(user)">submit</button>
-                    <button class="btn btn-owls btn-rounded btn-blue2 cancel-check" (click)="cancelDeactivate(user)">cancel</button>
+                    <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this delivery man?"
+                      [(ngModel)]="user.notes"></textarea>
+                    <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!user.notes"
+                      (click)="submitDeactivate(user)">submit</button>
+                    <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                      (click)="cancelDeactivate(user)">cancel</button>
                   </div>
 
                   <div class="hover-reason" *ngIf="!user.active">
@@ -140,7 +143,8 @@
 
     <div>
       <div class="customer-det">
-        <img *ngIf="currentUser.delivererProfile.image" src="{{currentUser.delivererProfile.image}}" alt="" width="50" height="50">
+        <img *ngIf="currentUser.delivererProfile.image" src="{{currentUser.delivererProfile.image}}" alt="" width="50"
+          height="50">
         <img *ngIf="!currentUser.delivererProfile.image" src="./assets/img/profile.png" alt="" width="50" height="50">
         <div class="content">
           <p>{{currentUser.name}}</p>
@@ -213,10 +217,11 @@
       <h3>personal</h3>
       <div class="form-group">
         <label for=""> name</label>
-        <input type="text" id="namestaff" placeholder="type" class="owl-input" name="name" [(ngModel)]="newDeliverer.name" required
-          formControlName="name">
+        <input type="text" id="namestaff" placeholder="type" class="owl-input" name="name"
+          [(ngModel)]="newDeliverer.name" required formControlName="name">
         <!-- Start Errors Rolues -->
-        <div *ngIf="addStaff.controls.name.invalid && (addStaff.controls.name.dirty || addStaff.controls.name.touched)" class="alert alert-danger">
+        <div *ngIf="addStaff.controls.name.invalid && (addStaff.controls.name.dirty || addStaff.controls.name.touched)"
+          class="alert alert-danger">
           <div *ngIf="addStaff.controls.name.errors.required">
             Staff Name is required.
           </div>
@@ -236,7 +241,9 @@
           <img [src]="environmentVariables?.localization?.flag" alt="country flag">
           {{environmentVariables?.localization?.phone_prefix}}
         </span>
-        <div *ngIf="addStaff.controls.phone.invalid && (addStaff.controls.phone.dirty || addStaff.controls.phone.touched)" class="alert alert-danger">
+        <div
+          *ngIf="addStaff.controls.phone.invalid && (addStaff.controls.phone.dirty || addStaff.controls.phone.touched)"
+          class="alert alert-danger">
           <div *ngIf="addStaff.controls.phone.errors.required">
             Phone Number is required.
           </div>
@@ -251,10 +258,12 @@
       </div>
       <div class="form-group">
         <label for=""> email</label>
-        <input type="email" id="emailstaff" placeholder="type" class="owl-input" name="emailfdsaf" [(ngModel)]="newDeliverer.email"
-          formControlName="email">
+        <input type="email" id="emailstaff" placeholder="type" class="owl-input" name="emailfdsaf"
+          [(ngModel)]="newDeliverer.email" formControlName="email">
         <!-- Start Errors Rolues -->
-        <div *ngIf="addStaff.controls.email.invalid && (addStaff.controls.email.dirty || addStaff.controls.email.touched)" class="alert alert-danger">
+        <div
+          *ngIf="addStaff.controls.email.invalid && (addStaff.controls.email.dirty || addStaff.controls.email.touched)"
+          class="alert alert-danger">
           <div *ngIf="addStaff.controls.email.errors.required">
             email is required.
           </div>
@@ -266,10 +275,11 @@
       </div>
       <div class="form-group">
         <label for=""> password</label>
-        <input type="password" id="password" placeholder="type" class="owl-input" name="passworfasfd" [(ngModel)]="newDeliverer.password"
-          required formControlName="password" autocomplete="new-password">
+        <input type="password" id="password" placeholder="type" class="owl-input" name="passworfasfd"
+          [(ngModel)]="newDeliverer.password" required formControlName="password" autocomplete="new-password">
         <!-- Start Errors Rolues -->
-        <div *ngIf="addStaff.controls.password.invalid && (addStaff.controls.password.dirty || addStaff.controls.password.touched)"
+        <div
+          *ngIf="addStaff.controls.password.invalid && (addStaff.controls.password.dirty || addStaff.controls.password.touched)"
           class="alert alert-danger">
           <div *ngIf="addStaff.controls.password.errors.required">
             password is required.
@@ -283,15 +293,15 @@
       <div class="form-group">
         <div>
           <mat-form-field>
-            <input [max]="today" matInput placeholder="date of birth" [satDatepicker]="picker"
-             [value]="date" name="birthdate" [(ngModel)]="newDeliverer.birthdate"
-              required formControlName="birthdate">
+            <input [max]="today" matInput placeholder="date of birth" [satDatepicker]="picker" [value]="date"
+              name="birthdate" [(ngModel)]="newDeliverer.birthdate" required formControlName="birthdate">
             <sat-datepicker #picker [rangeMode]="false">
             </sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
           </mat-form-field>
           <!-- Start Errors Rolues -->
-          <div *ngIf="addStaff.controls.birthdate.invalid && (addStaff.controls.birthdate.dirty || addStaff.controls.birthdate.touched)"
+          <div
+            *ngIf="addStaff.controls.birthdate.invalid && (addStaff.controls.birthdate.dirty || addStaff.controls.birthdate.touched)"
             class="alert alert-danger">
             <div *ngIf="addStaff.controls.birthdate.errors.required">
               birth Date is required.
@@ -302,10 +312,11 @@
       </div>
       <div class="form-group">
         <label for=""> address </label>
-        <input type="text" placeholder="type Your Address" class="owl-input" [(ngModel)]="newDeliverer.address" name="address" formControlName="address"
-          required>
+        <input type="text" placeholder="type Your Address" class="owl-input" [(ngModel)]="newDeliverer.address"
+          name="address" formControlName="address" required>
         <!-- Start Errors Rolues -->
-        <div *ngIf="addStaff.controls.address.invalid && (addStaff.controls.address.dirty || addStaff.controls.address.touched)"
+        <div
+          *ngIf="addStaff.controls.address.invalid && (addStaff.controls.address.dirty || addStaff.controls.address.touched)"
           class="alert alert-danger">
           <div *ngIf="addStaff.controls.address.errors.required">
             address is required.
@@ -315,10 +326,11 @@
       </div>
       <div class="form-group">
         <label for=""> iD number </label>
-        <input type="text" pattern="[0-9]+" placeholder="type Your id number" class="owl-input" name="unique_id" [(ngModel)]="newDeliverer.unique_id"
-          required formControlName="unique_id" maxlength="14" minlength="14">
+        <input type="text" pattern="[0-9]+" placeholder="type Your id number" class="owl-input" name="unique_id"
+          [(ngModel)]="newDeliverer.unique_id" required formControlName="unique_id" maxlength="14" minlength="14">
         <!-- Start Errors Rolues -->
-        <div *ngIf="addStaff.controls.unique_id.invalid && (addStaff.controls.unique_id.dirty || addStaff.controls.unique_id.touched)"
+        <div
+          *ngIf="addStaff.controls.unique_id.invalid && (addStaff.controls.unique_id.dirty || addStaff.controls.unique_id.touched)"
           class="alert alert-danger">
           <div *ngIf="addStaff.controls.unique_id.errors.required">
             id number is required.
@@ -340,9 +352,10 @@
         </div>
       </div>
       <div style="margin-bottom: 25px;">
-        <img class="img-circle float-right" *ngIf="!newDeliverer.imageUrl" src="http://via.placeholder.com/50x50" alt="">
-        <img class="img-circle float-right img-responsive" *ngIf="newDeliverer.imageUrl" width="50" height="50" [src]="newDeliverer.imageUrl"
+        <img class="img-circle float-right" *ngIf="!newDeliverer.imageUrl" src="http://via.placeholder.com/50x50"
           alt="">
+        <img class="img-circle float-right img-responsive" *ngIf="newDeliverer.imageUrl" width="50" height="50"
+          [src]="newDeliverer.imageUrl" alt="">
         <h3>area of service</h3>
       </div>
       <!--  end Image Form  -->
@@ -351,11 +364,13 @@
       </div>
       <div class="form-group">
         <label for="">City</label>
-        <select class="owl-input" name="city_id" [(ngModel)]="city_id" (change)="loadAreas(city_id)" required formControlName="city_id">
+        <select class="owl-input" name="city_id" [(ngModel)]="city_id" (change)="loadAreas(city_id)" required
+          formControlName="city_id">
           <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
         </select>
         <!-- Start Errors Rolues -->
-        <div *ngIf="addStaff.controls.city_id.invalid && (addStaff.controls.city_id.dirty || addStaff.controls.city_id.touched)"
+        <div
+          *ngIf="addStaff.controls.city_id.invalid && (addStaff.controls.city_id.dirty || addStaff.controls.city_id.touched)"
           class="alert alert-danger">
           <div *ngIf="addStaff.controls.city_id.errors.required">
             city is required.
@@ -364,7 +379,7 @@
         <!-- End  Errors Rolues -->
       </div>
       <div class="s-d-a">
-        <button class=" btn btn-owls btn-rounded btn-blue2  open-choose" type="button" >Select Delivary Area</button>
+        <button class=" btn btn-owls btn-rounded btn-blue2  open-choose" type="button">Select Delivary Area</button>
 
         <div class="choose">
           <span class="close">
@@ -374,7 +389,8 @@
           <ul>
             <li *ngFor="let area of area_list; index as i">
               <label class="checkup">{{area.name}}
-                <input type="radio" name="area_id" value="{{area.id}}" [(ngModel)]="newDeliverer.area_id" formControlName="area_id" required>
+                <input type="radio" name="area_id" value="{{area.id}}" [(ngModel)]="newDeliverer.area_id"
+                  formControlName="area_id" required>
                 <span class="checkmark"></span>
               </label>
             </li>
@@ -383,7 +399,8 @@
         </div>
 
         <!-- Start Errors Rolues -->
-        <div *ngIf="addStaff.controls.area_id.invalid && (addStaff.controls.area_id.dirty || addStaff.controls.area_id.touched)"
+        <div
+          *ngIf="addStaff.controls.area_id.invalid && (addStaff.controls.area_id.dirty || addStaff.controls.area_id.touched)"
           class="alert alert-danger">
           <div *ngIf="addStaff.controls.area_id.errors.required">
             delivary area is required.
@@ -414,8 +431,8 @@
         <h3>personal</h3>
         <div class="form-group">
           <label for=""> name</label>
-          <input type="text" placeholder="type" class="owl-input" name="editName" [(ngModel)]="editUser.name" #editName="ngModel" required
-            [rangeLength]="[3, 21]">
+          <input type="text" placeholder="type" class="owl-input" name="editName" [(ngModel)]="editUser.name"
+            #editName="ngModel" required [rangeLength]="[3, 21]">
           <!-- Start Errors Rolues -->
           <div *ngIf="editStaff.submitted &&  editName.invalid" class="alert alert-danger">
             <div *ngIf="editName.errors.required">
@@ -431,8 +448,8 @@
 
         <div class="form-group">
           <label for=""> phone number</label>
-          <input type="text" placeholder="type" class="owl-input" name="phone" [(ngModel)]="editUser.phone" pattern="[0-9]+" required
-            #editPhone="ngModel" id="phone">
+          <input type="text" placeholder="type" class="owl-input" name="phone" [(ngModel)]="editUser.phone"
+            pattern="[0-9]+" required #editPhone="ngModel" id="phone">
           <!-- Start Errors Rolues -->
           <div *ngIf="editStaff.submitted &&  editPhone.invalid" class="alert alert-danger">
             <div *ngIf="editPhone.errors.required">
@@ -447,7 +464,8 @@
 
         <div class="form-group">
           <label for=""> email address </label>
-          <input type="email" placeholder="type" class="owl-input" name="email" [(ngModel)]="editUser.email" email name="email" #editEmail="ngModel">
+          <input type="email" placeholder="type" class="owl-input" name="email" [(ngModel)]="editUser.email" email
+            name="email" #editEmail="ngModel">
           <!-- Start Errors Rolues -->
           <div *ngIf="editStaff.submitted &&  editEmail.invalid" class="alert alert-danger">
             <div *ngIf="editEmail.errors.required">
@@ -462,8 +480,8 @@
 
         <div class="form-group">
           <label for=""> Password </label>
-          <input type="password" placeholder="type" class="owl-input" name="password" [(ngModel)]="editUser.password" #editPassword="ngModel"
-            [rangeLength]="[8, 35]" autocomplete="new-password">
+          <input type="password" placeholder="type" class="owl-input" name="password" [(ngModel)]="editUser.password"
+            #editPassword="ngModel" [rangeLength]="[8, 35]" autocomplete="new-password">
           <!-- Start Errors Rolues -->
           <!-- Start Errors Rolues -->
           <div *ngIf="editStaff.submitted &&  editPassword.invalid" class="alert alert-danger">
@@ -480,8 +498,8 @@
 
         <div class="form-group">
           <mat-form-field>
-            <input [max]="today" matInput placeholder=" date of birth" [satDatepicker]="picker2" [value]="date" name="birthdate" [(ngModel)]="editUser.birthdate"
-              required #editData="ngModel">
+            <input [max]="today" matInput placeholder=" date of birth" [satDatepicker]="picker2" [value]="date"
+              name="birthdate" [(ngModel)]="editUser.birthdate" required #editData="ngModel">
             <sat-datepicker #picker2 [rangeMode]="false">
             </sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
@@ -497,8 +515,8 @@
 
         <div class="form-group">
           <label for=""> address </label>
-          <input type="text" placeholder="write your address" class="owl-input" name="address" [(ngModel)]="editUser.address" #editAddress="ngModel"
-            required>
+          <input type="text" placeholder="write your address" class="owl-input" name="address"
+            [(ngModel)]="editUser.address" #editAddress="ngModel" required>
           <!-- Start Errors Rolues -->
           <div *ngIf="editStaff.submitted &&  editAddress.invalid" class="alert alert-danger">
             <div *ngIf="editAddress.errors.required">
@@ -510,8 +528,9 @@
 
         <div class="form-group">
           <label for=""> iD number </label>
-          <input type="text" pattern="[0-9]+" placeholder="type" class="owl-input" name="unique_id" [(ngModel)]="editUser.unique_id"
-            required name="editIdNumber" #editIdNumber="ngModel" maxlength="14" minlength="14">
+          <input type="text" pattern="[0-9]+" placeholder="type" class="owl-input" name="unique_id"
+            [(ngModel)]="editUser.unique_id" required name="editIdNumber" #editIdNumber="ngModel" maxlength="14"
+            minlength="14">
           <!-- Start Errors Rolues -->
           <div *ngIf="editStaff.submitted &&  editIdNumber.invalid" class="alert alert-danger">
             <div *ngIf="editIdNumber.errors.required">
@@ -536,7 +555,8 @@
 
         <div style="margin-bottom: 25px;">
           <img class="img-circle float-right" *ngIf="!editUser.imageUrl" src="http://via.placeholder.com/50x50" alt="">
-          <img class="img-circle float-right" *ngIf="editUser.imageUrl" width="50" height="50" [src]="editUser.imageUrl" alt="">
+          <img class="img-circle float-right" *ngIf="editUser.imageUrl" width="50" height="50" [src]="editUser.imageUrl"
+            alt="">
           <h3>area of service</h3>
         </div>
         <div *ngIf="showError" class="alert alert-danger">
@@ -551,9 +571,10 @@
         </div>
 
         <div class="s-d-a">
-          <button class=" btn btn-owls btn-rounded btn-blue2  open-choose " id="open-choose2" (click)="toggeldelivary(newDeliverer)" type="button">select delivary area</button>
+          <button class=" btn btn-owls btn-rounded btn-blue2  open-choose " id="open-choose2"
+            (click)="toggeldelivary(newDeliverer)" type="button">select delivary area</button>
 
-          <div class="choose" id="choose"  *ngIf="newDeliverer.showDelivere">
+          <div class="choose" id="choose" *ngIf="newDeliverer.showDelivere">
             <span class="close">
               <i class="icon-Exit" (click)='toggeldelivary(newDeliverer)'></i>
             </span>
@@ -561,7 +582,8 @@
             <ul>
               <li *ngFor="let area of area_list; index as i">
                 <label class="checkup">{{area.name}}
-                  <input type="radio" name="area{{i}}" [value]="area.id" [(ngModel)]="editUser.area_id" [checked]="editUser.area_id == area.id">
+                  <input type="radio" name="area{{i}}" [value]="area.id" [(ngModel)]="editUser.area_id"
+                    [checked]="editUser.area_id == area.id">
                   <span class="checkmark"></span>
                 </label>
               </li>

@@ -64,8 +64,8 @@ export class ListsComponent implements OnInit {
   constructor(
     private toastrService: ToastrService,
     private listsService: ListsService,
-    private spinner: NgxSpinnerService,
-  ) { }
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     this.getLists();
@@ -76,28 +76,25 @@ export class ListsComponent implements OnInit {
   }
 
   getLists() {
-    this.loading = true;
+    this.spinner.show();
     this.productIsEmpty = false;
 
-    this.listsService
-      .getLists(this.searchObj)
-      .subscribe((response: any) => {
-        if (response.code === 200) {
-          this.lists = response.data;
-          this.total = this.lists.length;
-          this.loading = false;
-          this.lists.map((list) => {
-            list.deactivated = !list.active;
-            return list;
-          });
-        }
+    this.listsService.getLists(this.searchObj).subscribe((response: any) => {
+      if (response.code === 200) {
+        this.lists = response.data;
+        this.total = this.lists.length;
+        this.spinner.hide();
+        this.lists.map((list) => {
+          list.deactivated = !list.active;
+          return list;
+        });
+      }
 
-        // if (response.data.length == 0) {
-        //   this.productIsEmpty = true;
-        // }
-      });
+      // if (response.data.length == 0) {
+      //   this.productIsEmpty = true;
+      // }
+    });
   }
-
 
   changeActive(list) {
     this.lists
@@ -148,7 +145,6 @@ export class ListsComponent implements OnInit {
       });
   }
 
-
   viewList(list) {
     this.currentList = list;
     this.toggleListForm = "out";
@@ -162,7 +158,7 @@ export class ListsComponent implements OnInit {
       this.viewOptionSidebar = "out";
       this.toggleListForm = "in";
     } else {
-      this.spinner.show()
+      this.spinner.show();
       this.listsService.getListById(data.id).subscribe((res) => {
         this.spinner.hide();
         if (res.code === 200) {
@@ -170,7 +166,7 @@ export class ListsComponent implements OnInit {
           this.viewOptionSidebar = "out";
           this.toggleListForm = "in";
         }
-      })
+      });
     }
   }
 
