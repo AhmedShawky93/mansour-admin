@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AdsService } from '@app/pages/services/ads.service';
-import { UploadFilesService } from '@app/pages/services/upload-files.service';
+import { Component, OnInit } from "@angular/core";
+import { AdsService } from "@app/pages/services/ads.service";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import {
   FormGroup,
   FormBuilder,
@@ -8,15 +8,23 @@ import {
   FormControl,
   NgForm,
   ValidationErrors,
-} from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { CategoryService } from '@app/pages/services/category.service';
-import { BrandsService } from '@app/pages/services/brands.service';
-import { CustomAdsService } from '@app/pages/services/custom-ads.service';
-import { ListsService } from '@app/pages/services/lists.service';
-import { Observable, Subject, concat, of, EMPTY } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, delay } from 'rxjs/operators';
-import { ProductsService } from '@app/pages/services/products.service';
+} from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
+import { CategoryService } from "@app/pages/services/category.service";
+import { BrandsService } from "@app/pages/services/brands.service";
+import { CustomAdsService } from "@app/pages/services/custom-ads.service";
+import { ListsService } from "@app/pages/services/lists.service";
+import { Observable, Subject, concat, of, EMPTY } from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  tap,
+  switchMap,
+  catchError,
+  map,
+  delay,
+} from "rxjs/operators";
+import { ProductsService } from "@app/pages/services/products.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -67,6 +75,8 @@ export class CustomAdsComponent implements OnInit {
 
   lists = [];
   selectedAd: any;
+  showViewAd: boolean;
+  showAddEditAd: boolean;
 
   constructor(
     private adsService: CustomAdsService,
@@ -79,45 +89,10 @@ export class CustomAdsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    $(".owls-table").on("click", ".toggle-view-category", function () {
-      $("#view-category").toggleClass("open-view-vindor-types");
-    });
-
     // add new side bar
-    $(".add-new").on("click", function () {
-      $("#add-ads").toggleClass("open-view-vindor-types");
-    });
-
-    // add edit side bar
-    // $(".table").on("click", ".open-edit", function () {
-    //   $("#edit-ads").toggleClass("open-view-vindor-types")
+    // $(".add-new").on("click", function () {
+    //   $("#add-ads").toggleClass("open-view-vindor-types");
     // });
-    $(".open-edit").on("click", function () {
-      $("#edit-ads").toggleClass("open-view-vindor-types");
-    });
-
-    // view side bar
-    $(".table").on("click", ".view-ads", function () {
-      $("#view-ads").toggleClass("open-view-vindor-types");
-    });
-
-    // close
-    $("#view-category").on("click", "#close-vindors1", function () {
-      $("#view-category").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-vindors2").on("click", function () {
-      $("#add-ads").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-vindors3").on("click", function () {
-      $("#edit-ads").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-view").on("click", function () {
-      $("#view-ads").removeClass("open-view-vindor-types");
-    });
-
     $(".switch").on("click", ".slider", function () {
       const then = $(this).siblings(".reason-popup").slideToggle(100);
       $(".reason-popup").not(then).slideUp(50);
@@ -153,19 +128,27 @@ export class CustomAdsComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => (this.productsLoading = true)),
         switchMap((term) =>
-          this.productsService.searchProducts({ q: term, sub_category_id: this.newAdsForm.controls.subCategory.value }, 1).pipe(
-            catchError(() => of([])), // empty list on error
-            tap(() => (this.productsLoading = false)),
-            map((response: any) => {
-              this.productList = response.data.products;
-              return response.data.products.map((p) => {
-                return {
-                  id: p.id,
-                  name: p.name,
-                };
-              });
-            })
-          )
+          this.productsService
+            .searchProducts(
+              {
+                q: term,
+                sub_category_id: this.newAdsForm.controls.subCategory.value,
+              },
+              1
+            )
+            .pipe(
+              catchError(() => of([])), // empty list on error
+              tap(() => (this.productsLoading = false)),
+              map((response: any) => {
+                this.productList = response.data.products;
+                return response.data.products.map((p) => {
+                  return {
+                    id: p.id,
+                    name: p.name,
+                  };
+                });
+              })
+            )
         )
       )
     );
@@ -199,6 +182,7 @@ export class CustomAdsComponent implements OnInit {
   }
 
   editAd(ad) {
+    this.showAddEditAd = true;
     this.newAdsForm = new FormGroup({
       id: new FormControl(ad.id),
       type: new FormControl(ad.type),
@@ -224,8 +208,13 @@ export class CustomAdsComponent implements OnInit {
     });
 
     if (ad.type === 1) {
-      this.products = [{ name: ad.item_data.name, id: ad.item_data.id }]
-      this.productsService.searchProducts({ q: ad.item_data.name, sub_category_id: ad.item_data.category_id }, 1).subscribe((res : any)=> this.productList = res.data.products)
+      this.products = [{ name: ad.item_data.name, id: ad.item_data.id }];
+      this.productsService
+        .searchProducts(
+          { q: ad.item_data.name, sub_category_id: ad.item_data.category_id },
+          1
+        )
+        .subscribe((res: any) => (this.productList = res.data.products));
       this.products$ = concat(
         of(this.products), // default items
         this.productsInput$.pipe(
@@ -233,19 +222,24 @@ export class CustomAdsComponent implements OnInit {
           distinctUntilChanged(),
           tap(() => (this.productsLoading = true)),
           switchMap((term) =>
-            this.productsService.searchProducts({ q: term, sub_category_id: ad.item_data.category_id }, 1).pipe(
-              catchError(() => of([])), // empty list on error
-              tap(() => (this.productsLoading = false)),
-              map((response: any) => {
-                this.productList = response.data.products;
-                return response.data.products.map((p) => {
-                  return {
-                    id: p.id,
-                    name: p.name,
-                  };
-                });
-              })
-            )
+            this.productsService
+              .searchProducts(
+                { q: term, sub_category_id: ad.item_data.category_id },
+                1
+              )
+              .pipe(
+                catchError(() => of([])), // empty list on error
+                tap(() => (this.productsLoading = false)),
+                map((response: any) => {
+                  this.productList = response.data.products;
+                  return response.data.products.map((p) => {
+                    return {
+                      id: p.id,
+                      name: p.name,
+                    };
+                  });
+                })
+              )
           )
         )
       );
@@ -311,7 +305,7 @@ export class CustomAdsComponent implements OnInit {
       form.get("list_id").clearValidators();
     } else if (form.get("type").value == 7) {
       form.get("link").setValidators([Validators.required]);
-      form.get("link").setValue('');
+      form.get("link").setValue("");
       form.get("brand").clearValidators();
       form.get("category").clearValidators();
       form.get("subCategory").clearValidators();
@@ -347,16 +341,17 @@ export class CustomAdsComponent implements OnInit {
     form.get("prod").updateValueAndValidity();
     form.get("brand").updateValueAndValidity();
 
-    if (form.get("category").value != null){
+    if (form.get("category").value != null) {
       this.onCategoryChange();
     }
-    if (form.get("subCategory").value != null){
+    if (form.get("subCategory").value != null) {
       this.onSubCategoryChange();
     }
   }
 
   viewAd(ad) {
     this.currentAd = ad;
+    this.showViewAd = true;
   }
 
   onImageSelected(form: FormGroup, event, type) {
@@ -377,7 +372,9 @@ export class CustomAdsComponent implements OnInit {
 
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
-      let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0]
+      let selectedProduct = this.productList.filter(
+        (product) => product.id == ad.item_id
+      )[0];
       ad.link = ad.item_id;
     } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
@@ -411,8 +408,12 @@ export class CustomAdsComponent implements OnInit {
 
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
-      let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0];
-      ad.link = `${encodeURIComponent(selectedProduct.name.replace(/\s/g, '-'))}/${selectedProduct.parent_id}?variant=${ad.item_id}`;
+      let selectedProduct = this.productList.filter(
+        (product) => product.id == ad.item_id
+      )[0];
+      ad.link = `${encodeURIComponent(
+        selectedProduct.name.replace(/\s/g, "-")
+      )}/${selectedProduct.parent_id}?variant=${ad.item_id}`;
     } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
       ad.link = "";
@@ -475,7 +476,7 @@ export class CustomAdsComponent implements OnInit {
       .getProducts(subcategory_id)
       .subscribe((response: any) => {
         this.productList = response.data;
-        this.newAdsForm.get("prod").setValue('');
+        this.newAdsForm.get("prod").setValue("");
         if (this.selectedAd.type == 1) {
           this.newAdsForm.get("prod").setValue(this.selectedAd.item_data.id);
           // setTimeout(() => {

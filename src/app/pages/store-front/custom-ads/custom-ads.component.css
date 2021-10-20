@@ -1,71 +1,75 @@
 .form-sidebar {
-    width: 435px;
+  width: 435px;
+}
+
+.small-image {
+  max-height: 150px !important;
 }
 
 .owls-upload3 {
-    display: inline-block;
-    margin: 10px 5px;
-    width: 70px !important;
-    height: 70px;
-    padding: 0;
-    background-color: transparent;
+  display: inline-block;
+  margin: 10px 5px;
+  width: 70px !important;
+  height: 70px;
+  padding: 0;
+  background-color: transparent;
 }
 
-.owls-upload3 input[type=file] {
-    top: 0;
-    width: 70px;
-    height: 70px;
-    left: 1px;
+.owls-upload3 input[type="file"] {
+  top: 0;
+  width: 70px;
+  height: 70px;
+  left: 1px;
 }
 
 .owls-upload3 i {
-    position: absolute;
-    top: 6px;
-    right: 7px;
+  position: absolute;
+  top: 6px;
+  right: 7px;
 }
 
 .owls-upload3.big {
-    width: auto !important;
-    height: auto;
+  width: auto !important;
+  height: auto;
 }
 
-.owls-upload3.big input[type=file] {
-    top: 0;
-    width: 100%;
-    height: 100%;
-    left: 1px;
+.owls-upload3.big input[type="file"] {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  left: 1px;
 }
 
 .owl-input option span {
-    color: red !important
+  color: red !important;
 }
 
 @media (max-width: 920px) {
-    .owl-btn-list .btn {
-        margin-left: 0 !important;
-        width: 100% !important;
-    }
-    .btn-rounded {
-        padding: 0 !important;
-    }
-    .table thead th {
-        padding-right: 15px;
-        font-size: 9px !important;
-        padding-bottom: 15px;
-        padding-top: 15px;
-    }
-    .table td,
-    .table th {
-        padding: 0;
-        font-size: 12px;
-    }
-    .owl-btn-list .btn {
-        width: 100% !important;
-        font-size: 10px !important;
-        line-height: 44px;
-        height: 44px;
-    }
-    .hidden {
-        display: none !important;
-    }
+  .owl-btn-list .btn {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  .btn-rounded {
+    padding: 0 !important;
+  }
+  .table thead th {
+    padding-right: 15px;
+    font-size: 9px !important;
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
+  .table td,
+  .table th {
+    padding: 0;
+    font-size: 12px;
+  }
+  .owl-btn-list .btn {
+    width: 100% !important;
+    font-size: 10px !important;
+    line-height: 44px;
+    height: 44px;
+  }
+  .hidden {
+    display: none !important;
+  }
 }
