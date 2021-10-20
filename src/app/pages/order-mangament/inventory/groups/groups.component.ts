@@ -9,6 +9,7 @@ import { ToastrService } from "ngx-toastr";
 import { FormGroup, FormControl, FormArray } from "@angular/forms";
 import { Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var jquery: any;
 declare var $: any;
@@ -55,7 +56,8 @@ export class GroupsComponent implements OnInit {
     private toastrService: ToastrService,
     private _CategoriesService: CategoryService,
     private optionsService: OptionsService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -83,7 +85,9 @@ export class GroupsComponent implements OnInit {
   }
 
   getCategories() {
+    this.spinner.show();
     this._CategoriesService.getCategories().subscribe((response: any) => {
+      this.spinner.hide();
       if (response.code === 200) {
         this.categories = response.data;
       }
@@ -165,6 +169,7 @@ export class GroupsComponent implements OnInit {
   }
 
   editCategory(category) {
+    this.currentGroup = category;
     this.editGroup = JSON.parse(JSON.stringify(category));
     this.editCat = true;
 
