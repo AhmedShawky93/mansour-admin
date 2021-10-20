@@ -62,6 +62,10 @@
         </td>
 
         <td>
+          <a href="javascript:void(0)" [routerLink]="['/pages/promocodes/edit-offers' , promo.id]"
+            class="toggle-view-category table-view">
+            <i class="icon-grey"></i>
+          </a>
           <a href="javascript:void(0)" (click)="viewpromo(promo)" class="toggle-view-category table-view">
             <i class="icon-View"></i>
           </a>
@@ -106,10 +110,10 @@
 
   </div>
 
-  <div class="head-btn" *ngIf="viewPromo">
+  <!-- <div class="head-btn" *ngIf="viewPromo">
     <button id="add-vindor-types-btn" class="btn btn-owls btn-rounded btn-blue2 open-edit"
       [routerLink]="['/pages/promocodes/edit-offers' , viewPromo.id]">edit</button>
-  </div>
+  </div> -->
 
   <div class="details details-2" *ngIf="viewPromo">
 

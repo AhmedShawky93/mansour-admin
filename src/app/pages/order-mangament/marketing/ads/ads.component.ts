@@ -13,11 +13,18 @@ import { ToastrService } from "ngx-toastr";
 import { CategoryService } from "@app/pages/services/category.service";
 import { BrandsService } from "@app/pages/services/brands.service";
 import { ListsService } from "@app/pages/services/lists.service";
-import { Observable, Subject, concat, of, EMPTY } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, delay } from 'rxjs/operators';
+import { Observable, Subject, concat, of, EMPTY } from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  tap,
+  switchMap,
+  catchError,
+  map,
+  delay,
+} from "rxjs/operators";
 import { ProductsService } from "@app/pages/services/products.service";
 import { ThrowStmt } from "@angular/compiler";
-
 
 declare var jquery: any;
 declare var $: any;
@@ -33,7 +40,7 @@ export class adsComponent implements OnInit {
   brands = [];
   p = 1;
   total;
-  orderArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  orderArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   products: any = [];
   products$: Observable<any>;
   productsInput$ = new Subject<String>();
@@ -67,6 +74,8 @@ export class adsComponent implements OnInit {
   brand_id: any;
   currentAd: any;
   lists: any = [];
+  showAddEditAd: boolean;
+  showViewAd: boolean;
 
   constructor(
     private adsService: AdsService,
@@ -76,48 +85,9 @@ export class adsComponent implements OnInit {
     private brandsService: BrandsService,
     private listsService: ListsService,
     private productsService: ProductsService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    $(".owls-table").on("click", ".toggle-view-category", function () {
-      $("#view-category").toggleClass("open-view-vindor-types");
-    });
-
-    // add new side bar
-    $(".add-new").on("click", function () {
-      $("#add-ads").toggleClass("open-view-vindor-types");
-    });
-
-    // add edit side bar
-    // $(".table").on("click", ".open-edit", function () {
-    //   $("#edit-ads").toggleClass("open-view-vindor-types")
-    // });
-    $(".open-edit").on("click", function () {
-      $("#edit-ads").toggleClass("open-view-vindor-types");
-    });
-
-    // view side bar
-    $(".table").on("click", ".view-ads", function () {
-      $("#view-ads").toggleClass("open-view-vindor-types");
-    });
-
-    // close
-    $("#view-category").on("click", "#close-vindors1", function () {
-      $("#view-category").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-vindors2").on("click", function () {
-      $("#add-ads").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-vindors3").on("click", function () {
-      $("#edit-ads").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-view").on("click", function () {
-      $("#view-ads").removeClass("open-view-vindor-types");
-    });
-
     $(".switch").on("click", ".slider", function () {
       const then = $(this).siblings(".reason-popup").slideToggle(100);
       $(".reason-popup").not(then).slideUp(50);
@@ -127,7 +97,7 @@ export class adsComponent implements OnInit {
     this.getCategories();
     this.getBrands();
     this.getLists();
-    this.createForm()
+    this.createForm();
 
     this.ad.popup = "";
   }
@@ -162,19 +132,28 @@ export class adsComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => (this.productsLoading = true)),
         switchMap((term) =>
-          this.productsService.searchProducts({ q: term, sub_category_id: this.newAdsForm.controls.subCategory.value, variant: 1 }, 1).pipe(
-            catchError(() => of([])), // empty list on error
-            tap(() => (this.productsLoading = false)),
-            map((response: any) => {
-              this.productList = response.data.products;
-              return response.data.products.map((p) => {
-                return {
-                  id: p.id,
-                  name: p.name,
-                };
-              });
-            })
-          )
+          this.productsService
+            .searchProducts(
+              {
+                q: term,
+                sub_category_id: this.newAdsForm.controls.subCategory.value,
+                variant: 1,
+              },
+              1
+            )
+            .pipe(
+              catchError(() => of([])), // empty list on error
+              tap(() => (this.productsLoading = false)),
+              map((response: any) => {
+                this.productList = response.data.products;
+                return response.data.products.map((p) => {
+                  return {
+                    id: p.id,
+                    name: p.name,
+                  };
+                });
+              })
+            )
         )
       )
     );
@@ -192,10 +171,9 @@ export class adsComponent implements OnInit {
   }
 
   getLists() {
-    this.listsService.getLists({})
-      .subscribe((response: any) => {
-        this.lists = response.data;
-      })
+    this.listsService.getLists({}).subscribe((response: any) => {
+      this.lists = response.data;
+    });
   }
 
   onFormSubmit(form: FormGroup) {
@@ -207,6 +185,7 @@ export class adsComponent implements OnInit {
   }
 
   editAd(ad) {
+    this.showAddEditAd = true;
     if (ad.type == 1) {
       ad.item_id = ad.product_id;
     } else if (ad.type == 2) {
@@ -241,35 +220,47 @@ export class adsComponent implements OnInit {
       ),
       /*prod: new FormControl(ad.type == 1 ? ad.item_id : ad.product_id),*/
       prod: new FormControl(ad.product_id),
-      subCategory: new FormControl(ad.type == 2 ? ad.item_id : ad.sub_category_id),
+      subCategory: new FormControl(
+        ad.type == 2 ? ad.item_id : ad.sub_category_id
+      ),
       brand: new FormControl(ad.type == 4 ? ad.item_id : ad.item_id),
       list_id: new FormControl(ad.type == 5 ? ad.item_id : ad.custom_list_id),
       category: new FormControl(ad.type == 6 ? ad.item_id : ad.category_id),
     });
 
     if (ad.type === 1) {
-      this.products = [{ name: ad.name, id: ad.product_id }]
-      this.productsService.searchProducts({ q: ad.name, sub_category_id: ad.sub_category_id, variant: 1 }, 1).subscribe((res: any) => this.productList = res.data.products)
+      this.products = [{ name: ad.name, id: ad.product_id }];
+      this.productsService
+        .searchProducts(
+          { q: ad.name, sub_category_id: ad.sub_category_id, variant: 1 },
+          1
+        )
+        .subscribe((res: any) => (this.productList = res.data.products));
       this.products$ = concat(
-        of(this.products), // default items 
+        of(this.products), // default items
         this.productsInput$.pipe(
           debounceTime(200),
           distinctUntilChanged(),
           tap(() => (this.productsLoading = true)),
           switchMap((term) =>
-            this.productsService.searchProducts({ q: term, sub_category_id: ad.sub_category_id, variant: 1 }, 1).pipe(
-              catchError(() => of([])), // empty list on error
-              tap(() => (this.productsLoading = false)),
-              map((response: any) => {
-                this.productList = response.data.products;
-                return response.data.products.map((p) => {
-                  return {
-                    id: p.id,
-                    name: p.name,
-                  };
-                });
-              })
-            )
+            this.productsService
+              .searchProducts(
+                { q: term, sub_category_id: ad.sub_category_id, variant: 1 },
+                1
+              )
+              .pipe(
+                catchError(() => of([])), // empty list on error
+                tap(() => (this.productsLoading = false)),
+                map((response: any) => {
+                  this.productList = response.data.products;
+                  return response.data.products.map((p) => {
+                    return {
+                      id: p.id,
+                      name: p.name,
+                    };
+                  });
+                })
+              )
           )
         )
       );
@@ -292,7 +283,6 @@ export class adsComponent implements OnInit {
     }
 
     this.onAdTypeChanged(this.newAdsForm, true);
-
   }
 
   onAdTypeChanged(form: FormGroup, firstTime = null) {
@@ -304,11 +294,10 @@ export class adsComponent implements OnInit {
       form.get("brand").clearValidators();
       form.get("list_id").clearValidators();
       if (!firstTime) {
-        form.get("category").setValue('');
-        form.get("subCategory").setValue('');
-        form.get("prod").setValue('');
+        form.get("category").setValue("");
+        form.get("subCategory").setValue("");
+        form.get("prod").setValue("");
       }
-
     } else if (form.get("type").value == 2) {
       form.get("category").setValidators([Validators.required]);
       form.get("subCategory").setValidators([Validators.required]);
@@ -317,9 +306,9 @@ export class adsComponent implements OnInit {
       form.get("brand").clearValidators();
       form.get("list_id").clearValidators();
       if (!firstTime) {
-        form.get("category").setValue('');
-        form.get("subCategory").setValue('');
-        form.get("prod").setValue('');
+        form.get("category").setValue("");
+        form.get("subCategory").setValue("");
+        form.get("prod").setValue("");
       }
     } else if (form.get("type").value == 3) {
       form.get("category").setValidators([Validators.required]);
@@ -343,7 +332,7 @@ export class adsComponent implements OnInit {
       form.get("list_id").clearValidators();
       form.get("link").setValidators([Validators.required]);
       if (!firstTime) {
-        form.get('link').setValue('');
+        form.get("link").setValue("");
       }
     } else if (form.get("type").value == 6) {
       form.get("category").setValidators([Validators.required]);
@@ -353,8 +342,8 @@ export class adsComponent implements OnInit {
       form.get("brand").clearValidators();
       form.get("list_id").clearValidators();
       if (!firstTime) {
-        form.get("category").setValue('');
-        form.get("prod").setValue('');
+        form.get("category").setValue("");
+        form.get("prod").setValue("");
       }
     } else if (form.get("type").value == 5) {
       form.get("list_id").setValidators([Validators.required]);
@@ -384,6 +373,7 @@ export class adsComponent implements OnInit {
   }
 
   viewAd(ad) {
+    this.showViewAd = true;
     this.currentAd = ad;
   }
 
@@ -394,18 +384,16 @@ export class adsComponent implements OnInit {
           return item.id == ad.id;
         });
 
-        this.ads.splice(ind, 1)
+        this.ads.splice(ind, 1);
       } else {
-        this.toastrService.error(res.message)
+        this.toastrService.error(res.message);
       }
-    })
+    });
   }
-
 
   updateAdOrder(ad) {
     this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {
       if (response.code == 200) {
-
         const ind = this.ads.findIndex((item) => {
           return item.id == ad.id;
         });
@@ -458,8 +446,12 @@ export class adsComponent implements OnInit {
     ad.banner_ad = 0;
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
-      let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0];
-      ad.link = `${encodeURIComponent(selectedProduct.name.replace(/\s/g, '-'))}/${selectedProduct.parent_id}?variant=${ad.item_id}`;
+      let selectedProduct = this.productList.filter(
+        (product) => product.id == ad.item_id
+      )[0];
+      ad.link = `${encodeURIComponent(
+        selectedProduct.name.replace(/\s/g, "-")
+      )}/${selectedProduct.parent_id}?variant=${ad.item_id}`;
     } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
@@ -493,8 +485,12 @@ export class adsComponent implements OnInit {
     ad.banner_ad = 0;
     if (ad.type == 1) {
       ad.item_id = this.newAdsForm.get("prod").value;
-      let selectedProduct = this.productList.filter(product => product.id == ad.item_id)[0];
-      ad.link = `${encodeURIComponent(selectedProduct.name.replace(/\s/g, '-'))}/${selectedProduct.parent_id}?variant=${ad.item_id}`;
+      let selectedProduct = this.productList.filter(
+        (product) => product.id == ad.item_id
+      )[0];
+      ad.link = `${encodeURIComponent(
+        selectedProduct.name.replace(/\s/g, "-")
+      )}/${selectedProduct.parent_id}?variant=${ad.item_id}`;
     } else if (ad.type == 2) {
       ad.item_id = this.newAdsForm.get("subCategory").value;
     } else if (ad.type == 4) {
@@ -542,8 +538,8 @@ export class adsComponent implements OnInit {
 
   onCategoryChange(cat_id, initialData = null) {
     if (!initialData) {
-      this.newAdsForm.get('prod').setValue('');
-      this.newAdsForm.get('subCategory').setValue('');
+      this.newAdsForm.get("prod").setValue("");
+      this.newAdsForm.get("subCategory").setValue("");
     }
     const category_id = this.newAdsForm.get("category").value;
     const index = this.categories.findIndex((item) => item.id == category_id);
@@ -553,9 +549,9 @@ export class adsComponent implements OnInit {
 
   onSubCategoryChange(catId, initialData = null) {
     if (!initialData) {
-      this.newAdsForm.get('prod').setValue('');
+      this.newAdsForm.get("prod").setValue("");
     }
-    const subcategory_id = this.newAdsForm.get('subCategory').value;
+    const subcategory_id = this.newAdsForm.get("subCategory").value;
     this._CategoriesService
       .getProducts(subcategory_id)
       .subscribe((response: any) => {

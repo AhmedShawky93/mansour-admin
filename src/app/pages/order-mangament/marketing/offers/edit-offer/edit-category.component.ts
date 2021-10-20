@@ -23,6 +23,7 @@ import {
 } from "rxjs/operators";
 import { CustomerService } from "@app/pages/services/customer.service";
 import { ListsService } from "@app/pages/services/lists.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-edit-category",
@@ -34,7 +35,7 @@ export class EditOfferComponent implements OnInit {
   editDate: any;
   id;
   promo: any = {
-    list_id: '',
+    list_id: "",
   };
   editForm: any;
   promos: any;
@@ -53,8 +54,9 @@ export class EditOfferComponent implements OnInit {
     private customerService: CustomerService,
     private toastrService: ToastrService,
     private uploadFile: UploadFilesService,
-    private listsService: ListsService
-  ) { }
+    private listsService: ListsService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     this.editForm = this._formBuilder.group({
@@ -69,27 +71,34 @@ export class EditOfferComponent implements OnInit {
       customers: [],
       customer_phones: new FormControl(""),
       first_order: new FormControl(false),
-      list_id: new FormControl(''),
+      list_id: new FormControl(""),
       target_type: new FormControl("null"),
-      payment_methods:new FormControl(''),
+      payment_methods: new FormControl(""),
     });
-    this.getPaymentMethods()
-    this.listsService.getLists({})
-      .subscribe((response: any) => {
-        this.lists = response.data;
-      });
+    this.getPaymentMethods();
+    this.listsService.getLists({}).subscribe((response: any) => {
+      this.lists = response.data;
+    });
 
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);
 
     this.activeRoute.params.subscribe((params) => {
       let id = params["id"];
+      this.spinner.show();
       this.promoService.getPromo(id).subscribe((response: any) => {
         this.promo = response.data;
+        this.spinner.hide();
         setTimeout(() => {
-          this.editForm.get('payment_methods').setValue(response.data.payment_methods.filter(item => item.active == '1').map(item => item.id) )
-        },);
-        this.changeTypePromo(this.promo.type)
+          this.editForm
+            .get("payment_methods")
+            .setValue(
+              response.data.payment_methods
+                .filter((item) => item.active == "1")
+                .map((item) => item.id)
+            );
+        });
+        this.changeTypePromo(this.promo.type);
 
         this.customers$ = concat(
           of(
@@ -128,20 +137,17 @@ export class EditOfferComponent implements OnInit {
           .get("editDate")
           .setValue(new Date(this.promo.expiration_date));
       });
-
     });
   }
 
   getPaymentMethods() {
-    this.promoService.getPaymentMethods()
-      .subscribe((rep) => {
-        if (rep.code === 200) {
-          this.paymentMethods = rep.data.filter(item => item.active == '1');
-        }
-      })
+    this.promoService.getPaymentMethods().subscribe((rep) => {
+      if (rep.code === 200) {
+        this.paymentMethods = rep.data.filter((item) => item.active == "1");
+      }
+    });
   }
   updatePromo(promo) {
-
     if (!this.editForm.valid) {
       this.markFormGroupTouched(this.editForm);
       return;
@@ -154,8 +160,7 @@ export class EditOfferComponent implements OnInit {
       this.editForm.get("customers").setValue("");
       this.promo.customers = "";
       promo.customers = "";
-      promo.targets = ''
-
+      promo.targets = "";
     }
     promo.expiration_date = moment(this.editForm.get("editDate").value).format(
       "YYYY-MM-DD"

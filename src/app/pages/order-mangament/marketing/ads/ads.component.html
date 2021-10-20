@@ -9,7 +9,7 @@
     <div class="col-md-4 text-right">
       <div class="owl-btn-list">
         <button href="javascript:void(0)" class="btn btn-owls btn-rounded btn-blue2 btn-big add-new"
-          (click)="createForm()">+ New ad</button>
+          (click)="createForm();showAddEditAd = true">+ New ad</button>
       </div>
     </div>
 
@@ -67,7 +67,10 @@
         </td>
         <td>{{ad.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
         <td class="order-col">
-
+          <a href="javascript:void(0)" (click)="editAd(ad)" id="add-vindor-types-btn"
+            class="table-view edit-new add-new">
+            <i class="icon-grey"></i>
+          </a>
           <a style="margin-right: 10px" (click)="viewAd(ad)" class="toggle-view-category table-view">
             <i class="icon-View"></i>
           </a>
@@ -118,39 +121,45 @@
 </div>
 <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
 
-<div class="form-sidebar view-vindor-types" id="view-category">
+<div class="form-sidebar view-vindor-types" id="view-category" [ngClass]="showViewAd ? 'open-view-vindor-types' : ''">
   <div class="head" *ngIf="currentAd">
-    <span class="close" id="close-vindors1">
+    <span class="close" id="close-vindors1" (click)="showViewAd = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>ad ID: {{currentAd.id}}</h3>
 
   </div>
 
-  <div class="head-btn">
-    <button id="add-vindor-types-btn" class="btn btn-owls btn-rounded btn-blue2 add-new" (click)="editAd(currentAd)">
-
-      edit</button>
-  </div>
+  <!-- <div class="head-btn">
+    <button id="add-vindor-types-btn" class="btn btn-owls btn-rounded btn-blue2 add-new" (click)="editAd(currentAd)">edit</button>
+  </div> -->
 
   <div class="details details-2" *ngIf="currentAd">
 
     <div>
       <div>
         <h5>Image (En)</h5>
-        <img class="owl-img img-fluid" src="{{currentAd.image}}" alt="">
+        <img class="owl-img img-fluid" src="{{currentAd.image}}"
+          onError="this.src='./assets/img/placeholder200.jpg';this.classList.add('small-image')"
+          default="./assets/img/placeholder200.jpg" alt="">
       </div>
       <div>
         <h5>Image (Ar)</h5>
-        <img class="owl-img img-fluid" src="{{currentAd.image_ar}}" alt="">
+        <img class="owl-img img-fluid" src="{{currentAd.image_ar}}"
+          onError="this.src='./assets/img/placeholder200.jpg';this.classList.add('small-image')"
+          default="./assets/img/placeholder200.jpg" alt="">
       </div>
       <div *ngIf="currentAd.image_web">
         <h5>Image Web (Er)</h5>
-        <img class="owl-img img-fluid" src="{{currentAd.image_web}}" alt="">
+        <img class="owl-img img-fluid" src="{{currentAd.image_web}}"
+          onError="this.src='./assets/img/placeholder200.jpg';this.classList.add('small-image')"
+          default="./assets/img/placeholder200.jpg" alt="">
       </div>
       <div *ngIf="currentAd.image_web_ar">
         <h5>Image Web (Ar)</h5>
-        <img class="owl-img img-fluid" src="{{currentAd.image_web_ar}}" alt="">
+        <img class="owl-img img-fluid" src="{{currentAd.image_web_ar}}"
+          onError="this.src='./assets/img/placeholder200.jpg';this.classList.add('small-image')"
+          default="./assets/img/placeholder200.jpg" alt="">
       </div>
     </div>
 
@@ -174,9 +183,9 @@
 </div>
 
 <!-- add new ads -->
-<div class="form-sidebar view-vindor-types " id="add-ads">
+<div class="form-sidebar view-vindor-types " id="add-ads" [ngClass]="showAddEditAd ? 'open-view-vindor-types' : ''">
   <div class="head">
-    <span class="close" id="close-vindors2">
+    <span class="close" id="close-vindors2" (click)="showAddEditAd = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>{{newAdsForm.get('id').value ? "Edit" : "New"}} Ad</h3>
@@ -189,9 +198,10 @@
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image').value" src="{{newAdsForm.get('image').value}}"
-          alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image').value" src="./assets/img/medium-empty-image.png"
-          alt="">
+          alt="" onError="this.src='./assets/img/placeholder200.jpg';this.classList.add('small-image')"
+          default="./assets/img/placeholder200.jpg">
+        <!-- <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image').value" src="./assets/img/medium-empty-image.png"
+          alt=""> -->
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelected(newAdsForm, $event, 'image')" accept="image/*" />
       </div>
@@ -208,9 +218,11 @@
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_ar').value"
-          src="{{newAdsForm.get('image_ar').value}}" alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_ar').value"
-          src="./assets/img/medium-empty-image.png" alt="">
+          src="{{newAdsForm.get('image_ar').value}}" alt=""
+          onError="this.src='./assets/img/placeholder200.jpg';this.classList.add('small-image')"
+          default="./assets/img/placeholder200.jpg">
+        <!-- <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_ar').value"
+          src="./assets/img/medium-empty-image.png" alt=""> -->
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelected(newAdsForm, $event, 'image_ar')" accept="image/*" />
       </div>
@@ -227,9 +239,11 @@
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web').value"
-          src="{{newAdsForm.get('image_web').value}}" alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value"
-          src="./assets/img/large-empty-image.png" alt="">
+          src="{{newAdsForm.get('image_web').value}}" alt=""
+          onError="this.src='./assets/img/placeholder200.jpg';this.classList.add('small-image')"
+          default="./assets/img/placeholder200.jpg">
+        <!-- <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web').value"
+          src="./assets/img/large-empty-image.png" alt=""> -->
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelectedWeb(newAdsForm, $event, 'image')" accept="image/*" />
       </div>
@@ -246,9 +260,11 @@
 
       <div class="owls-upload owls-upload3 big">
         <img class="owl-img img-fluid" *ngIf="newAdsForm.get('image_web_ar').value"
-          src="{{newAdsForm.get('image_web_ar').value}}" alt="">
-        <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web_ar').value"
-          src="./assets/img/large-empty-image.png" alt="">
+          src="{{newAdsForm.get('image_web_ar').value}}" alt=""
+          onError="this.src='./assets/img/placeholder200.jpg';this.classList.add('small-image')"
+          default="./assets/img/placeholder200.jpg">
+        <!-- <img class="owl-img img-fluid" *ngIf="!newAdsForm.get('image_web_ar').value"
+          src="./assets/img/large-empty-image.png" alt=""> -->
         <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
           (change)="onImageSelectedWeb(newAdsForm, $event, 'image_ar')" accept="image/*" />
       </div>

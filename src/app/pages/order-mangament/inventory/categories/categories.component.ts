@@ -75,10 +75,6 @@ export class CategoriesComponent implements OnInit {
     //   // $("i", this).toggleClass(" icon-Exit fa fa-bars");
     // }
 
-    $("#close-vindors3").on("click", function () {
-      $("#view-category").removeClass("open-view-vindor-types");
-    });
-
     this.categoriesForm = new FormGroup({
       name: new FormControl("", [
         Validators.required,
