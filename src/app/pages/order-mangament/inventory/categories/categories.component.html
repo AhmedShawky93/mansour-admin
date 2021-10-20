@@ -56,6 +56,9 @@
         <td class="hidden">{{category.created_at  | date : "yyyy-MM-dd hh:mm a"}}</td>
         <td>{{category.creator?.name}}</td>
         <td>
+          <a href="javascript:void(0)" id="edit-category" class="table-view" (click)="editCategory(category)">
+            <i class="icon-grey"></i>
+          </a>
           <a href="javascript:void(0)" class="table-view view-c" (click)="viewCategory(category)">
             <i class="icon-View"></i>
           </a>
@@ -89,18 +92,19 @@
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
 
-<div class="form-sidebar view-vindor-types" id="view-category">
+<div class="form-sidebar view-vindor-types" id="view-category"
+  [ngClass]="showViewCategory ? 'open-view-vindor-types' : ''">
   <div class="head">
-    <span class="close" id="close-vindors3">
+    <span class="close" id="close-vindors3" (click)="showViewCategory = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>catigory ID</h3>
   </div>
 
-  <div class="head-btn">
+  <!-- <div class="head-btn">
     <button id="edit-category" class="btn btn-owls btn-rounded btn-blue2"
       (click)="editCategory(currentCategory)">edit</button>
-  </div>
+  </div> -->
 
   <div class="details details-2" *ngIf="currentCategory">
 
@@ -154,15 +158,12 @@
         <p>• {{(cat?.group && cat?.group.length) ? cat?.group[0]?.name_en  + ' > ' : ' -  > '}} {{cat.name}} </p>
       </div>
     </div>
-
-
-
   </div>
 </div>
 
-<div class="form-sidebar view-vindor-types " id="edit-cat">
+<div class="form-sidebar view-vindor-types " id="edit-cat" [ngClass]="showEditCategory ? 'open-view-vindor-types' : ''">
   <div class="head">
-    <span class="close" id="close-vindors2">
+    <span class="close" id="close-vindors2" (click)="showEditCategory = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>edit category</h3>
@@ -409,9 +410,9 @@
 
 
 <!--  Add Category -->
-<div class="form-sidebar view-vindor-types " id="add-cat">
+<div class="form-sidebar view-vindor-types " id="add-cat" [ngClass]="showAddCategory ? 'open-view-vindor-types' : ''">
   <div class="head">
-    <span class="close" id="close-vindors1">
+    <span class="close" id="close-vindors1" (click)="showAddCategory = false">
       <i class="icon-Exit"></i>
     </span>
     <h3>new category</h3>
@@ -659,7 +660,6 @@
   </form>
 </div>
 
-
 <!-- Delete  Popup side bar -->
 <div class="modal fade" id="removePopUp2" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -679,6 +679,7 @@
     </div>
   </div>
 </div>
+
 <ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
   <p style="color: white"> Loading... </p>
 </ngx-spinner>

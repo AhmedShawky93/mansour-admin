@@ -47,6 +47,9 @@ export class CategoriesComponent implements OnInit {
   options: any;
   submitting: boolean;
   updating: boolean;
+  showEditCategory: boolean;
+  showAddCategory: boolean;
+  showViewCategory: boolean;
 
   constructor(
     private _CategoriesService: CategoryService,
@@ -60,21 +63,6 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
-    $(".add-category").on("click", function () {
-      $("#add-cat").toggleClass("open-view-vindor-types");
-    });
-
-    $("#edit-category").on("click", function () {
-      $("#edit-cat").toggleClass("open-view-vindor-types");
-    });
-
-    $(".table").on("click", ".view-c", function () {
-      $("#view-category").toggleClass("open-view-vindor-types");
-    });
-    //   $(".btn-big add-category").on("click", function () {
-    //     $("#add-cat").removeClass("open-view-vindor-types")
-    //   })
-
     $(".switch").on("click", ".slider", function () {
       var then = $(this).siblings(".reason-popup").slideToggle(100);
       $(".reason-popup").not(then).slideUp(50);
@@ -85,15 +73,7 @@ export class CategoriesComponent implements OnInit {
     //   $("#manage-charges").toggleClass("open-view-vindor-types")
     //   // $(".left-sidebar").toggleClass("toggle-left-sidebar")
     //   // $("i", this).toggleClass(" icon-Exit fa fa-bars");
-    // })
-
-    $("#close-vindors1").on("click", function () {
-      $("#add-cat").removeClass("open-view-vindor-types");
-    });
-
-    $("#close-vindors2").on("click", function () {
-      $("#edit-cat").removeClass("open-view-vindor-types");
-    });
+    // }
 
     $("#close-vindors3").on("click", function () {
       $("#view-category").removeClass("open-view-vindor-types");
@@ -119,6 +99,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   addCaregory() {
+    this.showAddCategory = true;
     this.categoriesForm = new FormGroup({
       name: new FormControl("", [
         Validators.required,
@@ -217,6 +198,7 @@ export class CategoriesComponent implements OnInit {
       });
   }
   viewCategory(category) {
+    this.showViewCategory = true;
     this.currentCategory = JSON.parse(JSON.stringify(category));
     this.currentCategory.sub_categories.map((cat) => {
       cat.deactivated = !cat.active;
@@ -225,6 +207,12 @@ export class CategoriesComponent implements OnInit {
   }
 
   editCategory(category) {
+    this.showEditCategory = true;
+    this.currentCategory = JSON.parse(JSON.stringify(category));
+    // this.currentCategory.sub_categories.map((cat) => {
+    //   cat.deactivated = !cat.active;
+    //   return cat;
+    // });
     this.editCat = JSON.parse(JSON.stringify(category));
 
     // this.editCat.sub_categories.map(cat => {
