@@ -18,13 +18,7 @@ import {
 import * as moment from "moment";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
-import {
-  combineLatest,
-  concat,
-  Observable,
-  of,
-  Subject,
-} from "rxjs";
+import { combineLatest, concat, Observable, of, Subject } from "rxjs";
 import {
   catchError,
   debounceTime,
@@ -46,15 +40,13 @@ import {
 import { environment } from "@env/environment";
 import { AngularEditorConfig } from "@kolkov/angular-editor";
 
-import {
-  DraftProductService,
-} from "../../../../services/draft-product.service";
+import { DraftProductService } from "../../../../services/draft-product.service";
 import { ReactivityService } from "@app/shared/services/reactivity.service";
 
 @Component({
-  selector: 'app-add-product-variants',
-  templateUrl: './add-product-variants.component.html',
-  styleUrls: ['./add-product-variants.component.css']
+  selector: "app-add-product-variants",
+  templateUrl: "./add-product-variants.component.html",
+  styleUrls: ["./add-product-variants.component.css"],
 })
 export class AddProductVariantsComponent implements OnInit, OnChanges {
   @Output() closeSideBarEmit = new EventEmitter();
@@ -69,7 +61,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   price: any;
   categories: any;
   sub_categories: any;
-  category_id: '';
+  category_id: "";
   optionalCategories: any;
   optionalSubCategories: any;
   brands: any;
@@ -110,20 +102,20 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     this.editorConfig = {
       editable: true,
       spellcheck: true,
-      height: '175px',
-      minHeight: '5rem',
-      maxHeight: 'auto',
-      width: '100%',
-      translate: 'yes',
+      height: "175px",
+      minHeight: "5rem",
+      maxHeight: "auto",
+      width: "100%",
+      translate: "yes",
       enableToolbar: true,
       showToolbar: true,
-      placeholder: 'Enter text here...',
-      defaultParagraphSeparator: '',
-      defaultFontName: '',
-      defaultFontSize: '',
+      placeholder: "Enter text here...",
+      defaultParagraphSeparator: "",
+      defaultFontName: "",
+      defaultFontSize: "",
       sanitize: false,
-      toolbarPosition: 'top',
-      uploadUrl: environment.api + "/api" + '/admin/upload_ckeditor',
+      toolbarPosition: "top",
+      uploadUrl: environment.api + "/api" + "/admin/upload_ckeditor",
     };
   }
 
@@ -133,12 +125,11 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   getPaymentMethods() {
-    this.promoService.getPaymentMethods()
-      .subscribe((rep) => {
-        if (rep.code === 200) {
-          this.paymentMethods = rep.data.filter(item => item.active == '1');
-        }
-      })
+    this.promoService.getPaymentMethods().subscribe((rep) => {
+      if (rep.code === 200) {
+        this.paymentMethods = rep.data.filter((item) => item.active == "1");
+      }
+    });
   }
 
   ngOnChanges() {
@@ -147,18 +138,17 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   getInitialData() {
     this.spinner.show();
-    combineLatest(this.allOptions$, this.categories$, this.brands$)
-      .subscribe(
-        ([options, categories, brands]) => {
-          this.getAllOptions(options);
-          this.getCategories(categories);
-          this.getBrands(brands);
-          this.mergeData(this.selectedProduct);
-          this.setData(this.selectedProduct);
-          this.spinner.hide();
-        },
-        () => this.spinner.hide()
-      );
+    combineLatest(this.allOptions$, this.categories$, this.brands$).subscribe(
+      ([options, categories, brands]) => {
+        this.getAllOptions(options);
+        this.getCategories(categories);
+        this.getBrands(brands);
+        this.mergeData(this.selectedProduct);
+        this.setData(this.selectedProduct);
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
   }
 
   closeSideBar() {
@@ -167,104 +157,170 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   setForm(data) {
-    this.componentForm = this.formBuilder.group({
-      brand_id: new FormControl(data ? data.brand_id : '', Validators.required),
-      main_category: new FormControl(data ? (data.main_category) : ''),
-      category: new FormControl(''),
-      category_id: new FormControl(data ? (data.category_id) : '', Validators.required),
-      optional_category: new FormControl(data ? (data.optional_category) : ''),
-      optional_sub_category_id: new FormControl(data ? (data.optional_sub_category_id) : ''),
-      preorder: new FormControl(data ? data.preorder : 0),
-      preorder_start_date: new FormControl(data ? data.preorder_start_date : '', []),
-      preorder_start_time: new FormControl(data ? data.preorder_start_time : '23:59:00', []),
-      preorder_end_date: new FormControl(data ? data.preorder_end_date : '', []),
-      preorder_expiration_time: new FormControl(data ? data.preorder_expiration_time : '23:59:00', []),
-      available_soon: new FormControl(data ? data.available_soon : ''),
-      free_delivery: new FormControl(data ? data.free_delivery : false),
-      max_per_order: new FormControl(data ? data.max_per_order : ''),
-      min_days: new FormControl(data ? data.min_days : ''),
-      stock_alert: new FormControl(data ? data.stock_alert : ''),
-      order: new FormControl(data ? data.order : ''),
-      option_values: this.formBuilder.array([]),
-      discount_start_date: new FormControl(data ? data.discount_start_date : '', []),
-      start_time: new FormControl(data ? data.start_time : '23:59:00', []),
-      discount_end_date: new FormControl(data ? data.discount_end_date : '', []),
-      expiration_time: new FormControl(data ? data.expiration_time : '23:59:00', []),
-      payment_method_discount_ids: new FormControl((data && data.payment_method_discount_ids) ? data.payment_method_discount_ids : [], []),
-      product_variant_options: new FormControl(data ? data.product_variant_options : '', []),
+    this.componentForm = this.formBuilder.group(
+      {
+        brand_id: new FormControl(
+          data ? data.brand_id : "",
+          Validators.required
+        ),
+        main_category: new FormControl(data ? data.main_category : ""),
+        category: new FormControl(""),
+        category_id: new FormControl(
+          data ? data.category_id : "",
+          Validators.required
+        ),
+        optional_category: new FormControl(data ? data.optional_category : ""),
+        optional_sub_category_id: new FormControl(
+          data ? data.optional_sub_category_id : ""
+        ),
+        preorder: new FormControl(data ? data.preorder : 0),
+        preorder_start_date: new FormControl(
+          data ? data.preorder_start_date : "",
+          []
+        ),
+        preorder_start_time: new FormControl(
+          data ? data.preorder_start_time : "23:59:00",
+          []
+        ),
+        preorder_end_date: new FormControl(
+          data ? data.preorder_end_date : "",
+          []
+        ),
+        preorder_expiration_time: new FormControl(
+          data ? data.preorder_expiration_time : "23:59:00",
+          []
+        ),
+        available_soon: new FormControl(data ? data.available_soon : ""),
+        free_delivery: new FormControl(data ? data.free_delivery : false),
+        max_per_order: new FormControl(data ? data.max_per_order : ""),
+        min_days: new FormControl(data ? data.min_days : ""),
+        stock_alert: new FormControl(data ? data.stock_alert : ""),
+        order: new FormControl(data ? data.order : ""),
+        option_values: this.formBuilder.array([]),
+        discount_start_date: new FormControl(
+          data ? data.discount_start_date : "",
+          []
+        ),
+        start_time: new FormControl(data ? data.start_time : "23:59:00", []),
+        discount_end_date: new FormControl(
+          data ? data.discount_end_date : "",
+          []
+        ),
+        expiration_time: new FormControl(
+          data ? data.expiration_time : "23:59:00",
+          []
+        ),
+        payment_method_discount_ids: new FormControl(
+          data && data.payment_method_discount_ids
+            ? data.payment_method_discount_ids
+            : [],
+          []
+        ),
+        product_variant_options: new FormControl(
+          data ? data.product_variant_options : "",
+          []
+        ),
 
-      image: new FormControl(data ? data.image : '', Validators.required),
-      video: new FormControl(data ? data.video : ''),
-      images: this.formBuilder.array([]),
-      name: new FormControl(data ? data.name : '', Validators.required),
-      name_ar: new FormControl(data ? data.name_ar : '', Validators.required),
-      description: new FormControl(data ? data.description : '', [
-        Validators.required,
-        Validators.minLength(3),
-        // Validators.maxLength(250),
-      ]),
-      description_ar: new FormControl(data ? data.name_ar : '', [
-        Validators.required,
-        Validators.minLength(3),
-        // Validators.maxLength(250),
-      ]),
-      long_description_en: new FormControl(data ? data.long_description_en : ''),
-      long_description_ar: new FormControl(data ? data.long_description_ar : ''),
-      meta_title: new FormControl(data ? data.meta_title : ''),
-      meta_description: new FormControl(data ? data.meta_description : ''),
-      meta_title_ar: new FormControl(data ? data.meta_title_ar : ''),
-      meta_description_ar: new FormControl(data ? data.meta_description_ar : ''),
-      price: new FormControl(data ? data.price : '', [
-        Validators.required,
-        Validators.min(1),
-        Validators.max(1000000)
-      ]),
-      discount_price: new FormControl(data ? data.discount_price : '', [
-        Validators.min(1), (control: AbstractControl) => Validators.max(this.price)(control)
-      ]),
-      affiliate_commission: new FormControl('', [
-        Validators.min(1), Validators.max(99), Validators.pattern('^[0-9]$')
-      ]),
-      default_variant: new FormControl(data ? data.default_variant : 0),
-      stock: new FormControl(data ? data.stock : 0, Validators.required),
-      // preorder_price: new FormControl(0),
-      weight: new FormControl(data ? data.weight : 0, [Validators.min(1), Validators.max(1000), Validators.required]),
-      sku: new FormControl(data ? data.sku : '', Validators.required),
-      options: this.formBuilder.array([]),
-      type: new FormControl(data ? data.type : '', Validators.required),
-      has_stock: new FormControl(data ? data.has_stock : ''),
-      bundle_checkout: new FormControl(data ? data.bundle_checkout : ''),
-      bundle_products_ids: new FormControl(data ? data.bundle_products_ids : ''),
-      related_ids: new FormControl((data && data.related_ids) ? data.related_ids : ''),
-    }, {
-      validator: [
-        DateLessThan('discount_start_date', 'discount_end_date', 'start_time', 'expiration_time'),
-        DateLessThan('preorder_start_date', 'preorder_end_date', 'preorder_start_time', 'preorder_expiration_time'),
-        compareNumbers('discount_price', 'price')
-      ]
-    });
+        image: new FormControl(data ? data.image : "", Validators.required),
+        video: new FormControl(data ? data.video : ""),
+        images: this.formBuilder.array([]),
+        name: new FormControl(data ? data.name : "", Validators.required),
+        name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
+        description: new FormControl(data ? data.description : "", [
+          Validators.required,
+          Validators.minLength(3),
+          // Validators.maxLength(250),
+        ]),
+        description_ar: new FormControl(data ? data.name_ar : "", [
+          Validators.required,
+          Validators.minLength(3),
+          // Validators.maxLength(250),
+        ]),
+        long_description_en: new FormControl(
+          data ? data.long_description_en : ""
+        ),
+        long_description_ar: new FormControl(
+          data ? data.long_description_ar : ""
+        ),
+        meta_title: new FormControl(data ? data.meta_title : ""),
+        meta_description: new FormControl(data ? data.meta_description : ""),
+        meta_title_ar: new FormControl(data ? data.meta_title_ar : ""),
+        meta_description_ar: new FormControl(
+          data ? data.meta_description_ar : ""
+        ),
+        price: new FormControl(data ? data.price : "", [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(1000000),
+        ]),
+        discount_price: new FormControl(data ? data.discount_price : "", [
+          Validators.min(1),
+          (control: AbstractControl) => Validators.max(this.price)(control),
+        ]),
+        affiliate_commission: new FormControl("", [
+          Validators.min(1),
+          Validators.max(99),
+          Validators.pattern("^[0-9]$"),
+        ]),
+        default_variant: new FormControl(data ? data.default_variant : 0),
+        stock: new FormControl(data ? data.stock : 0, Validators.required),
+        // preorder_price: new FormControl(0),
+        weight: new FormControl(data ? data.weight : 0, [
+          Validators.min(1),
+          Validators.max(1000),
+          Validators.required,
+        ]),
+        sku: new FormControl(data ? data.sku : "", Validators.required),
+        options: this.formBuilder.array([]),
+        type: new FormControl(data ? data.type : "", Validators.required),
+        has_stock: new FormControl(data ? data.has_stock : ""),
+        bundle_checkout: new FormControl(data ? data.bundle_checkout : ""),
+        bundle_products_ids: new FormControl(
+          data ? data.bundle_products_ids : ""
+        ),
+        related_ids: new FormControl(
+          data && data.related_ids ? data.related_ids : ""
+        ),
+      },
+      {
+        validator: [
+          DateLessThan(
+            "discount_start_date",
+            "discount_end_date",
+            "start_time",
+            "expiration_time"
+          ),
+          DateLessThan(
+            "preorder_start_date",
+            "preorder_end_date",
+            "preorder_start_time",
+            "preorder_expiration_time"
+          ),
+          compareNumbers("discount_price", "price"),
+        ],
+      }
+    );
   }
 
   mergeData(data) {
     let bundleProducts = [];
     let relatedProducts = [];
     if (data && data.bundle_products_ids) {
-      bundleProducts = data.bundle_products_ids.map(bp => {
+      bundleProducts = data.bundle_products_ids.map((bp) => {
         return {
           id: bp.id,
-          name: bp.name
+          name: bp.name,
         };
       });
     }
     if (data && data.related_ids) {
-      relatedProducts = data.related_ids.map(bp => {
+      relatedProducts = data.related_ids.map((bp) => {
         return {
           id: bp.id,
-          name: bp.name
+          name: bp.name,
         };
       });
     }
-
 
     this.products$ = concat(
       of(bundleProducts), // default items
@@ -280,7 +336,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
               return response.data.products.map((p) => {
                 return {
                   id: p.id,
-                  name: p.sku + ': ' + p.name,
+                  name: p.sku + ": " + p.name,
                 };
               });
             })
@@ -303,7 +359,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
               const products = response.data.products.map((p) => {
                 return {
                   id: p.id,
-                  name: p.sku + ': ' + p.name,
+                  name: p.sku + ": " + p.name,
                 };
               });
               return products;
@@ -320,12 +376,14 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       this.selectSubCategoryOption(data.category_id);
       this.selectOptionalCategory(data.optional_category);
       this.setVariantOptionsToForm(data.options);
-      const category = (data.main_category) ? this.categories.find(item => item.id === Number(data.main_category)) : '';
-      this.componentForm.get('category').setValue(category);
+      const category = data.main_category
+        ? this.categories.find((item) => item.id === Number(data.main_category))
+        : "";
+      this.componentForm.get("category").setValue(category);
       data.option_values.forEach((element) => {
         this.editOptions(element);
       });
-      data.images.forEach(img => {
+      data.images.forEach((img) => {
         this.addImage(img);
       });
     }
@@ -337,19 +395,21 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     const data = { ...this.componentForm.value };
 
     if (!this.validateDraftData(data)) {
-      this.reactivityService.scrollToFirstError('add-edit-product-form');
+      this.reactivityService.scrollToFirstError("add-edit-product-form");
       return;
     }
 
     if (this.selectedProduct) {
       data.id = this.selectedProduct.id;
-      msg = 'Draft Product Updated Successfully';
+      msg = "Draft Product Updated Successfully";
     } else {
-      msg = 'Product added to draft';
+      msg = "Product added to draft";
     }
     data.isDraft = true;
-    const category = (data.main_category) ? this.categories.find(item => item.id === Number(data.main_category)) : '';
-    this.componentForm.get('category').setValue(category);
+    const category = data.main_category
+      ? this.categories.find((item) => item.id === Number(data.main_category))
+      : "";
+    this.componentForm.get("category").setValue(category);
     this.draftProductService.SetDraftProduct(data);
     this.dataProductEmit.emit(data);
     this.closeSideBar();
@@ -358,10 +418,14 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   validateDraftData(data) {
     let hasData: boolean;
-    Object.keys(data).forEach(key => {
-      if (data[key] && (data[key].length !== 0) && data[key] !== '00:00:00') {
+    Object.keys(data).forEach((key) => {
+      if (data[key] && data[key].length !== 0 && data[key] !== "00:00:00") {
         hasData = true;
-      } else if (data[key].length && data[key].length > 0 && data[key] !== '00:00:00') {
+      } else if (
+        data[key].length &&
+        data[key].length > 0 &&
+        data[key] !== "00:00:00"
+      ) {
         hasData = true;
       }
     });
@@ -369,10 +433,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   getAllOptions(res) {
-    if (res['code'] === 200) {
-      this.allOptions = res['data'].filter(data => Number(data.type) !== 5);
+    if (res["code"] === 200) {
+      this.allOptions = res["data"].filter((data) => Number(data.type) !== 5);
     } else {
-      this.toasterService.error(res['message']);
+      this.toasterService.error(res["message"]);
     }
   }
 
@@ -396,36 +460,48 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   addOptions(data): void {
-    this.option_values = this.componentForm.get('option_values') as FormArray;
+    this.option_values = this.componentForm.get("option_values") as FormArray;
     this.option_values.push(this.createItemOptions(data));
   }
 
   createItemOptions(data): FormGroup {
     return this.formBuilder.group({
-      type: new FormControl((data) ? data.type : ''),
-      option_id: new FormControl((data) ? data.id : ''),
-      name_en: new FormControl((data) ? data.name_en : ''),
-      optionValues: new FormControl((data) ? data.values : ''),
-      option_value_id: new FormControl((data.option_value_id) ? data.option_value_id : ''),
-      input_en: new FormControl(''),
-      input_ar: new FormControl(''),
+      type: new FormControl(data ? data.type : ""),
+      option_id: new FormControl(data ? data.id : ""),
+      name_en: new FormControl(data ? data.name_en : ""),
+      optionValues: new FormControl(data ? data.values : ""),
+      option_value_id: new FormControl(
+        data.option_value_id ? data.option_value_id : ""
+      ),
+      input_en: new FormControl(""),
+      input_ar: new FormControl(""),
     });
   }
 
   editOptions(data): void {
-    this.option_values = this.componentForm.get('option_values') as FormArray;
+    this.option_values = this.componentForm.get("option_values") as FormArray;
     this.option_values.push(this.editItemOptions(data));
   }
 
   editItemOptions(data): FormGroup {
     const group = this.formBuilder.group({
-      type: new FormControl((data) ? data.type : ''),
-      option_id: new FormControl((data && data.id) ? data.id : (data.option_id) ? data.option_id : ''),
-      name_en: new FormControl((data) ? data.name_en : ''),
-      optionValues: new FormControl((data && data.values && data.values.length) ? data.values : (data.optionValues) ? data.optionValues : ''),
-      option_value_id: new FormControl((data.option_value_id) ? data.option_value_id : ''),
-      input_en: new FormControl((data && data.input_en) ? data.input_en : ''),
-      input_ar: new FormControl((data && data.input_ar) ? data.input_ar : '')
+      type: new FormControl(data ? data.type : ""),
+      option_id: new FormControl(
+        data && data.id ? data.id : data.option_id ? data.option_id : ""
+      ),
+      name_en: new FormControl(data ? data.name_en : ""),
+      optionValues: new FormControl(
+        data && data.values && data.values.length
+          ? data.values
+          : data.optionValues
+          ? data.optionValues
+          : ""
+      ),
+      option_value_id: new FormControl(
+        data.option_value_id ? data.option_value_id : ""
+      ),
+      input_en: new FormControl(data && data.input_en ? data.input_en : ""),
+      input_ar: new FormControl(data && data.input_ar ? data.input_ar : ""),
     });
     return group;
   }
@@ -444,8 +520,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   selectSubCategoryOption(id) {
     if (id) {
       if (this.option_values) {
-
-        while (this.componentForm.get('option_values').value.length > 0) {
+        while (this.componentForm.get("option_values").value.length > 0) {
           this.option_values.removeAt(0);
         }
         this.option_values.reset();
@@ -461,7 +536,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
             this.addOptions(element);
           });
         }
-
       }
     }
   }
@@ -469,7 +543,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   selectOptionalCategory(id) {
     if (id) {
       const cat_id = Number(id);
-      const index = this.optionalCategories.findIndex((item) => item.id === cat_id);
+      const index = this.optionalCategories.findIndex(
+        (item) => item.id === cat_id
+      );
       if (index !== -1) {
         const optionalCategory = this.optionalCategories[index];
         this.optionalSubCategories = optionalCategory.sub_categories;
@@ -479,17 +555,27 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   formatDateForSaving(data, form) {
     if (data.discount_end_date) {
-      data.discount_end_date = moment(form.get('discount_end_date').value).format('YYYY-MM-DD');
-      data.discount_end_date = data.discount_end_date + ' ' + form.get('expiration_time').value;
-      data.discount_end_date = moment(data.discount_end_date).format('YYYY-MM-DD HH:mm');
+      data.discount_end_date = moment(
+        form.get("discount_end_date").value
+      ).format("YYYY-MM-DD");
+      data.discount_end_date =
+        data.discount_end_date + " " + form.get("expiration_time").value;
+      data.discount_end_date = moment(data.discount_end_date).format(
+        "YYYY-MM-DD HH:mm"
+      );
     } else {
       data.discount_end_date = null;
     }
 
     if (data.discount_start_date) {
-      data.discount_start_date = moment(form.get('discount_start_date').value).format('YYYY-MM-DD');
-      data.discount_start_date = data.discount_start_date + ' ' + form.get('start_time').value;
-      data.discount_start_date = moment(data.discount_start_date).format('YYYY-MM-DD HH:mm');
+      data.discount_start_date = moment(
+        form.get("discount_start_date").value
+      ).format("YYYY-MM-DD");
+      data.discount_start_date =
+        data.discount_start_date + " " + form.get("start_time").value;
+      data.discount_start_date = moment(data.discount_start_date).format(
+        "YYYY-MM-DD HH:mm"
+      );
     } else {
       data.discount_start_date = null;
     }
@@ -497,24 +583,25 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   onQuantityFieldsChange() {
     if (
-      this.componentForm.get('max_per_order').value ||
-      this.componentForm.get('min_days').value
+      this.componentForm.get("max_per_order").value ||
+      this.componentForm.get("min_days").value
     ) {
       this.componentForm
-        .get('max_per_order')
+        .get("max_per_order")
         .setValidators([Validators.required]);
-      this.componentForm.get('min_days').setValidators([Validators.required]);
+      this.componentForm.get("min_days").setValidators([Validators.required]);
     } else {
-      this.componentForm.get('max_per_order').clearValidators();
-      this.componentForm.get('min_days').clearValidators();
+      this.componentForm.get("max_per_order").clearValidators();
+      this.componentForm.get("min_days").clearValidators();
     }
 
-    this.componentForm.get('max_per_order').updateValueAndValidity();
-    this.componentForm.get('min_days').updateValueAndValidity();
+    this.componentForm.get("max_per_order").updateValueAndValidity();
+    this.componentForm.get("min_days").updateValueAndValidity();
   }
 
   buildVariantsOptions() {
-    this.selectedVariantsOptions = this.componentForm.value.product_variant_options;
+    this.selectedVariantsOptions =
+      this.componentForm.value.product_variant_options;
     this.addVariantOptionsToForm();
   }
 
@@ -529,7 +616,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   formValidator() {
     if (!this.componentForm.valid) {
       this.markFormGroupTouched(this.componentForm);
-      this.reactivityService.scrollToFirstError('add-edit-product-form')
+      this.reactivityService.scrollToFirstError("add-edit-product-form");
       // this.toasterService.error('Please fill all required fields');
       return false;
     } else {
@@ -538,7 +625,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   formControlValidator(controlName, err) {
-    if (this.componentForm.controls[controlName].touched && this.componentForm.controls[controlName].dirty) {
+    if (
+      this.componentForm.controls[controlName].touched &&
+      this.componentForm.controls[controlName].dirty
+    ) {
       if (this.componentForm.controls[controlName].errors) {
         return this.componentForm.controls[controlName].errors[err];
       }
@@ -546,7 +636,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   formGroupControlsValidator(formGroup, controlName, err) {
-    if (formGroup.controls[controlName].touched && formGroup.controls[controlName].dirty) {
+    if (
+      formGroup.controls[controlName].touched &&
+      formGroup.controls[controlName].dirty
+    ) {
       if (formGroup.controls[controlName].errors) {
         return formGroup.controls[controlName].errors[err];
       }
@@ -556,8 +649,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   changeValidation() {
     const value = this.componentForm.value;
     if (value.available_soon) {
-      this.componentForm.get('price').clearValidators();
-      this.componentForm.get('price').updateValueAndValidity();
+      this.componentForm.get("price").clearValidators();
+      this.componentForm.get("price").updateValueAndValidity();
     }
     // if (this.componentForm.value.preorder) {
     //   this.componentForm.get('preorder_price').setValidators([Validators.required]);
@@ -570,103 +663,147 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   addVariantOptionsToForm() {
     if (this.selectedVariantsOptions.length) {
-      this.options = this.componentForm.get('options') as FormArray;
+      this.options = this.componentForm.get("options") as FormArray;
       this.options.controls = [];
-      this.selectedVariantsOptions.forEach(item => {
+      this.selectedVariantsOptions.forEach((item) => {
         this.options.push(this.createVariantOption(item));
       });
     }
   }
 
   createVariantOption(item): FormGroup {
-    if (item.type === '4') {
+    if (item.type === "4") {
       return this.formBuilder.group({
         optionData: item,
         option_id: new FormControl(item.id, [Validators.required]),
-        option_value_id: new FormControl((item.selectedValue) ? item.selectedValue.id : '', [Validators.required]),
-        option_image: new FormControl((item.selectedValue) ? item.selectedValue.image : '', [Validators.required])
+        option_value_id: new FormControl(
+          item.selectedValue ? item.selectedValue.id : "",
+          [Validators.required]
+        ),
+        option_image: new FormControl(
+          item.selectedValue ? item.selectedValue.image : "",
+          [Validators.required]
+        ),
       });
-    } else if (item.type === '5') {
+    } else if (item.type === "5") {
       return this.formBuilder.group({
         optionData: item,
         option_id: new FormControl(item.id, [Validators.required]),
-        option_value_id: new FormControl((item.selectedValue) ? item.selectedValue.id : ''),
-        input_ar: new FormControl((item.selectedValue) ? item.selectedValue.input_ar : '', [Validators.required]),
-        input_en: new FormControl((item.selectedValue) ? item.selectedValue.input_en : '', [Validators.required])
+        option_value_id: new FormControl(
+          item.selectedValue ? item.selectedValue.id : ""
+        ),
+        input_ar: new FormControl(
+          item.selectedValue ? item.selectedValue.input_ar : "",
+          [Validators.required]
+        ),
+        input_en: new FormControl(
+          item.selectedValue ? item.selectedValue.input_en : "",
+          [Validators.required]
+        ),
       });
     } else {
       return this.formBuilder.group({
         optionData: item,
         option_id: new FormControl(item.id, Validators.required),
-        option_value_id: new FormControl((item.selectedValue) ? item.selectedValue.id : '', [Validators.required])
+        option_value_id: new FormControl(
+          item.selectedValue ? item.selectedValue.id : "",
+          [Validators.required]
+        ),
       });
     }
-
   }
 
   setVariantOptionsToForm(data) {
-    data.forEach(item => {
-      this.options = this.componentForm.get('options') as FormArray;
+    data.forEach((item) => {
+      this.options = this.componentForm.get("options") as FormArray;
       this.options.push(this.setVariantOption(item));
     });
   }
 
   setVariantOption(item): FormGroup {
-    if (item.optionData.type === '4') {
+    if (item.optionData.type === "4") {
       return this.formBuilder.group({
         optionData: item.optionData,
         option_id: new FormControl(item.option_id, [Validators.required]),
-        option_value_id: new FormControl((item.option_value_id) ? Number(item.option_value_id) : '', [Validators.required]),
-        option_image: new FormControl((item.option_image) ? item.option_image : '', [Validators.required])
+        option_value_id: new FormControl(
+          item.option_value_id ? Number(item.option_value_id) : "",
+          [Validators.required]
+        ),
+        option_image: new FormControl(
+          item.option_image ? item.option_image : "",
+          [Validators.required]
+        ),
       });
-    } else if (item.optionData.type === '5') {
+    } else if (item.optionData.type === "5") {
       return this.formBuilder.group({
         optionData: item.optionData,
         option_id: new FormControl(item.option_id, [Validators.required]),
-        option_value_id: new FormControl((item.option_value_id) ? Number(item.option_value_id) : ''),
-        input_ar: new FormControl((item.input_ar) ? item.input_ar : '', [Validators.required]),
-        input_en: new FormControl((item.input_en) ? item.input_en : '', [Validators.required])
+        option_value_id: new FormControl(
+          item.option_value_id ? Number(item.option_value_id) : ""
+        ),
+        input_ar: new FormControl(item.input_ar ? item.input_ar : "", [
+          Validators.required,
+        ]),
+        input_en: new FormControl(item.input_en ? item.input_en : "", [
+          Validators.required,
+        ]),
       });
     } else {
       return this.formBuilder.group({
         optionData: item.optionData,
         option_id: new FormControl(item.option_id, Validators.required),
-        option_value_id: new FormControl((item.option_value_id) ? Number(item.option_value_id) : '', [Validators.required])
+        option_value_id: new FormControl(
+          item.option_value_id ? Number(item.option_value_id) : "",
+          [Validators.required]
+        ),
       });
     }
-
   }
 
   addImage(data: any = null) {
-    this.addSubImages = this.componentForm.get('images') as FormArray;
+    this.addSubImages = this.componentForm.get("images") as FormArray;
     this.addSubImages.push(this.createImageFormControl(data));
   }
 
   createImageFormControl(data): FormGroup {
     return this.formBuilder.group({
-      url: new FormControl(data ? data.url : ''),
+      url: new FormControl(data ? data.url : ""),
     });
   }
 
   mappingMainProductData() {
     const product = { ...this.componentForm.value };
-    product.option_values.forEach(item => {
+    product.option_values.forEach((item) => {
       delete item.optionValues;
       delete item.name_en;
     });
 
     if (product.preorder_end_date) {
-      product.preorder_end_date = moment(this.componentForm.get('preorder_end_date').value).format('YYYY-MM-DD');
-      product.preorder_end_date = product.preorder_end_date + ' ' + this.componentForm.get('preorder_expiration_time').value;
-      product.preorder_end_date = moment(product.preorder_end_date).format('YYYY-MM-DD HH:mm');
+      product.preorder_end_date = moment(
+        this.componentForm.get("preorder_end_date").value
+      ).format("YYYY-MM-DD");
+      product.preorder_end_date =
+        product.preorder_end_date +
+        " " +
+        this.componentForm.get("preorder_expiration_time").value;
+      product.preorder_end_date = moment(product.preorder_end_date).format(
+        "YYYY-MM-DD HH:mm"
+      );
     } else {
       product.preorder_end_date = null;
     }
 
     if (product.preorder_start_date) {
-      product.preorder_start_date = moment(this.componentForm.get('preorder_start_date').value).format('YYYY-MM-DD');
-      product.preorder_start_date = product.preorder_start_date + ' ' + this.componentForm.get('preorder_start_time').value;
-      product.preorder_start_date = moment(product.preorder_start_date).format('YYYY-MM-DD HH:mm');
+      product.preorder_start_date = moment(
+        this.componentForm.get("preorder_start_date").value
+      ).format("YYYY-MM-DD");
+      product.preorder_start_date =
+        product.preorder_start_date +
+        " " +
+        this.componentForm.get("preorder_start_time").value;
+      product.preorder_start_date = moment(product.preorder_start_date).format(
+        "YYYY-MM-DD HH:mm"
+      );
     } else {
       product.preorder_start_date = null;
     }
@@ -683,7 +820,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       optional_sub_category_id: product.optional_sub_category_id,
       preorder: product.preorder,
       available_soon: !!product.available_soon,
-      product_variant_options: (product.product_variant_options.length) ? product.product_variant_options.map(item => item.id) : '',
+      product_variant_options: product.product_variant_options.length
+        ? product.product_variant_options.map((item) => item.id)
+        : "",
       sku: product.sku,
       stock_alert: product.stock_alert,
       type: product.type,
@@ -692,20 +831,23 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       preorder_start_date: product.preorder_start_date,
       preorder_end_date: product.preorder_end_date,
       affiliate_commission: product.affiliate_commission,
-      related_ids: product.related_ids ? product.related_ids.map(item => item.id) : ''
+      related_ids: product.related_ids
+        ? product.related_ids.map((item) => item.id)
+        : "",
     };
     return data;
   }
 
   createMainProduct() {
     this.submitting = true;
-    this.productsService.creatProduct(this.mappingMainProductData())
+    this.productsService
+      .creatProduct(this.mappingMainProductData())
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.mainProduct = response.data;
           this.createVariantProduct();
         } else {
-          this.spinner.hide();
+          // this.spinner.hide();
           this.toasterService.error(response.message);
           // this.productsService.deleteProduct()
         }
@@ -716,21 +858,27 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   mappingVariantData() {
     const product = { ...this.componentForm.value };
 
-    product.options.forEach(item => {
+    product.options.forEach((item) => {
       delete item.optionData;
     });
     this.formatDateForSaving(product, this.componentForm);
     let today = new Date();
-    let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`
+    let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`;
 
     const data = {
       product_with_variant: true,
       default_variant: product.default_variant,
       description: product.description,
       description_ar: product.description_ar,
-      discount_end_date: product.discount_price ? product.discount_end_date : '',
+      discount_end_date: product.discount_price
+        ? product.discount_end_date
+        : "",
       discount_price: product.discount_price,
-      discount_start_date: product.discount_price ? (product.discount_start_date ? product.discount_start_date : today) : '',
+      discount_start_date: product.discount_price
+        ? product.discount_start_date
+          ? product.discount_start_date
+          : today
+        : "",
       expiration_time: product.expiration_time,
       start_time: product.start_time,
       image: product.image,
@@ -749,18 +897,21 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       option_values: product.option_values,
       free_delivery: product.free_delivery,
       price: product.price,
-      sku: product.sku + '_variant',
+      sku: product.sku + "_variant",
       stock: product.stock,
       weight: product.weight,
-      bundle_products_ids: (product.bundle_products_ids) ? product.bundle_products_ids.map(item => item.id) : '',
-      payment_method_discount_ids: product.payment_method_discount_ids
+      bundle_products_ids: product.bundle_products_ids
+        ? product.bundle_products_ids.map((item) => item.id)
+        : "",
+      payment_method_discount_ids: product.payment_method_discount_ids,
     };
     return data;
   }
 
   createVariantProduct() {
     this.submitting = true;
-    this.productsService.creatProductVariant(this.mainProduct.id, this.mappingVariantData())
+    this.productsService
+      .creatProductVariant(this.mainProduct.id, this.mappingVariantData())
       .subscribe((response: any) => {
         if (response.code === 200) {
           if (this.selectedProduct && this.selectedProduct.isDraft) {
@@ -771,7 +922,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           }
           this.mainProduct.stock = response.data.stock;
           this.dataProductEmit.emit(this.mainProduct);
-          this.toasterService.success('Product With Variant Created Successfully');
+          this.toasterService.success(
+            "Product With Variant Created Successfully"
+          );
           this.spinner.hide();
           this.closeSideBar();
         } else {
@@ -785,37 +938,44 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   save() {
     /*Check Is Valid Form Data & Fire Validation*/
-    if (this.componentForm.controls['discount_price'].value && !this.componentForm.controls['discount_start_date'].value) {
+    if (
+      this.componentForm.controls["discount_price"].value &&
+      !this.componentForm.controls["discount_start_date"].value
+    ) {
       let today = new Date();
       let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`;
-      this.componentForm.controls['discount_start_date'].setValue(today);
-      this.componentForm.controls['discount_start_date'].updateValueAndValidity();
+      this.componentForm.controls["discount_start_date"].setValue(today);
+      this.componentForm.controls[
+        "discount_start_date"
+      ].updateValueAndValidity();
       this.componentForm.updateValueAndValidity();
     }
     if (this.formValidator()) {
-      this.spinner.show();
+      // this.spinner.show();
       this.createMainProduct();
     }
   }
 
   onTypeChanged() {
     if (this.componentForm.value.type == 2) {
-      this.componentForm.get('bundle_products_ids').setValidators([Validators.required]);
+      this.componentForm
+        .get("bundle_products_ids")
+        .setValidators([Validators.required]);
     } else {
-      this.componentForm.get('bundle_products_ids').clearValidators();
+      this.componentForm.get("bundle_products_ids").clearValidators();
     }
 
-    this.componentForm.get('bundle_products_ids').updateValueAndValidity();
+    this.componentForm.get("bundle_products_ids").updateValueAndValidity();
   }
 
   onAvailableChange() {
     if (this.componentForm.value.available_soon) {
-      this.componentForm.get('price').clearValidators();
+      this.componentForm.get("price").clearValidators();
     } else {
-      this.componentForm.get('price').setValidators([Validators.required]);
+      this.componentForm.get("price").setValidators([Validators.required]);
     }
 
-    this.componentForm.get('price').updateValueAndValidity();
+    this.componentForm.get("price").updateValueAndValidity();
   }
 
   markFormGroupTouched(formGroup: FormGroup) {
