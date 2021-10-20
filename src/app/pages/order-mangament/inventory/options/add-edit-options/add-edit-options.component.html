@@ -98,7 +98,8 @@
           </div>
         </div>
 
-        <!-- <a href="javascript:void(0)" class="add-sub" (click)="removeValueForm(i)">Remove Values</a> -->
+        <a href="javascript:void(0)" class="add-sub" *ngIf="OptionForm.get('values')['controls'].length > 1"
+          (click)="removeValueForm(i)">Remove Values</a>
 
       </div>
 
