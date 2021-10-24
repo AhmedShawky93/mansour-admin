@@ -15,6 +15,9 @@
   </div>
 </div>
 
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
 
 <!-- Tabel -->
 <div class="table-responsive text-center" *ngIf="!loading">
@@ -27,7 +30,7 @@
         <th scope="col">Phone</th>
         <th scope="col" class="hidden">Creation date
         </th>
-        <th  scope="col">Rejection reason</th>
+        <th scope="col">Rejection reason</th>
         <th scope="col">Status</th>
       </tr>
     </thead>
