@@ -167,7 +167,8 @@
     <div class="form-group">
       <label> Pricing</label>
       <input [max]="1000000" [min]="1" class="owl-input" formControlName="price" pattern="[0-9]+(\.[0-9][0-9]?)?"
-        placeholder="Type.." required type="number">
+        placeholder="Type.." required type="text" onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) ||
+          event.charCode==46'>
       <div *ngIf="formControlValidator('price','required')" class="alert alert-danger">
         Pricing is required.
       </div>
@@ -358,8 +359,7 @@
 
     <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
       <label class="container">Free Delivery
-        <input type="checkbox"
-          class="form-control checkbox-style" name="free_delivery" id="free_delivery" [value]="1"
+        <input type="checkbox" class="form-control checkbox-style" name="free_delivery" id="free_delivery" [value]="1"
           formControlName="free_delivery">
         <span class="checkmark"></span>
       </label>

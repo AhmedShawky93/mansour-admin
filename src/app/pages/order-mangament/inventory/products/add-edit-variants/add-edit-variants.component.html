@@ -143,7 +143,8 @@
     <div class="form-group">
       <label> Pricing</label>
       <input [max]="1000000" [min]="1" class="owl-input" formControlName="price" pattern="[0-9]+(\.[0-9][0-9]?)?"
-        placeholder="Type.." type="number">
+        placeholder="Type.." type="text" onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) ||
+          event.charCode==46'>
       <div *ngIf="formControlValidator('price','required')" class="alert alert-danger">
         Pricing is required.
       </div>
@@ -231,7 +232,8 @@
           <small> optional</small>
         </label>
         <!-- (ngModelChange)='editText($event)' -->
-        <input class="owl-input" formControlName="affiliate_commission" placeholder="Type.." onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46'>
+        <input class="owl-input" formControlName="affiliate_commission" placeholder="Type.."
+          onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46'>
         <div
           *ngIf="variantForm.controls.affiliate_commission.invalid && (variantForm.controls.affiliate_commission.dirty || variantForm.controls.affiliate_commission.touched)"
           class="alert alert-danger">
@@ -251,8 +253,8 @@
           <!-- <small> optional</small> -->
         </label>
         <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true"
-          formControlName="payment_method_discount_ids" bindLabel="name" bindValue="id" name="payment_method_discount_ids"
-          placeholder="Select Payment Methods">
+          formControlName="payment_method_discount_ids" bindLabel="name" bindValue="id"
+          name="payment_method_discount_ids" placeholder="Select Payment Methods">
         </ng-select>
       </div>
 
@@ -317,7 +319,8 @@
     <div class="form-group">
       <label>Weight</label>
       <input [min]="0" class="owl-input" formControlName="weight" maxlength="6" pattern="^\d+(?:\.\d{1,2})?$"
-      onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46' placeholder="Weight" type="text">
+        onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46' placeholder="Weight"
+        type="text">
       <div *ngIf="formControlValidator('weight','required')" class="alert alert-danger">
         Weight is required
       </div>
@@ -339,10 +342,9 @@
     </div>
 
 
-<div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
       <label class="container">Free Delivery
-        <input type="checkbox"
-          class="form-control checkbox-style" name="free_delivery" id="free_delivery" [value]="1"
+        <input type="checkbox" class="form-control checkbox-style" name="free_delivery" id="free_delivery" [value]="1"
           formControlName="free_delivery">
         <span class="checkmark"></span>
       </label>
