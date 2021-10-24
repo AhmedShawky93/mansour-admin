@@ -13,6 +13,7 @@ import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxPaginationModule } from "ngx-pagination";
+import { SharedModule } from "@app/shared/shared.module";
 
 const router = [
   { path: "", component: CitiesComponent, data: { title: "Cities" } },
@@ -31,6 +32,7 @@ const router = [
     ReactiveFormsModule,
     NgSelectModule,
     NgxPaginationModule,
+    SharedModule,
   ],
   declarations: [
     CitiesComponent,

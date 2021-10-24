@@ -240,6 +240,10 @@
             <option value="" disabled selected>Select Address</option>
             <option value="{{address.id}}" *ngFor="let address of addresses">{{address.formatted_address}}</option>
           </select>
+          <div *ngIf="orderForm.get('address_id').errors.required && orderForm.get('address_id').touched  "
+            class="alert alert-danger">
+            Address is required.
+          </div>
         </div>
         <div class="text-right mt-1">
           <button color="accent" class="btn btn-owls btn-rounded btn-green" mat-raised-button type="button"
@@ -323,7 +327,7 @@
         <div class="form-group">
           <label for="">Notes</label>
           <textarea style="height: 130px;" class="owl-input" placeholder="Type.." formControlName="notes">
-      </textarea>
+          </textarea>
         </div>
 
         <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">

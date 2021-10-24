@@ -166,6 +166,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
   }
 
   submitAddress() {
+    this.updateValidaty();
     if (
       this.orderForm.get("has_address").value == 0 &&
       !this.addressForm.valid
@@ -214,7 +215,8 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       this.markFormGroupTouched(this.addressForm);
     } else if (
       this.orderForm.get("has_address").value == 1 &&
-      this.customerForm.valid
+      this.customerForm.valid &&
+      this.orderForm.get("address_id").value
     ) {
       this.setStep(2);
     }
