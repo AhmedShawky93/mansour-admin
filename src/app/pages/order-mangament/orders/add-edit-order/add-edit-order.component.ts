@@ -20,6 +20,7 @@ import { CustomerService } from "@app/pages/services/customer.service";
 import { OrdersService } from "@app/pages/services/orders.service";
 import { ProductsService } from "@app/pages/services/products.service";
 import { SettingService } from "@app/pages/services/setting.service";
+import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { Observable, Subject, concat, of, EMPTY } from "rxjs";
 import {
@@ -79,7 +80,8 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     private router: Router,
     private productService: ProductsService,
     private ordersService: OrdersService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private spinner: NgxSpinnerService
   ) {}
 
   onCitySelected() {
@@ -296,7 +298,11 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     });
 
     if (data) {
-      this.addresses = data.user.addresses;
+      this.spinner.show();
+      this.customerService.getCustomer(data.user.id).subscribe((res) => {
+        this.spinner.hide();
+        this.addresses = res.data.addresses;
+      });
       data.items.forEach((item) => {
         const productsInput$ = new Subject<String>();
         let productsLoading = false;
