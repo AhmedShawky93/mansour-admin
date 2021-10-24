@@ -1,5 +1,8 @@
 <div class="home-items">
-  <div class="row">
+  <div class="row relative">
+    <ngx-spinner name="staticDataSpinner" [fullScreen]="false" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium"
+      type="timer">
+    </ngx-spinner>
     <div class="col-md col-sm-12">
       <div class="home-item">
         <span>
@@ -40,7 +43,8 @@
         </div>
       </div>
     </div>
-    <div class="col-md col-sm-12">
+
+    <div class="col-md col-sm-12" *ngIf="environmentVariables.SMS_CONNECTION">
       <div class="home-item">
         <span>
           <img class="icon-img" src="./assets/img/money.svg">
@@ -61,7 +65,10 @@
   <h2>new order request</h2>
 </div>
 
-<div class="table-responsive" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
+<div class="table-responsive relative" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
+  <ngx-spinner name="tableSpinner" [fullScreen]="false" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium"
+    type="timer">
+  </ngx-spinner>
   <table class="table owls-table ">
     <thead>
       <tr>
@@ -81,7 +88,7 @@
         <td>{{order.user?.name}} - {{order.user?.phone}}</td>
         <td>{{order.address?.formatted_address}}</td>
         <td>{{order.amount}}</td>
-<!--
+        <!--
         <td>
 
           <div class="tb-assign" *ngIf="order.state_id == 1">

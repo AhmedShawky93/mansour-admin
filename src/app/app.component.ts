@@ -68,6 +68,7 @@ export class AppComponent implements OnInit {
               checkoutUrl: res.data.WEBSITE_URL ? res.data.WEBSITE_URL : "",
             },
           },
+          SMS_CONNECTION: res.data.SMS_CONNECTION,
           brandRelatedVariables: {
             brand: res.data.APP_NAME ? res.data.APP_NAME : "Dashboard",
             brandArabic: res.data.APP_NAME_AR
