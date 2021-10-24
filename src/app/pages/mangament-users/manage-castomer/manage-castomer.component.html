@@ -175,7 +175,7 @@
         <!-- <img src="http://via.placeholder.com/50x50" alt="" width="50" height="50"> -->
         <div class="content">
           <p>{{customer.name}}</p>
-          <h5>
+          <h5 *ngIf="environmentVariables.SMS_CONNECTION">
             {{customer.phone}}
             <span style="cursor: pointer;" class="text-success" *ngIf="customer.phone_verified"><i
                 class="fa fa-check"></i> Verified</span>
