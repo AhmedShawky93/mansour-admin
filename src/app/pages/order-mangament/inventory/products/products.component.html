@@ -87,7 +87,7 @@
           <div class="form-group">
             <a (click)="goToLink()" class=" btn btn-owls btn-rounded btn-green  btn-special">export
               CSV</a>
-          </div> 
+          </div>
 
         </div>
         <div class="col-md-2  col-xs-12 p-l-r-5">
@@ -210,7 +210,7 @@
             <i class="fa fa-copy"></i>
           </a>
           <a *ngIf="selectedMainProduct" target="_blank" class="table-view edit-product mx-1"
-            href="{{website_url + '/products/' + encodedProductName(product.name) + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
+            href="{{website_url + 'products/' + encodedProductName(product.name) + '/' + selectedMainProduct.id + '?variant_id=' + product.id}}">
             <i class="fa fa-external-link"></i>
           </a>
           <label class="switch">

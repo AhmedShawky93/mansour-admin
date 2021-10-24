@@ -24,11 +24,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-} from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 
 import { debounce } from "lodash";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -39,46 +35,41 @@ import { Subject } from "rxjs/Rx";
 import { CategoryService } from "@app/pages/services/category.service";
 import { DraftProductService } from "@app/pages/services/draft-product.service";
 import { ProductsService } from "@app/pages/services/products.service";
-import {
-  ShowAffiliateService,
-} from "@app/pages/services/show-affiliate.service";
+import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { AuthService } from "@app/shared/auth.service";
 import { environment } from "@env/environment";
 
 import { SettingService } from "../../../services/setting.service";
-import {
-  AddEditProductComponent,
-} from "./add-edit-product/add-edit-product.component";
+import { AddEditProductComponent } from "./add-edit-product/add-edit-product.component";
 
 declare var jquery: any;
 declare var $: any;
 
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css'],
+  selector: "app-products",
+  templateUrl: "./products.component.html",
+  styleUrls: ["./products.component.css"],
   animations: [
-    trigger('slideInOut', [
+    trigger("slideInOut", [
       state(
-        'in',
+        "in",
         style({
-          transform: 'translate3d(0px, 0, 0)',
+          transform: "translate3d(0px, 0, 0)",
           background: "#000000cf",
-          width: '100%'
+          width: "100%",
         })
       ),
       state(
-        'out',
+        "out",
         style({
-          transform: 'translate3d(-100%, 0, 0)',
+          transform: "translate3d(-100%, 0, 0)",
           background: "#000000cf",
-          width: '100%'
-
+          width: "100%",
         })
       ),
-      transition('in => out', animate('300ms ease-in-out')),
-      transition('out => in', animate('300ms ease-in-out')),
+      transition("in => out", animate("300ms ease-in-out")),
+      transition("out => in", animate("300ms ease-in-out")),
     ]),
   ],
 })
@@ -92,31 +83,31 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   category_id: any;
   selectedDraft: any;
   syncFbSheet: any;
-  @ViewChild('myInput') importFile: ElementRef;
-  @ViewChild('myInputStock') importFileStock: ElementRef;
-  @ViewChild('productForm') productForm: AddEditProductComponent;
+  @ViewChild("myInput") importFile: ElementRef;
+  @ViewChild("myInputStock") importFileStock: ElementRef;
+  @ViewChild("productForm") productForm: AddEditProductComponent;
 
   selectedUserIds: number[];
   products: Array<any> = [];
   selectedMainProduct: any;
   public product: any = {
-    name: '',
-    description: '',
-    brand_id: '',
-    price: '',
-    discount_price: '',
-    sku: '',
-    category_id: '',
-    image: '',
-    long_description_ar: '',
-    long_description_en: '',
-    option_values: [] = [],
+    name: "",
+    description: "",
+    brand_id: "",
+    price: "",
+    discount_price: "",
+    sku: "",
+    category_id: "",
+    image: "",
+    long_description_ar: "",
+    long_description_en: "",
+    option_values: ([] = []),
     images: [],
   };
   addProductForm: FormGroup;
 
-  toggleAddProduct = 'out';
-  viewProductSidebar = 'out';
+  toggleAddProduct = "out";
+  viewProductSidebar = "out";
 
   toggleVariant: string;
   toggleProductVariant: string;
@@ -140,13 +131,13 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   formProduct;
   brands = [];
   newPrdouct;
-  sub_category_id = '';
-  main_category = '';
+  sub_category_id = "";
+  main_category = "";
   updateProductForm;
   filter$ = new Subject();
   loading: boolean;
   filter = {
-    q: '',
+    q: "",
     page: 1,
   };
   website_url: any;
@@ -155,7 +146,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   searchValueProduct: string;
   stateCloning: boolean;
   statedeleting: boolean;
-  routerSubscription
+  routerSubscription;
+  environmentVariables: any;
 
   constructor(
     private productsService: ProductsService,
@@ -171,14 +163,14 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private toasterService: ToastrService,
     private draftProductService: DraftProductService,
+    private settingService: SettingService,
     @Inject(DOCUMENT) private document: Document
-
   ) {
     this.search = debounce(this.search, 700);
-    this.toggleVariant = 'out';
-    this.toggleProductVariant = 'out';
-    this.viewVariantSidebar = 'out';
-    this.routerSubscription = router.events.subscribe(event => {
+    this.toggleVariant = "out";
+    this.toggleProductVariant = "out";
+    this.viewVariantSidebar = "out";
+    this.routerSubscription = router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.getRoutes();
       }
@@ -186,13 +178,21 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    document.body.style.overflow = 'auto';
-    this.routerSubscription.unsubscribe()
+    document.body.style.overflow = "auto";
+    this.routerSubscription.unsubscribe();
+  }
+
+  getConfig() {
+    this.settingService.getenvConfig().subscribe((res) => {
+      this.environmentVariables = res;
+    });
+    this.website_url = this.environmentVariables.envApi.env.checkoutUrl;
   }
 
   addCustomUser = (term) => ({ id: term, name: term });
 
   ngOnInit() {
+    this.getConfig();
     this.syncFbSheet = environment.api + "/api" + "/admin/products/export_fb";
     this.getCategories();
     // this.getProducts();
@@ -217,46 +217,51 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
         this.total = result.data.total;
       });
 
-    $('.add-product').on('click', function () {
-      $('#add-prod').toggleClass('open-view-vindor-types');
+    $(".add-product").on("click", function () {
+      $("#add-prod").toggleClass("open-view-vindor-types");
     });
 
-    $('.edit-product').on('click', function () {
-      $('#edit-prod').toggleClass('open-view-vindor-types');
+    $(".edit-product").on("click", function () {
+      $("#edit-prod").toggleClass("open-view-vindor-types");
     });
 
-    $('.open-show').on('click', function () {
-      $('#show-p-details').toggleClass('open-view-vindor-types');
+    $(".open-show").on("click", function () {
+      $("#show-p-details").toggleClass("open-view-vindor-types");
     });
 
-    $('.slider').on('click', function () {
-      const then = $(this).siblings('.reason-popup').slideToggle(100);
-      $('.reason-popup').not(then).slideUp(50);
+    $(".slider").on("click", function () {
+      const then = $(this).siblings(".reason-popup").slideToggle(100);
+      $(".reason-popup").not(then).slideUp(50);
     });
 
-    $('#close-vindors1').on('click', function () {
-      $('#add-prod').removeClass('open-view-vindor-types');
+    $("#close-vindors1").on("click", function () {
+      $("#add-prod").removeClass("open-view-vindor-types");
     });
 
-    $('#close-vindors2').on('click', function () {
-      $('#edit-prod').removeClass('open-view-vindor-types');
+    $("#close-vindors2").on("click", function () {
+      $("#edit-prod").removeClass("open-view-vindor-types");
     });
 
-    $('#show-p-details').on('click', '#close-vindors4', function () {
-      $('#show-p-details').removeClass('open-view-vindor-types');
+    $("#show-p-details").on("click", "#close-vindors4", function () {
+      $("#show-p-details").removeClass("open-view-vindor-types");
     });
 
     const token = this.auth.getToken();
 
     if (this.sub_category_id) {
-      this.exportUrl = environment.api + "/api" + '/admin/products/fullExport?sub_category_id=' + this.sub_category_id + '&token=' + token;
+      this.exportUrl =
+        environment.api +
+        "/api" +
+        "/admin/products/fullExport?sub_category_id=" +
+        this.sub_category_id +
+        "&token=" +
+        token;
     } else {
-      this.exportUrl = environment.api + "/api" + '/admin/products/fullExport?token=' + token;
+      this.exportUrl =
+        environment.api + "/api" + "/admin/products/fullExport?token=" + token;
     }
-    this.exportStock = environment.api + "/api" + '/admin/products/export_prices?token=' + token;
-
-    this.website_url = JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl;
-
+    this.exportStock =
+      environment.api + "/api" + "/admin/products/export_prices?token=" + token;
   }
 
   getRoutes() {
@@ -266,9 +271,18 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     if (this.route.snapshot.queryParams.search && !this.selectedMainProduct) {
       this.searchValue = this.route.snapshot.queryParams.search;
     }
-    if (this.route.snapshot.queryParams.parent_id && !this.selectedMainProduct) {
-      this.selectedMainProduct = { id: this.route.snapshot.queryParams.parent_id, name: this.route.snapshot.queryParams.parent_name };
-    } else if (!this.route.snapshot.queryParams.parent_id && this.selectedMainProduct) {
+    if (
+      this.route.snapshot.queryParams.parent_id &&
+      !this.selectedMainProduct
+    ) {
+      this.selectedMainProduct = {
+        id: this.route.snapshot.queryParams.parent_id,
+        name: this.route.snapshot.queryParams.parent_name,
+      };
+    } else if (
+      !this.route.snapshot.queryParams.parent_id &&
+      this.selectedMainProduct
+    ) {
       this.selectedMainProduct = null;
     }
     if (this.route.snapshot.queryParams.main_category) {
@@ -278,19 +292,29 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     if (this.route.snapshot.queryParams.sub_category_id) {
       this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
     }
-    this.getProducts(this.selectedMainProduct ? this.selectedMainProduct : null, this.searchValue);
+    this.getProducts(
+      this.selectedMainProduct ? this.selectedMainProduct : null,
+      this.searchValue
+    );
   }
 
   setRoute() {
     this.closeSideBar();
-    const params = { search: '', main_category: null, sub_category_id: null, page: 1, parent_id: null, parent_name: null };
-    if (this.searchValue !== '' && !this.selectedMainProduct) {
+    const params = {
+      search: "",
+      main_category: null,
+      sub_category_id: null,
+      page: 1,
+      parent_id: null,
+      parent_name: null,
+    };
+    if (this.searchValue !== "" && !this.selectedMainProduct) {
       params.search = this.searchValue;
     }
     if (this.main_category) {
       params.main_category = this.main_category;
     }
-    if (this.sub_category_id && this.sub_category_id !== '') {
+    if (this.sub_category_id && this.sub_category_id !== "") {
       params.sub_category_id = this.sub_category_id;
     }
     if (Number(this.p) !== 1) {
@@ -301,20 +325,18 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       params.parent_name = this.selectedMainProduct.name;
     }
 
-    this.router.navigate([],
-      {
-        relativeTo: this.route,
-        queryParams: params,
-        queryParamsHandling: 'merge'
-      });
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: params,
+      queryParamsHandling: "merge",
+    });
   }
-
 
   getAffiliate() {
     this.showAffiliateService.showAffiliate.subscribe((rep: any) => {
-      console.log('#### rep ==>', rep)
+      console.log("#### rep ==>", rep);
       this.isAffiliate = rep;
-    })
+    });
     // this.settingsService.getSettings().subscribe((response: any) => {
     //   console.log(response.data.enable_affiliate)
     //   this.showAffiliateService.showAffiliate.next(response.data.enable_affiliate);
@@ -342,10 +364,10 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.productsService
       .getProducts({
         page: this.p ? this.p : 1,
-        q: (search) ? search : '',
-        category_id: this.main_category ? this.main_category : '',
-        sub_category_id: this.sub_category_id ? this.sub_category_id : '',
-        parent_id: (product) ? product.id : ''
+        q: search ? search : "",
+        category_id: this.main_category ? this.main_category : "",
+        sub_category_id: this.sub_category_id ? this.sub_category_id : "",
+        parent_id: product ? product.id : "",
       })
       .subscribe((response: any) => {
         this.products = response.data.products;
@@ -363,7 +385,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     if (!this.selectedMainProduct) {
       const drafts = this.draftProductService.getDraftProducts();
       if (drafts.length) {
-        drafts.forEach(item => {
+        drafts.forEach((item) => {
           item.isDraft = true;
         });
         this.products.unshift(...drafts);
@@ -384,9 +406,9 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       this.viewProduct(product);
     } else {
       this.p = 1;
-      this.filter = { q: '', page: 1 };
+      this.filter = { q: "", page: 1 };
       this.searchValueProduct = this.searchValue;
-      this.searchValue = '';
+      this.searchValue = "";
       this.selectedMainProduct = product;
       this.setRoute();
     }
@@ -396,60 +418,73 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.searchValue = this.searchValueProduct;
     this.selectedMainProduct = null;
     this.p = 1;
-    this.filter = { q: '', page: 1 };
+    this.filter = { q: "", page: 1 };
     this.setRoute();
   }
 
   goToLink() {
     const token = this.auth.getToken();
-    const urlBasic = environment.api + "/api" + '/admin/products/fullExport';
-    const urlBasicWithsubCategory = environment.api + "/api" + '/admin/products/fullExport?sub_category_id=' + this.sub_category_id;
+    const urlBasic = environment.api + "/api" + "/admin/products/fullExport";
+    const urlBasicWithsubCategory =
+      environment.api +
+      "/api" +
+      "/admin/products/fullExport?sub_category_id=" +
+      this.sub_category_id;
     if (this.sub_category_id) {
-      this.productsService.exportFileProducts(urlBasicWithsubCategory).subscribe({
-        next: ((rep: any) => {
-          if (rep.code === 200) {
-
-
-          }
-        })
-      });
-      setTimeout(() => {
-        this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
-          enableHtml: true,
-          timeOut: 3000
+      this.productsService
+        .exportFileProducts(urlBasicWithsubCategory)
+        .subscribe({
+          next: (rep: any) => {
+            if (rep.code === 200) {
+            }
+          },
         });
+      setTimeout(() => {
+        this.toastrService.success(
+          "You’ll receive a notification when the export is ready for download.",
+          " Your export is now being generated ",
+          {
+            enableHtml: true,
+            timeOut: 3000,
+          }
+        );
       }, 500);
     } else {
       this.productsService.exportFileProducts(urlBasic).subscribe({
-        next: ((rep: any) => {
+        next: (rep: any) => {
           if (rep.code === 200) {
-
           }
-        })
+        },
       });
       setTimeout(() => {
-        this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
-          enableHtml: true,
-          timeOut: 3000
-        });
+        this.toastrService.success(
+          "You’ll receive a notification when the export is ready for download.",
+          " Your export is now being generated ",
+          {
+            enableHtml: true,
+            timeOut: 3000,
+          }
+        );
       }, 500);
     }
   }
 
   exportStocks() {
-    const exportStock = environment.api + "/api" + '/admin/products/exportStocks';
+    const exportStock =
+      environment.api + "/api" + "/admin/products/exportStocks";
 
     this.productsService.exportFileStocks(exportStock).subscribe({
-      next: ((rep: any) => {
-
-
-      })
+      next: (rep: any) => {},
     });
     setTimeout(() => {
-      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
-        enableHtml: true,
-        timeOut: 3000
-      });
+      this.toastrService.success(
+        "You’ll receive a notification when the export is ready for download.",
+        " Your export is now being generated ",
+        {
+          enableHtml: true,
+          timeOut: 3000,
+        }
+      );
     }, 500);
   }
 
@@ -495,20 +530,20 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
     this.selectProductDataView = null;
     this.selectProductDataView = product;
-    this.toggleAddProduct = 'out';
-    this.viewProductSidebar = 'in';
+    this.toggleAddProduct = "out";
+    this.viewProductSidebar = "in";
   }
 
   toggleMenu(data) {
     this.selectProductData = { ...data };
-    this.viewProductSidebar = 'out';
-    this.toggleAddProduct = 'in';
+    this.viewProductSidebar = "out";
+    this.toggleAddProduct = "in";
   }
 
   toggleEditVariantMenu(data) {
     this.selectedProductVariantData = { ...data };
-    this.viewProductSidebar = 'out';
-    this.toggleVariant = 'in';
+    this.viewProductSidebar = "out";
+    this.toggleVariant = "in";
   }
 
   createNew() {
@@ -517,70 +552,70 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.toggleMenuNew(null);
     }
-    this.disableBodyScrollTop()
+    this.disableBodyScrollTop();
   }
 
   NewProductWithVariant(data) {
     this.selectedProductVariantBoth = data;
-    this.toggleProductVariant = 'in';
-    this.viewProductSidebar = 'out';
-    this.toggleVariant = 'out';
-    this.toggleAddProduct = 'out';
-    this.disableBodyScrollTop()
-
+    this.toggleProductVariant = "in";
+    this.viewProductSidebar = "out";
+    this.toggleVariant = "out";
+    this.toggleAddProduct = "out";
+    this.disableBodyScrollTop();
   }
 
   edit(data) {
     this.closeSideBar();
     if (this.selectedMainProduct) {
       if (!this.selectedMainProduct.product_variant_options) {
-        this.selectedMainProduct.product_variant_options = data.product_variant_options;
+        this.selectedMainProduct.product_variant_options =
+          data.product_variant_options;
       }
       this.toggleEditVariantMenu(data);
     } else {
       this.toggleMenu(data);
     }
-    this.disableBodyScrollTop()
+    this.disableBodyScrollTop();
   }
 
   disableBodyScrollTop() {
-    window.scroll(0, 0)
-    document.body.style.overflow = 'hidden';
+    window.scroll(0, 0);
+    document.body.style.overflow = "hidden";
   }
 
   removeProduct(product) {
     this.currentProduct = product;
-    $('#deleteProduct').modal('show');
+    $("#deleteProduct").modal("show");
   }
 
   toggleMenuNew(data) {
     this.productForm.resetForm();
     this.selectProductData = null;
     this.selectProductData = data;
-    this.viewProductSidebar = 'out';
-    this.toggleAddProduct = 'in';
+    this.viewProductSidebar = "out";
+    this.toggleAddProduct = "in";
   }
 
   toggleMenuNewVariant(data) {
     this.selectedProductVariantData = null;
     this.selectedProductVariantData = data;
-    this.viewProductSidebar = 'out';
-    this.toggleVariant = 'in';
+    this.viewProductSidebar = "out";
+    this.toggleVariant = "in";
   }
 
   closeSideBar() {
-    this.toggleAddProduct = 'out';
-    this.toggleVariant = 'out';
-    this.viewProductSidebar = 'out';
-    this.toggleProductVariant = 'out';
-    document.body.style.overflow = 'auto';
+    this.toggleAddProduct = "out";
+    this.toggleVariant = "out";
+    this.viewProductSidebar = "out";
+    this.toggleProductVariant = "out";
+    document.body.style.overflow = "auto";
   }
 
   addOrUpdateProduct(data) {
     const index = this.products.findIndex((item) => item.id == data.id);
-    if (index !== -1 && !data['delete']) {
+    if (index !== -1 && !data["delete"]) {
       this.products[index] = data;
-    } else if (index !== -1 && data['delete']) {
+    } else if (index !== -1 && data["delete"]) {
       this.products.splice(index, 1);
     } else {
       this.products.unshift(data);
@@ -606,20 +641,20 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   onQuantityFieldsChange() {
     if (
-      this.addProductForm.get('max_per_order').value ||
-      this.addProductForm.get('min_days').value
+      this.addProductForm.get("max_per_order").value ||
+      this.addProductForm.get("min_days").value
     ) {
       this.addProductForm
-        .get('max_per_order')
+        .get("max_per_order")
         .setValidators([Validators.required]);
-      this.addProductForm.get('min_days').setValidators([Validators.required]);
+      this.addProductForm.get("min_days").setValidators([Validators.required]);
     } else {
-      this.addProductForm.get('max_per_order').clearValidators();
-      this.addProductForm.get('min_days').clearValidators();
+      this.addProductForm.get("max_per_order").clearValidators();
+      this.addProductForm.get("min_days").clearValidators();
     }
 
-    this.addProductForm.get('max_per_order').updateValueAndValidity();
-    this.addProductForm.get('min_days').updateValueAndValidity();
+    this.addProductForm.get("max_per_order").updateValueAndValidity();
+    this.addProductForm.get("min_days").updateValueAndValidity();
   }
 
   addProducts(product) {
@@ -638,7 +673,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       if (response.code == 200) {
         // this.products.push(response.data)
         this.getProducts();
-        $('#add-prod').toggleClass('open-view-vindor-types');
+        $("#add-prod").toggleClass("open-view-vindor-types");
         this.addProductForm.reset();
       } else {
         this.toastrService.error(response.message);
@@ -654,7 +689,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.product.deleted_images = [];
     this.selectCategory(this.category_id);
     this.selectSubCategoryOption(this.product.options[0]);
-    $('#edit-prod').toggleClass('open-view-vindor-types');
+    $("#edit-prod").toggleClass("open-view-vindor-types");
   }
 
   updateProduct(product) {
@@ -669,41 +704,40 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
             this.products[ind] = response.data;
           }
 
-          $('#edit-prod').toggleClass('open-view-vindor-types');
+          $("#edit-prod").toggleClass("open-view-vindor-types");
         } else {
           this.toastrService.error(response.message);
         }
       });
   }
 
-
-
   importExcel(event) {
     this.selectFile = <File>event.target.files[0];
-    this.productsService.import(this.selectFile,'2').subscribe((response: any) => {
-      console.log(response);
-      if(response.code == 200){
-        this.toastrService.success('File uploaded successfully')
-      }  else{
-        this.toastrService.error(response.message);
-      }
-    });
+    this.productsService
+      .import(this.selectFile, "2")
+      .subscribe((response: any) => {
+        console.log(response);
+        if (response.code == 200) {
+          this.toastrService.success("File uploaded successfully");
+        } else {
+          this.toastrService.error(response.message);
+        }
+      });
   }
 
   importStock(event) {
     this.selectFile = <File>event.target.files[0];
-    this.productsService.import(this.selectFile,'6').subscribe((response: any) => {
-      console.log(response);
-      if(response.code == 200){
-        this.toastrService.success('File uploaded successfully')
-      }  else{
-        this.toastrService.error(response.message);
-      }
-    });
+    this.productsService
+      .import(this.selectFile, "6")
+      .subscribe((response: any) => {
+        console.log(response);
+        if (response.code == 200) {
+          this.toastrService.success("File uploaded successfully");
+        } else {
+          this.toastrService.error(response.message);
+        }
+      });
   }
-
-
-
 
   // importStock(event) {
   //   this.selectFile = <File>event.target.files[0];
@@ -756,9 +790,10 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
         const category = this.categories[index];
         this.sub_categories = category.sub_categories;
         if (FromRouter) {
-          this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
+          this.sub_category_id =
+            this.route.snapshot.queryParams.sub_category_id;
         } else {
-          this.sub_category_id = '';
+          this.sub_category_id = "";
         }
       } else {
         setTimeout(() => {
@@ -767,7 +802,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       }
     } else {
       this.sub_categories = [];
-      this.sub_category_id = '';
+      this.sub_category_id = "";
     }
     this.setRoute();
   }
@@ -805,8 +840,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   addImage(product) {
     if (product.images.length < 4) {
       product.images.push({
-        url: '',
-        urlPath: '',
+        url: "",
+        urlPath: "",
       });
     }
   }
@@ -835,14 +870,14 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     if (product.active) {
       // currently checked
       product.showReason = 0;
-      product.notes = '';
+      product.notes = "";
       if (product.deactivated) {
         this.productsService
           .activateProduct(product.id)
           .subscribe((data: any) => {
             product.active = 1;
-            product.notes = '';
-            product.deactivation_notes = '';
+            product.notes = "";
+            product.deactivation_notes = "";
             product.deactivated = 0;
           });
       }
@@ -854,7 +889,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   cancelDeactivate(product) {
     product.active = 1;
-    product.notes = '';
+    product.notes = "";
     product.showReason = 0;
   }
 
@@ -873,35 +908,36 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   resetForm() {
     this.addProductForm.reset();
     this.product.images = [];
-    this.product.image = '';
-    this.product.imageUrl = '';
+    this.product.image = "";
+    this.product.imageUrl = "";
   }
 
   clone(product) {
     this.currentProduct = product;
-    $('#cloneProduct').modal('show');
+    $("#cloneProduct").modal("show");
   }
 
   confirmClone() {
     if (this.stateCloning) {
       return;
     }
-    this.productsService.clone(this.currentProduct.id)
+    this.productsService
+      .clone(this.currentProduct.id)
       .subscribe((response: any) => {
         if (response.code == 200) {
           this.stateCloning = false;
-          this.toastrService.success('Product Clone Successfully', 'Success', {
+          this.toastrService.success("Product Clone Successfully", "Success", {
             enableHtml: true,
-            timeOut: 3000
+            timeOut: 3000,
           });
           this.addOrUpdateProduct(response.data);
-          $('#cloneProduct').modal('hide');
+          $("#cloneProduct").modal("hide");
           /*this.filter$.next(this.filter);*/
         } else {
           this.stateCloning = false;
-          this.toastrService.error(response.message, 'Error Occured', {
+          this.toastrService.error(response.message, "Error Occured", {
             enableHtml: true,
-            timeOut: 3000
+            timeOut: 3000,
           });
         }
       });
@@ -909,27 +945,36 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   encodedProductName(name) {
-    return name.replace(/\s/g, '-').replace('/', '-').replace('(', '-').replace(')', '-')
+    return name
+      .replace(/\s/g, "-")
+      .replace("/", "-")
+      .replace("(", "-")
+      .replace(")", "-");
   }
 
   confirmDelete() {
     this.statedeleting = true;
-    this.productsService.softDeleteProduct(this.currentProduct.id)
+    this.productsService
+      .softDeleteProduct(this.currentProduct.id)
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.statedeleting = false;
-          this.toastrService.success('Product deleted Successfully', 'Success', {
-            enableHtml: true,
-            timeOut: 3000
-          });
-          this.currentProduct['delete'] = true;
+          this.toastrService.success(
+            "Product deleted Successfully",
+            "Success",
+            {
+              enableHtml: true,
+              timeOut: 3000,
+            }
+          );
+          this.currentProduct["delete"] = true;
           this.addOrUpdateProduct(this.currentProduct);
-          $('#deleteProduct').modal('hide');
+          $("#deleteProduct").modal("hide");
         } else {
           this.statedeleting = false;
-          this.toastrService.error(response.message, 'Error Occured', {
+          this.toastrService.error(response.message, "Error Occured", {
             enableHtml: true,
-            timeOut: 3000
+            timeOut: 3000,
           });
         }
       });
@@ -938,15 +983,15 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   removeDraftConfirmation(product, idx) {
     if (!this.selectedMainProduct) {
       this.selectedDraft = { product: product, index: idx };
-      $('#deleteDraft').modal('show');
+      $("#deleteDraft").modal("show");
     }
   }
 
   removeDraftProduct() {
     this.draftProductService.clearDraftProduct(this.selectedDraft.product);
     this.products.splice(this.selectedDraft.index, 1);
-    $('#deleteDraft').modal('hide');
-    this.toasterService.success('Draft Product Removed Successfully');
+    $("#deleteDraft").modal("hide");
+    this.toasterService.success("Draft Product Removed Successfully");
   }
 
   editDraftProduct(product) {
@@ -958,7 +1003,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     delete data.id;
     const clonedProduct = this.draftProductService.SetDraftProduct(data);
     this.addOrUpdateProduct(clonedProduct);
-    this.toasterService.success('Draft Product Cloned Successfully');
+    this.toasterService.success("Draft Product Cloned Successfully");
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
