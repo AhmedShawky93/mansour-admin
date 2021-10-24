@@ -1,18 +1,23 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { OrderStatesComponent } from './order-states.component';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { OrderStatesComponent } from "./order-states.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxPaginationModule } from "ngx-pagination";
 import { RouterModule } from "@angular/router";
-import { ViewOrderStatesComponent } from './view-order-states/view-order-states.component';
-import { AddEditOrderStatesComponent } from './add-edit-order-states/add-edit-order-states.component';
+import { ViewOrderStatesComponent } from "./view-order-states/view-order-states.component";
+import { AddEditOrderStatesComponent } from "./add-edit-order-states/add-edit-order-states.component";
+import { SharedModule } from "@app/shared/shared.module";
 
 const router = [
-  { path: "", component: OrderStatesComponent, data: { title: "Order States" } },
+  {
+    path: "",
+    component: OrderStatesComponent,
+    data: { title: "Order States" },
+  },
 ];
 
-  @NgModule({
+@NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(router),
@@ -20,7 +25,12 @@ const router = [
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
+    SharedModule,
   ],
-  declarations: [OrderStatesComponent, ViewOrderStatesComponent, AddEditOrderStatesComponent]
+  declarations: [
+    OrderStatesComponent,
+    ViewOrderStatesComponent,
+    AddEditOrderStatesComponent,
+  ],
 })
-export class OrderStatesModule { }
+export class OrderStatesModule {}

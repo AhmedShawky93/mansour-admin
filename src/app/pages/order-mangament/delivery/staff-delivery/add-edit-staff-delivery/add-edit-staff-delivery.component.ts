@@ -1,4 +1,4 @@
-import { RolesService } from './../../../../services/roles.service';
+import { RolesService } from "./../../../../services/roles.service";
 import { AreasService } from "./../../../../services/areas.service";
 import { OptionsService } from "./../../../../services/options.service";
 import {
@@ -20,7 +20,7 @@ import { ToastrService } from "ngx-toastr";
 import { CategoryService } from "@app/pages/services/category.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { DeliveryService } from "@app/pages/services/delivery.service";
-import { SettingService } from '@app/pages/services/setting.service';
+import { SettingService } from "@app/pages/services/setting.service";
 
 @Component({
   selector: "app-add-edit-staff-delivery",
@@ -50,12 +50,12 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
     private _areaService: AreasService,
     private rolesService: RolesService,
     private settingService: SettingService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getForm(this.selectProductDataEdit);
     this.getCities();
-    this.getRoles()
+    this.getRoles();
   }
   ngOnChanges(): void {
     this.getForm(this.selectProductDataEdit);
@@ -75,28 +75,38 @@ export class AddEditStaffDeliveryComponent implements OnInit, OnChanges {
   }
 
   getConfig() {
-    this.settingService.getenvConfig().subscribe(res => {
+    this.settingService.getenvConfig().subscribe((res) => {
       this.environmentVariables = res;
-      this.OptionForm.controls.phone.setValidators(
-        [
-          Validators.required,
-          Validators.minLength(this.environmentVariables.localization.phone_length),
-          Validators.maxLength(this.environmentVariables.localization.phone_length),
-          Validators.pattern(this.environmentVariables.localization.phone_pattern)
-        ]
-      )
-      this.OptionForm.controls.phone.updateValueAndValidity()
-    })
+      this.OptionForm.controls.phone.setValidators([
+        Validators.required,
+        Validators.minLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.maxLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.pattern(
+          this.environmentVariables.localization.phone_pattern
+        ),
+      ]);
+      this.OptionForm.controls.phone.updateValueAndValidity();
+    });
   }
 
   getForm(data) {
     this.OptionForm = this.formBuilder.group({
       name: new FormControl(data ? data.name : "", Validators.required),
       role_id: new FormControl(data ? data.role_id : "", Validators.required),
-      email: new FormControl(data ? data.email : "", [Validators.required, Validators.email]),
-      password: new FormControl("", data ? [] : [Validators.required, Validators.minLength(8)]),
+      email: new FormControl(data ? data.email : "", [
+        Validators.required,
+        Validators.email,
+      ]),
+      password: new FormControl(
+        "",
+        data ? [] : [Validators.required, Validators.minLength(8)]
+      ),
       address: new FormControl(data ? data.address : "", Validators.required),
-      phone: new FormControl(data ? data.phone : '', Validators.required),
+      phone: new FormControl(data ? data.phone : "", Validators.required),
 
       city_id: new FormControl(
         data ? data.delivererProfile.city.id : "",

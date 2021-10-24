@@ -422,7 +422,8 @@
     </div>
 
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green">{{(newAdsForm.value.id != null) ? "Update" : "Add"}} </button>
+      <button class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="submitting">{{(newAdsForm.value.id != null) ? "Update" : "Add"}} </button>
     </div>
   </form>
 </div>

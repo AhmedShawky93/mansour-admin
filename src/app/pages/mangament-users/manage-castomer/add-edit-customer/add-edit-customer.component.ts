@@ -1,57 +1,76 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { AreasService } from '@app/pages/services/areas.service';
-import { CustomerService } from '@app/pages/services/customer.service';
-import { SettingService } from '@app/pages/services/setting.service';
-import { ToastrService } from 'ngx-toastr';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from "@angular/forms";
+import { AreasService } from "@app/pages/services/areas.service";
+import { CustomerService } from "@app/pages/services/customer.service";
+import { SettingService } from "@app/pages/services/setting.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
-  selector: 'app-add-edit-customer',
-  templateUrl: './add-edit-customer.component.html',
-  styleUrls: ['./add-edit-customer.component.css']
+  selector: "app-add-edit-customer",
+  templateUrl: "./add-edit-customer.component.html",
+  styleUrls: ["./add-edit-customer.component.css"],
 })
 export class AddEditCustomerComponent implements OnInit {
-
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataCustomerEmit = new EventEmitter();
-  @Input('selectedCustomer') selectedCustomer;
+  @Input("selectedCustomer") selectedCustomer;
   customerForm: FormGroup;
   cities: any = [];
   areas: any = [];
-  addresseNames: any[] = [{ id: 0, name: 'Home', name_ar: "المنزل" }, { id: 1, name: 'Work', name_ar: "العمل" }, { id: 2, name: "Others", name_ar: "أخرى" }]
+  addresseNames: any[] = [
+    { id: 0, name: "Home", name_ar: "المنزل" },
+    { id: 1, name: "Work", name_ar: "العمل" },
+    { id: 2, name: "Others", name_ar: "أخرى" },
+  ];
   environmentVariables: any;
+  submitting: boolean;
 
-  constructor(private customerService: CustomerService, private toastrService: ToastrService, private citiesService: AreasService, private settingService:SettingService) { }
+  constructor(
+    private customerService: CustomerService,
+    private toastrService: ToastrService,
+    private citiesService: AreasService,
+    private settingService: SettingService
+  ) {}
 
   ngOnInit() {
     this.setupForm(this.selectedCustomer);
-    this.citiesService.getCities()
-      .subscribe((response: any) => {
-        this.cities = response.data;
-      })
+    this.citiesService.getCities().subscribe((response: any) => {
+      this.cities = response.data;
+    });
     this.getConfig();
   }
 
   getConfig() {
-    this.settingService.getenvConfig().subscribe(res => {
+    this.settingService.getenvConfig().subscribe((res) => {
       this.environmentVariables = res;
-      this.customerForm.controls.phone.setValidators(
-        [
-          Validators.required,
-          Validators.minLength(this.environmentVariables.localization.phone_length),
-          Validators.maxLength(this.environmentVariables.localization.phone_length),
-          Validators.pattern(this.environmentVariables.localization.phone_pattern)
-        ]
-      )
-      this.customerForm.controls.phone.updateValueAndValidity()
-    })
+      this.customerForm.controls.phone.setValidators([
+        Validators.required,
+        Validators.minLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.maxLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.pattern(
+          this.environmentVariables.localization.phone_pattern
+        ),
+      ]);
+      this.customerForm.controls.phone.updateValueAndValidity();
+    });
   }
 
   onCitySelected() {
-    let city_id = this.customerForm.controls.address.get('city_id').value;
+    let city_id = this.customerForm.controls.address.get("city_id").value;
 
     if (city_id) {
-      let ind = this.cities.findIndex(c => c.id == city_id);
+      let ind = this.cities.findIndex((c) => c.id == city_id);
 
       if (ind !== -1) {
         this.areas = this.cities[ind].areas;
@@ -75,20 +94,26 @@ export class AddEditCustomerComponent implements OnInit {
 
   setupForm(data) {
     this.customerForm = new FormGroup({
-      name: new FormControl(data ? data.name : '', Validators.required),
-      last_name: new FormControl(data ? data.last_name : '', Validators.required),
-      email: new FormControl(data ? data.email : '', [Validators.required, Validators.email]),
+      name: new FormControl(data ? data.name : "", Validators.required),
+      last_name: new FormControl(
+        data ? data.last_name : "",
+        Validators.required
+      ),
+      email: new FormControl(data ? data.email : "", [
+        Validators.required,
+        Validators.email,
+      ]),
       has_address: new FormControl(data ? data.has_address : false),
       address: new FormGroup({
-        name: new FormControl(data ? data.name : ''),
-        address: new FormControl(data ? data.address : ''),
-        city_id: new FormControl(data ? data.city_id : ''),
-        area_id: new FormControl(data ? data.area_id : ''),
-        landmark: new FormControl(data ? data.landmark : ''),
-        floor: new FormControl(data ? data.floor : ''),
-        apartment: new FormControl(data ? data.apartment : ''),
+        name: new FormControl(data ? data.name : ""),
+        address: new FormControl(data ? data.address : ""),
+        city_id: new FormControl(data ? data.city_id : ""),
+        area_id: new FormControl(data ? data.area_id : ""),
+        landmark: new FormControl(data ? data.landmark : ""),
+        floor: new FormControl(data ? data.floor : ""),
+        apartment: new FormControl(data ? data.apartment : ""),
       }),
-      phone: new FormControl(data ? data.phone : '', [
+      phone: new FormControl(data ? data.phone : "", [
         Validators.required,
         /*Validators.pattern(numberReg),*/
         // this.regexValidator(new RegExp('^\\d+$'), { 'numbers': 'Numeric Only' }),
@@ -97,27 +122,46 @@ export class AddEditCustomerComponent implements OnInit {
         // Validators.minLength(11),
         // Validators.maxLength(11)
       ]),
-      password: new FormControl('', this.selectedCustomer ? [] : Validators.required),
-      closed_payment_methods: new FormControl(data ? data.closed_payment_methods.map(c => c.id) : []),
+      password: new FormControl(
+        "",
+        this.selectedCustomer ? [] : Validators.required
+      ),
+      closed_payment_methods: new FormControl(
+        data ? data.closed_payment_methods.map((c) => c.id) : []
+      ),
     });
     this.getConfig();
   }
 
   updateValidaty() {
     if (this.customerForm.controls.has_address.value) {
-      this.customerForm.controls.address['controls'].name.setValidators([Validators.required]);
-      this.customerForm.controls.address['controls'].address.setValidators([Validators.required]);
-      this.customerForm.controls.address['controls'].city_id.setValidators([Validators.required]);
-      this.customerForm.controls.address['controls'].area_id.setValidators([Validators.required]);
-      this.customerForm.controls.address['controls'].floor.setValidators([Validators.required]);
-      this.customerForm.controls.address['controls'].apartment.setValidators([Validators.required]);
+      this.customerForm.controls.address["controls"].name.setValidators([
+        Validators.required,
+      ]);
+      this.customerForm.controls.address["controls"].address.setValidators([
+        Validators.required,
+      ]);
+      this.customerForm.controls.address["controls"].city_id.setValidators([
+        Validators.required,
+      ]);
+      this.customerForm.controls.address["controls"].area_id.setValidators([
+        Validators.required,
+      ]);
+      this.customerForm.controls.address["controls"].floor.setValidators([
+        Validators.required,
+      ]);
+      this.customerForm.controls.address["controls"].apartment.setValidators([
+        Validators.required,
+      ]);
     } else {
-      this.customerForm.controls.address['controls'].name.setValidators([]);
-      this.customerForm.controls.address['controls'].address.setValidators([]);
-      this.customerForm.controls.address['controls'].city_id.setValidators([]);
-      this.customerForm.controls.address['controls'].area_id.setValidators([]);
-      this.customerForm.controls.address['controls'].floor.setValidators([]);
-      this.customerForm.controls.address['controls'].apartment.setValidators([]);
+      this.customerForm.controls.address["controls"].name.setValidators([]);
+      this.customerForm.controls.address["controls"].address.setValidators([]);
+      this.customerForm.controls.address["controls"].city_id.setValidators([]);
+      this.customerForm.controls.address["controls"].area_id.setValidators([]);
+      this.customerForm.controls.address["controls"].floor.setValidators([]);
+      this.customerForm.controls.address["controls"].apartment.setValidators(
+        []
+      );
     }
   }
 
@@ -126,11 +170,14 @@ export class AddEditCustomerComponent implements OnInit {
       this.markFormGroupTouched(this.customerForm);
       return;
     }
+    this.submitting = true;
 
     let customer = this.customerForm.value;
     if (this.selectedCustomer) {
-      this.customerService.updateCustomer(this.selectedCustomer.id, customer)
+      this.customerService
+        .updateCustomer(this.selectedCustomer.id, customer)
         .subscribe((response: any) => {
+          this.submitting = false;
           if (response.code == 200) {
             this.closeSideBar(response.data);
           } else {
@@ -138,8 +185,10 @@ export class AddEditCustomerComponent implements OnInit {
           }
         });
     } else {
-      this.customerService.createCustomer(customer)
+      this.customerService
+        .createCustomer(customer)
         .subscribe((response: any) => {
+          this.submitting = false;
           if (response.code == 200) {
             this.closeSideBar(response.data);
           } else {
@@ -165,11 +214,14 @@ export class AddEditCustomerComponent implements OnInit {
   }
 
   formControlValidator(formGroup, controlName, err) {
-    if (formGroup.controls[controlName].invalid && (formGroup.controls[controlName].touched || formGroup.controls[controlName].dirty)) {
+    if (
+      formGroup.controls[controlName].invalid &&
+      (formGroup.controls[controlName].touched ||
+        formGroup.controls[controlName].dirty)
+    ) {
       if (formGroup.controls[controlName].errors) {
         return formGroup.controls[controlName].errors[err];
       }
     }
   }
-
 }

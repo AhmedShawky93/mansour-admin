@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -13,9 +10,7 @@ import * as moment from "moment";
 import { ToastrService } from "ngx-toastr";
 
 import { SettingService } from "@app/pages/services/setting.service";
-import {
-  ShowAffiliateService,
-} from "@app/pages/services/show-affiliate.service";
+import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 
 function currentPasswordValidator(group: AbstractControl) {
@@ -49,7 +44,6 @@ function timeValidator(group: AbstractControl) {
 
   return null;
 }
-
 
 declare var jquery: any;
 declare var $: any;
@@ -85,16 +79,15 @@ export class SettingComponent implements OnInit {
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
     private settingService: SettingService,
-    private showAffiliateService: ShowAffiliateService,
-    
-  ) { 
+    private showAffiliateService: ShowAffiliateService
+  ) {
     this.getConfig();
   }
 
-  getConfig(){
-    this.settingService.getenvConfig().subscribe(res=>{
-     this.environmentVariables=res;
-    })
+  getConfig() {
+    this.settingService.getenvConfig().subscribe((res) => {
+      this.environmentVariables = res;
+    });
   }
 
   ngOnInit() {
@@ -126,7 +119,7 @@ export class SettingComponent implements OnInit {
         // current_password: new FormControl(""),
         // password: new FormControl("", [Validators.minLength(8), Validators.required]),
         // confirmPassword: new FormControl(""),
-      },
+      }
       // { validators: [currentPasswordValidator, confirmPasswordValidator] }
     );
     this.passwordForm = new FormGroup(
@@ -137,11 +130,14 @@ export class SettingComponent implements OnInit {
         ]),
         email: new FormControl(user.email, Validators.required),
         current_password: new FormControl("", Validators.required),
-        password: new FormControl("", [Validators.minLength(8), Validators.required]),
+        password: new FormControl("", [
+          Validators.minLength(8),
+          Validators.required,
+        ]),
         confirmPassword: new FormControl("", Validators.required),
       },
       { validators: [currentPasswordValidator, confirmPasswordValidator] }
-    )
+    );
   }
 
   getUser() {
@@ -175,12 +171,10 @@ export class SettingComponent implements OnInit {
         } else {
           this.toastrService.error(response.message);
         }
-
       });
   }
 
   updateSetting(user) {
-
     if (!this.formSetting.valid) {
       this.markFormGroupTouched(this.formSetting);
       return;
@@ -194,8 +188,9 @@ export class SettingComponent implements OnInit {
     }
 
     // delete user.confirmPassword;
-
+    this.systemLoading = true;
     this.settingService.updateNotification(user).subscribe((response: any) => {
+      this.systemLoading = false;
       if (response.code === 200) {
         this.user = response.data;
         this.user.imageUrl = this.user.image;
@@ -209,12 +204,12 @@ export class SettingComponent implements OnInit {
     });
   }
 
-  openResetPasswordForm(){
+  openResetPasswordForm() {
     this.showUpdateForm = true;
-    $('#updatePassword').modal('show')
+    $("#updatePassword").modal("show");
   }
 
-  updatePassword(user){
+  updatePassword(user) {
     this.stateSubmitting = true;
     if (!this.passwordForm.valid) {
       this.markFormGroupTouched(this.passwordForm);
@@ -223,7 +218,6 @@ export class SettingComponent implements OnInit {
     }
 
     user = this.passwordForm.value;
-
 
     delete user.confirmPassword;
 
@@ -308,49 +302,31 @@ export class SettingComponent implements OnInit {
     // }
     this.systemForm = new FormGroup(
       {
-        enable_affiliate: new FormControl(''),
-        affiliate_pending_days: new FormControl('', [Validators.pattern("^[0-9]+$"), Validators.min(0)]),
-        min_order_amount: new FormControl(''),
-        except_cod_amount: new FormControl(''),
-        off_time: new FormControl(''),
-        open_time: new FormControl(''),
+        enable_affiliate: new FormControl(""),
+        affiliate_pending_days: new FormControl("", [
+          Validators.pattern("^[0-9]+$"),
+          Validators.min(0),
+        ]),
+        min_order_amount: new FormControl(""),
+        except_cod_amount: new FormControl(""),
+        off_time: new FormControl(""),
+        open_time: new FormControl(""),
         showSoftLaunchBar: new FormControl(false),
-        softbar_text_ar: new FormControl(''),
-        softbar_text_en: new FormControl(''),
-        softbar_bg_color: new FormControl(''),
+        softbar_text_ar: new FormControl(""),
+        softbar_text_en: new FormControl(""),
+        softbar_bg_color: new FormControl(""),
       },
       timeValidator
     );
 
     this.starsForm = new FormGroup({
-      ex_rate_pts: new FormControl(
-        '',
-        Validators.required
-      ),
-      ex_rate_egp: new FormControl(
-        '',
-        Validators.required
-      ),
-      ex_rate_gold: new FormControl(
-        '',
-        Validators.required
-      ),
-      refer_points: new FormControl(
-        '',
-        Validators.required
-      ),
-      refer_minimum: new FormControl(
-        '',
-        Validators.required
-      ),
-      egp_gold: new FormControl(
-       '',
-        Validators.required
-      ),
-      pending_days: new FormControl(
-       '',
-        Validators.required
-      ),
+      ex_rate_pts: new FormControl("", Validators.required),
+      ex_rate_egp: new FormControl("", Validators.required),
+      ex_rate_gold: new FormControl("", Validators.required),
+      refer_points: new FormControl("", Validators.required),
+      refer_minimum: new FormControl("", Validators.required),
+      egp_gold: new FormControl("", Validators.required),
+      pending_days: new FormControl("", Validators.required),
     });
     // this.settingsLoading = false;
   }
@@ -367,7 +343,9 @@ export class SettingComponent implements OnInit {
         if (response.code == 200) {
           this.settings = response.data;
           this.toastrService.success("System Settings Updated Successfully!");
-          this.showAffiliateService.showAffiliate.next(this.systemForm.get('enable_affiliate').value)
+          this.showAffiliateService.showAffiliate.next(
+            this.systemForm.get("enable_affiliate").value
+          );
           this.systemLoading = false;
         }
       });

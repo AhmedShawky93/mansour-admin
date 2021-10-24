@@ -7,7 +7,7 @@
   </div>
 
   <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="promotionForm" novalidate>
-    
+
     <div class="form-group">
       <label for="">Name</label>
       <input type="text" class="owl-input" placeholder="Type.." required formControlName="name">
@@ -85,7 +85,8 @@
 
     <div class="form-group">
       <label for="charge">Custom List</label>
-      <ng-select formControlName="list_id" [items]="lists" bindLabel="name_en" bindValue="id" placeholder="Enter List name">
+      <ng-select formControlName="list_id" [items]="lists" bindLabel="name_en" bindValue="id"
+        placeholder="Enter List name">
       </ng-select>
       <div
         *ngIf="promotionForm.controls.list_id.invalid && (promotionForm.controls.list_id.dirty || promotionForm.controls.list_id.touched)"
@@ -112,7 +113,8 @@
     <div class="form-group">
       <div>
         <mat-form-field>
-          <input [min]="today" matInput placeholder="Valid To" [satDatepicker]="picker" formControlName="expiration_date" name="expiration_date">
+          <input [min]="today" matInput placeholder="Valid To" [satDatepicker]="picker"
+            formControlName="expiration_date" name="expiration_date">
           <sat-datepicker #picker [rangeMode]="false"></sat-datepicker>
           <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
         </mat-form-field>
@@ -130,7 +132,7 @@
     </div>
 
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green">Save</button>
+      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
     </div>
   </form>
 </div>

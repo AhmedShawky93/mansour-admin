@@ -46,7 +46,7 @@ export class AddOfferComponent implements OnInit {
     minimum_amount: "",
     customer_phones: "",
     target_type: "null",
-    list_id: '',
+    list_id: "",
     first_order: false,
   };
   paymentMethods: any;
@@ -57,6 +57,7 @@ export class AddOfferComponent implements OnInit {
   customersLoading: boolean;
   selectFile: File;
   lists: any;
+  submitting: boolean;
   constructor(
     private promoService: PromosService,
     private toastrService: ToastrService,
@@ -65,7 +66,7 @@ export class AddOfferComponent implements OnInit {
     private uploadFile: UploadFilesService,
     private listsService: ListsService,
     private productsService: ProductsService
-  ) { }
+  ) {}
 
   // add Promo
   addpromo(promo) {
@@ -77,8 +78,9 @@ export class AddOfferComponent implements OnInit {
       "YYYY-MM-DD"
     );
     promo.customer_ids = this.newPromo.get("customers").value;
-
+    this.submitting = true;
     this.promoService.createPromos(promo).subscribe((response: any) => {
+      this.submitting = false;
       if (response.code == 200) {
         this.router.navigate(["/pages/promocodes"]);
       } else {
@@ -87,21 +89,17 @@ export class AddOfferComponent implements OnInit {
     });
   }
 
-
   importExcel(event) {
     let fileName = <File>event.target.files[0];
-    this.productsService.import(fileName,'8').subscribe((response: any) => {
+    this.productsService.import(fileName, "8").subscribe((response: any) => {
       console.log(response);
-      if(response.code == 200){
-        this.toastrService.success('File uploaded successfully')
-      }  else{
+      if (response.code == 200) {
+        this.toastrService.success("File uploaded successfully");
+      } else {
         this.toastrService.error(response.message);
       }
     });
   }
-
-
-
 
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control) => {
@@ -117,16 +115,14 @@ export class AddOfferComponent implements OnInit {
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);
 
-
     // this.customerService.getCustomersSimple()
     //   .subscribe((respnose: any) => {
     //     this.customers = respnose.data;
     //   });
 
-    this.listsService.getLists({})
-      .subscribe((response: any) => {
-        this.lists = response.data;
-      });
+    this.listsService.getLists({}).subscribe((response: any) => {
+      this.lists = response.data;
+    });
 
     this.customers$ = concat(
       of([]), // default items
@@ -167,20 +163,19 @@ export class AddOfferComponent implements OnInit {
       minimum_amount: new FormControl(""),
       customer_phones: new FormControl(""),
       first_order: new FormControl(false),
-      list_id: new FormControl(''),
+      list_id: new FormControl(""),
       target_type: new FormControl("null"),
     });
 
-    this.getPaymentMethods()
+    this.getPaymentMethods();
   }
 
   getPaymentMethods() {
-    this.promoService.getPaymentMethods()
-      .subscribe((rep) => {
-        if (rep.code === 200) {
-          this.paymentMethods = rep.data.filter(item => item.active == '1');
-        }
-      })
+    this.promoService.getPaymentMethods().subscribe((rep) => {
+      if (rep.code === 200) {
+        this.paymentMethods = rep.data.filter((item) => item.active == "1");
+      }
+    });
   }
   typeCustmerSelect(event) {
     if (this.promo.target_type == "1") {

@@ -87,7 +87,7 @@
     <div class="form-group">
       <label for="">Roles</label>
       <select class="owl-input" formControlName="role_id" required name="role_id">
-        <option value="" selected hidden>Select role  </option>
+        <option value="" selected hidden>Select role </option>
         <option value="{{cat.id}}" *ngFor="let cat of roles">{{cat.name}}
         </option>
       </select>
@@ -159,7 +159,7 @@
       </div>
     </div> -->
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green">Save</button>
+      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
     </div>
   </form>
 </div>

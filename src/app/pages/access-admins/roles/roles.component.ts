@@ -22,6 +22,8 @@ export class RolesComponent implements OnInit {
   p: 1;
   permissions = [];
   states = [];
+  updatting: boolean;
+  submitting: boolean;
 
   constructor(
     private adminService: AdminsService,
@@ -69,7 +71,10 @@ export class RolesComponent implements OnInit {
     this.roleForm = new FormGroup({
       id: new FormControl(role.id),
       name: new FormControl(role.name, Validators.required),
-      permissions: new FormControl(role.permissions.map((p) => p.id), Validators.required),
+      permissions: new FormControl(
+        role.permissions.map((p) => p.id),
+        Validators.required
+      ),
       order_states: new FormControl(role.states.map((s) => s.id)),
     });
   }
@@ -103,15 +108,19 @@ export class RolesComponent implements OnInit {
       this.markFormGroupTouched(this.roleForm);
       return;
     }
+    this.submitting = true;
 
-    this.rolesService.createRole(this.roleForm.value).subscribe((response: any) => {
-      if (response.code === 200) {
-        this.roles.push(response.data);
-        $("#add-admin").removeClass("open-view-vindor-types");
-      } else {
-        this.toastrService.error(response.message);
-      }
-    });
+    this.rolesService
+      .createRole(this.roleForm.value)
+      .subscribe((response: any) => {
+        this.submitting = false;
+        if (response.code === 200) {
+          this.roles.push(response.data);
+          $("#add-admin").removeClass("open-view-vindor-types");
+        } else {
+          this.toastrService.error(response.message);
+        }
+      });
   }
 
   updateRole(role) {
@@ -121,22 +130,23 @@ export class RolesComponent implements OnInit {
     }
 
     role = this.roleForm.value;
-    this.rolesService
-      .updateRole(role.id, role)
-      .subscribe((response: any) => {
-        if (response.code === 200) {
-          const ind = this.roles.findIndex((item) => {
-            return item.id === role.id;
-          });
+    this.updatting = true;
+    this.rolesService.updateRole(role.id, role).subscribe((response: any) => {
+      this.updatting = false;
 
-          if (ind !== -1) {
-            this.roles[ind] = response.data;
-          }
-          $("#edit-admin").removeClass("open-view-vindor-types");
-        } else {
-          this.toastrService.error(response.message);
+      if (response.code === 200) {
+        const ind = this.roles.findIndex((item) => {
+          return item.id === role.id;
+        });
+
+        if (ind !== -1) {
+          this.roles[ind] = response.data;
         }
-      });
+        $("#edit-admin").removeClass("open-view-vindor-types");
+      } else {
+        this.toastrService.error(response.message);
+      }
+    });
   }
 
   toggleGivin() {

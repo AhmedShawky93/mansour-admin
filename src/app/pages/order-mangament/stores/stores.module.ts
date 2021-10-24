@@ -19,7 +19,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { AddEditStoreComponent } from "./add-edit-store/add-edit-store.component";
 import { StoresComponent } from "./stores.component";
 import { ViewStoreComponent } from "./view-store/view-store.component";
-import { NgxSpinnerService } from "ngx-spinner";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 const router = [
   { path: "", component: StoresComponent, data: { title: "Stores" } },
@@ -51,7 +51,7 @@ export function agmConfigFactory(
     ReactiveFormsModule,
     NgSelectModule,
     SharedModule,
-    NgxSpinnerService,
+    NgxSpinnerModule,
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyAGue_n2PIwzqxAaxY0yzd5XgrVcF5hheI",
       libraries: ["places"],

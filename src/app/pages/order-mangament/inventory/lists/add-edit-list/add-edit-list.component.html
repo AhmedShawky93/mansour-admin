@@ -41,7 +41,7 @@
         </div>
       </div>
     </div> -->
-    
+
     <div class="form-group">
       <label for="">Name</label>
       <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_en">
@@ -96,7 +96,7 @@
     </div>
 
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green">Save</button>
+      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
     </div>
   </form>
 </div>

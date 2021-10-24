@@ -14,6 +14,7 @@ export class AddEditOrderStatesComponent implements OnInit {
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataEmit = new EventEmitter();
   @Input("selectDataEdit") selectDataEdit;
+  submitting: boolean;
   constructor(
     private orderStatesService: OrderStatesService,
     private formBuilder: FormBuilder
@@ -55,11 +56,14 @@ export class AddEditOrderStatesComponent implements OnInit {
       this.markFormGroupTouched(this.cityForm);
       return;
     }
+    this.submitting = true;
     const data = this.cityForm.value;
     if (this.selectDataEdit) {
       this.orderStatesService
         .updateOrderStatus(this.selectDataEdit.id, data)
         .subscribe((response: any) => {
+          this.submitting = false;
+
           if (response.code === 200) {
             this.dataEmit.emit(response.data);
             this.closeSideBar();

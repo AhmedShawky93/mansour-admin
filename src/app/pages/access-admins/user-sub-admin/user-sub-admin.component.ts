@@ -19,6 +19,8 @@ export class UserSubAdminComponent implements OnInit {
   admin: any;
   p: 1;
   roles = [];
+  updating: boolean;
+  submitting: boolean;
 
   constructor(
     private adminService: AdminsService,
@@ -65,8 +67,14 @@ export class UserSubAdminComponent implements OnInit {
     this.adminForm = new FormGroup({
       id: new FormControl(admin.id, Validators.required),
       name: new FormControl(admin.name, Validators.required),
-      email: new FormControl(admin.email, [Validators.required, Validators.email]),
-      role_id: new FormControl(admin.roles.length ? admin.roles[0].id : null, Validators.required),
+      email: new FormControl(admin.email, [
+        Validators.required,
+        Validators.email,
+      ]),
+      role_id: new FormControl(
+        admin.roles.length ? admin.roles[0].id : null,
+        Validators.required
+      ),
       password: new FormControl("", [Validators.minLength(8)]),
     });
   }
@@ -102,7 +110,9 @@ export class UserSubAdminComponent implements OnInit {
     }
 
     subAdmin = this.adminForm.value;
+    this.submitting = true;
     this.adminService.createAdmin(subAdmin).subscribe((response: any) => {
+      this.submitting = false;
       if (response.code === 200) {
         this.admins.push(response.data);
         $("#add-admin").removeClass("open-view-vindor-types");
@@ -119,9 +129,11 @@ export class UserSubAdminComponent implements OnInit {
     }
 
     admin = this.adminForm.value;
+    this.updating = true;
     this.adminService
       .updateAdmin(admin.id, admin)
       .subscribe((response: any) => {
+        this.updating = false;
         if (response.code === 200) {
           const ind = this.admins.findIndex((item) => {
             return item.id === admin.id;

@@ -62,7 +62,7 @@
         <td>
           <span *ngIf="branche.phone != null; else dashEmpty">
             <span *ngFor="let ph of branche?.phone.slice(0,2); let i = index">
-              {{ph}},
+              {{ph}}<span *ngIf="branche?.phone.length > 1 && branche?.phone.length != (i + 1)">,</span>
             </span>
             <span *ngIf="branche?.phone.length > 3">...</span>
           </span>

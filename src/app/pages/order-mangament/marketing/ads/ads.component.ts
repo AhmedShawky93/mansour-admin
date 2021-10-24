@@ -76,6 +76,7 @@ export class adsComponent implements OnInit {
   lists: any = [];
   showAddEditAd: boolean;
   showViewAd: boolean;
+  submitting: boolean;
 
   constructor(
     private adsService: AdsService,
@@ -461,8 +462,9 @@ export class adsComponent implements OnInit {
     } else if (ad.type == 6) {
       ad.item_id = this.newAdsForm.get("category").value;
     }
-
+    this.submitting = true;
     this.adsService.creatAds(ad).subscribe((response: any) => {
+      this.submitting = false;
       if (response.code == 200) {
         $("#add-ads").removeClass("open-view-vindor-types");
         this.newAdsForm.reset();
@@ -500,8 +502,9 @@ export class adsComponent implements OnInit {
     } else if (ad.type == 6) {
       ad.item_id = this.newAdsForm.get("category").value;
     }
-
+    this.submitting = true;
     this.adsService.updateAds(ad.id, ad).subscribe((response: any) => {
+      this.submitting = false;
       if (response.code == 200) {
         $("#add-ads").removeClass("open-view-vindor-types");
 

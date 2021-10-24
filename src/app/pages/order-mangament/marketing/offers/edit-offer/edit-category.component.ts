@@ -46,6 +46,7 @@ export class EditOfferComponent implements OnInit {
   selectFile: File;
   lists: any;
   paymentMethods: any;
+  updating: boolean;
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
@@ -166,8 +167,9 @@ export class EditOfferComponent implements OnInit {
       "YYYY-MM-DD"
     );
     promo.customer_ids = this.editForm.get("customers").value;
-
+    this.updating = true;
     this.promoService.updatePromos(promo).subscribe((response: any) => {
+      this.updating = false;
       if (response.code == 200) {
         this.router.navigate(["/pages/promocodes"]);
       } else {
