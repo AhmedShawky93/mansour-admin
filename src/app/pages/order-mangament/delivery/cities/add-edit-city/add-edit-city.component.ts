@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   FormArray,
   FormBuilder,
@@ -26,7 +20,11 @@ export class AddEditCityComponent implements OnInit {
   @Output() dataEmit = new EventEmitter();
   @Input("selectDataEdit") selectDataEdit;
   ranges: FormArray;
-  constructor(private _areaService: AreasService, private formbuilder: FormBuilder) { }
+  submitting: boolean;
+  constructor(
+    private _areaService: AreasService,
+    private formbuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.getForm(this.selectDataEdit);
@@ -43,11 +41,11 @@ export class AddEditCityComponent implements OnInit {
       // from: new FormControl(data ? data.from : "", Validators.pattern('\\d*(\\.\\d{1,2})?$')),
       // to: new FormControl(data ? data.to : "", Validators.pattern('\\d*(\\.\\d{1,2})?$')),
       // ranges:new FormArray([], [Validators.minLength(1), Validators.required])
-      fees_range: new FormArray([])
+      fees_range: new FormArray([]),
       // apply_with_other: new FormControl(false),
     });
     if (data) {
-      this.selectTypePrice(data.fees_type)
+      this.selectTypePrice(data.fees_type);
       data.fees_range.forEach((element) => {
         this.addRangeForm(element);
       });
@@ -61,15 +59,19 @@ export class AddEditCityComponent implements OnInit {
   createItem(data): FormGroup {
     return this.formbuilder.group({
       fees: new FormControl(data ? data.fees : "", [Validators.required]),
-      weight_from: new FormControl(data ? data.weight_from : "", [Validators.required]),
-      weight_to: new FormControl(data ? data.weight_to : "", [Validators.required]),
+      weight_from: new FormControl(data ? data.weight_from : "", [
+        Validators.required,
+      ]),
+      weight_to: new FormControl(data ? data.weight_to : "", [
+        Validators.required,
+      ]),
     });
   }
   removeRangeForm(index) {
     this.ranges.removeAt(index);
   }
   selectTypePrice(type) {
-    console.log(type)
+    console.log(type);
     if (type == 1) {
       // reset data array form
       // const control = <FormArray>this.cityForm.controls['fees_range'];
@@ -77,35 +79,40 @@ export class AddEditCityComponent implements OnInit {
       //   control.removeAt(i)
       // }
 
-      this.cityForm.get('fees_range').clearValidators();
+      this.cityForm.get("fees_range").clearValidators();
       // this.cityForm.get('delivery_fees').setValidators([Validators.required])
     } else if (type == 2) {
-      if (this.selectDataEdit == null) this.addRangeForm(null)
+      if (this.selectDataEdit == null) this.addRangeForm(null);
       // this.cityForm.get('delivery_fees').setValue('');
-      this.cityForm.get('fees_range').setValidators([Validators.minLength(1), Validators.required]);
+      this.cityForm
+        .get("fees_range")
+        .setValidators([Validators.minLength(1), Validators.required]);
       // this.cityForm.get('delivery_fees').clearValidators()
     }
-    this.cityForm.get('fees_range').updateValueAndValidity()
+    this.cityForm.get("fees_range").updateValueAndValidity();
     // this.cityForm.get('delivery_fees').updateValueAndValidity()
   }
 
   submitForm() {
-    console.log(this.cityForm.value)
-    console.log(this.cityForm.valid)
+    // console.log(this.cityForm.value)
+    // console.log(this.cityForm.valid)
     if (!this.cityForm.valid) {
       this.markFormGroupTouched(this.cityForm);
       return;
     }
     const data = this.cityForm.value;
-    if (data.fees_type == '1') {
-      delete data.fees_range
-    } else if (data.fees_type == '2') {
-      delete data.delivery_fees
+    if (data.fees_type == "1") {
+      delete data.fees_range;
+    } else if (data.fees_type == "2") {
+      delete data.delivery_fees;
     }
+    this.submitting = true;
     if (this.selectDataEdit) {
       this._areaService
         .updateCity(this.selectDataEdit.id, data)
         .subscribe((response: any) => {
+          this.submitting = false;
+
           if (response.code === 200) {
             this.dataEmit.emit(response.data);
             this.closeSideBar();
@@ -113,6 +120,8 @@ export class AddEditCityComponent implements OnInit {
         });
     } else {
       this._areaService.createCity(data).subscribe((response: any) => {
+        this.submitting = false;
+
         if (response.code === 200) {
           this.dataEmit.emit(response.data);
           this.closeSideBar();
@@ -136,7 +145,9 @@ export class AddEditCityComponent implements OnInit {
     });
   }
   numberOnly(event: any) {
-    console.log('event ==>', event.charCode)
-    return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46;
+    console.log("event ==>", event.charCode);
+    return (
+      (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46
+    );
   }
 }

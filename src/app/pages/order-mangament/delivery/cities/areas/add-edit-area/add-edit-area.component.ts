@@ -14,8 +14,12 @@ export class AddEditAreaComponent implements OnInit {
   @Output() dataEmit = new EventEmitter();
   @Input("selectDataEdit") selectDataEdit;
   @Input("idParent") idParent;
+  submitting: boolean;
 
-  constructor(private _areaService: AreasService, private formbuilder: FormBuilder) { }
+  constructor(
+    private _areaService: AreasService,
+    private formbuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.getForm(this.selectDataEdit);
@@ -27,17 +31,18 @@ export class AddEditAreaComponent implements OnInit {
     this.cityForm = new FormGroup({
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-      aramex_name: new FormControl(data && data.aramex_name ? data.aramex_name : ""),
-      delivery_fees: new FormControl(
-        data ? data.delivery_fees : 0),
+      aramex_name: new FormControl(
+        data && data.aramex_name ? data.aramex_name : ""
+      ),
+      delivery_fees: new FormControl(data ? data.delivery_fees : 0),
       fees_type: new FormControl(data ? data.fees_type : 1),
 
-      fees_range: new FormArray([])
+      fees_range: new FormArray([]),
 
       // apply_with_other: new FormControl(false),
     });
     if (data) {
-      this.selectTypePrice(data.fees_type)
+      this.selectTypePrice(data.fees_type);
       data.fees_range.forEach((element) => {
         this.addRangeForm(element);
       });
@@ -51,8 +56,12 @@ export class AddEditAreaComponent implements OnInit {
   createItem(data): FormGroup {
     return this.formbuilder.group({
       fees: new FormControl(data ? data.fees : "", [Validators.required]),
-      weight_from: new FormControl(data ? data.weight_from : "", [Validators.required]),
-      weight_to: new FormControl(data ? data.weight_to : "", [Validators.required]),
+      weight_from: new FormControl(data ? data.weight_from : "", [
+        Validators.required,
+      ]),
+      weight_to: new FormControl(data ? data.weight_to : "", [
+        Validators.required,
+      ]),
     });
   }
   removeRangeForm(index) {
@@ -66,15 +75,17 @@ export class AddEditAreaComponent implements OnInit {
       //   control.removeAt(i)
       // }
 
-      this.cityForm.get('fees_range').clearValidators();
+      this.cityForm.get("fees_range").clearValidators();
       // this.cityForm.get('delivery_fees').setValidators([Validators.required])
     } else if (type == 2) {
-      if (this.selectDataEdit == null) this.addRangeForm(null)
+      if (this.selectDataEdit == null) this.addRangeForm(null);
       // this.cityForm.get('delivery_fees').setValue('');
-      this.cityForm.get('fees_range').setValidators([Validators.minLength(1), Validators.required]);
+      this.cityForm
+        .get("fees_range")
+        .setValidators([Validators.minLength(1), Validators.required]);
       // this.cityForm.get('delivery_fees').clearValidators()
     }
-    this.cityForm.get('fees_range').updateValueAndValidity()
+    this.cityForm.get("fees_range").updateValueAndValidity();
     // this.cityForm.get('delivery_fees').updateValueAndValidity()
   }
 
@@ -84,15 +95,19 @@ export class AddEditAreaComponent implements OnInit {
       return;
     }
     const data = this.cityForm.value;
-    if (data.fees_type == '1') {
-      delete data.fees_range
-    } else if (data.fees_type == '2') {
-      delete data.delivery_fees
+    if (data.fees_type == "1") {
+      delete data.fees_range;
+    } else if (data.fees_type == "2") {
+      delete data.delivery_fees;
     }
+    this.submitting = true;
+
     if (this.selectDataEdit) {
       this._areaService
         .updateArea(this.idParent, data, this.selectDataEdit.id)
         .subscribe((response: any) => {
+          this.submitting = false;
+
           if (response.code === 200) {
             this.dataEmit.emit(response.data);
             this.closeSideBar();
@@ -102,6 +117,8 @@ export class AddEditAreaComponent implements OnInit {
       this._areaService
         .createArea(this.idParent, data)
         .subscribe((response: any) => {
+          this.submitting = false;
+
           if (response.code === 200) {
             this.dataEmit.emit(response.data);
             this.closeSideBar();
