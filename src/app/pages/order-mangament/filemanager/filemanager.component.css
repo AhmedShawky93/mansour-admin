@@ -1,0 +1,29 @@
+.nodeTemp {
+  box-shadow: 0 0px 20px 0 rgb(0 0 0 / 10%);
+  width: 150px;
+  height: 150px;
+  padding: 30px 0;
+  text-align: center;
+  margin: 10px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.nodeTemp .previewImg {
+  width: 70px;
+  margin: auto;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.nodeTemp p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 10px;
+}
+
+.nodeTemp:hover {
+  background-color: #efefef;
+  transform: scale(1.02, 1.02);
+}

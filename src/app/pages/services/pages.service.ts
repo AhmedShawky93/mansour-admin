@@ -1,50 +1,61 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
-import 'rxjs/add/operator/catch';
+import { environment } from "../../../environments/environment";
+import { BehaviorSubject, Observable } from "rxjs";
+import "rxjs/add/operator/catch";
 
 @Injectable()
 export class PagesService {
-
   private url: string;
+  private uploaderObs$: BehaviorSubject<any> = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) {
     this.url = environment.api + "/api" + "/admin";
   }
 
   getPages() {
-    return this.http.get<any>(this.url + "/pages")
-      .catch((error: any) => {
-        return Observable.throw(error.error || 'Server error');
-      })
+    return this.http.get<any>(this.url + "/pages").catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
   }
   getSinglePage(pageId) {
-    return this.http.get<any>(this.url + `/pages/${pageId}/show`)
+    return this.http
+      .get<any>(this.url + `/pages/${pageId}/show`)
       .catch((error: any) => {
-        return Observable.throw(error.error || 'Server error');
-      })
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   editPage(id, data) {
-    return this.http.post<any>(this.url + "/pages/" + id + '/update', data)
+    return this.http
+      .post<any>(this.url + "/pages/" + id + "/update", data)
       .catch((error: any) => {
-        throw (error.error || 'Server error');
-      })
+        throw error.error || "Server error";
+      });
+  }
+
+  getUploads(): Observable<any> {
+    return this.uploaderObs$.asObservable();
+  }
+
+  setUploads(upload) {
+    this.uploaderObs$.next(upload);
   }
 
   addPage(data) {
-    return this.http.post<any>(this.url + "/pages/store", data)
+    return this.http
+      .post<any>(this.url + "/pages/store", data)
       .catch((error: any) => {
-        throw (error.error || 'Server error');
-      })
+        throw error.error || "Server error";
+      });
   }
 
   deletePage(id) {
-    return this.http.post<any>(this.url + "/pages/" + id + '/delete', {})
+    return this.http
+      .post<any>(this.url + "/pages/" + id + "/delete", {})
       .catch((error: any) => {
-        throw (error.error || 'Server error');
-      })
+        throw error.error || "Server error";
+      });
   }
   activate(id) {
     return this.http

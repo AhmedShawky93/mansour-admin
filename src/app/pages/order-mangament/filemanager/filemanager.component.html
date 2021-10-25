@@ -1,3 +1,23 @@
 <div class="filemanager">
-  <fm-file-manager [tree]="tree"></fm-file-manager>
+  <fm-file-manager [language]="'en'" (itemClicked)="onSelect($event)" [folderContentTemplate]="nodeTemplate"
+    [sideViewTemplate]="sideTemplate" [tree]="tree"></fm-file-manager>
+
+  <ng-template let-node #nodeTemplate>
+    <div class="nodeTemp">
+      <img src="{{getnodeImgById(node)}}" class="previewImg" alt="">
+      <p>
+        {{node.name}}
+      </p>
+    </div>
+
+  </ng-template>
+
+  <ng-template let-node #sideTemplate>
+    <img src="{{getnodeImgById(node)}}" class="previewImg" alt="">
+    {{node.name}}
+  </ng-template>
+</div>
+
+<div class="filePagination">
+  <pagination-controls (pageChange)="paginate($event)"></pagination-controls>
 </div>

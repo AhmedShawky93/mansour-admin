@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { FilemanagerComponent } from './filemanager.component';
+import { FilemanagerComponent } from "./filemanager.component";
 
-describe('FilemanagerComponent', () => {
+describe("FilemanagerComponent", () => {
   let component: FilemanagerComponent;
   let fixture: ComponentFixture<FilemanagerComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FilemanagerComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FilemanagerComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FilemanagerComponent);
@@ -19,7 +20,7 @@ describe('FilemanagerComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
