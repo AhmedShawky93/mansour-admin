@@ -8,6 +8,7 @@ import "rxjs/add/operator/catch";
 export class PagesService {
   private url: string;
   private uploaderObs$: BehaviorSubject<any> = new BehaviorSubject(null);
+  private currentImgIndexObs$: BehaviorSubject<any> = new BehaviorSubject(0);
 
   constructor(private http: HttpClient) {
     this.url = environment.api + "/api" + "/admin";
