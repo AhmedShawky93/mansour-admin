@@ -26,6 +26,10 @@ export class PagesService {
       });
   }
 
+  getcurrentImg(): Observable<any> {
+    return this.currentImgIndexObs$.asObservable();
+  }
+
   editPage(id, data) {
     return this.http
       .post<any>(this.url + "/pages/" + id + "/update", data)
