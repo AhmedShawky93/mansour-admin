@@ -31,6 +31,10 @@ export class PagesService {
     return this.currentImgIndexObs$.asObservable();
   }
 
+  setcurrentImg(imgIndex) {
+    this.currentImgIndexObs$.next(imgIndex);
+  }
+
   editPage(id, data) {
     return this.http
       .post<any>(this.url + "/pages/" + id + "/update", data)

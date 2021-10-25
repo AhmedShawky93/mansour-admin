@@ -34,6 +34,12 @@
   min-width: initial !important;
 }
 
+.modal-body {
+  .content {
+    min-width: 850px !important;
+  }
+}
+
 [class^="icon-"],
 [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */

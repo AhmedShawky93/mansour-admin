@@ -1,8 +1,11 @@
-<div class="image-uploader form-group" [formGroup]="myForm" [ngStyle]="{height: height, width:width}">
+<div id="image_upload" class="image-uploader form-group" [formGroup]="myForm" [ngStyle]="{height: height, width:width}">
   <img *ngIf="loading" class="uploading-spinner" src="./assets/img/Spinner-loading.svg">
-  <embed *ngIf="isPdf" [src]="trustURL(imageUrl)" type="application/pdf" />
-  <img *ngIf="!isPdf" class="bordered-img" onError="this.src='./assets/img/placeholder200.jpg';"
-    default="./assets/img/placeholder200.jpg" [src]="imageUrl ? imageUrl : fallbackImage" alt="">
-  <input (input)="onImageSelected($event)" accept="image/*" name="uploader" type="file" />
+  <!-- <embed *ngIf="isPdf" [src]="trustURL(imageUrl)" type="application/pdf" /> -->
+  <img *ngIf="isPdf" (click)="setImgIndex()" data-toggle="modal" data-target="#uploadModal"
+    src="./../../../../assets/img/fileTypes/pdf.png" alt="">
+  <img *ngIf="!isPdf" (click)="setImgIndex()" data-toggle="modal" data-target="#uploadModal" class="bordered-img"
+    onError="this.src='./assets/img/placeholder200.jpg';" default="./assets/img/placeholder200.jpg"
+    [src]="imageUrl ? imageUrl : fallbackImage" alt="">
+  <!-- <input (input)="onImageSelected($event)" accept="image/*" name="uploader" type="file" /> -->
   <input class="input-wrapper" [formControlName]="formControlChildName" name="uploaderwraper" type="text" />
 </div>
