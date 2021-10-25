@@ -30,6 +30,10 @@
   --menu-font-hover-color: #da1e42;
 }
 
+.content {
+  min-width: initial !important;
+}
+
 [class^="icon-"],
 [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
