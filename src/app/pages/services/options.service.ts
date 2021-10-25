@@ -24,23 +24,32 @@ export class OptionsService {
   }
   exportOptions() {
     const httpOptions = {
-        responseType: 'blob' as 'json',
-      };
-    return this.http.post(this.url + "/options/export",{},httpOptions)
-        .catch((error: any) => {
-            return Observable.throw(error.error || 'Server error');
-        })
-}
-ImportOptions(importParams) {
-    return this.http.post(this.url + "/options/import",importParams)
-        .catch((error: any) => {
-            return Observable.throw(error.error || 'Server error');
-        })
-}
+      responseType: "blob" as "json",
+    };
+    return this.http
+      .post(this.url + "/options/export", {}, httpOptions)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+  ImportOptions(importParams) {
+    return this.http
+      .post(this.url + "/options/import", importParams)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
   createOption(data) {
     return this.http.post(this.url + "/options", data).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
     });
+  }
+  deleteOptionValue(optionID, valueID) {
+    return this.http
+      .delete(this.url + `/option/${optionID}/values/${valueID}`)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
   editOptions(id, data) {
     return this.http

@@ -37,6 +37,7 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
   marker_lat;
   marker_lng;
   values: FormArray;
+  deleteValues: any[] = [];
 
   public zoom: number = 12;
   brands: any;
@@ -109,6 +110,16 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
       }
       this.submitting = true;
 
+      if (this.deleteValues.length) {
+        this.deleteValues.forEach(
+          (itemID) =>
+            itemID &&
+            this.optionsService
+              .deleteOptionValue(this.selectProductDataEdit.id, itemID)
+              .subscribe((res) => {})
+        );
+      }
+
       this.optionsService
         .editOptions(this.selectProductDataEdit.id, data)
         .subscribe((response: any) => {
@@ -179,6 +190,7 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
   }
 
   removeValueForm(index) {
+    this.deleteValues.push(this.values.controls[index].get("id").value);
     this.values.removeAt(index);
   }
 
