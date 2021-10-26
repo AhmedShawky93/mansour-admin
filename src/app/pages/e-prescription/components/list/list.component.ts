@@ -15,7 +15,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-list",
@@ -34,18 +33,18 @@ export class ListComponent implements OnInit {
   page: number;
   prescriptionForm: FormGroup;
   fallbackImage: string;
+  stateSubmitting: boolean = false;
 
   constructor(
     private service: EPrescriptionService,
     private formBuilder: FormBuilder,
-    private toastrService: ToastrService,
-    private spinner: NgxSpinnerService
+    private toastrService: ToastrService
   ) {
     this.searchTerm = "";
     this.itemsPerPage = 20;
     this.totalPages = 0;
     this.page = 1;
-    this.fallbackImage = "/assets/img/broken-image-sample.png";
+    this.fallbackImage = "/assets/img/placeholder70.png";
     this.search = debounce(this.loadData, 700);
   }
 
@@ -87,11 +86,9 @@ export class ListComponent implements OnInit {
   }
   loadData(page: any = null) {
     this.page = page ? page : this.page;
-    this.spinner.show();
     this.service
       .getPrescriptions(this.searchTerm, this.page)
       .subscribe((res) => {
-        this.spinner.hide();
         this.list = res["data"]["prescriptions"];
         this.totalPages = res["data"]["total"];
       });
@@ -145,15 +142,17 @@ export class ListComponent implements OnInit {
       status: this.changeStatusData.status.id,
     };
     data.amount = data.amount ? Number(data.amount) : 0;
-
+    this.stateSubmitting = true;
     this.service
       .changeStatus(this.changeStatusData.item.id, data)
       .subscribe((res) => {
         if (res["code"] === 200) {
           this.updateTable(res["data"]);
+          this.stateSubmitting = false;
           this.prescriptionForm.reset();
         } else {
           this.close();
+          this.stateSubmitting = false;
         }
       });
   }

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-container',
-  templateUrl: './container.component.html',
-  styleUrls: ['./container.component.css']
+  selector: "app-container",
+  templateUrl: "./container.component.html",
+  styleUrls: ["./container.component.css"],
 })
 export class ContainerComponent implements OnInit {
   public sideBarAction: any;
@@ -11,34 +11,33 @@ export class ContainerComponent implements OnInit {
   currentOperation: string;
 
   constructor() {
-    this.sideBarAction = {show: false, title: 'Preview'};
+    this.sideBarAction = { show: false, title: "Preview" };
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   openSideBar(title) {
-    this.sideBarAction['show'] = true;
-    this.sideBarAction['title'] = title;
-    this.sideBarAction = {...this.sideBarAction};
+    this.sideBarAction["show"] = true;
+    this.sideBarAction["title"] = title;
+    this.sideBarAction = { ...this.sideBarAction };
   }
 
   closeSideBar() {
-    this.sideBarAction['show'] = false;
-    this.sideBarAction['title'] = '';
-    this.sideBarAction = {...this.sideBarAction};
+    this.sideBarAction["show"] = false;
+    this.sideBarAction["title"] = "";
+    this.sideBarAction = { ...this.sideBarAction };
   }
   operations(data) {
     this.currentOperation = data.operation;
     switch (data.operation) {
-      case 'view':
+      case "view":
         this.viewOperation(data.data);
         break;
     }
   }
 
   viewOperation(data) {
-    this.selectedItem = {...data};
+    this.selectedItem = { ...data };
     this.openSideBar(data.name);
   }
 }
