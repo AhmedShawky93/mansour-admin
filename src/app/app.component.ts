@@ -57,8 +57,8 @@ export class AppComponent implements OnInit {
           showLoyality: res.data.ENABLE_LOYALITY
             ? res.data.ENABLE_LOYALITY
             : false,
-          showPrescription: res.data.ENABLE_PRESCRIPTION
-            ? res.data.ENABLE_PRESCRIPTION
+          showPrescription: res.data.enable_prescription
+            ? res.data.enable_prescription
             : false,
           WEB_BRAND_COLOR: res.data.WEB_BRAND_COLOR
             ? res.data.WEB_BRAND_COLOR

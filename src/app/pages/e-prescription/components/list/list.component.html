@@ -109,7 +109,8 @@
         </td>
         <td>
           <a [href]="item?.images[0]" target="_blank" class="cursor-pointer">
-            <img class="img-preview" [src]="item?.images[0]" (error)="setFallbackImage($event, item)" alt="">
+            <img class="img-preview" [src]="item?.images[0]" default="assets/img/placeholder70.png"
+              onError="this.src='assets/img/placeholder70.png';" alt="">
           </a>
         </td>
         <td>{{item.created_at.date | date :'dd-MM-y h:m:s a'}}</td>
@@ -148,3 +149,6 @@
 </ng-template>
 
 <pagination-controls (pageChange)="loadData($event)"></pagination-controls>
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

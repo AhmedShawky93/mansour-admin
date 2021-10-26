@@ -1,16 +1,29 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {EPrescriptionService} from '@app/pages/e-prescription/e-prescription.service';
-import {debounce} from 'lodash';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from "@angular/core";
+import { EPrescriptionService } from "@app/pages/e-prescription/e-prescription.service";
+import { debounce } from "lodash";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  selector: "app-list",
+  templateUrl: "./list.component.html",
+  styleUrls: ["./list.component.css"],
 })
 export class ListComponent implements OnInit {
-  @ViewChild('closebutton') closebutton;
+  @ViewChild("closebutton") closebutton;
   @Input() ModifiedItem: any;
   @Output() listOperation = new EventEmitter();
   searchTerm: string;
@@ -22,17 +35,17 @@ export class ListComponent implements OnInit {
   prescriptionForm: FormGroup;
   fallbackImage: string;
 
-
   constructor(
     private service: EPrescriptionService,
     private formBuilder: FormBuilder,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private spinner: NgxSpinnerService
   ) {
-    this.searchTerm = '';
+    this.searchTerm = "";
     this.itemsPerPage = 20;
     this.totalPages = 0;
     this.page = 1;
-    this.fallbackImage = '/assets/img/broken-image-sample.png';
+    this.fallbackImage = "/assets/img/broken-image-sample.png";
     this.search = debounce(this.loadData, 700);
   }
 
@@ -41,20 +54,22 @@ export class ListComponent implements OnInit {
     this.loadData();
   }
 
-  search() {
-  }
+  search() {}
 
   createForm() {
     this.prescriptionForm = this.formBuilder.group({
-      invoice_id: new FormControl('', [Validators.required]),
-      amount: new FormControl('', [Validators.required]),
-      comment: new FormControl('', [Validators.required]),
-      cancel_reason: new FormControl('', [Validators.required])
+      invoice_id: new FormControl("", [Validators.required]),
+      amount: new FormControl("", [Validators.required]),
+      comment: new FormControl("", [Validators.required]),
+      cancel_reason: new FormControl("", [Validators.required]),
     });
   }
 
   formControlValidator(controlName, err) {
-    if (this.prescriptionForm.controls[controlName].touched && this.prescriptionForm.controls[controlName].dirty) {
+    if (
+      this.prescriptionForm.controls[controlName].touched &&
+      this.prescriptionForm.controls[controlName].dirty
+    ) {
       if (this.prescriptionForm.controls[controlName].errors) {
         return this.prescriptionForm.controls[controlName].errors[err];
       }
@@ -71,18 +86,19 @@ export class ListComponent implements OnInit {
     });
   }
   loadData(page: any = null) {
-    this.page = (page) ? page : this.page;
-    this.service.getPrescriptions(this.searchTerm, this.page)
-      .subscribe(
-        res => {
-          this.list = res['data']['prescriptions'];
-          this.totalPages = res['data']['total'];
-        }
-      );
+    this.page = page ? page : this.page;
+    this.spinner.show();
+    this.service
+      .getPrescriptions(this.searchTerm, this.page)
+      .subscribe((res) => {
+        this.spinner.hide();
+        this.list = res["data"]["prescriptions"];
+        this.totalPages = res["data"]["total"];
+      });
   }
 
   view(item: any) {
-    this.listOperation.emit({operation: 'view', data: item});
+    this.listOperation.emit({ operation: "view", data: item });
   }
 
   setStatusData(item, status) {
@@ -91,48 +107,55 @@ export class ListComponent implements OnInit {
       item: item,
       status: {
         id: status,
-        value: (status === 2) ? 'Process' : (status === 3) ? 'Delivered' : 'Canceled'
-      }
+        value:
+          status === 2 ? "Process" : status === 3 ? "Delivered" : "Canceled",
+      },
     };
   }
 
   updateValidator(status) {
     if (status === 2) {
-      this.prescriptionForm.get('invoice_id').setValidators([Validators.required]);
-      this.prescriptionForm.get('amount').setValidators([Validators.required]);
-      this.prescriptionForm.get('comment').setValidators([Validators.required]);
-      this.prescriptionForm.get('cancel_reason').setValidators([]);
+      this.prescriptionForm
+        .get("invoice_id")
+        .setValidators([Validators.required]);
+      this.prescriptionForm.get("amount").setValidators([Validators.required]);
+      this.prescriptionForm.get("comment").setValidators([Validators.required]);
+      this.prescriptionForm.get("cancel_reason").setValidators([]);
     } else if (status === 4) {
-      this.prescriptionForm.get('cancel_reason').setValidators([Validators.required]);
-      this.prescriptionForm.get('invoice_id').setValidators([]);
-      this.prescriptionForm.get('amount').setValidators([]);
-      this.prescriptionForm.get('comment').setValidators([]);
+      this.prescriptionForm
+        .get("cancel_reason")
+        .setValidators([Validators.required]);
+      this.prescriptionForm.get("invoice_id").setValidators([]);
+      this.prescriptionForm.get("amount").setValidators([]);
+      this.prescriptionForm.get("comment").setValidators([]);
     } else {
-      this.prescriptionForm.get('cancel_reason').setValidators([]);
-      this.prescriptionForm.get('invoice_id').setValidators([]);
-      this.prescriptionForm.get('amount').setValidators([]);
-      this.prescriptionForm.get('comment').setValidators([]);
+      this.prescriptionForm.get("cancel_reason").setValidators([]);
+      this.prescriptionForm.get("invoice_id").setValidators([]);
+      this.prescriptionForm.get("amount").setValidators([]);
+      this.prescriptionForm.get("comment").setValidators([]);
     }
-    this.prescriptionForm.get('invoice_id').updateValueAndValidity();
-    this.prescriptionForm.get('amount').updateValueAndValidity();
-    this.prescriptionForm.get('comment').updateValueAndValidity();
-    this.prescriptionForm.get('cancel_reason').updateValueAndValidity();
+    this.prescriptionForm.get("invoice_id").updateValueAndValidity();
+    this.prescriptionForm.get("amount").updateValueAndValidity();
+    this.prescriptionForm.get("comment").updateValueAndValidity();
+    this.prescriptionForm.get("cancel_reason").updateValueAndValidity();
   }
   changeStatus() {
-    const data = {...this.prescriptionForm.value, status: this.changeStatusData.status.id};
-    data.amount = (data.amount) ? Number(data.amount) : 0;
+    const data = {
+      ...this.prescriptionForm.value,
+      status: this.changeStatusData.status.id,
+    };
+    data.amount = data.amount ? Number(data.amount) : 0;
 
-    this.service.changeStatus(this.changeStatusData.item.id, data)
-      .subscribe(
-        res => {
-          if (res['code'] === 200) {
-            this.updateTable(res['data']);
-            this.prescriptionForm.reset();
-          } else {
-            this.close();
-          }
+    this.service
+      .changeStatus(this.changeStatusData.item.id, data)
+      .subscribe((res) => {
+        if (res["code"] === 200) {
+          this.updateTable(res["data"]);
+          this.prescriptionForm.reset();
+        } else {
+          this.close();
         }
-      );
+      });
   }
 
   onSave() {
@@ -149,7 +172,7 @@ export class ListComponent implements OnInit {
   }
 
   updateTable(item) {
-    const itemIndex = this.list.findIndex(obj => obj.id === item.id);
+    const itemIndex = this.list.findIndex((obj) => obj.id === item.id);
     if (itemIndex !== -1) {
       this.list.splice(itemIndex, 1, item);
     }
@@ -165,13 +188,18 @@ export class ListComponent implements OnInit {
   export() {
     this.service.export().subscribe((response: any) => {});
     const msgOptions = {
-      message: 'You’ll receive a notification when the export is ready for download.',
-      title: 'Your export is now being generated',
+      message:
+        "You’ll receive a notification when the export is ready for download.",
+      title: "Your export is now being generated",
       options: {
         enableHtml: true,
-        timeOut: 3000
-      }
+        timeOut: 3000,
+      },
     };
-    this.toastrService.success(msgOptions.message, msgOptions.title, msgOptions.options);
+    this.toastrService.success(
+      msgOptions.message,
+      msgOptions.title,
+      msgOptions.options
+    );
   }
 }
