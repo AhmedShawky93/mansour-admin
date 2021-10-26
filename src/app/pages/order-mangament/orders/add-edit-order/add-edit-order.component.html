@@ -240,7 +240,7 @@
             <option value="" disabled selected>Select Address</option>
             <option value="{{address.id}}" *ngFor="let address of addresses">{{address.formatted_address}}</option>
           </select>
-          <div *ngIf="orderForm.get('address_id').errors.required && orderForm.get('address_id').touched  "
+          <div *ngIf="orderForm.get('address_id')?.errors?.required && orderForm.get('address_id')?.touched  "
             class="alert alert-danger">
             Address is required.
           </div>
