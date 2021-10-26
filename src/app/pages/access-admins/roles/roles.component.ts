@@ -4,6 +4,7 @@ import { OrderStatesService } from "../../services/order-states.service";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
+// import { NgxSpinnerService } from "ngx-spinner";
 declare var $: any;
 
 @Component({
@@ -30,7 +31,8 @@ export class RolesComponent implements OnInit {
     private rolesService: RolesService,
     private orderStatesService: OrderStatesService,
     private toastrService: ToastrService
-  ) {}
+  ) // private spinner: NgxSpinnerService
+  {}
 
   ngOnInit() {
     // view sidebar
@@ -80,7 +82,9 @@ export class RolesComponent implements OnInit {
   }
 
   getRoles() {
+    // this.spinner.show();
     this.rolesService.getRoles().subscribe((response: any) => {
+      // this.spinner.hide();
       this.roles = response.data;
       this.roles = this.roles.map((item) => {
         item.deactivated = !item.active;

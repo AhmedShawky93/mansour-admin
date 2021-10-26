@@ -246,6 +246,10 @@
     <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
   </div>
 </form>
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+
 
 <!--<form  class="p-2 mt-4" [formGroup]="componentForm" novalidate autocomplete="off">
 

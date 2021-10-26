@@ -352,3 +352,6 @@
 <app-add-edit-address #addressForm (closeModalEmit)="closeAddressModal($event)" [selectedAddress]="selectedAddress"
   [selectedCustomer]="selectedCustomer">
 </app-add-edit-address>
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

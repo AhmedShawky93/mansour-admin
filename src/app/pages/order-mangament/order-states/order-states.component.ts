@@ -10,6 +10,7 @@ import {
   animate,
   style,
 } from "@angular/animations";
+import { NgxSpinnerService } from "ngx-spinner";
 declare var $: any;
 
 @Component({
@@ -47,7 +48,8 @@ export class OrderStatesComponent implements OnInit {
   constructor(
     private adminService: AdminsService,
     private toastrService: ToastrService,
-    private orderStatesService: OrderStatesService
+    private orderStatesService: OrderStatesService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -59,8 +61,10 @@ export class OrderStatesComponent implements OnInit {
   }
 
   getOrderStates() {
+    this.spinner.show();
     this.orderStatesService.getOrderStatus().subscribe({
       next: (response: any) => {
+        this.spinner.hide();
         if (response.code === 200) {
           this.orderStatus = response.data;
         }

@@ -20,6 +20,7 @@ import {
 } from "rxjs/operators";
 import { CustomerService } from "@app/pages/services/customer.service";
 import { ProductsService } from "@app/pages/services/products.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var jquery: any;
 declare var $: any;
@@ -55,7 +56,8 @@ export class NotificationsComponent implements OnInit {
     private toastrService: ToastrService,
     private uploadFile: UploadFilesService,
     private customerService: CustomerService,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -145,7 +147,9 @@ export class NotificationsComponent implements OnInit {
     $("#add-not").toggleClass("open-view-vindor-types");
   }
   notification() {
+    this.spinner.show();
     this.notificationService.getNotification().subscribe((response: any) => {
+      this.spinner.hide();
       this.messages = response.data.messages;
       this.total = response.data.total;
     });

@@ -5,13 +5,15 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm" name="searchTerm">
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm"
+          name="searchTerm">
       </div>
     </div>
 
     <div class="col-md-2 col-sm-1" style="padding-top: 21px;">
       <label class="container">Hide Delivered
-        <input type="checkbox"  class="form-control checkbox-style" name="hide_delivered" id="hide_delivered" [value]="1" [(ngModel)]="hideDelivered">
+        <input type="checkbox" class="form-control checkbox-style" name="hide_delivered" id="hide_delivered" [value]="1"
+          [(ngModel)]="hideDelivered">
         <span class="checkmark"></span>
       </label>
     </div>
@@ -22,15 +24,16 @@
   <table class="table owls-table text-center ">
     <thead>
       <tr>
-        <th  scope="col">Gift</th>
-        <th  scope="col">Customer Name</th>
+        <th scope="col">Gift</th>
+        <th scope="col">Customer Name</th>
         <th scope="col">Customer Phone</th>
         <th scope="col">Request Date</th>
         <th scope="col">Status</th>
       </tr>
     </thead>
-    <tbody>   
-      <tr *ngFor="let request of requests | searchPipe: searchTerm | deliveredPipe: hideDelivered | paginate: { itemsPerPage: 10, currentPage: p }">
+    <tbody>
+      <tr
+        *ngFor="let request of requests | searchPipe: searchTerm | deliveredPipe: hideDelivered | paginate: { itemsPerPage: 10, currentPage: p }">
         <td>{{request.reward.name}}</td>
         <td>{{request.user.name}}</td>
         <td>{{request.user.phone}}</td>
@@ -46,3 +49,6 @@
   </table>
 </div>
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

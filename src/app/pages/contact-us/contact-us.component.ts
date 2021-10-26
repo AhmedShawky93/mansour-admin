@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { LoyalityService } from "@app/pages/services/loyality.service";
 import { ContactUsService } from "../services/contact-us.service";
 import { ToastrService } from "ngx-toastr";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-contact-us",
@@ -20,7 +21,8 @@ export class ContactusComponent implements OnInit {
   };
   constructor(
     private contactUsService: ContactUsService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -28,7 +30,9 @@ export class ContactusComponent implements OnInit {
   }
 
   getContactUs(data) {
+    this.spinner.show();
     this.contactUsService.getContactUs(data).subscribe((response: any) => {
+      this.spinner.hide();
       this.requests = response.data.items;
       this.total = response.data.total;
     });

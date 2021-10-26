@@ -98,9 +98,11 @@ export class StaffDeliveryComponent implements OnInit {
   openViewProduct(data) {}
 
   getDeliverers() {
+    this.spinner.show();
     this.deliveryService
       .getDeliverers(this.filter)
       .subscribe((response: any) => {
+        this.spinner.hide();
         this.deliverers = response.data.deliverers;
         this.deliverers = this.deliverers.map((item) => {
           item.deactivated = !item.active;

@@ -12,6 +12,7 @@ import { FroalaEditorModule, FroalaViewModule } from "angular-froala-wysiwyg";
 import { ButtonSpinnerDirective } from "@app/shared/directives/button-spinner.directive";
 import { SharedModule } from "@app/shared/shared.module";
 import { AngularEditorModule } from "@kolkov/angular-editor";
+import { NgxSpinnerService } from "ngx-spinner";
 
 export const routes = [
   {
@@ -48,8 +49,8 @@ export const routes = [
     AngularEditorModule,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
-    // SharedModule // TODO
     SharedModule,
+    NgxSpinnerService,
   ],
   declarations: [
     GiftsComponent,

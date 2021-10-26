@@ -27,8 +27,7 @@
     </thead>
     <tbody>
 
-      <tr
-        *ngFor="let status of orderStatus ">
+      <tr *ngFor="let status of orderStatus ">
         <td scope="row"> {{status.name ? (status.name) : '-'}} </td>
         <td scope="row"> {{(status.name_ar) ? (status.name_ar) : '-'}} </td>
         <td scope="row"> {{status?.sub_states?.length}} </td>
@@ -64,9 +63,14 @@
     </tbody>
   </table>
 </div>
-<app-add-edit-order-states (dataEmit)="addOrUpdateData($event)" (closeSideBarEmit)="closeSideBar()" class="parent-editor-viewer-sidebar"
-[@slideInOut]="toggleAddEditData" [selectDataEdit]="selectData"></app-add-edit-order-states>
+<app-add-edit-order-states (dataEmit)="addOrUpdateData($event)" (closeSideBarEmit)="closeSideBar()"
+  class="parent-editor-viewer-sidebar" [@slideInOut]="toggleAddEditData" [selectDataEdit]="selectData">
+</app-add-edit-order-states>
 
-<app-view-order-states (closeSideBarEmit)="closeSideBar()" class="parent-editor-viewer-sidebar" (dataEmit)="addOrUpdateData($event)"  [@slideInOut]="viewDataSidebar" [selectDataEdit]="selectDataView"></app-view-order-states>
+<app-view-order-states (closeSideBarEmit)="closeSideBar()" class="parent-editor-viewer-sidebar"
+  (dataEmit)="addOrUpdateData($event)" [@slideInOut]="viewDataSidebar" [selectDataEdit]="selectDataView">
+</app-view-order-states>
 
-
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

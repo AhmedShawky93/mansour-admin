@@ -19,6 +19,7 @@ import { ToastrService } from "ngx-toastr";
 import { ReactivityService } from "@app/shared/services/reactivity.service";
 import { ShowAffiliateService } from "../services/show-affiliate.service";
 import * as _ from "lodash";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-dynamic-settings",
@@ -46,7 +47,8 @@ export class DynamicSettingsComponent
     private toasterService: ToastrService,
     private reactivityService: ReactivityService,
     private cdRef: ChangeDetectorRef,
-    private showAffiliateService: ShowAffiliateService
+    private showAffiliateService: ShowAffiliateService,
+    private spinner: NgxSpinnerService
   ) {
     this.settings$ = this.settingService.getConfigurations();
     this.formGroups = [];
@@ -96,7 +98,9 @@ export class DynamicSettingsComponent
   }
 
   getSettings() {
+    this.spinner.show();
     this.settings$.subscribe((res: any) => {
+      this.spinner.hide();
       if (res.code === 200) {
         // var groupedObject = [];
         // res.data.forEach((element) => {

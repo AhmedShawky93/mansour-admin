@@ -116,9 +116,11 @@ export class StoresComponent implements OnInit {
   }
 
   getBranches() {
+    this.spinner.show();
     this.bracnhesStoreService
       .getBranches(this.filter)
       .subscribe((response: any) => {
+        this.spinner.hide();
         if (response.code == 200) {
           this.branches = response.data.branches;
 

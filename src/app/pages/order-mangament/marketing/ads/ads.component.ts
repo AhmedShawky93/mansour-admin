@@ -25,6 +25,7 @@ import {
 } from "rxjs/operators";
 import { ProductsService } from "@app/pages/services/products.service";
 import { ThrowStmt } from "@angular/compiler";
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var jquery: any;
 declare var $: any;
@@ -85,7 +86,8 @@ export class adsComponent implements OnInit {
     private _CategoriesService: CategoryService,
     private brandsService: BrandsService,
     private listsService: ListsService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -161,7 +163,9 @@ export class adsComponent implements OnInit {
   }
 
   getAds() {
+    this.spinner.show();
     this.adsService.getAds().subscribe((response: any) => {
+      this.spinner.hide();
       this.ads = response.data;
       this.ads = this.ads.map((item) => {
         item.deactivated = !item.active;

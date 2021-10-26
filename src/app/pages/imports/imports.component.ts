@@ -9,6 +9,7 @@ import { AuthService } from "@app/shared/auth.service";
 import * as moment from "moment";
 import { ToastrService } from "ngx-toastr";
 import { ListsService } from "../services/lists.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var jquery: any;
 declare var $: any;
@@ -51,13 +52,14 @@ export class ImportsComponent implements OnInit {
   importForm: FormGroup;
   downloadLink = "";
   showMSG: boolean;
-  messageError:string = '';
+  messageError: string = "";
   reports = [];
   constructor(
     private importsService: ImportsService,
     private auth: AuthService,
     private toastrService: ToastrService,
-    private listsService: ListsService
+    private listsService: ListsService,
+    private spinner: NgxSpinnerService
   ) {
     this.step1 = false;
     this.type = "2";
@@ -72,9 +74,11 @@ export class ImportsComponent implements OnInit {
 
   getData() {
     this.loadingSpinner = true;
+    this.spinner.show();
     this.importsService
       .getImports(this.filter.page, this.filter)
       .subscribe((result: any) => {
+        this.spinner.hide();
         this.imports = result.data.items;
         this.total = result.data.total;
         this.loadingSpinner = false;
@@ -106,11 +110,10 @@ export class ImportsComponent implements OnInit {
     });
   }
 
-
-
   generateLink() {
     this.downloadLink =
-      environment.api + "/api" +
+      environment.api +
+      "/api" +
       "/admin/files/import/templates?type=" +
       this.importForm.get("type").value +
       "&token=" +
@@ -167,7 +170,7 @@ export class ImportsComponent implements OnInit {
       } else {
         this.showMSG = true;
         this.buttonSpinner = false;
-        this.messageError = response.errors.errorMessage.join(' - ')
+        this.messageError = response.errors.errorMessage.join(" - ");
       }
     });
   }
@@ -180,7 +183,7 @@ export class ImportsComponent implements OnInit {
     if (this.importForm.get("type").value == "7") {
       formData.append("list_id", this.importForm.get("list_id").value);
     }
-    
+
     this.importsService.import(formData).subscribe((response: any) => {
       console.log(response);
       if (response.code === 200) {
@@ -289,8 +292,6 @@ export class ImportsComponent implements OnInit {
         }
       });
   }
-
-
 
   closePopup() {
     $("#newImport").modal("hide");

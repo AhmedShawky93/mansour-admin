@@ -5,7 +5,8 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm" (keyup)="search(searchTerm)" name="searchTerm">
+        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm"
+          (keyup)="search(searchTerm)" name="searchTerm">
       </div>
     </div>
 
@@ -22,15 +23,16 @@
   <table class="table owls-table text-center ">
     <thead>
       <tr>
-        <th  scope="col">Name</th>
-        <th  scope="col">Email </th>
+        <th scope="col">Name</th>
+        <th scope="col">Email </th>
         <th scope="col"> Phone</th>
-         <th scope="col">message</th>
+        <th scope="col">message</th>
         <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let request of requests  | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let i = index">
+      <tr
+        *ngFor="let request of requests  | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let i = index">
         <td>{{request.name}}</td>
         <td>{{request.email}}</td>
         <td>{{request.phone}}</td>
@@ -49,7 +51,8 @@
 
         </td>
         <td>
-          <select class="owl-input" name="status" [(ngModel)]="request.resolved" (change)="changeRequestStatus(request)">
+          <select class="owl-input" name="status" [(ngModel)]="request.resolved"
+            (change)="changeRequestStatus(request)">
             <option value="0">New </option>
             <option value="1">Solved</option>
           </select>
@@ -59,3 +62,6 @@
   </table>
 </div>
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

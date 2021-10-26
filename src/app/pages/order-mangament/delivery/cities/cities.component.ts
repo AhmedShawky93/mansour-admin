@@ -9,6 +9,7 @@ import {
 } from "@angular/animations";
 import { ToastrService } from "ngx-toastr";
 import { ProductsService } from "@app/pages/services/products.service";
+import { NgxSpinnerService } from "ngx-spinner";
 declare var jquery: any;
 declare var $: any;
 
@@ -50,7 +51,7 @@ export class CitiesComponent implements OnInit {
     private _areaService: AreasService,
     private toastrService: ToastrService,
     private productsService: ProductsService,
-
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -78,7 +79,9 @@ export class CitiesComponent implements OnInit {
     this.viewDataSidebar = "out";
   }
   getCities() {
+    this.spinner.show();
     this._areaService.getCities().subscribe((response: any) => {
+      this.spinner.hide();
       if (response.code === 200) {
         this.cities = response.data;
         this.cities.map((data: any) => {
@@ -129,20 +132,17 @@ export class CitiesComponent implements OnInit {
     }
   }
 
- 
-
   importExcel(event) {
     let fileName = <File>event.target.files[0];
-    this.productsService.import(fileName,'9').subscribe((response: any) => {
+    this.productsService.import(fileName, "9").subscribe((response: any) => {
       console.log(response);
-      if(response.code == 200){
-        this.toastrService.success('File uploaded successfully')
-      }  else{
+      if (response.code == 200) {
+        this.toastrService.success("File uploaded successfully");
+      } else {
         this.toastrService.error(response.message);
       }
     });
   }
-
 
   cancelDeactivate(area) {
     area.active = 1;

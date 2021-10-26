@@ -2,12 +2,7 @@
   <div class="row">
     <div class="col-md-3 col-xs-12">
       <div class="form-group">
-        <select
-          class="owl-input"
-          name="type"
-          [(ngModel)]="filter.type"
-          (ngModelChange)="filterImports($event, 'type')"
-        >
+        <select class="owl-input" name="type" [(ngModel)]="filter.type" (ngModelChange)="filterImports($event, 'type')">
           <option value="" selected>Select Type</option>
           <option value="1">Brands</option>
           <option value="2">Product</option>
@@ -23,12 +18,8 @@
     </div>
     <div class="col-md-3 col-xs-12">
       <div class="form-group">
-        <select
-          class="owl-input"
-          name="state"
-          [(ngModel)]="filter.state"
-          (ngModelChange)="filterImports($event, 'state')"
-        >
+        <select class="owl-input" name="state" [(ngModel)]="filter.state"
+          (ngModelChange)="filterImports($event, 'state')">
           <option [value]="''" selected>Select State</option>
           <option value="1">Cancelled</option>
           <option value="2">Progress</option>
@@ -40,47 +31,23 @@
     </div>
     <div class="col-md-3 col-sm-12">
       <mat-form-field class="datepicker">
-        <input
-          matInput
-          #mdate
-          placeholder="Date From"
-          readonly
-          (click)="pickerFrom.open()"
-          [satDatepicker]="pickerFrom"
-          [(ngModel)]="filter.date_from"
-          (ngModelChange)="filterImports($event, 'dateFrom')"
-        />
+        <input matInput #mdate placeholder="Date From" readonly (click)="pickerFrom.open()" [satDatepicker]="pickerFrom"
+          [(ngModel)]="filter.date_from" (ngModelChange)="filterImports($event, 'dateFrom')" />
         <sat-datepicker #pickerFrom [rangeMode]="false"> </sat-datepicker>
-        <sat-datepicker-toggle
-          matSuffix
-          [for]="pickerFrom"
-        ></sat-datepicker-toggle>
+        <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
     <div class="col-md-3 col-sm-12">
       <mat-form-field class="datepicker">
-        <input
-          matInput
-          #mdate
-          placeholder="Date To"
-          readonly
-          (click)="pickerTo.open()"
-          [satDatepicker]="pickerTo"
-          [(ngModel)]="filter.date_to"
-          (ngModelChange)="filterImports($event, 'dateTo')"
-        />
+        <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo"
+          [(ngModel)]="filter.date_to" (ngModelChange)="filterImports($event, 'dateTo')" />
         <sat-datepicker #pickerTo [rangeMode]="false"> </sat-datepicker>
-        <sat-datepicker-toggle
-          matSuffix
-          [for]="pickerTo"
-        ></sat-datepicker-toggle>
+        <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
     <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button
-          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100"
-        >
+        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center" (click)="openNewImport()">+New Import</div>
         </button>
       </div>
@@ -88,10 +55,7 @@
   </div>
 </div>
 
-<div
-  class="table-responsive text-center fixed-table-scroll"
-  *ngIf="imports.length > 0 && !loadingSpinner"
->
+<div class="table-responsive text-center fixed-table-scroll" *ngIf="imports.length > 0 && !loadingSpinner">
   <table class="table owls-table">
     <thead>
       <tr>
@@ -105,13 +69,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="
+      <tr *ngFor="
           let import of imports
             | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total };
           let idx = index
-        "
-      >
+        ">
         <td>{{ import.id }}</td>
         <td>
           <span [ngSwitch]="import.type">
@@ -131,21 +93,12 @@
 
         <td>
           <span [ngSwitch]="import.state.id">
-            <span *ngSwitchCase="1" class="badge badge-pill badge-warning"
-              >Canclled</span
-            >
-            <span *ngSwitchCase="2" class="badge badge-pill badge-primary"
-              >Progress</span
-            >
-            <span *ngSwitchCase="3" class="badge badge-pill badge-success"
-              >Complete
+            <span *ngSwitchCase="1" class="badge badge-pill badge-warning">Canclled</span>
+            <span *ngSwitchCase="2" class="badge badge-pill badge-primary">Progress</span>
+            <span *ngSwitchCase="3" class="badge badge-pill badge-success">Complete
             </span>
-            <span *ngSwitchCase="4" class="badge badge-pill badge-danger"
-              >Error</span
-            >
-            <span *ngSwitchCase="5" class="badge badge-pill badge-secondary"
-              >Pending</span
-            >
+            <span *ngSwitchCase="4" class="badge badge-pill badge-danger">Error</span>
+            <span *ngSwitchCase="5" class="badge badge-pill badge-secondary">Pending</span>
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
@@ -159,46 +112,20 @@
 
         <td>
           <div class="dropdown">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Actions
             </button>
-            <div
-              class="dropdown-menu"
-              aria-labelledby="dropdownMenuButton"
-              (click)="showItem(import)"
-            >
-              <a class="dropdown-item" href="{{ import.file_path }}"
-                >Download File</a
-              >
-              <a
-                class="dropdown-item"
-                *ngIf="import.state.id == '2' || import.state.id == '5'"
-                (click)="cancelImport(import.id)"
-                >Cancel</a
-              >
-              <a
-                class="dropdown-item"
-                *ngIf="
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" (click)="showItem(import)">
+              <a class="dropdown-item" href="{{ import.file_path }}">Download File</a>
+              <a class="dropdown-item" *ngIf="import.state.id == '2' || import.state.id == '5'"
+                (click)="cancelImport(import.id)">Cancel</a>
+              <a class="dropdown-item" *ngIf="
                   import.state.id == '1' ||
                   import.state.id == '3' ||
                   import.state.id == '4'
-                "
-                (click)="retryImport(import.id)"
-                >Restart</a
-              >
-              <a
-                class="dropdown-item"
-                *ngIf="import.state.id == '3'"
-                (click)="reportPopup(import)"
-                >Report</a
-              >
+                " (click)="retryImport(import.id)">Restart</a>
+              <a class="dropdown-item" *ngIf="import.state.id == '3'" (click)="reportPopup(import)">Report</a>
             </div>
           </div>
         </td>
@@ -210,38 +137,21 @@
   <img src="assets/img/loading-table.svg" *ngIf="loadingSpinner" />
 </div>
 
-<pagination-controls
-  (pageChange)="pagination($event)"
-  *ngIf="imports.length > 0 && !loadingSpinner"
-></pagination-controls>
+<pagination-controls (pageChange)="pagination($event)" *ngIf="imports.length > 0 && !loadingSpinner">
+</pagination-controls>
 <h4 class="text-center" *ngIf="imports.length == 0 && !loadingSpinner">
   There are no Imports
 </h4>
-<div
-  class="modal fade"
-  id="newImport"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="newImport" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="importForm">
       <ng-container *ngIf="step1 && type == '0'">
         <form action="" [formGroup]="importForm" (submit)="validationForm()">
           <div class="modal-header">
-            <h5
-              class="modal-title"
-              id="exampleModalLabel"
-              style="text-align: center"
-            >
+            <h5 class="modal-title" id="exampleModalLabel" style="text-align: center">
               New Import
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -251,12 +161,7 @@
               <label for="">Choose Import Type</label>
               <div class="row">
                 <div class="col-md-6">
-                  <select
-                    name=""
-                    class="owl-input bg-white"
-                    formControlName="type"
-                    (change)="generateLink()"
-                  >
+                  <select name="" class="owl-input bg-white" formControlName="type" (change)="generateLink()">
                     <option [value]="'placeholder'" selected hidden>
                       Select Type
                     </option>
@@ -271,40 +176,24 @@
                     <option value="9">Cities</option>
                   </select>
                 </div>
-                <div
-                  class="col-md-6 py-2"
-                  *ngIf="this.importForm.get('type').value"
-                >
-                  <a target="_blank" [href]="downloadLink"
-                    ><i class="fa fa-download mx-2"></i>Download Template</a
-                  >
+                <div class="col-md-6 py-2" *ngIf="this.importForm.get('type').value">
+                  <a target="_blank" [href]="downloadLink"><i class="fa fa-download mx-2"></i>Download Template</a>
                 </div>
               </div>
               <div class="col-md-9 p-0 mt-2">
-                <div
-                  class="form-group"
-                  *ngIf="importForm.get('type').value == 7"
-                >
+                <div class="form-group" *ngIf="importForm.get('type').value == 7">
                   <label for="">List</label>
-                  <select
-                    type="text"
-                    class="owl-input"
-                    formControlName="list_id"
-                    name="list_id"
-                  >
+                  <select type="text" class="owl-input" formControlName="list_id" name="list_id">
                     <option value="" selected>Select List</option>
                     <option value="{{ list.id }}" *ngFor="let list of lists">
                       {{ list.name_en }}
                     </option>
                   </select>
-                  <div
-                    *ngIf="
+                  <div *ngIf="
                       importForm.controls.list_id.invalid &&
                       (importForm.controls.list_id.dirty ||
                         importForm.controls.list_id.touched)
-                    "
-                    class="alert alert-danger"
-                  >
+                    " class="alert alert-danger">
                     <div *ngIf="importForm.controls.list_id.errors.required">
                       List Is Required.
                     </div>
@@ -312,17 +201,12 @@
                 </div>
               </div>
             </div>
-            <div
-              *ngIf="
+            <div *ngIf="
                 importForm.controls.type.invalid &&
                 (importForm.controls.type.dirty ||
                   importForm.controls.type.touched)
-              "
-            >
-              <div
-                class="alert alert-danger"
-                *ngIf="importForm.controls.type?.errors?.required"
-              >
+              ">
+              <div class="alert alert-danger" *ngIf="importForm.controls.type?.errors?.required">
                 Type Is Required
               </div>
             </div>
@@ -330,25 +214,15 @@
             <div class="form-group">
               <label for="">Select File</label>
               <div>
-                <input
-                  type="file"
-                  formControlName="file"
-                  (change)="onFileChange($event)"
-                  accept=".xlsx, .xls, .csv"
-                />
+                <input type="file" formControlName="file" (change)="onFileChange($event)" accept=".xlsx, .xls, .csv" />
               </div>
             </div>
-            <div
-              *ngIf="
+            <div *ngIf="
                 importForm.controls.file.invalid &&
                 (importForm.controls.file.dirty ||
                   importForm.controls.file.touched)
-              "
-            >
-              <h6
-                class="alert alert-danger"
-                *ngIf="importForm.controls.file?.errors?.required"
-              >
+              ">
+              <h6 class="alert alert-danger" *ngIf="importForm.controls.file?.errors?.required">
                 File Is Required
               </h6>
             </div>
@@ -362,19 +236,11 @@
           </div>
 
           <div class="modal-footer" style="justify-content: center">
-            <button
-              type="submit"
-              [disabled]="buttonSpinner"
-              [appLoading]="buttonSpinner"
-              class="btn-owls btn-rounded btn-green btn-blue2 position-relative"
-            >
+            <button type="submit" [disabled]="buttonSpinner" [appLoading]="buttonSpinner"
+              class="btn-owls btn-rounded btn-green btn-blue2 position-relative">
               Import
             </button>
-            <button
-              type="button"
-              data-dismiss="modal"
-              class="btn-owls btn-rounded btn-green btn-red2"
-            >
+            <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
               Cancel
             </button>
           </div>
@@ -384,11 +250,7 @@
         <section class="parent">
           <div class="title d-flex align-items-center justify-content-between">
             <h5>Preview Your brand</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
+            <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
           </div>
           <div class="first-box">
             <p>
@@ -404,11 +266,8 @@
             </li>
             <li>
               <h6>Image:</h6>
-              <img
-                src="{{ result?.image }}"
-                default="assets/img/placeholder70.png"
-                onError="this.src='assets/img/placeholder70.png';"
-              />
+              <img src="{{ result?.image }}" default="assets/img/placeholder70.png"
+                onError="this.src='assets/img/placeholder70.png';" />
             </li>
           </ul>
         </section>
@@ -417,11 +276,7 @@
         <section class="parent">
           <div class="title d-flex align-items-center justify-content-between">
             <h5>Preview Your Product</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
+            <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
           </div>
           <div class="first-box">
             <p>
@@ -472,11 +327,8 @@
             </li>
             <li>
               <h6>Image:</h6>
-              <img
-                src="{{ result?.main_image }}"
-                default="assets/img/placeholder70.png"
-                onError="this.src='assets/img/placeholder70.png';"
-              />
+              <img src="{{ result?.main_image }}" default="assets/img/placeholder70.png"
+                onError="this.src='assets/img/placeholder70.png';" />
             </li>
           </ul>
           <table class="table">
@@ -503,11 +355,7 @@
         <section class="parent">
           <div class="title d-flex align-items-center justify-content-between">
             <h5>Preview Your Category</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
+            <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
           </div>
           <div class="first-box">
             <p>
@@ -531,11 +379,8 @@
             </li>
             <li>
               <h6>Image:</h6>
-              <img
-                src="{{ result?.subcategory_image }}"
-                default="assets/img/placeholder70.png"
-                onError="this.src='assets/img/placeholder70.png';"
-              />
+              <img src="{{ result?.subcategory_image }}" default="assets/img/placeholder70.png"
+                onError="this.src='assets/img/placeholder70.png';" />
             </li>
           </ul>
         </section>
@@ -544,11 +389,7 @@
         <section class="parent">
           <div class="title d-flex align-items-center justify-content-between">
             <h5>Preview Your Option</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
+            <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
           </div>
           <div class="first-box">
             <p>
@@ -577,11 +418,7 @@
         <section class="parent">
           <div class="title d-flex align-items-center justify-content-between">
             <h5>Preview Your Group</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
+            <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
           </div>
           <div class="first-box">
             <p>
@@ -618,11 +455,7 @@
         <section class="parent">
           <div class="title d-flex align-items-center justify-content-between">
             <h5>Preview Your Stock</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
+            <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
           </div>
           <div class="first-box">
             <p>
@@ -667,11 +500,7 @@
         <section class="parent">
           <div class="title d-flex align-items-center justify-content-between">
             <h5>Preview Your Lists</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
+            <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
           </div>
           <div class="first-box">
             <p>
@@ -696,11 +525,7 @@
         <section class="parent">
           <div class="title d-flex align-items-center justify-content-between">
             <h5>Preview Your Promo</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
+            <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
           </div>
           <div class="first-box">
             <p>
@@ -745,11 +570,7 @@
         <section class="parent">
           <div class="title d-flex align-items-center justify-content-between">
             <h5>Preview Your Cities</h5>
-            <i
-              class="fa fa-times"
-              aria-hidden="true"
-              (click)="closePopup()"
-            ></i>
+            <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
           </div>
           <div class="first-box">
             <p>
@@ -774,19 +595,12 @@
           </ul>
         </section>
       </ng-container>
-      <div
-        class="d-flex justify-content-between p-2"
-        *ngIf="!step1 && type != '0'"
-      >
+      <div class="d-flex justify-content-between p-2" *ngIf="!step1 && type != '0'">
         <button class="btn back" (click)="backStep()">back</button>
         <div>
           <button class="btn cancel" (click)="closePopup()">cancel</button>
-          <button
-            class="btn ml-2 import"
-            (click)="submitImport()"
-            [disabled]="buttonSpinner"
-            [appLoading]="buttonSpinner"
-          >
+          <button class="btn ml-2 import" (click)="submitImport()" [disabled]="buttonSpinner"
+            [appLoading]="buttonSpinner">
             import
           </button>
         </div>
@@ -795,27 +609,14 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="repoort"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="repoort" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="d-flex justify-content-end p-3">
-        <i
-          class="fa fa-times"
-          aria-hidden="true"
-          (click)="closeReportPopup()"
-        ></i>
+        <i class="fa fa-times" aria-hidden="true" (click)="closeReportPopup()"></i>
       </div>
       <ul class="mb-0 pl-3 pr-3 pb-3">
-        <li
-          class="d-flex justify-content-between"
-          *ngFor="let report of reports"
-        >
+        <li class="d-flex justify-content-between" *ngFor="let report of reports">
           <h6>{{ report?.name }} :</h6>
           <span>{{ report?.value }}</span>
         </li>
@@ -826,3 +627,6 @@
     </div>
   </div>
 </div>
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

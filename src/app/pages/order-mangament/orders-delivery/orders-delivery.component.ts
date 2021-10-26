@@ -1,11 +1,7 @@
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/map";
 
-import {
-  Component,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatInput } from "@angular/material";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
@@ -21,6 +17,7 @@ import { AuthService } from "@app/shared/auth.service";
 
 // import { Console } from "@angular/core/src/r3_symbols";
 import { OrderStatesService } from "../../services/order-states.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var jquery: any;
 declare var $: any;
@@ -33,8 +30,8 @@ declare var $: any;
 export class OrdersDeliveryComponent implements OnInit {
   loading: boolean;
   date: any;
-  selectedSubcategory = '';
-  selectedCategory = '';
+  selectedSubcategory = "";
+  selectedCategory = "";
   search: boolean;
   firstTime: boolean = true;
   no_orders: boolean = false;
@@ -101,8 +98,8 @@ export class OrdersDeliveryComponent implements OnInit {
   errorMessage: string;
   showErrorItems: string;
   items: any;
-  status_notes = '';
-  status_notesText = '';
+  status_notes = "";
+  status_notesText = "";
   deleteIds: any;
   error_status_notes: boolean;
   orderStatusId: any;
@@ -116,7 +113,8 @@ export class OrdersDeliveryComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private _areaService: AreasService,
-    private orderStatesService: OrderStatesService
+    private orderStatesService: OrderStatesService,
+    private spinner: NgxSpinnerService
   ) {
     this.titleService.setTitle("Orders");
   }
@@ -192,11 +190,11 @@ export class OrdersDeliveryComponent implements OnInit {
     //     this.orders = response.data.orders;
     //     this.total = response.data.total;
     //   });
-
-    this.ordersService.getOrderPickups()
-      .subscribe((response: any) => {
-        this.pickups = response.data;
-      });
+    this.spinner.show();
+    this.ordersService.getOrderPickups().subscribe((response: any) => {
+      this.spinner.hide();
+      this.pickups = response.data;
+    });
   }
   selectAll() {
     this.ordersBulk = [];
@@ -214,7 +212,6 @@ export class OrdersDeliveryComponent implements OnInit {
       }
     }
   }
-
 
   selectStatus(id) {
     this.orderStatusId = id;
@@ -316,9 +313,8 @@ export class OrdersDeliveryComponent implements OnInit {
       .subscribe((response: any) => {
         this.availableDeliverers = response.data;
         this.availableDeliverers.map((deliverer) => {
-          deliverer.deliverer_profile.district_names = deliverer.deliverer_profile.districts
-            .map((d) => d.name)
-            .join(", ");
+          deliverer.deliverer_profile.district_names =
+            deliverer.deliverer_profile.districts.map((d) => d.name).join(", ");
         });
         this.viewFilter = "";
         this.listFilter = "";
@@ -364,22 +360,24 @@ export class OrdersDeliveryComponent implements OnInit {
   }
 
   cancelPickup() {
-    this.ordersService.cancelPickup(this.currentPickup.id).subscribe((response: any) => {
-      if (response.code === 200) {
-        // const ind = this.orders.findIndex((item) => item.id === this.order.id);
+    this.ordersService
+      .cancelPickup(this.currentPickup.id)
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          // const ind = this.orders.findIndex((item) => item.id === this.order.id);
 
-        // if (ind !== -1) {
-        //   this.orders[ind] = response.data;
-        // }
-        if (this.currentOrder) {
-          this.currentOrder.status = 3;
+          // if (ind !== -1) {
+          //   this.orders[ind] = response.data;
+          // }
+          if (this.currentOrder) {
+            this.currentOrder.status = 3;
+          }
+          // To Hide Remove pickup
+          this.currentPickup.status = 3;
+
+          $("#removePopUp").modal("hide");
         }
-        // To Hide Remove pickup
-        this.currentPickup.status = 3;
-
-        $("#removePopUp").modal("hide");
-      }
-    });
+      });
   }
 
   promtReturn(order) {
@@ -513,7 +511,6 @@ export class OrdersDeliveryComponent implements OnInit {
     }
   }
   removeAmountOldItemReturn(product) {
-
     product.quantity > 1 ? product.quantity-- : (product.quantity = 0);
   }
   addAmount(product) {
@@ -524,7 +521,6 @@ export class OrdersDeliveryComponent implements OnInit {
     if (productAmountIndex !== -1) {
       this.currentOrder.items[productAmountIndex].amount = product.amount;
     } else {
-
       this.currentOrder.items.push({
         id: product.id,
         amount: product.amount,
@@ -576,7 +572,6 @@ export class OrdersDeliveryComponent implements OnInit {
     this.toggleProductSelect();
   }
 
-
   returnProducts() {
     $("#returnOrder").modal("show");
   }
@@ -607,7 +602,7 @@ export class OrdersDeliveryComponent implements OnInit {
     this.product_list = [];
   }
   updateProducts() {
-    this.showErrorItems = ""
+    this.showErrorItems = "";
     this.items = this.currentOrder.items
       .filter((item) => item.amount && !item.remove)
       .map((item) => {
@@ -624,14 +619,11 @@ export class OrdersDeliveryComponent implements OnInit {
     if (this.items.length) {
       $("#confirmOrderUpdate").modal("show");
     } else {
-      this.showErrorItems = "Order must have at least one item"
+      this.showErrorItems = "Order must have at least one item";
     }
   }
 
   confirmUpdateProducts(notifyUser) {
-
-
-
     if (this.items.length) {
       this.ordersService
         .updateItems(this.currentOrder.id, {
@@ -648,7 +640,9 @@ export class OrdersDeliveryComponent implements OnInit {
             $("#view-deactive").toggleClass("open-view-vindor-types");
             this.currentOrder.items = response.data.items;
 
-            let ind = this.orders.findIndex(o => o.id == this.currentOrder.id);
+            let ind = this.orders.findIndex(
+              (o) => o.id == this.currentOrder.id
+            );
             if (ind !== -1) {
               this.orders[ind].amount = +response.data.amount;
               this.orders[ind].delivery_fees = +response.data.delivery_fees;
@@ -695,9 +689,8 @@ export class OrdersDeliveryComponent implements OnInit {
                 response.data.order_status[indexOrderStatus].name;
             }
 
-            response.data.order_status_editable = !this.ineditableStates.includes(
-              response.data.state_id
-            );
+            response.data.order_status_editable =
+              !this.ineditableStates.includes(response.data.state_id);
 
             const indexOrder = this.orders.findIndex(
               (item) => item.id == response.data.id
@@ -755,8 +748,7 @@ export class OrdersDeliveryComponent implements OnInit {
     });
   }
 
-  SelectDistrict(event, data) {
-  }
+  SelectDistrict(event, data) {}
   public getArea(area) {
     const index = this.cities.findIndex((item) => item.id == area);
     if (index !== -1) {
@@ -766,7 +758,6 @@ export class OrdersDeliveryComponent implements OnInit {
         this.areaList = [];
         this.areaList.push(this.cities[index]);
         this.districts.push(this.cities[index]);
-
       }
     }
     this.districts = [];

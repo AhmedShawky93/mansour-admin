@@ -3,6 +3,7 @@ import { RolesService } from "./../../services/roles.service";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
+import { NgxSpinnerService } from "ngx-spinner";
 declare var $: any;
 
 @Component({
@@ -25,7 +26,8 @@ export class UserSubAdminComponent implements OnInit {
   constructor(
     private adminService: AdminsService,
     private rolesService: RolesService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -80,7 +82,9 @@ export class UserSubAdminComponent implements OnInit {
   }
 
   getAdmins() {
+    this.spinner.show();
     this.adminService.getAdmins().subscribe((response: any) => {
+      this.spinner.hide();
       this.admins = response.data;
       this.admins = this.admins.map((item) => {
         item.deactivated = !item.active;

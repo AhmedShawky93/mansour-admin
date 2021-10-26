@@ -72,7 +72,7 @@
                 [(ngModel)]="area.notes"></textarea>
 
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!area.notes"
-                (click)="submitDeactivate(area)" [ngClass]="{'not-allowed' : !area.notes }"  > submit</button>
+                (click)="submitDeactivate(area)" [ngClass]="{'not-allowed' : !area.notes }"> submit</button>
               <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
                 (click)="cancelDeactivate(area)">cancel</button>
             </div>
@@ -92,8 +92,13 @@
 </div>
 
 <!-- view product -->
-<app-view-city class="parent-editor-viewer-sidebar" (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewDataSidebar" [selectDataEdit]="selectDataView"></app-view-city>
+<app-view-city class="parent-editor-viewer-sidebar" (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewDataSidebar"
+  [selectDataEdit]="selectDataView"></app-view-city>
 
 <!-- Add / edit Product -->
-<app-add-edit-city class="parent-editor-viewer-sidebar" (dataEmit)="addOrUpdateData($event)" (closeSideBarEmit)="closeSideBar()"
-  [@slideInOut]="toggleAddEditData" [selectDataEdit]="selectData"></app-add-edit-city>
+<app-add-edit-city class="parent-editor-viewer-sidebar" (dataEmit)="addOrUpdateData($event)"
+  (closeSideBarEmit)="closeSideBar()" [@slideInOut]="toggleAddEditData" [selectDataEdit]="selectData">
+</app-add-edit-city>
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

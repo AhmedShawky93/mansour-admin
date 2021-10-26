@@ -8,6 +8,7 @@ import { RouterModule } from "@angular/router";
 import { ViewOrderStatesComponent } from "./view-order-states/view-order-states.component";
 import { AddEditOrderStatesComponent } from "./add-edit-order-states/add-edit-order-states.component";
 import { SharedModule } from "@app/shared/shared.module";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 const router = [
   {
@@ -26,6 +27,7 @@ const router = [
     ReactiveFormsModule,
     NgSelectModule,
     SharedModule,
+    NgxSpinnerModule,
   ],
   declarations: [
     OrderStatesComponent,

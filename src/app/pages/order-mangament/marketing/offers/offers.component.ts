@@ -3,6 +3,7 @@ import { CategoryService } from "../../../services/category.service";
 import { PromosService } from "@app/pages/services/promos.service";
 import { environment } from "@env/environment";
 import { AuthService } from "@app/shared/auth.service";
+import { NgxSpinnerService } from "ngx-spinner";
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -31,7 +32,8 @@ export class OffersComponent implements OnInit {
   constructor(
     private catService: CategoryService,
     private promoGet: PromosService,
-    private auth: AuthService
+    private auth: AuthService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -76,11 +78,14 @@ export class OffersComponent implements OnInit {
 
     let token = this.auth.getToken();
 
-    this.exportUrl = environment.api + "/api" + "/admin/promos/export?token=" + token;
+    this.exportUrl =
+      environment.api + "/api" + "/admin/promos/export?token=" + token;
   }
 
   getpromo() {
+    this.spinner.show();
     this.promoGet.getPromos().subscribe((dataProme: any) => {
+      this.spinner.hide();
       this.promos = dataProme.data;
       this.promos = this.promos.map((item) => {
         item.deactivated = !item.active;

@@ -4,6 +4,7 @@ import { LoyalityService } from "@app/pages/services/loyality.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { AngularEditorConfig } from "@kolkov/angular-editor";
 import { environment } from "@env/environment";
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var jquery: any;
 declare var $: any;
@@ -25,7 +26,8 @@ export class RewardsComponent implements OnInit {
 
   constructor(
     private loyalityService: LoyalityService,
-    private uploadService: UploadFilesService
+    private uploadService: UploadFilesService,
+    private spinner: NgxSpinnerService
   ) {
     this.editorConfig = {
       editable: true,
@@ -55,7 +57,9 @@ export class RewardsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.loyalityService.getRewards().subscribe((response: any) => {
+      this.spinner.hide();
       this.rewards = response.data;
       this.rewards = this.rewards.map((item) => {
         item.deactivated = !item.active;

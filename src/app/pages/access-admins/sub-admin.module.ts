@@ -8,6 +8,7 @@ import { RouterModule } from "@angular/router";
 import { NgxPaginationModule } from "ngx-pagination";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 const router = [
   {
@@ -31,6 +32,7 @@ const router = [
     ReactiveFormsModule,
     NgSelectModule,
     SharedModule,
+    NgxSpinnerModule,
   ],
   declarations: [UserSubAdminComponent, RolesComponent, AccessAdminsComponent],
 })
