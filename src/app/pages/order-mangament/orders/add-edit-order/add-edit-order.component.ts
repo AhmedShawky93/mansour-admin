@@ -159,6 +159,8 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
       this.orderForm.controls["user_id"].valid
     ) {
       this.setStep(1);
+    } else if (this.orderForm.get("has_customer").value == 2) {
+      this.setStep(1);
     } else {
       this.markFormGroupTouched(this.orderForm);
       this.markFormGroupTouched(this.customerForm);
@@ -269,19 +271,24 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     });
 
     this.addressForm = new FormGroup({
-      name: new FormControl(data ? data.name : ""),
-      address: new FormControl(data ? data.address : ""),
-      city_id: new FormControl(data ? data.city_id : ""),
-      area_id: new FormControl(data ? data.area_id : ""),
-      landmark: new FormControl(data ? data.landmark : ""),
-      floor: new FormControl(data ? data.floor : ""),
-      apartment: new FormControl(data ? data.apartment : ""),
+      name: new FormControl(data ? data.address.name : ""),
+      address: new FormControl(data ? data.address.address : ""),
+      city_id: new FormControl(data ? data.address.city_id : ""),
+      area_id: new FormControl(data ? data.address.area_id : ""),
+      landmark: new FormControl(data ? data.address.landmark : ""),
+      floor: new FormControl(data ? data.address.floor : ""),
+      apartment: new FormControl(data ? data.address.apartment : ""),
+      email: new FormControl(data ? data.address.email : ""),
+      phone: new FormControl(data ? data.address.phone : ""),
       lat: new FormControl(26.81910634209373),
       lng: new FormControl(30.7979080581665),
     });
 
     this.orderForm = new FormGroup({
-      user_id: new FormControl(data ? data.user.id : "", Validators.required),
+      user_id: new FormControl(
+        data && data.user ? data.user.id : "",
+        Validators.required
+      ),
       address_id: new FormControl(
         data ? data.address.id : "",
         Validators.required
@@ -300,11 +307,13 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     });
 
     if (data) {
-      this.spinner.show();
-      this.customerService.getCustomer(data.user.id).subscribe((res) => {
-        this.spinner.hide();
-        this.addresses = res.data.addresses;
-      });
+      if (data.user) {
+        this.spinner.show();
+        this.customerService.getCustomer(data.user.id).subscribe((res) => {
+          this.spinner.hide();
+          this.addresses = res.data.addresses;
+        });
+      }
       data.items.forEach((item) => {
         const productsInput$ = new Subject<String>();
         let productsLoading = false;
@@ -361,6 +370,49 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
           })
         );
       });
+    }
+
+    if (data && !data.user) {
+      this.orderForm.get("has_customer").setValue(2);
+      this.orderForm.get("has_address").setValue(0);
+      this.updateValidaty();
+      // this.addressForm.controls.name.setValidators([Validators.required]);
+      // this.addressForm.controls.name.setValidators([Validators.required]);
+      // this.addressForm.controls.city_id.setValidators([Validators.required]);
+      // this.addressForm.controls.area_id.setValidators([Validators.required]);
+      // this.addressForm.controls.floor.setValidators([Validators.required]);
+      // this.addressForm.controls.apartment.setValidators([Validators.required]);
+      // this.addressForm.controls.email.setValidators([Validators.required]);
+      // this.addressForm.controls.phone.setValidators([
+      //   Validators.minLength(
+      //     this.environmentVariables.localization.phone_length
+      //   ),
+      //   Validators.maxLength(
+      //     this.environmentVariables.localization.phone_length
+      //   ),
+      //   Validators.pattern(
+      //     this.environmentVariables.localization.phone_pattern
+      //   ),
+      // ]);
+      // this.orderForm.get("has_customer").updateValueAndValidity();
+      // this.orderForm.get("has_address").updateValueAndValidity();
+      // this.addressForm.controls.name.updateValueAndValidity();
+      // this.addressForm.controls.name.updateValueAndValidity();
+      // this.addressForm.controls.city_id.updateValueAndValidity();
+      // this.addressForm.controls.area_id.updateValueAndValidity();
+      // this.addressForm.controls.floor.updateValueAndValidity();
+      // this.addressForm.controls.apartment.updateValueAndValidity();
+      // this.addressForm.controls.email.updateValueAndValidity();
+      // this.addressForm.controls.phone.updateValueAndValidity();
+    } else {
+      // this.addressForm.controls.name.clearValidators();
+      // this.addressForm.controls.name.clearValidators();
+      // this.addressForm.controls.city_id.clearValidators();
+      // this.addressForm.controls.area_id.clearValidators();
+      // this.addressForm.controls.floor.clearValidators();
+      // this.addressForm.controls.apartment.clearValidators();
+      // this.addressForm.controls.email.clearValidators();
+      // this.addressForm.controls.phone.clearValidators();
     }
 
     this.customers$ = concat(

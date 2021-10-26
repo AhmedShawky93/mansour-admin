@@ -21,6 +21,9 @@
             <mat-radio-button class="owl-input" [value]="1" class="mt-1 ml-1 address">
               Use existing Customer
             </mat-radio-button>
+            <mat-radio-button class="owl-input" [value]="2" class="mt-1 ml-1 address">
+              Guest User
+            </mat-radio-button>
           </mat-radio-group>
         </div>
 
@@ -229,6 +232,30 @@
                 </select>
                 <div *ngIf="addressForm['controls']['area_id'].errors" class="alert alert-danger">
                   Area is required.
+                </div>
+              </div>
+
+              <div class="form-group" *ngIf="orderForm?.get('has_customer')?.value == 2">
+                <label for="">user email</label>
+                <input type="text" class="owl-input" name="email" placeholder="Type here..." formControlName="email">
+                <div *ngIf="formControlValidator(addressForm, 'email', 'required')" class="alert alert-danger">
+                  Email is required.
+                </div>
+              </div>
+
+              <div class="form-group" *ngIf="orderForm?.get('has_customer')?.value == 2">
+                <label for="">phone</label>
+                <input type="text" class="owl-input" name="phone" placeholder="Type here..." formControlName="phone">
+                <div *ngIf="formControlValidator(addressForm, 'phone', 'required')" class="alert alert-danger">
+                  Phone is required.
+                </div>
+                <div class="alert alert-danger"
+                  *ngIf="formControlValidator(addressForm, 'phone', 'minlength') || formControlValidator(addressForm, 'phone', 'maxlength')">
+                  Phone must be {{environmentVariables?.localization.phone_length}} numbers.
+                </div>
+                <div class="alert alert-danger" *ngIf="formControlValidator(addressForm, 'phone', 'pattern') && !(formControlValidator(customerForm,
+                  'phone', 'minlength') || formControlValidator(addressForm, 'phone', 'maxlength'))">
+                  Invalid phone number
                 </div>
               </div>
             </div>
