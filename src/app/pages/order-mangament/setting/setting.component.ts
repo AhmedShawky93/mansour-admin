@@ -12,6 +12,7 @@ import { ToastrService } from "ngx-toastr";
 import { SettingService } from "@app/pages/services/setting.service";
 import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 function currentPasswordValidator(group: AbstractControl) {
   if (group.get("password").value && !group.get("current_password").value) {
@@ -79,7 +80,8 @@ export class SettingComponent implements OnInit {
     private uploadFile: UploadFilesService,
     private toastrService: ToastrService,
     private settingService: SettingService,
-    private showAffiliateService: ShowAffiliateService
+    private showAffiliateService: ShowAffiliateService,
+    private spinner: NgxSpinnerService
   ) {
     this.getConfig();
   }
@@ -141,7 +143,9 @@ export class SettingComponent implements OnInit {
   }
 
   getUser() {
+    this.spinner.show();
     this.settingService.getNotification().subscribe((response: any) => {
+      this.spinner.hide();
       this.user = response.data;
       this.user.imageUrl = this.user.image;
       this.setForm(this.user);
