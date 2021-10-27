@@ -54,7 +54,7 @@
       <!-- <h5>{{group.key | amTimeAgo}}</h5> -->
 
       <div class="not-item" *ngFor="let notification of group.value">
-        <small>{{notification.created_at | amDateFormat:'h:mm:ss a'}}</small>
+        <small>{{notification.created_at | date :'M/d/yy, h:mm a'}}</small>
         <p>{{notification.title}}</p>
         <span>{{notification.body}}
           <span *ngIf="notification?.type == 10">
@@ -88,7 +88,7 @@
       </div>
       <div class="modal-body">
         <p>Total count : {{detailsImport?.total_count}}</p>
-        <p>Total approved count   : {{detailsImport?.total_approved_count}}</p>
+        <p>Total approved count : {{detailsImport?.total_approved_count}}</p>
         <p>Total created count : {{detailsImport?.total_created_count}}</p>
         <p>Total updated count : {{detailsImport?.total_updated_count}}</p>
         <p>Total missed count : {{detailsImport?.total_missed_count}}</p>
