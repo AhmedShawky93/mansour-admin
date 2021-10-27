@@ -293,14 +293,14 @@
       </div> -->
       <div class="block-item">
         <p>Customer name</p>
+        <!-- <span (click)="customerDetails(order?.user)" class="pointer"
+          *ngIf='order?.user == null'>{{order?.address?.name}}</span> -->
         <span (click)="customerDetails(order?.user)" class="pointer"
-          *ngIf='order?.user == null'>{{order?.address?.name}}</span>
-        <span (click)="customerDetails(order?.user)" class="pointer"
-          *ngIf='order?.affiliate == null'>{{order?.user?.name}}</span>
+          *ngIf='order?.affiliate == null'>{{order?.user?.full_name}}</span>
         <span (click)="customerDetails(order?.user)" class="pointer"
           *ngIf='order?.affiliate != null && order?.by_affiliate'>{{order?.address?.name}}</span>
         <span (click)="customerDetails(order?.user)" class="pointer"
-          *ngIf='order?.affiliate != null && !order?.by_affiliate'>{{order?.user?.name}}</span>
+          *ngIf='order?.affiliate != null && !order?.by_affiliate'>{{order?.user?.full_name}}</span>
       </div>
     </div>
     <div class="col-md-1"></div>
