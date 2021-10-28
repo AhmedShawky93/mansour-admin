@@ -12,7 +12,8 @@
         style="margin: 0px 10px;  "> print </button>
       <button (click)="addToPickup(order.id)" class="float-right btn btn-owls btn-rounded btn-green">
         Add To Pickup </button>
-      <button (click)="editOrder()" class="float-right btn btn-owls btn-rounded btn-green mx-2">
+      <button (click)="editOrder()" [ngClass]="order.user.id == null ? 'disabled' : ''"
+        class="float-right btn btn-owls btn-rounded btn-green mx-2">
         Edit
       </button>
     </div>
