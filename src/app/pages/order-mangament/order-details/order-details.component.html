@@ -286,7 +286,7 @@
     <div class="col-md-5">
       <div class="block-item">
         <p>{{ order?.by_affiliate ? 'Affiliate id' : 'Customer id' }}</p>
-        <span>{{order?.user != null ? order?.user?.id : 'Guest'}}</span>
+        <span>{{order?.user.id ? order?.user?.id : 'Guest'}}</span>
       </div>
       <!-- <div class="block-item">
         <p>id</p>
