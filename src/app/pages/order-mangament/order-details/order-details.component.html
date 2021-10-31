@@ -319,7 +319,7 @@
       </div>
     </div>
     <div class="col-sm-12">
-      <div class="block-item" *ngIf='order.by_affiliate || order.user != null'>
+      <div class="block-item" *ngIf='order?.by_affiliate || order?.user?.email != null'>
         <p>Customer Email</p>
         <span>{{order?.user?.email ? order?.user?.email : '-'}}</span>
       </div>

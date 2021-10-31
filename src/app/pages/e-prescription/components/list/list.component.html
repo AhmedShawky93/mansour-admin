@@ -139,7 +139,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" (click)="setStatusData(item, 2)" data-toggle="modal"
-                data-target="#confirmationModal">Process</a>
+                data-target="#confirmationModal">In Progress</a>
               <a class="dropdown-item" *ngIf="item.status == 2" (click)="setStatusData(item, 3)" data-toggle="modal"
                 data-target="#confirmationModal">Delivered</a>
               <a class="dropdown-item" (click)="setStatusData(item, 4)" data-toggle="modal"
