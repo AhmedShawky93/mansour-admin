@@ -264,39 +264,40 @@
       </div>
     </div>
 
-    <!-- <div class="order-history">
-        <h5>Stars Points</h5>
+    <div class="order-history">
+      <h5>Stars Points</h5>
 
-        <div class="order-list">
-          <div class="order-item" *ngFor="let point of customer.points">
-            <div>
-                <h4 style="display: inline-block;">Total Points: {{point.total_points}}</h4>
-                <a *ngIf="!point.deleted_at" class="pull-right" href="javascript:void(0)" data-toggle="modal" data-target="#cancelPopUp" (click)="confirmCancelPoints(point)">
-                  <i class="fa fa-times"></i>
-                </a>
-            </div>
-
-            <p *ngIf="!point.deleted_at">
-              {{point.active ? "Earned" : "Pending"}}
-            </p>
-            <p *ngIf="point.deleted_at">
-              Cancelled
-            </p>
-            <p *ngIf="point.order_id">
-              Order ID: {{point.order_id}}
-            </p>
-            <p *ngIf="!point.order_id">
-              Referer: {{point.referer.referal}}
-            </p>
-            <p>
-              Remaining: {{point.remaining_points}}
-            </p>
-
-
+      <div class="order-list">
+        <div class="order-item" *ngFor="let point of customer.earned">
+          <div>
+            <h4 style="display: inline-block;">Total Points: {{point?.total_points}}</h4>
+            <a *ngIf="!point.deleted_at" class="pull-right" href="javascript:void(0)" data-toggle="modal"
+              data-target="#cancelPopUp" (click)="confirmCancelPoints(point)">
+              <i class="fa fa-times"></i>
+            </a>
           </div>
-        </div>
 
-      </div> -->
+          <!-- <p *ngIf="!point.deleted_at">
+            {{point.active ? "Earned" : "Pending"}}
+          </p> -->
+          <p *ngIf="point?.deleted_at">
+            Cancelled
+          </p>
+          <p *ngIf="point?.order">
+            Order ID: {{point.order.id}}
+          </p>
+          <p *ngIf="!point?.order">
+            Referer: {{point?.referer?.referal}}
+          </p>
+          <p>
+            Earned Points: {{point?.total_points}}
+          </p>
+
+
+        </div>
+      </div>
+
+    </div>
   </div>
 
 </div>
