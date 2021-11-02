@@ -467,7 +467,7 @@
     <div class="form-group">
       <label>Image</label>
       <div class="d-flex justify-content-center flex-column">
-        <app-image-uploader [fileUrl]="componentForm.value?.image" [inputIndex]="0" [formControlChildName]="'image'"
+        <app-image-uploader [fileUrl]="componentForm.value?.image" [formControlChildName]="'image'"
           [myForm]="componentForm" class="w-100" height="240px" width="50%">
         </app-image-uploader>
         <div *ngIf="formControlValidator('image','required')" class="text-danger">
