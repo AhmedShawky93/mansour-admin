@@ -861,9 +861,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     product.options.forEach((item) => {
       delete item.optionData;
     });
-    this.formatDateForSaving(product, this.componentForm);
     let today = new Date();
     let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`;
+    this.formatDateForSaving(product, this.componentForm);
+    console.log(product);
 
     const data = {
       product_with_variant: true,
@@ -876,8 +877,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       discount_price: product.discount_price,
       discount_start_date: product.discount_price
         ? product.discount_start_date
-          ? product.discount_start_date
-          : today
         : "",
       expiration_time: product.expiration_time,
       start_time: product.start_time,
