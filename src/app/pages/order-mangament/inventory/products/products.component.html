@@ -11,15 +11,22 @@
     </div>
   </div>
   <div class="row">
-    <!-- <div class="col-md-9 col-sm-12 col-xs-12">
+    <div class="col-md-9 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input (input)="search()" [(ngModel)]="searchValue" class="owl-input owls-search" placeholder="search ..."
-          type="text">
+        <!--<input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" class="owl-input owls-search"
+          placeholder="search ...">-->
+        <input
+          (input)="search()"
+          [(ngModel)]="searchValue"
+          class="owl-input owls-search"
+          placeholder="search ..."
+          type="text"
+        />
       </div>
-    </div> -->
+    </div>
     <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
         <!--<button (click)="createNew()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
@@ -51,17 +58,24 @@
         </button>
       </div>
     </div>-->
-    <!-- <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
+    <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
       <div class="row">
         <div class="col-md-6 col-xs-12">
           <div class="form-group">
-            <select (change)="selectCategoryFilter(main_category, false)" [(ngModel)]="main_category" class="owl-input"
-              name="category" required>
+            <select
+              (change)="selectCategoryFilter(main_category, false)"
+              [(ngModel)]="main_category"
+              class="owl-input"
+              name="category"
+              required
+            >
               <option [value]="''" selected>Select Category</option>
               <ng-container *ngFor="let cat of categories">
                 <option [value]="cat.id">
-                  {{cat.name}}
-                  <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+                  {{ cat.name }}
+                  <span *ngIf="cat.active == 0" style="color: red !important">
+                    - Deactivate
+                  </span>
                 </option>
               </ng-container>
             </select>
@@ -69,17 +83,22 @@
         </div>
         <div class="col-md-6 col-xs-12">
           <div class="form-group">
-            <select (change)="getProductSubCategory(sub_category_id)" [(ngModel)]="sub_category_id" class="owl-input"
-              name="subCategory">
+            <select
+              (change)="getProductSubCategory(sub_category_id)"
+              [(ngModel)]="sub_category_id"
+              class="owl-input"
+              name="subCategory"
+            >
               <option [value]="''" selected>Select Sub Category</option>
-              <option *ngFor="let cat of sub_categories" value="{{cat.id}}">{{cat.name}}
+              <option *ngFor="let cat of sub_categories" value="{{ cat.id }}">
+                {{ cat.name }}
                 <span *ngIf="cat.active == 0"> - Deactivate </span>
               </option>
             </select>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
       <div class="row">
         <div class="col-md-2 col-xs-12 p-l-r-5"></div>
