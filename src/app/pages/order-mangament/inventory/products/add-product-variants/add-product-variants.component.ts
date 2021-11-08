@@ -58,6 +58,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   componentForm: FormGroup;
   options: FormArray;
   addSubImages: FormArray;
+  // optionsPage: number = 1;
   price: any;
   categories: any;
   sub_categories: any;
@@ -118,6 +119,10 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       uploadUrl: environment.api + "/api" + "/admin/upload_ckeditor",
     };
   }
+
+  // pagination(page) {
+  //   this.optionsPage = page;
+  // }
 
   ngOnInit() {
     this.getInitialData();
