@@ -23,9 +23,11 @@ export class PromotionsService {
   }
 
   createPromotion(data) {
-    return this.http.post(this.url + "/promotions", data).catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+    return this.http
+      .post(this.url + "/promotions", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   editPromotion(id, data) {
@@ -50,5 +52,9 @@ export class PromotionsService {
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });
+  }
+
+  deletePromotion(id) {
+    return this.http.delete(`${this.url}/promotions/${id}`);
   }
 }
