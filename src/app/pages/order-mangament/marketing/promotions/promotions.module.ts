@@ -1,20 +1,30 @@
-import { NgSelectModule } from "@ng-select/ng-select";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgxPaginationModule } from "ngx-pagination";
-import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { PromotionsComponent } from "./promotions.component";
-import { AddEditPromotionComponent } from "./add-edit-promotion/add-edit-promotion.component";
-import { RouterModule } from "@angular/router";
-import { SatDatepickerModule, SatNativeDateModule } from "saturn-datepicker";
+import { NgModule } from "@angular/core";
 import {
+  FormsModule,
+  ReactiveFormsModule,
+} from "@angular/forms";
+import {
+  MatDatepickerModule,
   MatFormFieldModule,
   MatInputModule,
-  MatDatepickerModule,
   MatNativeDateModule,
 } from "@angular/material";
+import { RouterModule } from "@angular/router";
+
+import { NgxPaginationModule } from "ngx-pagination";
+import {
+  SatDatepickerModule,
+  SatNativeDateModule,
+} from "saturn-datepicker";
+
 import { SharedModule } from "@app/shared/shared.module";
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgSelectModule } from "@ng-select/ng-select";
+
+import {
+  AddEditPromotionComponent,
+} from "./add-edit-promotion/add-edit-promotion.component";
+import { PromotionsComponent } from "./promotions.component";
 
 const router = [
   { path: "", component: PromotionsComponent, data: { title: "Promotions" } },
@@ -35,7 +45,6 @@ const router = [
     MatNativeDateModule,
     MatInputModule,
     SharedModule,
-    NgxSpinnerModule,
   ],
   declarations: [PromotionsComponent, AddEditPromotionComponent],
 })

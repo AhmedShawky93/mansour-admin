@@ -10,8 +10,8 @@ import {
   style,
 } from "@angular/animations";
 import { PromotionsService } from "@app/pages/services/promotions.service";
-import { NgxSpinnerService } from "ngx-spinner";
-
+declare var jquery: any;
+declare var $: any;
 @Component({
   selector: "app-promotions",
   templateUrl: "./promotions.component.html",
@@ -36,6 +36,7 @@ import { NgxSpinnerService } from "ngx-spinner";
   ],
 })
 export class PromotionsComponent implements OnInit {
+  statedeleting: boolean = false;
   dateRange: any;
   showError: number;
   currentProduct: any;
@@ -63,7 +64,7 @@ export class PromotionsComponent implements OnInit {
   currentPromotion: any;
   constructor(
     private promotionsService: PromotionsService,
-    private spinner: NgxSpinnerService
+    private toasterService: ToastrService
   ) {}
 
   ngOnInit() {
@@ -75,7 +76,7 @@ export class PromotionsComponent implements OnInit {
   }
 
   getPromotions() {
-    this.spinner.show();
+    this.loading = true;
     this.productIsEmpty = false;
 
     this.promotionsService
@@ -83,7 +84,7 @@ export class PromotionsComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.promotions = response.data;
-          this.spinner.hide();
+          this.loading = false;
           this.promotions.map((section) => {
             section.deactivated = !section.active;
             return section;
@@ -144,16 +145,42 @@ export class PromotionsComponent implements OnInit {
       });
   }
 
-  toggleMenu(data) {
+  toggleMenu(data?) {
+    console.log(data);
     this.currentPromotion = data;
-    this.viewOptionSidebar = "out";
     this.toggleAddOption = "in";
+    this.viewOptionSidebar = "out";
   }
 
   closeSideBar() {
-    this.toggleAddOption = "out";
-    this.viewOptionSidebar = "out";
     this.currentPromotion = null;
+    this.toggleAddOption = "out";
+    this.viewOptionSidebar = "in";
+  }
+
+  showPopupDeletePromotion(promotion) {
+    this.currentProduct = promotion;
+    $("#deletePromotion").modal("show");
+  }
+
+  confirmDelete() {
+    this.statedeleting = true;
+    this.promotionsService
+      .deletePromotion(this.currentProduct.id)
+      .subscribe(async (res: any) => {
+        if (res.code == 200) {
+          this.promotions = await this.promotions.filter(
+            (promotion) => promotion.id !== this.currentProduct.id
+          );
+          this.statedeleting = false;
+          $("#deletePromotion").modal("hide");
+          this.toasterService.success("Deleted Successfully");
+        } else {
+          this.statedeleting = false;
+          $("#deletePromotion").modal("hide");
+          this.toasterService.error("Deleted Not Successfully");
+        }
+      });
   }
 
   addOrUpdateOption(data) {
