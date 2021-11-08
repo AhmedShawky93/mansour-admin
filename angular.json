@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "owls": {
+    "eldokan": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -22,7 +22,8 @@
             "assets": [
               "src/assets",
               "src/assets/img/logo-mini.png",
-              "src/.htaccess"
+              "src/.htaccess",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.scss",
@@ -45,7 +46,9 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
 
           "configurations": {
@@ -57,10 +60,18 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "extractCss": true,
+              "aot": true,
               "budgets": [
                 {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
+                },
+                {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "100kb",
+                  "maximumError": "10mb"
                 }
               ]
             },
@@ -73,10 +84,18 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "extractCss": true,
+              "aot": true,
               "budgets": [
                 {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
+                },
+                {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "100kb",
+                  "maximumError": "10mb"
                 }
               ]
             }
@@ -87,11 +106,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "owls:build"
+            "browserTarget": "eldokan:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "owls:build:production"
+              "browserTarget": "eldokan:build:production"
             }
           }
         },
@@ -99,7 +118,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "owls:build"
+            "browserTarget": "eldokan:build"
           }
         },
 
@@ -123,7 +142,7 @@
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "assets": ["src/assets"]
+            "assets": ["src/assets", "src/manifest.webmanifest"]
           }
         },
 
@@ -137,7 +156,7 @@
       }
     },
 
-    "owls-e2e": {
+    "eldokan-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -146,7 +165,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "owls:serve"
+            "devServerTarget": "eldokan:serve"
           }
         },
 
@@ -161,7 +180,7 @@
     }
   },
 
-  "defaultProject": "owls",
+  "defaultProject": "eldokan",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
