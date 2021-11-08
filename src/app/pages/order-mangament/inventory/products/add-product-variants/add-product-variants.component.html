@@ -113,7 +113,9 @@
 
     </div>
 
-    <div *ngFor="let option of componentForm.get('option_values')['controls']; let i = index" class="form-group"
+    <!-- | paginate: { itemsPerPage: 20, currentPage:
+      optionsPage, totalItems: componentForm.get('option_values')['controls'].length }; -->
+    <div *ngFor="let option of componentForm.get('option_values')['controls']  let i = index" class="form-group"
       formArrayName="option_values">
       <span [formGroupName]='i'>
         <div *ngIf="option?.value.type != '5'" class="">
@@ -144,15 +146,11 @@
             <angular-editor [id]="i" formControlName="input_en" [config]="editorConfig" [placeholder]="'English'">
             </angular-editor>
           </div>
-          <!--<div class="form-group">
-              <input class="owl-input" formControlName="input_en" placeholder="English" type="text">
-            </div>
-            <div class="form-group">
-              <input class="owl-input" formControlName="input_ar" placeholder="Arabic" type="text">
-            </div>-->
+
         </div>
       </span>
     </div>
+    <!-- <pagination-controls (pageChange)="pagination($event)"></pagination-controls> -->
 
     <div class="form-group">
       <label> Brand Name </label>
