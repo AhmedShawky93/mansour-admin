@@ -6,29 +6,15 @@
     <h3>{{ promotionData ? "Edit Promotion" : "New Promotion" }}</h3>
   </div>
 
-  <form
-    class="sideform"
-    (ngSubmit)="submitForm()"
-    [formGroup]="promotionForm"
-    novalidate
-  >
+  <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="promotionForm" novalidate>
     <div class="form-group">
       <label for="name">Name</label>
-      <input
-        type="text"
-        class="owl-input"
-        placeholder="Type.."
-        formControlName="name"
-        id="name"
-      />
-      <div
-        *ngIf="
+      <input type="text" class="owl-input" placeholder="Type.." formControlName="name" id="name" />
+      <div *ngIf="
           promotionForm.controls.name.invalid &&
           (promotionForm.controls.name.dirty ||
             promotionForm.controls.name.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="promotionForm.controls.name.errors.required">
           Name is required.
         </div>
@@ -37,22 +23,13 @@
 
     <div class="form-group">
       <label for="nameAr">Name (Ar)</label>
-      <input
-        type="text"
-        class="owl-input"
-        placeholder="Type.."
-        formControlName="name_ar"
-        id="nameAr"
-      />
+      <input type="text" class="owl-input" placeholder="Type.." formControlName="name_ar" id="nameAr" />
 
-      <div
-        *ngIf="
+      <div *ngIf="
           promotionForm.controls.name_ar.invalid &&
           (promotionForm.controls.name_ar.dirty ||
             promotionForm.controls.name_ar.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="promotionForm.controls.name_ar.errors.required">
           Name (Ar) is required.
         </div>
@@ -61,22 +38,13 @@
 
     <div class="form-group">
       <label for="priority">Priority</label>
-      <input
-        type="number"
-        class="owl-input"
-        placeholder="Type.."
-        formControlName="priority"
-        pattern="[0-9]+(\.[0-9][0-9]?)?"
-        id="priority"
-      />
-      <div
-        *ngIf="
+      <input type="number" class="owl-input" placeholder="Type.." formControlName="priority"
+        pattern="[0-9]+(\.[0-9][0-9]?)?" id="priority" />
+      <div *ngIf="
           promotionForm.controls.priority.invalid &&
           (promotionForm.controls.priority.dirty ||
             promotionForm.controls.priority.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="promotionForm.controls.priority.errors.required">
           Priority is required.
         </div>
@@ -88,22 +56,13 @@
 
     <div class="form-group">
       <label for="times">Number of times</label>
-      <input
-        type="number"
-        class="owl-input"
-        placeholder="Type.."
-        formControlName="times"
-        pattern="[0-9]+(\.[0-9][0-9]?)?"
-        id="times"
-      />
-      <div
-        *ngIf="
+      <input type="number" class="owl-input" placeholder="Type.." formControlName="times"
+        pattern="[0-9]+(\.[0-9][0-9]?)?" id="times" />
+      <div *ngIf="
           promotionForm.controls.times.invalid &&
           (promotionForm.controls.times.dirty ||
             promotionForm.controls.times.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="promotionForm.controls.times.errors.min">
           Number of times can't be negative.
         </div>
@@ -112,86 +71,53 @@
 
     <div class="form-group">
       <label for="type">Type</label>
-      <select
-        class="owl-input"
-        name="type"
-        (change)="changeType($event)"
-        formControlName="type"
-        id="type"
-      >
+      <select class="owl-input" name="type" (change)="changeType($event)" formControlName="type" id="type">
         <option value="1">Discount</option>
         <option value="2">Gift</option>
         <option value="3">Discount + Gift</option>
         <option value="4">Direct discount</option>
       </select>
 
-      <div
-        *ngIf="
+      <div *ngIf="
           promotionForm.controls.type.invalid &&
           (promotionForm.controls.type.dirty ||
             promotionForm.controls.type.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="promotionForm.controls.type.errors.required">
           Type is required.
         </div>
       </div>
     </div>
 
-    <div
-      class="form-group"
-      *ngIf="
+    <div class="form-group" *ngIf="
         promotionForm.controls.type.value == 2 ||
         promotionForm.controls.type.value == 3
-      "
-    >
+      ">
       <label for="giftEn">Gift EN</label>
-      <input
-        type="text"
-        class="owl-input"
-        placeholder="Type.."
-        formControlName="gift_en"
-        id="giftEn"
-      />
-      <div
-        *ngIf="
+      <input type="text" class="owl-input" placeholder="Type.." formControlName="gift_en" id="giftEn" />
+      <div *ngIf="
           promotionForm.controls.gift_en.invalid &&
           (promotionForm.controls.gift_en.dirty ||
             promotionForm.controls.gift_en.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="promotionForm.controls.gift_en.errors.required">
           Gift EN is required.
         </div>
       </div>
     </div>
 
-    <div
-      class="form-group"
-      *ngIf="
+    <div class="form-group" *ngIf="
         promotionForm.controls.type.value == 2 ||
         promotionForm.controls.type.value == 3
-      "
-    >
+      ">
       <label for="giftAr">Gift (Ar)</label>
-      <input
-        type="text"
-        class="owl-input"
-        placeholder="Type.."
-        formControlName="gift_ar"
-        id="giftAr"
-      />
+      <input type="text" class="owl-input" placeholder="Type.." formControlName="gift_ar" id="giftAr" />
 
-      <div
-        *ngIf="
+      <div *ngIf="
           promotionForm.controls.gift_ar.invalid &&
           (promotionForm.controls.gift_ar.dirty ||
             promotionForm.controls.gift_ar.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="promotionForm.controls.gift_ar.errors.required">
           Gift (Ar) is required.
         </div>
@@ -202,17 +128,9 @@
       <!-- <h1>{{ this.promotionForm.get("conditionsTypes").value | json }}</h1> -->
       <div class="form-group col-md-12">
         <label for="lists">Conditions Type</label>
-        <ng-select
-          formControlName="conditionsTypes"
-          [multiple]="true"
-          (change)="changeConditionsTypes($event)"
-        >
-          <ng-option
-            *ngFor="let condition of conditionsTypes"
-            [value]="condition?.id"
-            [disabled]="condition?.isDisabled"
-            >{{ condition?.name }}</ng-option
-          >
+        <ng-select formControlName="conditionsTypes" [multiple]="true" (change)="changeConditionsTypes($event)">
+          <ng-option *ngFor="let condition of conditionsTypes" [value]="condition?.id"
+            [disabled]="condition?.isDisabled">{{ condition?.name }}</ng-option>
         </ng-select>
       </div>
     </div>
@@ -223,77 +141,50 @@
           <div class="row box-range" [formGroupName]="i">
             <div class="col-md-12 d-flex align-items-center p-0 mb-2 mt-4">
               <h5 class="mr-3">Conditions:</h5>
-              <label class="checkup" (change)="selectTypeConditions(1, i)"
-                >List
+              <label class="checkup" (change)="selectTypeConditions(1, i)">List
                 <input type="radio" formControlName="item_type" [value]="1" />
                 <span class="checkmark"></span>
               </label>
-              <label class="checkup ml-2" (change)="selectTypeConditions(2, i)"
-                >Products
+              <label class="checkup ml-2" (change)="selectTypeConditions(2, i)">Products
                 <input type="radio" formControlName="item_type" [value]="2" />
                 <span class="checkmark"></span>
               </label>
             </div>
-            <div
-              class="col-md-6"
-              *ngIf="
+            <div class="col-md-6" *ngIf="
                 promotionForm.controls.conditions['controls'][i].controls
                   .item_type.value == 1
-              "
-            >
+              ">
               <div class="form-group">
                 <label for="lists">Custom List</label>
-                <ng-select
-                  formControlName="item_id"
-                  [items]="lists"
-                  name="lists"
-                  bindLabel="name_en"
-                  bindValue="id"
-                  placeholder="Enter List name"
-                >
+                <ng-select formControlName="item_id" [items]="lists" name="lists" bindLabel="name_en" bindValue="id"
+                  placeholder="Enter List name">
                 </ng-select>
-                <div
-                  *ngIf="
+                <div *ngIf="
                     item.get('item_id').invalid &&
                     (item.get('item_id').dirty || item.get('item_id').touched)
-                  "
-                  class="alert alert-danger"
-                >
+                  " class="alert alert-danger">
                   <div *ngIf="item.get('item_id').errors?.required">
                     List is required.
                   </div>
                 </div>
               </div>
             </div>
-            <div
-              class="col-md-6"
-              *ngIf="
+            <div class="col-md-6" *ngIf="
                 promotionForm.controls.conditions['controls'][i].controls
                   .item_type.value == 2
-              "
-            >
+              ">
               <div class="form-group">
                 <label for="conditionsProducts">Products</label>
-                <ng-select
-                  [typeahead]="conditionsProducts[i].productsInput$"
-                  [loading]="conditionsProducts[i].productsLoading"
-                  name="conditionsProducts"
-                  [items]="conditionsProducts[i].products$ | async"
-                  bindLabel="name"
-                  bindValue="id"
-                  placeholder="Enter Product name"
-                  formControlName="custom_list"
-                  [multiple]="true"
-                >
+                <ng-select [typeahead]="conditionsProducts[i].productsInput$"
+                  [loading]="conditionsProducts[i].productsLoading" name="conditionsProducts"
+                  [items]="conditionsProducts[i].products$ | async" bindLabel="name" bindValue="id"
+                  placeholder="Enter Product name" formControlName="custom_list" [multiple]="true">
                 </ng-select>
-                <div
-                  *ngIf="
+                <div *ngIf="
                     item.get('custom_list').invalid &&
                     (item.get('custom_list').dirty ||
                       item.get('custom_list').touched)
-                  "
-                  class="alert alert-danger"
-                >
+                  " class="alert alert-danger">
                   <div *ngIf="item.get('custom_list').errors?.required">
                     Products is required.
                   </div>
@@ -303,21 +194,12 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label for="amount">Amount</label>
-                <input
-                  type="number"
-                  class="owl-input"
-                  placeholder="Type.."
-                  formControlName="amount"
-                  pattern="[0-9]+(\.[0-9][0-9]?)?"
-                  id="amount"
-                />
-                <div
-                  *ngIf="
+                <input type="number" class="owl-input" placeholder="Type.." formControlName="amount"
+                  pattern="[0-9]+(\.[0-9][0-9]?)?" id="amount" />
+                <div *ngIf="
                     item.get('amount').invalid &&
                     (item.get('amount').dirty || item.get('amount').touched)
-                  "
-                  class="alert alert-danger"
-                >
+                  " class="alert alert-danger">
                   <div *ngIf="item.get('amount').errors?.min">
                     Amount can't be negative.
                   </div>
@@ -327,21 +209,12 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label for="quantity">Quantity</label>
-                <input
-                  type="number"
-                  class="owl-input"
-                  placeholder="Type.."
-                  formControlName="quantity"
-                  pattern="[0-9]+(\.[0-9][0-9]?)?"
-                  id="quantity"
-                />
-                <div
-                  *ngIf="
+                <input type="number" class="owl-input" placeholder="Type.." formControlName="quantity"
+                  pattern="[0-9]+(\.[0-9][0-9]?)?" id="quantity" />
+                <div *ngIf="
                     item.get('quantity').invalid &&
                     (item.get('quantity').dirty || item.get('quantity').touched)
-                  "
-                  class="alert alert-danger"
-                >
+                  " class="alert alert-danger">
                   <div *ngIf="item.get('quantity').errors?.min">
                     Quantity can't be negative.
                   </div>
@@ -356,13 +229,8 @@
                 </div>
               </div>
             </div>
-            <a
-              href="javascript:void(0)"
-              class="add-sub"
-              (click)="removeConditionsForm(i)"
-              *ngIf="conditions.length != 1"
-              >Remove Values</a
-            >
+            <a href="javascript:void(0)" class="add-sub" (click)="removeConditionsForm(i)"
+              *ngIf="conditions.length != 1">Remove Values</a>
           </div>
         </div>
       </div>
@@ -373,23 +241,14 @@
 
     <div class="form-group">
       <label for="discountQty">Discount Quantity</label>
-      <input
-        type="number"
-        class="owl-input"
-        placeholder="Type.."
-        formControlName="discount_qty"
-        pattern="[0-9]+(\.[0-9][0-9]?)?"
-        id="discountQty"
-      />
+      <input type="number" class="owl-input" placeholder="Type.." formControlName="discount_qty"
+        pattern="[0-9]+(\.[0-9][0-9]?)?" id="discountQty" />
 
-      <div
-        *ngIf="
+      <div *ngIf="
           promotionForm.controls.discount_qty.invalid &&
           (promotionForm.controls.discount_qty.dirty ||
             promotionForm.controls.discount_qty.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="promotionForm.controls.discount_qty.errors.required">
           Discount Quantity is required.
         </div>
@@ -401,23 +260,14 @@
 
     <div class="form-group">
       <label for="discount">Discount</label>
-      <input
-        type="number"
-        class="owl-input"
-        placeholder="Type.."
-        formControlName="discount"
-        pattern="[0-9]+(\.[0-9][0-9]?)?"
-        id="discount"
-      />
+      <input type="number" class="owl-input" placeholder="Type.." formControlName="discount"
+        pattern="[0-9]+(\.[0-9][0-9]?)?" id="discount" />
 
-      <div
-        *ngIf="
+      <div *ngIf="
           promotionForm.controls.discount.invalid &&
           (promotionForm.controls.discount.dirty ||
             promotionForm.controls.discount.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="promotionForm.controls.discount.errors.required">
           Discount is required.
         </div>
@@ -440,108 +290,72 @@
           <div class="row box-range" [formGroupName]="i">
             <div class="col-md-12 d-flex align-items-center p-0 mb-2 mt-4">
               <h5 class="mr-3">Targets:</h5>
-              <label class="checkup" (change)="selectTypeTarget(1, i)"
-                >List
+              <label class="checkup" (change)="selectTypeTarget(1, i)">List
                 <input type="radio" [value]="1" formControlName="item_type" />
                 <span class="checkmark"></span>
               </label>
-              <label class="checkup ml-2" (change)="selectTypeTarget(2, i)"
-                >Products
+              <label class="checkup ml-2" (change)="selectTypeTarget(2, i)">Products
                 <input type="radio" [value]="2" formControlName="item_type" />
                 <span class="checkmark"></span>
               </label>
             </div>
-            <div
-              class="col-md-12"
-              *ngIf="
+            <div class="col-md-12" *ngIf="
                 promotionForm.controls.targets['controls'][i].controls.item_type
                   .value == 1
-              "
-            >
+              ">
               <div class="form-group">
                 <label for="listName">Custom List</label>
-                <ng-select
-                  formControlName="item_id"
-                  [items]="lists"
-                  bindLabel="name_en"
-                  bindValue="id"
-                  placeholder="Enter List name"
-                  id="listName"
-                >
+                <ng-select formControlName="item_id" [items]="lists" bindLabel="name_en" bindValue="id"
+                  placeholder="Enter List name" id="listName">
                 </ng-select>
-                <div
-                  *ngIf="
+                <div *ngIf="
                     promotionForm.controls.targets['controls'][i].controls
                       .item_id.invalid &&
                     (promotionForm.controls.targets['controls'][i].controls
                       .item_id.dirty ||
                       promotionForm.controls.targets['controls'][i].controls
                         .item_id.touched)
-                  "
-                  class="alert alert-danger"
-                >
-                  <div
-                    *ngIf="
+                  " class="alert alert-danger">
+                  <div *ngIf="
                       promotionForm.controls.targets['controls'][i].controls
                         .item_id.errors.required
-                    "
-                  >
+                    ">
                     List is required.
                   </div>
                 </div>
               </div>
             </div>
-            <div
-              class="col-md-12"
-              *ngIf="
+            <div class="col-md-12" *ngIf="
                 promotionForm.controls.targets['controls'][i].controls.item_type
                   .value == 2
-              "
-            >
+              ">
               <div class="form-group">
                 <label for="targetsProducts">Products</label>
-                <ng-select
-                  [typeahead]="targetsProducts[i].productsInput$"
-                  [loading]="targetsProducts[i].productsLoading"
-                  name="targetsProducts"
-                  [items]="targetsProducts[i].products$ | async"
-                  bindLabel="name"
-                  bindValue="id"
-                  placeholder="Enter Product name"
-                  formControlName="custom_list"
-                  [multiple]="true"
-                >
+                <ng-select [typeahead]="targetsProducts[i].productsInput$"
+                  [loading]="targetsProducts[i].productsLoading" name="targetsProducts"
+                  [items]="targetsProducts[i].products$ | async" bindLabel="name" bindValue="id"
+                  placeholder="Enter Product name" formControlName="custom_list" [multiple]="true">
                   >
                 </ng-select>
-                <div
-                  *ngIf="
+                <div *ngIf="
                     promotionForm.controls.targets['controls'][i].controls
                       .custom_list.invalid &&
                     (promotionForm.controls.targets['controls'][i].controls
                       .custom_list.dirty ||
                       promotionForm.controls.targets['controls'][i].controls
                         .custom_list.touched)
-                  "
-                  class="alert alert-danger"
-                >
-                  <div
-                    *ngIf="
+                  " class="alert alert-danger">
+                  <div *ngIf="
                       promotionForm.controls.targets['controls'][i].controls
                         .custom_list.errors.required
-                    "
-                  >
+                    ">
                     Products is required.
                   </div>
                 </div>
               </div>
             </div>
-            <a
-              href="javascript:void(0)"
-              class="add-sub"
-              (click)="removeTargetForm(i)"
-              *ngIf="targets.length != 1"
-              >Remove Values</a
-            >
+            <a href="javascript:void(0)" class="add-sub" (click)="removeTargetForm(i)"
+              *ngIf="targets.length != 1">Remove Values</a>
           </div>
         </div>
       </div>
@@ -551,39 +365,27 @@
       <h5>Start Date-Time</h5>
       <div class="row">
         <div class="col-12 col-md-6">
-          <app-generic-date-picker
-            [myForm]="promotionForm"
-            [formControlChildName]="'start_date'"
-            [placeholder]="'Start Date'"
-          >
+          <app-generic-date-picker [myForm]="promotionForm" [formControlChildName]="'start_date'"
+            [placeholder]="'Start Date'">
           </app-generic-date-picker>
-          <div
-            *ngIf="
+          <div *ngIf="
               promotionForm.controls.start_date.invalid &&
               (promotionForm.controls.start_date.dirty ||
                 promotionForm.controls.start_date.touched)
-            "
-            class="alert alert-danger"
-          >
+            " class="alert alert-danger">
             <div *ngIf="promotionForm.controls.start_date.errors.required">
               Start Date is required.
             </div>
           </div>
         </div>
         <div class="col-12 col-md-6">
-          <app-generic-time-picker
-            [formControlChildName]="'start_time'"
-            [myForm]="promotionForm"
-            [placeholder]="'Pick Time'"
-          ></app-generic-time-picker>
-          <div
-            *ngIf="
+          <app-generic-time-picker [formControlChildName]="'start_time'" [myForm]="promotionForm"
+            [placeholder]="'Pick Time'"></app-generic-time-picker>
+          <div *ngIf="
               promotionForm.controls.start_time.invalid &&
               (promotionForm.controls.start_time.dirty ||
                 promotionForm.controls.start_time.touched)
-            "
-            class="alert alert-danger"
-          >
+            " class="alert alert-danger">
             <div *ngIf="promotionForm.controls.start_time.errors.required">
               Start Time is required.
             </div>
@@ -596,39 +398,27 @@
       <h5>Expiration Date-Time</h5>
       <div class="row">
         <div class="col-12 col-md-6">
-          <app-generic-date-picker
-            [myForm]="promotionForm"
-            [formControlChildName]="'expiration_date'"
-            [placeholder]="'Expiration Date'"
-          >
+          <app-generic-date-picker [myForm]="promotionForm" [formControlChildName]="'expiration_date'"
+            [placeholder]="'Expiration Date'">
           </app-generic-date-picker>
-          <div
-            *ngIf="
+          <div *ngIf="
               promotionForm.controls.expiration_date.invalid &&
               (promotionForm.controls.expiration_date.dirty ||
                 promotionForm.controls.expiration_date.touched)
-            "
-            class="alert alert-danger"
-          >
+            " class="alert alert-danger">
             <div *ngIf="promotionForm.controls.expiration_date.errors.required">
               Expiration Date is required.
             </div>
           </div>
         </div>
         <div class="col-12 col-md-6">
-          <app-generic-time-picker
-            [formControlChildName]="'expiration_time'"
-            [myForm]="promotionForm"
-            [placeholder]="'Pick Time'"
-          ></app-generic-time-picker>
-          <div
-            *ngIf="
+          <app-generic-time-picker [formControlChildName]="'expiration_time'" [myForm]="promotionForm"
+            [placeholder]="'Pick Time'"></app-generic-time-picker>
+          <div *ngIf="
               promotionForm.controls.expiration_time.invalid &&
               (promotionForm.controls.expiration_time.dirty ||
                 promotionForm.controls.expiration_time.touched)
-            "
-            class="alert alert-danger"
-          >
+            " class="alert alert-danger">
             <div *ngIf="promotionForm.controls.expiration_time.errors.required">
               Expiration Time is required.
             </div>
@@ -638,12 +428,8 @@
     </div>
 
     <div class="form-sidebar-btns">
-      <button
-        class="btn btn-owls btn-rounded btn-green"
-        style="position: relative"
-        [appLoading]="stateSubmitting"
-        [disabled]="stateSubmitting"
-      >
+      <button class="btn btn-owls btn-rounded btn-green" style="position: relative" [appLoading]="stateSubmitting"
+        [disabled]="stateSubmitting">
         Save
       </button>
       <!-- <button class="btn btn-owls btn-rounded btn-green">Save</button> -->
