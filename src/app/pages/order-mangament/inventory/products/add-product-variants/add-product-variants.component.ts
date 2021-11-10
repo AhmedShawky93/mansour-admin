@@ -184,7 +184,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           []
         ),
         preorder_start_time: new FormControl(
-          data ? data.preorder_start_time : "23:59:00",
+          data ? data.preorder_start_time.substring(0, 5) : "23:59",
           []
         ),
         preorder_end_date: new FormControl(
@@ -192,7 +192,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           []
         ),
         preorder_expiration_time: new FormControl(
-          data ? data.preorder_expiration_time : "23:59:00",
+          data ? data.preorder_expiration_time.substring(0, 5) : "23:59",
           []
         ),
         available_soon: new FormControl(data ? data.available_soon : ""),
@@ -206,13 +206,16 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           data ? data.discount_start_date : "",
           []
         ),
-        start_time: new FormControl(data ? data.start_time : "23:59:00", []),
+        start_time: new FormControl(
+          data ? data.start_time.substring(0, 5) : "23:59",
+          []
+        ),
         discount_end_date: new FormControl(
           data ? data.discount_end_date : "",
           []
         ),
         expiration_time: new FormControl(
-          data ? data.expiration_time : "23:59:00",
+          data ? data.expiration_time.substring(0, 5) : "23:59",
           []
         ),
         payment_method_discount_ids: new FormControl(
@@ -866,10 +869,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     product.options.forEach((item) => {
       delete item.optionData;
     });
-    let today = new Date();
-    let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`;
     this.formatDateForSaving(product, this.componentForm);
-    console.log(product);
 
     const data = {
       product_with_variant: true,

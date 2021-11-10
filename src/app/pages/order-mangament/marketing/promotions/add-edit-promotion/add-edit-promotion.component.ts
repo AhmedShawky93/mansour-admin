@@ -151,7 +151,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         Validators.required
       ),
       start_time: new FormControl(
-        data && data.start_date ? data.start_date.split(" ")[1] : "00:00:00",
+        data && data.start_date
+          ? `${data.start_date.split(" ")[1].substring(0, 5)}`
+          : "00:00",
         Validators.required
       ),
       expiration_date: new FormControl(
@@ -160,11 +162,12 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       ),
       expiration_time: new FormControl(
         data && data.expiration_date
-          ? data.expiration_date.split(" ")[1]
-          : "00:00:00",
+          ? `${data.expiration_date.split(" ")[1].substring(0, 5)}`
+          : "00:00",
         Validators.required
       ),
     });
+
     if (data) {
       this.getAllTypes(data);
       data.conditions.forEach((element) => {

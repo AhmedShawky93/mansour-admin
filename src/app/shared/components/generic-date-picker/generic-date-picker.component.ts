@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import * as moment from 'moment';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormGroup } from "@angular/forms";
+import * as moment from "moment";
 
 @Component({
-  selector: 'app-generic-date-picker',
-  templateUrl: './generic-date-picker.component.html',
-  styleUrls: ['./generic-date-picker.component.css']
+  selector: "app-generic-date-picker",
+  templateUrl: "./generic-date-picker.component.html",
+  styleUrls: ["./generic-date-picker.component.css"],
 })
 export class GenericDatePickerComponent implements OnInit {
   @Input() placeholder: string;
@@ -14,10 +14,9 @@ export class GenericDatePickerComponent implements OnInit {
   @Input() formControlChildName: string;
   @Output() change = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onChangeData(event) {
     this.change.emit(event.value);

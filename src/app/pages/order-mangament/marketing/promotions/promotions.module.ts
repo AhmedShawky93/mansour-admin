@@ -1,9 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import {
-  FormsModule,
-  ReactiveFormsModule,
-} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MatDatepickerModule,
   MatFormFieldModule,
@@ -13,17 +10,12 @@ import {
 import { RouterModule } from "@angular/router";
 
 import { NgxPaginationModule } from "ngx-pagination";
-import {
-  SatDatepickerModule,
-  SatNativeDateModule,
-} from "saturn-datepicker";
+import { SatDatepickerModule, SatNativeDateModule } from "saturn-datepicker";
 
 import { SharedModule } from "@app/shared/shared.module";
 import { NgSelectModule } from "@ng-select/ng-select";
 
-import {
-  AddEditPromotionComponent,
-} from "./add-edit-promotion/add-edit-promotion.component";
+import { AddEditPromotionComponent } from "./add-edit-promotion/add-edit-promotion.component";
 import { PromotionsComponent } from "./promotions.component";
 
 const router = [

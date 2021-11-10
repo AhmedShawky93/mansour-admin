@@ -132,7 +132,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   brands = [];
   newPrdouct;
   sub_category_id = "";
-  main_category = "";
+  main_category: any = "";
   updateProductForm;
   filter$ = new Subject();
   loading: boolean;
@@ -175,6 +175,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
         this.getRoutes();
       }
     });
+    this.getCategories();
   }
 
   ngOnDestroy() {
@@ -194,8 +195,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.getConfig();
     this.syncFbSheet = environment.api + "/api" + "/admin/products/export_fb";
-    this.getCategories();
-    // this.getProducts();
     this.productsService.getBrands().subscribe((response: any) => {
       this.brands = response.data;
     });
@@ -315,6 +314,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       params.main_category = this.main_category;
     }
     if (this.sub_category_id && this.sub_category_id !== "") {
+      // debugger;
       params.sub_category_id = this.sub_category_id;
     }
     if (Number(this.p) !== 1) {
@@ -324,7 +324,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       params.parent_id = this.selectedMainProduct.id;
       params.parent_name = this.selectedMainProduct.name;
     }
-
+    // debugger;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: params,
@@ -337,16 +337,12 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       console.log("#### rep ==>", rep);
       this.isAffiliate = rep;
     });
-    // this.settingsService.getSettings().subscribe((response: any) => {
-    //   console.log(response.data.enable_affiliate)
-    //   this.showAffiliateService.showAffiliate.next(response.data.enable_affiliate);
-    //   this.isAffiliate = response.data.enable_affiliate;
-    // })
   }
 
   search() {
     this.p = 1;
     this.setRoute();
+    // debugger;
     if (this.selectedMainProduct) {
       this.getProducts(this.selectedMainProduct, this.searchValue);
     }
@@ -355,12 +351,14 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   pagination(page) {
     this.p = page;
     this.setRoute();
+    // debugger;
     this.getProducts(this.selectedMainProduct, this.searchValue);
   }
 
   getProducts(product: any = null, search: any = null) {
     this.selectedMainProduct = product || null;
     this.spinner.show();
+    console.log("this.main_category", this.main_category);
     this.productsService
       .getProducts({
         page: this.p ? this.p : 1,
@@ -395,7 +393,9 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getProductSubCategory(data) {
+    this.sub_category_id = data;
     this.setRoute();
+    // debugger;
     this.p = 1;
     // this.getProducts();
   }
@@ -411,6 +411,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       this.searchValue = "";
       this.selectedMainProduct = product;
       this.setRoute();
+      // debugger;
     }
   }
 
@@ -420,10 +421,10 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.p = 1;
     this.filter = { q: "", page: 1 };
     this.setRoute();
+    // debugger;
   }
 
   goToLink() {
-    const token = this.auth.getToken();
     const urlBasic = environment.api + "/api" + "/admin/products/fullExport";
     const urlBasicWithsubCategory =
       environment.api +
@@ -739,31 +740,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       });
   }
 
-  // importStock(event) {
-  //   this.selectFile = <File>event.target.files[0];
-
-  //   this.productsService
-  //     .uploadFileStock(this.selectFile)
-  //     .subscribe((response: any) => {
-  //       if (response.code === 200) {
-
-  //       }
-  //       // if (response.body) {
-  //       //   this.product.image = response.body.data.name;
-  //       //   this.product.imageUrl = response.body.data.filePath;
-  //       //   this.showError = 0;
-  //       // }
-  //     });
-  //   setTimeout(() => {
-  //     this.toastrService.success('You’ll receive a notification when the import is done.', 'Your import is now being generated', {
-  //       enableHtml: true,
-  //       timeOut: 3000
-  //     });
-  //   }, 500);
-  //   this.importFileStock.nativeElement.value = '';
-
-  // }
-
   getCategories() {
     this._CategoriesService.getCategories().subscribe((response: any) => {
       this.categories = response.data;
@@ -776,17 +752,15 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   selectCategory(cat_id) {
     const index = this.categories.findIndex((item) => item.id == cat_id);
-
     const category = this.categories[index];
-
     this.sub_categories = category.sub_categories;
   }
 
-  selectCategoryFilter(cat_id, FromRouter) {
-    if (cat_id) {
-      this.main_category = cat_id;
+  selectCategoryFilter(cat, FromRouter) {
+    if (cat) {
+      this.main_category = cat;
       if (this.categories) {
-        const index = this.categories.findIndex((item) => item.id == cat_id);
+        const index = this.categories.findIndex((item) => item.id == cat);
         const category = this.categories[index];
         this.sub_categories = category.sub_categories;
         if (FromRouter) {
@@ -796,15 +770,19 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
           this.sub_category_id = "";
         }
       } else {
-        setTimeout(() => {
-          this.selectCategoryFilter(cat_id, FromRouter);
-        }, 100);
+        setTimeout(() => this.selectCategoryFilter(cat, FromRouter), 100);
       }
     } else {
       this.sub_categories = [];
       this.sub_category_id = "";
     }
-    this.setRoute();
+    if (
+      this.route.snapshot.queryParams.main_category !== this.main_category ||
+      this.route.snapshot.queryParams.sub_category_id !== this.sub_category_id
+    ) {
+      this.setRoute();
+    }
+    // debugger;
   }
 
   selectSubCategoryOption(cat_id) {
