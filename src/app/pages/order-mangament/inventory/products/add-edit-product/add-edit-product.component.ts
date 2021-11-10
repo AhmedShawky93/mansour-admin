@@ -172,7 +172,9 @@ export class AddEditProductComponent implements OnInit, OnChanges {
           []
         ),
         start_time: new FormControl(
-          data && data.preorder_start_date
+          data &&
+          data.preorder_start_date &&
+          data.preorder_start_date.split(" ")[1]
             ? data.preorder_start_date.split(" ")[1].substring(0, 5)
             : "23:59",
           []
@@ -184,7 +186,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
           []
         ),
         expiration_time: new FormControl(
-          data && data.preorder_end_date
+          data && data.preorder_end_date && data.preorder_end_date.split(" ")[1]
             ? data.preorder_end_date.split(" ")[1].substring(0, 5)
             : "23:59",
           []

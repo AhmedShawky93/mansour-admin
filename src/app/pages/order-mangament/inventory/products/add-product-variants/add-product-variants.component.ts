@@ -185,7 +185,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           []
         ),
         preorder_start_time: new FormControl(
-          data ? data.preorder_start_time.substring(0, 5) : "23:59",
+          data && data.preorder_start_time
+            ? data.preorder_start_time.substring(0, 5)
+            : "23:59",
           []
         ),
         preorder_end_date: new FormControl(
@@ -193,7 +195,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           []
         ),
         preorder_expiration_time: new FormControl(
-          data ? data.preorder_expiration_time.substring(0, 5) : "23:59",
+          data && data.preorder_expiration_time
+            ? data.preorder_expiration_time.substring(0, 5)
+            : "23:59",
           []
         ),
         available_soon: new FormControl(data ? data.available_soon : ""),
@@ -208,7 +212,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           []
         ),
         start_time: new FormControl(
-          data ? data.start_time.substring(0, 5) : "23:59",
+          data && data.start_time ? data.start_time.substring(0, 5) : "23:59",
           []
         ),
         discount_end_date: new FormControl(
@@ -216,7 +220,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           []
         ),
         expiration_time: new FormControl(
-          data ? data.expiration_time.substring(0, 5) : "23:59",
+          data && data.expiration_time
+            ? data.expiration_time.substring(0, 5)
+            : "23:59",
           []
         ),
         payment_method_discount_ids: new FormControl(
