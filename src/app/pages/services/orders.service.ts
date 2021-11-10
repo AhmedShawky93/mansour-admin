@@ -165,9 +165,9 @@ export class OrdersService {
         return Observable.throw(error.error || "Server error");
       });
   }
-  createPickup(id, data) {
+  createPickup(id, shipping_method, data) {
     return this.http
-      .post(this.url + "/orders/shipments/Aramex/create/pickup", data)
+      .post(this.url + `/orders/shipments/${shipping_method}/create/pickup`, data)
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });

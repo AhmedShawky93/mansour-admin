@@ -555,7 +555,7 @@ export class OrdersComponent implements OnInit {
     data.notify_customer = this.notifyUser;
     this.stateSubmitting = true;
     this.ordersService
-      .createPickup(this.orderId, data)
+      .createPickup(this.orderId, this.getShipmentUrl(data.shipping_method), data)
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.status_notesText = "";
@@ -571,6 +571,15 @@ export class OrdersComponent implements OnInit {
         }
         this.stateSubmitting = false;
       });
+  }
+
+  getShipmentUrl(shipping_method) {
+    switch (shipping_method) {
+      case 3: 
+        return "Aramex"
+      case 5:
+        return "Qatar-post"
+    }
   }
 
   confirmPickupOrders() {
