@@ -58,7 +58,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   componentForm: FormGroup;
   options: FormArray;
   addSubImages: FormArray;
-  // optionsPage: number = 1;
+  page = 1;
+  optionsPage: number = 1;
   price: any;
   categories: any;
   sub_categories: any;
@@ -120,9 +121,9 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     };
   }
 
-  // pagination(page) {
-  //   this.optionsPage = page;
-  // }
+  pagination(page) {
+    this.optionsPage = page;
+  }
 
   ngOnInit() {
     this.getInitialData();
