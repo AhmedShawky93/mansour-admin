@@ -264,8 +264,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getRoutes() {
-    if (this.route.snapshot.queryParams.pages) {
-      this.p = this.route.snapshot.queryParams.pages;
+    if (this.route.snapshot.queryParams.page) {
+      this.p = this.route.snapshot.queryParams.page;
     }
     if (this.route.snapshot.queryParams.search && !this.selectedMainProduct) {
       this.searchValue = this.route.snapshot.queryParams.search;

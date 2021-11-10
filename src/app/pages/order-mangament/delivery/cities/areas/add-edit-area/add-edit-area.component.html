@@ -42,14 +42,15 @@
       <div class="form-group">
         <label for="">Aramex Area name</label>
 
-        <input type="text" class="owl-input" placeholder="type here.." name="aramex_name" formControlName="aramex_name">
+        <input type="text" class="owl-input" placeholder="type here.." name="aramex_area_name "
+          formControlName="aramex_area_name ">
 
       </div>
 
       <div
-        *ngIf="cityForm.controls.aramex_name.invalid && (cityForm.controls.aramex_name.dirty || cityForm.controls.aramex_name.touched)"
+        *ngIf="cityForm.controls.aramex_area_name .invalid && (cityForm.controls.aramex_area_name .dirty || cityForm.controls.aramex_area_name .touched)"
         class="alert alert-danger">
-        <div *ngIf="cityForm.controls.aramex_name.errors.required ">
+        <div *ngIf="cityForm.controls.aramex_area_name .errors.required ">
           Aramex Name (Ar)is required.
         </div>
       </div>

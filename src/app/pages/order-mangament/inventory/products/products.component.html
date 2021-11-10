@@ -31,20 +31,14 @@
           <div class="text-center" *ngIf="!selectedMainProduct">+ New product</div>
           <div class="text-center" *ngIf="selectedMainProduct">+ New Variant</div>
         </button>-->
-        <button
-          (click)="createNew()"
-          *ngIf="selectedMainProduct"
-          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100"
-        >
+        <button (click)="createNew()" *ngIf="selectedMainProduct"
+          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center" *ngIf="selectedMainProduct">
             + New Variant
           </div>
         </button>
-        <button
-          (click)="NewProductWithVariant()"
-          *ngIf="!selectedMainProduct"
-          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100"
-        >
+        <button (click)="NewProductWithVariant()" *ngIf="!selectedMainProduct"
+          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
           <div class="text-center">+ Product With Variant</div>
         </button>
       </div>
@@ -102,78 +96,48 @@
         <div class="col-md-2 col-xs-12 p-l-r-5"></div>
         <div class="col-md-2 col-xs-12 p-l-r-5">
           <div class="form-group">
-            <a
-              class="
+            <a class="
                 btn btn-owls btn-rounded btn-green btn-special
                 w-180px-plr-0
-              "
-              target="_blank"
-              href="{{ syncFbSheet }}"
-              >Sync FaceBook Sheet
+              " target="_blank" href="{{ syncFbSheet }}">Sync FaceBook Sheet
             </a>
           </div>
         </div>
         <div class="col-md-2 col-xs-12 p-l-r-5">
           <div class="form-group">
-            <a
-              (click)="goToLink()"
-              class="btn btn-owls btn-rounded btn-green btn-special"
-              >export CSV</a
-            >
+            <a (click)="goToLink()" class="btn btn-owls btn-rounded btn-green btn-special">export CSV</a>
           </div>
         </div>
         <div class="col-md-2 col-xs-12 p-l-r-5">
           <div class="form-group">
-            <button
-              class="
+            <button class="
                 btn btn-owls btn-rounded btn-green btn-special
                 owl-input-file
                 inputFile
-              "
-              style="overflow: hidden"
-            >
+              " style="overflow: hidden">
               Import CSV
-              <input
-                #myInput
-                (change)="importExcel($event)"
-                accept=".xlsx, .xls, .csv"
-                class="input-style"
-                placeholder="type here "
-                type="file"
-              />
+              <input #myInput (change)="importExcel($event)" accept=".xlsx, .xls, .csv" class="input-style"
+                placeholder="type here " type="file" />
             </button>
           </div>
         </div>
 
         <div class="col-md-2 col-xs-12 p-l-r-5">
           <div class="form-group">
-            <button
-              class="
+            <button class="
                 btn btn-owls btn-rounded btn-green btn-special
                 owl-input-file
                 inputFile
-              "
-              style="overflow: hidden"
-            >
+              " style="overflow: hidden">
               Import Stock
-              <input
-                #myInputStock
-                (change)="importStock($event)"
-                accept=".xlsx, .xls, .csv"
-                class="input-style"
-                placeholder="type here "
-                type="file"
-              />
+              <input #myInputStock (change)="importStock($event)" accept=".xlsx, .xls, .csv" class="input-style"
+                placeholder="type here " type="file" />
             </button>
           </div>
         </div>
         <div class="col-md-2 col-xs-12 p-l-r-5">
           <div class="form-group">
-            <a
-              (click)="exportStocks()"
-              class="btn btn-owls btn-rounded btn-green btn-special"
-              >export Stocks</a
-            >
+            <a (click)="exportStocks()" class="btn btn-owls btn-rounded btn-green btn-special">export Stocks</a>
           </div>
         </div>
       </div>
@@ -203,12 +167,7 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="
-          let product of products
-            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total };
-          let idx = index
-        "
-      >
+        *ngFor="let product of products | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total };let idx = index">
         <td class="relative">
           {{ product.sku | summary: 24 }}
           <div *ngIf="product.sku.length >= 20" class="hover-reason text-left">
@@ -255,39 +214,20 @@
           <!--<a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
           <i class="icon-View"></i>
         </a>-->
-          <a
-            (click)="getProductsVariants(product)"
-            class="table-view open-show mx-1"
-          >
+          <a (click)="getProductsVariants(product)" class="table-view open-show mx-1">
             <i class="icon-View"></i>
           </a>
 
-          <a
-            (click)="edit(product)"
-            class="table-view edit-product mx-1"
-            href="javascript:void(0)"
-          >
+          <a (click)="edit(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
             <i class="icon-grey"></i>
           </a>
-          <a
-            (click)="removeProduct(product)"
-            class="table-view edit-product mx-1"
-            href="javascript:void(0)"
-          >
+          <a (click)="removeProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
             <i class="fa fa-trash"></i>
           </a>
-          <a
-            (click)="clone(product)"
-            class="table-view edit-product mx-1"
-            href="javascript:void(0)"
-          >
+          <a (click)="clone(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
             <i class="fa fa-copy"></i>
           </a>
-          <a
-            *ngIf="selectedMainProduct"
-            target="_blank"
-            class="table-view edit-product mx-1"
-            href="{{
+          <a *ngIf="selectedMainProduct" target="_blank" class="table-view edit-product mx-1" href="{{
               website_url +
                 'products/' +
                 encodedProductName(product.name) +
@@ -295,37 +235,21 @@
                 selectedMainProduct.id +
                 '?variant_id=' +
                 product.id
-            }}"
-          >
+            }}">
             <i class="fa fa-external-link"></i>
           </a>
           <label class="switch">
-            <input
-              (change)="changeActive(product)"
-              [(ngModel)]="product.active"
-              type="checkbox"
-              value="1"
-            />
+            <input (change)="changeActive(product)" [(ngModel)]="product.active" type="checkbox" value="1" />
             <span class="slider round"></span>
             <div [hidden]="!product.showReason" class="reason-popup text-left">
-              <textarea
-                [(ngModel)]="product.notes"
-                class="owl-input"
-                name=""
-                placeholder="Why Do yo want to deactivate this product?"
-              ></textarea>
+              <textarea [(ngModel)]="product.notes" class="owl-input" name=""
+                placeholder="Why Do yo want to deactivate this product?"></textarea>
               <!-- [disabled]="!product.notes"
                 [ngClass]="{'not-allowed' : !product.notes }" -->
-              <button
-                (click)="submitDeactivate(product)"
-                class="btn btn-owls btn-rounded btn-green2"
-              >
+              <button (click)="submitDeactivate(product)" class="btn btn-owls btn-rounded btn-green2">
                 submit
               </button>
-              <button
-                (click)="cancelDeactivate(product)"
-                class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-              >
+              <button (click)="cancelDeactivate(product)" class="btn btn-owls btn-rounded btn-blue2 cancel-check">
                 cancel
               </button>
             </div>
@@ -338,25 +262,14 @@
           </label>
         </td>
         <td *ngIf="product.isDraft">
-          <a
-            (click)="editDraftProduct(product)"
-            class="table-view edit-product mx-1"
-            href="javascript:void(0)"
-          >
+          <a (click)="editDraftProduct(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
             <i class="icon-grey"></i>
           </a>
-          <a
-            (click)="removeDraftConfirmation(product, idx)"
-            class="table-view edit-product mx-1"
-            href="javascript:void(0)"
-          >
+          <a (click)="removeDraftConfirmation(product, idx)" class="table-view edit-product mx-1"
+            href="javascript:void(0)">
             <i class="fa fa-trash"></i>
           </a>
-          <a
-            (click)="cloneDraft(product)"
-            class="table-view edit-product mx-1"
-            href="javascript:void(0)"
-          >
+          <a (click)="cloneDraft(product)" class="table-view edit-product mx-1" href="javascript:void(0)">
             <i class="fa fa-copy"></i>
           </a>
         </td>
@@ -365,13 +278,7 @@
   </table>
 </div>
 
-<ngx-spinner
-  [fullScreen]="true"
-  bdColor="rgba(0, 0, 0, 0.8)"
-  color="#fff"
-  size="medium"
-  type="timer"
->
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
   <p style="color: white">Loading...</p>
 </ngx-spinner>
 
@@ -382,65 +289,31 @@
 <pagination-controls (pageChange)="pagination($event)"></pagination-controls>
 
 <!-- view product -->
-<app-view-product
-  (closeSideBarEmit)="closeSideBar()"
-  [@slideInOut]="viewProductSidebar"
-  class="parent-editor-viewer-sidebar"
-  [selectProductDataEdit]="selectProductDataView"
-></app-view-product>
+<app-view-product (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewProductSidebar"
+  class="parent-editor-viewer-sidebar" [selectProductDataEdit]="selectProductDataView"></app-view-product>
 
-<app-add-edit-product
-  #productForm
-  (closeSideBarEmit)="closeSideBar()"
-  (dataProductEmit)="addOrUpdateProduct($event)"
-  [@slideInOut]="toggleAddProduct"
-  [selectProductDataEdit]="selectProductData"
->
+<app-add-edit-product #productForm (closeSideBarEmit)="closeSideBar()" (dataProductEmit)="addOrUpdateProduct($event)"
+  [@slideInOut]="toggleAddProduct" [selectProductDataEdit]="selectProductData">
 </app-add-edit-product>
 
-<app-add-edit-variants
-  *ngIf="toggleVariant === 'in'"
-  #productVariantsForm
-  (closeSideBarEmit)="closeSideBar()"
-  (dataProductEmit)="addOrUpdateProduct($event)"
-  [@slideInOut]="toggleVariant"
-  [parentProduct]="selectedMainProduct"
-  [selectVariant]="selectedProductVariantData"
->
+<app-add-edit-variants *ngIf="toggleVariant === 'in'" #productVariantsForm (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)" [@slideInOut]="toggleVariant" [parentProduct]="selectedMainProduct"
+  [selectVariant]="selectedProductVariantData">
 </app-add-edit-variants>
 
-<app-add-product-variants
-  *ngIf="toggleProductVariant === 'in'"
-  (closeSideBarEmit)="closeSideBar()"
-  (dataProductEmit)="addOrUpdateProduct($event)"
-  [@slideInOut]="toggleProductVariant"
-  [selectedProduct]="selectedProductVariantBoth"
->
+<app-add-product-variants *ngIf="toggleProductVariant === 'in'" (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdateProduct($event)" [@slideInOut]="toggleProductVariant"
+  [selectedProduct]="selectedProductVariantBoth">
 </app-add-product-variants>
 
-<div
-  class="modal fade"
-  id="cloneProduct"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="cloneProduct" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="exampleModalLabel"
-          style="text-align: center"
-        >
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center">
           Clone Product
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -448,21 +321,11 @@
         Are you sure you want to clone the product ({{ currentProduct?.sku }}) ?
       </div>
       <div class="modal-footer" style="justify-content: center">
-        <button
-          type="button"
-          [appLoading]="stateCloning"
-          [disabled]="stateCloning"
-          class="btn-owls btn-rounded btn-green btn-blue2"
-          style="position: relative"
-          (click)="confirmClone()"
-        >
+        <button type="button" [appLoading]="stateCloning" [disabled]="stateCloning"
+          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative" (click)="confirmClone()">
           Yes
         </button>
-        <button
-          type="button"
-          data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-red2"
-        >
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
           no
         </button>
       </div>
@@ -470,29 +333,14 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="deleteProduct"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="deleteProduct" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="exampleModalLabel"
-          style="text-align: center"
-        >
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center">
           Delete Product
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -501,61 +349,33 @@
         ?
       </div>
       <div class="modal-footer" style="justify-content: center">
-        <button
-          type="button"
-          [appLoading]="statedeleting"
-          [disabled]="statedeleting"
-          class="btn-owls btn-rounded btn-green btn-blue2"
-          style="position: relative"
-          (click)="confirmDelete()"
-        >
+        <button type="button" [appLoading]="statedeleting" [disabled]="statedeleting"
+          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative" (click)="confirmDelete()">
           Yes
         </button>
-        <button
-          type="button"
-          data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-red2"
-        >
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
           no
         </button>
       </div>
     </div>
   </div>
 </div>
-<div
-  class="modal fade"
-  id="deleteDraft"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="deleteDraft" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title text-center">Delete Draft</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">Are you sure you want to Delete this draft ?</div>
       <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          (click)="removeDraftProduct()"
-          class="position-relative btn-owls btn-rounded btn-green btn-blue2"
-        >
+        <button type="button" (click)="removeDraftProduct()"
+          class="position-relative btn-owls btn-rounded btn-green btn-blue2">
           Yes
         </button>
-        <button
-          type="button"
-          data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-red2"
-        >
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
           no
         </button>
       </div>

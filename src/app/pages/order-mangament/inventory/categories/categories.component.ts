@@ -10,6 +10,7 @@ import { Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
 import { ReactivityService } from "@app/shared/services/reactivity.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { environment } from "@env/environment";
 
 declare var jquery: any;
 declare var $: any;
@@ -143,18 +144,21 @@ export class CategoriesComponent implements OnInit {
     return this.editCatForm.get("sub_categories") as FormArray;
   }
   exportCsv() {
-    this._CategoriesService.exportCategories().subscribe((data: any) => {
-      const blob = new Blob([data], { type: "text/csv" });
-      // const url= window.URL.createObjectURL(blob);
-      // window.open(url);
-      const a = document.createElement("a");
-      a.href = window.URL.createObjectURL(blob);
-      // Give filename you wish to download
-      a.download = "Categories.xlsx";
-      a.style.display = "none";
-      document.body.appendChild(a);
-      a.click();
+    const exportStock = environment.api + "/api/admin/categories/export";
+
+    this.productsService.exportFileStocksPost(exportStock).subscribe({
+      next: (rep: any) => {},
     });
+    setTimeout(() => {
+      this.toastrService.success(
+        "You’ll receive a notification when the export is ready for download.",
+        " Your export is now being generated ",
+        {
+          enableHtml: true,
+          timeOut: 3000,
+        }
+      );
+    }, 500);
   }
   getCategories() {
     this.spinner.show();

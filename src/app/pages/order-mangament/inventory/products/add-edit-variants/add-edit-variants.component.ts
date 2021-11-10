@@ -212,7 +212,9 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
           []
         ),
         start_time: new FormControl(
-          data && data.discount_start_date
+          data &&
+          data.discount_start_date &&
+          data.discount_start_date.split(" ")[1]
             ? data.discount_start_date.split(" ")[1].substring(0, 5)
             : "23:59",
           []
@@ -224,7 +226,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
           []
         ),
         expiration_time: new FormControl(
-          data && data.discount_end_date
+          data && data.discount_end_date && data.discount_end_date.split(" ")[1]
             ? data.discount_end_date.split(" ")[1].substring(0, 5)
             : "23:59",
           []

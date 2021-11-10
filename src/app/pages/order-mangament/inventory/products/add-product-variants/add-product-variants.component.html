@@ -115,8 +115,9 @@
 
     <!-- | paginate: { itemsPerPage: 20, currentPage:
       optionsPage, totalItems: componentForm.get('option_values')['controls'].length }; -->
-    <div *ngFor="let option of componentForm.get('option_values')['controls']  let i = index" class="form-group"
-      formArrayName="option_values">
+    <div *ngFor="let option of componentForm.get('option_values')['controls'] | paginate: { itemsPerPage: 1, currentPage:
+      optionsPage, totalItems: componentForm.get('option_values')['controls'].length }; let i = index"
+      class="form-group" formArrayName="option_values">
       <span [formGroupName]='i'>
         <div *ngIf="option?.value.type != '5'" class="">
           <label> {{option?.controls['name_en']?.value}}</label>
@@ -150,7 +151,7 @@
         </div>
       </span>
     </div>
-    <!-- <pagination-controls (pageChange)="pagination($event)"></pagination-controls> -->
+    <pagination-controls (pageChange)="pagination($event)"></pagination-controls>
 
     <div class="form-group">
       <label> Brand Name </label>

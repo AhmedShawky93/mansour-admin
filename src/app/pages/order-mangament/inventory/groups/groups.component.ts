@@ -114,7 +114,7 @@ export class GroupsComponent implements OnInit {
       const a = document.createElement("a");
       a.href = window.URL.createObjectURL(blob);
       // Give filename you wish to download
-      a.download = "Groups.xls";
+      a.download = "Groups.xlsx";
       a.style.display = "none";
       document.body.appendChild(a);
       a.click();

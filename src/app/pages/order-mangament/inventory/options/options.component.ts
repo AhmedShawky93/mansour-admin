@@ -14,6 +14,7 @@ import {
 } from "@angular/animations";
 import { ProductsService } from "@app/pages/services/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { environment } from "@env/environment";
 declare var $: any;
 @Component({
   selector: "app-clinics",
@@ -124,18 +125,21 @@ export class OptionsComponent implements OnInit {
     });
   }
   exportCsv() {
-    this.optionsService.exportOptions().subscribe((data: any) => {
-      const blob = new Blob([data], { type: "text/csv" });
-      // const url= window.URL.createObjectURL(blob);
-      // window.open(url);
-      const a = document.createElement("a");
-      a.href = window.URL.createObjectURL(blob);
-      // Give filename you wish to download
-      a.download = "Options.xls";
-      a.style.display = "none";
-      document.body.appendChild(a);
-      a.click();
+    const exportStock = environment.api + "/api/admin/options/export";
+
+    this.productsService.exportFileStocksPost(exportStock).subscribe({
+      next: (rep: any) => {},
     });
+    setTimeout(() => {
+      this.toastrService.success(
+        "You’ll receive a notification when the export is ready for download.",
+        " Your export is now being generated ",
+        {
+          enableHtml: true,
+          timeOut: 3000,
+        }
+      );
+    }, 500);
   }
 
   changeActive(clinic) {

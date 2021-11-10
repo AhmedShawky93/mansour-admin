@@ -130,6 +130,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.resetShipmentForm();
     this.settingService.getenvConfig().subscribe((res) => {
       this.environmentVariables = res;
       if (!this.environmentVariables.showLoyality) {
