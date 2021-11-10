@@ -159,18 +159,6 @@ export class CategoriesComponent implements OnInit {
         }
       );
     }, 500);
-    // this._CategoriesService.exportCategories().subscribe((data: any) => {
-    //   const blob = new Blob([data], { type: "text/csv" });
-    //   // const url= window.URL.createObjectURL(blob);
-    //   // window.open(url);
-    //   const a = document.createElement("a");
-    //   a.href = window.URL.createObjectURL(blob);
-    //   // Give filename you wish to download
-    //   a.download = "Categories.xlsx";
-    //   a.style.display = "none";
-    //   document.body.appendChild(a);
-    //   a.click();
-    // });
   }
   getCategories() {
     this.spinner.show();
