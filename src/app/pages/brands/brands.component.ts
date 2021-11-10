@@ -131,7 +131,7 @@ export class BrandsComponent implements OnInit {
       const a = document.createElement("a");
       a.href = window.URL.createObjectURL(blob);
       // Give filename you wish to download
-      a.download = "Brands.xls";
+      a.download = "Brands.xlsx";
       a.style.display = "none";
       document.body.appendChild(a);
       a.click();
