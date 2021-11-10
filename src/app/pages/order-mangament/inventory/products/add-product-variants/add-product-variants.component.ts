@@ -869,10 +869,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     product.options.forEach((item) => {
       delete item.optionData;
     });
-    let today = new Date();
-    let startDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} 23:59`;
     this.formatDateForSaving(product, this.componentForm);
-    console.log(product);
 
     const data = {
       product_with_variant: true,
