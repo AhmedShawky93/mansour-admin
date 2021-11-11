@@ -127,7 +127,7 @@ export class BrandsComponent implements OnInit {
   exportCsv() {
     const exportStock = environment.api + "/api/admin/brands/export";
 
-    this.productsService.exportFileStocks(exportStock).subscribe({
+    this.productsService.exportFile(exportStock).subscribe({
       next: (rep: any) => {},
     });
     setTimeout(() => {

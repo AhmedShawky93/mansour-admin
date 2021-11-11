@@ -132,7 +132,7 @@ export class UsersHistoryComponent implements OnInit {
       token +
       "&" +
       this.serialize(this.filter);
-    this.affiliateService.exportFileProducts(urlBasic).subscribe({
+    this.affiliateService.exportFile(urlBasic).subscribe({
       next: (rep: any) => {
         if (rep.code === 200) {
         }

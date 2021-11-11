@@ -139,19 +139,13 @@ export class ProductsService {
       });
   }
 
-  exportFileStocks(url) {
+  exportFile(url) {
     return this.http.get(url).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
     });
   }
   exportFileStocksPost(url) {
     return this.http.post(url, "").catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
-  }
-
-  exportFileProducts(url) {
-    return this.http.get(url).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
     });
   }

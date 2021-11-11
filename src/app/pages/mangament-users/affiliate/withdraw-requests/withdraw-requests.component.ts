@@ -121,7 +121,7 @@ export class WithdrawRequestsComponent implements OnInit {
       this.serialize(this.filter);
     console.log(urlBasic);
     console.log(this.filter);
-    this.affiliateService.exportFileProducts(urlBasic).subscribe({
+    this.affiliateService.exportFile(urlBasic).subscribe({
       next: (rep: any) => {
         if (rep.code === 200) {
         }

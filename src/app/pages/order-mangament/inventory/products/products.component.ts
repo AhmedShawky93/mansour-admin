@@ -24,7 +24,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { debounce } from "lodash";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -74,9 +74,9 @@ declare var $: any;
   ],
 })
 export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
-  searchForm: FormGroup;
+  filterForm: FormGroup = new FormGroup({});
+
   fileName: any;
-  searchValue: string;
   dateRange: any;
   showError: number;
   currentProduct: any;
@@ -120,7 +120,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   selectedProductVariantBoth: any;
   categories: any;
 
-  sub_categories = [];
+  sub_categories: any = [];
   options: any[];
   selectFile = null;
   selectImages = null;
@@ -131,8 +131,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   formProduct;
   brands = [];
   newPrdouct;
-  sub_category_id = "";
-  main_category: any = "";
   updateProductForm;
   filter$ = new Subject();
   loading: boolean;
@@ -146,7 +144,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   searchValueProduct: string;
   stateCloning: boolean;
   statedeleting: boolean;
-  routerSubscription;
   environmentVariables: any;
 
   constructor(
@@ -154,12 +151,12 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     private uploadFile: UploadFilesService,
     private _CategoriesService: CategoryService,
     private auth: AuthService,
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService,
     private showAffiliateService: ShowAffiliateService,
-    private settingsService: SettingService,
-    private route: ActivatedRoute,
+    // private settingsService: SettingService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private toasterService: ToastrService,
     private draftProductService: DraftProductService,
@@ -170,17 +167,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.toggleVariant = "out";
     this.toggleProductVariant = "out";
     this.viewVariantSidebar = "out";
-    this.routerSubscription = router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.getRoutes();
-      }
-    });
-    this.getCategories();
-  }
 
-  ngOnDestroy() {
-    document.body.style.overflow = "auto";
-    this.routerSubscription.unsubscribe();
+    this.getCategoriesList();
   }
 
   getConfig() {
@@ -193,20 +181,17 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   addCustomUser = (term) => ({ id: term, name: term });
 
   ngOnInit() {
+    this.initProductFilterForm();
     this.getConfig();
-    this.syncFbSheet = environment.api + "/api" + "/admin/products/export_fb";
-    this.productsService.getBrands().subscribe((response: any) => {
-      this.brands = response.data;
-    });
-
-    this.searchForm = new FormGroup({
-      searchTerm: new FormControl(),
-    });
+    this.syncFbSheet = `${environment.api}/api/admin/products/export_fb`;
+    this.productsService
+      .getBrands()
+      .subscribe((response: any) => (this.brands = response.data));
 
     this.filter$
       .debounceTime(400)
-      .pipe(tap((e) => (this.loading = true)))
-      .switchMap((filter) => this.searchProducts())
+      .pipe(tap(() => (this.loading = true)))
+      .switchMap(() => this.searchProducts())
       .subscribe((result: any) => {
         this.products = result.data.products;
         this.products = this.products.map((item) => {
@@ -215,6 +200,12 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
         });
         this.total = result.data.total;
       });
+    this.getProducts();
+    // this.setNavigateParams();
+
+    // this.activatedRoute.queryParams.subscribe(() => {
+    //   this.getProducts();
+    // });
 
     $(".add-product").on("click", function () {
       $("#add-prod").toggleClass("open-view-vindor-types");
@@ -246,89 +237,47 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     const token = this.auth.getToken();
-
-    if (this.sub_category_id) {
-      this.exportUrl =
-        environment.api +
-        "/api" +
-        "/admin/products/fullExport?sub_category_id=" +
-        this.sub_category_id +
-        "&token=" +
-        token;
-    } else {
-      this.exportUrl =
-        environment.api + "/api" + "/admin/products/fullExport?token=" + token;
-    }
-    this.exportStock =
-      environment.api + "/api" + "/admin/products/export_prices?token=" + token;
+    this.exportUrl = `${
+      environment.api
+    }/api/admin/products/fullExport?token=${token}&${
+      this.getFormControlValue("sub_category_id") &&
+      "sub_category_id=" + this.getFormControlValue("sub_category_id")
+    }`;
+    this.exportStock = `${environment.api}/api/admin/products/export_prices?token=${token}`;
   }
 
-  getRoutes() {
-    if (this.route.snapshot.queryParams.page) {
-      this.p = this.route.snapshot.queryParams.page;
-    }
-    if (this.route.snapshot.queryParams.search && !this.selectedMainProduct) {
-      this.searchValue = this.route.snapshot.queryParams.search;
-    }
-    if (
-      this.route.snapshot.queryParams.parent_id &&
-      !this.selectedMainProduct
-    ) {
-      this.selectedMainProduct = {
-        id: this.route.snapshot.queryParams.parent_id,
-        name: this.route.snapshot.queryParams.parent_name,
-      };
-    } else if (
-      !this.route.snapshot.queryParams.parent_id &&
-      this.selectedMainProduct
-    ) {
-      this.selectedMainProduct = null;
-    }
-    if (this.route.snapshot.queryParams.main_category) {
-      this.main_category = this.route.snapshot.queryParams.main_category;
-      this.selectCategoryFilter(this.main_category, true);
-    }
-    if (this.route.snapshot.queryParams.sub_category_id) {
-      this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
-    }
-    this.getProducts(
-      this.selectedMainProduct ? this.selectedMainProduct : null,
-      this.searchValue
-    );
+  ngOnChanges() {
+    this.onimgeSelected(event);
   }
 
-  setRoute() {
-    this.closeSideBar();
-    const params = {
-      search: "",
-      main_category: null,
-      sub_category_id: null,
-      page: 1,
-      parent_id: null,
-      parent_name: null,
-    };
-    if (this.searchValue !== "" && !this.selectedMainProduct) {
-      params.search = this.searchValue;
-    }
-    if (this.main_category) {
-      params.main_category = this.main_category;
-    }
-    if (this.sub_category_id && this.sub_category_id !== "") {
-      // debugger;
-      params.sub_category_id = this.sub_category_id;
-    }
-    if (Number(this.p) !== 1) {
-      params.page = this.p;
-    }
-    if (this.selectedMainProduct) {
-      params.parent_id = this.selectedMainProduct.id;
-      params.parent_name = this.selectedMainProduct.name;
-    }
-    // debugger;
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: params,
+  ngOnDestroy() {
+    document.body.style.overflow = "auto";
+  }
+
+  getFormControlValue(formControlValue) {
+    return this.filterForm.get(formControlValue).value;
+  }
+
+  setNavigateParams() {
+    this.router.navigate(["/pages/products"], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        category_id: this.getFormControlValue("category_id"),
+        page: this.p,
+        sub_category_id: this.getFormControlValue("sub_category_id"),
+        q: this.getFormControlValue("searchValue"),
+        parent_id: "",
+        parent_name: "",
+      },
       queryParamsHandling: "merge",
+    });
+  }
+
+  initProductFilterForm() {
+    this.filterForm = new FormGroup({
+      searchValue: new FormControl(""),
+      category_id: new FormControl(""),
+      sub_category_id: new FormControl(""),
     });
   }
 
@@ -341,42 +290,33 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   search() {
     this.p = 1;
-    this.setRoute();
-    // debugger;
-    if (this.selectedMainProduct) {
-      this.getProducts(this.selectedMainProduct, this.searchValue);
-    }
+    this.getProducts();
   }
 
   pagination(page) {
     this.p = page;
-    this.setRoute();
-    // debugger;
-    this.getProducts(this.selectedMainProduct, this.searchValue);
+    this.getProducts();
   }
 
-  getProducts(product: any = null, search: any = null) {
-    this.selectedMainProduct = product || null;
+  getProducts() {
     this.spinner.show();
-    console.log("this.main_category", this.main_category);
-    this.productsService
-      .getProducts({
-        page: this.p ? this.p : 1,
-        q: search ? search : "",
-        category_id: this.main_category ? this.main_category : "",
-        sub_category_id: this.sub_category_id ? this.sub_category_id : "",
-        parent_id: product ? product.id : "",
-      })
-      .subscribe((response: any) => {
-        this.products = response.data.products;
-        this.products = this.products.map((item) => {
-          item.deactivated = !item.active;
-          return item;
-        });
-        this.total = response.data.total;
-        this.setDraftProducts();
-        this.spinner.hide();
+    let data = {
+      page: this.p,
+      q: this.getFormControlValue("searchValue"),
+      category_id: this.getFormControlValue("category_id"),
+      sub_category_id: this.getFormControlValue("sub_category_id"),
+    };
+
+    this.productsService.getProducts(data).subscribe((response: any) => {
+      this.products = response.data.products;
+      this.products = this.products.map((item) => {
+        item.deactivated = !item.active;
+        return item;
       });
+      this.total = response.data.total;
+      this.setDraftProducts();
+      this.spinner.hide();
+    });
   }
 
   setDraftProducts() {
@@ -392,101 +332,92 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  getProductSubCategory(data) {
-    this.sub_category_id = data;
-    this.setRoute();
-    // debugger;
-    this.p = 1;
-    // this.getProducts();
-  }
-
-  getProductsVariants(product) {
+  getProductVariants(product) {
     this.closeSideBar();
     if (this.selectedMainProduct) {
       this.viewProduct(product);
     } else {
       this.p = 1;
       this.filter = { q: "", page: 1 };
-      this.searchValueProduct = this.searchValue;
-      this.searchValue = "";
+      this.searchValueProduct = this.getFormControlValue("searchValue");
+      this.filterForm.get("searchValue").setValue("");
       this.selectedMainProduct = product;
-      this.setRoute();
-      // debugger;
     }
   }
 
   backToProducts() {
-    this.searchValue = this.searchValueProduct;
+    this.filterForm.get("searchValue").setValue(this.searchValueProduct);
     this.selectedMainProduct = null;
     this.p = 1;
-    this.filter = { q: "", page: 1 };
-    this.setRoute();
-    // debugger;
   }
 
   goToLink() {
-    const urlBasic = environment.api + "/api" + "/admin/products/fullExport";
-    const urlBasicWithsubCategory =
-      environment.api +
-      "/api" +
-      "/admin/products/fullExport?sub_category_id=" +
-      this.sub_category_id;
-    if (this.sub_category_id) {
-      this.productsService
-        .exportFileProducts(urlBasicWithsubCategory)
-        .subscribe({
-          next: (rep: any) => {
-            if (rep.code === 200) {
-            }
-          },
-        });
-      setTimeout(() => {
-        this.toastrService.success(
-          "You’ll receive a notification when the export is ready for download.",
-          " Your export is now being generated ",
-          {
-            enableHtml: true,
-            timeOut: 3000,
-          }
-        );
-      }, 500);
-    } else {
-      this.productsService.exportFileProducts(urlBasic).subscribe({
-        next: (rep: any) => {
-          if (rep.code === 200) {
+    const fullExportApiUrl = `${environment.api}/api/admin/products/fullExport`;
+    const fullExportWithSubCategoriesApiUrl = `${
+      environment.api
+    }/api/admin/products/fullExport?sub_category_id=${this.getFormControlValue(
+      "sub_category_id"
+    )}`;
+
+    this.productsService
+      .exportFile(
+        this.getFormControlValue("sub_category_id")
+          ? fullExportWithSubCategoriesApiUrl
+          : fullExportApiUrl
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.code == 200) {
+            this.toastrService.success(
+              "You’ll receive a notification when the export is ready for download.",
+              " Your export is now being generated ",
+              {
+                enableHtml: true,
+                timeOut: 3000,
+              }
+            );
           }
         },
-      });
-      setTimeout(() => {
-        this.toastrService.success(
-          "You’ll receive a notification when the export is ready for download.",
-          " Your export is now being generated ",
-          {
-            enableHtml: true,
-            timeOut: 3000,
-          }
-        );
-      }, 500);
-    }
+        () => {
+          this.toastrService.error(
+            "Network Error.",
+            " Please check your network connection",
+            {
+              enableHtml: true,
+              timeOut: 3000,
+            }
+          );
+        }
+      );
   }
 
   exportStocks() {
-    const exportStock =
-      environment.api + "/api" + "/admin/products/exportStocks";
+    const exportStock = `${environment.api}/api/admin/products/exportStocks`;
 
-    this.productsService.exportFileStocks(exportStock).subscribe({
-      next: (rep: any) => {},
-    });
-    setTimeout(() => {
-      this.toastrService.success(
-        "You’ll receive a notification when the export is ready for download.",
-        " Your export is now being generated ",
-        {
-          enableHtml: true,
-          timeOut: 3000,
+    this.productsService.exportFile(exportStock).subscribe(
+      (res: any) => {
+        if (res.code == 200) {
+          this.toastrService.success(
+            "You’ll receive a notification when the export is ready for download.",
+            " Your export is now being generated ",
+            {
+              enableHtml: true,
+              timeOut: 3000,
+            }
+          );
         }
-      );
-    }, 500);
+      },
+      () => {
+        this.toastrService.error(
+          "Network Error.",
+          " Please check your network connection",
+          {
+            enableHtml: true,
+            timeOut: 3000,
+          }
+        );
+      }
+    );
   }
 
   changePage(p) {
@@ -497,11 +428,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   searchProducts() {
     return this.productsService.searchProducts(this.filter, this.filter.page);
-  }
-
-  // images UpLoad
-  ngOnChanges() {
-    this.onimgeSelected(event);
   }
 
   onimgeSelected(event) {
@@ -515,20 +441,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  onimagesSelected(event, image) {
-    this.selectImages = <File>event.target.files[0];
-    this.uploadFile.uploadFile(this.selectImages).subscribe((response: any) => {
-      if (response.body) {
-        image.url = response.body.data.name;
-        image.urlPath = response.body.data.filePath;
-        this.showError = 0;
-      }
-    });
-  }
-
   viewProduct(product) {
     this.currentProduct = product;
-
     this.selectProductDataView = null;
     this.selectProductDataView = product;
     this.toggleAddProduct = "out";
@@ -629,15 +543,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
         begin: new Date(this.dateRange.begin),
         end: new Date(this.dateRange.end),
       })
-      .subscribe((response: any) => {
-        // this.lineChartLabels1 = response.data.map((item) => item.month);
-        // this.lineChartData1 = [
-        //   {
-        //     data: response.data.map((item) => item.productAmount),
-        //     label: this.currentProduct.name,
-        //   },
-        // ];
-      });
+      .subscribe();
   }
 
   onQuantityFieldsChange() {
@@ -672,7 +578,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
     this.productsService.creatProduct(product).subscribe((response: any) => {
       if (response.code == 200) {
-        // this.products.push(response.data)
         this.getProducts();
         $("#add-prod").toggleClass("open-view-vindor-types");
         this.addProductForm.reset();
@@ -717,7 +622,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.productsService
       .import(this.selectFile, "2")
       .subscribe((response: any) => {
-        console.log(response);
         if (response.code == 200) {
           this.toastrService.success("File uploaded successfully");
         } else {
@@ -728,26 +632,17 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   importStock(event) {
     this.selectFile = <File>event.target.files[0];
-    this.productsService
-      .import(this.selectFile, "6")
-      .subscribe((response: any) => {
-        console.log(response);
-        if (response.code == 200) {
-          this.toastrService.success("File uploaded successfully");
-        } else {
-          this.toastrService.error(response.message);
-        }
-      });
+    this.productsService.import(this.selectFile, "6").subscribe((res: any) => {
+      res.code == 200
+        ? this.toastrService.success("File uploaded successfully")
+        : this.toastrService.error(res.message);
+    });
   }
 
-  getCategories() {
-    this._CategoriesService.getCategories().subscribe((response: any) => {
-      this.categories = response.data;
-      if (this.route.snapshot.queryParams.sub_category_id) {
-        this.selectCategoryFilter(this.main_category, true);
-        this.sub_category_id = this.route.snapshot.queryParams.sub_category_id;
-      }
-    });
+  getCategoriesList() {
+    this._CategoriesService
+      .getCategories()
+      .subscribe((response: any) => (this.categories = response.data));
   }
 
   selectCategory(cat_id) {
@@ -756,33 +651,29 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.sub_categories = category.sub_categories;
   }
 
-  selectCategoryFilter(cat, FromRouter) {
-    if (cat) {
-      this.main_category = cat;
-      if (this.categories) {
-        const index = this.categories.findIndex((item) => item.id == cat);
-        const category = this.categories[index];
-        this.sub_categories = category.sub_categories;
-        if (FromRouter) {
-          this.sub_category_id =
-            this.route.snapshot.queryParams.sub_category_id;
-        } else {
-          this.sub_category_id = "";
-        }
-      } else {
-        setTimeout(() => this.selectCategoryFilter(cat, FromRouter), 100);
-      }
-    } else {
-      this.sub_categories = [];
-      this.sub_category_id = "";
+  selectCategoryFilter() {
+    const categoryId = this.getFormControlValue("category_id");
+    if (categoryId && this.categories) {
+      let categorySelected = this.categories.find(
+        (category) => category.id == categoryId
+      );
+      this.sub_categories = categorySelected.sub_categories;
+
+      console.log(categoryId, categorySelected);
+      this.getProducts();
     }
-    if (
-      this.route.snapshot.queryParams.main_category !== this.main_category ||
-      this.route.snapshot.queryParams.sub_category_id !== this.sub_category_id
-    ) {
-      this.setRoute();
-    }
-    // debugger;
+    // this.setNavigateParams();
+  }
+
+  resetFilterForm() {
+    this.filterForm.get("searchValue").setValue("");
+    this.filterForm.get("category_id").setValue("");
+    this.filterForm.get("sub_category_id").setValue("");
+    this.filterForm.get("searchValue").updateValueAndValidity();
+    this.filterForm.get("category_id").updateValueAndValidity();
+    this.filterForm.get("sub_category_id").updateValueAndValidity();
+    this.p = 1;
+    this.getProducts();
   }
 
   selectSubCategoryOption(cat_id) {
@@ -846,7 +737,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       });
 
     if (product.active) {
-      // currently checked
       product.showReason = 0;
       product.notes = "";
       if (product.deactivated) {
@@ -984,7 +874,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.toasterService.success("Draft Product Cloned Successfully");
   }
 
-  private markFormGroupTouched(formGroup: FormGroup) {
+  markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
 

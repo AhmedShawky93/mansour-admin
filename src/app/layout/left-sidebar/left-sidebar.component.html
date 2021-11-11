@@ -58,16 +58,7 @@
             <a routerLink="/pages/groups" routerLinkActive="active"> Groups</a>
           </li>
           <li *ngxPermissionsOnly="['ADMIN', 'View Products']">
-            <a
-              routerLink="/pages/products"
-              [queryParams]="{
-                main_category: '',
-                page: 1,
-                sub_category_id: '',
-                search: ''
-              }"
-              routerLinkActive="active"
-            >
+            <a routerLink="/pages/products" routerLinkActive="active">
               products</a
             >
           </li>
