@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { LoyalityService } from "@app/pages/services/loyality.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { AngularEditorConfig } from "@kolkov/angular-editor";
-import { environment } from "@env/environment";
+import { environment } from "environments/environment.prod";
 import { NgxSpinnerService } from "ngx-spinner";
 
 declare var jquery: any;

@@ -1,18 +1,20 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Injector } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { environment } from "environments/environment.prod";
+import { NgxPermissionsService } from "ngx-permissions";
 
 @Injectable()
 export class AuthService {
   url;
-  constructor( private http: HttpClient, private permissionsService: NgxPermissionsService) {
+  constructor(
+    private http: HttpClient,
+    private permissionsService: NgxPermissionsService
+  ) {
     this.url = environment.api + "/api" + "/admin";
   }
 
   getToken() {
-    return localStorage.getItem("auth_token_trolley")
+    return localStorage.getItem("auth_token_trolley");
   }
 
   getUser() {
@@ -22,20 +24,18 @@ export class AuthService {
   isAuthenticated() {
     var token = this.getToken();
     if (token) {
-      return true
-    }
-    else {
-      return false
+      return true;
+    } else {
+      return false;
     }
   }
 
   getProfile() {
-    return this.http.get(this.url + '/profile')
+    return this.http.get(this.url + "/profile");
   }
 
-  async setPermissions() 
-  {
-    let data: any = await this.http.get(this.url + '/profile').toPromise();
+  async setPermissions() {
+    let data: any = await this.http.get(this.url + "/profile").toPromise();
     this.permissionsService.flushPermissions();
 
     let user = data.data;
@@ -44,13 +44,13 @@ export class AuthService {
       await this.permissionsService.loadPermissions(perm);
 
       if (user.roles[0].name == "Super Admin") {
-        this.permissionsService.addPermission(['ADMIN']);
+        this.permissionsService.addPermission(["ADMIN"]);
       }
     }
   }
 
   setToken(token) {
-    localStorage.setItem("auth_token_trolley", token)
+    localStorage.setItem("auth_token_trolley", token);
   }
 
   setUser(user) {
@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   removeToken() {
-    localStorage.removeItem("auth_token_trolley")
+    localStorage.removeItem("auth_token_trolley");
   }
 
   logOut() {
@@ -66,7 +66,10 @@ export class AuthService {
   }
 
   login(email, password) {
-    return this.http.post(this.url + "/auth", { email: email, password: password })
+    return this.http.post(this.url + "/auth", {
+      email: email,
+      password: password,
+    });
   }
 
   forgetPassword(data) {

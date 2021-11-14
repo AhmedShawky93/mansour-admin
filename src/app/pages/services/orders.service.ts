@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment";
+import { environment } from "environments/environment.prod";
 import { Observable } from "rxjs";
 import "rxjs/add/operator/catch";
 
@@ -18,10 +18,12 @@ export class OrdersService {
     });
   }
 
-  getAramexAccounts(){
-    return this.http.get(this.url + "/aramex-sub-accounts").catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+  getAramexAccounts() {
+    return this.http
+      .get(this.url + "/aramex-sub-accounts")
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   getUnassignedOrders() {
@@ -167,7 +169,10 @@ export class OrdersService {
   }
   createPickup(id, shipping_method, data) {
     return this.http
-      .post(this.url + `/orders/shipments/${shipping_method}/create/pickup`, data)
+      .post(
+        this.url + `/orders/shipments/${shipping_method}/create/pickup`,
+        data
+      )
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });
@@ -194,46 +199,64 @@ export class OrdersService {
   }
 
   updateItemPrice(id, product_id, data) {
-    return this.http.post(this.url + "/orders/" + id + "/update_item_price/" + product_id, data).catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+    return this.http
+      .post(
+        this.url + "/orders/" + id + "/update_item_price/" + product_id,
+        data
+      )
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   updateInvoiceDiscount(id, data) {
-    return this.http.post(this.url + "/orders/" + id + "/update_invoice_discount/", data).catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+    return this.http
+      .post(this.url + "/orders/" + id + "/update_invoice_discount/", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   updateSerial(id, data) {
-    return this.http.post(this.url + "/orders/" + id + "/edit_order_items_serial_number", data).catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+    return this.http
+      .post(
+        this.url + "/orders/" + id + "/edit_order_items_serial_number",
+        data
+      )
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   cancelPickup(id) {
-    return this.http.post(this.url + "/orders/cancel-pickup/" + id, {cancelled_reason: "Default"}).catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+    return this.http
+      .post(this.url + "/orders/cancel-pickup/" + id, {
+        cancelled_reason: "Default",
+      })
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   getAvailablePickups() {
-    return this.http.get(this.url + "/orders/shipments/Aramex/available_pickups").catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+    return this.http
+      .get(this.url + "/orders/shipments/Aramex/available_pickups")
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   createShipment(data) {
-    return this.http.post(this.url + "/orders/shipments/Aramex/create/shipment", data).catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+    return this.http
+      .post(this.url + "/orders/shipments/Aramex/create/shipment", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   exportOrders(url) {
-    return this.http
-      .get(url)
-      .catch((error: any) => {
-        return Observable.throw(error.error || 'Server error');
-      });
+    return this.http.get(url).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment";
+import { environment } from "environments/environment.prod";
 import { Observable, observable } from "rxjs";
 import "rxjs/add/operator/catch";
 
@@ -21,11 +21,9 @@ export class RolesService {
   }
 
   getRole(id) {
-    return this.http
-      .get<any>(this.url + "/roles/" + id)
-      .catch((error: any) => {
-        return Observable.throw(error.error || "Roles Error");
-      });
+    return this.http.get<any>(this.url + "/roles/" + id).catch((error: any) => {
+      return Observable.throw(error.error || "Roles Error");
+    });
   }
 
   createRole(role) {

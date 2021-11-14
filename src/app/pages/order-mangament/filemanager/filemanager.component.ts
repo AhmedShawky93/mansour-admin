@@ -5,7 +5,7 @@ import { ConfigInterface, TreeModel } from "ng6-file-man";
 import { Subscription } from "rxjs";
 
 import { PagesService } from "@app/pages/services/pages.service";
-import { environment } from "@env/environment";
+import { environment } from "environments/environment.prod";
 
 var treeConfig: ConfigInterface = {
   baseURL: environment.api,

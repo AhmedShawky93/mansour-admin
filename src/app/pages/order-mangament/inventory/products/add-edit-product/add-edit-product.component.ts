@@ -31,7 +31,7 @@ import {
   catchError,
   map,
 } from "rxjs/operators";
-import { environment } from "@env/environment";
+import { environment } from "environments/environment.prod";
 import { ReactivityService } from "@app/shared/services/reactivity.service";
 
 @Component({

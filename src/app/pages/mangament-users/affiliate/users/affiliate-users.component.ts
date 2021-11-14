@@ -17,7 +17,7 @@ import { tap } from "rxjs/operators";
 import { Subject } from "rxjs/Rx";
 
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "@env/environment";
+import { environment } from "environments/environment.prod";
 
 import { AffiliateService } from "../../../services/affiliate.service";
 import { CustomerService } from "../../../services/customer.service";

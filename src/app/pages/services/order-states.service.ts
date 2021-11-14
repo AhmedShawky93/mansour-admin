@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment";
+import { environment } from "environments/environment.prod";
 import { Observable } from "rxjs";
 import "rxjs/add/operator/catch";
 
@@ -27,14 +27,16 @@ export class OrderStatesService {
   }
 
   updateOrderStatus(id, data) {
-    return this.http.post<any>(this.url + '/'+ id, data).catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+    return this.http
+      .post<any>(this.url + "/" + id, data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   activateOrderStatus(id) {
     return this.http
-      .post(this.url + '/'+id + "/activate", {})
+      .post(this.url + "/" + id + "/activate", {})
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });
@@ -42,11 +44,9 @@ export class OrderStatesService {
 
   deactivateOrderStatus(id, data) {
     return this.http
-      .post(this.url + '/'+ id + "/deactivate", data)
+      .post(this.url + "/" + id + "/deactivate", data)
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });
   }
-
-
 }

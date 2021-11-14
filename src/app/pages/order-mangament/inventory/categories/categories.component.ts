@@ -3,14 +3,13 @@ import { Component, ElementRef, OnInit } from "@angular/core";
 import { CategoryService } from "@app/pages/services/category.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { ViewChild } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { FormGroup, FormControl, FormArray } from "@angular/forms";
 import { Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
 import { ReactivityService } from "@app/shared/services/reactivity.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { environment } from "@env/environment";
+import { environment } from "environments/environment.prod";
 
 declare var jquery: any;
 declare var $: any;

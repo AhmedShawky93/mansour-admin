@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment";
+import { environment } from "environments/environment.prod";
 import { Observable } from "rxjs";
 import "rxjs/add/operator/catch";
 
@@ -36,10 +36,12 @@ export class SectionsService {
       });
   }
 
-  deleteSection(id){
-    return this.http.delete<any>(this.url + "/sections/" + id).catch((error: any) => {
-      return Observable.throw(error.error || "Server error");
-    });
+  deleteSection(id) {
+    return this.http
+      .delete<any>(this.url + "/sections/" + id)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
   }
 
   activate(id) {

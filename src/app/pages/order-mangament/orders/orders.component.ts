@@ -1,4 +1,4 @@
-import { PromosService } from './../../services/promos.service';
+import { PromosService } from "./../../services/promos.service";
 import { AreasService } from "@app/pages/services/areas.service";
 import { Router } from "@angular/router";
 import { OrderStatesService } from "./../../services/order-states.service";
@@ -9,22 +9,35 @@ import { ToastrService } from "ngx-toastr";
 import { MatInput } from "@angular/material";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/map";
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerService } from "ngx-spinner";
 
 import * as moment from "moment";
 
 import { Title } from "@angular/platform-browser";
 import { Subject, Observable, concat, of } from "rxjs";
-import { tap, switchMap, debounceTime, distinctUntilChanged, catchError, map } from "rxjs/operators";
+import {
+  tap,
+  switchMap,
+  debounceTime,
+  distinctUntilChanged,
+  catchError,
+  map,
+} from "rxjs/operators";
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "@env/environment";
+import { environment } from "environments/environment.prod";
 import { DeliveryService } from "@app/pages/services/delivery.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
-import { animate, state, style, transition, trigger } from "@angular/animations";
-import { AffiliateService } from '@app/pages/services/affiliate.service';
-import { debounce } from 'lodash';
-import { SettingService } from '@app/pages/services/setting.service';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from "@angular/animations";
+import { AffiliateService } from "@app/pages/services/affiliate.service";
+import { debounce } from "lodash";
+import { SettingService } from "@app/pages/services/setting.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -177,7 +190,7 @@ export class OrdersComponent implements OnInit {
     private promoService: PromosService,
     private affiliateService: AffiliateService,
     private toastrService: ToastrService,
-    private spinner: NgxSpinnerService, 
+    private spinner: NgxSpinnerService,
     private settingService: SettingService
   ) {
     this.affiliateSearch = debounce(this.affiliateSearch, 700);
@@ -197,15 +210,15 @@ export class OrdersComponent implements OnInit {
       );
     });
 
-    this.settingService.getenvConfig().subscribe(res => {
+    this.settingService.getenvConfig().subscribe((res) => {
       this.environmentVariables = res;
-      if (!this.environmentVariables.showLoyality){
+      if (!this.environmentVariables.showLoyality) {
         this.stateForm.controls.remove_loyalty_points.setValue(false);
         this.stateForm.controls.remove_loyalty_points.updateValueAndValidity();
         this.stateForm.controls.add_loyalty_points.setValue(false);
         this.stateForm.controls.add_loyalty_points.updateValueAndValidity();
       }
-    })
+    });
 
     $(".payment-open").on("click", function () {
       $(".payment-area").slideToggle(100);
@@ -277,11 +290,15 @@ export class OrdersComponent implements OnInit {
     //     this.orders = response.data.orders;
     //     this.total = response.data.total;
     //   });
-    
+
     this.filter$
       .debounceTime(400)
       .pipe(
-        tap((e) => ((this.loading = true), (this.spinner.show()), (this.no_orders = false))),
+        tap(
+          (e) => (
+            (this.loading = true), this.spinner.show(), (this.no_orders = false)
+          )
+        ),
         switchMap((filter) => this.filterOrders())
       )
       .subscribe((response: any) => {
@@ -309,7 +326,8 @@ export class OrdersComponent implements OnInit {
     });
 
     let token = this.auth.getToken();
-    this.exportUrl = environment.api + "/api" + "/admin/orders/export?token=" + token;
+    this.exportUrl =
+      environment.api + "/api" + "/admin/orders/export?token=" + token;
     this.productsUrl =
       environment.api + "/api" + "/admin/products/export_sales?token=" + token;
     this.exportProductsUrl = this.productsUrl;
@@ -346,8 +364,8 @@ export class OrdersComponent implements OnInit {
     });
 
     this.ordersService.getAramexAccounts().subscribe((response: any) => {
-      this.aramixAccounts = response.data
-    })
+      this.aramixAccounts = response.data;
+    });
   }
 
   getPaymentMethods() {
@@ -413,46 +431,51 @@ export class OrdersComponent implements OnInit {
         .setValidators([Validators.required]);
     } else if (this.orderStatusId == 6) {
       // this.stateForm.get("status_notes").setValidators([Validators.required]);
-      this.stateForm
-        .get("cancellation_id");
+      this.stateForm.get("cancellation_id");
     }
   }
 
   exportOrder() {
     const token = this.auth.getToken();
-    const urlExport = environment.api + "/api" + '/admin/orders/export?token=' + token;
+    const urlExport =
+      environment.api + "/api" + "/admin/orders/export?token=" + token;
     this.ordersService.exportOrders(urlExport).subscribe({
-      next: ((rep: any) => {
+      next: (rep: any) => {
         if (rep.code === 200) {
-
-
         }
-      })
+      },
     });
     setTimeout(() => {
-      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
-        enableHtml: true,
-        timeOut: 3000
-      });
+      this.toastrService.success(
+        "You’ll receive a notification when the export is ready for download.",
+        " Your export is now being generated ",
+        {
+          enableHtml: true,
+          timeOut: 3000,
+        }
+      );
     }, 500);
   }
 
   exportProductSales() {
     const token = this.auth.getToken();
-    const urlExport = environment.api + "/api" + '/admin/products/export_sales?token=' + token;
+    const urlExport =
+      environment.api + "/api" + "/admin/products/export_sales?token=" + token;
     this.ordersService.exportOrders(urlExport).subscribe({
-      next: ((rep: any) => {
+      next: (rep: any) => {
         if (rep.code === 200) {
-
-
         }
-      })
+      },
     });
     setTimeout(() => {
-      this.toastrService.success('You’ll receive a notification when the export is ready for download.', ' Your export is now being generated ', {
-        enableHtml: true,
-        timeOut: 3000
-      });
+      this.toastrService.success(
+        "You’ll receive a notification when the export is ready for download.",
+        " Your export is now being generated ",
+        {
+          enableHtml: true,
+          timeOut: 3000,
+        }
+      );
     }, 500);
   }
 
@@ -555,7 +578,11 @@ export class OrdersComponent implements OnInit {
     data.notify_customer = this.notifyUser;
     this.stateSubmitting = true;
     this.ordersService
-      .createPickup(this.orderId, this.getShipmentUrl(data.shipping_method), data)
+      .createPickup(
+        this.orderId,
+        this.getShipmentUrl(data.shipping_method),
+        data
+      )
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.status_notesText = "";
@@ -575,10 +602,10 @@ export class OrdersComponent implements OnInit {
 
   getShipmentUrl(shipping_method) {
     switch (shipping_method) {
-      case 3: 
-        return "Aramex"
+      case 3:
+        return "Aramex";
       case 5:
-        return "Qatar-post"
+        return "Qatar-post";
     }
   }
 
@@ -673,19 +700,18 @@ export class OrdersComponent implements OnInit {
       q: event.target.value,
       page: 1,
     };
-    this.affiliateService.getUsersAffiliates(filter)
-      .subscribe((res: any) => {
-        if (res.code === 200) {
-          this.affiliateUsers = res.data.affiliates;
-        } else {
-          this.toasterService.error(res.message);
-        }
-        this.affiliateUsers = this.affiliateUsers.map((item) => {
-          item.deactivated = !item.active;
-          return item;
-        });
-        this.affiliateUsersLoading = false;
+    this.affiliateService.getUsersAffiliates(filter).subscribe((res: any) => {
+      if (res.code === 200) {
+        this.affiliateUsers = res.data.affiliates;
+      } else {
+        this.toasterService.error(res.message);
+      }
+      this.affiliateUsers = this.affiliateUsers.map((item) => {
+        item.deactivated = !item.active;
+        return item;
       });
+      this.affiliateUsersLoading = false;
+    });
   }
 
   getOrderStates() {
@@ -818,9 +844,8 @@ export class OrdersComponent implements OnInit {
       .subscribe((response: any) => {
         this.availableDeliverers = response.data;
         this.availableDeliverers.map((deliverer) => {
-          deliverer.deliverer_profile.district_names = deliverer.deliverer_profile.districts
-            .map((d) => d.name)
-            .join(", ");
+          deliverer.deliverer_profile.district_names =
+            deliverer.deliverer_profile.districts.map((d) => d.name).join(", ");
         });
         this.viewFilter = "";
         this.listFilter = "";
@@ -1014,7 +1039,6 @@ export class OrdersComponent implements OnInit {
     }
   }
   removeAmountOldItemReturn(product) {
-
     product.quantity > 1 ? product.quantity-- : (product.quantity = 0);
   }
   addAmount(product) {
@@ -1025,7 +1049,6 @@ export class OrdersComponent implements OnInit {
     if (productAmountIndex !== -1) {
       this.currentOrder.items[productAmountIndex].amount = product.amount;
     } else {
-
       this.currentOrder.items.push({
         id: product.id,
         amount: product.amount,
@@ -1195,9 +1218,8 @@ export class OrdersComponent implements OnInit {
                 response.data.order_status[indexOrderStatus].name;
             }
 
-            response.data.order_status_editable = !this.ineditableStates.includes(
-              response.data.state_id
-            );
+            response.data.order_status_editable =
+              !this.ineditableStates.includes(response.data.state_id);
 
             const indexOrder = this.orders.findIndex(
               (item) => item.id == response.data.id
@@ -1255,8 +1277,7 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  SelectDistrict(event, data) {
-  }
+  SelectDistrict(event, data) {}
   public getArea(area) {
     const index = this.cities.findIndex((item) => item.id == area);
     if (index !== -1) {
@@ -1266,7 +1287,6 @@ export class OrdersComponent implements OnInit {
         this.areaList = [];
         this.areaList.push(this.cities[index]);
         this.districts.push(this.cities[index]);
-
       }
     }
     this.districts = [];

@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { environment } from "@env/environment";
 import $ from "jquery";
 import { Router } from "@angular/router";
 import { NavigationEnd } from "@angular/router";
@@ -11,9 +10,8 @@ import { ActivatedRoute } from "@angular/router";
 import { AuthService } from "./shared/auth.service";
 import { NgxPermissionsService } from "ngx-permissions";
 import { HttpClient } from "@angular/common/http";
-// import { environmentVariables as environmentVariables } from '../environments/enviromentalVariables';
 import { SettingService } from "./pages/services/setting.service";
-import { ShowAffiliateService } from "./pages/services/show-affiliate.service";
+import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
 
 declare var jquery: any;
 declare var $: any;
