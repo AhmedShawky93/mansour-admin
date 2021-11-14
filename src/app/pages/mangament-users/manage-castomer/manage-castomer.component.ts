@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { CustomerService } from "@app/pages/services/customer.service";
 declare var jquery: any;
 declare var $: any;
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 import { AuthService } from "@app/shared/auth.service";
 import {
   animate,

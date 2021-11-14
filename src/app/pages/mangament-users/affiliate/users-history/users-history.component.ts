@@ -7,7 +7,7 @@ import { NewAdminCreditComponent } from "./new-admin-credit/new-admin-credit.com
 import { debounce } from "lodash";
 import { PopupDetailsComponent } from "./popup-details/popup-details.component";
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-users-history",

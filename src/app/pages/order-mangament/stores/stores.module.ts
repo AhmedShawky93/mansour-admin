@@ -13,7 +13,7 @@ import {
   LazyMapsAPILoaderConfigLiteral,
 } from "@agm/core";
 import { SharedModule } from "@app/shared/shared.module";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 import { NgSelectModule } from "@ng-select/ng-select";
 
 import { AddEditStoreComponent } from "./add-edit-store/add-edit-store.component";

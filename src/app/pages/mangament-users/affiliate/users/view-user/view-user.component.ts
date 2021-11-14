@@ -1,6 +1,13 @@
-import { CustomerService } from './../../../../services/customer.service';
-import {Component, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import { environment } from '@env/environment';
+import { CustomerService } from "./../../../../services/customer.service";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+} from "@angular/core";
+import { environment } from "@env/environment.prod";
 
 @Component({
   selector: "app-view-user.",
@@ -12,14 +19,13 @@ export class ViewUserComponent implements OnInit, OnChanges {
   @Output() verifyPhoneUserEmit = new EventEmitter();
   @Output() addOrUpdateAddressEmit = new EventEmitter();
   @Input("selectProductDataEdit") dataView;
-  constructor(private cs: CustomerService,
-  ) { }
+  constructor(private cs: CustomerService) {}
 
   ngOnInit() {
-    console.log('this.dataView' , this.dataView)
+    console.log("this.dataView", this.dataView);
   }
   ngOnChanges(): void {
-    console.log('this.dataView' , this.dataView)
+    console.log("this.dataView", this.dataView);
   }
   closeSideBar() {
     this.closeSideBarEmit.emit();
@@ -34,24 +40,28 @@ export class ViewUserComponent implements OnInit, OnChanges {
   }
 
   loginAsCustomer(id) {
-    this.cs.getCustomerToken(id)
-      .subscribe((response: any) => {
-        const token = response.data;
-        console.log('CustomerTokenFromAdmin:', token);
-        window.open(JSON.parse(localStorage.getItem('systemConfig')).envApi.env.checkoutUrl + "/session/signin?token=" + token, "_blank");
-      });
+    this.cs.getCustomerToken(id).subscribe((response: any) => {
+      const token = response.data;
+      console.log("CustomerTokenFromAdmin:", token);
+      window.open(
+        JSON.parse(localStorage.getItem("systemConfig")).envApi.env
+          .checkoutUrl +
+          "/session/signin?token=" +
+          token,
+        "_blank"
+      );
+    });
   }
 
   activateUser(user) {
-    this.cs.activateCustomer(user.id)
-      .subscribe((data: any) => {
-        user.active = 1;
-        user.deactivated = 0;
-        // const ind = this.customers.findIndex((customer: any) => customer.id === user.id);
-        // if (ind !== -1) {
-        //   this.customers[ind].active = 1;
-        //   this.customers[ind].deactivated = 0;
-        // }
-      });
+    this.cs.activateCustomer(user.id).subscribe((data: any) => {
+      user.active = 1;
+      user.deactivated = 0;
+      // const ind = this.customers.findIndex((customer: any) => customer.id === user.id);
+      // if (ind !== -1) {
+      //   this.customers[ind].active = 1;
+      //   this.customers[ind].deactivated = 0;
+      // }
+    });
   }
 }

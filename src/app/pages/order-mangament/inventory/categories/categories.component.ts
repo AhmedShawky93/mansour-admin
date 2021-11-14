@@ -10,7 +10,7 @@ import { Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";
 import { ReactivityService } from "@app/shared/services/reactivity.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 
 declare var jquery: any;
 declare var $: any;

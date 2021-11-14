@@ -38,7 +38,7 @@ import { ProductsService } from "@app/pages/services/products.service";
 import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 
 import { SettingService } from "../../../services/setting.service";
 import { AddEditProductComponent } from "./add-edit-product/add-edit-product.component";

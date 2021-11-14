@@ -6,7 +6,7 @@ import {
   trigger,
 } from "@angular/animations";
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { PagesService } from "../services/pages.service";

@@ -12,7 +12,7 @@ import { UploadFilesService } from "../services/upload-files.service";
 import { ToastrService } from "ngx-toastr";
 import { ProductsService } from "../services/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 declare var jquery: any;
 declare var $: any;
 

@@ -6,7 +6,7 @@ import { debounce } from "lodash";
 import { MatDialog } from "@angular/material/dialog";
 import { ViewActionAffiliateComponent } from "./view-action-affiliate/view-action-affiliate.component";
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-withdraw-requests",

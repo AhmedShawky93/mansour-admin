@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PagesService } from '@app/pages/services/pages.service';
 import { SettingService } from '@app/pages/services/setting.service';
-import { environment } from '@env/environment';
+import { environment } from '@env/environment.prod';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ToastrService } from 'ngx-toastr';
 import { SlugifyPipe } from './../pipes/slugify.pipe';

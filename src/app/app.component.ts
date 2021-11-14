@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 import $ from "jquery";
 import { Router } from "@angular/router";
 import { NavigationEnd } from "@angular/router";

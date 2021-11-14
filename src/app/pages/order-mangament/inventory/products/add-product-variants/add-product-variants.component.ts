@@ -37,7 +37,7 @@ import {
   compareNumbers,
   DateLessThan,
 } from "@app/shared/date-range-validation";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 import { AngularEditorConfig } from "@kolkov/angular-editor";
 
 import { DraftProductService } from "../../../../services/draft-product.service";

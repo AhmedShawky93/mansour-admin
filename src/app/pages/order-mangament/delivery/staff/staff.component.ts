@@ -5,7 +5,7 @@ import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { AreasService } from "@app/pages/services/areas.service";
 import { AuthService } from "@app/shared/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { environment } from "@env/environment";
+import { environment } from "@env/environment.prod";
 import { ToastrService } from "ngx-toastr";
 import { SettingService } from "@app/pages/services/setting.service";
 declare var jquery: any;
@@ -69,18 +69,22 @@ export class StaffComponent implements OnInit {
   }
 
   getConfig() {
-    this.settingService.getenvConfig().subscribe(res => {
+    this.settingService.getenvConfig().subscribe((res) => {
       this.environmentVariables = res;
-      this.addStaff.controls.phone.setValidators(
-        [
-          Validators.required,
-          Validators.minLength(this.environmentVariables.localization.phone_length),
-          Validators.maxLength(this.environmentVariables.localization.phone_length),
-          Validators.pattern(this.environmentVariables.localization.phone_pattern)
-        ]
-      )
-      this.addStaff.controls.phone.updateValueAndValidity()
-    })
+      this.addStaff.controls.phone.setValidators([
+        Validators.required,
+        Validators.minLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.maxLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.pattern(
+          this.environmentVariables.localization.phone_pattern
+        ),
+      ]);
+      this.addStaff.controls.phone.updateValueAndValidity();
+    });
   }
 
   onFileSelected(event, user) {
