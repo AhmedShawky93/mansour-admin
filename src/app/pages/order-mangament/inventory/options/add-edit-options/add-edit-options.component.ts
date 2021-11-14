@@ -124,6 +124,7 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
         .editOptions(this.selectProductDataEdit.id, data)
         .subscribe((response: any) => {
           if (response.code == 200) {
+            this.toastrService.success("Option Updated Successfully");
             this.dataOptionEmit.emit(response.data);
             this.imageUrl = "";
             this.OptionForm.reset();
@@ -144,6 +145,7 @@ export class AddEditoOptionsComponent implements OnInit, OnChanges {
 
       this.optionsService.createOption(data).subscribe((response: any) => {
         if (response.code == 200) {
+          this.toastrService.success("Option Added Successfully");
           this.OptionForm.reset();
           this.dataOptionEmit.emit(response.data);
           this.imageUrl = "";

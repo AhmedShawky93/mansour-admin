@@ -77,6 +77,7 @@ export class BrandsComponent implements OnInit {
     this.brandsService
       .createBrand(this.addBrandForm.value)
       .subscribe((response: any) => {
+        this.toastrService.success("Brand Added Successfully");
         this.submitting = true;
         this.brands.push(response.data);
         $("#add-prod").toggleClass("open-view-vindor-types");
@@ -152,6 +153,7 @@ export class BrandsComponent implements OnInit {
     this.brandsService
       .updateBrand(brand.id, brand)
       .subscribe((response: any) => {
+        this.toastrService.success("Brand Updated Successfully");
         this.submitting = false;
         let ind = this.brands.findIndex((item) => {
           return item.id === brand.id;
