@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { DeliveryService } from "@app/pages/services/delivery.service";
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "@env/environment.prod";
+import { environment } from "environments/environment.prod";
 import { CustomerService } from "@app/pages/services/customer.service";
 declare var jquery: any;
 declare var $: any;

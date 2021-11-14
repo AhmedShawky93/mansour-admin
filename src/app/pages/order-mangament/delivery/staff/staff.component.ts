@@ -1,11 +1,10 @@
-import { Component, OnInit, OnChanges } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { DeliveryService } from "@app/pages/services/delivery.service";
-import { StaffService } from "@app/pages/services/staff.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { AreasService } from "@app/pages/services/areas.service";
 import { AuthService } from "@app/shared/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { environment } from "@env/environment.prod";
+import { environment } from "environments/environment.prod";
 import { ToastrService } from "ngx-toastr";
 import { SettingService } from "@app/pages/services/setting.service";
 declare var jquery: any;

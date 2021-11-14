@@ -14,7 +14,7 @@ import {
 } from "@angular/animations";
 import { ProductsService } from "@app/pages/services/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { environment } from "@env/environment.prod";
+import { environment } from "environments/environment.prod";
 declare var $: any;
 @Component({
   selector: "app-clinics",

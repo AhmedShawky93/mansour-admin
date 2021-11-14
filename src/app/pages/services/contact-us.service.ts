@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
+import { environment } from "environments/environment.prod";
 import "rxjs/add/operator/catch";
 import { Observable } from "rxjs";
 
@@ -14,14 +14,14 @@ export class ContactUsService {
   }
 
   getContactUs(data) {
-    return this.http.get(this.url , { params: data }).catch((error: any) => {
+    return this.http.get(this.url, { params: data }).catch((error: any) => {
       return Observable.throw(error.error || "Server error");
     });
   }
 
   updateResolve(id, data) {
     return this.http
-      .post(this.url +'/'+ id + "/update_resolve", data)
+      .post(this.url + "/" + id + "/update_resolve", data)
       .catch((error: any) => {
         return Observable.throw(error.error || "Server error");
       });

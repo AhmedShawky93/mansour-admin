@@ -24,7 +24,7 @@ import {
   map,
 } from "rxjs/operators";
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "@env/environment.prod";
+import { environment } from "environments/environment.prod";
 import { DeliveryService } from "@app/pages/services/delivery.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ProductsService } from "@app/pages/services/products.service";

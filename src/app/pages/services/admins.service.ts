@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment";
+import { environment } from "environments/environment.prod";
 import { Observable, observable } from "rxjs";
 import "rxjs/add/operator/catch";
 
@@ -14,8 +14,8 @@ export class AdminsService {
     this.url = environment.api + "/api" + "/admin";
   }
 
-  getLog(page = 1){
-    return this.http.get<any>(this.url + `/logs/index?page=${page}`)
+  getLog(page = 1) {
+    return this.http.get<any>(this.url + `/logs/index?page=${page}`);
   }
 
   getAdmins() {
@@ -33,11 +33,9 @@ export class AdminsService {
   }
 
   getPermissions() {
-    return this.http
-      .get<any>(this.url + "/permissions")
-      .catch((error: any) => {
-        return Observable.throw(error.error || "admins Error");
-      });
+    return this.http.get<any>(this.url + "/permissions").catch((error: any) => {
+      return Observable.throw(error.error || "admins Error");
+    });
   }
 
   createAdmin(admin) {

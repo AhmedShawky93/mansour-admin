@@ -12,7 +12,8 @@ import { UploadFilesService } from "../services/upload-files.service";
 import { ToastrService } from "ngx-toastr";
 import { ProductsService } from "../services/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { environment } from "@env/environment.prod";
+import { environment } from "environments/environment.prod";
+
 declare var jquery: any;
 declare var $: any;
 
@@ -115,7 +116,6 @@ export class BrandsComponent implements OnInit {
   uploadFile(event) {
     let fileName = <File>event.target.files[0];
     this.productsService.import(fileName, "1").subscribe((response: any) => {
-      console.log(response);
       if (response.code == 200) {
         this.toastrService.success("File uploaded successfully");
       } else {

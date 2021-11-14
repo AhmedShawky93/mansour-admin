@@ -7,7 +7,6 @@ import {
   EventEmitter,
   OnChanges,
 } from "@angular/core";
-import { environment } from "@env/environment.prod";
 
 @Component({
   selector: "app-view-user.",

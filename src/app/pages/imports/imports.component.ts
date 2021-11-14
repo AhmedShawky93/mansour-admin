@@ -4,7 +4,7 @@ import { tap } from "rxjs/operators";
 import { ImportsService } from "../services/imports.service";
 import "rxjs/Rx";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { environment } from "@env/environment.prod";
+import { environment } from "environments/environment.prod";
 import { AuthService } from "@app/shared/auth.service";
 import * as moment from "moment";
 import { ToastrService } from "ngx-toastr";

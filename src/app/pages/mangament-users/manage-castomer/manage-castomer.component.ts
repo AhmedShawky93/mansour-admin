@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { CustomerService } from "@app/pages/services/customer.service";
 declare var jquery: any;
 declare var $: any;
-import { environment } from "@env/environment.prod";
+import { environment } from "environments/environment.prod";
 import { AuthService } from "@app/shared/auth.service";
 import {
   animate,
@@ -16,7 +16,6 @@ import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { SettingService } from "@app/pages/services/setting.service";
 import { NgxSpinnerService } from "ngx-spinner";
-// import { environmentVariables as environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
   selector: "app-manage-castomer",

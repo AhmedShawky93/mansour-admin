@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MedicalService } from "@app/pages/services/medical.service";
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "@env/environment.prod";
+import { environment } from "environments/environment.prod";
 declare var jquery: any;
 declare var $: any;
 @Component({

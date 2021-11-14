@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import {environment} from '@env/environment.prod';
-import {HttpClient} from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { environment } from "environments/environment.prod";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TransactionsService {
   baseUrl: string;
@@ -18,7 +18,10 @@ export class TransactionsService {
     });
   }
   createOrder(id) {
-    return this.http.post(`${this.baseUrl}/orders/create_by_transaction/${id}`, {});
+    return this.http.post(
+      `${this.baseUrl}/orders/create_by_transaction/${id}`,
+      {}
+    );
   }
   export(data) {
     return this.http.get(`${this.baseUrl}/transactions/export`, {

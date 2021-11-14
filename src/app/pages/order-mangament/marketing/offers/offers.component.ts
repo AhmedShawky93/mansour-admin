@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CategoryService } from "../../../services/category.service";
 import { PromosService } from "@app/pages/services/promos.service";
-import { environment } from "@env/environment.prod";
+import { environment } from "environments/environment.prod";
 import { AuthService } from "@app/shared/auth.service";
 import { NgxSpinnerService } from "ngx-spinner";
 declare var jquery: any;
