@@ -261,6 +261,7 @@
     </div>
 
     <div>
+      {{variantForm.get('option_values')['controls'].length}}
       <div formArrayName="option_values" class="form-group"
         *ngFor="let option of variantForm.get('option_values')['controls']; let i = index">
         <span [formGroupName]='i'>
