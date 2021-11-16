@@ -1,31 +1,38 @@
 import {
   Component,
+  EventEmitter,
+  Input,
+  OnChanges,
   OnInit,
   Output,
-  Input,
-  EventEmitter,
-  OnChanges,
 } from "@angular/core";
 import {
-  Validators,
-  FormGroup,
   FormArray,
-  FormControl,
   FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
 } from "@angular/forms";
+
 import { ToastrService } from "ngx-toastr";
-import { UploadFilesService } from "@app/pages/services/upload-files.service";
-import { Observable, Subject, concat, of } from "rxjs";
 import {
-  distinctUntilChanged,
-  debounceTime,
-  tap,
-  switchMap,
-  map,
+  concat,
+  Observable,
+  of,
+  Subject,
+} from "rxjs";
+import {
   catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
 } from "rxjs/operators";
-import { ProductsService } from "@app/pages/services/products.service";
+
 import { ListsService } from "@app/pages/services/lists.service";
+import { ProductsService } from "@app/pages/services/products.service";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
 
 @Component({
   selector: "app-add-edit-list",
@@ -58,7 +65,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
     private uploadService: UploadFilesService,
     private listsService: ListsService,
     private productService: ProductsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getForm(this.listData);
@@ -92,7 +99,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
       this.listForm.get("items").setValue(items);
       products = data.products;
     } else {
-      let items = []
+      let items = [];
       this.listForm.get("items").setValue(items);
     }
 
@@ -136,7 +143,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
   closeSideBar() {
     this.closeSideBarEmit.emit();
     if (!this.listData) {
-      this.listForm.reset();
+      this.getForm(this.listData);
     }
   }
   submitForm() {
@@ -162,7 +169,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
             this.toastrService.success("List Updated Successfully");
             this.dataOptionEmit.emit(response.data);
             this.imageUrl = "";
-            this.listForm.reset();
+            this.getForm(this.listData);
             this.closeSideBar();
           } else {
             this.toastrService.error(response.message);
@@ -188,10 +195,9 @@ export class AddEditListComponent implements OnInit, OnChanges {
       this.listsService.createList(data).subscribe((response: any) => {
         if (response.code == 200) {
           this.toastrService.success("List Added Successfully");
-          this.listForm.reset();
           this.dataOptionEmit.emit(response.data);
           this.imageUrl = "";
-          this.listForm.reset();
+          this.getForm(this.listData);
           this.closeSideBar();
         } else {
           this.toastrService.error(response.message);
