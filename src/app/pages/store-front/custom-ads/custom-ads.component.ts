@@ -135,7 +135,7 @@ export class CustomAdsComponent implements OnInit {
             .searchProducts(
               {
                 q: term,
-                sub_category_id: this.newAdsForm.controls.subCategory.value,
+                // sub_category_id: this.newAdsForm.controls.subCategory.value,
               },
               1
             )

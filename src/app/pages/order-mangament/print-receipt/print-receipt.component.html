@@ -379,17 +379,20 @@
           <div style="page-break-inside: avoid;page-break-before: always;" *ngIf="i+1 == 10 "></div>
         </div>
         <div class="box-price">
-          <div class="value-price" style="direction: ltr;">{{order?.actual_amount}} {{environmentVariables?.localization?.currency_code_en}}</div>
+          <div class="value-price" style="direction: ltr;">{{order?.actual_amount}}
+            {{environmentVariables?.localization?.currency_code_en}}</div>
           <div class="name-price">Subtotal</div>
         </div>
         <div class="box-price">
           <div class="value-price " style="direction: ltr;">
 
-            {{order.discount_amount ? (order.actual_amount - order.discount_amount ) + environmentVariables?.localization?.currency_code_en : '-'}} </div>
+            {{order.discount_amount ? (order.actual_amount - order.discount_amount ) + environmentVariables?.localization?.currency_code_en : '-'}}
+          </div>
           <div class="name-price">Discount</div>
         </div>
         <div class="box-price">
-          <div class="value-price" style="direction: ltr;">{{order.delivery_fees ? order.delivery_fees + environmentVariables?.localization?.currency_code_en : '-'}}
+          <div class="value-price" style="direction: ltr;">
+            {{order.delivery_fees ? order.delivery_fees + environmentVariables?.localization?.currency_code_en : '-'}}
           </div>
           <div class="name-price">Shiping cost</div>
         </div>
@@ -447,8 +450,7 @@
           : لأي إستفسارات برجاء التواصل معنا على خدمة العملاء علي<br>
           الخط الساخن: {{environmentVariables?environmentVariables.brandRelatedVariables.hotline:''}} <br>
           {{environmentVariables?environmentVariables.brandRelatedVariables.email:''}} : بريد إلكتروني<br>
-          !شكرا لتسوقك علي {{environmentVariables?environmentVariables.brandRelatedVariables.brandArabic:''}}
-        </p>
+          شكرا لتسوقكم من {{environmentVariables?environmentVariables.brandRelatedVariables.brandArabic:''}}! </p>
       </div>
     </div>
   </div>
