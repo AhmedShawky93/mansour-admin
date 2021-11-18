@@ -185,6 +185,7 @@ export class CategoriesComponent implements OnInit {
       .createCategory(category)
       .subscribe((response: any) => {
         if (response.code == 200) {
+          this.toastrService.success("Category Added Successfully");
           this.categories.push(response.data);
           this.submitting = false;
           $("#add-cat").toggleClass("open-view-vindor-types");
@@ -272,6 +273,7 @@ export class CategoriesComponent implements OnInit {
       .subscribe((response: any) => {
         this.updating = false;
         if (response.code === 200) {
+          this.toastrService.success("Category Updated Successfully");
           $("#edit-cat").toggleClass("open-view-vindor-types");
           const category = response.data;
           category.deactivated = !category.active;

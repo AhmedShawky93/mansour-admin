@@ -519,6 +519,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         .updateProduct(this.selectProductDataEdit.id, product)
         .subscribe((response: any) => {
           if (response.code == 200) {
+            this.toastrService.success("Product Updated Successfully");
             this.addProductForm.reset();
             this.dataProductEmit.emit(response.data);
             this.closeSideBar();
@@ -579,6 +580,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
       this.productsService.creatProduct(product).subscribe((response: any) => {
         if (response.code == 200) {
+          this.toastrService.success("Product Added Successfully");
           this.addProductForm.reset();
           this.dataProductEmit.emit(response.data);
           this.closeSideBar();

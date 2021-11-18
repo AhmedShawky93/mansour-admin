@@ -159,6 +159,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
         .editList(this.listData.id, data)
         .subscribe((response: any) => {
           if (response.code == 200) {
+            this.toastrService.success("List Updated Successfully");
             this.dataOptionEmit.emit(response.data);
             this.imageUrl = "";
             this.listForm.reset();
@@ -186,6 +187,7 @@ export class AddEditListComponent implements OnInit, OnChanges {
       ];
       this.listsService.createList(data).subscribe((response: any) => {
         if (response.code == 200) {
+          this.toastrService.success("List Added Successfully");
           this.listForm.reset();
           this.dataOptionEmit.emit(response.data);
           this.imageUrl = "";

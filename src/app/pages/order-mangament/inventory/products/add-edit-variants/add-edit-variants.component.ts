@@ -552,6 +552,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       .creatProductVariant(this.parentProduct.id, product)
       .subscribe((response: any) => {
         if (response.code === 200) {
+          this.toasterService.success("Product Variant Added Successfully");
           this.dataProductEmit.emit(response.data);
           this.closeSideBar();
         } else {
@@ -571,6 +572,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       )
       .subscribe((response: any) => {
         if (response.code === 200) {
+          this.toasterService.success("Product Variant Updated Successfully");
           this.dataProductEmit.emit(response.data);
           this.closeSideBar();
         } else {
