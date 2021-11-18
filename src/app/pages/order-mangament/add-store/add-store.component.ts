@@ -1,23 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 declare var $: any;
 declare var jquery: any;
 var close = document.getElementsByClassName("closebtn");
 var i;
 
-
 @Component({
-  selector: 'app-add-store',
-  templateUrl: './add-store.component.html',
-  styleUrls: ['./add-store.component.css']
+  selector: "app-add-store",
+  templateUrl: "./add-store.component.html",
+  styleUrls: ["./add-store.component.css"],
 })
 export class AddStoreComponent implements OnInit {
-
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    $("input:checkbox").on('click', function () {
+    $("input:checkbox").on("click", function () {
       // in the handler, 'this' refers to the box clicked on
       var $box = $(this);
       if ($box.is(":checked")) {
@@ -33,11 +30,8 @@ export class AddStoreComponent implements OnInit {
       }
     });
 
-
-
     $(".owls-time-alert ").on("click", ".closebtn", function () {
       $(this).parent().hide();
-
     });
 
     $(".edit-out").hide();
@@ -48,8 +42,5 @@ export class AddStoreComponent implements OnInit {
     $(".edit-out .close").on("click", function () {
       $(".edit-out").slideUp(50);
     });
-
-
   }
-
 }

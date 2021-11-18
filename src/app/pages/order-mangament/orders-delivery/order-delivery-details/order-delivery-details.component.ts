@@ -48,16 +48,15 @@ export class OrderDeliveryDetailsComponent implements OnInit {
     private orderService: OrdersService,
     private toastrService: ToastrService,
     private orderStatesService: OrderStatesService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.activeRoute.params.subscribe((params) => {
       let id = params["id"];
 
-      this.orderService.getOrderPickup(id)
-        .subscribe((response: any) => {
-          this.pickup = response.data;
-        })
+      this.orderService.getOrderPickup(id).subscribe((response: any) => {
+        this.pickup = response.data;
+      });
     });
   }
 }

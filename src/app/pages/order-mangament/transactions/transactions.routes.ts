@@ -1,4 +1,4 @@
-import {ListComponent} from './components/list/list.component';
+import { ListComponent } from "./components/list/list.component";
 export const TransactionsRoutes = [
-  { path: '', component: ListComponent, data: { title: 'Transactions' } }
+  { path: "", component: ListComponent, data: { title: "Transactions" } },
 ];

@@ -1,18 +1,33 @@
-<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+<div class="form-sidebar view-vindor-types add-edit-product-form" id="add-prod">
   <div class="head">
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{selectProductDataEdit ?  'Edit Branch' : 'New Branch' }} </h3>
+    <h3>{{ selectProductDataEdit ? "Edit Branch" : "New Branch" }}</h3>
   </div>
 
-  <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="OptionForm" novalidate>
+  <form
+    class="sideform"
+    (ngSubmit)="submitForm()"
+    [formGroup]="OptionForm"
+    novalidate
+  >
     <div class="form-group">
       <label for=""> Name</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="name"
+      />
       <div
-        *ngIf="OptionForm.controls.name.invalid && (OptionForm.controls.name.dirty || OptionForm.controls.name.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          OptionForm.controls.name.invalid &&
+          (OptionForm.controls.name.dirty || OptionForm.controls.name.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.name.errors.required">
           Name is required.
         </div>
@@ -20,10 +35,19 @@
     </div>
     <div class="form-group">
       <label for=""> email</label>
-      <input type="text" class="owl-input" placeholder="Type.." formControlName="email">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        formControlName="email"
+      />
       <div
-        *ngIf="OptionForm.controls.email.invalid && (OptionForm.controls.email.dirty || OptionForm.controls.email.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          OptionForm.controls.email.invalid &&
+          (OptionForm.controls.email.dirty || OptionForm.controls.email.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.email.errors.required">
           email is required.
         </div>
@@ -34,21 +58,42 @@
     </div>
     <div class="form-group phone-form-field">
       <label for=""> phone</label>
-      <input type="text" class="owl-input" placeholder="Type.." formControlName="phone"
-        [minLength]='environmentVariables.localization.phone_length'
-        [maxLength]='environmentVariables.localization.phone_length'>
-      <span class="localization-data" *ngIf="environmentVariables?.localization">
-        <img [src]="environmentVariables?.localization?.flag" alt="country flag">
-        {{environmentVariables?.localization?.phone_prefix}}
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        formControlName="phone"
+        [minLength]="environmentVariables.localization.phone_length"
+        [maxLength]="environmentVariables.localization.phone_length"
+      />
+      <span
+        class="localization-data"
+        *ngIf="environmentVariables?.localization"
+      >
+        <img
+          [src]="environmentVariables?.localization?.flag"
+          alt="country flag"
+        />
+        {{ environmentVariables?.localization?.phone_prefix }}
       </span>
       <div
-        *ngIf="OptionForm.controls.phone.invalid && (OptionForm.controls.phone.dirty || OptionForm.controls.phone.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          OptionForm.controls.phone.invalid &&
+          (OptionForm.controls.phone.dirty || OptionForm.controls.phone.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.phone.errors.required">
           phone is required.
         </div>
-        <div *ngIf="OptionForm.controls.phone.errors.minlength || OptionForm.controls.phone.errors.maxlength">
-          Phone must be {{environmentVariables?.localization.phone_length}} numbers.
+        <div
+          *ngIf="
+            OptionForm.controls.phone.errors.minlength ||
+            OptionForm.controls.phone.errors.maxlength
+          "
+        >
+          Phone must be
+          {{ environmentVariables?.localization.phone_length }} numbers.
         </div>
         <div *ngIf="OptionForm.controls.phone.errors.pattern">
           Invalid phone number.
@@ -57,10 +102,20 @@
     </div>
     <div class="form-group">
       <label for=""> password</label>
-      <input type="password" class="owl-input" placeholder="Type.." formControlName="password">
+      <input
+        type="password"
+        class="owl-input"
+        placeholder="Type.."
+        formControlName="password"
+      />
       <div
-        *ngIf="OptionForm.controls.password.invalid && (OptionForm.controls.password.dirty || OptionForm.controls.password.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          OptionForm.controls.password.invalid &&
+          (OptionForm.controls.password.dirty ||
+            OptionForm.controls.password.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.password.errors.required">
           password is required.
         </div>
@@ -72,12 +127,21 @@
 
     <div class="form-group">
       <label for="">description</label>
-      <textarea class="owl-input" placeholder="Type.." maxlength="250" laceholder="type"
-        formControlName="address"></textarea>
+      <textarea
+        class="owl-input"
+        placeholder="Type.."
+        maxlength="250"
+        laceholder="type"
+        formControlName="address"
+      ></textarea>
       <div
-        *ngIf="OptionForm.controls.address.invalid && (OptionForm.controls.address.dirty || OptionForm.controls.address.touched)"
-        class="alert alert-danger">
-
+        *ngIf="
+          OptionForm.controls.address.invalid &&
+          (OptionForm.controls.address.dirty ||
+            OptionForm.controls.address.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.address.errors.required">
           Description is required
         </div>
@@ -86,17 +150,27 @@
     </div>
     <div class="form-group">
       <label for="">Roles</label>
-      <select class="owl-input" formControlName="role_id" required name="role_id">
-        <option value="" selected hidden>Select role </option>
-        <option value="{{cat.id}}" *ngFor="let cat of roles">{{cat.name}}
+      <select
+        class="owl-input"
+        formControlName="role_id"
+        required
+        name="role_id"
+      >
+        <option value="" selected hidden>Select role</option>
+        <option value="{{ cat.id }}" *ngFor="let cat of roles">
+          {{ cat.name }}
         </option>
       </select>
       <!-- Start  Errors Rolues -->
 
       <div
-        *ngIf="OptionForm.controls.area_id.invalid && (OptionForm.controls.area_id.dirty || OptionForm.controls.area_id.touched)"
-        class="alert alert-danger">
-
+        *ngIf="
+          OptionForm.controls.area_id.invalid &&
+          (OptionForm.controls.area_id.dirty ||
+            OptionForm.controls.area_id.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.area_id.errors.required">
           Select role required
         </div>
@@ -106,18 +180,28 @@
 
     <div class="form-group">
       <label for="">City </label>
-      <select class="owl-input" formControlName="city_id" required name="city_id"
-        (change)="selectCity($event.target.value)">
-        <option value="" selected hidden>Select City </option>
-        <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}
+      <select
+        class="owl-input"
+        formControlName="city_id"
+        required
+        name="city_id"
+        (change)="selectCity($event.target.value)"
+      >
+        <option value="" selected hidden>Select City</option>
+        <option value="{{ city.id }}" *ngFor="let city of cities">
+          {{ city.name }}
         </option>
       </select>
       <!-- Start  Errors Rolues -->
 
       <div
-        *ngIf="OptionForm.controls.city_id.invalid && (OptionForm.controls.city_id.dirty || OptionForm.controls.city_id.touched)"
-        class="alert alert-danger">
-
+        *ngIf="
+          OptionForm.controls.city_id.invalid &&
+          (OptionForm.controls.city_id.dirty ||
+            OptionForm.controls.city_id.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.city_id.errors.required">
           Select city
         </div>
@@ -126,18 +210,28 @@
     </div>
     <div class="form-group">
       <label for="">Area </label>
-      <select class="owl-input" formControlName="area_id" required name="area_id"
-        (change)="selectArea($event.target.value)">
-        <option value="" selected hidden>Select Area </option>
-        <option value="{{cat.id}}" *ngFor="let cat of areas">{{cat.name}}
+      <select
+        class="owl-input"
+        formControlName="area_id"
+        required
+        name="area_id"
+        (change)="selectArea($event.target.value)"
+      >
+        <option value="" selected hidden>Select Area</option>
+        <option value="{{ cat.id }}" *ngFor="let cat of areas">
+          {{ cat.name }}
         </option>
       </select>
       <!-- Start  Errors Rolues -->
 
       <div
-        *ngIf="OptionForm.controls.area_id.invalid && (OptionForm.controls.area_id.dirty || OptionForm.controls.area_id.touched)"
-        class="alert alert-danger">
-
+        *ngIf="
+          OptionForm.controls.area_id.invalid &&
+          (OptionForm.controls.area_id.dirty ||
+            OptionForm.controls.area_id.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.area_id.errors.required">
           Select area
         </div>
@@ -159,7 +253,12 @@
       </div>
     </div> -->
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
+      <button
+        class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="submitting"
+      >
+        Save
+      </button>
     </div>
   </form>
 </div>

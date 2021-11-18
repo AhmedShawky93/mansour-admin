@@ -298,13 +298,14 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.getProducts();
   }
 
-  getProducts() {
+  getProducts(id = "") {
     this.spinner.show();
     let data = {
       page: this.p,
       q: this.getFormControlValue("searchValue"),
       category_id: this.getFormControlValue("category_id"),
       sub_category_id: this.getFormControlValue("sub_category_id"),
+      parent_id: id,
     };
 
     this.productsService.getProducts(data).subscribe((response: any) => {
@@ -342,6 +343,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       this.searchValueProduct = this.getFormControlValue("searchValue");
       this.filterForm.get("searchValue").setValue("");
       this.selectedMainProduct = product;
+      this.getProducts(product?.id);
     }
   }
 

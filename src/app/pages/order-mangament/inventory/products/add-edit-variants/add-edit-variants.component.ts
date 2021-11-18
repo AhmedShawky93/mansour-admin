@@ -318,11 +318,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     this.reMapOptions(data);
     this.addVariantOptionsToForm();
     this.changeValidation();
-    if (data) {
-      data.images.forEach((img) => {
-        this.addImage(img);
-      });
-    }
+    if (data) data.images.forEach((img) => this.addImage(img));
   }
 
   reMapOptions(data) {

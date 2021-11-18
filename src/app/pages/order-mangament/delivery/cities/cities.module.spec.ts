@@ -1,13 +1,13 @@
-import { CitiesModule } from './cities.module';
+import { CitiesModule } from "./cities.module";
 
-describe('CitiesModule', () => {
+describe("CitiesModule", () => {
   let citiesModule: CitiesModule;
 
   beforeEach(() => {
     citiesModule = new CitiesModule();
   });
 
-  it('should create an instance', () => {
+  it("should create an instance", () => {
     expect(citiesModule).toBeTruthy();
   });
 });

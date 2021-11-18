@@ -1,5 +1,11 @@
-<app-list (listOperation)="operations($event)" [ModifiedItem]="selectedItem"></app-list>
+<app-list
+  (listOperation)="operations($event)"
+  [ModifiedItem]="selectedItem"
+></app-list>
 
 <app-side-container [sideContainerProp]="sideBarAction">
-  <app-view *ngIf="currentOperation === 'view'" [selectedItem]="selectedItem"></app-view>
+  <app-view
+    *ngIf="currentOperation === 'view'"
+    [selectedItem]="selectedItem"
+  ></app-view>
 </app-side-container>

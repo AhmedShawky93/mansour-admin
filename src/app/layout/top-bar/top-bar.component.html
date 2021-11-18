@@ -1,29 +1,57 @@
 <header class="top-header">
   <div class="container-fluid">
-
     <div class="right-part">
       <div class="dropdown avatar-part float-right" *ngIf="user">
-        <img class="img-circle" style="width: 40px;" *ngIf="user.imageUrl" src="{{user.imageUrl}}">
-        <img class="img-circle" style="width: 40px;" *ngIf="!user.imageUrl" src="assets/img/profile.png"
-          alt="Admin Image">
-        <button class="btn btn-secondary dropdown-toggle btn-top" style=" text-transform: capitalize; " type="button"
-          id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{user.name }}
+        <img
+          class="img-circle"
+          style="width: 40px"
+          *ngIf="user.imageUrl"
+          src="{{ user.imageUrl }}"
+        />
+        <img
+          class="img-circle"
+          style="width: 40px"
+          *ngIf="!user.imageUrl"
+          src="assets/img/profile.png"
+          alt="Admin Image"
+        />
+        <button
+          class="btn btn-secondary dropdown-toggle btn-top"
+          style="text-transform: capitalize"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          {{ user.name }}
         </button>
-        <div class="dropdown-menu admin-dropdown row" aria-labelledby="dropdownMenuButton">
-          <a class="col" routerLink='/pages/settings'> edit profile</a>
-          <a class="col" href="javascript:void(0);" (click)="logout()">log out</a>
+        <div
+          class="dropdown-menu admin-dropdown row"
+          aria-labelledby="dropdownMenuButton"
+        >
+          <a class="col" routerLink="/pages/settings"> edit profile</a>
+          <a class="col" href="javascript:void(0);" (click)="logout()"
+            >log out</a
+          >
         </div>
       </div>
 
       <div class="notification-part float-right">
-        <button (click)="clickEvent()" class="btn btn-secondary dropdown-toggle" type="button" id="notification"
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button
+          (click)="clickEvent()"
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="notification"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
           <span>
             <i class="fa fa-bell fa-top"></i>
           </span>
         </button>
-        <span class="notification_number" *ngIf="unread">{{unread}}</span>
+        <span class="notification_number" *ngIf="unread">{{ unread }}</span>
       </div>
     </div>
 
@@ -31,14 +59,17 @@
       <span id="toggle-sidebar">
         <i class="fa fa-bars"></i>
       </span>
-      <h2 class="hidden-mobile">{{title}}</h2>
+      <h2 class="hidden-mobile">{{ title }}</h2>
     </div>
   </div>
 </header>
 
 <!-- notification sidebar -->
 <!-- <div  [ngClass]="'notification-area' : 'notification-area-toggle' "> -->
-<div class="notification-area" [ngClass]="{'notification-area-toggle' : notifToggle }">
+<div
+  class="notification-area"
+  [ngClass]="{ 'notification-area-toggle': notifToggle }"
+>
   <div class="head">
     <div class="colse" (click)="clickEvent()">
       <span>
@@ -50,55 +81,81 @@
 
   <app-loader *ngIf="loading"></app-loader>
   <ng-container *ngIf="!loading">
-    <div class="not-day" *ngFor="let group of notificationGroups | groupBy: 'created_at' ">
+    <div
+      class="not-day"
+      *ngFor="let group of notificationGroups | groupBy: 'created_at'"
+    >
       <!-- <h5>{{group.key | amTimeAgo}}</h5> -->
 
       <div class="not-item" *ngFor="let notification of group.value">
-        <small>{{notification.created_at | date :'M/d/yy, h:mm a'}}</small>
-        <p>{{notification.title}}</p>
-        <span>{{notification.body}}
+        <small>{{ notification.created_at | date: "M/d/yy, h:mm a" }}</small>
+        <p>{{ notification.title }}</p>
+        <span
+          >{{ notification.body }}
           <span *ngIf="notification?.type == 10">
-            <a (click)="openPopup(notification?.details)" style="color: #009688;cursor: pointer;">here</a>
+            <a
+              (click)="openPopup(notification?.details)"
+              style="color: #009688; cursor: pointer"
+              >here</a
+            >
           </span>
           <span *ngIf="notification?.type == 11">
-            <a [href]="notification?.details?.link" [download]="notification?.details?.link">here</a>
+            <a
+              [href]="notification?.details?.link"
+              [download]="notification?.details?.link"
+              >here</a
+            >
           </span>
         </span>
       </div>
-
     </div>
   </ng-container>
-
 </div>
 
 <audio #notificationAudio>
-  <source src='./assets/audio/notification_web.mp3' type="audio/mp3">
+  <source src="./assets/audio/notification_web.mp3" type="audio/mp3" />
 </audio>
 
-<div class="modal fade" id="importDetails" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="importDetails"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center"
+        >
           Import details
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Total count : {{detailsImport?.total_count}}</p>
-        <p>Total approved count : {{detailsImport?.total_approved_count}}</p>
-        <p>Total created count : {{detailsImport?.total_created_count}}</p>
-        <p>Total updated count : {{detailsImport?.total_updated_count}}</p>
-        <p>Total missed count : {{detailsImport?.total_missed_count}}</p>
+        <p>Total count : {{ detailsImport?.total_count }}</p>
+        <p>Total approved count : {{ detailsImport?.total_approved_count }}</p>
+        <p>Total created count : {{ detailsImport?.total_created_count }}</p>
+        <p>Total updated count : {{ detailsImport?.total_updated_count }}</p>
+        <p>Total missed count : {{ detailsImport?.total_missed_count }}</p>
         <span *ngIf="detailsImport?.missed_details">
           <ul>
-            <li *ngFor="let  details of detailsImport.missed_details">{{details}}</li>
+            <li *ngFor="let details of detailsImport.missed_details">
+              {{ details }}
+            </li>
           </ul>
         </span>
       </div>
-
     </div>
   </div>
 </div>

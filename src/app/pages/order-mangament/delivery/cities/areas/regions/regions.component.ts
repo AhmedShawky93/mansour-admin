@@ -1,6 +1,6 @@
 import { AreasService } from "@app/pages/services/areas.service";
 import { Component, OnInit } from "@angular/core";
-import {Location} from '@angular/common';
+import { Location } from "@angular/common";
 
 import {
   trigger,

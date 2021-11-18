@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { UserSubAdminComponent } from './user-sub-admin.component';
+import { UserSubAdminComponent } from "./user-sub-admin.component";
 
-describe('UserSubAdminComponent', () => {
+describe("UserSubAdminComponent", () => {
   let component: UserSubAdminComponent;
   let fixture: ComponentFixture<UserSubAdminComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UserSubAdminComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UserSubAdminComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserSubAdminComponent);
@@ -19,7 +20,7 @@ describe('UserSubAdminComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

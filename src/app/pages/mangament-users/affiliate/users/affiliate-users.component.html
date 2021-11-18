@@ -1,36 +1,48 @@
 <!-- <ngx-loading-bar [color]="'#007C41'"></ngx-loading-bar> -->
 
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-6 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" name="searchTerm"
-          class="owl-input owls-search" placeholder="search ...">
+        <input
+          type="text"
+          [(ngModel)]="filter.q"
+          (change)="changePage(p)"
+          name="searchTerm"
+          class="owl-input owls-search"
+          placeholder="search ..."
+        />
       </div>
     </div>
 
-
-    <div class="col-md-3  col-xs-12 text-right">
+    <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big w-100" (click)="goToLink()"
-          style="margin-left: 0px;">Export CSV</button>
+        <button
+          class="btn btn-owls btn-rounded btn-blue2 btn-big w-100"
+          (click)="goToLink()"
+          style="margin-left: 0px"
+        >
+          Export CSV
+        </button>
       </div>
     </div>
 
-    <div class="col-md-3  col-xs-12 text-right">
+    <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big w-100" (click)="toggleMenu(null)"
-          style="margin-left: 0px;"> + New Affiliate</button>
+        <button
+          class="btn btn-owls btn-rounded btn-blue2 btn-big w-100"
+          (click)="toggleMenu(null)"
+          style="margin-left: 0px"
+        >
+          + New Affiliate
+        </button>
       </div>
     </div>
-
   </div>
 </div>
-
 
 <!-- Tabel -->
 <div class="table-responsive text-center" *ngIf="!loading">
@@ -38,7 +50,7 @@
     <thead>
       <tr>
         <th scope="col">Id</th>
-        <th scope="col">Name </th>
+        <th scope="col">Name</th>
         <th scope="col">Email</th>
         <th scope="col">Total Orders</th>
         <!-- <th  scope="col" class="hidden">creator</th> -->
@@ -49,26 +61,46 @@
     </thead>
     <tbody>
       <!-- <tr *ngFor="let option of options"> -->
-      <tr *ngFor="let affiliate of affiliates  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
+      <tr
+        *ngFor="
+          let affiliate of affiliates
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }
+        "
+      >
         <td>
-          {{affiliate.id}}
+          {{ affiliate.id }}
         </td>
         <td class="relative">
-          {{((affiliate.name +' '+affiliate.last_name ? affiliate.last_name: '')) ? ((affiliate.name +' '+affiliate.last_name ? affiliate.last_name: '') |
-          slice:0:25)+'...' :
-          affiliate.name +' '+affiliate.last_name  ? affiliate.last_name: ''}}
-          <div class="hover-reason text-left" *ngIf="(affiliate.name + affiliate.last_name)">
-            <div class="head">
-              affiliate name
-            </div>
+          {{
+            (
+              affiliate.name + " " + affiliate.last_name
+                ? affiliate.last_name
+                : ""
+            )
+              ? ((affiliate.name + " " + affiliate.last_name
+                  ? affiliate.last_name
+                  : ""
+                ) | slice: 0:25) + "..."
+              : affiliate.name + " " + affiliate.last_name
+              ? affiliate.last_name
+              : ""
+          }}
+          <div
+            class="hover-reason text-left"
+            *ngIf="affiliate.name + affiliate.last_name"
+          >
+            <div class="head">affiliate name</div>
             <div class="body">
-              {{affiliate.name +' '+( affiliate.last_name ? affiliate.last_name: '')}}
+              {{
+                affiliate.name +
+                  " " +
+                  (affiliate.last_name ? affiliate.last_name : "")
+              }}
             </div>
           </div>
-
         </td>
-        <td> {{affiliate.email}} </td>
-        <td> {{affiliate.orders}} </td>
+        <td>{{ affiliate.email }}</td>
+        <td>{{ affiliate.orders }}</td>
         <!-- <td>
           {{affiliate?.delivererProfile?.districts.length}}
         </td> -->
@@ -76,44 +108,70 @@
         <!-- <td class="hidden">{{(affiliate.created_at) ? (affiliate.created_at | date : "yyyy-MM-dd hh:mm a") : '-' }}
         </td> -->
         <td>
-          <a style="margin-right: 10px" class="table-view open-show" (click)="viewData(affiliate)">
+          <a
+            style="margin-right: 10px"
+            class="table-view open-show"
+            (click)="viewData(affiliate)"
+          >
             <i class="icon-View"></i>
           </a>
-          <a class="table-view open-show wallet-icon" [routerLink]="['/pages/affiliate/affliate-details',affiliate.id]">
+          <a
+            class="table-view open-show wallet-icon"
+            [routerLink]="['/pages/affiliate/affliate-details', affiliate.id]"
+          >
             <img src="assets/img/wallet.svg" />
           </a>
 
-
-          <a href="javascript:void(0)" class="table-view edit-product" (click)="toggleMenu(affiliate)">
+          <a
+            href="javascript:void(0)"
+            class="table-view edit-product"
+            (click)="toggleMenu(affiliate)"
+          >
             <i class="icon-grey"></i>
           </a>
 
-
-
           <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="affiliate.active" (change)="changeActive(affiliate, $event)">
+            <input
+              type="checkbox"
+              value="1"
+              [(ngModel)]="affiliate.active"
+              (change)="changeActive(affiliate, $event)"
+            />
             <span class="slider round"></span>
-            <div class="reason-popup text-left" [hidden]="!affiliate.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this affiliate?"
-                [(ngModel)]="affiliate.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!affiliate.notes"
-                (click)="submitDeactivate(affiliate)" [ngClass]="{'not-allowed' : !affiliate.notes }">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(affiliate)">cancel</button>
+            <div
+              class="reason-popup text-left"
+              [hidden]="!affiliate.showReason"
+            >
+              <textarea
+                name=""
+                class="owl-input"
+                placeholder="Why Do yo want to deactivate this affiliate?"
+                [(ngModel)]="affiliate.notes"
+              ></textarea>
+              <button
+                class="btn btn-owls btn-rounded btn-green2"
+                [disabled]="!affiliate.notes"
+                (click)="submitDeactivate(affiliate)"
+                [ngClass]="{ 'not-allowed': !affiliate.notes }"
+              >
+                submit
+              </button>
+              <button
+                class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(affiliate)"
+              >
+                cancel
+              </button>
             </div>
             <div class="hover-reason text-left" *ngIf="!affiliate.active">
-              <div class="head">
-                Deactivation Notes
-              </div>
+              <div class="head">Deactivation Notes</div>
               <div class="body">
-                {{affiliate.deactivation_notes}}
+                {{ affiliate.deactivation_notes }}
               </div>
             </div>
           </label>
         </td>
       </tr>
-
-
     </tbody>
   </table>
 </div>
@@ -123,42 +181,80 @@
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
 <!-- view product -->
-<app-view-user (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
-  [selectProductDataEdit]="selectOptionDataView" (verifyPhoneUserEmit)="verifyPhoneUser($event)"
-  (addOrUpdateAddressEmit)="addOrUpdateAddress($event)">
-
+<app-view-user
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="viewOptionSidebar"
+  [selectProductDataEdit]="selectOptionDataView"
+  (verifyPhoneUserEmit)="verifyPhoneUser($event)"
+  (addOrUpdateAddressEmit)="addOrUpdateAddress($event)"
+>
 </app-view-user>
 <!-- Add / edit Product -->
-<app-add-edit-user (dataCustomerEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar($event)"
-  [@slideInOut]="toggleAddOption" [selectedCustomer]="selectOptionData"></app-add-edit-user>
+<app-add-edit-user
+  (dataCustomerEmit)="addOrUpdateOption($event)"
+  (closeSideBarEmit)="closeSideBar($event)"
+  [@slideInOut]="toggleAddOption"
+  [selectedCustomer]="selectOptionData"
+></app-add-edit-user>
 
-<div class="modal fade" id="verifyPopUp" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="verifyPopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="userData">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to verify {{userData.phone}} for {{userData.name}}?
+        <h5 class="modal-title" id="exampleModalLabel">
+          are you sure to verify {{ userData.phone }} for {{ userData.name }}?
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      </div>
+      <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2"
-          (click)="verifyPhone(userData)">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">No</button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-red2"
+          (click)="verifyPhone(userData)"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+        >
+          No
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-
-
-<app-add-edit-address #addressForm (closeModalEmit)="closeAddressModal($event)" [selectedAddress]="selectedAddress"
-  [selectedCustomer]="selectedUserAddress">
+<app-add-edit-address
+  #addressForm
+  (closeModalEmit)="closeAddressModal($event)"
+  [selectedAddress]="selectedAddress"
+  [selectedCustomer]="selectedUserAddress"
+>
 </app-add-edit-address>
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

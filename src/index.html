@@ -1,72 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <base href="/" />
 
-<head>
-  <meta charset="utf-8">
-  <base href="/">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500"
+      rel="stylesheet"
+    />
+    <!-- <link rel="shortcut icon" type="image/jpg" href="Favicon_Image_Location"/> -->
 
+    <link
+      href="./assets/img/loading-table.svg"
+      rel="icon"
+      type="image/x-icon"
+    />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#1976d2" />
+  </head>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:400,500" rel="stylesheet">
-  <!-- <link rel="shortcut icon" type="image/jpg" href="Favicon_Image_Location"/> -->
+  <body>
+    <app-root></app-root>
 
-  <link href="./assets/img/loading-table.svg" rel="icon" type="image/x-icon">
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#1976d2">
-</head>
+    <script
+      src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+      integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      (function () {
+        function getChromeVersion() {
+          const raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
 
-<body>
-  <app-root></app-root>
+          return raw ? parseInt(raw[2], 10) : false;
+        }
 
-  
-  <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous">
-  </script>
-  <script>
-    (function () {
-      function getChromeVersion() {
-        const raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
-
-        return raw ? parseInt(raw[2], 10) : false;
-      }
-
-      const chromeVersion = getChromeVersion();
-      if (chromeVersion && chromeVersion >= 80) {
-        Array.prototype.reduce = function (callback /*, initialValue*/ ) {
-          'use strict';
-          if (this == null) {
-            throw new TypeError('Array.prototype.reduce called on null or undefined');
-          }
-          if (typeof callback !== 'function') {
-            throw new TypeError(callback + ' is not a function');
-          }
-          let t = Object(this),
-            len = t.length >>> 0,
-            k = 0,
-            value;
-          if (arguments.length === 2) {
-            value = arguments[1];
-          } else {
-            while (k < len && !(k in t)) {
-              k++;
+        const chromeVersion = getChromeVersion();
+        if (chromeVersion && chromeVersion >= 80) {
+          Array.prototype.reduce = function (callback /*, initialValue*/) {
+            "use strict";
+            if (this == null) {
+              throw new TypeError(
+                "Array.prototype.reduce called on null or undefined"
+              );
             }
-            if (k >= len) {
-              throw new TypeError('Reduce of empty array with no initial value');
+            if (typeof callback !== "function") {
+              throw new TypeError(callback + " is not a function");
             }
-            value = t[k++];
-          }
-          for (; k < len; k++) {
-            if (k in t) {
-              value = callback(value, t[k], k, t);
+            let t = Object(this),
+              len = t.length >>> 0,
+              k = 0,
+              value;
+            if (arguments.length === 2) {
+              value = arguments[1];
+            } else {
+              while (k < len && !(k in t)) {
+                k++;
+              }
+              if (k >= len) {
+                throw new TypeError(
+                  "Reduce of empty array with no initial value"
+                );
+              }
+              value = t[k++];
             }
-          }
-          return value;
-        };
-      }
-    })();
+            for (; k < len; k++) {
+              if (k in t) {
+                value = callback(value, t[k], k, t);
+              }
+            }
+            return value;
+          };
+        }
+      })();
+    </script>
 
-  </script>
-
-  <noscript>Please enable JavaScript to continue using this application.</noscript>
-</body>
-
+    <noscript
+      >Please enable JavaScript to continue using this application.</noscript
+    >
+  </body>
 </html>

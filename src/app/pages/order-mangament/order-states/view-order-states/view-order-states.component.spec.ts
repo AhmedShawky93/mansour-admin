@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { ViewOrderStatesComponent } from './view-order-states.component';
+import { ViewOrderStatesComponent } from "./view-order-states.component";
 
-describe('ViewOrderStatesComponent', () => {
+describe("ViewOrderStatesComponent", () => {
   let component: ViewOrderStatesComponent;
   let fixture: ComponentFixture<ViewOrderStatesComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ViewOrderStatesComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ViewOrderStatesComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewOrderStatesComponent);
@@ -19,7 +20,7 @@ describe('ViewOrderStatesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

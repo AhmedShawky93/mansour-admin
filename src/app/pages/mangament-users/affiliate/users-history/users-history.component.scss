@@ -1,41 +1,41 @@
 .statics {
-    .temp {
-        .parent {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            grid-template-rows: 4;
-            h6 {
-                font-size: 13px;
-            }
-        }
+  .temp {
+    .parent {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      grid-template-rows: 4;
+      h6 {
+        font-size: 13px;
+      }
     }
-    .balance {
-        .card-statics {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            .parent {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                h6 {
-                    font-size: 13px;
-                }
-            }
+  }
+  .balance {
+    .card-statics {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      .parent {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        h6 {
+          font-size: 13px;
         }
+      }
     }
+  }
 }
 .material-icons {
-    cursor: pointer;
+  cursor: pointer;
 }
 table {
-    tbody {
-        a {
-            color: #557e96;
-        }
+  tbody {
+    a {
+      color: #557e96;
     }
+  }
 }

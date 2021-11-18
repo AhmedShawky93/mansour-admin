@@ -1,12 +1,17 @@
-<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+<div class="form-sidebar view-vindor-types add-edit-product-form" id="add-prod">
   <div class="head">
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{listData ?  'Edit List' : 'New List' }} </h3>
+    <h3>{{ listData ? "Edit List" : "New List" }}</h3>
   </div>
 
-  <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="listForm" novalidate>
+  <form
+    class="sideform"
+    (ngSubmit)="submitForm()"
+    [formGroup]="listForm"
+    novalidate
+  >
     <!-- <div class="row">
       <div class="col-6">
         <div class="form-group">
@@ -44,10 +49,20 @@
 
     <div class="form-group">
       <label for="">Name</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_en">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="name_en"
+      />
       <div
-        *ngIf="listForm.controls.name_en.invalid && (listForm.controls.name_en.dirty || listForm.controls.name_en.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          listForm.controls.name_en.invalid &&
+          (listForm.controls.name_en.dirty || listForm.controls.name_en.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="listForm.controls.name_en.errors.required">
           Name is required.
         </div>
@@ -56,12 +71,22 @@
 
     <div class="form-group">
       <label for="">Name (Ar)</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_ar">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="name_ar"
+      />
       <!-- Start  Errors Rolues -->
 
       <div
-        *ngIf="listForm.controls.name_ar.invalid && (listForm.controls.name_ar.dirty || listForm.controls.name_ar.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          listForm.controls.name_ar.invalid &&
+          (listForm.controls.name_ar.dirty || listForm.controls.name_ar.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="listForm.controls.name_ar.errors.required">
           Name (Ar) is required.
         </div>
@@ -69,16 +94,25 @@
       <!-- End Errors Rolues -->
     </div>
 
-
     <div class="form-group">
       <label for="">description</label>
-      <textarea class="owl-input" placeholder="Type.." maxlength="250" laceholder="type"
-        formControlName="description_en"></textarea>
+      <textarea
+        class="owl-input"
+        placeholder="Type.."
+        maxlength="250"
+        laceholder="type"
+        formControlName="description_en"
+      ></textarea>
     </div>
 
     <div class="form-group">
       <label for="">description (Ar)</label>
-      <textarea class="owl-input" maxlength="250" placeholder="Type.." formControlName="description_ar"></textarea>
+      <textarea
+        class="owl-input"
+        maxlength="250"
+        placeholder="Type.."
+        formControlName="description_ar"
+      ></textarea>
     </div>
 
     <div class="form-group">
@@ -88,15 +122,32 @@
       </select>
     </div>
 
-    <div class="form-group product-list" *ngIf="listForm.controls.type.value == 4">
+    <div
+      class="form-group product-list"
+      *ngIf="listForm.controls.type.value == 4"
+    >
       <label for="amount">Products</label>
-      <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products" [items]="products$ | async"
-        bindLabel="name" bindValue="id" placeholder="Enter Product name" formControlName="items" [multiple]="true">
+      <ng-select
+        [typeahead]="productsInput$"
+        [loading]="productsLoading"
+        name="products"
+        [items]="products$ | async"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Enter Product name"
+        formControlName="items"
+        [multiple]="true"
+      >
       </ng-select>
     </div>
 
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
+      <button
+        class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="submitting"
+      >
+        Save
+      </button>
     </div>
   </form>
 </div>

@@ -1,87 +1,142 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-6">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
+        <input
+          type="text"
+          class="owl-input owls-search"
+          placeholder="search ..."
+          [(ngModel)]="searchTerm"
+        />
       </div>
     </div>
-    <div class="col-md-3  col-xs-12 p-l-r-5">
-      <div class="form-group ">
-
-
-        <button class=" btn btn-owls btn-rounded btn-green  btn-special owl-input-file inputFile"
-          style="overflow: hidden">Import
-          Cities
-          <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
-            (change)="importExcel($event)">
+    <div class="col-md-3 col-xs-12 p-l-r-5">
+      <div class="form-group">
+        <button
+          class="
+            btn btn-owls btn-rounded btn-green btn-special
+            owl-input-file
+            inputFile
+          "
+          style="overflow: hidden"
+        >
+          Import Cities
+          <input
+            #myInput
+            type="file"
+            class="input-style"
+            placeholder="type here "
+            accept=".xlsx, .xls, .csv"
+            (change)="importExcel($event)"
+          />
         </button>
       </div>
-
     </div>
     <div class="col-md-3 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big btn-block open-add ml-auto"
-          (click)="toggleMenu(null)"> + New City</button>
+        <button
+          class="
+            btn btn-owls btn-rounded btn-blue2 btn-big btn-block
+            open-add
+            ml-auto
+          "
+          (click)="toggleMenu(null)"
+        >
+          + New City
+        </button>
       </div>
     </div>
-
   </div>
 </div>
 <!-- <app-loader></app-loader> -->
 <div class="table-responsive">
-  <table class="table owls-table ">
+  <table class="table owls-table">
     <thead>
       <tr>
         <th style="width: 250px" scope="col">Name</th>
-        <th style="width: 390px" scope="col"> name ar </th>
-        <th scope="col"> areas </th>
-        <th scope="col"> Delivery Fees </th>
-        <th style="text-align: center" scope="col"> action </th>
+        <th style="width: 390px" scope="col">name ar</th>
+        <th scope="col">areas</th>
+        <th scope="col">Delivery Fees</th>
+        <th style="text-align: center" scope="col">action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let area of cities ">
-        <td>{{(area.name) ? (area.name) : '-'}}</td>
-        <td>{{(area.name_ar) ? (area.name_ar) : '-'}}</td>
+      <tr *ngFor="let area of cities">
+        <td>{{ area.name ? area.name : "-" }}</td>
+        <td>{{ area.name_ar ? area.name_ar : "-" }}</td>
         <td>
-          <span style="text-decoration: underline; cursor: pointer ;outline: none
-          ;color: #03a9f4;  font-weight: bold;" [routerLink]="[area.id,'areas']">
-            {{area?.areas?.length}}
+          <span
+            style="
+              text-decoration: underline;
+              cursor: pointer;
+              outline: none;
+              color: #03a9f4;
+              font-weight: bold;
+            "
+            [routerLink]="[area.id, 'areas']"
+          >
+            {{ area?.areas?.length }}
           </span>
         </td>
-        <td *ngIf="area.fees_type == 1">{{(area.delivery_fees) ? (area.delivery_fees) : '-'}}</td>
+        <td *ngIf="area.fees_type == 1">
+          {{ area.delivery_fees ? area.delivery_fees : "-" }}
+        </td>
         <td *ngIf="area.fees_type == 2">Fees Range</td>
         <td style="text-align: center">
-          <a style="margin-right: 10px" class="table-view open-show" (click)="viewDataInSidebar(area)">
+          <a
+            style="margin-right: 10px"
+            class="table-view open-show"
+            (click)="viewDataInSidebar(area)"
+          >
             <i class="icon-View"></i>
           </a>
-          <a (click)='toggleMenu(area)' href="javascript:void(0)" class="table-view open-edit">
+          <a
+            (click)="toggleMenu(area)"
+            href="javascript:void(0)"
+            class="table-view open-edit"
+          >
             <i class="icon-grey"></i>
           </a>
           <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="area.active" (change)="changeActive(area, $event)">
+            <input
+              type="checkbox"
+              value="1"
+              [(ngModel)]="area.active"
+              (change)="changeActive(area, $event)"
+            />
             <span class="slider round"></span>
 
             <div class="reason-popup text-left" [hidden]="!area.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this area?"
-                [(ngModel)]="area.notes"></textarea>
+              <textarea
+                name=""
+                class="owl-input"
+                placeholder="Why Do yo want to deactivate this area?"
+                [(ngModel)]="area.notes"
+              ></textarea>
 
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!area.notes"
-                (click)="submitDeactivate(area)" [ngClass]="{'not-allowed' : !area.notes }"> submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(area)">cancel</button>
+              <button
+                class="btn btn-owls btn-rounded btn-green2"
+                [disabled]="!area.notes"
+                (click)="submitDeactivate(area)"
+                [ngClass]="{ 'not-allowed': !area.notes }"
+              >
+                submit
+              </button>
+              <button
+                class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(area)"
+              >
+                cancel
+              </button>
             </div>
             <div class="hover-reason text-left" *ngIf="!area.active">
-              <div class="head">
-                Deactivation Notes
-              </div>
+              <div class="head">Deactivation Notes</div>
               <div class="body">
-                {{area.deactivation_notes}}
+                {{ area.deactivation_notes }}
               </div>
             </div>
           </label>
@@ -92,13 +147,28 @@
 </div>
 
 <!-- view product -->
-<app-view-city class="parent-editor-viewer-sidebar" (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewDataSidebar"
-  [selectDataEdit]="selectDataView"></app-view-city>
+<app-view-city
+  class="parent-editor-viewer-sidebar"
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="viewDataSidebar"
+  [selectDataEdit]="selectDataView"
+></app-view-city>
 
 <!-- Add / edit Product -->
-<app-add-edit-city class="parent-editor-viewer-sidebar" (dataEmit)="addOrUpdateData($event)"
-  (closeSideBarEmit)="closeSideBar()" [@slideInOut]="toggleAddEditData" [selectDataEdit]="selectData">
+<app-add-edit-city
+  class="parent-editor-viewer-sidebar"
+  (dataEmit)="addOrUpdateData($event)"
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="toggleAddEditData"
+  [selectDataEdit]="selectData"
+>
 </app-add-edit-city>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

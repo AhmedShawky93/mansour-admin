@@ -1,17 +1,18 @@
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-8">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
+        <input
+          type="text"
+          class="owl-input owls-search"
+          placeholder="search ..."
+          [(ngModel)]="searchTerm"
+        />
       </div>
     </div>
-
-
-
   </div>
 </div>
 
@@ -21,21 +22,28 @@
       <tr>
         <th scope="col">name</th>
         <th scope="col">Name (ar)</th>
-        <th scope="col">Sub order states </th>
+        <th scope="col">Sub order states</th>
         <th scope="col">action</th>
       </tr>
     </thead>
     <tbody>
-
-      <tr *ngFor="let status of orderStatus ">
-        <td scope="row"> {{status.name ? (status.name) : '-'}} </td>
-        <td scope="row"> {{(status.name_ar) ? (status.name_ar) : '-'}} </td>
-        <td scope="row"> {{status?.sub_states?.length}} </td>
+      <tr *ngFor="let status of orderStatus">
+        <td scope="row">{{ status.name ? status.name : "-" }}</td>
+        <td scope="row">{{ status.name_ar ? status.name_ar : "-" }}</td>
+        <td scope="row">{{ status?.sub_states?.length }}</td>
         <td>
-          <a style="margin-right: 10px" class="table-view open-show" (click)="viewData(status)">
+          <a
+            style="margin-right: 10px"
+            class="table-view open-show"
+            (click)="viewData(status)"
+          >
             <i class="icon-View"></i>
           </a>
-          <a href="javascript:void(0)" (click)="toggleMenu(status)" class="edit-new table-view">
+          <a
+            href="javascript:void(0)"
+            (click)="toggleMenu(status)"
+            class="edit-new table-view"
+          >
             <i class="icon-grey"></i>
           </a>
           <!-- <label class="switch">
@@ -63,14 +71,30 @@
     </tbody>
   </table>
 </div>
-<app-add-edit-order-states (dataEmit)="addOrUpdateData($event)" (closeSideBarEmit)="closeSideBar()"
-  class="parent-editor-viewer-sidebar" [@slideInOut]="toggleAddEditData" [selectDataEdit]="selectData">
+<app-add-edit-order-states
+  (dataEmit)="addOrUpdateData($event)"
+  (closeSideBarEmit)="closeSideBar()"
+  class="parent-editor-viewer-sidebar"
+  [@slideInOut]="toggleAddEditData"
+  [selectDataEdit]="selectData"
+>
 </app-add-edit-order-states>
 
-<app-view-order-states (closeSideBarEmit)="closeSideBar()" class="parent-editor-viewer-sidebar"
-  (dataEmit)="addOrUpdateData($event)" [@slideInOut]="viewDataSidebar" [selectDataEdit]="selectDataView">
+<app-view-order-states
+  (closeSideBarEmit)="closeSideBar()"
+  class="parent-editor-viewer-sidebar"
+  (dataEmit)="addOrUpdateData($event)"
+  [@slideInOut]="viewDataSidebar"
+  [selectDataEdit]="selectDataView"
+>
 </app-view-order-states>
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

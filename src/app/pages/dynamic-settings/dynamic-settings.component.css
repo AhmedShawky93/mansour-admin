@@ -1,10 +1,10 @@
 .group-title {
   font-size: 18px;
-  color: #557E96;
+  color: #557e96;
   text-transform: capitalize;
 }
 
-input[type=file] {
+input[type="file"] {
   padding: 8px;
 }
 
@@ -87,7 +87,6 @@ input[type=file] {
 
 textarea.owl-input {
   min-height: 150px;
-
 }
 .alert-danger {
   padding-left: 0px !important;

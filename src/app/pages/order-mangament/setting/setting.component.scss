@@ -1,14 +1,13 @@
 .nav-tabs {
   margin-top: 40px;
   margin-bottom: 50px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0 11px 22px 0 rgba(6, 40, 57, 0.05);
   border-radius: 12px;
 }
 
 .specialName {
   margin-top: 20px;
-
 }
 
 .secialImg {
@@ -17,16 +16,15 @@
   border-radius: 20px;
 }
 
-
 .nav-tabs a.nav-link {
   text-align: center;
   font-size: 18px;
-  color: #557E96;
+  color: #557e96;
   text-transform: capitalize;
 }
 
 .nav-tabs a.nav-link.active {
-  color: #003C62;
+  color: #003c62;
   border-bottom: 5px solid #39384d;
   border-radius: 3px 3px 0 0;
 }
@@ -37,13 +35,13 @@
 
 .info h5 {
   font-size: 18px;
-  color: #557E96;
+  color: #557e96;
   margin-bottom: 25px;
 }
 
 .info p {
   font-size: 18px;
-  color: #003C62;
+  color: #003c62;
 }
 
 .info p a {
@@ -51,10 +49,9 @@
   color: #5db1d6;
 }
 
-
 .tab-pane.terms h3 {
   font-size: 20px;
-  color: #003C62;
+  color: #003c62;
   letter-spacing: 0;
   line-height: 37px;
   font-weight: bold;
@@ -63,16 +60,15 @@
 
 .tab-pane.terms h4 {
   font-size: 23px;
-  color: #003C62;
+  color: #003c62;
   letter-spacing: 0;
   line-height: 37px;
   font-weight: bold;
 }
 
-
 .tab-pane.terms p {
   font-size: 20px;
-  color: #003C62;
+  color: #003c62;
   letter-spacing: 0;
   margin-bottom: 35px;
 }
@@ -100,7 +96,7 @@
   padding: 5px;
   color: #ca0d0d99;
   padding-left: 7px;
-  transition: all .5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .view-img .colse .fa {
@@ -130,9 +126,9 @@
 .reset-password {
   cursor: pointer;
   color: var(--brand-color);
-  transition: all .3s;
+  transition: all 0.3s;
 
-  &:hover{
+  &:hover {
     color: black;
   }
 }

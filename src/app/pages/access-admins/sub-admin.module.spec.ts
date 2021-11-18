@@ -1,13 +1,13 @@
-import { SubAdminModule } from './sub-admin.module';
+import { SubAdminModule } from "./sub-admin.module";
 
-describe('SubAdminModule', () => {
+describe("SubAdminModule", () => {
   let subAdminModule: SubAdminModule;
 
   beforeEach(() => {
     subAdminModule = new SubAdminModule();
   });
 
-  it('should create an instance', () => {
+  it("should create an instance", () => {
     expect(subAdminModule).toBeTruthy();
   });
 });

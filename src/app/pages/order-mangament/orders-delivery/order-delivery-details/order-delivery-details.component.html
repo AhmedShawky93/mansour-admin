@@ -1,20 +1,18 @@
 <!-- <ngx-loading-bar [color]="'#eb1c24'"></ngx-loading-bar> -->
-<div class="top-table-bar" style="margin-bottom: 30px;">
+<div class="top-table-bar" style="margin-bottom: 30px">
   <div class="row">
     <div class="col-md-3">
       <a class="back-btn" [routerLink]="['/pages/orders-delivery']">
-        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a>
+        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a
+      >
     </div>
 
-    <div class="col-md-9" *ngIf="order">
-
-    </div>
+    <div class="col-md-9" *ngIf="order"></div>
   </div>
 </div>
 
-
 <div class="block-title">
-  <h4>General Info </h4>
+  <h4>General Info</h4>
 </div>
 
 <div class="block" *ngIf="pickup">
@@ -26,7 +24,7 @@
       </div> -->
 
       <div class="block-item">
-        <p> Shipping Method </p>
+        <p>Shipping Method</p>
         <span [ngSwitch]="pickup.shipping_method">
           <span *ngSwitchCase="1">Internal</span>
           <span *ngSwitchCase="2">Mylerz</span>
@@ -48,16 +46,9 @@
         <p>Notes</p>
         <span>{{ pickup.notes }}</span>
       </div>
-
-
     </div>
-    <div class="col-md-2">
-    </div>
-    <div class="col-md-5">
-
-    </div>
-
-
+    <div class="col-md-2"></div>
+    <div class="col-md-5"></div>
   </div>
 </div>
 
@@ -69,16 +60,20 @@
   <!-- <h6 class="copy-skus" (click)="copyInputMessage()">Print</h6> -->
   <div *ngFor="let order of pickup.order_pickups; index as i">
     <div class="block-ratings">
-      <p><a [routerLink]="['/pages/orders/order-details', order.order.id]">{{ order.order.id }}</a></p>
+      <p>
+        <a [routerLink]="['/pages/orders/order-details', order.order.id]">{{
+          order.order.id
+        }}</a>
+      </p>
       <div class="content">
-        <h4>{{order.order.customer?.name}}</h4>
-        <p>{{order.order.address?.formatted_address}}</p>
-        <p><strong>Status:</strong> {{order.update_description}}</p>
+        <h4>{{ order.order.customer?.name }}</h4>
+        <p>{{ order.order.address?.formatted_address }}</p>
+        <p><strong>Status:</strong> {{ order.update_description }}</p>
       </div>
     </div>
 
-    <div style="display: inline-block;" *ngIf="order.shipment_url">
-      <p><a href="{{order.shipment_url}}" target="_blank">AWB</a></p>
+    <div style="display: inline-block" *ngIf="order.shipment_url">
+      <p><a href="{{ order.shipment_url }}" target="_blank">AWB</a></p>
     </div>
   </div>
 </div>

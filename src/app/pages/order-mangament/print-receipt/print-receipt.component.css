@@ -214,12 +214,10 @@ tr td {
   div {
     page-break-inside: avoid !important;
   }
-  .box-price .name-price
-  {
+  .box-price .name-price {
     padding-left: 5px !important;
-
   }
 }
-.word-break-all{
+.word-break-all {
   word-break: break-all;
 }

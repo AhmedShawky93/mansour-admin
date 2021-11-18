@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ReactivityService {
   public storeObserver$: any;
@@ -26,10 +26,12 @@ export class ReactivityService {
     return this.storeData[key];
   }
 
-  scrollToFirstError(parentName){
+  scrollToFirstError(parentName) {
     setTimeout(() => {
-      let element = document.getElementsByClassName('alert-danger')[0] as HTMLElement;
+      let element = document.getElementsByClassName(
+        "alert-danger"
+      )[0] as HTMLElement;
       element && element.scrollIntoView();
-    }, 100)
+    }, 100);
   }
 }
