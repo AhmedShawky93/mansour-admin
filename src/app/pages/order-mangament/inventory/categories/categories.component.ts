@@ -186,7 +186,7 @@ export class CategoriesComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code == 200) {
           this.toastrService.success("Category Added Successfully");
-          this.categories.push(response.data);
+          this.categories.unshift(response.data);
           this.submitting = false;
           this.showAddCategory = false;
           this.showSubError = 0;
