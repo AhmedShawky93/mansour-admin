@@ -333,6 +333,9 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   backToProducts() {
     this.selectedMainProduct = null;
     this.page = 1;
+    this.filterForm.get("searchValue").setValue("");
+    this.filterForm.get("category_id").setValue("");
+    this.filterForm.get("sub_category_id").setValue("");
     this.getProducts();
   }
 

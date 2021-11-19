@@ -50,14 +50,12 @@
                 class="owl-input"
               >
                 <option [value]="''" selected disabled>Select Category</option>
-                <ng-container *ngFor="let cat of categories">
-                  <option [value]="cat.id">
-                    {{ cat.name }}
-                    <span *ngIf="cat.active == 0" style="color: red !important">
-                      - Deactivate
-                    </span>
-                  </option>
-                </ng-container>
+                <option *ngFor="let cat of categories" [value]="cat.id">
+                  {{ cat.name }}
+                  <span *ngIf="cat.active == 0" style="color: red !important">
+                    - Deactivate
+                  </span>
+                </option>
               </select>
             </div>
           </div>
@@ -104,7 +102,7 @@
                   w-180px-plr-0
                 "
                 target="_blank"
-                href="{{ syncFbSheet }}"
+                [href]="syncFbSheet"
                 >Sync FaceBook Sheet
               </a>
             </div>
