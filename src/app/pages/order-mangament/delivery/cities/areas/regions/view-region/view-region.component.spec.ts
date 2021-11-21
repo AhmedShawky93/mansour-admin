@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { ViewRegionComponent } from './view-region.component';
+import { ViewRegionComponent } from "./view-region.component";
 
-describe('ViewRegionComponent', () => {
+describe("ViewRegionComponent", () => {
   let component: ViewRegionComponent;
   let fixture: ComponentFixture<ViewRegionComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ViewRegionComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ViewRegionComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewRegionComponent);
@@ -19,7 +20,7 @@ describe('ViewRegionComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

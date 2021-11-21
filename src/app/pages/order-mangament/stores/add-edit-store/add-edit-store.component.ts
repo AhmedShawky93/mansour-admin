@@ -1,5 +1,5 @@
-import { BracnhesStoreService } from './../../../services/stores.service';
-import { AreasService } from './../../../services/areas.service';
+import { BracnhesStoreService } from "./../../../services/stores.service";
+import { AreasService } from "./../../../services/areas.service";
 import {
   Component,
   OnInit,
@@ -18,7 +18,7 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { CategoryService } from "@app/pages/services/category.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
-import { SettingService } from '@app/pages/services/setting.service';
+import { SettingService } from "@app/pages/services/setting.service";
 // import { environmentVariables } from '../../../../../environments/enviromentalVariables';
 
 @Component({
@@ -42,100 +42,119 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   lng = 31.279899;
   marker_lat;
   marker_lng;
-  phones: FormArray
+  phones: FormArray;
   public zoom: number = 12;
   environmentVariables: any;
-  branchTypes=[];
+  branchTypes = [];
   constructor(
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private formbuilder: FormBuilder,
     private bracnhesStoreService: BracnhesStoreService,
-    private settingService:SettingService
-  ) { 
+    private settingService: SettingService
+  ) {
     this.getTypes();
     this.getConfig();
   }
-  getConfig(){
-    this.settingService.getenvConfig().subscribe(res=>{
-     this.environmentVariables=res;
-    })
+  getConfig() {
+    this.settingService.getenvConfig().subscribe((res) => {
+      this.environmentVariables = res;
+    });
   }
-  getTypes(){
-    this.settingService.get_branch_types().subscribe((res:any)=>{
-      this.branchTypes=res.data;
-    })
+  getTypes() {
+    this.settingService.get_branch_types().subscribe((res: any) => {
+      this.branchTypes = res.data;
+    });
   }
-  
+
   ngOnInit() {
     this.getForm(this.selectProductDataEdit);
   }
-  
+
   ngOnChanges(): void {
     this.getForm(this.selectProductDataEdit);
   }
 
   getForm(data) {
     this.OptionForm = this.formBuilder.group({
-      shop_name: new FormControl(data ? data.shop_name : "", Validators.required),
-      shop_name_ar: new FormControl(data ? data.shop_name_ar : "", Validators.required),
+      shop_name: new FormControl(
+        data ? data.shop_name : "",
+        Validators.required
+      ),
+      shop_name_ar: new FormControl(
+        data ? data.shop_name_ar : "",
+        Validators.required
+      ),
       address: new FormControl(data ? data.address : "", Validators.required),
-      address_ar: new FormControl(data ? data.address_ar : "", Validators.required),
+      address_ar: new FormControl(
+        data ? data.address_ar : "",
+        Validators.required
+      ),
       area: new FormControl(data ? data.area : "", Validators.required),
       area_ar: new FormControl(data ? data.area_ar : "", Validators.required),
-      lat: new FormControl(data ? parseFloat(data.lat) : "", Validators.required),
-      lng: new FormControl(data ? parseFloat(data.lng) : "", Validators.required),
+      lat: new FormControl(
+        data ? parseFloat(data.lat) : "",
+        Validators.required
+      ),
+      lng: new FormControl(
+        data ? parseFloat(data.lng) : "",
+        Validators.required
+      ),
       phones: this.formBuilder.array([]),
-      direction_link: new FormControl(data ? data.direction_link : "", Validators.required),
+      direction_link: new FormControl(
+        data ? data.direction_link : "",
+        Validators.required
+      ),
       order: new FormControl(data ? data.order : "", Validators.required),
       type: new FormControl(data ? data.type : "", Validators.required),
       images: this.formBuilder.array([]),
     });
     if (!data) {
-      this.addPhoneForm(null)
+      this.addPhoneForm(null);
     } else {
       if (data.phone.length) {
-        data.phone.forEach(element => {
-          this.addPhoneForm(element)
+        data.phone.forEach((element) => {
+          this.addPhoneForm(element);
         });
       }
-      if (data && data.images.length){
-        data.images.forEach(element => {
-          this.addImage(element)
+      if (data && data.images.length) {
+        data.images.forEach((element) => {
+          this.addImage(element);
         });
       }
-      this.lat = parseFloat(data.lat)
-      this.lng = parseFloat(data.lng)
+      this.lat = parseFloat(data.lat);
+      this.lng = parseFloat(data.lng);
     }
-
   }
 
   formGroupControlsValidator(formGroup, controlName, err) {
     if (formGroup.touched) {
-      if (formGroup["controls"] && formGroup["controls"][controlName] && formGroup["controls"][controlName]["errors"]) {
+      if (
+        formGroup["controls"] &&
+        formGroup["controls"][controlName] &&
+        formGroup["controls"][controlName]["errors"]
+      ) {
         return formGroup["controls"][controlName]["errors"][err];
       }
     }
   }
 
   addImage(data: any = null) {
-    this.addSubImages = this.OptionForm.get('images') as FormArray;
+    this.addSubImages = this.OptionForm.get("images") as FormArray;
     this.addSubImages.push(this.createImageFormControl(data));
   }
 
   createImageFormControl(data): FormGroup {
     return this.formBuilder.group({
-      url: new FormControl(data ? data.url : '', Validators.required),
+      url: new FormControl(data ? data.url : "", Validators.required),
     });
-    
   }
 
   removeImage(index) {
-    this.addSubImages = this.OptionForm.get('images') as FormArray;
+    this.addSubImages = this.OptionForm.get("images") as FormArray;
     this.addSubImages.removeAt(index);
     this.OptionForm.updateValueAndValidity();
   }
-
 
   addPhoneForm(data?): void {
     this.phones = this.OptionForm.get("phones") as FormArray;
@@ -144,14 +163,20 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   createItem(data): FormGroup {
     return this.formbuilder.group({
       phone: new FormControl(data ? data : "", [
-        Validators.minLength(this.environmentVariables.localization.phone_length),
-        Validators.maxLength(this.environmentVariables.localization.phone_length),
-        Validators.pattern(this.environmentVariables.localization.phone_pattern)
+        Validators.minLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.maxLength(
+          this.environmentVariables.localization.phone_length
+        ),
+        Validators.pattern(
+          this.environmentVariables.localization.phone_pattern
+        ),
       ]),
     });
   }
   reomvePhoneForm(index) {
-    this.phones.removeAt(index)
+    this.phones.removeAt(index);
   }
 
   closeSideBar() {
@@ -162,19 +187,20 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
   }
   submitForm() {
     const data = this.OptionForm.value;
-    data.phone = data.phones.map(item => {
-      return item.phone
+    data.phone = data.phones.map((item) => {
+      return item.phone;
     });
     // delete data.phones
-    if (this.selectProductDataEdit) {  // edit
+    if (this.selectProductDataEdit) {
+      // edit
 
-      delete data.phones
+      delete data.phones;
       if (!this.OptionForm.valid) {
         this.markFormGroupTouched(this.OptionForm);
         return;
       }
       this.submitting = true;
-      data.email = '.'
+      data.email = ".";
       this.bracnhesStoreService
         .updateBranch(this.selectProductDataEdit.id, data)
         .subscribe((response: any) => {
@@ -187,26 +213,29 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
           }
           this.submitting = false;
         });
-    } else {   // add
+    } else {
+      // add
 
       if (!this.OptionForm.valid) {
         this.markFormGroupTouched(this.OptionForm);
         return;
       }
       this.submitting = true;
-      data.email = '.'
+      data.email = ".";
 
-      this.bracnhesStoreService.createBranch(data).subscribe((response: any) => {
-        if (response.code == 200) {
-          this.OptionForm.reset();
-          this.dataOptionEmit.emit(response.data);
-          this.OptionForm.reset();
-          this.closeSideBar();
-        } else {
-          this.toastrService.error(response.message);
-        }
-        this.submitting = false;
-      });
+      this.bracnhesStoreService
+        .createBranch(data)
+        .subscribe((response: any) => {
+          if (response.code == 200) {
+            this.OptionForm.reset();
+            this.dataOptionEmit.emit(response.data);
+            this.OptionForm.reset();
+            this.closeSideBar();
+          } else {
+            this.toastrService.error(response.message);
+          }
+          this.submitting = false;
+        });
     }
   }
 
@@ -214,8 +243,8 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
     this.lat = event.coords.lat;
     this.lng = event.coords.lng;
 
-    this.OptionForm.get('lng').setValue(this.lng)
-    this.OptionForm.get('lat').setValue(this.lat)
+    this.OptionForm.get("lng").setValue(this.lng);
+    this.OptionForm.get("lat").setValue(this.lat);
   }
   private markFormGroupTouched(formGroup: FormGroup) {
     (<any>Object).values(formGroup.controls).forEach((control) => {
@@ -227,14 +256,15 @@ export class AddEditStoreComponent implements OnInit, OnChanges {
     });
   }
   setOnMap() {
-    if (this.OptionForm.get('lat').invalid && this.OptionForm.get('lng').invalid) {
-      this.OptionForm.get('lat').markAsTouched()
-      this.OptionForm.get('lng').markAsTouched()
+    if (
+      this.OptionForm.get("lat").invalid &&
+      this.OptionForm.get("lng").invalid
+    ) {
+      this.OptionForm.get("lat").markAsTouched();
+      this.OptionForm.get("lng").markAsTouched();
     } else {
-      this.lat = parseFloat(this.OptionForm.get('lat').value);
-      this.lng = parseFloat(this.OptionForm.get('lng').value);
+      this.lat = parseFloat(this.OptionForm.get("lat").value);
+      this.lng = parseFloat(this.OptionForm.get("lng").value);
     }
   }
-
-
 }

@@ -11,12 +11,12 @@
   overflow: auto;
   overflow-x: hidden;
   -webkit-box-shadow: 0 12px 54px 0 rgba(6, 40, 59, 0.1);
-          box-shadow: 0 12px 54px 0 rgba(6, 40, 59, 0.1);
+  box-shadow: 0 12px 54px 0 rgba(6, 40, 59, 0.1);
   height: 100%;
   min-height: 100vh;
 }
 
-.uploaded-image{
+.uploaded-image {
   margin-right: 10px;
 }
 
@@ -46,7 +46,7 @@ agm-map {
   background-color: transparent;
 }
 
-.owls-upload3 input[type=file] {
+.owls-upload3 input[type="file"] {
   top: 0;
   width: 70px;
   height: 70px;
@@ -64,7 +64,7 @@ agm-map {
   height: auto;
 }
 
-.owls-upload3.big input[type=file] {
+.owls-upload3.big input[type="file"] {
   top: 0;
   width: 100%;
   height: 100%;

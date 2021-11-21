@@ -15,12 +15,12 @@
     }
   }
 
-  .first-box{
+  .first-box {
     padding: 20px;
     p {
       font-size: 14px;
       margin-bottom: 0;
-      span{
+      span {
         font-weight: bold;
       }
     }
@@ -51,7 +51,8 @@
         object-fit: contain;
         margin-left: 15px;
       }
-      span,p {
+      span,
+      p {
         margin-left: 15px;
         color: #707070;
         overflow: scroll;
@@ -65,9 +66,7 @@
     width: 92%;
     margin: auto;
   }
-
 }
-
 
 .back,
 .cancel {
@@ -84,12 +83,8 @@
   border-radius: 20px !important;
 }
 
-.dropdown-menu{
-  .dropdown-item{
+.dropdown-menu {
+  .dropdown-item {
     cursor: pointer;
   }
 }
-
-
- 
-

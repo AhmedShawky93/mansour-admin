@@ -1,31 +1,39 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-2">
       <a routerLink="/pages/promocodes" class="back-btn">
-        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a>
+        <i class="fa fa-angle-left" aria-hidden="true"></i> Back</a
+      >
     </div>
 
-    <div class="col-md-10">
-
-    </div>
-
+    <div class="col-md-10"></div>
   </div>
 </div>
 
-
-
-<div class="add-vendor-form ">
-  <form class="row" name="newPromo" (ngSubmit)="addpromo(promo)" [formGroup]="newPromo" novalidate>
-
+<div class="add-vendor-form">
+  <form
+    class="row"
+    name="newPromo"
+    (ngSubmit)="addpromo(promo)"
+    [formGroup]="newPromo"
+    novalidate
+  >
     <div class="col-12 col-md-6">
       <h2>new promocode</h2>
       <div class="form-group">
         <label for="charge">Select type Customers</label>
-        <select name="" id="charge" class="owl-input" required name="target_type" formControlName="target_type"
-          [(ngModel)]="promo.target_type" (change)="typeCustmerSelect($event)">
-          <option value="null" selected>Select type Customers </option>
+        <select
+          name=""
+          id="charge"
+          class="owl-input"
+          required
+          name="target_type"
+          formControlName="target_type"
+          [(ngModel)]="promo.target_type"
+          (change)="typeCustmerSelect($event)"
+        >
+          <option value="null" selected>Select type Customers</option>
           <option value="1">Select Customers</option>
           <option value="2">Upload Customers</option>
         </select>
@@ -41,29 +49,72 @@
           [value]="'2'">
         <span class="checkmark"></span>
       </label> -->
-      <div class="form-group" style="overflow: visible;" *ngIf="promo.target_type == '1'">
+      <div
+        class="form-group"
+        style="overflow: visible"
+        *ngIf="promo.target_type == '1'"
+      >
         <label>Customers </label>
-        <ng-select [typeahead]="customersInput$" [loading]="customersLoading" [(ngModel)]="newPromo.customers"
-          name="customers" [items]="customers$ | async" bindLabel="name" bindValue="id" [multiple]="true"
-          placeholder="Enter Customer name" formControlName="customers">
+        <ng-select
+          [typeahead]="customersInput$"
+          [loading]="customersLoading"
+          [(ngModel)]="newPromo.customers"
+          name="customers"
+          [items]="customers$ | async"
+          bindLabel="name"
+          bindValue="id"
+          [multiple]="true"
+          placeholder="Enter Customer name"
+          formControlName="customers"
+        >
         </ng-select>
       </div>
       <div class="form-group" *ngIf="promo.target_type == '2'">
-        <button class=" btn btn-owls import-file btn-rounded btn-green  btn-special owl-input-file inputFile"
-          style="overflow: hidden">Import Customers phone
-          <input #myInput (change)="importExcel(newPromo.customer_phones, $event)" type="file" class="input-style"
-            placeholder="type here " accept=".xlsx, .xls, .csv">
+        <button
+          class="
+            btn btn-owls
+            import-file
+            btn-rounded btn-green btn-special
+            owl-input-file
+            inputFile
+          "
+          style="overflow: hidden"
+        >
+          Import Customers phone
+          <input
+            #myInput
+            (change)="importExcel(newPromo.customer_phones, $event)"
+            type="file"
+            class="input-style"
+            placeholder="type here "
+            accept=".xlsx, .xls, .csv"
+          />
         </button>
       </div>
 
       <div class="form-group">
         <label for="">prmocode name </label>
-        <input type="text" class="owl-input" formControlName="promoName" id="" placeholder="Type here..."
-          [(ngModel)]="promo.name" name="promo Name" required pattern="[A-Za-z0-9\-\&]+$" maxlength="15">
+        <input
+          type="text"
+          class="owl-input"
+          formControlName="promoName"
+          id=""
+          placeholder="Type here..."
+          [(ngModel)]="promo.name"
+          name="promo Name"
+          required
+          pattern="[A-Za-z0-9\-\&]+$"
+          maxlength="15"
+        />
         <!-- Start  Errors Rolues -->
         <div
-          *ngIf="newPromo.controls.promoName.invalid && (newPromo.controls.promoName.dirty || newPromo.controls.promoName.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            newPromo.controls.promoName.invalid &&
+            (newPromo.controls.promoName.dirty ||
+              newPromo.controls.promoName.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="newPromo.controls.promoName.errors.required">
             PromoCode Name is required.
           </div>
@@ -79,16 +130,30 @@
 
       <div class="form-group">
         <label for="charge">Promocode Recurrence</label>
-        <select name="" id="charge" class="owl-input" required name="recurrence" formControlName="recurrence"
-          [(ngModel)]="promo.recurrence">
-          <option value="" disabled selected>Select PromoCode Recurrence</option>
+        <select
+          name=""
+          id="charge"
+          class="owl-input"
+          required
+          name="recurrence"
+          formControlName="recurrence"
+          [(ngModel)]="promo.recurrence"
+        >
+          <option value="" disabled selected>
+            Select PromoCode Recurrence
+          </option>
           <option value="1">One time use</option>
           <option value="2">Daily use</option>
         </select>
         <!-- Start  Errors Rolues -->
         <div
-          *ngIf="newPromo.controls.recurrence.invalid && (newPromo.controls.recurrence.dirty || newPromo.controls.recurrence.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            newPromo.controls.recurrence.invalid &&
+            (newPromo.controls.recurrence.dirty ||
+              newPromo.controls.recurrence.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="newPromo.controls.recurrence.errors.required">
             PromoCode Type is required.
           </div>
@@ -98,17 +163,30 @@
 
       <div class="form-group">
         <label for="charge">Promocode type </label>
-        <select name="" id="charge" class="owl-input" required name="promoCodeType" formControlName="promotype"
-          [(ngModel)]="promo.type" (change)="changeTypePromo($event)">
+        <select
+          name=""
+          id="charge"
+          class="owl-input"
+          required
+          name="promoCodeType"
+          formControlName="promotype"
+          [(ngModel)]="promo.type"
+          (change)="changeTypePromo($event)"
+        >
           <option value="" disabled selected>Select PromoCode Type</option>
-          <option [value]="1">Amount </option>
+          <option [value]="1">Amount</option>
           <option [value]="2">Percentage</option>
           <option [value]="3">Free delivery</option>
         </select>
         <!-- Start  Errors Rolues -->
         <div
-          *ngIf="newPromo.controls.promotype.invalid && (newPromo.controls.promotype.dirty || newPromo.controls.promotype.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            newPromo.controls.promotype.invalid &&
+            (newPromo.controls.promotype.dirty ||
+              newPromo.controls.promotype.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="newPromo.controls.promotype.errors.required">
             PromoCode Type is required.
           </div>
@@ -116,16 +194,29 @@
         <!-- End Errors Rolues -->
       </div>
 
-
-      <div class="form-group icon-le" *ngIf="promo.type === '1' ">
+      <div class="form-group icon-le" *ngIf="promo.type === '1'">
         <!--Start For Amount -->
         <label for=""> Amount </label>
-        <input type="number" class="owl-input" id="" placeholder="Type Amount" name="amount" [(ngModel)]="promo.amount"
-          required [min]="1" formControlName="amount" [max]="10000">
+        <input
+          type="number"
+          class="owl-input"
+          id=""
+          placeholder="Type Amount"
+          name="amount"
+          [(ngModel)]="promo.amount"
+          required
+          [min]="1"
+          formControlName="amount"
+          [max]="10000"
+        />
         <!-- Start  Errors Rolues -->
         <div
-          *ngIf="newPromo.controls.amount.invalid && (newPromo.controls.amount.dirty || newPromo.controls.amount.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            newPromo.controls.amount.invalid &&
+            (newPromo.controls.amount.dirty || newPromo.controls.amount.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="newPromo.controls.amount.errors.required">
             Amount Is Required.
           </div>
@@ -139,15 +230,29 @@
         <!--END For Amount -->
         <!-- End Errors Rolues -->
       </div>
-      <div class="form-group icon-per" *ngIf="promo.type === '2' ">
+      <div class="form-group icon-per" *ngIf="promo.type === '2'">
         <!--Start For max Amount -->
         <label for="">Percentage </label>
-        <input type="number" class="owl-input" id="" placeholder="Type percentage" name="amount"
-          [(ngModel)]="promo.amount" required [min]="1" formControlName="amount" [max]="100">
+        <input
+          type="number"
+          class="owl-input"
+          id=""
+          placeholder="Type percentage"
+          name="amount"
+          [(ngModel)]="promo.amount"
+          required
+          [min]="1"
+          formControlName="amount"
+          [max]="100"
+        />
         <!-- Start  Errors Rolues -->
         <div
-          *ngIf="newPromo.controls.amount.invalid && (newPromo.controls.amount.dirty || newPromo.controls.amount.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            newPromo.controls.amount.invalid &&
+            (newPromo.controls.amount.dirty || newPromo.controls.amount.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="newPromo.controls.amount.errors.required">
             Percentage Is Required.
           </div>
@@ -162,14 +267,27 @@
         <!-- End Errors Rolues -->
       </div>
 
-      <div class="form-group" *ngIf="promo.type === '2' ">
+      <div class="form-group" *ngIf="promo.type === '2'">
         <label for=""> max amount </label>
-        <input type="number" class="owl-input" id="" placeholder="Type Max Amount" name="max_amount"
-          [(ngModel)]="promo.max_amount" [min]="1" formControlName="max_amount">
+        <input
+          type="number"
+          class="owl-input"
+          id=""
+          placeholder="Type Max Amount"
+          name="max_amount"
+          [(ngModel)]="promo.max_amount"
+          [min]="1"
+          formControlName="max_amount"
+        />
         <!-- Start  Errors Rolues -->
         <div
-          *ngIf="newPromo.controls.max_amount.invalid && (newPromo.controls.max_amount.dirty || newPromo.controls.max_amount.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            newPromo.controls.max_amount.invalid &&
+            (newPromo.controls.max_amount.dirty ||
+              newPromo.controls.max_amount.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="newPromo.controls.max_amount.errors.min">
             Minimum max Amount 1
           </div>
@@ -179,11 +297,24 @@
       <!--END For Max Amount -->
       <div class="form-group">
         <label for=""> Minimum order </label>
-        <input type="number" class="owl-input" id="" placeholder="Minimum order" name="minimum_amount"
-          [(ngModel)]="promo.minimum_amount" formControlName="minimum_amount" [max]="1000000">
+        <input
+          type="number"
+          class="owl-input"
+          id=""
+          placeholder="Minimum order"
+          name="minimum_amount"
+          [(ngModel)]="promo.minimum_amount"
+          formControlName="minimum_amount"
+          [max]="1000000"
+        />
         <div
-          *ngIf="newPromo.controls.minimum_amount.invalid && (newPromo.controls.minimum_amount.dirty || newPromo.controls.minimum_amount.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            newPromo.controls.minimum_amount.invalid &&
+            (newPromo.controls.minimum_amount.dirty ||
+              newPromo.controls.minimum_amount.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="newPromo.controls.minimum_amount.errors.max">
             Minimum Order Amount Must Be Less than 1000000
           </div>
@@ -191,38 +322,69 @@
       </div>
 
       <!--END For Max Amount -->
-      <label class="checkup">First order only
-        <input type="checkbox" formControlName="first_order" [(ngModel)]="promo.first_order">
+      <label class="checkup"
+        >First order only
+        <input
+          type="checkbox"
+          formControlName="first_order"
+          [(ngModel)]="promo.first_order"
+        />
         <span class="checkmark"></span>
       </label>
 
       <div class="form-group">
         <label for="charge">Apply to Custom List Only (optional)</label>
-        <select formControlName="list_id" class="owl-input" [(ngModel)]="promo.list_id">
+        <select
+          formControlName="list_id"
+          class="owl-input"
+          [(ngModel)]="promo.list_id"
+        >
           <option [value]="''" selected>select list</option>
-          <option *ngFor="let list of lists" value="{{list.id}}">{{list.name_en}}</option>
+          <option *ngFor="let list of lists" value="{{ list.id }}">
+            {{ list.name_en }}
+          </option>
         </select>
       </div>
-      <div class="form-group" style="
-      overflow: visible;
-      height: auto;
-      width: auto;">
+      <div
+        class="form-group"
+        style="overflow: visible; height: auto; width: auto"
+      >
         <label> Payment Methods </label>
-        <ng-select [closeOnSelect]="false" [items]="paymentMethods" [multiple]="true" formControlName="payment_methods"
-          [(ngModel)]="promo.payment_methods" bindLabel="name" bindValue="id" name="payment_method"
-          placeholder="Select Payment Methods">
+        <ng-select
+          [closeOnSelect]="false"
+          [items]="paymentMethods"
+          [multiple]="true"
+          formControlName="payment_methods"
+          [(ngModel)]="promo.payment_methods"
+          bindLabel="name"
+          bindValue="id"
+          name="payment_method"
+          placeholder="Select Payment Methods"
+        >
         </ng-select>
-
       </div>
       <div class="form-group">
         <label for="charge">Description </label>
-        <textarea name="" style="height: 150px;" class="owl-input" placeholder="type here.." required
-          formControlName="description" name="description" [(ngModel)]="promo.description"
-          [rangeLength]="[7, 150]"></textarea>
+        <textarea
+          name=""
+          style="height: 150px"
+          class="owl-input"
+          placeholder="type here.."
+          required
+          formControlName="description"
+          name="description"
+          [(ngModel)]="promo.description"
+          [rangeLength]="[7, 150]"
+        ></textarea>
         <!-- Start  Errors Rolues -->
         <div
-          *ngIf="newPromo.controls.description.invalid && (newPromo.controls.description.dirty || newPromo.controls.description.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            newPromo.controls.description.invalid &&
+            (newPromo.controls.description.dirty ||
+              newPromo.controls.description.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="newPromo.controls.description.errors.required">
             Description Is Required.
           </div>
@@ -235,16 +397,30 @@
       <div class="form-group">
         <div>
           <mat-form-field>
-            <input [min]="today" matInput placeholder="Valid To" [satDatepicker]="picker" [value]="date"
-              formControlName="date" name="date" requried>
-            <sat-datepicker #picker [rangeMode]="false">
-            </sat-datepicker>
-            <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+            <input
+              [min]="today"
+              matInput
+              placeholder="Valid To"
+              [satDatepicker]="picker"
+              [value]="date"
+              formControlName="date"
+              name="date"
+              requried
+            />
+            <sat-datepicker #picker [rangeMode]="false"> </sat-datepicker>
+            <sat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></sat-datepicker-toggle>
           </mat-form-field>
           <!-- Start  Errors Rolues -->
           <div
-            *ngIf="newPromo.controls.date.invalid && (newPromo.controls.date.dirty || newPromo.controls.date.touched)"
-            class="alert alert-danger">
+            *ngIf="
+              newPromo.controls.date.invalid &&
+              (newPromo.controls.date.dirty || newPromo.controls.date.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="newPromo.controls.date.errors.required">
               date Is Required.
             </div>
@@ -257,11 +433,13 @@
       </div>
 
       <div class="btn-group">
-        <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">add</button>
-
+        <button
+          class="btn btn-owls btn-rounded btn-green"
+          [appLoading]="submitting"
+        >
+          add
+        </button>
       </div>
-
     </div>
-
   </form>
 </div>

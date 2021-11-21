@@ -1,44 +1,61 @@
 <div class="top-table-bar">
-  <ng-container *ngIf='affiliate'>
+  <ng-container *ngIf="affiliate">
     <h4 class="mb-2">Affiliate Details</h4>
     <div class="info mb-4">
       <ul class="list-unstyled row mb-0">
         <li class="col-6">
-          <h6> Name: </h6>
-          <span>{{affiliate?.name}}</span>
+          <h6>Name:</h6>
+          <span>{{ affiliate?.name }}</span>
         </li>
         <li class="col-6">
-          <h6> Phone: </h6>
-          <span>{{affiliate?.phone}}</span>
+          <h6>Phone:</h6>
+          <span>{{ affiliate?.phone }}</span>
         </li>
         <li class="col-6">
-          <h6> Email: </h6>
-          <span>{{affiliate?.email}}</span>
+          <h6>Email:</h6>
+          <span>{{ affiliate?.email }}</span>
         </li>
-
       </ul>
     </div>
   </ng-container>
 
-
-
   <div class="statics">
     <div class="row">
       <div class="col-md-4 col-xs-12 temp">
-
         <div class="parent">
           <h6></h6>
           <h6>Order Count</h6>
           <h6>Commession</h6>
           <h6>Total</h6>
-          <h6>{{statistics?.order_statistics?.total_count | number : '1.2-2'}}</h6>
-          <h6>{{statistics?.order_statistics?.total_commission | number : '1.2-2'}}</h6>
+          <h6>
+            {{ statistics?.order_statistics?.total_count | number: "1.2-2" }}
+          </h6>
+          <h6>
+            {{
+              statistics?.order_statistics?.total_commission | number: "1.2-2"
+            }}
+          </h6>
           <h6>Total Completed</h6>
-          <h6>{{statistics?.order_statistics?.completed_count | number : '1.2-2'}}</h6>
-          <h6>{{statistics?.order_statistics?.completed_commission | number : '1.2-2'}}</h6>
+          <h6>
+            {{
+              statistics?.order_statistics?.completed_count | number: "1.2-2"
+            }}
+          </h6>
+          <h6>
+            {{
+              statistics?.order_statistics?.completed_commission
+                | number: "1.2-2"
+            }}
+          </h6>
           <h6>Total Pending</h6>
-          <h6>{{statistics?.order_statistics?.pending_count | number : '1.2-2'}}</h6>
-          <h6>{{statistics?.order_statistics?.pending_commission | number : '1.2-2'}}</h6>
+          <h6>
+            {{ statistics?.order_statistics?.pending_count | number: "1.2-2" }}
+          </h6>
+          <h6>
+            {{
+              statistics?.order_statistics?.pending_commission | number: "1.2-2"
+            }}
+          </h6>
         </div>
       </div>
       <!-- col -->
@@ -47,13 +64,31 @@
           <h6 class="text-center title">Balance</h6>
           <div class="parent">
             <h6>Total</h6>
-            <h6>{{statistics?.balance_statistics?.total_balance | number : '1.2-2'}}</h6>
+            <h6>
+              {{
+                statistics?.balance_statistics?.total_balance | number: "1.2-2"
+              }}
+            </h6>
             <h6>Available</h6>
-            <h6>{{statistics?.balance_statistics?.available_from_orders | number : '1.2-2'}}</h6>
+            <h6>
+              {{
+                statistics?.balance_statistics?.available_from_orders
+                  | number: "1.2-2"
+              }}
+            </h6>
             <h6>Pending</h6>
-            <h6>{{statistics?.balance_statistics?.pending_balance | number : '1.2-2'}}</h6>
+            <h6>
+              {{
+                statistics?.balance_statistics?.pending_balance
+                  | number: "1.2-2"
+              }}
+            </h6>
             <h6>Admin balance</h6>
-            <h6>{{statistics?.balance_statistics?.admin_balance | number : '1.2-2'}}</h6>
+            <h6>
+              {{
+                statistics?.balance_statistics?.admin_balance | number: "1.2-2"
+              }}
+            </h6>
           </div>
         </div>
       </div>
@@ -63,11 +98,26 @@
           <h6 class="text-center title">Withdraw</h6>
           <div class="parent">
             <h6>Total</h6>
-            <h6>{{statistics?.withdraw_statistics?.total_withdraw | number : '1.2-2'}}</h6>
+            <h6>
+              {{
+                statistics?.withdraw_statistics?.total_withdraw
+                  | number: "1.2-2"
+              }}
+            </h6>
             <h6>Approved</h6>
-            <h6>{{statistics?.withdraw_statistics?.approved_withdraw | number : '1.2-2'}}</h6>
+            <h6>
+              {{
+                statistics?.withdraw_statistics?.approved_withdraw
+                  | number: "1.2-2"
+              }}
+            </h6>
             <h6>Pending</h6>
-            <h6>{{statistics?.withdraw_statistics?.pending_withdraw | number : '1.2-2'}}</h6>
+            <h6>
+              {{
+                statistics?.withdraw_statistics?.pending_withdraw
+                  | number: "1.2-2"
+              }}
+            </h6>
           </div>
         </div>
       </div>
@@ -78,8 +128,12 @@
 
   <div class="row mt-5">
     <div class="col-md-12 d-flex justify-content-end">
-      <button class="btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0"
-        (click)='openPopupNewAdminCredit()'>New admin credit</button>
+      <button
+        class="btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0"
+        (click)="openPopupNewAdminCredit()"
+      >
+        New admin credit
+      </button>
     </div>
   </div>
 
@@ -89,8 +143,8 @@
         <tr>
           <th scope="col">No.</th>
           <th scope="col">Type</th>
-          <th scope="col"> Date </th>
-          <th scope="col"> Affiliate user</th>
+          <th scope="col">Date</th>
+          <th scope="col">Affiliate user</th>
           <th scope="col">State</th>
           <th scope="col">Total</th>
           <th scope="col">actions</th>
@@ -98,8 +152,18 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let item of walletHistoryAffiliates | paginate: { itemsPerPage: 20, currentPage: pageNumber, totalItems: total }; let i = index">
-          <td>{{item?.id}}</td>
+          *ngFor="
+            let item of walletHistoryAffiliates
+              | paginate
+                : {
+                    itemsPerPage: 20,
+                    currentPage: pageNumber,
+                    totalItems: total
+                  };
+            let i = index
+          "
+        >
+          <td>{{ item?.id }}</td>
           <td>
             <span [ngSwitch]="item?.type">
               <span *ngSwitchCase="1">Order</span>
@@ -108,8 +172,8 @@
               <span *ngSwitchDefault>-</span>
             </span>
           </td>
-          <td>{{item?.created_at | date:'d MMM , y h:mm a'}}</td>
-          <td>{{item?.affiliate?.id}} : {{item?.affiliate?.name}}</td>
+          <td>{{ item?.created_at | date: "d MMM , y h:mm a" }}</td>
+          <td>{{ item?.affiliate?.id }} : {{ item?.affiliate?.name }}</td>
           <td>
             <span [ngSwitch]="item?.status">
               <span *ngSwitchCase="0">Pending</span>
@@ -118,27 +182,34 @@
               <span *ngSwitchDefault>-</span>
             </span>
           </td>
-          <td>{{item?.amount}}</td>
+          <td>{{ item?.amount }}</td>
           <td>
-            <a *ngIf='item.type == 1'> <i class="material-icons"
-                [routerLink]="['/pages/orders/order-details', item.order_id]">
+            <a *ngIf="item.type == 1">
+              <i
+                class="material-icons"
+                [routerLink]="['/pages/orders/order-details', item.order_id]"
+              >
                 remove_red_eye
-              </i></a>
+              </i></a
+            >
 
-            <a *ngIf='item.type == 2'> <i class="material-icons" (click)="openPopup(item)">
+            <a *ngIf="item.type == 2">
+              <i class="material-icons" (click)="openPopup(item)">
                 remove_red_eye
-              </i></a>
-            <a *ngIf='item.type == 3'> <i class="material-icons" (click)="openPopup(item)">
+              </i></a
+            >
+            <a *ngIf="item.type == 3">
+              <i class="material-icons" (click)="openPopup(item)">
                 remove_red_eye
-              </i></a>
+              </i></a
+            >
           </td>
         </tr>
-
       </tbody>
     </table>
-    <h4 class="text-center" *ngIf="!walletHistoryAffiliates.length">There Are No Withdraw Requests</h4>
+    <h4 class="text-center" *ngIf="!walletHistoryAffiliates.length">
+      There Are No Withdraw Requests
+    </h4>
   </div>
   <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
-
-
 </div>

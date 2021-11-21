@@ -2,114 +2,200 @@
 
 <nav class="">
   <div class="row nav nav-tabs" id="nav-tab" role="tablist">
-    <a class="col nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-      aria-controls="nav-home" aria-selected="true">edit profile</a>
-    <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-      aria-controls="nav-profile" aria-selected="false">Upload Gallery</a>
+    <a
+      class="col nav-item nav-link active"
+      id="nav-home-tab"
+      data-toggle="tab"
+      href="#nav-home"
+      role="tab"
+      aria-controls="nav-home"
+      aria-selected="true"
+      >edit profile</a
+    >
+    <a
+      class="col nav-item nav-link"
+      id="nav-profile-tab"
+      data-toggle="tab"
+      href="#nav-profile"
+      role="tab"
+      aria-controls="nav-profile"
+      aria-selected="false"
+      >Upload Gallery</a
+    >
     <!-- <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-stars" role="tab"
       aria-controls="nav-profile" aria-selected="false">Mobilaty Stars</a> -->
     <!-- <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-system" role="tab"
       aria-controls="nav-profile" aria-selected="false">System Settings</a> -->
     <!-- <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-stars" role="tab"
       aria-controls="nav-profile" aria-selected="false">Mobilaty Stars</a> -->
-    <a class="col nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#configuration-settings" role="tab"
-      aria-controls="nav-profile" aria-selected="false">Configuration Settings</a>
+    <a
+      class="col nav-item nav-link"
+      id="nav-profile-tab"
+      data-toggle="tab"
+      href="#configuration-settings"
+      role="tab"
+      aria-controls="nav-profile"
+      aria-selected="false"
+      >Configuration Settings</a
+    >
   </div>
 </nav>
 
 <div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-
-    <form class="row" name="formSetting" [formGroup]="formSetting" (ngSubmit)="updateSetting(user)" novalidate
-      *ngIf="user">
-
+  <div
+    class="tab-pane fade show active"
+    id="nav-home"
+    role="tabpanel"
+    aria-labelledby="nav-home-tab"
+  >
+    <form
+      class="row"
+      name="formSetting"
+      [formGroup]="formSetting"
+      (ngSubmit)="updateSetting(user)"
+      novalidate
+      *ngIf="user"
+    >
       <div class="col-md-4">
         <div class="form-group">
           <label for="">image</label>
-          <div class=" owl-input owl-input-file">
-            <input type="file" id="productImg" (change)="onimgeSelected($event, formSetting.controls.image)"
-              name="image" accept="image/*" />
+          <div class="owl-input owl-input-file">
+            <input
+              type="file"
+              id="productImg"
+              (change)="onimgeSelected($event, formSetting.controls.image)"
+              name="image"
+              accept="image/*"
+            />
           </div>
-          <input type="hidden" formControlName="image">
+          <input type="hidden" formControlName="image" />
           <!-- Start  Errors Rolues -->
           <div
-            *ngIf="formSetting.controls.image.invalid && (formSetting.controls.image.dirty || formSetting.controls.image.touched)"
-            class="alert alert-danger">
+            *ngIf="
+              formSetting.controls.image.invalid &&
+              (formSetting.controls.image.dirty ||
+                formSetting.controls.image.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="formSetting.controls.image.errors.required">
               image Is Required.
             </div>
           </div>
           <!-- End Errors Rolues -->
-
         </div>
 
         <div class="form-group">
           <label for="">name</label>
-          <input type="text" required formControlName="name" name="name" class="owl-input" placeholder="Type here..." />
+          <input
+            type="text"
+            required
+            formControlName="name"
+            name="name"
+            class="owl-input"
+            placeholder="Type here..."
+          />
           <!-- Start  Errors Rolues -->
           <div
-            *ngIf="formSetting.controls.name.invalid && (formSetting.controls.name.dirty || formSetting.controls.name.touched)"
-            class="alert alert-danger">
+            *ngIf="
+              formSetting.controls.name.invalid &&
+              (formSetting.controls.name.dirty ||
+                formSetting.controls.name.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="formSetting.controls.name.errors.required">
               Name Is Required.
             </div>
             <div *ngIf="formSetting.controls.name.errors.maxlength">
               Name Max Length is 20.
             </div>
-
           </div>
           <!-- End Errors Rolues -->
         </div>
-
       </div>
-
 
       <div class="col-md-4">
         <div class="form-group">
           <label for="">email address</label>
-          <input type="email" class="owl-input" placeholder="Type here..." required formControlName="email"
-            name="email">
+          <input
+            type="email"
+            class="owl-input"
+            placeholder="Type here..."
+            required
+            formControlName="email"
+            name="email"
+          />
           <!-- Start  Errors Rolues -->
           <div
-            *ngIf="formSetting.controls.email.invalid && (formSetting.controls.email.dirty || formSetting.controls.email.touched)"
-            class="alert alert-danger">
+            *ngIf="
+              formSetting.controls.email.invalid &&
+              (formSetting.controls.email.dirty ||
+                formSetting.controls.email.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="formSetting.controls.email.errors.required">
               email Is Required.
             </div>
-
           </div>
           <!-- End Errors Rolues -->
         </div>
 
-        <p class="reset-password" (click)="openResetPasswordForm()">Reset Password</p>
+        <p class="reset-password" (click)="openResetPasswordForm()">
+          Reset Password
+        </p>
       </div>
 
-
       <div class="col-md-4">
-        <div class="view-img" style="height:300px;">
+        <div class="view-img" style="height: 300px">
           <div class="colse" *ngIf="user.imageUrl">
-            <i class="fa fa-close" (click)="deleteImage(img)" id='colse'></i>
+            <i class="fa fa-close" (click)="deleteImage(img)" id="colse"></i>
           </div>
-          <img style="margin-top: 25px" *ngIf="!user.imageUrl" src="http://via.placeholder.com/350x300" alt=""
-            class="img-fluid owl-img">
-          <img class="owl-img img-fluid" id="userImage" *ngIf="user.imageUrl" src="{{user.imageUrl}}" alt="">
+          <img
+            style="margin-top: 25px"
+            *ngIf="!user.imageUrl"
+            src="http://via.placeholder.com/350x300"
+            alt=""
+            class="img-fluid owl-img"
+          />
+          <img
+            class="owl-img img-fluid"
+            id="userImage"
+            *ngIf="user.imageUrl"
+            src="{{ user.imageUrl }}"
+            alt=""
+          />
         </div>
       </div>
 
-
-      <div class="col-md-4" style="margin-top: 25px;">
-        <button class="btn btn-green btn-rounded btn-owls" [appLoading]="systemLoading">save</button>
+      <div class="col-md-4" style="margin-top: 25px">
+        <button
+          class="btn btn-green btn-rounded btn-owls"
+          [appLoading]="systemLoading"
+        >
+          save
+        </button>
       </div>
     </form>
-
   </div>
 
-  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-
+  <div
+    class="tab-pane fade"
+    id="nav-profile"
+    role="tabpanel"
+    aria-labelledby="nav-profile-tab"
+  >
     <form class="row">
       <div class="col-md-6">
-        <div class=" owl-input owl-input-file">
-          <input type="file" (change)="oniImageSelected($event)" name="image" multiple accept="image/*" />
+        <div class="owl-input owl-input-file">
+          <input
+            type="file"
+            (change)="oniImageSelected($event)"
+            name="image"
+            multiple
+            accept="image/*"
+          />
         </div>
       </div>
     </form>
@@ -119,20 +205,22 @@
 
       <div class="row text-center">
         <div class="col-md-3" *ngFor="let image of gallery">
-          <img alt="" src="{{image.url}}" class="img-responsive secialImg">
-          <p class="specialName"> {{image.name}}</p>
+          <img alt="" src="{{ image.url }}" class="img-responsive secialImg" />
+          <p class="specialName">{{ image.name }}</p>
         </div>
 
-
-        <button class="btn  btn-blue " (click)="loadMore()">Show More</button>
+        <button class="btn btn-blue" (click)="loadMore()">Show More</button>
       </div>
     </div>
-
   </div>
 
-  <div class="tab-pane fade" id="configuration-settings" role="tabpanel" aria-labelledby="configuration-settings-tab">
+  <div
+    class="tab-pane fade"
+    id="configuration-settings"
+    role="tabpanel"
+    aria-labelledby="configuration-settings-tab"
+  >
     <app-dynamic-settings></app-dynamic-settings>
-
   </div>
   <!-- <div class="tab-pane terms fade" id="nav-stars" role="tabpanel" aria-labelledby="nav-contact-tab">
     <div class="min-height: 200px;">
@@ -261,46 +349,87 @@
     </div>
   </div> -->
 
-  <div class="tab-pane terms fade" id="nav-system" role="tabpanel" aria-labelledby="nav-contact-tab">
-
-    <div style="min-height: 200px;">
+  <div
+    class="tab-pane terms fade"
+    id="nav-system"
+    role="tabpanel"
+    aria-labelledby="nav-contact-tab"
+  >
+    <div style="min-height: 200px">
       <app-loader *ngIf="settingsLoading"></app-loader>
-      <form *ngIf="!settingsLoading" class="row" name="systemForm" [formGroup]="systemForm"
-        (submit)="updateSystemSettings()" novalidate>
-
+      <form
+        *ngIf="!settingsLoading"
+        class="row"
+        name="systemForm"
+        [formGroup]="systemForm"
+        (submit)="updateSystemSettings()"
+        novalidate
+      >
         <div class="col-md-4">
           <div class="form-group">
             <label for="">Minimum Order Amount</label>
-            <input formControlName="min_order_amount" min="0" type="number" id="min_order_amount" class="owl-input"
+            <input
+              formControlName="min_order_amount"
+              min="0"
+              type="number"
+              id="min_order_amount"
+              class="owl-input"
               name="min_order_amount"
-              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46" />
-            <small id="min_order_amount_help" class="form-text text-muted">This will remove delivery fees for orders
-              with amount above this value</small>
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"
+            />
+            <small id="min_order_amount_help" class="form-text text-muted"
+              >This will remove delivery fees for orders with amount above this
+              value</small
+            >
           </div>
         </div>
 
         <div class="col-md-4">
           <div class="form-group">
             <label for="">Maximum COD Amount</label>
-            <input formControlName="except_cod_amount" min="0" type="number" id="except_cod_amount" class="owl-input"
+            <input
+              formControlName="except_cod_amount"
+              min="0"
+              type="number"
+              id="except_cod_amount"
+              class="owl-input"
               name="except_cod_amount"
-              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46" />
-            <small id="except_cod_amount_help" class="form-text text-muted">Orders with amount above this number cannot
-              use COD payment</small>
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"
+            />
+            <small id="except_cod_amount_help" class="form-text text-muted"
+              >Orders with amount above this number cannot use COD
+              payment</small
+            >
           </div>
         </div>
 
         <div class="col-md-4">
           <div class="form-group">
             <label for="">Opening Time</label>
-            <input formControlName="open_time" type="text" id="open_time" class="owl-input" name="open_time"
-              [ngxTimepicker]="openPicker">
-            <ngx-material-timepicker [minutesGap]="5" #openPicker></ngx-material-timepicker>
-            <small id="open_time_help" class="form-text text-muted">Orders made before this time will be postponed to
-              next day</small>
+            <input
+              formControlName="open_time"
+              type="text"
+              id="open_time"
+              class="owl-input"
+              name="open_time"
+              [ngxTimepicker]="openPicker"
+            />
+            <ngx-material-timepicker
+              [minutesGap]="5"
+              #openPicker
+            ></ngx-material-timepicker>
+            <small id="open_time_help" class="form-text text-muted"
+              >Orders made before this time will be postponed to next day</small
+            >
             <div
-              *ngIf="systemForm.invalid && systemForm.errors?.timeError && (systemForm.controls.open_time.dirty || systemForm.controls.open_time.touched)"
-              class="alert alert-danger">
+              *ngIf="
+                systemForm.invalid &&
+                systemForm.errors?.timeError &&
+                (systemForm.controls.open_time.dirty ||
+                  systemForm.controls.open_time.touched)
+              "
+              class="alert alert-danger"
+            >
               <div *ngIf="systemForm.errors.timeError">
                 Opening time must be before closing time
               </div>
@@ -311,39 +440,62 @@
         <div class="col-md-4">
           <div class="form-group">
             <label for="">Closing Time</label>
-            <input formControlName="off_time" type="text" id="off_time" class="owl-input" name="off_time"
-              [ngxTimepicker]="offPicker">
-            <ngx-material-timepicker [minutesGap]="5" #offPicker></ngx-material-timepicker>
-            <small id="off_time_help" class="form-text text-muted">Orders made after this time will be postponed to next
-              day</small>
+            <input
+              formControlName="off_time"
+              type="text"
+              id="off_time"
+              class="owl-input"
+              name="off_time"
+              [ngxTimepicker]="offPicker"
+            />
+            <ngx-material-timepicker
+              [minutesGap]="5"
+              #offPicker
+            ></ngx-material-timepicker>
+            <small id="off_time_help" class="form-text text-muted"
+              >Orders made after this time will be postponed to next day</small
+            >
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
             <label for="">Affiliate pending days</label>
-            <input formControlName="affiliate_pending_days" type="text" id="affiliate_pending_days" class="owl-input"
-              name="affiliate_pending_days" />
+            <input
+              formControlName="affiliate_pending_days"
+              type="text"
+              id="affiliate_pending_days"
+              class="owl-input"
+              name="affiliate_pending_days"
+            />
             <div
-              *ngIf="systemForm.controls.affiliate_pending_days.invalid && (systemForm.controls.affiliate_pending_days.dirty || systemForm.controls.affiliate_pending_days.touched)"
-              class="alert alert-danger">
-              <div *ngIf="systemForm.controls.affiliate_pending_days.errors.min">
+              *ngIf="
+                systemForm.controls.affiliate_pending_days.invalid &&
+                (systemForm.controls.affiliate_pending_days.dirty ||
+                  systemForm.controls.affiliate_pending_days.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div
+                *ngIf="systemForm.controls.affiliate_pending_days.errors.min"
+              >
                 pending days mustn't be negative number.
               </div>
-              <div *ngIf="systemForm.controls.affiliate_pending_days.errors.pattern">
+              <div
+                *ngIf="
+                  systemForm.controls.affiliate_pending_days.errors.pattern
+                "
+              >
                 pending days must be number.
               </div>
-
-
             </div>
           </div>
         </div>
-
 
         <div class="col-md-4">
           <div class="form-group">
             <label for="">Enable Affiliate System</label>
             <label class="switch">
-              <input type="checkbox" formControlName="enable_affiliate">
+              <input type="checkbox" formControlName="enable_affiliate" />
               <span class="slider round"></span>
             </label>
           </div>
@@ -385,20 +537,42 @@
           </div>
         </ng-container> -->
 
-        <div class="col-md-4" style="margin-top: 25px;">
-          <button class="btn btn-green btn-rounded btn-owls" [appLoading]="systemLoading">save</button>
+        <div class="col-md-4" style="margin-top: 25px">
+          <button
+            class="btn btn-green btn-rounded btn-owls"
+            [appLoading]="systemLoading"
+          >
+            save
+          </button>
         </div>
       </form>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="updatePassword" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="updatePassword"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">Update password</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center"
+        >
+          Update password
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -406,11 +580,22 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="">current password</label>
-            <input type="password" class="owl-input" formControlName="current_password" placeholder="Type here...">
+            <input
+              type="password"
+              class="owl-input"
+              formControlName="current_password"
+              placeholder="Type here..."
+            />
             <!-- Start  Errors Rolues -->
             <div
-              *ngIf="passwordForm?.invalid && passwordForm?.errors?.currentPassword && (passwordForm?.controls?.current_password?.dirty || passwordForm?.controls?.current_password?.touched)"
-              class="alert alert-danger">
+              *ngIf="
+                passwordForm?.invalid &&
+                passwordForm?.errors?.currentPassword &&
+                (passwordForm?.controls?.current_password?.dirty ||
+                  passwordForm?.controls?.current_password?.touched)
+              "
+              class="alert alert-danger"
+            >
               <div *ngIf="passwordForm?.errors?.currentPassword">
                 current password Is Required.
               </div>
@@ -421,11 +606,21 @@
 
           <div class="form-group">
             <label for="">new password</label>
-            <input type="password" class="owl-input" formControlName="password" placeholder="Type here...">
+            <input
+              type="password"
+              class="owl-input"
+              formControlName="password"
+              placeholder="Type here..."
+            />
             <!-- Start  Errors Rolues -->
             <div
-              *ngIf="passwordForm?.controls?.password?.invalid &&  (passwordForm?.controls?.password?.dirty || passwordForm?.controls?.password?.touched)"
-              class="alert alert-danger">
+              *ngIf="
+                passwordForm?.controls?.password?.invalid &&
+                (passwordForm?.controls?.password?.dirty ||
+                  passwordForm?.controls?.password?.touched)
+              "
+              class="alert alert-danger"
+            >
               <div *ngIf="passwordForm?.controls?.password.errors?.minlength">
                 Minmum Password 8
               </div>
@@ -438,12 +633,23 @@
 
           <div class="form-group">
             <label for="">confirm new password</label>
-            <input type="password" class="owl-input" formControlName="confirmPassword" placeholder="Type here...">
+            <input
+              type="password"
+              class="owl-input"
+              formControlName="confirmPassword"
+              placeholder="Type here..."
+            />
             <!-- Start  Errors Rolues -->
 
             <div
-              *ngIf="passwordForm?.invalid && passwordForm?.errors?.confirmPassword && (passwordForm?.controls?.confirmPassword?.dirty || passwordForm?.controls?.confirmPassword?.touched)"
-              class="alert alert-danger">
+              *ngIf="
+                passwordForm?.invalid &&
+                passwordForm?.errors?.confirmPassword &&
+                (passwordForm?.controls?.confirmPassword?.dirty ||
+                  passwordForm?.controls?.confirmPassword?.touched)
+              "
+              class="alert alert-danger"
+            >
               <div *ngIf="passwordForm?.errors?.confirmPassword">
                 Confirmation password does not match
               </div>
@@ -453,16 +659,33 @@
         </div>
       </form>
 
-      <div class="modal-footer" style="justify-content: center;">
-
-        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;"
-          (click)="updatePassword(user)" [appLoading]="stateSubmitting">Update</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">Cancel</button>
+      <div class="modal-footer" style="justify-content: center">
+        <button
+          type="button"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+          style="position: relative"
+          (click)="updatePassword(user)"
+          [appLoading]="stateSubmitting"
+        >
+          Update
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-red2"
+        >
+          Cancel
+        </button>
       </div>
-
     </div>
   </div>
 </div>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

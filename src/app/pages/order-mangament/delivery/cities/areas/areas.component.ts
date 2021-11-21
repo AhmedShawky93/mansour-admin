@@ -1,6 +1,6 @@
 import { AreasService } from "@app/pages/services/areas.service";
 import { Component, OnInit } from "@angular/core";
-import {Location} from '@angular/common';
+import { Location } from "@angular/common";
 
 import {
   trigger,
@@ -48,7 +48,6 @@ export class AreasComponent implements OnInit {
     private _areaService: AreasService,
     private activeRoute: ActivatedRoute,
     private _location: Location
-
   ) {}
 
   ngOnInit() {

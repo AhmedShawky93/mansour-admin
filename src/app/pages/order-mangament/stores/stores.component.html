@@ -1,29 +1,36 @@
 <!-- <ngx-loading-bar [color]="'#007C41'"></ngx-loading-bar> -->
 
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-9 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" name="searchTerm"
-          class="owl-input owls-search" placeholder="search ...">
+        <input
+          type="text"
+          [(ngModel)]="filter.q"
+          (change)="changePage(p)"
+          name="searchTerm"
+          class="owl-input owls-search"
+          placeholder="search ..."
+        />
       </div>
     </div>
 
-
-    <div class="col-md-3  col-xs-12 text-right">
+    <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big w-100" (click)="toggleMenu(null)"
-          style="margin-left: 0px;"> + New Store</button>
+        <button
+          class="btn btn-owls btn-rounded btn-blue2 btn-big w-100"
+          (click)="toggleMenu(null)"
+          style="margin-left: 0px"
+        >
+          + New Store
+        </button>
       </div>
     </div>
-
   </div>
 </div>
-
 
 <!-- Tabel -->
 <div class="table-responsive text-center" *ngIf="!loading">
@@ -31,7 +38,7 @@
     <thead>
       <tr>
         <th scope="col">Shop name</th>
-        <th scope="col">Address </th>
+        <th scope="col">Address</th>
         <th scope="col">Area</th>
         <th scope="col">Phone</th>
         <!-- <th scope="col">Email</th> -->
@@ -41,62 +48,82 @@
     </thead>
     <tbody>
       <!-- <tr *ngFor="let option of options"> -->
-      <tr *ngFor="let branche of branches  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
-
+      <tr
+        *ngFor="
+          let branche of branches
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }
+        "
+      >
         <td class="relative">
-          {{(branche.shop_name.length >= 25) ? (branche.shop_name | slice:0:25)+'...' : branche.shop_name }}
-          <div class="hover-reason text-left" *ngIf="branche.shop_name.length >= 25">
-            <div class="head">
-              Shop name
-            </div>
+          {{
+            branche.shop_name.length >= 25
+              ? (branche.shop_name | slice: 0:25) + "..."
+              : branche.shop_name
+          }}
+          <div
+            class="hover-reason text-left"
+            *ngIf="branche.shop_name.length >= 25"
+          >
+            <div class="head">Shop name</div>
             <div class="body">
-              {{branche.shop_name}}
+              {{ branche.shop_name }}
             </div>
           </div>
-
         </td>
-        <td> {{branche.address}} </td>
-        <td> {{branche.area}} </td>
+        <td>{{ branche.address }}</td>
+        <td>{{ branche.area }}</td>
         <!-- <td> {{(branche?.phone?.length >= 3) ? (branche.phone.splice(2)): branche.phone }}
         </td> -->
         <td>
           <span *ngIf="branche.phone != null; else dashEmpty">
-            <span *ngFor="let ph of branche?.phone.slice(0,2); let i = index">
-              {{ph}}<span *ngIf="branche?.phone.length > 1 && branche?.phone.length != (i + 1)">,</span>
+            <span *ngFor="let ph of branche?.phone.slice(0, 2); let i = index">
+              {{ ph
+              }}<span
+                *ngIf="
+                  branche?.phone.length > 1 && branche?.phone.length != i + 1
+                "
+                >,</span
+              >
             </span>
             <span *ngIf="branche?.phone.length > 3">...</span>
           </span>
-          <ng-template #dashEmpty>
-            -
-          </ng-template>
+          <ng-template #dashEmpty> - </ng-template>
         </td>
         <!-- <td> {{branche?.email}} </td> -->
         <td>
           <!-- <span *ngIf="branche.type == 'footloose'">Footloose</span>
           <span *ngIf="branche.type =='crocs_outlet'"> Crocs outlet</span>
           <span *ngIf="branche.type =='crocs_concept'">Crocs concept</span> -->
-          <span>{{branche.type_en}}</span>
+          <span>{{ branche.type_en }}</span>
           <!-- <span *ngFor="let districts of branche?.delivererProfile?.districts ">
             {{districts.name}}<br>
           </span> -->
         </td>
 
         <td>
-          <a style="margin-right: 10px" class="table-view open-show" (click)="viewClinic(branche)">
+          <a
+            style="margin-right: 10px"
+            class="table-view open-show"
+            (click)="viewClinic(branche)"
+          >
             <i class="icon-View"></i>
           </a>
 
-
-          <a style="margin-right: 10px" href="javascript:void(0)" class="table-view edit-product"
-            (click)="toggleMenu(branche)">
+          <a
+            style="margin-right: 10px"
+            href="javascript:void(0)"
+            class="table-view edit-product"
+            (click)="toggleMenu(branche)"
+          >
             <i class="icon-grey"></i>
           </a>
-          <a href="javascript:void(0)" class="table-view edit-product" (click)="removeBranche(branche)">
+          <a
+            href="javascript:void(0)"
+            class="table-view edit-product"
+            (click)="removeBranche(branche)"
+          >
             <i class="icon-Exit"></i>
           </a>
-
-
-
 
           <!-- <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="branche.active" (change)="changeActive(branche, $event)">
@@ -120,13 +147,17 @@
           </label> -->
         </td>
       </tr>
-
-
     </tbody>
   </table>
 </div>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 <!-- <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading"> -->
 <h4 class="text-center" *ngIf="productIsEmpty">No Store</h4>
@@ -134,36 +165,67 @@
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
 <!-- view product -->
-<app-view-store (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
-  [selectProductDataEdit]="selectOptionDataView">
+<app-view-store
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="viewOptionSidebar"
+  [selectProductDataEdit]="selectOptionDataView"
+>
 </app-view-store>
 <!-- Add / edit Product -->
-<app-add-edit-store (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
-  [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData"></app-add-edit-store>
-
+<app-add-edit-store
+  (dataOptionEmit)="addOrUpdateOption($event)"
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="toggleAddOption"
+  [selectProductDataEdit]="selectOptionData"
+></app-add-edit-store>
 
 <!-- cancel  Popup-->
-<div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="removePopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center"
+        >
           Are you sure to delete branch
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p class="elippsed-text">
-          ({{removeBranchObj?.shop_name}})?
-        </p>
+        <p class="elippsed-text">({{ removeBranchObj?.shop_name }})?</p>
       </div>
-      <div class="modal-footer" style="justify-content: center;">
-        <button type="button" [appLoading]="deleteLoading" style="position: relative;"
-          class="btn-owls btn-rounded btn-green btn-blue2" (click)="confirmRemoveBranch()">Yes</button>
-        <button type="button" data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
+      <div class="modal-footer" style="justify-content: center">
+        <button
+          type="button"
+          [appLoading]="deleteLoading"
+          style="position: relative"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+          (click)="confirmRemoveBranch()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-green btn-red2"
+        >
+          No
+        </button>
       </div>
     </div>
   </div>

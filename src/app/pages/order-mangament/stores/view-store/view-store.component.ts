@@ -11,21 +11,21 @@ export class ViewStoreComponent implements OnInit {
   @Output() closeSideBarEmit = new EventEmitter();
   @Input("selectProductDataEdit") dataView;
   environmentVariables;
-  constructor(private settingService:SettingService) {
+  constructor(private settingService: SettingService) {
     this.getConfig();
-   }
+  }
 
-  ngOnInit() { }
+  ngOnInit() {}
   ngOnChanges(): void {
     if (this.dataView) {
       this.dataView.lat = parseFloat(this.dataView.lat);
       this.dataView.lng = parseFloat(this.dataView.lng);
     }
   }
-  getConfig(){
-    this.settingService.getenvConfig().subscribe(res=>{
-     this.environmentVariables=res;
-    })
+  getConfig() {
+    this.settingService.getenvConfig().subscribe((res) => {
+      this.environmentVariables = res;
+    });
   }
   closeSideBar() {
     this.closeSideBarEmit.emit();

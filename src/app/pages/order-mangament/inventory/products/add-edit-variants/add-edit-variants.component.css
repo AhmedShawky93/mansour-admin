@@ -138,7 +138,6 @@
 
 /*checkbox style*/
 
-
 .checkbox-style {
   display: inline-block;
   width: auto;
@@ -215,6 +214,5 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-
 
 /*end checkbox style*/

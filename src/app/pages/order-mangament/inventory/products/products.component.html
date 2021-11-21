@@ -1,10 +1,7 @@
-<!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
-
 <div class="top-table-bar my-2 py-0 px-2">
   <div class="row mb-2">
     <div *ngIf="selectedMainProduct" class="col-lg-12">
       <div (click)="backToProducts()" class="d-inline-flex back-arrow">
-        <!-- <mat-icon class="mx-2">arrow_back_ios</mat-icon> -->
         <i class="fa fa-angle-left" aria-hidden="true"></i>
         <p>Back</p>
       </div>
@@ -29,20 +26,17 @@
       <div class="col-md-3 col-xs-12 text-right">
         <div class="owl-btn-list">
           <button
-            (click)="createNew()"
-            *ngIf="selectedMainProduct"
+            (click)="
+              selectedMainProduct ? createNew() : NewProductWithVariant()
+            "
+            type="button"
             class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100"
           >
-            <div class="text-center" *ngIf="selectedMainProduct">
-              + New Variant
+            <div class="text-center">
+              {{
+                selectedMainProduct ? "+ New Variant" : "+ Product With Variant"
+              }}
             </div>
-          </button>
-          <button
-            (click)="NewProductWithVariant()"
-            *ngIf="!selectedMainProduct"
-            class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100"
-          >
-            <div class="text-center">+ Product With Variant</div>
           </button>
         </div>
       </div>
@@ -56,14 +50,12 @@
                 class="owl-input"
               >
                 <option [value]="''" selected disabled>Select Category</option>
-                <ng-container *ngFor="let cat of categories">
-                  <option [value]="cat.id">
-                    {{ cat.name }}
-                    <span *ngIf="cat.active == 0" style="color: red !important">
-                      - Deactivate
-                    </span>
-                  </option>
-                </ng-container>
+                <option *ngFor="let cat of categories" [value]="cat.id">
+                  {{ cat.name }}
+                  <span *ngIf="cat.active == 0" style="color: red !important">
+                    - Deactivate
+                  </span>
+                </option>
               </select>
             </div>
           </div>
@@ -110,7 +102,7 @@
                   w-180px-plr-0
                 "
                 target="_blank"
-                href="{{ syncFbSheet }}"
+                [href]="syncFbSheet"
                 >Sync FaceBook Sheet
               </a>
             </div>
@@ -196,11 +188,8 @@
         <th scope="col">product name</th>
         <th *ngIf="!selectedMainProduct" scope="col">category > subcat</th>
         <th *ngIf="selectedMainProduct" scope="col">Last Editor</th>
-        <!-- <th  scope="col" class="hidden">creator</th> -->
         <th scope="col">Stock</th>
         <th scope="col" *ngIf="isAffiliate">Commission</th>
-        <!--<th scope="col">main price</th>
-      <th scope="col">discount price</th>-->
         <th scope="col">action</th>
       </tr>
     </thead>
@@ -208,16 +197,14 @@
       <tr
         *ngFor="
           let product of products
-            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total };
+            | paginate
+              : { itemsPerPage: 20, currentPage: page, totalItems: total };
           let idx = index
         "
       >
         <td class="relative">
           {{ product.sku | summary: 24 }}
           <div *ngIf="product.sku.length >= 20" class="hover-reason text-left">
-            <!--<div class="head">
-            product name
-          </div>-->
             <div class="body">
               {{ product.sku }}
             </div>
@@ -226,9 +213,6 @@
         <td class="relative">
           {{ product.name | summary: 24 }}
           <div *ngIf="product.name.length >= 20" class="hover-reason text-left">
-            <!--<div class="head">
-            product name
-          </div>-->
             <div class="body">
               {{ product.name }}
             </div>
@@ -244,7 +228,6 @@
         <td *ngIf="selectedMainProduct">
           {{ product?.last_editor?.name }}
         </td>
-        <!-- <td class="hidden">{{product.creator?.name}}</td> -->
         <td class="hidden">{{ product.stock ? product.stock : "0" }}</td>
         <td *ngIf="isAffiliate">
           {{
@@ -252,12 +235,7 @@
           }}
         </td>
 
-        <!--<td>{{product.price}}</td>
-      <td>{{product.discount_price ? product.discount_price : "-"}}</td>-->
         <td>
-          <!--<a style="margin-right: 10px" class="table-view open-show" (click)="viewProduct(product)">
-          <i class="icon-View"></i>
-        </a>-->
           <a
             (click)="getProductVariants(product)"
             class="table-view open-show mx-1"
@@ -317,8 +295,6 @@
                 name=""
                 placeholder="Why Do yo want to deactivate this product?"
               ></textarea>
-              <!-- [disabled]="!product.notes"
-                [ngClass]="{'not-allowed' : !product.notes }" -->
               <button
                 (click)="submitDeactivate(product)"
                 class="btn btn-owls btn-rounded btn-green2"
@@ -378,13 +354,8 @@
   <p style="color: white">Loading...</p>
 </ngx-spinner>
 
-<!--
-<ngx-spinner bdColor = "rgba(0,0,0,0)" size = "large" color = "#2dacbb" type = "timer" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
--->
-
 <pagination-controls (pageChange)="pagination($event)"></pagination-controls>
 
-<!-- view product -->
 <app-view-product
   (closeSideBarEmit)="closeSideBar()"
   [@slideInOut]="viewProductSidebar"

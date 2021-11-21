@@ -1,44 +1,83 @@
-<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+<div class="form-sidebar view-vindor-types add-edit-product-form" id="add-prod">
   <div class="head">
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{sectionData ?  'Edit Section' : 'New Section' }} </h3>
+    <h3>{{ sectionData ? "Edit Section" : "New Section" }}</h3>
   </div>
 
-  <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="sectionForm" novalidate>
-
+  <form
+    class="sideform"
+    (ngSubmit)="submitForm()"
+    [formGroup]="sectionForm"
+    novalidate
+  >
     <div class="form-group">
       <label for="">Image Type</label>
-      <select formControlName="image_type" class="owl-input" (change)="resetForm()">
-        <option *ngFor="let list of imageTypes" value="{{list.id}}">{{list.name}}</option>
+      <select
+        formControlName="image_type"
+        class="owl-input"
+        (change)="resetForm()"
+      >
+        <option *ngFor="let list of imageTypes" value="{{ list.id }}">
+          {{ list.name }}
+        </option>
       </select>
       <div
-        *ngIf="sectionForm.controls.image_type.invalid && (sectionForm.controls.image_type.dirty || sectionForm.controls.image_type.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          sectionForm.controls.image_type.invalid &&
+          (sectionForm.controls.image_type.dirty ||
+            sectionForm.controls.image_type.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="sectionForm.controls.image_type.errors.required">
           Image Type is required
         </div>
       </div>
     </div>
 
-    <ng-container *ngIf="sectionForm.controls.image_type.value == 2 || sectionForm.controls.image_type.value == 3"
-      formArrayName="images">
-      <div class="image-parent w-100" *ngFor='let item of imagesList.controls; let i = index' formGroupName="{{i}}">
+    <ng-container
+      *ngIf="
+        sectionForm.controls.image_type.value == 2 ||
+        sectionForm.controls.image_type.value == 3
+      "
+      formArrayName="images"
+    >
+      <div
+        class="image-parent w-100"
+        *ngFor="let item of imagesList.controls; let i = index"
+        formGroupName="{{ i }}"
+      >
         <div class="row">
           <div class="col-12 col-md-6">
             <div class="form-group">
               <label>Image EN</label>
               <div class="d-flex justify-content-center flex-column">
-                <app-image-uploader [fileUrl]="sectionForm.get('images').controls[i].value?.image_en"
-                  [formControlChildName]="'image_en'" [myForm]="sectionForm.get('images').controls[i]" class="w-100"
-                  height="340px" width="100%">
+                <app-image-uploader
+                  [fileUrl]="
+                    sectionForm.get('images').controls[i].value?.image_en
+                  "
+                  [formControlChildName]="'image_en'"
+                  [myForm]="sectionForm.get('images').controls[i]"
+                  class="w-100"
+                  height="340px"
+                  width="100%"
+                >
                 </app-image-uploader>
                 <!-- <div *ngIf="formControlValidator('image_en','required')" class="text-danger">
                   Image Is Required
                 </div> -->
-                <div *ngIf="formArrayControlValidator(sectionForm.get('images').controls[i], 'image_en', 'required')"
-                  class="alert alert-danger">
+                <div
+                  *ngIf="
+                    formArrayControlValidator(
+                      sectionForm.get('images').controls[i],
+                      'image_en',
+                      'required'
+                    )
+                  "
+                  class="alert alert-danger"
+                >
                   image En is required.
                 </div>
               </div>
@@ -49,9 +88,16 @@
             <div class="form-group">
               <label>Image AR</label>
               <div class="d-flex justify-content-center flex-column">
-                <app-image-uploader [fileUrl]="sectionForm.get('images').controls[i].value?.image_ar"
-                  [formControlChildName]="'image_ar'" [myForm]="sectionForm.get('images').controls[i]" class="w-100"
-                  height="340px" width="100%">
+                <app-image-uploader
+                  [fileUrl]="
+                    sectionForm.get('images').controls[i].value?.image_ar
+                  "
+                  [formControlChildName]="'image_ar'"
+                  [myForm]="sectionForm.get('images').controls[i]"
+                  class="w-100"
+                  height="340px"
+                  width="100%"
+                >
                 </app-image-uploader>
                 <!--<div *ngIf="formControlValidator('image_ar','required')" class="text-danger">
                   Image Is Required
@@ -62,17 +108,33 @@
         </div>
         <div class="form-group">
           <label for="">Image Link</label>
-          <input type="text" class="owl-input" placeholder="Type.." formControlName="link_en">
+          <input
+            type="text"
+            class="owl-input"
+            placeholder="Type.."
+            formControlName="link_en"
+          />
         </div>
       </div>
     </ng-container>
 
     <div class="form-group">
       <label for="">Name</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_en">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="name_en"
+      />
       <div
-        *ngIf="sectionForm.controls.name_en.invalid && (sectionForm.controls.name_en.dirty || sectionForm.controls.name_en.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          sectionForm.controls.name_en.invalid &&
+          (sectionForm.controls.name_en.dirty ||
+            sectionForm.controls.name_en.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="sectionForm.controls.name_en.errors.required">
           Name is required.
         </div>
@@ -81,12 +143,23 @@
 
     <div class="form-group">
       <label for="">Name (Ar)</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_ar">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="name_ar"
+      />
       <!-- Start  Errors Rolues -->
 
       <div
-        *ngIf="sectionForm.controls.name_ar.invalid && (sectionForm.controls.name_ar.dirty || sectionForm.controls.name_ar.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          sectionForm.controls.name_ar.invalid &&
+          (sectionForm.controls.name_ar.dirty ||
+            sectionForm.controls.name_ar.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="sectionForm.controls.name_ar.errors.required">
           Name (Ar) is required.
         </div>
@@ -94,14 +167,23 @@
       <!-- End Errors Rolues -->
     </div>
 
-
     <div class="form-group">
       <label for="">description</label>
-      <textarea class="owl-input" placeholder="Type.." maxlength="250" laceholder="type"
-        formControlName="description_en"></textarea>
+      <textarea
+        class="owl-input"
+        placeholder="Type.."
+        maxlength="250"
+        laceholder="type"
+        formControlName="description_en"
+      ></textarea>
       <div
-        *ngIf="sectionForm.controls.description_en.invalid && (sectionForm.controls.description_en.dirty || sectionForm.controls.description_en.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          sectionForm.controls.description_en.invalid &&
+          (sectionForm.controls.description_en.dirty ||
+            sectionForm.controls.description_en.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="sectionForm.controls.description_en.errors.required">
           Description is required.
         </div>
@@ -110,10 +192,20 @@
 
     <div class="form-group">
       <label for="">description (Ar)</label>
-      <textarea class="owl-input" maxlength="250" placeholder="Type.." formControlName="description_ar"></textarea>
+      <textarea
+        class="owl-input"
+        maxlength="250"
+        placeholder="Type.."
+        formControlName="description_ar"
+      ></textarea>
       <div
-        *ngIf="sectionForm.controls.description_ar.invalid && (sectionForm.controls.description_ar.dirty || sectionForm.controls.description_ar.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          sectionForm.controls.description_ar.invalid &&
+          (sectionForm.controls.description_ar.dirty ||
+            sectionForm.controls.description_ar.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="sectionForm.controls.description_ar.errors.required">
           Description (Ar) is required.
         </div>
@@ -130,11 +222,18 @@
     <div class="form-group">
       <label for="">Custom Lists</label>
       <select formControlName="list_id" class="owl-input">
-        <option *ngFor="let list of lists" value="{{list.id}}">{{list.name_en}}</option>
+        <option *ngFor="let list of lists" value="{{ list.id }}">
+          {{ list.name_en }}
+        </option>
       </select>
       <div
-        *ngIf="sectionForm.controls.list_id.invalid && (sectionForm.controls.list_id.dirty || sectionForm.controls.list_id.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          sectionForm.controls.list_id.invalid &&
+          (sectionForm.controls.list_id.dirty ||
+            sectionForm.controls.list_id.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="sectionForm.controls.list_id.errors.required">
           List is required
         </div>
@@ -143,12 +242,23 @@
 
     <div class="form-group">
       <label for="">Order</label>
-      <input type="number" class="owl-input" placeholder="Type.." required formControlName="order">
+      <input
+        type="number"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="order"
+      />
       <!-- Start  Errors Rolues -->
 
       <div
-        *ngIf="sectionForm.controls.order.invalid && (sectionForm.controls.order.dirty || sectionForm.controls.order.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          sectionForm.controls.order.invalid &&
+          (sectionForm.controls.order.dirty ||
+            sectionForm.controls.order.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="sectionForm.controls.order.errors.required">
           Order is required.
         </div>
@@ -156,9 +266,13 @@
       <!-- End Errors Rolues -->
     </div>
 
-
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
+      <button
+        class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="submitting"
+      >
+        Save
+      </button>
     </div>
   </form>
 </div>

@@ -6,7 +6,6 @@
     <h3>View List</h3>
   </div>
   <div class="details details-2" *ngIf="list">
-
     <!-- <div class="row">
       <div class="col-6">
         <h5>Image</h5>
@@ -18,47 +17,61 @@
       </div>
     </div> -->
     <div class="import-export">
-
-      <button class="btn btn-owls btn-rounded btn-green btn-special owl-input-file inputFile" style="overflow: hidden">
+      <button
+        class="
+          btn btn-owls btn-rounded btn-green btn-special
+          owl-input-file
+          inputFile
+        "
+        style="overflow: hidden"
+      >
         Import List
-        <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
-          (change)="uploadList($event)">
+        <input
+          #myInput
+          type="file"
+          class="input-style"
+          placeholder="type here "
+          accept=".xlsx, .xls, .csv"
+          (change)="uploadList($event)"
+        />
       </button>
       <div class="form-group">
-        <a class=" btn btn-owls btn-rounded btn-green btn-special" (click)="export(list.id)">export
-          List</a>
+        <a
+          class="btn btn-owls btn-rounded btn-green btn-special"
+          (click)="export(list.id)"
+          >export List</a
+        >
       </div>
     </div>
 
     <div>
-      <h5>List Name </h5>
-      <p>{{list.name_en}}</p>
+      <h5>List Name</h5>
+      <p>{{ list.name_en }}</p>
     </div>
 
     <div>
-      <h5>List Name Ar </h5>
-      <p>{{list.name_ar}}</p>
+      <h5>List Name Ar</h5>
+      <p>{{ list.name_ar }}</p>
     </div>
 
     <div>
       <h5>Description</h5>
-      <p>{{list?.description_en}}</p>
+      <p>{{ list?.description_en }}</p>
     </div>
 
     <div>
       <h5>Description ar</h5>
-      <p>{{list?.description_ar}}</p>
+      <p>{{ list?.description_ar }}</p>
     </div>
 
     <div>
       <h5>Total Products</h5>
-      <p>{{list?.products?.length}}</p>
+      <p>{{ list?.products?.length }}</p>
     </div>
 
     <div>
       <h5>Creation Date</h5>
-      <p>{{list?.created_at | date : "yyyy-MM-dd hh:mm a"}}</p>
+      <p>{{ list?.created_at | date: "yyyy-MM-dd hh:mm a" }}</p>
     </div>
-
   </div>
 </div>

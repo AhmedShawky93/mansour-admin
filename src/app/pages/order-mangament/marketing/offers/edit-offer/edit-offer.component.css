@@ -5,17 +5,15 @@
 .btn.btn-owls.import-file {
   width: 50% !important;
 }
-.sheet-phones
-{
-  background-color: #F4F4F4;
+.sheet-phones {
+  background-color: #f4f4f4;
   padding: 10px;
   border-radius: 5px;
   color: rgba(0, 61, 97, 0.47);
   height: 168px;
   overflow-x: auto;
 }
-.sheet-phones .view-phone
-{
+.sheet-phones .view-phone {
   background: #5ca5dd;
   color: #fff;
   padding: 3px 10px;

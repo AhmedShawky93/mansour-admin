@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { AccessAdminsComponent } from './access-admins.component';
+import { AccessAdminsComponent } from "./access-admins.component";
 
-describe('AccessAdminsComponent', () => {
+describe("AccessAdminsComponent", () => {
   let component: AccessAdminsComponent;
   let fixture: ComponentFixture<AccessAdminsComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AccessAdminsComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AccessAdminsComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccessAdminsComponent);
@@ -19,7 +20,7 @@ describe('AccessAdminsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

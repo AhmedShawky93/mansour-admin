@@ -1,28 +1,35 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-8">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" [(ngModel)]="searchTerm" name="searchTerm"
-          placeholder="search ...">
+        <input
+          type="text"
+          class="owl-input owls-search"
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          placeholder="search ..."
+        />
       </div>
     </div>
     <div class="col-md-4 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big  " (click)="resetForm(); openSideBar()"> + New
-          notification</button>
+        <button
+          class="btn btn-owls btn-rounded btn-blue2 btn-big"
+          (click)="resetForm(); openSideBar()"
+        >
+          + New notification
+        </button>
       </div>
     </div>
-
   </div>
 </div>
 
 <div class="table-responsive">
-  <table class="table owls-table ">
+  <table class="table owls-table">
     <thead>
       <tr>
         <th scope="col">iD</th>
@@ -31,37 +38,43 @@
         <th scope="col">description</th>
         <th scope="col">Product</th>
         <th scope="col">Image</th>
-        <th scope="col"> creation date</th>
+        <th scope="col">creation date</th>
       </tr>
     </thead>
     <tbody>
-
       <tr
-        *ngFor="let message of messages | notificationFilter: searchTerm | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
-        <td>{{message.id}}</td>
-        <td>{{message.creator.name}}</td>
-        <td>{{message.title}}</td>
-        <td>{{message.body}}</td>
+        *ngFor="
+          let message of messages
+            | notificationFilter: searchTerm
+            | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }
+        "
+      >
+        <td>{{ message.id }}</td>
+        <td>{{ message.creator.name }}</td>
+        <td>{{ message.title }}</td>
+        <td>{{ message.body }}</td>
         <td>
-          <span *ngIf="message.product"> {{message.product.name}} </span>
+          <span *ngIf="message.product"> {{ message.product.name }} </span>
           <span *ngIf="!message.product">-</span>
         </td>
         <td>
           <span *ngIf="message.image">
-            <img [src]="message.image" (click)="imageView(message.image)" data-toggle="modal" data-target="#imagePopUp"
-              class="img-table-style">
-
+            <img
+              [src]="message.image"
+              (click)="imageView(message.image)"
+              data-toggle="modal"
+              data-target="#imagePopUp"
+              class="img-table-style"
+            />
           </span>
           <span *ngIf="!message.image">-</span>
         </td>
-        <td>{{message.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td>{{ message.created_at | date: "yyyy-MM-dd hh:mm a" }}</td>
       </tr>
     </tbody>
   </table>
 </div>
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
-
-
 
 <div class="form-sidebar view-vindor-types" id="add-not">
   <div class="head">
@@ -71,120 +84,240 @@
     <h3>new notification</h3>
   </div>
 
-  <form class="sideform" name="notificationForm" (ngSubmit)="addNotification(notific)" [formGroup]="notificat"
-    novalidate>
-
+  <form
+    class="sideform"
+    name="notificationForm"
+    (ngSubmit)="addNotification(notific)"
+    [formGroup]="notificat"
+    novalidate
+  >
     <div class="form-group">
       <label for="">images</label>
 
       <div class="owls-upload owls-upload3 big">
-        <img class="owl-img img-fluid  notificat-img-style" *ngIf="notific.imageUrl" src="{{notific.imageUrl}}" alt="">
-        <img class="owl-img img-fluid" *ngIf="!notific.imageUrl" src="http://via.placeholder.com/328x177" alt="">
-        <input type="file" id="productImg" class="owl-input" placeholder="upload your image"
-          (change)="onimgeSelected(notific, $event)" />
-        <input type="hidden" [(ngModel)]="notific.image" name="image" formControlName="image">
+        <img
+          class="owl-img img-fluid notificat-img-style"
+          *ngIf="notific.imageUrl"
+          src="{{ notific.imageUrl }}"
+          alt=""
+        />
+        <img
+          class="owl-img img-fluid"
+          *ngIf="!notific.imageUrl"
+          src="http://via.placeholder.com/328x177"
+          alt=""
+        />
+        <input
+          type="file"
+          id="productImg"
+          class="owl-input"
+          placeholder="upload your image"
+          (change)="onimgeSelected(notific, $event)"
+        />
+        <input
+          type="hidden"
+          [(ngModel)]="notific.image"
+          name="image"
+          formControlName="image"
+        />
       </div>
     </div>
 
     <div class="form-group">
       <label for="amount">Notification Title</label>
 
-      <input type="text" class="owl-input" formControlName="notifiName" name="notifiName" placeholder="Type here..."
-        [(ngModel)]="notific.title" required>
+      <input
+        type="text"
+        class="owl-input"
+        formControlName="notifiName"
+        name="notifiName"
+        placeholder="Type here..."
+        [(ngModel)]="notific.title"
+        required
+      />
 
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="notificat.controls.notifiName.invalid && (notificat.controls.notifiName.dirty || notificat.controls.notifiName.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          notificat.controls.notifiName.invalid &&
+          (notificat.controls.notifiName.dirty ||
+            notificat.controls.notifiName.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="notificat.controls.notifiName.errors.required">
           Notification Name is required.
         </div>
-
       </div>
       <!-- End Errors Rolues -->
     </div>
 
     <div class="form-group">
       <label for="amount">Notification content (140 Max)</label>
-      <textarea class="owl-input" placeholder="type" id="" formControlName="notifiContent" name="notifiContent"
-        placeholder="Type here..." [(ngModel)]="notific.body" required></textarea>
+      <textarea
+        class="owl-input"
+        placeholder="type"
+        id=""
+        formControlName="notifiContent"
+        name="notifiContent"
+        placeholder="Type here..."
+        [(ngModel)]="notific.body"
+        required
+      ></textarea>
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="notificat.controls.notifiContent.invalid && (notificat.controls.notifiContent.dirty || notificat.controls.notifiContent.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          notificat.controls.notifiContent.invalid &&
+          (notificat.controls.notifiContent.dirty ||
+            notificat.controls.notifiContent.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="notificat.controls.notifiContent.errors.required">
           Notification Content is required.
         </div>
-
       </div>
       <!-- End Errors Rolues -->
     </div>
 
     <div class="form-group">
       <label for="amount">Customers (optional)</label>
-      <ng-select [typeahead]="customersInput$" [loading]="customersLoading" [(ngModel)]="notific.customers"
-        name="customers" [items]="customers$ | async" bindLabel="name" bindValue="id" [multiple]="true"
-        placeholder="Enter Customer name" formControlName="customers">
+      <ng-select
+        [typeahead]="customersInput$"
+        [loading]="customersLoading"
+        [(ngModel)]="notific.customers"
+        name="customers"
+        [items]="customers$ | async"
+        bindLabel="name"
+        bindValue="id"
+        [multiple]="true"
+        placeholder="Enter Customer name"
+        formControlName="customers"
+      >
       </ng-select>
     </div>
 
     <div class="form-group">
       <label for="amount">Product (optional)</label>
-      <ng-select [typeahead]="productsInput$" [loading]="productsLoading" [(ngModel)]="notific.product_id"
-        name="products" [items]="products$ | async" bindLabel="name" bindValue="id" placeholder="Enter Product name"
-        formControlName="product_id">
+      <ng-select
+        [typeahead]="productsInput$"
+        [loading]="productsLoading"
+        [(ngModel)]="notific.product_id"
+        name="products"
+        [items]="products$ | async"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Enter Product name"
+        formControlName="product_id"
+      >
       </ng-select>
     </div>
 
-
-
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green " [appLoading]="submitting">Push</button>
-
+      <button
+        class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="submitting"
+      >
+        Push
+      </button>
     </div>
-
   </form>
-
 </div>
 
 <!-- Delete  Popup-->
-<div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="removePopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to delete this item ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">
+          are you sure to delete this item ?
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      </div>
+      <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">
+          remove
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+        >
+          cancel
+        </button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- return for cancel sidebar Popup-->
-<div class="modal fade" id="imagePopUp" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" style="width: 700px;height: auto;" role="document">
-
-    <div class="modal-content" *ngIf="imageViewPopup" style=" box-shadow: none;  padding: 0px;">
-      <div class="modal-header" style="padding: 0px;margin-bottom: 0px;">
-        <button type="button" class="close close-popup" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"
-            style="display: inline-block;text-align: center;position: relative;left: -8px;top:-2px;">&times;</span>
+<div
+  class="modal fade"
+  id="imagePopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="width: 700px; height: auto"
+    role="document"
+  >
+    <div
+      class="modal-content"
+      *ngIf="imageViewPopup"
+      style="box-shadow: none; padding: 0px"
+    >
+      <div class="modal-header" style="padding: 0px; margin-bottom: 0px">
+        <button
+          type="button"
+          class="close close-popup"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span
+            aria-hidden="true"
+            style="
+              display: inline-block;
+              text-align: center;
+              position: relative;
+              left: -8px;
+              top: -2px;
+            "
+            >&times;</span
+          >
         </button>
       </div>
       <div class="modal-body text-center">
-        <img [src]="imageViewPopup" style="    width: 100%; height: 100%;object-fit: contain">
+        <img
+          [src]="imageViewPopup"
+          style="width: 100%; height: 100%; object-fit: contain"
+        />
       </div>
     </div>
   </div>
 </div>
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

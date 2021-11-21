@@ -18,20 +18,13 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-
 import { debounce } from "lodash";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { tap } from "rxjs/operators";
 import { Subject } from "rxjs/Rx";
-
 import { CategoryService } from "@app/pages/services/category.service";
 import { DraftProductService } from "@app/pages/services/draft-product.service";
 import { ProductsService } from "@app/pages/services/products.service";
@@ -39,11 +32,9 @@ import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { AuthService } from "@app/shared/auth.service";
 import { environment } from "environments/environment.prod";
-
 import { SettingService } from "../../../services/setting.service";
 import { AddEditProductComponent } from "./add-edit-product/add-edit-product.component";
 
-declare var jquery: any;
 declare var $: any;
 
 @Component({
@@ -75,6 +66,11 @@ declare var $: any;
 })
 export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   filterForm: FormGroup = new FormGroup({});
+  addProductForm: FormGroup;
+
+  @ViewChild("myInput") importFile: ElementRef;
+  @ViewChild("myInputStock") importFileStock: ElementRef;
+  @ViewChild("productForm") productForm: AddEditProductComponent;
 
   fileName: any;
   dateRange: any;
@@ -83,10 +79,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   category_id: any;
   selectedDraft: any;
   syncFbSheet: any;
-  @ViewChild("myInput") importFile: ElementRef;
-  @ViewChild("myInputStock") importFileStock: ElementRef;
-  @ViewChild("productForm") productForm: AddEditProductComponent;
-
   selectedUserIds: number[];
   products: Array<any> = [];
   selectedMainProduct: any;
@@ -104,28 +96,23 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     option_values: ([] = []),
     images: [],
   };
-  addProductForm: FormGroup;
 
   toggleAddProduct = "out";
   viewProductSidebar = "out";
-
   toggleVariant: string;
   toggleProductVariant: string;
   viewVariantSidebar: string;
-
   selectProductData: any;
   selectProductDataView: any;
-
   selectedProductVariantData: any;
   selectedProductVariantBoth: any;
   categories: any;
-
   sub_categories: any = [];
   options: any[];
   selectFile = null;
   selectImages = null;
   total = 0;
-  p = 1;
+  page = 1;
   exportUrl: string;
   exportStock: string;
   formProduct;
@@ -141,7 +128,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   website_url: any;
   isAffiliate: any;
   historyRoute: any;
-  searchValueProduct: string;
   stateCloning: boolean;
   statedeleting: boolean;
   environmentVariables: any;
@@ -151,11 +137,9 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     private uploadFile: UploadFilesService,
     private _CategoriesService: CategoryService,
     private auth: AuthService,
-    // private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService,
     private showAffiliateService: ShowAffiliateService,
-    // private settingsService: SettingService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private toasterService: ToastrService,
@@ -263,7 +247,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       relativeTo: this.activatedRoute,
       queryParams: {
         category_id: this.getFormControlValue("category_id"),
-        page: this.p,
+        page: this.page,
         sub_category_id: this.getFormControlValue("sub_category_id"),
         q: this.getFormControlValue("searchValue"),
         parent_id: "",
@@ -289,22 +273,23 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   search() {
-    this.p = 1;
+    this.page = 1;
     this.getProducts();
   }
 
   pagination(page) {
-    this.p = page;
+    this.page = page;
     this.getProducts();
   }
 
-  getProducts() {
+  getProducts(id = "") {
     this.spinner.show();
     let data = {
-      page: this.p,
+      page: this.page,
       q: this.getFormControlValue("searchValue"),
       category_id: this.getFormControlValue("category_id"),
       sub_category_id: this.getFormControlValue("sub_category_id"),
+      parent_id: id,
     };
 
     this.productsService.getProducts(data).subscribe((response: any) => {
@@ -337,18 +322,21 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     if (this.selectedMainProduct) {
       this.viewProduct(product);
     } else {
-      this.p = 1;
+      this.page = 1;
       this.filter = { q: "", page: 1 };
-      this.searchValueProduct = this.getFormControlValue("searchValue");
       this.filterForm.get("searchValue").setValue("");
       this.selectedMainProduct = product;
+      this.getProducts(product?.id);
     }
   }
 
   backToProducts() {
-    this.filterForm.get("searchValue").setValue(this.searchValueProduct);
     this.selectedMainProduct = null;
-    this.p = 1;
+    this.page = 1;
+    this.filterForm.get("searchValue").setValue("");
+    this.filterForm.get("category_id").setValue("");
+    this.filterForm.get("sub_category_id").setValue("");
+    this.getProducts();
   }
 
   goToLink() {
@@ -421,7 +409,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   changePage(p) {
-    this.p = p;
+    this.page = p;
     this.filter.page = p;
     this.filter$.next(this.filter);
   }
@@ -470,7 +458,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.disableBodyScrollTop();
   }
 
-  NewProductWithVariant(data) {
+  NewProductWithVariant(data?) {
     this.selectedProductVariantBoth = data;
     this.toggleProductVariant = "in";
     this.viewProductSidebar = "out";
@@ -672,7 +660,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.filterForm.get("searchValue").updateValueAndValidity();
     this.filterForm.get("category_id").updateValueAndValidity();
     this.filterForm.get("sub_category_id").updateValueAndValidity();
-    this.p = 1;
+    this.page = 1;
     this.getProducts();
   }
 

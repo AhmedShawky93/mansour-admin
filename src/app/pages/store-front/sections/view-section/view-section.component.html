@@ -6,15 +6,14 @@
     <h3>View Section</h3>
   </div>
   <div class="details details-2" *ngIf="section">
-
     <div class="row">
       <div class="col-12 col-md-6">
         <h5>Image AR</h5>
-        <img src="{{section?.image_ar}}" alt="" class=" owl-img img-fluid ">
+        <img src="{{ section?.image_ar }}" alt="" class="owl-img img-fluid" />
       </div>
       <div class="col-12 col-md-6">
         <h5>Image en</h5>
-        <img src="{{section?.image_en}}" alt="" class=" owl-img img-fluid ">
+        <img src="{{ section?.image_en }}" alt="" class="owl-img img-fluid" />
       </div>
     </div>
     <!--<div>
@@ -26,21 +25,21 @@
       <img src="{{section?.image_en}}" alt="" class=" owl-img img-fluid ">
     </div>-->
     <div>
-      <h5>Section name </h5>
-      <p>{{section.name_en}}</p>
+      <h5>Section name</h5>
+      <p>{{ section.name_en }}</p>
     </div>
     <div>
-      <h5>Section name Ar </h5>
-      <p>{{section.name_ar}}</p>
+      <h5>Section name Ar</h5>
+      <p>{{ section.name_ar }}</p>
     </div>
 
     <div>
       <h5>Description</h5>
-      <p>{{section?.description_en}}</p>
+      <p>{{ section?.description_en }}</p>
     </div>
     <div>
       <h5>Description ar</h5>
-      <p>{{section?.description_ar}}</p>
+      <p>{{ section?.description_ar }}</p>
     </div>
     <div>
       <h5>Type</h5>
@@ -56,12 +55,12 @@
     </div>
     <div>
       <h5>Order</h5>
-      <p>{{section?.order}}</p>
+      <p>{{ section?.order }}</p>
     </div>
 
     <div>
       <h5>Creation Date</h5>
-      <p>{{section?.created_at | date : "yyyy-MM-dd hh:mm a"}}</p>
+      <p>{{ section?.created_at | date: "yyyy-MM-dd hh:mm a" }}</p>
     </div>
   </div>
 </div>

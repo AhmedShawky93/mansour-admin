@@ -5,7 +5,10 @@
     <div class="col-md-9 col-sm-12 col-xs-12"></div>
     <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button (click)="editCurrentPage()" class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100">
+        <button
+          (click)="editCurrentPage()"
+          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100"
+        >
           <div class="text-center">Create new page</div>
         </button>
       </div>
@@ -25,36 +28,57 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let page of pages | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
+      <ng-container
+        *ngFor="
+          let page of pages
+            | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }
+        "
+      >
         <tr *ngIf="page.id != 1 && page.id != 2">
-          <td>{{page.slug}}</td>
-          <td>{{page.title_en}}</td>
+          <td>{{ page.slug }}</td>
+          <td>{{ page.title_en }}</td>
           <td>
-            <p>{{page.order}}</p>
+            <p>{{ page.order }}</p>
           </td>
           <td>
-            {{page.in_footer?'Yes':'No'}}
+            {{ page.in_footer ? "Yes" : "No" }}
             <!-- <label class="switch">
             <input type="checkbox"  [(ngModel)]="page.in_footer" (change)="changeActive(page)">
             <span class="slider round"></span>
           </label> -->
           </td>
           <td>
-            <a style="margin-right: 10px" (click)="viewPage(page)" class="toggle-view-pages table-view">
+            <a
+              style="margin-right: 10px"
+              (click)="viewPage(page)"
+              class="toggle-view-pages table-view"
+            >
               <i class="icon-View"></i>
             </a>
 
-            <a href="javascript:void(0)" style="margin-right: 10px" (click)="editCurrentPage(page)"
-              class="table-view edit-new">
+            <a
+              href="javascript:void(0)"
+              style="margin-right: 10px"
+              (click)="editCurrentPage(page)"
+              class="table-view edit-new"
+            >
               <i class="icon-grey"></i>
             </a>
 
-            <a href="javascript:void(0)" style="margin-right: 10px" (click)="deleteCurrentPage(page)"
-              class="table-view edit-product">
+            <a
+              href="javascript:void(0)"
+              style="margin-right: 10px"
+              (click)="deleteCurrentPage(page)"
+              class="table-view edit-product"
+            >
               <i class="fa fa-trash"></i>
             </a>
-            <a class="table-view edit-product mx-1" target="_blank" href="{{website_url}}/pages/{{page.slug}}"><i
-                class="fa fa-external-link"></i></a>
+            <a
+              class="table-view edit-product mx-1"
+              target="_blank"
+              href="{{ website_url }}/pages/{{ page.slug }}"
+              ><i class="fa fa-external-link"></i
+            ></a>
 
             <!-- <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="page.active" (change)="changeActive(page)">
@@ -79,12 +103,17 @@
           </td>
         </tr>
       </ng-container>
-
     </tbody>
   </table>
 </div>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 <!-- <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading"> -->
 <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
@@ -94,81 +123,119 @@
     <span class="close" (click)="closeViewPage()" id="close-vindors1">
       <i class="icon-Exit"></i>
     </span>
-    <h3>page ID: {{currentPage.id}}</h3>
-
+    <h3>page ID: {{ currentPage.id }}</h3>
   </div>
 
   <div class="head-btn">
-    <button id="add-vindor-types-btn" class="btn btn-owls btn-rounded btn-blue2 add-new"
-      (click)="editCurrentPage(currentPage)">Edit</button>
+    <button
+      id="add-vindor-types-btn"
+      class="btn btn-owls btn-rounded btn-blue2 add-new"
+      (click)="editCurrentPage(currentPage)"
+    >
+      Edit
+    </button>
   </div>
 
   <div class="details details-2" *ngIf="currentPage">
-
     <div>
       <div>
         <h5>Slug</h5>
-        <p>{{currentPage.slug}}</p>
+        <p>{{ currentPage.slug }}</p>
       </div>
     </div>
 
     <div>
       <h5>Title</h5>
-      <p>{{currentPage.title_en}}</p>
+      <p>{{ currentPage.title_en }}</p>
     </div>
 
     <div>
       <h5>Title (Ar)</h5>
-      <p>{{currentPage.title_ar}}</p>
+      <p>{{ currentPage.title_ar }}</p>
     </div>
     <div>
       <h5>Content En</h5>
-      <p *ngIf="currentPage.content_en" [innerHtml]="currentPage.content_en"></p>
+      <p
+        *ngIf="currentPage.content_en"
+        [innerHtml]="currentPage.content_en"
+      ></p>
       <div *ngIf="!currentPage.content_en" class="loadingArea">
-        <img src="./../../../../assets/img/loading-table.svg" alt="">
+        <img src="./../../../../assets/img/loading-table.svg" alt="" />
       </div>
     </div>
 
     <div>
       <h5>Content Ar</h5>
-      <p *ngIf="currentPage.content_ar" [innerHtml]="currentPage.content_ar"></p>
+      <p
+        *ngIf="currentPage.content_ar"
+        [innerHtml]="currentPage.content_ar"
+      ></p>
       <div *ngIf="!currentPage.content_ar" class="loadingArea">
-        <img src="./../../../../assets/img/loading-table.svg" alt="">
+        <img src="./../../../../assets/img/loading-table.svg" alt="" />
       </div>
     </div>
     <div>
       <h5>show in footer</h5>
-      <p>{{currentPage.in_footer?'Yes':'No'}}</p>
+      <p>{{ currentPage.in_footer ? "Yes" : "No" }}</p>
     </div>
   </div>
 </div>
 
-<app-add-edit-page #PageForm (closeSideBarEmit)="closeSideBar()" (dataProductEmit)="addOrUpdatePage($event)"
-  [@slideInOut]="toggleAddPage" [selectProductDataEdit]="currentPage" [curentAction]="toggleAddPage">
+<app-add-edit-page
+  #PageForm
+  (closeSideBarEmit)="closeSideBar()"
+  (dataProductEmit)="addOrUpdatePage($event)"
+  [@slideInOut]="toggleAddPage"
+  [selectProductDataEdit]="currentPage"
+  [curentAction]="toggleAddPage"
+>
 </app-add-edit-page>
 
-<div class="modal fade" id="deletePage" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="deletePage"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center"
+        >
           Delete Page
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-
-        Are you sure you want to Delete this Page ({{currentPage?.slug}}) ?
-
+        Are you sure you want to Delete this Page ({{ currentPage?.slug }}) ?
       </div>
-      <div class="modal-footer" style="justify-content: center;">
-        <button type="button" [appLoading]="statedeleting" [disabled]='statedeleting'
-          class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative;" (click)="confirmDelete()">
+      <div class="modal-footer" style="justify-content: center">
+        <button
+          type="button"
+          [appLoading]="statedeleting"
+          [disabled]="statedeleting"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+          style="position: relative"
+          (click)="confirmDelete()"
+        >
           Yes
         </button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-red2"
+        >
           no
         </button>
       </div>

@@ -1,121 +1,226 @@
-<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+<div class="form-sidebar view-vindor-types add-edit-product-form" id="add-prod">
   <div class="head">
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3 *ngIf="!selectedCustomer;else elseHeader">Create Customer</h3>
+    <h3 *ngIf="!selectedCustomer; else elseHeader">Create Customer</h3>
     <ng-template #elseHeader>
       <h3>Update Customer</h3>
     </ng-template>
   </div>
 
-  <form class="sideform" (ngSubmit)="submitCustomer()" [formGroup]="customerForm" novalidate>
-
+  <form
+    class="sideform"
+    (ngSubmit)="submitCustomer()"
+    [formGroup]="customerForm"
+    novalidate
+  >
     <div class="form-group">
       <label for="">Name</label>
-      <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name">
+      <input
+        type="text"
+        class="owl-input"
+        name="name"
+        placeholder="Type here..."
+        formControlName="name"
+      />
 
-      <div *ngIf="formControlValidator(customerForm, 'name', 'required')" class="alert alert-danger">
+      <div
+        *ngIf="formControlValidator(customerForm, 'name', 'required')"
+        class="alert alert-danger"
+      >
         Name is required.
       </div>
     </div>
 
     <div class="form-group">
       <label for="">Last Name</label>
-      <input type="text" class="owl-input" name="last_name" placeholder="Type here..." formControlName="last_name">
+      <input
+        type="text"
+        class="owl-input"
+        name="last_name"
+        placeholder="Type here..."
+        formControlName="last_name"
+      />
 
-      <div *ngIf="formControlValidator(customerForm, 'last_name', 'required')" class="alert alert-danger">
+      <div
+        *ngIf="formControlValidator(customerForm, 'last_name', 'required')"
+        class="alert alert-danger"
+      >
         Name is required.
       </div>
     </div>
 
     <div class="form-group">
-      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
-        <label class="container">add Address
-          <input type="checkbox" (change)="updateValidaty()" class="form-control checkbox-style" name="has_address"
-            id="has_address" [value]="1" formControlName="has_address">
+      <div class="form-group" style="margin-top: 10px; margin-bottom: 10px">
+        <label class="container"
+          >add Address
+          <input
+            type="checkbox"
+            (change)="updateValidaty()"
+            class="form-control checkbox-style"
+            name="has_address"
+            id="has_address"
+            [value]="1"
+            formControlName="has_address"
+          />
           <span class="checkmark"></span>
         </label>
       </div>
     </div>
 
-    <div formGroupName="address" *ngIf="customerForm.controls['has_address'].value">
+    <div
+      formGroupName="address"
+      *ngIf="customerForm.controls['has_address'].value"
+    >
       <div class="modal-body">
         <div class="form-group">
           <label for="">Name</label>
           <select name="name" class="owl-input bg-white" formControlName="name">
             <option value="" disabled selected>Select Address</option>
-            <option value="{{address.name}}" *ngFor="let address of addresseNames">{{address.name}}</option>
+            <option
+              value="{{ address.name }}"
+              *ngFor="let address of addresseNames"
+            >
+              {{ address.name }}
+            </option>
           </select>
           <!-- <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name"> -->
 
           <div
-            *ngIf="customerForm.controls.address['controls']['name'].errors && (customerForm.controls.address['controls']['name'].touched || customerForm.controls.address['controls']['name'].dirty)"
-            class="alert alert-danger">
+            *ngIf="
+              customerForm.controls.address['controls']['name'].errors &&
+              (customerForm.controls.address['controls']['name'].touched ||
+                customerForm.controls.address['controls']['name'].dirty)
+            "
+            class="alert alert-danger"
+          >
             Name is required.
           </div>
         </div>
 
         <div class="form-group">
           <label for="">Building</label>
-          <input type="text" class="owl-input" name="floor" placeholder="Type here..." formControlName="floor">
+          <input
+            type="text"
+            class="owl-input"
+            name="floor"
+            placeholder="Type here..."
+            formControlName="floor"
+          />
 
           <div
-            *ngIf="customerForm.controls.address['controls']['floor'].errors && (customerForm.controls.address['controls']['floor'].touched || customerForm.controls.address['controls']['floor'].dirty)"
-            class="alert alert-danger">
+            *ngIf="
+              customerForm.controls.address['controls']['floor'].errors &&
+              (customerForm.controls.address['controls']['floor'].touched ||
+                customerForm.controls.address['controls']['floor'].dirty)
+            "
+            class="alert alert-danger"
+          >
             Building is required.
           </div>
         </div>
 
         <div class="form-group">
           <label for="">Street</label>
-          <input type="text" class="owl-input" name="address" placeholder="Type here..." formControlName="address">
+          <input
+            type="text"
+            class="owl-input"
+            name="address"
+            placeholder="Type here..."
+            formControlName="address"
+          />
 
           <div
-            *ngIf="customerForm.controls.address['controls']['address'].errors && (customerForm.controls.address['controls']['address'].touched || customerForm.controls.address['controls']['address'].dirty)"
-            class="alert alert-danger">
+            *ngIf="
+              customerForm.controls.address['controls']['address'].errors &&
+              (customerForm.controls.address['controls']['address'].touched ||
+                customerForm.controls.address['controls']['address'].dirty)
+            "
+            class="alert alert-danger"
+          >
             Street is required.
           </div>
         </div>
 
         <div class="form-group">
           <label for="">apartment</label>
-          <input type="text" class="owl-input" name="apartment" placeholder="Type here..." formControlName="apartment">
+          <input
+            type="text"
+            class="owl-input"
+            name="apartment"
+            placeholder="Type here..."
+            formControlName="apartment"
+          />
 
           <div
-            *ngIf="customerForm.controls.address['controls']['apartment'].errors && (customerForm.controls.address['controls']['apartment'].touched || customerForm.controls.address['controls']['apartment'].dirty)"
-            class="alert alert-danger">
+            *ngIf="
+              customerForm.controls.address['controls']['apartment'].errors &&
+              (customerForm.controls.address['controls']['apartment'].touched ||
+                customerForm.controls.address['controls']['apartment'].dirty)
+            "
+            class="alert alert-danger"
+          >
             Apartment is required.
           </div>
         </div>
 
         <div class="form-group">
           <label for="">Landmark (optional)</label>
-          <input type="text" class="owl-input" name="landmark" placeholder="Type here..." formControlName="landmark">
+          <input
+            type="text"
+            class="owl-input"
+            name="landmark"
+            placeholder="Type here..."
+            formControlName="landmark"
+          />
         </div>
 
         <div class="form-group">
           <label for="amount">City</label>
-          <select name="city_id" class="owl-input bg-white" formControlName="city_id" (change)="onCitySelected()">
+          <select
+            name="city_id"
+            class="owl-input bg-white"
+            formControlName="city_id"
+            (change)="onCitySelected()"
+          >
             <option value="" disabled selected>Select City</option>
-            <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+            <option value="{{ city.id }}" *ngFor="let city of cities">
+              {{ city.name }}
+            </option>
           </select>
           <div
-            *ngIf="customerForm.controls.address['controls']['city_id'].errors && (customerForm.controls.address['controls']['city_id'].touched || customerForm.controls.address['controls']['city_id'].dirty)"
-            class="alert alert-danger">
+            *ngIf="
+              customerForm.controls.address['controls']['city_id'].errors &&
+              (customerForm.controls.address['controls']['city_id'].touched ||
+                customerForm.controls.address['controls']['city_id'].dirty)
+            "
+            class="alert alert-danger"
+          >
             City is required.
           </div>
         </div>
 
         <div class="form-group">
           <label for="amount">Area</label>
-          <select name="area_id" class="owl-input bg-white" formControlName="area_id">
+          <select
+            name="area_id"
+            class="owl-input bg-white"
+            formControlName="area_id"
+          >
             <option value="" disabled selected>Select Area</option>
-            <option value="{{area.id}}" *ngFor="let area of areas">{{area.name}}</option>
+            <option value="{{ area.id }}" *ngFor="let area of areas">
+              {{ area.name }}
+            </option>
           </select>
           <div
-            *ngIf="customerForm.controls.address['controls']['area_id'].errors && (customerForm.controls.address['controls']['area_id'].touched || customerForm.controls.address['controls']['area_id'].dirty)"
-            class="alert alert-danger">
+            *ngIf="
+              customerForm.controls.address['controls']['area_id'].errors &&
+              (customerForm.controls.address['controls']['area_id'].touched ||
+                customerForm.controls.address['controls']['area_id'].dirty)
+            "
+            class="alert alert-danger"
+          >
             Area is required.
           </div>
         </div>
@@ -124,36 +229,74 @@
 
     <div class="form-group">
       <label for="">email address </label>
-      <input type="email" class="owl-input" name="email" placeholder="Type here..." formControlName="email">
+      <input
+        type="email"
+        class="owl-input"
+        name="email"
+        placeholder="Type here..."
+        formControlName="email"
+      />
 
-      <div *ngIf="formControlValidator(customerForm, 'email', 'required')" class="alert alert-danger">
+      <div
+        *ngIf="formControlValidator(customerForm, 'email', 'required')"
+        class="alert alert-danger"
+      >
         Email is required.
       </div>
-      <div *ngIf="formControlValidator(customerForm, 'email', 'email')" class="alert alert-danger">
+      <div
+        *ngIf="formControlValidator(customerForm, 'email', 'email')"
+        class="alert alert-danger"
+      >
         Not a valid email format.
       </div>
     </div>
 
     <div class="form-group phone-form-field">
       <label for="">Phone</label>
-      <input class="owl-input" name="phone" placeholder="Type here..." formControlName="phone"
-        [minLength]='environmentVariables.localization.phone_length'
-        [maxLength]='environmentVariables.localization.phone_length'>
-      <span class="localization-data" *ngIf="environmentVariables?.localization">
-        <img [src]="environmentVariables?.localization?.flag" alt="country flag">
-        {{environmentVariables?.localization?.phone_prefix}}
+      <input
+        class="owl-input"
+        name="phone"
+        placeholder="Type here..."
+        formControlName="phone"
+        [minLength]="environmentVariables.localization.phone_length"
+        [maxLength]="environmentVariables.localization.phone_length"
+      />
+      <span
+        class="localization-data"
+        *ngIf="environmentVariables?.localization"
+      >
+        <img
+          [src]="environmentVariables?.localization?.flag"
+          alt="country flag"
+        />
+        {{ environmentVariables?.localization?.phone_prefix }}
       </span>
-      <div *ngIf="formControlValidator(customerForm, 'phone', 'required')" class="alert alert-danger">
+      <div
+        *ngIf="formControlValidator(customerForm, 'phone', 'required')"
+        class="alert alert-danger"
+      >
         Phone is required.
       </div>
       <div
-        *ngIf="formControlValidator(customerForm, 'phone', 'minLength') || formControlValidator(customerForm, 'phone', 'maxLength')"
-        class="alert alert-danger">
-        Phone must be {{environmentVariables?.localization.phone_length}} numbers.
+        *ngIf="
+          formControlValidator(customerForm, 'phone', 'minLength') ||
+          formControlValidator(customerForm, 'phone', 'maxLength')
+        "
+        class="alert alert-danger"
+      >
+        Phone must be
+        {{ environmentVariables?.localization.phone_length }} numbers.
       </div>
       <div
-        *ngIf="formControlValidator(customerForm, 'phone', 'pattern') && !(formControlValidator(customerForm, 'phone', 'minLength') || formControlValidator(customerForm, 'phone', 'maxLength'))"
-        class="alert alert-danger">
+        *ngIf="
+          formControlValidator(customerForm, 'phone', 'pattern') &&
+          !(
+            formControlValidator(customerForm, 'phone', 'minLength') ||
+            formControlValidator(customerForm, 'phone', 'maxLength')
+          )
+        "
+        class="alert alert-danger"
+      >
         Invalid phone number.
       </div>
       <!-- <div class="alert alert-danger" *ngIf="formControlValidator(customerForm, 'phone', 'minlength') && 
@@ -185,17 +328,29 @@
 
     <div class="form-group">
       <label for=""> password</label>
-      <input type="password" class="owl-input" name="customer_password" placeholder="Type here..."
-        formControlName="password">
+      <input
+        type="password"
+        class="owl-input"
+        name="customer_password"
+        placeholder="Type here..."
+        formControlName="password"
+      />
 
-      <div *ngIf="formControlValidator(customerForm, 'password', 'required')" class="alert alert-danger">
+      <div
+        *ngIf="formControlValidator(customerForm, 'password', 'required')"
+        class="alert alert-danger"
+      >
         Password is required.
       </div>
     </div>
 
     <div class="form-group">
       <label for="">Disabled payment methods</label>
-      <ng-select name="closed_payment_methods" [multiple]="true" formControlName="closed_payment_methods">
+      <ng-select
+        name="closed_payment_methods"
+        [multiple]="true"
+        formControlName="closed_payment_methods"
+      >
         <ng-option [value]="1">Cash</ng-option>
         <ng-option [value]="2">Credit Card</ng-option>
         <ng-option [value]="3">Valu</ng-option>
@@ -204,8 +359,12 @@
     </div>
 
     <div class="btn-group">
-      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">save</button>
+      <button
+        class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="submitting"
+      >
+        save
+      </button>
     </div>
   </form>
-
 </div>
