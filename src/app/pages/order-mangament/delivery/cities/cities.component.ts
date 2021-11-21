@@ -89,7 +89,7 @@ export class CitiesComponent implements OnInit {
         this.spinner.hide();
         if (response.code === 200) {
           this.cities = response.data;
-          this.total = response.total;
+          this.total = response.meta.total;
           this.cities.map((data: any) => {
             data.deactivated = !data.active;
             return data;
