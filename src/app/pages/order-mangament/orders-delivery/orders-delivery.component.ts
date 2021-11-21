@@ -740,14 +740,6 @@ export class OrdersDeliveryComponent implements OnInit {
     }
   }
 
-  getCities() {
-    this._areaService.getCities().subscribe((response: any) => {
-      if (response.code === 200) {
-        this.cities = response.data;
-      }
-    });
-  }
-
   SelectDistrict(event, data) {}
   public getArea(area) {
     const index = this.cities.findIndex((item) => item.id == area);

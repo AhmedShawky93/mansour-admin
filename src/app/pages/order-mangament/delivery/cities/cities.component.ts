@@ -45,6 +45,9 @@ export class CitiesComponent implements OnInit {
   selectDataView: any;
   selectData: any;
   selectFile = null;
+  limit: number = 20;
+  page: number = 1;
+  total = null;
   @ViewChild("myInput") importFile: ElementRef;
 
   constructor(
@@ -80,16 +83,24 @@ export class CitiesComponent implements OnInit {
   }
   getCities() {
     this.spinner.show();
-    this._areaService.getCities().subscribe((response: any) => {
-      this.spinner.hide();
-      if (response.code === 200) {
-        this.cities = response.data;
-        this.cities.map((data: any) => {
-          data.deactivated = !data.active;
-          return data;
-        });
-      }
-    });
+    this._areaService
+      .getCities(this.limit, this.page)
+      .subscribe((response: any) => {
+        this.spinner.hide();
+        if (response.code === 200) {
+          this.cities = response.data;
+          this.total = response.total;
+          this.cities.map((data: any) => {
+            data.deactivated = !data.active;
+            return data;
+          });
+        }
+      });
+  }
+
+  changePage(p) {
+    this.page = p;
+    this.getCities();
   }
 
   addOrUpdateData(data) {

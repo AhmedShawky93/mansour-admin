@@ -73,7 +73,6 @@ export class ManageCastomerComponent implements OnInit {
   selectedAddress: any;
   customerId: any;
   environmentVariables;
-
   constructor(
     private cs: CustomerService,
     private auth: AuthService,
@@ -98,14 +97,10 @@ export class ManageCastomerComponent implements OnInit {
 
     $(".table").on("click", ".toggle-vindor-view", function () {
       $("#view-active").toggleClass("open-view-vindor-types");
-      // $(".left-sidebar").toggleClass("toggle-left-sidebar")
-      // $("i", this).toggleClass(" icon-Exit fa fa-bars");
     });
 
     $(".toggle-view-active").on("click", function () {
       $("#view-active").toggleClass("open-view-vindor-types");
-      // $(".left-sidebar").toggleClass("toggle-left-sidebar")
-      // $("i", this).toggleClass(" icon-Exit fa fa-bars");
     });
 
     $(".switch").on("click", ".slider", function () {
@@ -141,7 +136,7 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   getCities() {
-    this._areaService.getCities().subscribe((response: any) => {
+    this._areaService.getCities(null, null).subscribe((response: any) => {
       if (response.code === 200) {
         this.cities = response.data;
       }

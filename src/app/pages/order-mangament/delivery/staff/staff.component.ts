@@ -248,7 +248,7 @@ export class StaffComponent implements OnInit {
   }
 
   loadCities() {
-    this.areaService.getCities().subscribe((response: any) => {
+    this.areaService.getCities(null, null).subscribe((response: any) => {
       this.cities = response.data;
     });
   }

@@ -27,10 +27,18 @@ export class AreasService {
       });
   }
 
-  getCities() {
-    return this._HttpClient.get(this.url + "/cities").catch((error: any) => {
-      return Observable.throw(error.error || "Area error");
-    });
+  // getCities() {
+  //   return this._HttpClient.get(this.url + "/cities").catch((error: any) => {
+  //     return Observable.throw(error.error || "Area error");
+  //   });
+  // }
+
+  getCities(limit, page) {
+    return this._HttpClient
+      .get(`${this.url}/cities?limit=${limit}?page=${page}`)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Area error");
+      });
   }
 
   createCity(data) {
