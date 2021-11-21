@@ -135,7 +135,8 @@ export class CustomAdsComponent implements OnInit {
             .searchProducts(
               {
                 q: term,
-                // sub_category_id: this.newAdsForm.controls.subCategory.value,
+                category_id: this.newAdsForm.controls.Category.value,
+                sub_category_id: this.newAdsForm.controls.subCategory.value,
               },
               1
             )
@@ -216,7 +217,7 @@ export class CustomAdsComponent implements OnInit {
       this.products = [{ name: ad.item_data.name, id: ad.item_data.id }];
       this.productsService
         .searchProducts(
-          { q: ad.item_data.name, sub_category_id: ad.item_data.category_id },
+          { q: ad.item_data.name, category_id: ad.item_data.category_id },
           1
         )
         .subscribe((res: any) => (this.productList = res.data.products));
@@ -229,7 +230,15 @@ export class CustomAdsComponent implements OnInit {
           switchMap((term) =>
             this.productsService
               .searchProducts(
-                { q: term, sub_category_id: ad.item_data.category_id },
+                {
+                  q: term,
+                  category_id: ad.item_data.category_id
+                    ? ad.item_data.category.id
+                    : this.newAdsForm.controls.category.value,
+                  sub_category_id: ad.item_data.category_id
+                    ? ad.item_data.category_id
+                    : this.newAdsForm.controls.subCategory.value,
+                },
                 1
               )
               .pipe(
@@ -253,7 +262,7 @@ export class CustomAdsComponent implements OnInit {
     this.selectedAd = ad;
     if (ad.type == 1) {
       this.newAdsForm.get("subCategory").setValue(ad.item_data.category_id);
-      this.newAdsForm.get("category").setValue(ad.item_data.category.id);
+      this.newAdsForm.get("category").setValue(ad.item_data.category?.id);
       // setTimeout(() => {
       //   this.newAdsForm.get("prod").setValue(ad.item_data.id);
       // }, 2000);
@@ -476,7 +485,7 @@ export class CustomAdsComponent implements OnInit {
     const category_id = this.newAdsForm.get("category").value;
     const index = this.categories.findIndex((item) => item.id == category_id);
     const category = this.categories[index];
-    this.sub_categories = category.sub_categories;
+    this.sub_categories = category?.sub_categories;
   }
 
   onSubCategoryChange() {
