@@ -859,7 +859,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       .creatProduct(this.mappingMainProductData())
       .subscribe((response: any) => {
         if (response.code === 200) {
-          this.toasterService.success("Product Added Successfully");
+          // this.toasterService.success("Product Added Successfully");
           this.mainProduct = response.data;
           this.createVariantProduct();
         } else {
@@ -926,7 +926,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       .creatProductVariant(this.mainProduct.id, this.mappingVariantData())
       .subscribe((response: any) => {
         if (response.code === 200) {
-          this.toasterService.success("Product Varient Added Successfully");
+          // this.toasterService.success("Product Varient Added Successfully");
           if (this.selectedProduct && this.selectedProduct.isDraft) {
             const deleteDraft = { ...this.selectedProduct };
             deleteDraft.delete = true;

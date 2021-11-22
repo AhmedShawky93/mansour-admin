@@ -1,17 +1,22 @@
 <div class="home-items">
   <div class="row relative">
-    <ngx-spinner name="staticDataSpinner" [fullScreen]="false" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium"
-      type="timer">
+    <ngx-spinner
+      name="staticDataSpinner"
+      [fullScreen]="false"
+      bdColor="rgba(0, 0, 0, 0.8)"
+      color="#fff"
+      size="medium"
+      type="timer"
+    >
     </ngx-spinner>
     <div class="col-md col-sm-12">
       <div class="home-item">
         <span>
-          <img class="icon-img" src="./assets/img/money.svg">
-
+          <img class="icon-img" src="./assets/img/money.svg" />
         </span>
         <div class="content">
           <span>Total Orders</span>
-          <h5>{{ordersCount}}</h5>
+          <h5>{{ ordersCount }}</h5>
           <a routerLink="/pages/orders">more details</a>
         </div>
       </div>
@@ -20,11 +25,11 @@
     <div class="col-md col-sm-12">
       <div class="home-item">
         <span>
-          <img class="icon-img" src="./assets/img/conversation.svg">
+          <img class="icon-img" src="./assets/img/conversation.svg" />
         </span>
         <div class="content">
           <span>Total Customers</span>
-          <h5>{{customersCount}}</h5>
+          <h5>{{ customersCount }}</h5>
           <a routerLink="/pages/manage-customer">more details</a>
         </div>
       </div>
@@ -33,12 +38,11 @@
     <div class="col-md col-sm-12">
       <div class="home-item">
         <span>
-          <img class="icon-img" src="./assets/img/cargo.svg">
-
+          <img class="icon-img" src="./assets/img/cargo.svg" />
         </span>
         <div class="content">
           <span>Total Products</span>
-          <h5>{{productsCount}}</h5>
+          <h5>{{ productsCount }}</h5>
           <a routerLink="/pages/products">more details</a>
         </div>
       </div>
@@ -47,12 +51,11 @@
     <div class="col-md col-sm-12" *ngIf="environmentVariables.SMS_CONNECTION">
       <div class="home-item">
         <span>
-          <img class="icon-img" src="./assets/img/money.svg">
-
+          <img class="icon-img" src="./assets/img/money.svg" />
         </span>
         <div class="content">
           <span>Sms Credits Left</span>
-          <h5>{{smsCount? smsCount : '0' }}</h5>
+          <h5>{{ smsCount ? smsCount : "0" }}</h5>
           <!-- <a  routerLink="/pages/products">more details</a> -->
         </div>
       </div>
@@ -60,34 +63,47 @@
   </div>
 </div>
 
-
 <div class="block-title" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
   <h2>new order request</h2>
 </div>
 
-<div class="table-responsive relative" *ngxPermissionsOnly="['ADMIN', 'View Orders']">
-  <ngx-spinner name="tableSpinner" [fullScreen]="false" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium"
-    type="timer">
+<div
+  class="table-responsive relative"
+  *ngxPermissionsOnly="['ADMIN', 'View Orders']"
+>
+  <ngx-spinner
+    name="tableSpinner"
+    [fullScreen]="false"
+    bdColor="rgba(0, 0, 0, 0.8)"
+    color="#fff"
+    size="medium"
+    type="timer"
+  >
   </ngx-spinner>
-  <table class="table owls-table ">
+  <table class="table owls-table">
     <thead>
       <tr>
         <th scope="col">Order ID</th>
-        <th class="remove_date" scope="col"> date & time </th>
-        <th>Customer details </th>
-        <th> delivary address </th>
-        <th> Total Amount </th>
-        <th scope="col" style="text-align: center;">action</th>
+        <th class="remove_date" scope="col">date & time</th>
+        <th>Customer details</th>
+        <th>delivary address</th>
+        <th>Total Amount</th>
+        <th scope="col" style="text-align: center">action</th>
       </tr>
     </thead>
     <tbody>
-
-      <tr *ngFor="let order of orders | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }" @fade>
-        <td>{{order.id}}</td>
-        <td>{{order.created_at | date: 'd-M-yyyy  h:mm a'}}</td>
-        <td>{{order.user?.name}} - {{order.user?.phone}}</td>
-        <td>{{order.address?.formatted_address}}</td>
-        <td>{{order.amount}}</td>
+      <tr
+        *ngFor="
+          let order of orders
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }
+        "
+        @fade
+      >
+        <td>{{ order.id }}</td>
+        <td>{{ order.created_at | date: "d-M-yyyy  h:mm a" }}</td>
+        <td>{{ order.user?.name }} - {{ order.user?.phone }}</td>
+        <td>{{ order.address?.formatted_address }}</td>
+        <td>{{ order.amount }}</td>
         <!--
         <td>
 
@@ -128,12 +144,14 @@
         </td> -->
 
         <td style="text-align: center">
-          <a [routerLink]="['/pages/orders/order-details', order.id]" class="table-view">
+          <a
+            [routerLink]="['/pages/orders/order-details', order.id]"
+            class="table-view"
+          >
             <i class="icon-View"></i>
           </a>
         </td>
       </tr>
-
     </tbody>
   </table>
   <pagination-controls (pageChange)="p = $event"></pagination-controls>

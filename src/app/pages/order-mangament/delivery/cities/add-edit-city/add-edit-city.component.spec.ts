@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { AddEditCityComponent } from './add-edit-city.component';
+import { AddEditCityComponent } from "./add-edit-city.component";
 
-describe('AddEditCityComponent', () => {
+describe("AddEditCityComponent", () => {
   let component: AddEditCityComponent;
   let fixture: ComponentFixture<AddEditCityComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AddEditCityComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AddEditCityComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddEditCityComponent);
@@ -19,7 +20,7 @@ describe('AddEditCityComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

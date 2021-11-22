@@ -7,12 +7,28 @@
 </div>
 
 <!-- Filemanger  Popup-->
-<div *ngIf="showFilemangerModal" class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered filemanagerModal" role="document">
+<div
+  *ngIf="showFilemangerModal"
+  class="modal fade"
+  id="uploadModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered filemanagerModal"
+    role="document"
+  >
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Choose Your File</h5>
-        <button (click)="updateUploaders()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          (click)="updateUploaders()"
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -20,9 +36,21 @@
         <app-filemanager [currentInputIndex]="uploaderIndex"></app-filemanager>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-red2" data-dismiss="modal">Select</button>
-        <button (click)="updateUploaders()" type="button" data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+        <button
+          type="button"
+          class="btn-owls btn-rounded btn-green btn-red2"
+          data-dismiss="modal"
+        >
+          Select
+        </button>
+        <button
+          (click)="updateUploaders()"
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+        >
+          cancel
+        </button>
       </div>
     </div>
   </div>

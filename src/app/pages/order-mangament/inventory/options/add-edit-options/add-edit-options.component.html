@@ -1,18 +1,34 @@
-<div class="form-sidebar view-vindor-types  add-edit-product-form" id="add-prod">
+<div class="form-sidebar view-vindor-types add-edit-product-form" id="add-prod">
   <div class="head">
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{selectProductDataEdit ?  'Edit Option' : 'New Option' }} </h3>
+    <h3>{{ selectProductDataEdit ? "Edit Option" : "New Option" }}</h3>
   </div>
 
-  <form class="sideform" (ngSubmit)="submitForm()" [formGroup]="OptionForm" novalidate>
+  <form
+    class="sideform"
+    (ngSubmit)="submitForm()"
+    [formGroup]="OptionForm"
+    novalidate
+  >
     <div class="form-group">
       <label for=""> Name</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_en">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="name_en"
+      />
       <div
-        *ngIf="OptionForm.controls.name_en.invalid && (OptionForm.controls.name_en.dirty || OptionForm.controls.name_en.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          OptionForm.controls.name_en.invalid &&
+          (OptionForm.controls.name_en.dirty ||
+            OptionForm.controls.name_en.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.name_en.errors.required">
           Name is required.
         </div>
@@ -21,12 +37,23 @@
 
     <div class="form-group">
       <label for="">Name (Ar)</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_ar">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="name_ar"
+      />
       <!-- Start  Errors Rolues -->
 
       <div
-        *ngIf="OptionForm.controls.name_ar.invalid && (OptionForm.controls.name_ar.dirty || OptionForm.controls.name_ar.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          OptionForm.controls.name_ar.invalid &&
+          (OptionForm.controls.name_ar.dirty ||
+            OptionForm.controls.name_ar.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="OptionForm.controls.name_ar.errors.required">
           Name (Ar) is required.
         </div>
@@ -34,17 +61,25 @@
       <!-- End Errors Rolues -->
     </div>
 
-
     <div class="form-group">
       <label for="">description</label>
-      <textarea class="owl-input" placeholder="Type.." maxlength="250" laceholder="type"
-        formControlName="description_en"></textarea>
+      <textarea
+        class="owl-input"
+        placeholder="Type.."
+        maxlength="250"
+        laceholder="type"
+        formControlName="description_en"
+      ></textarea>
     </div>
 
     <div class="form-group">
       <label for="">description (Ar)</label>
-      <textarea class="owl-input" maxlength="250" placeholder="Type.." formControlName="description_ar"></textarea>
-
+      <textarea
+        class="owl-input"
+        maxlength="250"
+        placeholder="Type.."
+        formControlName="description_ar"
+      ></textarea>
     </div>
 
     <div class="form-group">
@@ -57,37 +92,62 @@
         <option [value]="5">Input</option>
       </select>
     </div>
-    <label class="checkup">appear in search
-      <input type="checkbox" formControlName="appear_in_search">
+    <label class="checkup"
+      >appear in search
+      <input type="checkbox" formControlName="appear_in_search" />
       <span class="checkmark"></span>
     </label>
 
     <div formArrayName="values" class="values">
-      <div class="value" *ngFor="let item of OptionForm.get('values')['controls']; let i = index">
+      <div
+        class="value"
+        *ngFor="let item of OptionForm.get('values')['controls']; let i = index"
+      >
         <div class="" [formGroupName]="i">
           <div class="form-group">
             <label for="">Name (en)</label>
 
-            <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_en">
-
+            <input
+              type="text"
+              class="owl-input"
+              placeholder="Type.."
+              required
+              formControlName="name_en"
+            />
           </div>
           <div class="form-group">
             <label for="">Name (Ar)</label>
-            <input type="text" class="owl-input" placeholder="Type.." required formControlName="name_ar">
+            <input
+              type="text"
+              class="owl-input"
+              placeholder="Type.."
+              required
+              formControlName="name_ar"
+            />
           </div>
-
-
 
           <div class="form-group" *ngIf="OptionForm.get('type').value == '2'">
             <label for="">color_code</label>
-            <input type="text" class="owl-input" placeholder="Type.." required formControlName="color_code">
+            <input
+              type="text"
+              class="owl-input"
+              placeholder="Type.."
+              required
+              formControlName="color_code"
+            />
           </div>
           <div class="form-group" *ngIf="OptionForm.get('type').value == '3'">
             <label for="">image</label>
 
             <div class="owls-upload owls-upload3 big">
-              <app-image-uploader [fileUrl]="item?.value.image" [formControlChildName]="'image'" [myForm]="item"
-                class="w-100" height="150px" width="150px">
+              <app-image-uploader
+                [fileUrl]="item?.value.image"
+                [formControlChildName]="'image'"
+                [myForm]="item"
+                class="w-100"
+                height="150px"
+                width="150px"
+              >
               </app-image-uploader>
               <!-- <img class="owl-img img-fluid" src="http://via.placeholder.com/200x200" alt="">
               <img class="owl-img img-fluid" style="width: 200px; height: 200px;" alt="">
@@ -98,15 +158,18 @@
           </div>
         </div>
 
-        <a href="javascript:void(0)" class="add-sub" (click)="removeValueForm(i)">Remove Values</a>
-
+        <a
+          href="javascript:void(0)"
+          class="add-sub"
+          (click)="removeValueForm(i)"
+          >Remove Values</a
+        >
       </div>
-
     </div>
 
-    <a href="javascript:void(0)" class="add-sub" (click)="addValueForm(null)">add Values</a>
-
-
+    <a href="javascript:void(0)" class="add-sub" (click)="addValueForm(null)"
+      >add Values</a
+    >
 
     <!-- <div
       *ngIf="OptionForm.controls.values.length < 1 && (OptionForm.controls.values.dirty || OptionForm.controls.values.touched)"
@@ -114,14 +177,14 @@
       You must add at least one Value
     </div> -->
 
-
-
     <div class="form-sidebar-btns">
-
-
-
       <!-- <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button> -->
-      <button [appLoading]="submitting" class="btn btn-owls btn-rounded btn-green">Save</button>
+      <button
+        [appLoading]="submitting"
+        class="btn btn-owls btn-rounded btn-green"
+      >
+        Save
+      </button>
     </div>
   </form>
 </div>

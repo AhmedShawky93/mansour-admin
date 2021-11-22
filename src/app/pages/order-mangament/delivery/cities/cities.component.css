@@ -16,7 +16,6 @@
   } */
 
 @media (max-width: 920px) {
-
   .owl-btn-list .btn {
     margin-left: 0 !important;
     width: 100% !important;
@@ -31,7 +30,6 @@
     font-size: 9px !important;
     padding-bottom: 15px;
     padding-top: 15px;
-
   }
 
   .table td,
@@ -53,7 +51,6 @@
 
   .table thead th {
     padding-right: 41px;
-
   }
 }
 

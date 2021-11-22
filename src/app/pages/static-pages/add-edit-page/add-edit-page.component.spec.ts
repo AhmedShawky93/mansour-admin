@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { AddEditPageComponent } from './add-edit-page.component';
+import { AddEditPageComponent } from "./add-edit-page.component";
 
-describe('AddEditPageComponent', () => {
+describe("AddEditPageComponent", () => {
   let component: AddEditPageComponent;
   let fixture: ComponentFixture<AddEditPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AddEditPageComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AddEditPageComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddEditPageComponent);
@@ -19,7 +20,7 @@ describe('AddEditPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

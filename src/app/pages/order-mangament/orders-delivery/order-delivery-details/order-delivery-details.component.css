@@ -1,5 +1,5 @@
 .block {
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0 11px 22px 0 rgba(6, 40, 57, 0.05);
   border-radius: 12px;
   padding: 30px;
@@ -15,22 +15,20 @@
   font-size: 15px;
   cursor: pointer;
   color: #4ac356;
-
 }
 
 .block-item p {
   font-size: 18px;
-  color: #557E96;
+  color: #557e96;
   text-transform: capitalize;
   margin-bottom: 30px;
   display: inline-block;
   width: 160px;
-
 }
 
 .block-item span {
   font-size: 18px;
-  color: #003C62;
+  color: #003c62;
   font-weight: 500;
 }
 
@@ -55,7 +53,7 @@
   display: block;
   margin: 7px;
   font-size: 18px;
-  color: #003C62;
+  color: #003c62;
   font-weight: 500;
 }
 
@@ -63,46 +61,46 @@
   display: block;
   margin: 0;
   font-size: 16px;
-  color: #557E96;
+  color: #557e96;
   font-weight: 500;
 }
 
 .block-ratings .content bar-rating {
-  display: inline-block
+  display: inline-block;
 }
 
 .block-ratings .content .br {
-  margin: 0 !important
+  margin: 0 !important;
 }
 
 .block-ratings .content span {
   font-size: 14px;
-  color: #A7BDCA;
+  color: #a7bdca;
 }
 
 .qty-item {
   margin-top: 40px;
   margin-bottom: 50px;
-  margin-left: 0
+  margin-left: 0;
 }
 
 .qty-item p {
   width: 100px;
   font-size: 18px;
   display: inline-block;
-  color: #557E96;
+  color: #557e96;
   text-transform: uppercase;
 }
 
 .qty-item span {
   font-size: 18px;
-  color: #003C62;
+  color: #003c62;
   font-weight: 500;
 }
 
 .milestones-stepper {
   position: relative;
-  padding-bottom: 50px
+  padding-bottom: 50px;
 }
 
 .milestones-stepper ul li::before {
@@ -110,11 +108,8 @@
   height: 2px;
   width: 99%;
   position: absolute;
-  border: 1px dashed rgba(85, 126, 150, 0.30);
-  ;
-
+  border: 1px dashed rgba(85, 126, 150, 0.3);
 }
-
 
 .milestones-stepper ul li img {
   position: absolute;
@@ -124,20 +119,19 @@
 .milestones-stepper ul li p {
   margin-top: 28px;
   font-size: 16px;
-  color: #003C62;
+  color: #003c62;
   font-weight: 500;
   text-transform: capitalize;
 }
 
 .milestones-stepper ul li span {
   font-size: 14px;
-  color: #557E96;
+  color: #557e96;
 }
 
 .mat-step-header {
   color: red !important;
 }
-
 
 .top-stepper {
   position: relative;
@@ -145,7 +139,7 @@
 
 .top-stepper li {
   position: relative;
-  display: inline-block
+  display: inline-block;
 }
 
 .top-stepper li span {
@@ -154,7 +148,7 @@
   height: 47px;
   width: 47px;
   border-radius: 50%;
-  background: #A7BDCA;
+  background: #a7bdca;
   margin-left: 25px;
   margin-bottom: 15px;
 }
@@ -162,7 +156,7 @@
 .top-stepper li::before {
   content: "";
   position: absolute;
-  background-color: #A7BDCA;
+  background-color: #a7bdca;
   top: 24px;
   height: 4px;
   right: -41px;
@@ -176,7 +170,7 @@
 
 .top-stepper li p {
   font-size: 18px;
-  color: #A7BDCA;
+  color: #a7bdca;
   letter-spacing: 0;
   text-transform: capitalize;
 }
@@ -185,7 +179,7 @@
   content: none;
 }
 
-.top-stepper li span+span {
+.top-stepper li span + span {
   width: 70px;
   height: 70px;
   position: absolute;
@@ -200,27 +194,24 @@
   z-index: 2;
 }
 
-
-.top-stepper li.canceled span+span {
+.top-stepper li.canceled span + span {
   background-color: #d0021c !important;
 }
 
-.top-stepper li.incomplete span+span {
+.top-stepper li.incomplete span + span {
   background-color: #faa955 !important;
 }
 
 .top-stepper li.active p {
-  color: #4ac356
+  color: #4ac356;
 }
 
-.top-stepper li.active span+span {
-  display: block
+.top-stepper li.active span + span {
+  display: block;
 }
 
-
-
-.top-stepper li.canceled span+span {
-  display: block
+.top-stepper li.canceled span + span {
+  display: block;
 }
 
 .top-stepper li.canceled p {
@@ -237,8 +228,8 @@
   width: 100%;
 }
 
-.top-stepper li.incomplete span+span {
-  display: block
+.top-stepper li.incomplete span + span {
+  display: block;
 }
 
 .top-stepper li.incomplete p {
@@ -257,7 +248,6 @@
 
 .top-stepper li.incomplete.canceled::after {
   right: -33% !important;
-
 }
 
 .top-stepper {
@@ -266,7 +256,6 @@
 
 .overflow {
   overflow: hidden;
-
 }
 
 p.pRating {

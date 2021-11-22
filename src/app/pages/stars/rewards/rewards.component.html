@@ -5,14 +5,23 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm"
-          name="searchTerm">
+        <input
+          type="text"
+          class="owl-input owls-search"
+          placeholder="search ..."
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+        />
       </div>
     </div>
-    <div class="col-md-3  col-xs-12 text-right">
+    <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100" (click)="addForm.reset()"> + New
-          Reward</button>
+        <button
+          class="btn btn-owls btn-rounded btn-blue2 btn-big add-product w-100"
+          (click)="addForm.reset()"
+        >
+          + New Reward
+        </button>
       </div>
     </div>
   </div>
@@ -30,37 +39,68 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let reward of rewards | rewardsFilter: searchTerm | paginate: { itemsPerPage: 10, currentPage: p }">
-        <td>{{reward.name}}</td>
-        <td>{{reward.type == 1 ? "Promo Code" : "Gift"}}</td>
-        <td>{{reward.point_cost}}</td>
-        <td>{{reward.is_gold ? "Yes" : "No"}}</td>
+      <tr
+        *ngFor="
+          let reward of rewards
+            | rewardsFilter: searchTerm
+            | paginate: { itemsPerPage: 10, currentPage: p }
+        "
+      >
+        <td>{{ reward.name }}</td>
+        <td>{{ reward.type == 1 ? "Promo Code" : "Gift" }}</td>
+        <td>{{ reward.point_cost }}</td>
+        <td>{{ reward.is_gold ? "Yes" : "No" }}</td>
         <td>
-          <a style="margin-right: 10px" class="table-view open-show" (click)="viewReward(reward)">
+          <a
+            style="margin-right: 10px"
+            class="table-view open-show"
+            (click)="viewReward(reward)"
+          >
             <i class="icon-View"></i>
           </a>
 
-          <a href="javascript:void(0)" class="table-view add-product" (click)="editReward(reward)">
+          <a
+            href="javascript:void(0)"
+            class="table-view add-product"
+            (click)="editReward(reward)"
+          >
             <i class="icon-grey"></i>
           </a>
 
           <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="reward.active" (change)="changeActive(reward, $event)">
+            <input
+              type="checkbox"
+              value="1"
+              [(ngModel)]="reward.active"
+              (change)="changeActive(reward, $event)"
+            />
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!reward.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this reward?"
-                [(ngModel)]="reward.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [ngClass]="{'not-allowed' : !reward.notes }"
-                [disabled]="!reward.notes" (click)="submitDeactivate(reward)">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(reward)">cancel</button>
+              <textarea
+                name=""
+                class="owl-input"
+                placeholder="Why Do yo want to deactivate this reward?"
+                [(ngModel)]="reward.notes"
+              ></textarea>
+              <button
+                class="btn btn-owls btn-rounded btn-green2"
+                [ngClass]="{ 'not-allowed': !reward.notes }"
+                [disabled]="!reward.notes"
+                (click)="submitDeactivate(reward)"
+              >
+                submit
+              </button>
+              <button
+                class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(reward)"
+              >
+                cancel
+              </button>
             </div>
             <div class="hover-reason text-left" *ngIf="!reward.active">
-              <div class="head">
-                Deactivation Notes
-              </div>
+              <div class="head">Deactivation Notes</div>
               <div class="body">
-                {{reward.deactivation_notes}}
+                {{ reward.deactivation_notes }}
               </div>
             </div>
           </label>
@@ -71,73 +111,73 @@
 </div>
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
-
 <div class="form-sidebar view-vindor-types" id="show-p-details">
   <div class="head" *ngIf="currentReward">
     <span class="close" id="close-vindors4">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{currentReward.name}}</h3>
+    <h3>{{ currentReward.name }}</h3>
   </div>
 
   <div class="details details-2" *ngIf="currentReward">
-
     <div *ngIf="currentReward.type == 2">
-      <img src="{{currentReward.image}}" alt="" class=" owl-img img-fluid ">
+      <img src="{{ currentReward.image }}" alt="" class="owl-img img-fluid" />
     </div>
 
     <div>
       <h5>Name</h5>
-      <p>{{currentReward.name}}</p>
+      <p>{{ currentReward.name }}</p>
     </div>
 
     <div>
       <h5>Name Ar</h5>
-      <p>{{currentReward.name_ar}}</p>
+      <p>{{ currentReward.name_ar }}</p>
     </div>
 
     <div>
       <h5>Description</h5>
-      <p>{{currentReward.description}}</p>
+      <p>{{ currentReward.description }}</p>
     </div>
 
     <div>
       <h5>Description Ar</h5>
-      <p>{{currentReward.description_ar}}</p>
+      <p>{{ currentReward.description_ar }}</p>
     </div>
 
     <div>
       <h5>Point Cost</h5>
-      <p>{{currentReward.point_cost}}</p>
+      <p>{{ currentReward.point_cost }}</p>
     </div>
 
     <div>
       <h5>Is Gold</h5>
-      <p>{{currentReward.is_gold ? "Yes" : "No"}}</p>
+      <p>{{ currentReward.is_gold ? "Yes" : "No" }}</p>
     </div>
 
     <div>
       <h5>Type</h5>
-      <p>{{currentReward.type == 1 ? "Promo Code" : "Gift"}}</p>
+      <p>{{ currentReward.type == 1 ? "Promo Code" : "Gift" }}</p>
     </div>
 
     <div *ngIf="currentReward.type == 1">
       <div>
         <h5>Amount Type</h5>
-        <p>{{currentReward.amount_type == 1 ? "Amount" : "Percentage"}}</p>
+        <p>{{ currentReward.amount_type == 1 ? "Amount" : "Percentage" }}</p>
       </div>
 
       <div>
-        <h5>{{currentReward.amount_type == 1 ? "Amount" : "Percent"}}</h5>
-        <p>{{currentReward.amount}}<span *ngIf="currentReward.amount_type == 2">%</span></p>
+        <h5>{{ currentReward.amount_type == 1 ? "Amount" : "Percent" }}</h5>
+        <p>
+          {{ currentReward.amount
+          }}<span *ngIf="currentReward.amount_type == 2">%</span>
+        </p>
       </div>
 
       <div *ngIf="currentReward.amount_type == 2">
         <h5>Max Amount</h5>
-        <p>{{currentReward.max_amount}}</p>
+        <p>{{ currentReward.max_amount }}</p>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -146,16 +186,33 @@
     <span class="close" id="close-vindors1">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{addForm.get('id').value ? "Edit" : "New" }} Reward</h3>
+    <h3>{{ addForm.get("id").value ? "Edit" : "New" }} Reward</h3>
   </div>
 
-  <form class="sideform" name="addRewardForm" [formGroup]="addForm" (submit)="onFormSubmit()" novalidate>
+  <form
+    class="sideform"
+    name="addRewardForm"
+    [formGroup]="addForm"
+    (submit)="onFormSubmit()"
+    novalidate
+  >
     <div class="form-group">
       <label for="">Name</label>
-      <input type="text" class="owl-input" placeholder="Name..." name="name" formControlName="name">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Name..."
+        name="name"
+        formControlName="name"
+      />
 
-      <div *ngIf="addForm.controls.name.invalid && (addForm.controls.name.dirty || addForm.controls.name.touched)"
-        class="alert alert-danger">
+      <div
+        *ngIf="
+          addForm.controls.name.invalid &&
+          (addForm.controls.name.dirty || addForm.controls.name.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="addForm.controls.name.errors.required">
           Name is required.
         </div>
@@ -163,11 +220,21 @@
     </div>
     <div class="form-group">
       <label for="">Name (Ar)</label>
-      <input type="text" class="owl-input" placeholder="Name (Ar)..." name="name_ar" formControlName="name_ar">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Name (Ar)..."
+        name="name_ar"
+        formControlName="name_ar"
+      />
 
       <div
-        *ngIf="addForm.controls.name_ar.invalid && (addForm.controls.name_ar.dirty || addForm.controls.name_ar.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          addForm.controls.name_ar.invalid &&
+          (addForm.controls.name_ar.dirty || addForm.controls.name_ar.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="addForm.controls.name_ar.errors.required">
           Name (Ar) is required.
         </div>
@@ -176,13 +243,23 @@
 
     <div class="form-group">
       <label for="">Description</label>
-      <angular-editor [id]="'description'" formControlName="description" [config]="editorConfig" required>
+      <angular-editor
+        [id]="'description'"
+        formControlName="description"
+        [config]="editorConfig"
+        required
+      >
       </angular-editor>
       <!-- <textarea rows="5" class="owl-input" placeholder="Description..." name="description" id="description" formControlName="description"></textarea> -->
 
       <div
-        *ngIf="addForm.controls.description.invalid && (addForm.controls.description.dirty || addForm.controls.description.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          addForm.controls.description.invalid &&
+          (addForm.controls.description.dirty ||
+            addForm.controls.description.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="addForm.controls.description.errors.required">
           Description is required.
         </div>
@@ -191,13 +268,23 @@
 
     <div class="form-group">
       <label for="">Description (Ar)</label>
-      <angular-editor [id]="'description'" formControlName="description_ar" [config]="editorConfig" required>
+      <angular-editor
+        [id]="'description'"
+        formControlName="description_ar"
+        [config]="editorConfig"
+        required
+      >
       </angular-editor>
       <!-- <textarea rows="5" class="owl-input" placeholder="Description (Ar)..." name="description_ar" id="description_ar" formControlName="description_ar"></textarea> -->
 
       <div
-        *ngIf="addForm.controls.description_ar.invalid && (addForm.controls.description_ar.dirty || addForm.controls.description_ar.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          addForm.controls.description_ar.invalid &&
+          (addForm.controls.description_ar.dirty ||
+            addForm.controls.description_ar.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="addForm.controls.description_ar.errors.required">
           Description (Ar) is required.
         </div>
@@ -206,36 +293,64 @@
 
     <div class="form-group">
       <label for="">Point Cost</label>
-      <input type="number" min="0" class="owl-input" placeholder="Point Cost..." name="point_cost"
+      <input
+        type="number"
+        min="0"
+        class="owl-input"
+        placeholder="Point Cost..."
+        name="point_cost"
         formControlName="point_cost"
-        onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+        onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"
+      />
 
       <div
-        *ngIf="addForm.controls.point_cost.invalid && (addForm.controls.point_cost.dirty || addForm.controls.point_cost.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          addForm.controls.point_cost.invalid &&
+          (addForm.controls.point_cost.dirty ||
+            addForm.controls.point_cost.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="addForm.controls.point_cost.errors.required">
           Point Cost is required.
         </div>
       </div>
     </div>
 
-    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
-      <label class="container">Is Gold
-        <input type="checkbox" class="form-control checkbox-style" name="is_gold" id="is_gold" [value]="1"
-          formControlName="is_gold">
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px">
+      <label class="container"
+        >Is Gold
+        <input
+          type="checkbox"
+          class="form-control checkbox-style"
+          name="is_gold"
+          id="is_gold"
+          [value]="1"
+          formControlName="is_gold"
+        />
         <span class="checkmark"></span>
       </label>
     </div>
 
     <div class="form-group">
-      <select class="owl-input" name="type" (change)="changeType(addForm)" formControlName="type">
+      <select
+        class="owl-input"
+        name="type"
+        (change)="changeType(addForm)"
+        formControlName="type"
+      >
         <option value="" hidden selected>Select type...</option>
         <option value="1">Promo Code</option>
         <option value="2">Gift</option>
       </select>
 
-      <div *ngIf="addForm.controls.type.invalid && (addForm.controls.type.dirty || addForm.controls.type.touched)"
-        class="alert alert-danger">
+      <div
+        *ngIf="
+          addForm.controls.type.invalid &&
+          (addForm.controls.type.dirty || addForm.controls.type.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="addForm.controls.type.errors.required">
           Type is required.
         </div>
@@ -248,15 +363,35 @@
         <label for="">images</label>
 
         <div class="owls-upload owls-upload3 big">
-          <img class="owl-img img-fluid" *ngIf="!addForm.get('image').value" src="http://via.placeholder.com/328x177"
-            alt="">
-          <img class="owl-img img-fluid" *ngIf="addForm.get('image').value" [src]="addForm.get('image').value" alt="">
-          <input type="file" class="owl-input" placeholder="upload your image"
-            (change)="onImageSelected($event, addForm)" name="image" accept="image/*" />
+          <img
+            class="owl-img img-fluid"
+            *ngIf="!addForm.get('image').value"
+            src="http://via.placeholder.com/328x177"
+            alt=""
+          />
+          <img
+            class="owl-img img-fluid"
+            *ngIf="addForm.get('image').value"
+            [src]="addForm.get('image').value"
+            alt=""
+          />
+          <input
+            type="file"
+            class="owl-input"
+            placeholder="upload your image"
+            (change)="onImageSelected($event, addForm)"
+            name="image"
+            accept="image/*"
+          />
         </div>
 
-        <div *ngIf="addForm.controls.image.invalid && (addForm.controls.image.dirty || addForm.controls.image.touched)"
-          class="alert alert-danger">
+        <div
+          *ngIf="
+            addForm.controls.image.invalid &&
+            (addForm.controls.image.dirty || addForm.controls.image.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="addForm.controls.image.errors.required">
             Image is required.
           </div>
@@ -269,7 +404,12 @@
 
       <div class="form-group">
         <label for="">Promo Code Type</label>
-        <select class="owl-input" name="amount_type" (change)="changeAmountType(addForm)" formControlName="amount_type">
+        <select
+          class="owl-input"
+          name="amount_type"
+          (change)="changeAmountType(addForm)"
+          formControlName="amount_type"
+        >
           <option value="1">Amount</option>
           <option value="2">Percentage</option>
         </select>
@@ -277,12 +417,23 @@
 
       <div class="form-group" *ngIf="addForm.get('amount_type').value == 1">
         <label for="">Amount</label>
-        <input type="number" min="0" class="owl-input" placeholder="Amount..." name="amount" formControlName="amount"
-          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+        <input
+          type="number"
+          min="0"
+          class="owl-input"
+          placeholder="Amount..."
+          name="amount"
+          formControlName="amount"
+          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"
+        />
 
         <div
-          *ngIf="addForm.controls.amount.invalid && (addForm.controls.amount.dirty || addForm.controls.amount.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            addForm.controls.amount.invalid &&
+            (addForm.controls.amount.dirty || addForm.controls.amount.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="addForm.controls.amount.errors.required">
             Amount is required.
           </div>
@@ -291,13 +442,23 @@
 
       <div class="form-group" *ngIf="addForm.get('amount_type').value == 2">
         <label for="">Percentage</label>
-        <input type="number" min="0" class="owl-input" placeholder="Percentage..." name="amount"
+        <input
+          type="number"
+          min="0"
+          class="owl-input"
+          placeholder="Percentage..."
+          name="amount"
           formControlName="amount"
-          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"
+        />
 
         <div
-          *ngIf="addForm.controls.amount.invalid && (addForm.controls.amount.dirty || addForm.controls.amount.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            addForm.controls.amount.invalid &&
+            (addForm.controls.amount.dirty || addForm.controls.amount.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="addForm.controls.amount.errors.required">
             Percentage is required.
           </div>
@@ -306,13 +467,24 @@
 
       <div class="form-group" *ngIf="addForm.get('amount_type').value == 2">
         <label for="">Max Amount</label>
-        <input type="number" min="0" class="owl-input" placeholder="Max Amount..." name="max_amount"
+        <input
+          type="number"
+          min="0"
+          class="owl-input"
+          placeholder="Max Amount..."
+          name="max_amount"
           formControlName="max_amount"
-          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"
+        />
 
         <div
-          *ngIf="addForm.controls.max_amount.invalid && (addForm.controls.max_amount.dirty || addForm.controls.max_amount.touched)"
-          class="alert alert-danger">
+          *ngIf="
+            addForm.controls.max_amount.invalid &&
+            (addForm.controls.max_amount.dirty ||
+              addForm.controls.max_amount.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="addForm.controls.max_amount.errors.required">
             Max Amount is required.
           </div>
@@ -320,12 +492,22 @@
       </div>
     </div>
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green"
-        [appLoading]="submitting">{{addForm.get('id').value ? "Update" : "Add" }}</button>
+      <button
+        class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="submitting"
+      >
+        {{ addForm.get("id").value ? "Update" : "Add" }}
+      </button>
     </div>
   </form>
 </div>
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

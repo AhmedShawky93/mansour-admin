@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { ViewAreaComponent } from './view-area.component';
+import { ViewAreaComponent } from "./view-area.component";
 
-describe('ViewAreaComponent', () => {
+describe("ViewAreaComponent", () => {
   let component: ViewAreaComponent;
   let fixture: ComponentFixture<ViewAreaComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ViewAreaComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ViewAreaComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewAreaComponent);
@@ -19,7 +20,7 @@ describe('ViewAreaComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -19,7 +19,7 @@
   padding: 10px;
   margin-bottom: 10px;
 }
- 
+
 agm-map {
   height: 300px;
 }
@@ -139,10 +139,7 @@ agm-map {
   color: initial;
 }
 
-
-
 /*checkbox style*/
-
 
 .checkbox-style {
   display: inline-block;
@@ -225,8 +222,8 @@ agm-map {
   padding-right: 50px !important;
   line-height: 1 !important;
 }
-.checkup .checkmark:after{
+.checkup .checkmark:after {
   left: 7px !important;
-    top: 2px !important;
+  top: 2px !important;
 }
 /*end checkbox style*/

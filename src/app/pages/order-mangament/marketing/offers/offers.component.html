@@ -1,105 +1,136 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-7">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
+        <input
+          type="text"
+          class="owl-input owls-search"
+          placeholder="search ..."
+          [(ngModel)]="searchTerm"
+        />
       </div>
     </div>
 
     <div class="col-md-2 text-right">
-
       <div class="form-group">
-        <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">export CSV</a>
+        <a
+          class="btn btn-owls btn-rounded btn-green btn-special"
+          target="_blank"
+          href="{{ exportUrl }}"
+          >export CSV</a
+        >
         <!-- <div style="line-height: 32px;" class=" btn btn-owls btn-rounded btn-green btn-special ">
           export CSV
         </div> -->
       </div>
-
-
     </div>
 
     <div class="col-md-3 text-right">
       <div class="owl-btn-list">
-        <button routerLink="/pages/promocodes/add-offers"
-          class="btn btn-owls btn-rounded btn-blue2 btn-big open-add w-100"> + New promocode</button>
+        <button
+          routerLink="/pages/promocodes/add-offers"
+          class="btn btn-owls btn-rounded btn-blue2 btn-big open-add w-100"
+        >
+          + New promocode
+        </button>
       </div>
     </div>
-
   </div>
 </div>
 
 <div class="table-responsive">
-  <table class="table owls-table ">
+  <table class="table owls-table">
     <thead>
       <tr>
-        <th style="width: 140px;" scope="col">iD </th>
+        <th style="width: 140px" scope="col">iD</th>
         <th scope="col">Name</th>
-        <th scope="col">Creation Date </th>
-        <th scope="col">End Date </th>
-        <th scope="col"> Promocode Type</th>
+        <th scope="col">Creation Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Promocode Type</th>
         <th scop="col">Action</th>
       </tr>
     </thead>
     <tbody>
-
-
       <tr
-        *ngFor="let promo of promos | stringFilter: searchTerm | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
-        <td>{{promo.id}}</td>
-        <td>{{promo.name}}</td>
-        <td>{{promo.created_at | date : "yyyy-MM-dd hh:mm a" }}</td>
-        <td>{{promo.expiration_date}}</td>
+        *ngFor="
+          let promo of promos
+            | stringFilter: searchTerm
+            | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }
+        "
+      >
+        <td>{{ promo.id }}</td>
+        <td>{{ promo.name }}</td>
+        <td>{{ promo.created_at | date: "yyyy-MM-dd hh:mm a" }}</td>
+        <td>{{ promo.expiration_date }}</td>
         <td>
           <P *ngIf="promo.type == '1'"> Amount </P>
           <P *ngIf="promo.type == '2'"> Percentage </P>
           <P *ngIf="promo.type == '3'"> Free delivery</P>
-
         </td>
 
         <td>
-          <a href="javascript:void(0)" [routerLink]="['/pages/promocodes/edit-offers' , promo.id]"
-            class="toggle-view-category table-view">
+          <a
+            href="javascript:void(0)"
+            [routerLink]="['/pages/promocodes/edit-offers', promo.id]"
+            class="toggle-view-category table-view"
+          >
             <i class="icon-grey"></i>
           </a>
-          <a href="javascript:void(0)" (click)="viewpromo(promo)" class="toggle-view-category table-view">
+          <a
+            href="javascript:void(0)"
+            (click)="viewpromo(promo)"
+            class="toggle-view-category table-view"
+          >
             <i class="icon-View"></i>
           </a>
 
           <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="promo.active" (change)="changeActive(promo, $event)">
+            <input
+              type="checkbox"
+              value="1"
+              [(ngModel)]="promo.active"
+              (change)="changeActive(promo, $event)"
+            />
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!promo.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this promo?"
-                [(ngModel)]="promo.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [ngClass]="{'not-allowed' : !promo.notes }"
-                [disabled]="!promo.notes" (click)="submitDeactivate(promo)">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(promo)">cancel</button>
+              <textarea
+                name=""
+                class="owl-input"
+                placeholder="Why Do yo want to deactivate this promo?"
+                [(ngModel)]="promo.notes"
+              ></textarea>
+              <button
+                class="btn btn-owls btn-rounded btn-green2"
+                [ngClass]="{ 'not-allowed': !promo.notes }"
+                [disabled]="!promo.notes"
+                (click)="submitDeactivate(promo)"
+              >
+                submit
+              </button>
+              <button
+                class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(promo)"
+              >
+                cancel
+              </button>
             </div>
             <div class="hover-reason text-left" *ngIf="!promo.active">
-              <div class="head">
-                Deactivation Notes
-              </div>
+              <div class="head">Deactivation Notes</div>
               <div class="body">
-                {{promo.deactivation_notes}}
+                {{ promo.deactivation_notes }}
               </div>
             </div>
           </label>
         </td>
       </tr>
-
-
-
     </tbody>
   </table>
 </div>
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
-
 
 <div class="form-sidebar view-vindor-types" id="view-category">
   <div class="head">
@@ -107,7 +138,6 @@
       <i class="icon-Exit"></i>
     </span>
     <h3>promocode view</h3>
-
   </div>
 
   <!-- <div class="head-btn" *ngIf="viewPromo">
@@ -116,10 +146,9 @@
   </div> -->
 
   <div class="details details-2" *ngIf="viewPromo">
-
     <div>
       <h5>promocode Name</h5>
-      <p>{{viewPromo.name}}</p>
+      <p>{{ viewPromo.name }}</p>
     </div>
 
     <div>
@@ -127,13 +156,16 @@
       <P *ngIf="viewPromo.type == 1"> amount </P>
       <P *ngIf="viewPromo.type == 2"> percentage </P>
       <P *ngIf="viewPromo.type == 3"> Free delivery </P>
-
     </div>
     <div>
       <h5>Amount</h5>
-      <P *ngIf="viewPromo.type == 1"> {{viewPromo.amount}} L.E </P>
-      <P *ngIf="viewPromo.type == 2"> {{viewPromo.amount}} % <span *ngIf="viewPromo.max_amount">, Max:
-          {{viewPromo.max_amount}} L.E</span> </P>
+      <P *ngIf="viewPromo.type == 1"> {{ viewPromo.amount }} L.E </P>
+      <P *ngIf="viewPromo.type == 2">
+        {{ viewPromo.amount }} %
+        <span *ngIf="viewPromo.max_amount"
+          >, Max: {{ viewPromo.max_amount }} L.E</span
+        >
+      </P>
     </div>
     <div>
       <h5>status</h5>
@@ -143,28 +175,29 @@
 
     <div>
       <h5>end Date</h5>
-      <p>{{viewPromo.expiration_date}}</p>
+      <p>{{ viewPromo.expiration_date }}</p>
     </div>
     <div>
       <h5>Number of Uses</h5>
-      <p>{{viewPromo.use_number}}</p>
+      <p>{{ viewPromo.use_number }}</p>
     </div>
-
 
     <div>
       <h5>description</h5>
-      <p>{{viewPromo.description}}</p>
+      <p>{{ viewPromo.description }}</p>
     </div>
     <div>
       <h5>Payment Methods</h5>
-      <p *ngFor="let paymentMethod of viewPromo.payment_methods" style="margin-bottom: 0px;">{{paymentMethod.name}}
-        {{paymentMethod.active ? '': '- Deactivate '}}</p>
+      <p
+        *ngFor="let paymentMethod of viewPromo.payment_methods"
+        style="margin-bottom: 0px"
+      >
+        {{ paymentMethod.name }}
+        {{ paymentMethod.active ? "" : "- Deactivate " }}
+      </p>
     </div>
-
-
   </div>
 </div>
-
 
 <div class="form-sidebar view-vindor-types" id="view-category">
   <div class="head">
@@ -172,40 +205,65 @@
       <i class="icon-Exit"></i>
     </span>
     <h3>promocode view</h3>
-
   </div>
 
   <div class="head-btn">
-    <button routerLink="/pages/promocodes/edit-offers" id="add-vindor-types-btn"
-      class="btn btn-owls btn-rounded btn-blue2 open-edit">edit</button>
+    <button
+      routerLink="/pages/promocodes/edit-offers"
+      id="add-vindor-types-btn"
+      class="btn btn-owls btn-rounded btn-blue2 open-edit"
+    >
+      edit
+    </button>
   </div>
-
-
 </div>
 
-
-
-
 <!-- Delete  Popup-->
-<div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="removePopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to delete this item ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">
+          are you sure to delete this item ?
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      </div>
+      <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">
+          remove
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+        >
+          cancel
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

@@ -3,77 +3,94 @@
     <span class="close" id="close-vindors4" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>Sku Code: {{currentProduct?.sku}}</h3>
+    <h3>Sku Code: {{ currentProduct?.sku }}</h3>
   </div>
 
   <div class="details details-2" *ngIf="currentProduct">
     <div class="details-price">
-      <img src="{{currentProduct?.image}}" alt="" class=" owl-img img-fluid ">
+      <img src="{{ currentProduct?.image }}" alt="" class="owl-img img-fluid" />
 
-      <div class="s-price" [ngClass]="{'discount': currentProduct.discount_price}">
-        {{currentProduct?.price}} {{environmentVariables?.localization?.currency_code_en}}
+      <div
+        class="s-price"
+        [ngClass]="{ discount: currentProduct.discount_price }"
+      >
+        {{ currentProduct?.price }}
+        {{ environmentVariables?.localization?.currency_code_en }}
       </div>
-      <div class="s-price btn-green right" *ngIf="currentProduct.discount_price">
-        {{currentProduct?.discount_price}} {{environmentVariables?.localization?.currency_code_en}}
+      <div
+        class="s-price btn-green right"
+        *ngIf="currentProduct.discount_price"
+      >
+        {{ currentProduct?.discount_price }}
+        {{ environmentVariables?.localization?.currency_code_en }}
       </div>
     </div>
 
     <div class="thumbnails">
       <div class="thum" *ngFor="let image of currentProduct.images">
-        <img width="60" height="60" src="{{image.url}}" alt="" class=" owl-img img-fluid">
+        <img
+          width="60"
+          height="60"
+          src="{{ image.url }}"
+          alt=""
+          class="owl-img img-fluid"
+        />
       </div>
     </div>
-    <div *ngIf='currentProduct.affiliate_commission'>
+    <div *ngIf="currentProduct.affiliate_commission">
       <h5>Commission</h5>
-      <p>{{currentProduct?.affiliate_commission}}</p>
+      <p>{{ currentProduct?.affiliate_commission }}</p>
     </div>
     <div>
       <h5>Rate</h5>
-      <p>{{currentProduct.rate}}</p>
+      <p>{{ currentProduct.rate }}</p>
     </div>
 
     <div>
       <h5>Product</h5>
-      <p>{{currentProduct.name}}</p>
+      <p>{{ currentProduct.name }}</p>
     </div>
 
     <div>
       <h5>Creation Date</h5>
-      <p>{{currentProduct?.created_at}}</p>
+      <p>{{ currentProduct?.created_at }}</p>
     </div>
 
     <div *ngIf="currentProduct?.description" class="long-line-break">
-      <h5 >Short description</h5>
-      <p [innerHtml]="currentProduct?.description" class="long-line-break"> </p>
+      <h5>Short description</h5>
+      <p [innerHtml]="currentProduct?.description" class="long-line-break"></p>
     </div>
     <div *ngIf="currentProduct?.description_a">
       <h5>Short description (Ar)</h5>
       <p [innerHtml]="currentProduct?.description_ar"></p>
     </div>
     <div *ngIf="currentProduct?.long_description_en" class="long-line-break">
-      <h5> Long description </h5>
+      <h5>Long description</h5>
       <p [innerHtml]="currentProduct?.long_description_en"></p>
     </div>
     <div *ngIf="currentProduct?.long_description_ar" class="long-line-break">
-      <h5> Long description (Ar)</h5>
-      <p [innerHtml]="currentProduct?.long_description_ar"> </p>
+      <h5>Long description (Ar)</h5>
+      <p [innerHtml]="currentProduct?.long_description_ar"></p>
     </div>
     <div>
       <h5>sku</h5>
-      <p>{{currentProduct?.sku}}</p>
+      <p>{{ currentProduct?.sku }}</p>
     </div>
     <div>
       <h5>stock</h5>
-      <p>{{currentProduct?.stock}}</p>
+      <p>{{ currentProduct?.stock }}</p>
     </div>
 
     <div>
       <h5>category</h5>
-      <p>{{currentProduct?.category.name}} > {{currentProduct?.category.sub_categories[0].name}}</p>
+      <p>
+        {{ currentProduct?.category.name }} >
+        {{ currentProduct?.category.sub_categories[0].name }}
+      </p>
     </div>
     <div>
       <h5>Creator</h5>
-      <p>{{currentProduct?.creator?.name}}</p>
+      <p>{{ currentProduct?.creator?.name }}</p>
     </div>
   </div>
 </div>

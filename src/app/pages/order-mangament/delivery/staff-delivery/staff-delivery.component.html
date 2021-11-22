@@ -1,29 +1,36 @@
 <!-- <ngx-loading-bar [color]="'#007C41'"></ngx-loading-bar> -->
 
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-9 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" [(ngModel)]="filter.q" (change)="changePage(p)" name="searchTerm"
-          class="owl-input owls-search" placeholder="search ...">
+        <input
+          type="text"
+          [(ngModel)]="filter.q"
+          (change)="changePage(p)"
+          name="searchTerm"
+          class="owl-input owls-search"
+          placeholder="search ..."
+        />
       </div>
     </div>
 
-
-    <div class="col-md-3  col-xs-12 text-right">
+    <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big w-100" (click)="toggleMenu(null)"
-          style="margin-left: 0px;"> + New branch</button>
+        <button
+          class="btn btn-owls btn-rounded btn-blue2 btn-big w-100"
+          (click)="toggleMenu(null)"
+          style="margin-left: 0px"
+        >
+          + New branch
+        </button>
       </div>
     </div>
-
   </div>
 </div>
-
 
 <!-- Tabel -->
 <div class="table-responsive text-center" *ngIf="!loading">
@@ -31,87 +38,125 @@
     <thead>
       <tr>
         <th scope="col">Name</th>
-        <th scope="col">Description </th>
-        <th scope="col">number Of Orders </th>
+        <th scope="col">Description</th>
+        <th scope="col">number Of Orders</th>
         <th scope="col">cities</th>
         <th scope="col">Areas</th>
         <th scope="col">Districts</th>
         <!-- <th  scope="col" class="hidden">creator</th> -->
-        <th scope="col" class="hidden">creation date
-        </th>
+        <th scope="col" class="hidden">creation date</th>
         <th scope="col">action</th>
       </tr>
     </thead>
     <tbody>
       <!-- <tr *ngFor="let option of options"> -->
-      <tr *ngFor="let delivery of deliverers  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
-
+      <tr
+        *ngFor="
+          let delivery of deliverers
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }
+        "
+      >
         <td class="relative">
-          {{(delivery.name.length >= 25) ? (delivery.name | slice:0:25)+'...' : delivery.name }}
-          <div class="hover-reason text-left" *ngIf="delivery.name.length >= 25">
-            <div class="head">
-              delivery name
-            </div>
+          {{
+            delivery.name.length >= 25
+              ? (delivery.name | slice: 0:25) + "..."
+              : delivery.name
+          }}
+          <div
+            class="hover-reason text-left"
+            *ngIf="delivery.name.length >= 25"
+          >
+            <div class="head">delivery name</div>
             <div class="body">
-              {{delivery.name}}
+              {{ delivery.name }}
             </div>
           </div>
-
         </td>
-        <td> {{delivery.address}} </td>
-        <td> {{delivery.numberOfOrders}} </td>
-        <td> {{delivery?.delivererProfile?.city?.name}} </td>
-        <td> {{delivery?.delivererProfile?.area?.name}} </td>
+        <td>{{ delivery.address }}</td>
+        <td>{{ delivery.numberOfOrders }}</td>
+        <td>{{ delivery?.delivererProfile?.city?.name }}</td>
+        <td>{{ delivery?.delivererProfile?.area?.name }}</td>
         <td>
-          {{delivery?.delivererProfile?.districts.length}}
+          {{ delivery?.delivererProfile?.districts.length }}
           <!-- <span *ngFor="let districts of delivery?.delivererProfile?.districts ">
             {{districts.name}}<br>
           </span> -->
         </td>
 
-        <td class="hidden">{{(delivery.created_at) ?  (delivery.created_at  | date : "yyyy-MM-dd hh:mm a")  : '-' }}
+        <td class="hidden">
+          {{
+            delivery.created_at
+              ? (delivery.created_at | date: "yyyy-MM-dd hh:mm a")
+              : "-"
+          }}
         </td>
         <td>
-          <a style="margin-right: 10px" class="table-view open-show" (click)="viewClinic(delivery)">
+          <a
+            style="margin-right: 10px"
+            class="table-view open-show"
+            (click)="viewClinic(delivery)"
+          >
             <i class="icon-View"></i>
           </a>
 
-
-          <a href="javascript:void(0)" class="table-view edit-product" (click)="toggleMenu(delivery)">
+          <a
+            href="javascript:void(0)"
+            class="table-view edit-product"
+            (click)="toggleMenu(delivery)"
+          >
             <i class="icon-grey"></i>
           </a>
 
-
-
           <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="delivery.active" (change)="changeActive(delivery, $event)">
+            <input
+              type="checkbox"
+              value="1"
+              [(ngModel)]="delivery.active"
+              (change)="changeActive(delivery, $event)"
+            />
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!delivery.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this delivery?"
-                [(ngModel)]="delivery.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!delivery.notes"
-                (click)="submitDeactivate(delivery)" [ngClass]="{'not-allowed' : !delivery.notes }">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(delivery)">cancel</button>
+              <textarea
+                name=""
+                class="owl-input"
+                placeholder="Why Do yo want to deactivate this delivery?"
+                [(ngModel)]="delivery.notes"
+              ></textarea>
+              <button
+                class="btn btn-owls btn-rounded btn-green2"
+                [disabled]="!delivery.notes"
+                (click)="submitDeactivate(delivery)"
+                [ngClass]="{ 'not-allowed': !delivery.notes }"
+              >
+                submit
+              </button>
+              <button
+                class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(delivery)"
+              >
+                cancel
+              </button>
             </div>
             <div class="hover-reason text-left" *ngIf="!delivery.active">
-              <div class="head">
-                Deactivation Notes
-              </div>
+              <div class="head">Deactivation Notes</div>
               <div class="body">
-                {{delivery.deactivation_notes}}
+                {{ delivery.deactivation_notes }}
               </div>
             </div>
           </label>
         </td>
       </tr>
-
-
     </tbody>
   </table>
 </div>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 <!-- <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading"> -->
 <h4 class="text-center" *ngIf="productIsEmpty">No delivery</h4>
@@ -119,11 +164,19 @@
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
 <!-- view product -->
-<app-view-staff-delivery (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
-  [selectProductDataEdit]="selectOptionDataView" class="parent-editor-viewer-sidebar">
-
+<app-view-staff-delivery
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="viewOptionSidebar"
+  [selectProductDataEdit]="selectOptionDataView"
+  class="parent-editor-viewer-sidebar"
+>
 </app-view-staff-delivery>
 <!-- Add / edit Product -->
-<app-add-edit-staff-delivery class="parent-editor-viewer-sidebar" (dataOptionEmit)="addOrUpdateOption($event)"
-  (closeSideBarEmit)="closeSideBar()" [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData">
+<app-add-edit-staff-delivery
+  class="parent-editor-viewer-sidebar"
+  (dataOptionEmit)="addOrUpdateOption($event)"
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="toggleAddOption"
+  [selectProductDataEdit]="selectOptionData"
+>
 </app-add-edit-staff-delivery>

@@ -1,42 +1,71 @@
 <!-- <ngx-loading-bar [color]="'#007C41'"></ngx-loading-bar> -->
 
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-6 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search"
-          placeholder="search ...">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          class="owl-input owls-search"
+          placeholder="search ..."
+        />
       </div>
     </div>
-
 
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded actionBtns btn-blue2 btn-big w-100" (click)="toggleMenu(null)"
-          style="margin-left: 0px;"> + New Option</button>
+        <button
+          class="btn btn-owls btn-rounded actionBtns btn-blue2 btn-big w-100"
+          (click)="toggleMenu(null)"
+          style="margin-left: 0px"
+        >
+          + New Option
+        </button>
       </div>
     </div>
 
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
-      <button class="btn btn-owls actionBtns btn-rounded btn-green  owl-input-file inputFile" style="overflow: hidden">
+      <button
+        class="
+          btn btn-owls
+          actionBtns
+          btn-rounded btn-green
+          owl-input-file
+          inputFile
+        "
+        style="overflow: hidden"
+      >
         Import File
-        <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
-          (change)="uploadFile($event)">
+        <input
+          #myInput
+          type="file"
+          class="input-style"
+          placeholder="type here "
+          accept=".xlsx, .xls, .csv"
+          (change)="uploadFile($event)"
+        />
       </button>
     </div>
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
-      <button class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big  ml-auto" (click)="exportCsv()">
-        export CSV</button>
+      <button
+        class="
+          btn btn-owls btn-block
+          actionBtns
+          btn-rounded btn-blue2 btn-big
+          ml-auto
+        "
+        (click)="exportCsv()"
+      >
+        export CSV
+      </button>
     </div>
-
-
   </div>
 </div>
-
 
 <!-- Tabel -->
 <div class="table-responsive text-center">
@@ -44,30 +73,37 @@
     <thead>
       <tr>
         <th scope="col">Option</th>
-        <th scope="col">Image/Color code </th>
+        <th scope="col">Image/Color code</th>
         <th scope="col">Values</th>
         <!-- <th  scope="col" class="hidden">creator</th> -->
-        <th scope="col" class="hidden">creation date
-        </th>
+        <th scope="col" class="hidden">creation date</th>
         <th scope="col">action</th>
       </tr>
     </thead>
     <tbody>
       <!-- <tr *ngFor="let option of options"> -->
       <tr
-        *ngFor="let option of options | stringFilter: searchTerm  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: total }">
-
+        *ngFor="
+          let option of options
+            | stringFilter: searchTerm
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }
+        "
+      >
         <td class="relative">
-          {{(option.name_en.length >= 25) ? (option.name_en | slice:0:25)+'...' : option.name_en }}
-          <div class="hover-reason text-left" *ngIf="option.name_en.length >= 25">
-            <div class="head">
-              option name
-            </div>
+          {{
+            option.name_en.length >= 25
+              ? (option.name_en | slice: 0:25) + "..."
+              : option.name_en
+          }}
+          <div
+            class="hover-reason text-left"
+            *ngIf="option.name_en.length >= 25"
+          >
+            <div class="head">option name</div>
             <div class="body">
-              {{option.name_en}}
+              {{ option.name_en }}
             </div>
           </div>
-
         </td>
         <td *ngIf="option.type">
           <span [ngSwitch]="option.type">
@@ -79,50 +115,79 @@
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
-        <td>{{option.values ? option.values.length : "-" }}</td>
+        <td>{{ option.values ? option.values.length : "-" }}</td>
 
-        <td class="hidden">{{option.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td class="hidden">
+          {{ option.created_at | date: "yyyy-MM-dd hh:mm a" }}
+        </td>
         <td>
-          <a style="margin-right: 10px" class="table-view open-show" (click)="viewClinic(option)">
+          <a
+            style="margin-right: 10px"
+            class="table-view open-show"
+            (click)="viewClinic(option)"
+          >
             <i class="icon-View"></i>
           </a>
 
-          <a href="javascript:void(0)" class="table-view edit-product" (click)="toggleMenu(option)">
+          <a
+            href="javascript:void(0)"
+            class="table-view edit-product"
+            (click)="toggleMenu(option)"
+          >
             <i class="icon-grey"></i>
           </a>
 
-
-
           <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="option.active" (change)="changeActive(option, $event)">
+            <input
+              type="checkbox"
+              value="1"
+              [(ngModel)]="option.active"
+              (change)="changeActive(option, $event)"
+            />
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!option.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this option?"
-                [(ngModel)]="option.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!option.notes"
-                (click)="submitDeactivate(option)" [appLoading]="deactivateLoading"
-                [ngClass]="{'not-allowed' : !option.notes }">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(option)">cancel</button>
+              <textarea
+                name=""
+                class="owl-input"
+                placeholder="Why Do yo want to deactivate this option?"
+                [(ngModel)]="option.notes"
+              ></textarea>
+              <button
+                class="btn btn-owls btn-rounded btn-green2"
+                [disabled]="!option.notes"
+                (click)="submitDeactivate(option)"
+                [appLoading]="deactivateLoading"
+                [ngClass]="{ 'not-allowed': !option.notes }"
+              >
+                submit
+              </button>
+              <button
+                class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(option)"
+              >
+                cancel
+              </button>
             </div>
             <div class="hover-reason text-left" *ngIf="!option.active">
-              <div class="head">
-                Deactivation Notes
-              </div>
+              <div class="head">Deactivation Notes</div>
               <div class="body">
-                {{option.deactivation_notes}}
+                {{ option.deactivation_notes }}
               </div>
             </div>
           </label>
         </td>
       </tr>
-
-
     </tbody>
   </table>
 </div>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 <!-- <img src="./assets/img/loading-table.svg" *ngIf="loading" class="img-loading"> -->
 <h4 class="text-center" *ngIf="productIsEmpty">No Option</h4>
@@ -130,11 +195,19 @@
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
 <!-- view product -->
-<app-view-option (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar"
-  class="parent-editor-viewer-sidebar" [selectProductDataEdit]="selectOptionDataView">
-
+<app-view-option
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="viewOptionSidebar"
+  class="parent-editor-viewer-sidebar"
+  [selectProductDataEdit]="selectOptionDataView"
+>
 </app-view-option>
 <!-- Add / edit Product -->
-<app-add-edit-options (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
-  class="parent-editor-viewer-sidebar" [@slideInOut]="toggleAddOption" [selectProductDataEdit]="selectOptionData">
+<app-add-edit-options
+  (dataOptionEmit)="addOrUpdateOption($event)"
+  (closeSideBarEmit)="closeSideBar()"
+  class="parent-editor-viewer-sidebar"
+  [@slideInOut]="toggleAddOption"
+  [selectProductDataEdit]="selectOptionData"
+>
 </app-add-edit-options>

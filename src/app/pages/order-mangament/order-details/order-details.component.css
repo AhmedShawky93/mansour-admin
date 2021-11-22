@@ -5,7 +5,7 @@
   padding: 30px;
   position: relative;
 }
-.invalid-serials{
+.invalid-serials {
   color: red;
 }
 .copy-skus {
@@ -28,7 +28,7 @@
   width: 160px;
 }
 
-.wide-text{
+.wide-text {
   width: 200px !important;
 }
 
@@ -275,8 +275,6 @@ p.pRating {
   top: -19px;
 }
 
-
-
 .edit-price {
   position: relative;
   top: 2px;
@@ -286,7 +284,7 @@ p.pRating {
   margin-bottom: 30px;
 }
 /* .form-edit-price { */
-  /* padding: 24px 24px 0; */
+/* padding: 24px 24px 0; */
 /* } */
 .form-edit-price .form-group {
   margin-bottom: 0px !important;
@@ -295,13 +293,12 @@ p.pRating {
 .line-through {
   text-decoration: line-through;
   margin-right: 15px;
-
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
-.mr-10{
+.mr-10 {
   margin-right: 10px;
 }

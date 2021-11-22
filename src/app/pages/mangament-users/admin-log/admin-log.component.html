@@ -2,45 +2,65 @@
   <table class="table owls-table">
     <thead>
       <tr>
-        <th scope="col"> username</th>
-        <th scope="col"> user_type</th>
-        <th scope="col"> url</th>
-        <th scope="col"> request</th>
-        <th scope="col"> created at</th>
+        <th scope="col">username</th>
+        <th scope="col">user_type</th>
+        <th scope="col">url</th>
+        <th scope="col">request</th>
+        <th scope="col">created at</th>
       </tr>
     </thead>
     <tbody>
-
-      <tr *ngFor="let log of list | paginate:  { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalPages }">
-        <td>{{log?.username}}</td>
-        <td>{{log?.user_type}}</td>
-        <td>{{log?.url}}</td>
+      <tr
+        *ngFor="
+          let log of list
+            | paginate
+              : {
+                  itemsPerPage: itemsPerPage,
+                  currentPage: page,
+                  totalItems: totalPages
+                }
+        "
+      >
+        <td>{{ log?.username }}</td>
+        <td>{{ log?.user_type }}</td>
+        <td>{{ log?.url }}</td>
         <td class="request-message relative">
-
-          {{(log?.request.length  >= 30 ) ? (log?.request | summary : 30 ) : log?.request }}
+          {{
+            log?.request.length >= 30
+              ? (log?.request | summary: 30)
+              : log?.request
+          }}
 
           <div class="hover-reason text-left" *ngIf="log?.request.length >= 30">
-            <div class="head">
-              Log Request
-            </div>
+            <div class="head">Log Request</div>
             <div class="body">
-              {{log?.request}}
+              {{ log?.request }}
             </div>
           </div>
-
         </td>
-        <td>{{log?.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td>{{ log?.created_at | date: "yyyy-MM-dd hh:mm a" }}</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<pagination-controls *ngIf="list.length" (pageChange)="loadData($event)"></pagination-controls>
+<pagination-controls
+  *ngIf="list.length"
+  (pageChange)="loadData($event)"
+></pagination-controls>
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <ng-template #noData>
-  <h5 *ngIf="!loading" class="text-center text-capitalize text-info mt-10">No Data Available</h5>
+  <h5 *ngIf="!loading" class="text-center text-capitalize text-info mt-10">
+    No Data Available
+  </h5>
 </ng-template>

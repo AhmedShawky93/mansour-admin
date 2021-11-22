@@ -10,37 +10,54 @@
     <!-- <button class="btn btn-owls btn-rounded btn-green" (click)="closeSideBar()"
       [routerLink]="[dataView.id,'areas']">View Areas List</button> -->
     <div>
-      <h5> name </h5>
-      <p>{{dataView.name}}</p>
+      <h5>name</h5>
+      <p>{{ dataView.name }}</p>
     </div>
     <div>
-      <h5> name (Ar) </h5>
-      <p>{{dataView.name_ar}}</p>
+      <h5>name (Ar)</h5>
+      <p>{{ dataView.name_ar }}</p>
     </div>
     <div *ngIf="dataView?.sub_states">
-      <h5>sub order states </h5>
+      <h5>sub order states</h5>
       <div *ngFor="let cat of dataView?.sub_states">
         <label class="switch float-right">
-          <input type="checkbox" value="1" [(ngModel)]="cat.active" (change)="changeActive(cat, $event)">
+          <input
+            type="checkbox"
+            value="1"
+            [(ngModel)]="cat.active"
+            (change)="changeActive(cat, $event)"
+          />
           <span class="slider round"></span>
           <div class="reason-popup text-left" [hidden]="!cat.showReason">
-            <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this sub states?"
-              [(ngModel)]="cat.notes"></textarea>
-            <button class="btn btn-sm btn-rounded btn-sm btn-green2" [disabled]="!cat.notes"
-              (click)="submitDeactivate(cat)" [ngClass]="{'not-allowed' : !cat.notes }">submit</button>
-            <button class="btn btn-sm btn-rounded btn-sm btn-blue2 cancel-check"
-              (click)="cancelDeactivate(cat)">cancel</button>
+            <textarea
+              name=""
+              class="owl-input"
+              placeholder="Why Do yo want to deactivate this sub states?"
+              [(ngModel)]="cat.notes"
+            ></textarea>
+            <button
+              class="btn btn-sm btn-rounded btn-sm btn-green2"
+              [disabled]="!cat.notes"
+              (click)="submitDeactivate(cat)"
+              [ngClass]="{ 'not-allowed': !cat.notes }"
+            >
+              submit
+            </button>
+            <button
+              class="btn btn-sm btn-rounded btn-sm btn-blue2 cancel-check"
+              (click)="cancelDeactivate(cat)"
+            >
+              cancel
+            </button>
           </div>
           <div class="hover-reason text-left" *ngIf="!cat.active">
-            <div class="head">
-              Deactivation Notes
-            </div>
+            <div class="head">Deactivation Notes</div>
             <div class="body">
-              {{cat.deactivation_notes}}
+              {{ cat.deactivation_notes }}
             </div>
           </div>
         </label>
-        <p>• {{cat.name}}</p>
+        <p>• {{ cat.name }}</p>
       </div>
     </div>
   </div>

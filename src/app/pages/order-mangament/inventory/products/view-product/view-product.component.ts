@@ -1,27 +1,33 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { SettingService } from '@app/pages/services/setting.service';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+} from "@angular/core";
+import { SettingService } from "@app/pages/services/setting.service";
 
 @Component({
-  selector: 'app-view-product',
-  templateUrl: './view-product.component.html',
-  styleUrls: ['./view-product.component.css']
+  selector: "app-view-product",
+  templateUrl: "./view-product.component.html",
+  styleUrls: ["./view-product.component.css"],
 })
-export class ViewProductComponent implements OnInit , OnChanges{
-  @Output() closeSideBarEmit = new EventEmitter()
-  @Input('selectProductDataEdit') currentProduct;
+export class ViewProductComponent implements OnInit, OnChanges {
+  @Output() closeSideBarEmit = new EventEmitter();
+  @Input("selectProductDataEdit") currentProduct;
   environmentVariables: any;
-  constructor(private settingService: SettingService) { }
+  constructor(private settingService: SettingService) {}
   getConfig() {
-    this.settingService.getenvConfig().subscribe(res => {
+    this.settingService.getenvConfig().subscribe((res) => {
       this.environmentVariables = res;
-    })
+    });
   }
   ngOnInit() {
     this.getConfig();
   }
-  ngOnChanges(): void {
-  }
+  ngOnChanges(): void {}
   closeSideBar() {
-    this.closeSideBarEmit.emit()
+    this.closeSideBarEmit.emit();
   }
 }

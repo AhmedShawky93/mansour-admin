@@ -4,22 +4,31 @@
     <span class="close" id="close-add-area" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{selectDataEdit ? 'Edit Area':'new Area'}} </h3>
-
+    <h3>{{ selectDataEdit ? "Edit Area" : "new Area" }}</h3>
   </div>
   <div class="add-area-form">
-
     <form [formGroup]="cityForm" (ngSubmit)="submitForm()" novalidate>
       <div class="form-group">
         <label for="">Name </label>
 
-        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name">
-
+        <input
+          type="text"
+          class="owl-input"
+          placeholder="type here.."
+          name="name"
+          required
+          formControlName="name"
+        />
       </div>
       <!-- Errors Rolues -->
-      <div *ngIf="cityForm.controls.name.invalid && (cityForm.controls.name.dirty || cityForm.controls.name.touched)"
-        class="alert alert-danger">
-        <div *ngIf="cityForm.controls.name.errors.required ">
+      <div
+        *ngIf="
+          cityForm.controls.name.invalid &&
+          (cityForm.controls.name.dirty || cityForm.controls.name.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="cityForm.controls.name.errors.required">
           Name is required.
         </div>
       </div>
@@ -27,14 +36,24 @@
       <div class="form-group">
         <label for="">Name (ar)</label>
 
-        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name_ar">
-
+        <input
+          type="text"
+          class="owl-input"
+          placeholder="type here.."
+          name="name"
+          required
+          formControlName="name_ar"
+        />
       </div>
       <!-- Errors Rolues -->
       <div
-        *ngIf="cityForm.controls.name_ar.invalid && (cityForm.controls.name_ar.dirty || cityForm.controls.name_ar.touched)"
-        class="alert alert-danger">
-        <div *ngIf="cityForm.controls.name_ar.errors.required ">
+        *ngIf="
+          cityForm.controls.name_ar.invalid &&
+          (cityForm.controls.name_ar.dirty || cityForm.controls.name_ar.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="cityForm.controls.name_ar.errors.required">
           Name (Ar)is required.
         </div>
       </div>
@@ -42,41 +61,88 @@
       <div class="form-group">
         <label for="">Aramex Area name</label>
 
-        <input type="text" class="owl-input" placeholder="type here.." name="aramex_area_name "
-          formControlName="aramex_area_name ">
-
+        <input
+          type="text"
+          class="owl-input"
+          placeholder="type here.."
+          name="aramex_area_name "
+          formControlName="aramex_area_name "
+        />
       </div>
 
       <div
-        *ngIf="cityForm.controls.aramex_area_name .invalid && (cityForm.controls.aramex_area_name .dirty || cityForm.controls.aramex_area_name .touched)"
-        class="alert alert-danger">
-        <div *ngIf="cityForm.controls.aramex_area_name .errors.required ">
+        *ngIf="
+          cityForm.controls.aramex_area_name.invalid &&
+          (cityForm.controls.aramex_area_name.dirty ||
+            cityForm.controls.aramex_area_name.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="cityForm.controls.aramex_area_name.errors.required">
           Aramex Name (Ar)is required.
         </div>
       </div>
 
       <div class="col-md-12">
-        <label class="checkup" (change)="selectTypePrice('1')">Fixed price
-          <input type="radio" name="fees_type" [value]="1" formControlName="fees_type" />
+        <label class="checkup" (change)="selectTypePrice('1')"
+          >Fixed price
+          <input
+            type="radio"
+            name="fees_type"
+            [value]="1"
+            formControlName="fees_type"
+          />
           <span class="checkmark"></span>
         </label>
-        <label class="checkup" (change)="selectTypePrice('2')">Range
-          <input type="radio" name="fees_type" [value]="2" formControlName="fees_type" />
+        <label class="checkup" (change)="selectTypePrice('2')"
+          >Range
+          <input
+            type="radio"
+            name="fees_type"
+            [value]="2"
+            formControlName="fees_type"
+          />
           <span class="checkmark"></span>
         </label>
       </div>
-      <div formArrayName="fees_range" *ngIf="cityForm.controls.fees_type.value == 2">
-        <div *ngFor="let item of cityForm.get('fees_range')['controls']; let i = index">
+      <div
+        formArrayName="fees_range"
+        *ngIf="cityForm.controls.fees_type.value == 2"
+      >
+        <div
+          *ngFor="
+            let item of cityForm.get('fees_range')['controls'];
+            let i = index
+          "
+        >
           <div class="row box-range" [formGroupName]="i">
             <div class="col-md-12">
               <div class="form-group">
                 <label for="">From</label>
-                <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_from"
-                  onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46' />
+                <input
+                  type="text"
+                  class="owl-input"
+                  placeholder="type here.."
+                  formControlName="weight_from"
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
+                />
                 <div
-                  *ngIf="cityForm.controls.fees_range['controls'][i].controls.weight_from.invalid && (cityForm.controls.fees_range['controls'][i].controls.weight_from.dirty || cityForm.controls.fees_range['controls'][i].controls.weight_from.touched)"
-                  class="alert alert-danger">
-                  <div *ngIf="cityForm.controls.fees_range['controls'][i].controls.weight_from.errors.required">
+                  *ngIf="
+                    cityForm.controls.fees_range['controls'][i].controls
+                      .weight_from.invalid &&
+                    (cityForm.controls.fees_range['controls'][i].controls
+                      .weight_from.dirty ||
+                      cityForm.controls.fees_range['controls'][i].controls
+                        .weight_from.touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div
+                    *ngIf="
+                      cityForm.controls.fees_range['controls'][i].controls
+                        .weight_from.errors.required
+                    "
+                  >
                     weight from is required.
                   </div>
                 </div>
@@ -95,12 +161,30 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="">to</label>
-                <input type="text" class="owl-input" placeholder="type here.." formControlName="weight_to"
-                  onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46' />
+                <input
+                  type="text"
+                  class="owl-input"
+                  placeholder="type here.."
+                  formControlName="weight_to"
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
+                />
                 <div
-                  *ngIf="cityForm.controls.fees_range['controls'][i].controls.weight_to.invalid && (cityForm.controls.fees_range['controls'][i].controls.weight_to.dirty || cityForm.controls.fees_range['controls'][i].controls.weight_to.touched)"
-                  class="alert alert-danger">
-                  <div *ngIf="cityForm.controls.fees_range['controls'][i].controls.weight_to.errors.required">
+                  *ngIf="
+                    cityForm.controls.fees_range['controls'][i].controls
+                      .weight_to.invalid &&
+                    (cityForm.controls.fees_range['controls'][i].controls
+                      .weight_to.dirty ||
+                      cityForm.controls.fees_range['controls'][i].controls
+                        .weight_to.touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div
+                    *ngIf="
+                      cityForm.controls.fees_range['controls'][i].controls
+                        .weight_to.errors.required
+                    "
+                  >
                     weight to is required.
                   </div>
                 </div>
@@ -118,13 +202,33 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="">Delivery Fees</label>
-                <input type="text" class="owl-input" placeholder="type here.." name="fees" min="0" max="500"
+                <input
+                  type="text"
+                  class="owl-input"
+                  placeholder="type here.."
+                  name="fees"
+                  min="0"
+                  max="500"
                   formControlName="fees"
-                  onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46' />
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
+                />
                 <div
-                  *ngIf="cityForm.controls.fees_range['controls'][i].controls.fees.invalid && (cityForm.controls.fees_range['controls'][i].controls.fees.dirty || cityForm.controls.fees_range['controls'][i].controls.fees.touched)"
-                  class="alert alert-danger">
-                  <div *ngIf="cityForm.controls.fees_range['controls'][i].controls.fees.errors.required">
+                  *ngIf="
+                    cityForm.controls.fees_range['controls'][i].controls.fees
+                      .invalid &&
+                    (cityForm.controls.fees_range['controls'][i].controls.fees
+                      .dirty ||
+                      cityForm.controls.fees_range['controls'][i].controls.fees
+                        .touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div
+                    *ngIf="
+                      cityForm.controls.fees_range['controls'][i].controls.fees
+                        .errors.required
+                    "
+                  >
                     fees is required.
                   </div>
                 </div>
@@ -146,24 +250,43 @@
               </div>
             </div>
             <div class="col-md-4">
-              <a href="javascript:void(0)" class="add-sub" (click)="removeRangeForm(i)">Remove Values</a>
+              <a
+                href="javascript:void(0)"
+                class="add-sub"
+                (click)="removeRangeForm(i)"
+                >Remove Values</a
+              >
             </div>
           </div>
         </div>
 
-
-        <a href="javascript:void(0)" class="add-sub mian-color" (click)="addRangeForm(null)">Add Values</a>
+        <a
+          href="javascript:void(0)"
+          class="add-sub mian-color"
+          (click)="addRangeForm(null)"
+          >Add Values</a
+        >
       </div>
       <div class="form-group" *ngIf="cityForm.controls.fees_type.value == 1">
         <label for="">Delivery Fees</label>
-        <input type="text" class="owl-input"
-          onkeypress='return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46'
-          placeholder="type here.." name="delivery_fees" min="0" max="500" formControlName="delivery_fees" />
-        <div *ngIf="
-          cityForm.controls.delivery_fees.invalid &&
-          (cityForm.controls.delivery_fees.dirty ||
-            cityForm.controls.delivery_fees.touched)
-        " class="alert alert-danger">
+        <input
+          type="text"
+          class="owl-input"
+          onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
+          placeholder="type here.."
+          name="delivery_fees"
+          min="0"
+          max="500"
+          formControlName="delivery_fees"
+        />
+        <div
+          *ngIf="
+            cityForm.controls.delivery_fees.invalid &&
+            (cityForm.controls.delivery_fees.dirty ||
+              cityForm.controls.delivery_fees.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="cityForm.controls.delivery_fees.errors.required">
             Delivery Fees is required.
           </div>
@@ -176,7 +299,6 @@
         </div>
       </div>
 
-
       <!-- Errors Rolues -->
 
       <!-- <label class="checkup">Apply with other
@@ -185,9 +307,14 @@
       </label> -->
 
       <div class="btn-group">
-        <button type="submit" class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
+        <button
+          type="submit"
+          class="btn btn-owls btn-rounded btn-green"
+          [appLoading]="submitting"
+        >
+          Save
+        </button>
       </div>
     </form>
   </div>
-
 </div>
