@@ -150,6 +150,7 @@ export class GroupsComponent implements OnInit {
     this.groupsService.createGroup(group).subscribe((response: any) => {
       this.creating = false;
       if (response.code == 200) {
+        this.openCategory = false;
         this.groups.push(response.data);
         this.openCategory = false;
         this.showSubError = 0;
@@ -223,6 +224,7 @@ export class GroupsComponent implements OnInit {
       .subscribe((response: any) => {
         this.updating = false;
         if (response.code) {
+          this.editCat = false;
           this.viewCategory = false;
           let group = response.data;
           group.deactivated = !group.active;

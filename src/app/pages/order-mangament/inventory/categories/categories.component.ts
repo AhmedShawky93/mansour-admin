@@ -186,6 +186,7 @@ export class CategoriesComponent implements OnInit {
       .subscribe((response: any) => {
         if (response.code == 200) {
           this.toastrService.success("Category Added Successfully");
+          this.showAddCategory = false;
           this.categories.unshift(response.data);
           this.submitting = false;
           this.showAddCategory = false;
@@ -271,6 +272,7 @@ export class CategoriesComponent implements OnInit {
     this._CategoriesService
       .updateCategory(category.id, category)
       .subscribe((response: any) => {
+        this.showEditCategory = false;
         this.updating = false;
         if (response.code === 200) {
           this.toastrService.success("Category Updated Successfully");

@@ -413,6 +413,7 @@ export class CustomAdsComponent implements OnInit {
     this.adsService.creatAds(ad).subscribe((response: any) => {
       this.submitting = false;
       if (response.code == 200) {
+        this.showAddEditAd = false;
         $("#add-ads").removeClass("open-view-vindor-types");
         this.newAdsForm.reset();
         const ad = response.data;
@@ -457,6 +458,7 @@ export class CustomAdsComponent implements OnInit {
       this.submitting = false;
 
       if (response.code == 200) {
+        this.showAddEditAd = false;
         $("#add-ads").removeClass("open-view-vindor-types");
 
         const ind = this.ads.findIndex((item) => {
