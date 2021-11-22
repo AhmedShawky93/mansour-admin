@@ -43,7 +43,7 @@ export class CustomAdsComponent implements OnInit {
   total;
   products: any = [];
   products$: Observable<any>;
-  productsInput$ = new Subject<String>();
+  productsInput$ = new Subject<String | null>();
   productsLoading: boolean;
 
   categories: any;
@@ -79,6 +79,7 @@ export class CustomAdsComponent implements OnInit {
   showViewAd: boolean;
   showAddEditAd: boolean;
   submitting: boolean;
+  oldSearch: String;
 
   constructor(
     private adsService: CustomAdsService,
@@ -124,38 +125,38 @@ export class CustomAdsComponent implements OnInit {
       brand: new FormControl(),
     });
 
-    this.products$ = concat(
-      of([]), // default items
-      this.productsInput$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        tap(() => (this.productsLoading = true)),
-        switchMap((term) =>
-          this.productsService
-            .searchProducts(
-              {
-                q: term,
-                category_id: this.newAdsForm.controls.Category.value,
-                sub_category_id: this.newAdsForm.controls.subCategory.value,
-              },
-              1
-            )
-            .pipe(
-              catchError(() => of([])), // empty list on error
-              tap(() => (this.productsLoading = false)),
-              map((response: any) => {
-                this.productList = response.data.products;
-                return response.data.products.map((p) => {
-                  return {
-                    id: p.id,
-                    name: p.name,
-                  };
-                });
-              })
-            )
-        )
-      )
-    );
+    // this.products$ = concat(
+    //   of([]), // default items
+    //   this.productsInput$.pipe(
+    //     debounceTime(200),
+    //     distinctUntilChanged(),
+    //     tap(() => (this.productsLoading = true)),
+    //     switchMap((term) =>
+    //       this.productsService
+    //         .searchProducts(
+    //           {
+    //             q: term,
+    //             category_id: this.newAdsForm.controls.Category.value,
+    //             sub_category_id: this.newAdsForm.controls.subCategory.value,
+    //           },
+    //           1
+    //         )
+    //         .pipe(
+    //           catchError(() => of([])), // empty list on error
+    //           tap(() => (this.productsLoading = false)),
+    //           map((response: any) => {
+    //             this.productList = response.data.products;
+    //             return response.data.products.map((p) => {
+    //               return {
+    //                 id: p.id,
+    //                 name: p.name,
+    //               };
+    //             });
+    //           })
+    //         )
+    //     )
+    //   )
+    // );
 
     this.ad.popup = "";
   }
@@ -227,34 +228,13 @@ export class CustomAdsComponent implements OnInit {
           debounceTime(200),
           distinctUntilChanged(),
           tap(() => (this.productsLoading = true)),
-          switchMap((term) =>
-            this.productsService
-              .searchProducts(
-                {
-                  q: term,
-                  category_id: ad.item_data.category_id
-                    ? ad.item_data.category.id
-                    : this.newAdsForm.controls.category.value,
-                  sub_category_id: ad.item_data.category_id
-                    ? ad.item_data.category_id
-                    : this.newAdsForm.controls.subCategory.value,
-                },
-                1
-              )
-              .pipe(
-                catchError(() => of([])), // empty list on error
-                tap(() => (this.productsLoading = false)),
-                map((response: any) => {
-                  this.productList = response.data.products;
-                  return response.data.products.map((p) => {
-                    return {
-                      id: p.id,
-                      name: p.name,
-                    };
-                  });
-                })
-              )
-          )
+          switchMap((term) => {
+            if (term) {
+              return this.getList(ad, term);
+            } else {
+              return this.getList(ad, this.oldSearch);
+            }
+          })
         )
       );
     }
@@ -293,6 +273,35 @@ export class CustomAdsComponent implements OnInit {
     }
 
     this.onAdTypeChanged(this.newAdsForm);
+  }
+  getList(ad, term) {
+    return this.productsService
+      .searchProducts(
+        {
+          q: term,
+          category_id: ad.item_data.category_id
+            ? ad.item_data.category.id
+            : this.newAdsForm.controls.category.value,
+          sub_category_id: ad.item_data.category_id
+            ? ad.item_data.category_id
+            : this.newAdsForm.controls.subCategory.value,
+        },
+        1
+      )
+      .pipe(
+        catchError(() => of([])),
+        tap(() => (this.productsLoading = false)),
+        map((response: any) => {
+          this.oldSearch = term;
+          this.productList = response.data.products;
+          return response.data.products.map((p) => {
+            return {
+              id: p.id,
+              name: p.name,
+            };
+          });
+        })
+      );
   }
 
   onAdTypeChanged(form: FormGroup) {
