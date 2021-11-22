@@ -101,7 +101,7 @@ export class AddEditOrderComponent implements OnInit, OnChanges {
     this.setupForm(this.selectedOrder);
     this.getConfig();
 
-    this.citiesService.getCities(null, null).subscribe((response: any) => {
+    this.citiesService.getCities().subscribe((response: any) => {
       this.cities = response.data;
     });
   }
