@@ -131,6 +131,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   stateCloning: boolean;
   statedeleting: boolean;
   environmentVariables: any;
+  parent_id: any = "";
 
   constructor(
     private productsService: ProductsService,
@@ -274,7 +275,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   search() {
     this.page = 1;
-    this.getProducts();
+    this.getProducts(this.parent_id);
   }
 
   pagination(page) {
@@ -283,6 +284,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getProducts(id = "") {
+    this.parent_id = id;
     this.spinner.show();
     let data = {
       page: this.page,
@@ -336,6 +338,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.filterForm.get("searchValue").setValue("");
     this.filterForm.get("category_id").setValue("");
     this.filterForm.get("sub_category_id").setValue("");
+    this.parent_id = "";
     this.getProducts();
   }
 
