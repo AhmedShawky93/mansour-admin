@@ -108,13 +108,17 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.getAllOptions();
     this.getForm(this.selectProductDataEdit);
-  }
-
-  ngOnChanges() {
     this.getCategories();
     this.productsService.getBrands().subscribe((response: any) => {
       this.brands = response.data;
     });
+  }
+
+  ngOnChanges() {
+    // this.getCategories();
+    // this.productsService.getBrands().subscribe((response: any) => {
+    //   this.brands = response.data;
+    // });
 
     this.getForm(this.selectProductDataEdit);
     this.setData(this.selectProductDataEdit);
