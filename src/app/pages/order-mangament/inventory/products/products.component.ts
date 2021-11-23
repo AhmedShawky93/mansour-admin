@@ -487,6 +487,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   disableBodyScrollTop() {
     window.scroll(0, 0);
     document.body.style.overflow = "hidden";
+    document.getElementById("add-prod").scroll(0, 0);
   }
 
   removeProduct(product) {
