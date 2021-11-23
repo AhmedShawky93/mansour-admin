@@ -2110,3 +2110,11 @@ i {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.modal {
+  z-index: 998 !important;
+}
+
+.modal-backdrop {
+  z-index: 997 !important;
+}
