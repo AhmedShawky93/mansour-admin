@@ -1,19 +1,41 @@
-<div class="form-group" *ngIf="myForm || formControlChildName" [formGroup]="myForm">
-  <label>{{label}}</label>
+<div
+  class="form-group"
+  *ngIf="myForm || formControlChildName"
+  [formGroup]="myForm"
+>
+  <label>{{ label }}</label>
   <div class="d-flex flex-row">
     <!-- (change)="formatDate($event)" -->
-    <input class="owl-input" [placeholder]="placeholder" [satDatepicker]="picker"
-      [formControlName]="formControlChildName" name="date">
-    <sat-datepicker-toggle class="date-icon" matSuffix [for]="picker"></sat-datepicker-toggle>
+    <input
+      class="owl-input"
+      [placeholder]="placeholder"
+      [satDatepicker]="picker"
+      [formControlName]="formControlChildName"
+      name="date"
+    />
+    <sat-datepicker-toggle
+      class="date-icon"
+      matSuffix
+      [for]="picker"
+    ></sat-datepicker-toggle>
   </div>
   <sat-datepicker #picker [rangeMode]="false"></sat-datepicker>
 </div>
 <div class="form-group" *ngIf="!(myForm || formControlChildName)">
-  <label *ngIf="label">{{label}}</label>
+  <label *ngIf="label">{{ label }}</label>
   <div class="d-flex flex-row">
-    <input class="owl-input" [placeholder]="placeholder" [satDatepicker]="picker" (dateChange)="onChangeData($event)"
-      name="date">
-    <sat-datepicker-toggle class="date-icon" matSuffix [for]="picker"></sat-datepicker-toggle>
+    <input
+      class="owl-input"
+      [placeholder]="placeholder"
+      [satDatepicker]="picker"
+      (dateChange)="onChangeData($event)"
+      name="date"
+    />
+    <sat-datepicker-toggle
+      class="date-icon"
+      matSuffix
+      [for]="picker"
+    ></sat-datepicker-toggle>
   </div>
   <sat-datepicker #picker [rangeMode]="false"></sat-datepicker>
 </div>

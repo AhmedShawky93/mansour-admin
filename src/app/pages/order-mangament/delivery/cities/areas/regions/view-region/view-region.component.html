@@ -7,27 +7,27 @@
     <h3>View districts</h3>
   </div>
   <div class="details details-2" *ngIf="dataView">
-
-
     <div>
-      <h5> name </h5>
-      <p>{{dataView.name}}</p>
+      <h5>name</h5>
+      <p>{{ dataView.name }}</p>
     </div>
     <div>
-      <h5> name (Ar) </h5>
-      <p>{{dataView.name_ar}}</p>
+      <h5>name (Ar)</h5>
+      <p>{{ dataView.name_ar }}</p>
     </div>
     <div *ngIf="dataView?.deactivation_notes">
       <h5>Deactivation notes</h5>
-      <p>{{dataView?.deactivation_notes}}</p>
+      <p>{{ dataView?.deactivation_notes }}</p>
     </div>
     <div *ngIf="dataView?.fees_range.length">
-      <h5>Fees Range </h5>
+      <h5>Fees Range</h5>
 
       <p *ngIf="dataView?.fees_range">
-        <span *ngFor="let fee of  dataView?.fees_range">
-          <p>Weight from : {{fee.weight_from}} - Weight to: {{fee.weight_to}} - Fee: {{fee.fees}}</p>
-
+        <span *ngFor="let fee of dataView?.fees_range">
+          <p>
+            Weight from : {{ fee.weight_from }} - Weight to:
+            {{ fee.weight_to }} - Fee: {{ fee.fees }}
+          </p>
         </span>
       </p>
     </div>

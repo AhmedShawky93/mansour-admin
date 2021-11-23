@@ -1,33 +1,45 @@
 <!-- <ngx-loading-bar [color]="'#007C41'"></ngx-loading-bar> -->
 
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-9 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" class="owl-input owls-search"
-          placeholder="search ...">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          class="owl-input owls-search"
+          placeholder="search ..."
+        />
       </div>
     </div>
 
-
-    <div class="col-md-3  col-xs-12 text-right">
+    <div class="col-md-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button class="btn btn-owls btn-rounded btn-blue2 btn-big w-100" (click)="toggleMenu(null)"
-          style="margin-left: 0px;">+ New Custom List</button>
+        <button
+          class="btn btn-owls btn-rounded btn-blue2 btn-big w-100"
+          (click)="toggleMenu(null)"
+          style="margin-left: 0px"
+        >
+          + New Custom List
+        </button>
       </div>
     </div>
-
   </div>
 </div>
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
-
 
 <!-- Tabel -->
 <div class="table-responsive text-center">
@@ -42,19 +54,25 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let list of lists  | paginate:  { itemsPerPage: 20, currentPage: p, totalItems: lists.length }">
-
+      <tr
+        *ngFor="
+          let list of lists
+            | paginate
+              : { itemsPerPage: 20, currentPage: p, totalItems: lists.length }
+        "
+      >
         <td class="relative">
-          {{(list.name_en.length >= 25) ? (list.name_en | slice:0:25)+'...' : list.name_en }}
+          {{
+            list.name_en.length >= 25
+              ? (list.name_en | slice: 0:25) + "..."
+              : list.name_en
+          }}
           <div class="hover-reason text-left" *ngIf="list.name_en.length >= 25">
-            <div class="head">
-              list name
-            </div>
+            <div class="head">list name</div>
             <div class="body">
-              {{list.name_en}}
+              {{ list.name_en }}
             </div>
           </div>
-
         </td>
         <td>
           <span [ngSwitch]="list.type">
@@ -66,20 +84,27 @@
             <span *ngSwitchDefault>-</span>
           </span>
         </td>
-        <td>{{list?.products_count }}</td>
+        <td>{{ list?.products_count }}</td>
 
-        <td class="hidden">{{list.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
+        <td class="hidden">
+          {{ list.created_at | date: "yyyy-MM-dd hh:mm a" }}
+        </td>
         <td>
-          <a style="margin-right: 10px" class="table-view open-show" (click)="viewList(list)">
+          <a
+            style="margin-right: 10px"
+            class="table-view open-show"
+            (click)="viewList(list)"
+          >
             <i class="icon-View"></i>
           </a>
 
-
-          <a href="javascript:void(0)" class="table-view edit-product" (click)="toggleMenu(list)">
+          <a
+            href="javascript:void(0)"
+            class="table-view edit-product"
+            (click)="toggleMenu(list)"
+          >
             <i class="icon-grey"></i>
           </a>
-
-
 
           <!-- <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="list.active" (change)="changeActive(list, $event)">
@@ -103,8 +128,6 @@
           </label> -->
         </td>
       </tr>
-
-
     </tbody>
   </table>
 </div>
@@ -113,9 +136,17 @@
 
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
-<app-view-list (closeSideBarEmit)="closeSideBar()" [@slideInOut]="viewOptionSidebar" [listData]="currentList"
-  class="parent-editor-viewer-sidebar">
+<app-view-list
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="viewOptionSidebar"
+  [listData]="currentList"
+  class="parent-editor-viewer-sidebar"
+>
 </app-view-list>
-<app-add-edit-list (dataOptionEmit)="addOrUpdateOption($event)" (closeSideBarEmit)="closeSideBar()"
-  [@slideInOut]="toggleListForm" [listData]="selectOptionData">
+<app-add-edit-list
+  (dataOptionEmit)="addOrUpdateOption($event)"
+  (closeSideBarEmit)="closeSideBar()"
+  [@slideInOut]="toggleListForm"
+  [listData]="selectOptionData"
+>
 </app-add-edit-list>

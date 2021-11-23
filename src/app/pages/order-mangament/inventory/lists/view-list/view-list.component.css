@@ -11,18 +11,15 @@
   height: 100vh;
   overflow: auto;
   overflow-x: hidden;
-  box-shadow: 0 12px 54px 0 rgba(6,40,59,.1);
-
+  box-shadow: 0 12px 54px 0 rgba(6, 40, 59, 0.1);
 }
 
-.view-vindor-types
-{
+.view-vindor-types {
   width: 435px;
   left: auto;
 }
 
-.s-price
-{
+.s-price {
   position: absolute;
   right: 100px;
   background: var(--brand-color);
@@ -30,23 +27,19 @@
   border-radius: 8px 0px 8px 0px;
   font-size: 15px;
 }
-.s-price.discount
-{
+.s-price.discount {
   right: 28px;
-
 }
 
-.view-vindor-types
-{
+.view-vindor-types {
   left: auto;
-
 }
 
-.import-export{
+.import-export {
   display: flex;
   flex-wrap: wrap;
 }
 
 .import-export .inputFile {
-  margin-right:  10px;
+  margin-right: 10px;
 }

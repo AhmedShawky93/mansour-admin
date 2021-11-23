@@ -1,6 +1,12 @@
 <div class="form-group" [formGroup]="myForm">
-  <label>{{label}}</label>
-  <input [formControlName]="formControlChildName" [format]="12" type="text" class="owl-input"
-    [placeholder]="placeholder" [ngxTimepicker]="openPicker">
+  <label>{{ label }}</label>
+  <input
+    [formControlName]="formControlChildName"
+    [format]="12"
+    type="text"
+    class="owl-input"
+    [placeholder]="placeholder"
+    [ngxTimepicker]="openPicker"
+  />
   <ngx-material-timepicker #openPicker></ngx-material-timepicker>
 </div>

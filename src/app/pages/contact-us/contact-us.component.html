@@ -5,8 +5,14 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm"
-          (keyup)="search(searchTerm)" name="searchTerm">
+        <input
+          type="text"
+          class="owl-input owls-search"
+          placeholder="search ..."
+          [(ngModel)]="searchTerm"
+          (keyup)="search(searchTerm)"
+          name="searchTerm"
+        />
       </div>
     </div>
 
@@ -20,40 +26,54 @@
 </div>
 
 <div class="table-responsive">
-  <table class="table owls-table text-center ">
+  <table class="table owls-table text-center">
     <thead>
       <tr>
         <th scope="col">Name</th>
-        <th scope="col">Email </th>
-        <th scope="col"> Phone</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
         <th scope="col">message</th>
         <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
       <tr
-        *ngFor="let request of requests  | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let i = index">
-        <td>{{request.name}}</td>
-        <td>{{request.email}}</td>
-        <td>{{request.phone}}</td>
-        <td class="request-message relative"> {{request.created_at | date : "yyyy-MM-dd hh:mm a"}}:
+        *ngFor="
+          let request of requests
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total };
+          let i = index
+        "
+      >
+        <td>{{ request.name }}</td>
+        <td>{{ request.email }}</td>
+        <td>{{ request.phone }}</td>
+        <td class="request-message relative">
+          {{ request.created_at | date: "yyyy-MM-dd hh:mm a" }}:
 
-          {{(request.message.length  >= 180 ) ? (request.message | summary : 180 ) : request.message }}
+          {{
+            request.message.length >= 180
+              ? (request.message | summary: 180)
+              : request.message
+          }}
 
-          <div class="hover-reason text-left" *ngIf="request.message.length >= 180">
-            <div class="head">
-              message
-            </div>
+          <div
+            class="hover-reason text-left"
+            *ngIf="request.message.length >= 180"
+          >
+            <div class="head">message</div>
             <div class="body">
-              {{request.message}}
+              {{ request.message }}
             </div>
           </div>
-
         </td>
         <td>
-          <select class="owl-input" name="status" [(ngModel)]="request.resolved"
-            (change)="changeRequestStatus(request)">
-            <option value="0">New </option>
+          <select
+            class="owl-input"
+            name="status"
+            [(ngModel)]="request.resolved"
+            (change)="changeRequestStatus(request)"
+          >
+            <option value="0">New</option>
             <option value="1">Solved</option>
           </select>
         </td>
@@ -62,6 +82,12 @@
   </table>
 </div>
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

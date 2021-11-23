@@ -6,32 +6,39 @@
     <h3>affiliate details</h3>
   </div>
 
-
-  <div *ngIf="dataView" class=" details details-2">
-
+  <div *ngIf="dataView" class="details details-2">
     <div>
       <div class="customer-det">
         <!-- <img src="http://via.placeholder.com/50x50" alt="" width="50" height="50"> -->
         <div class="content">
-          <p>{{dataView.name}}</p>
+          <p>{{ dataView.name }}</p>
           <h5>
-            {{dataView.phone}}
-            <span style="cursor: pointer;" class="text-success" *ngIf="dataView.phone_verified"><i
-                class="fa fa-check"></i> Verified</span>
-            <span data-toggle="modal" (click)="verifyPhoneUser(dataView)" style="cursor: pointer;" class="warning"
-              *ngIf="dataView.phone && !dataView.phone_verified"><i class="fa fa-exclamation-circle"></i> Not
-              Verified</span>
+            {{ dataView.phone }}
+            <span
+              style="cursor: pointer"
+              class="text-success"
+              *ngIf="dataView.phone_verified"
+              ><i class="fa fa-check"></i> Verified</span
+            >
+            <span
+              data-toggle="modal"
+              (click)="verifyPhoneUser(dataView)"
+              style="cursor: pointer"
+              class="warning"
+              *ngIf="dataView.phone && !dataView.phone_verified"
+              ><i class="fa fa-exclamation-circle"></i> Not Verified</span
+            >
           </h5>
-          <h5>{{dataView.email}}</h5>
-          <p style="cursor: pointer" (click)="loginAsCustomer(dataView.id)"><i class="fa fa-sign-in"></i>&nbsp;Login as
-            {{dataView.name}}</p>
+          <h5>{{ dataView.email }}</h5>
+          <p style="cursor: pointer" (click)="loginAsCustomer(dataView.id)">
+            <i class="fa fa-sign-in"></i>&nbsp;Login as {{ dataView.name }}
+          </p>
         </div>
         <div class="date">
-          {{dataView.id}}
+          {{ dataView.id }}
         </div>
       </div>
     </div>
-
 
     <div>
       <h5>address</h5>
@@ -40,27 +47,37 @@
       </p> -->
       <div>
         <p *ngFor="let address of dataView.addresses; index as i">
-          {{address.formatted_address}}
-          <a *ngIf="address.lat" href="https://www.google.com/maps/search/?api=1&query={{address.lat}},{{address.lng}}"
-            target="_blank"><i class="fa fa-external-link"></i>
+          {{ address.formatted_address }}
+          <a
+            *ngIf="address.lat"
+            href="https://www.google.com/maps/search/?api=1&query={{
+              address.lat
+            }},{{ address.lng }}"
+            target="_blank"
+            ><i class="fa fa-external-link"></i>
           </a>
-          <a (click)="addOrUpdateAddress(dataView, address, false)" class="table-view edit-product mx-1"
-            href="javascript:void(0)">
+          <a
+            (click)="addOrUpdateAddress(dataView, address, false)"
+            class="table-view edit-product mx-1"
+            href="javascript:void(0)"
+          >
             <i class="icon-grey"></i>
           </a>
         </p>
       </div>
-      <a href="javascript:void(0)" (click)="addOrUpdateAddress(dataView, null, true)">+New Address</a>
+      <a
+        href="javascript:void(0)"
+        (click)="addOrUpdateAddress(dataView, null, true)"
+        >+New Address</a
+      >
     </div>
-
 
     <!-- <div>
       <h5>Appear the date</h5>
       <p>{{dataView.created_at | date : "yyyy-MM-dd hh:mm a"}}</p>
     </div> -->
 
-
-    <div *ngIf="dataView.active" style="width: 107px;">
+    <div *ngIf="dataView.active" style="width: 107px">
       <p class="btn-rounded btn-green2">active</p>
     </div>
 
@@ -69,16 +86,20 @@
       <div class="reason-text">
         <div class="inner">
           <p>
-            {{dataView.deactivation_notes}}
+            {{ dataView.deactivation_notes }}
           </p>
         </div>
       </div>
 
       <div>
-        <button class="btn btn-owls btn-rounded btn-green" (click)="activateUser(dataView)">Reactivate</button>
+        <button
+          class="btn btn-owls btn-rounded btn-green"
+          (click)="activateUser(dataView)"
+        >
+          Reactivate
+        </button>
       </div>
     </div>
-
 
     <!--<div class="order-history">
       &lt;!&ndash; <h5>order history ({{dataView.orders.length}})</h5> &ndash;&gt;
@@ -100,5 +121,4 @@
       </div>
     </div>-->
   </div>
-
 </div>

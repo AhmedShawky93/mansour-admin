@@ -1,13 +1,13 @@
-import { StarsModule } from './stars.module';
+import { StarsModule } from "./stars.module";
 
-describe('StarsModule', () => {
+describe("StarsModule", () => {
   let starsModule: StarsModule;
 
   beforeEach(() => {
     starsModule = new StarsModule();
   });
 
-  it('should create an instance', () => {
+  it("should create an instance", () => {
     expect(starsModule).toBeTruthy();
   });
 });

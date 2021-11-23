@@ -1,22 +1,43 @@
-<div *ngIf="addEditPageForm" class="form-sidebar view-vindor-types  add-edit-product-form" id="add-page">
+<div
+  *ngIf="addEditPageForm"
+  class="form-sidebar view-vindor-types add-edit-product-form"
+  id="add-page"
+>
   <div class="head">
     <span class="close" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3>{{selectProductDataEdit ?  'Edit page' : 'New page' }} </h3>
+    <h3>{{ selectProductDataEdit ? "Edit page" : "New page" }}</h3>
   </div>
 
-  <form *ngIf="!loading" class="sideform" (ngSubmit)="addEditPages()" [formGroup]="addEditPageForm" novalidate>
-   
-
+  <form
+    *ngIf="!loading"
+    class="sideform"
+    (ngSubmit)="addEditPages()"
+    [formGroup]="addEditPageForm"
+    novalidate
+  >
     <div class="form-group">
       <label for="">Title (En)</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="title_en" (input)="detectpageChange()">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="title_en"
+        (input)="detectpageChange()"
+      />
       <!-- Start  Errors Rolues -->
 
       <div
-        *ngIf="addEditPageForm.controls.title_en.invalid && (addEditPageForm.controls.title_en.dirty || addEditPageForm.controls.title_en.touched || submitting)"
-        class="alert alert-danger">
+        *ngIf="
+          addEditPageForm.controls.title_en.invalid &&
+          (addEditPageForm.controls.title_en.dirty ||
+            addEditPageForm.controls.title_en.touched ||
+            submitting)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="addEditPageForm.controls.title_en.errors.required">
           Title (En) is required.
         </div>
@@ -26,12 +47,24 @@
 
     <div class="form-group">
       <label for="">Title (Ar)</label>
-      <input type="text" class="owl-input" placeholder="Type.." required formControlName="title_ar">
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        required
+        formControlName="title_ar"
+      />
       <!-- Start  Errors Rolues -->
 
       <div
-        *ngIf="addEditPageForm.controls.title_ar.invalid && (addEditPageForm.controls.title_ar.dirty || addEditPageForm.controls.title_ar.touched || submitting)"
-        class="alert alert-danger">
+        *ngIf="
+          addEditPageForm.controls.title_ar.invalid &&
+          (addEditPageForm.controls.title_ar.dirty ||
+            addEditPageForm.controls.title_ar.touched ||
+            submitting)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="addEditPageForm.controls.title_ar.errors.required">
           Title (Ar) is required.
         </div>
@@ -42,77 +75,138 @@
       <label for="">Url</label>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon3">{{website_url}}/pages/</span>
+          <span class="input-group-text" id="basic-addon3"
+            >{{ website_url }}/pages/</span
+          >
         </div>
-        <input type="text" id="webslug" class="owl-input" placeholder="Type.." required formControlName="slug" [(ngModel)]="currentslug" (keyup)="detectslugChange()">
+        <input
+          type="text"
+          id="webslug"
+          class="owl-input"
+          placeholder="Type.."
+          required
+          formControlName="slug"
+          [(ngModel)]="currentslug"
+          (keyup)="detectslugChange()"
+        />
       </div>
-    
+
       <!-- Start  Errors Rolues -->
       <div
-        *ngIf="addEditPageForm.controls.slug.invalid && (addEditPageForm.controls.slug.dirty || addEditPageForm.controls.slug.touched || submitting)"
-        class="alert alert-danger">
+        *ngIf="
+          addEditPageForm.controls.slug.invalid &&
+          (addEditPageForm.controls.slug.dirty ||
+            addEditPageForm.controls.slug.touched ||
+            submitting)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="addEditPageForm.controls.slug.errors.required">
           Url is required.
         </div>
       </div>
       <!-- End Errors Rolues -->
     </div>
-    
+
     <div class="form-group">
       <label for="">Content En</label>
-      <angular-editor [id]="'content_en'" formControlName="content_en" [config]="editorConfig" required>
+      <angular-editor
+        [id]="'content_en'"
+        formControlName="content_en"
+        [config]="editorConfig"
+        required
+      >
       </angular-editor>
       <div
-      *ngIf="addEditPageForm.controls.content_en.invalid && (addEditPageForm.controls.content_en.dirty || addEditPageForm.controls.content_en.touched || submitting)"
-      class="alert alert-danger">
-      <div *ngIf="addEditPageForm.controls.content_en.errors.required">
-        Content en is required.
+        *ngIf="
+          addEditPageForm.controls.content_en.invalid &&
+          (addEditPageForm.controls.content_en.dirty ||
+            addEditPageForm.controls.content_en.touched ||
+            submitting)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="addEditPageForm.controls.content_en.errors.required">
+          Content en is required.
+        </div>
       </div>
-    </div>
-
     </div>
 
     <div class="form-group">
       <label for="">Content Ar</label>
-      <angular-editor [id]="'content_ar'" formControlName="content_ar" [config]="editorConfig" required>
+      <angular-editor
+        [id]="'content_ar'"
+        formControlName="content_ar"
+        [config]="editorConfig"
+        required
+      >
       </angular-editor>
 
       <div
-      *ngIf="addEditPageForm.controls.content_ar.invalid && (addEditPageForm.controls.content_ar.dirty || addEditPageForm.controls.content_ar.touched || submitting)"
-      class="alert alert-danger">
-      <div *ngIf="addEditPageForm.controls.content_ar.errors.required">
-        Content ar is required.
+        *ngIf="
+          addEditPageForm.controls.content_ar.invalid &&
+          (addEditPageForm.controls.content_ar.dirty ||
+            addEditPageForm.controls.content_ar.touched ||
+            submitting)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="addEditPageForm.controls.content_ar.errors.required">
+          Content ar is required.
+        </div>
       </div>
-    </div>
     </div>
 
     <div class="form-group">
       <label for="">Order</label>
-      <input type="number" formControlName="order" class="owl-input" placeholder="Type..">
-    
+      <input
+        type="number"
+        formControlName="order"
+        class="owl-input"
+        placeholder="Type.."
+      />
+
       <div
-      *ngIf="addEditPageForm.controls.order.invalid && (addEditPageForm.controls.order.dirty || addEditPageForm.controls.order.touched || submitting)"
-      class="alert alert-danger">
-      <div *ngIf="addEditPageForm.controls.order.errors.required">
-        Order is required.
+        *ngIf="
+          addEditPageForm.controls.order.invalid &&
+          (addEditPageForm.controls.order.dirty ||
+            addEditPageForm.controls.order.touched ||
+            submitting)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="addEditPageForm.controls.order.errors.required">
+          Order is required.
+        </div>
       </div>
     </div>
 
-    </div>
-  
-    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px;">
-      <label class="container">Show in footer
-        <input type="checkbox"  class="form-control checkbox-style" name="in_footer" id="in_footer" [value]="1" formControlName="in_footer">
+    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px">
+      <label class="container"
+        >Show in footer
+        <input
+          type="checkbox"
+          class="form-control checkbox-style"
+          name="in_footer"
+          id="in_footer"
+          [value]="1"
+          formControlName="in_footer"
+        />
         <span class="checkmark"></span>
       </label>
     </div>
     <!--<pre>{{addEditPageForm.value | json}}</pre>-->
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting && addEditPageForm.valid">Save</button>
+      <button
+        class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="submitting && addEditPageForm.valid"
+      >
+        Save
+      </button>
     </div>
   </form>
 
   <div *ngIf="loading" class="loadingArea">
-    <img src="./../../../../assets/img/loading-table.svg" alt="">
+    <img src="./../../../../assets/img/loading-table.svg" alt="" />
   </div>
 </div>

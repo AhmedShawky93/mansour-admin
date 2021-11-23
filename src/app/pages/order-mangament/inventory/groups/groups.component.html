@@ -1,47 +1,80 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-6 col-sm-12 col-xs-12">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="searchTerm">
+        <input
+          type="text"
+          class="owl-input owls-search"
+          placeholder="search ..."
+          [(ngModel)]="searchTerm"
+        />
       </div>
     </div>
 
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <div class="owl-btn-list">
-        <button (click)="openCategory = true"
-          class="btn btn-owls actionBtns btn-block btn-rounded btn-blue2 btn-big add-category ml-auto"> + New
-          Group</button>
+        <button
+          (click)="openCategory = true"
+          class="
+            btn btn-owls
+            actionBtns
+            btn-block btn-rounded btn-blue2 btn-big
+            add-category
+            ml-auto
+          "
+        >
+          + New Group
+        </button>
       </div>
     </div>
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
-      <button class="btn btn-owls actionBtns btn-rounded btn-green  owl-input-file inputFile" style="overflow: hidden">
+      <button
+        class="
+          btn btn-owls
+          actionBtns
+          btn-rounded btn-green
+          owl-input-file
+          inputFile
+        "
+        style="overflow: hidden"
+      >
         Import File
-        <input #myInput type="file" class="input-style" placeholder="type here " accept=".xlsx, .xls, .csv"
-          (change)="uploadFile($event)">
+        <input
+          #myInput
+          type="file"
+          class="input-style"
+          placeholder="type here "
+          accept=".xlsx, .xls, .csv"
+          (change)="uploadFile($event)"
+        />
       </button>
     </div>
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
-      <button class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big  ml-auto" (click)="exportCsv()">
-        export CSV</button>
+      <button
+        class="
+          btn btn-owls btn-block
+          actionBtns
+          btn-rounded btn-blue2 btn-big
+          ml-auto
+        "
+        (click)="exportCsv()"
+      >
+        export CSV
+      </button>
     </div>
-
-
   </div>
 </div>
 
 <div class="table-responsive">
-  <table class="table owls-table ">
+  <table class="table owls-table">
     <thead>
       <tr>
-
-
-        <th scope="col"> group name</th>
-        <th scope="col"> group name (ar)</th>
+        <th scope="col">group name</th>
+        <th scope="col">group name (ar)</th>
         <th scope="col">Category name</th>
         <th scope="col">subCategory count</th>
         <th scope="col" class="hidden">creation date</th>
@@ -49,57 +82,90 @@
       </tr>
     </thead>
     <tbody>
-
-
-      <tr *ngFor="let group of groups | groupsFilter: searchTerm | paginate: { itemsPerPage: 10, currentPage: p }">
-        <td>{{group.name_en}}</td>
-        <td>{{group.name_ar}}</td>
-        <td>{{group.sub_categories[0]?.parent.name}}</td>
-        <td style="
-        text-align:center;">{{group.sub_categories?.length }}</td>
-        <td class="hidden">{{group.created_at | date : "yyyy-MM-dd hh:mm a" }}</td>
+      <tr
+        *ngFor="
+          let group of groups
+            | groupsFilter: searchTerm
+            | paginate: { itemsPerPage: 10, currentPage: p }
+        "
+      >
+        <td>{{ group.name_en }}</td>
+        <td>{{ group.name_ar }}</td>
+        <td>{{ group.sub_categories[0]?.parent.name }}</td>
+        <td style="text-align: center">{{ group.sub_categories?.length }}</td>
+        <td class="hidden">
+          {{ group.created_at | date: "yyyy-MM-dd hh:mm a" }}
+        </td>
         <td>
-          <a href="javascript:void(0)" id="edit-category" class="table-view" (click)="editCategory(group)">
+          <a
+            href="javascript:void(0)"
+            id="edit-category"
+            class="table-view"
+            (click)="editCategory(group)"
+          >
             <i class="icon-grey"></i>
           </a>
-          <a href="javascript:void(0)" class="table-view view-c" (click)="viewGroup(group)">
+          <a
+            href="javascript:void(0)"
+            class="table-view view-c"
+            (click)="viewGroup(group)"
+          >
             <i class="icon-View"></i>
           </a>
           <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="group.active" (change)="changeActive(group, $event)">
+            <input
+              type="checkbox"
+              value="1"
+              [(ngModel)]="group.active"
+              (change)="changeActive(group, $event)"
+            />
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!group.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this group?"
-                [(ngModel)]="group.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!group.notes"
-                (click)="submitDeactivate(group)" [ngClass]="{'not-allowed' : !group.notes }">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(group)">cancel</button>
+              <textarea
+                name=""
+                class="owl-input"
+                placeholder="Why Do yo want to deactivate this group?"
+                [(ngModel)]="group.notes"
+              ></textarea>
+              <button
+                class="btn btn-owls btn-rounded btn-green2"
+                [disabled]="!group.notes"
+                (click)="submitDeactivate(group)"
+                [ngClass]="{ 'not-allowed': !group.notes }"
+              >
+                submit
+              </button>
+              <button
+                class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(group)"
+              >
+                cancel
+              </button>
             </div>
             <div class="hover-reason text-left" *ngIf="!group.active">
-              <div class="head">
-                Deactivation Notes
-              </div>
+              <div class="head">Deactivation Notes</div>
               <div class="body">
-                {{group.deactivation_notes}}
+                {{ group.deactivation_notes }}
               </div>
             </div>
           </label>
         </td>
       </tr>
-
     </tbody>
   </table>
 </div>
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
-
-<div class="form-sidebar view-vindor-types" id="view-category" [ngClass]="viewCategory ? 'open-view-vindor-types' : ''">
+<div
+  class="form-sidebar view-vindor-types"
+  id="view-category"
+  [ngClass]="viewCategory ? 'open-view-vindor-types' : ''"
+>
   <div class="head">
     <span class="close" id="close-vindors3" (click)="viewCategory = false">
       <i class="icon-Exit"></i>
     </span>
-    <h3>Group ID : {{currentGroup?.id}}</h3>
+    <h3>Group ID : {{ currentGroup?.id }}</h3>
   </div>
 
   <!-- <div class="head-btn">
@@ -108,45 +174,44 @@
   </div> -->
 
   <div class="details details-2" *ngIf="currentGroup">
-
     <div>
       <h5>name en</h5>
-      <p>{{currentGroup?.name_en}}</p>
+      <p>{{ currentGroup?.name_en }}</p>
     </div>
     <div>
       <h5>name ar</h5>
-      <p>{{currentGroup?.name_ar}}</p>
+      <p>{{ currentGroup?.name_ar }}</p>
     </div>
 
     <div>
-      <h5> Category </h5>
-      <p>{{currentGroup.sub_categories[0].parent.name}}</p>
+      <h5>Category</h5>
+      <p>{{ currentGroup.sub_categories[0].parent.name }}</p>
     </div>
 
     <div>
-
       <h5>sub categories</h5>
 
       <div *ngFor="let cat of currentGroup.sub_categories">
-        <p>• {{cat.name}}</p>
+        <p>• {{ cat.name }}</p>
       </div>
     </div>
 
     <div>
       <h5>description en</h5>
-      <p>{{currentGroup.description_en}}</p>
+      <p>{{ currentGroup.description_en }}</p>
     </div>
     <div>
       <h5>description ar</h5>
-      <p>{{currentGroup.description_ar}}</p>
+      <p>{{ currentGroup.description_ar }}</p>
     </div>
-
-
-
   </div>
 </div>
 
-<div class="form-sidebar view-vindor-types " id="edit-cat" [ngClass]="editCat ? 'open-view-vindor-types' : ''">
+<div
+  class="form-sidebar view-vindor-types"
+  id="edit-cat"
+  [ngClass]="editCat ? 'open-view-vindor-types' : ''"
+>
   <div class="head">
     <span class="close" id="close-vindors2" (click)="editCat = false">
       <i class="icon-Exit"></i>
@@ -154,24 +219,54 @@
     <h3>edit Group</h3>
   </div>
 
-  <form *ngIf="editGroup" class="sideform" (submit)="updateGroup(editGroup)" [formGroup]="editGroupForm" novalidate>
+  <form
+    *ngIf="editGroup"
+    class="sideform"
+    (submit)="updateGroup(editGroup)"
+    [formGroup]="editGroupForm"
+    novalidate
+  >
     <div class="row rowCustom">
       <div class="col-6">
         <div class="form-group">
           <label for="">image</label>
 
           <div class="owls-upload owls-upload3 big">
-            <img class="owl-img img-fluid" [hidden]="editGroupForm.controls.image.value"
-              src="http://via.placeholder.com/200x200" alt="">
-            <img class="owl-img img-fluid" style="width: 200px; height: 200px;"
-              [hidden]="!editGroupForm.controls.image.value" [src]="editGroupForm.controls.image.value" alt="">
-            <input type="file" id="editCatImg" class="owl-input" placeholder="upload your image"
-              (change)="uploadImage(editGroupForm.controls.image, $event)" name="image" />
-            <input type="hidden" [(ngModel)]="editGroup.image" formControlName="image">
+            <img
+              class="owl-img img-fluid"
+              [hidden]="editGroupForm.controls.image.value"
+              src="http://via.placeholder.com/200x200"
+              alt=""
+            />
+            <img
+              class="owl-img img-fluid"
+              style="width: 200px; height: 200px"
+              [hidden]="!editGroupForm.controls.image.value"
+              [src]="editGroupForm.controls.image.value"
+              alt=""
+            />
+            <input
+              type="file"
+              id="editCatImg"
+              class="owl-input"
+              placeholder="upload your image"
+              (change)="uploadImage(editGroupForm.controls.image, $event)"
+              name="image"
+            />
+            <input
+              type="hidden"
+              [(ngModel)]="editGroup.image"
+              formControlName="image"
+            />
           </div>
           <div
-            *ngIf="editGroupForm.controls.image.invalid && (editGroupForm.controls.image.dirty || editGroupForm.controls.image.touched)"
-            class="alert alert-danger">
+            *ngIf="
+              editGroupForm.controls.image.invalid &&
+              (editGroupForm.controls.image.dirty ||
+                editGroupForm.controls.image.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="editGroupForm.controls.image.errors.required">
               Image is required.
             </div>
@@ -183,11 +278,23 @@
           <div class="col-12">
             <div class="form-group">
               <label for="">Name</label>
-              <input type="text" class="owl-input" name="name" placeholder="Type.." required formControlName="name_en">
+              <input
+                type="text"
+                class="owl-input"
+                name="name"
+                placeholder="Type.."
+                required
+                formControlName="name_en"
+              />
               <!-- start Errors Rolues -->
               <div
-                *ngIf="editGroupForm.controls.name_en.invalid && (editGroupForm.controls.name_en.dirty || editGroupForm.controls.name_en.touched)"
-                class="alert alert-danger">
+                *ngIf="
+                  editGroupForm.controls.name_en.invalid &&
+                  (editGroupForm.controls.name_en.dirty ||
+                    editGroupForm.controls.name_en.touched)
+                "
+                class="alert alert-danger"
+              >
                 <div *ngIf="editGroupForm.controls.name_en.errors.required">
                   Name is required.
                 </div>
@@ -201,12 +308,24 @@
           <div class="col-12">
             <div class="form-group">
               <label for="">Name (ar)</label>
-              <input type="text" class="owl-input" name="name_ar" placeholder="اسم القسم.."
-                [(ngModel)]="editGroup.name_ar" required formControlName="name_ar">
+              <input
+                type="text"
+                class="owl-input"
+                name="name_ar"
+                placeholder="اسم القسم.."
+                [(ngModel)]="editGroup.name_ar"
+                required
+                formControlName="name_ar"
+              />
               <!-- start Errors Rolues -->
               <div
-                *ngIf="editGroupForm.controls.name_ar.invalid && (editGroupForm.controls.name_ar.dirty || editGroupForm.controls.name_ar.touched)"
-                class="alert alert-danger">
+                *ngIf="
+                  editGroupForm.controls.name_ar.invalid &&
+                  (editGroupForm.controls.name_ar.dirty ||
+                    editGroupForm.controls.name_ar.touched)
+                "
+                class="alert alert-danger"
+              >
                 <div *ngIf="editGroupForm.controls.name_ar.errors.required">
                   Arabic Name is required.
                 </div>
@@ -219,18 +338,29 @@
           </div>
         </div>
       </div>
-
     </div>
     <div class="row">
       <div class="col">
         <div class="form-group">
           <label for="amount">Description (140 Max)</label>
-          <textarea class="owl-input" placeholder="type" name="description" id="" maxlength="140" required
-            formControlName="description_en"></textarea>
+          <textarea
+            class="owl-input"
+            placeholder="type"
+            name="description"
+            id=""
+            maxlength="140"
+            required
+            formControlName="description_en"
+          ></textarea>
           <!-- Errors Rolues -->
           <div
-            *ngIf="editGroupForm.controls.description_en.invalid && (editGroupForm.controls.description_en.dirty || editGroupForm.controls.description_en.touched)"
-            class="alert alert-danger">
+            *ngIf="
+              editGroupForm.controls.description_en.invalid &&
+              (editGroupForm.controls.description_en.dirty ||
+                editGroupForm.controls.description_en.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="editGroupForm.controls.description_en.errors.required">
               Description is required.
             </div>
@@ -242,12 +372,24 @@
       <div class="col">
         <div class="form-group">
           <label for="amount">Description (ar) (140 Max)</label>
-          <textarea class="owl-input" placeholder="وصف القسم ..." name="description_ar" id="" maxlength="140" required
-            formControlName="description_ar"></textarea>
+          <textarea
+            class="owl-input"
+            placeholder="وصف القسم ..."
+            name="description_ar"
+            id=""
+            maxlength="140"
+            required
+            formControlName="description_ar"
+          ></textarea>
           <!-- Errors Rolues -->
           <div
-            *ngIf="editGroupForm.controls.description_ar.invalid && (editGroupForm.controls.description_ar.dirty || editGroupForm.controls.description_ar.touched)"
-            class="alert alert-danger">
+            *ngIf="
+              editGroupForm.controls.description_ar.invalid &&
+              (editGroupForm.controls.description_ar.dirty ||
+                editGroupForm.controls.description_ar.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="editGroupForm.controls.description_ar.errors.required">
               Arabic Description is required.
             </div>
@@ -258,25 +400,40 @@
       </div>
       <div class="w-100"></div>
       <div class="category-list">
-
         <div class="form-group">
           <label for="">Category</label>
-          <select class="owl-input" name="category" (change)="selectCategory($event.target.value)"
-            formControlName="categories_id" required>
+          <select
+            class="owl-input"
+            name="category"
+            (change)="selectCategory($event.target.value)"
+            formControlName="categories_id"
+            required
+          >
             <option value="" selected hidden>Select Category</option>
             <ng-container *ngFor="let cat of categories">
-              <option value="{{cat.id}}" *ngIf="groupForm.get('categories_id').value == cat.id || !cat.selected">
-                {{cat.name}}
-                <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+              <option
+                value="{{ cat.id }}"
+                *ngIf="
+                  groupForm.get('categories_id').value == cat.id ||
+                  !cat.selected
+                "
+              >
+                {{ cat.name }}
+                <span *ngIf="cat.active == 0" style="color: red !important">
+                  - Deactivate
+                </span>
               </option>
             </ng-container>
-
           </select>
 
           <div
-            *ngIf="editGroupForm.controls.categories_id.invalid && (editGroupForm.controls.categories_id.dirty || editGroupForm.controls.categories_id.touched)"
-            class="alert alert-danger">
-
+            *ngIf="
+              editGroupForm.controls.categories_id.invalid &&
+              (editGroupForm.controls.categories_id.dirty ||
+                editGroupForm.controls.categories_id.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="editGroupForm.controls.categories_id.errors.required">
               Select Category
             </div>
@@ -285,15 +442,26 @@
         </div>
         <div class="form-group">
           <label> Sub Category Name </label>
-          <ng-select name="subCategoryName" [items]="sub_categories" bindLabel="name" bindValue="id" [multiple]="true"
-            placeholder="Enter Sub Category  name" formControlName="sub_categories">
+          <ng-select
+            name="subCategoryName"
+            [items]="sub_categories"
+            bindLabel="name"
+            bindValue="id"
+            [multiple]="true"
+            placeholder="Enter Sub Category  name"
+            formControlName="sub_categories"
+          >
           </ng-select>
           <!-- Start  Errors Rolues -->
 
           <div
-            *ngIf="editGroupForm.controls.sub_categories.invalid && (editGroupForm.controls.sub_categories.dirty || editGroupForm.controls.sub_categories.touched)"
-            class="alert alert-danger">
-
+            *ngIf="
+              editGroupForm.controls.sub_categories.invalid &&
+              (editGroupForm.controls.sub_categories.dirty ||
+                editGroupForm.controls.sub_categories.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="editGroupForm.controls.sub_categories.errors.required">
               Sub Category Is Required
             </div>
@@ -303,13 +471,23 @@
 
         <div class="form-group">
           <label> Order </label>
-          <input type="number" formControlName="order" placeholder="Order number" class="owl-input" required>
+          <input
+            type="number"
+            formControlName="order"
+            placeholder="Order number"
+            class="owl-input"
+            required
+          />
           <!-- Start  Errors Rolues -->
 
           <div
-            *ngIf="editGroupForm.controls.order.invalid && (editGroupForm.controls.order.dirty || editGroupForm.controls.order.touched)"
-            class="alert alert-danger">
-
+            *ngIf="
+              editGroupForm.controls.order.invalid &&
+              (editGroupForm.controls.order.dirty ||
+                editGroupForm.controls.order.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="editGroupForm.controls.order.errors.required">
               Order Is Required
             </div>
@@ -319,20 +497,20 @@
       </div>
     </div>
 
-
-
-
-
-
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-gree" [appLoading]="updating">update</button>
+      <button class="btn btn-owls btn-rounded btn-gree" [appLoading]="updating">
+        update
+      </button>
     </div>
   </form>
 </div>
 
-
 <!--  Add Group -->
-<div class="form-sidebar view-vindor-types " id="add-cat" [ngClass]="openCategory ? 'open-view-vindor-types' : ''">
+<div
+  class="form-sidebar view-vindor-types"
+  id="add-cat"
+  [ngClass]="openCategory ? 'open-view-vindor-types' : ''"
+>
   <div class="head">
     <span class="close" id="close-vindors1" (click)="openCategory = false">
       <i class="icon-Exit"></i>
@@ -340,24 +518,53 @@
     <h3>new Group</h3>
   </div>
 
-  <form class="sideform" (submit)="createGroup(newCategory)" [formGroup]="groupForm" novalidate>
+  <form
+    class="sideform"
+    (submit)="createGroup(newCategory)"
+    [formGroup]="groupForm"
+    novalidate
+  >
     <div class="row rowCustom">
       <div class="col-6">
         <div class="form-group">
           <label for="">image</label>
 
           <div class="owls-upload owls-upload3 big">
-            <img class="owl-img img-fluid" [hidden]="groupForm.controls.image.value"
-              src="http://via.placeholder.com/200x200" alt="">
-            <img class="owl-img img-fluid" style="width: 200px; height: 200px;"
-              [hidden]="!groupForm.controls.image.value" [src]="groupForm.controls.image.value" alt="">
-            <input type="file" id="newCategoryImg" class="owl-input" placeholder="upload your image"
-              (change)="uploadImage(groupForm.controls.image, $event)" name="image" />
-            <input type="hidden" [(ngModel)]="newCategory.image" formControlName="image">
+            <img
+              class="owl-img img-fluid"
+              [hidden]="groupForm.controls.image.value"
+              src="http://via.placeholder.com/200x200"
+              alt=""
+            />
+            <img
+              class="owl-img img-fluid"
+              style="width: 200px; height: 200px"
+              [hidden]="!groupForm.controls.image.value"
+              [src]="groupForm.controls.image.value"
+              alt=""
+            />
+            <input
+              type="file"
+              id="newCategoryImg"
+              class="owl-input"
+              placeholder="upload your image"
+              (change)="uploadImage(groupForm.controls.image, $event)"
+              name="image"
+            />
+            <input
+              type="hidden"
+              [(ngModel)]="newCategory.image"
+              formControlName="image"
+            />
           </div>
           <div
-            *ngIf="groupForm.controls.image.invalid && (groupForm.controls.image.dirty || groupForm.controls.image.touched)"
-            class="alert alert-danger">
+            *ngIf="
+              groupForm.controls.image.invalid &&
+              (groupForm.controls.image.dirty ||
+                groupForm.controls.image.touched)
+            "
+            class="alert alert-danger"
+          >
             <div *ngIf="groupForm.controls.image.errors.required">
               Image is required.
             </div>
@@ -369,11 +576,23 @@
           <div class="col-12">
             <div class="form-group">
               <label for=""> Name</label>
-              <input type="text" class="owl-input" name="name" placeholder="Type.." required formControlName="name_en">
+              <input
+                type="text"
+                class="owl-input"
+                name="name"
+                placeholder="Type.."
+                required
+                formControlName="name_en"
+              />
               <!-- start Errors Rolues -->
               <div
-                *ngIf="groupForm.controls.name_en.invalid && (groupForm.controls.name_en.dirty || groupForm.controls.name_en.touched)"
-                class="alert alert-danger">
+                *ngIf="
+                  groupForm.controls.name_en.invalid &&
+                  (groupForm.controls.name_en.dirty ||
+                    groupForm.controls.name_en.touched)
+                "
+                class="alert alert-danger"
+              >
                 <div *ngIf="groupForm.controls.name_en.errors.required">
                   Name is required.
                 </div>
@@ -387,12 +606,23 @@
           <div class="col-12">
             <div class="form-group">
               <label for="">Name (ar)</label>
-              <input type="text" class="owl-input" name="name_ar" placeholder="اسم القسم.." required
-                formControlName="name_ar">
+              <input
+                type="text"
+                class="owl-input"
+                name="name_ar"
+                placeholder="اسم القسم.."
+                required
+                formControlName="name_ar"
+              />
               <!-- start Errors Rolues -->
               <div
-                *ngIf="groupForm.controls.name_ar.invalid && (groupForm.controls.name_ar.dirty || groupForm.controls.name_ar.touched)"
-                class="alert alert-danger">
+                *ngIf="
+                  groupForm.controls.name_ar.invalid &&
+                  (groupForm.controls.name_ar.dirty ||
+                    groupForm.controls.name_ar.touched)
+                "
+                class="alert alert-danger"
+              >
                 <div *ngIf="groupForm.controls.name_ar.errors.required">
                   Arabic Name is required.
                 </div>
@@ -407,15 +637,26 @@
       </div>
     </div>
 
-
     <div class="form-group">
       <label for="amount">Description (140 Max)</label>
-      <textarea class="owl-input" placeholder="type" name="description_en" id="" maxlength="140" required
-        formControlName="description_en"></textarea>
+      <textarea
+        class="owl-input"
+        placeholder="type"
+        name="description_en"
+        id=""
+        maxlength="140"
+        required
+        formControlName="description_en"
+      ></textarea>
       <!-- Errors Rolues -->
       <div
-        *ngIf="groupForm.controls.description_en.invalid && (groupForm.controls.description_en.dirty || groupForm.controls.description_en.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          groupForm.controls.description_en.invalid &&
+          (groupForm.controls.description_en.dirty ||
+            groupForm.controls.description_en.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="groupForm.controls.description_en.errors.required">
           Description is required.
         </div>
@@ -424,38 +665,63 @@
 
     <div class="form-group">
       <label for="amount">Description (ar) (140 Max)</label>
-      <textarea class="owl-input" placeholder="وصف القسم ..." name="description_ar" id="" maxlength="140" required
-        formControlName="description_ar"></textarea>
+      <textarea
+        class="owl-input"
+        placeholder="وصف القسم ..."
+        name="description_ar"
+        id=""
+        maxlength="140"
+        required
+        formControlName="description_ar"
+      ></textarea>
       <!-- Errors Rolues -->
       <div
-        *ngIf="groupForm.controls.description_ar.invalid && (groupForm.controls.description_ar.dirty || groupForm.controls.description_ar.touched)"
-        class="alert alert-danger">
+        *ngIf="
+          groupForm.controls.description_ar.invalid &&
+          (groupForm.controls.description_ar.dirty ||
+            groupForm.controls.description_ar.touched)
+        "
+        class="alert alert-danger"
+      >
         <div *ngIf="groupForm.controls.description_ar.errors.required">
           Arabic Description is required.
         </div>
       </div>
-
     </div>
     <div class="category-list">
-
       <div class="form-group">
         <label for="">Category</label>
-        <select class="owl-input" name="category" (change)="selectCategory($event.target.value)"
-          formControlName="categories_id" required>
+        <select
+          class="owl-input"
+          name="category"
+          (change)="selectCategory($event.target.value)"
+          formControlName="categories_id"
+          required
+        >
           <option value="" selected hidden>Select Category</option>
           <ng-container *ngFor="let cat of categories">
-            <option value="{{cat.id}}" *ngIf="groupForm.get('categories_id').value == cat.id || !cat.selected">
-              {{cat.name}}
-              <span *ngIf="cat.active == 0" style="color: red !important"> - Deactivate </span>
+            <option
+              value="{{ cat.id }}"
+              *ngIf="
+                groupForm.get('categories_id').value == cat.id || !cat.selected
+              "
+            >
+              {{ cat.name }}
+              <span *ngIf="cat.active == 0" style="color: red !important">
+                - Deactivate
+              </span>
             </option>
           </ng-container>
-
         </select>
 
         <div
-          *ngIf="groupForm.controls.categories_id.invalid && (groupForm.controls.categories_id.dirty || groupForm.controls.categories_id.touched)"
-          class="alert alert-danger">
-
+          *ngIf="
+            groupForm.controls.categories_id.invalid &&
+            (groupForm.controls.categories_id.dirty ||
+              groupForm.controls.categories_id.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="groupForm.controls.categories_id.errors.required">
             Select Category
           </div>
@@ -464,15 +730,26 @@
       </div>
       <div class="form-group">
         <label> Sub Category Name </label>
-        <ng-select name="subCategoryName" [items]="sub_categories" bindLabel="name" bindValue="id" [multiple]="true"
-          placeholder="Enter Sub Category  name" formControlName="sub_categories">
+        <ng-select
+          name="subCategoryName"
+          [items]="sub_categories"
+          bindLabel="name"
+          bindValue="id"
+          [multiple]="true"
+          placeholder="Enter Sub Category  name"
+          formControlName="sub_categories"
+        >
         </ng-select>
         <!-- Start  Errors Rolues -->
 
         <div
-          *ngIf="groupForm.controls.sub_categories.invalid && (groupForm.controls.sub_categories.dirty || groupForm.controls.sub_categories.touched)"
-          class="alert alert-danger">
-
+          *ngIf="
+            groupForm.controls.sub_categories.invalid &&
+            (groupForm.controls.sub_categories.dirty ||
+              groupForm.controls.sub_categories.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="groupForm.controls.sub_categories.errors.required">
             Sub Category Is Required
           </div>
@@ -480,16 +757,24 @@
         <!-- End Errors Rolues -->
       </div>
 
-
       <div class="form-group">
         <label> Order </label>
-        <input type="number" formControlName="order" placeholder="Order number" class="owl-input" required>
+        <input
+          type="number"
+          formControlName="order"
+          placeholder="Order number"
+          class="owl-input"
+          required
+        />
         <!-- Start  Errors Rolues -->
 
         <div
-          *ngIf="groupForm.controls.order.invalid && (groupForm.controls.order.dirty || groupForm.controls.order.touched)"
-          class="alert alert-danger">
-
+          *ngIf="
+            groupForm.controls.order.invalid &&
+            (groupForm.controls.order.dirty || groupForm.controls.order.touched)
+          "
+          class="alert alert-danger"
+        >
           <div *ngIf="groupForm.controls.order.errors.required">
             Order Is Required
           </div>
@@ -498,36 +783,63 @@
       </div>
     </div>
 
-
-
-
     <div class="form-sidebar-btns">
-      <button class="btn btn-owls btn-rounded btn-green " [appLoading]="creating">create</button>
+      <button
+        class="btn btn-owls btn-rounded btn-green"
+        [appLoading]="creating"
+      >
+        create
+      </button>
     </div>
   </form>
 </div>
 
-
 <!-- Delete  Popup side bar -->
-<div class="modal fade" id="removePopUp2" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="removePopUp2"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to delete this item ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">
+          are you sure to delete this item ?
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      </div>
+      <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">
+          remove
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+        >
+          cancel
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

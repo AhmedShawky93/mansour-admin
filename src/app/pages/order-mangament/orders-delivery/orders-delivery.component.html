@@ -1,6 +1,5 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-7">
       <div class="left-search">
@@ -12,12 +11,6 @@
       </div>
     </div>
 
-
-
-
-
-
-
     <!-- <div class="col-md-12 col-sm-3" style="padding-top: 20px;  padding-bottom: 20px;">
       <label class="container">Hide Scheduled
         <input type="checkbox" class="form-control checkbox-style" name="hide_scheduled" id="hide_scheduled" [value]="1"
@@ -26,16 +19,11 @@
       </label>
     </div> -->
 
-
-
     <!-- <div class="col-md-3  col-xs-12">
       <div class="form-group">
         <a class=" btn btn-owls btn-rounded btn-green  btn-special" target="_blank" href="{{exportUrl}}">Export All Orders</a>
       </div>
     </div> -->
-
-
-
   </div>
 </div>
 
@@ -43,22 +31,23 @@
   <table class="table owls-table" *ngIf="pickups.length">
     <thead>
       <tr>
-
-        <th scope="col"> Id </th>
-        <th scope="col"> Company name</th>
-        <th scope="col"> Count orders</th>
+        <th scope="col">Id</th>
+        <th scope="col">Company name</th>
+        <th scope="col">Count orders</th>
         <th scope="col">Creation Date</th>
         <th scope="col">Notes</th>
-        <th style="text-align: center;" scope="col"> Actions </th>
-
+        <th style="text-align: center" scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
-
       <tr
-        *ngFor="let pickup of pickups | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }; let i = index">
-
-        <td scope="row">{{pickup.id}}</td>
+        *ngFor="
+          let pickup of pickups
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total };
+          let i = index
+        "
+      >
+        <td scope="row">{{ pickup.id }}</td>
         <td>
           <span [ngSwitch]="pickup.shipping_method">
             <span *ngSwitchCase="1">Internal</span>
@@ -68,40 +57,50 @@
         </td>
 
         <td>
-          {{pickup.order_pickups.length}}
+          {{ pickup.order_pickups.length }}
         </td>
 
-        <td>{{pickup.created_at}}</td>
+        <td>{{ pickup.created_at }}</td>
 
         <td class="request-message relative">
-
           <div *ngIf="pickup.notes">
-            {{(pickup.notes.length  >= 30 ) ? (pickup.notes | summary : 30 ) : pickup.notes }}
+            {{
+              pickup.notes.length >= 30
+                ? (pickup.notes | summary: 30)
+                : pickup.notes
+            }}
 
-            <div class="hover-reason text-left" *ngIf="pickup.notes && pickup.notes.length >= 30">
-              <div class="head">
-                notes
-              </div>
+            <div
+              class="hover-reason text-left"
+              *ngIf="pickup.notes && pickup.notes.length >= 30"
+            >
+              <div class="head">notes</div>
               <div class="body">
-                {{pickup.notes}}
+                {{ pickup.notes }}
               </div>
             </div>
           </div>
-
         </td>
 
         <td>
-          <a [routerLink]="['details', pickup.id]" class="toggle-view-category table-view">
+          <a
+            [routerLink]="['details', pickup.id]"
+            class="toggle-view-category table-view"
+          >
             <i class="icon-View"></i>
           </a>
-          <a *ngIf="pickup.status == 1" href="javascript:void(0)" data-toggle="modal" data-target="#removePopUp"
-            (click)="promtCancel(pickup)" class="toggle-view-category table-remove">
+          <a
+            *ngIf="pickup.status == 1"
+            href="javascript:void(0)"
+            data-toggle="modal"
+            data-target="#removePopUp"
+            (click)="promtCancel(pickup)"
+            class="toggle-view-category table-remove"
+          >
             <i class="icon-Exit"></i>
           </a>
         </td>
-
       </tr>
-
     </tbody>
   </table>
   <h4 class="text-center" *ngIf="no_orders">There are no Orders</h4>
@@ -109,26 +108,58 @@
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
 <!-- cancel  Popup-->
-<div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="removePopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">are you sure to cancel this pickup?
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center"
+        >
+          are you sure to cancel this pickup?
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer" style="justify-content: center;">
-        <button type="button" class="btn-owls btn-rounded btn-green  btn-blue2" (click)="cancelPickup()">Yes</button>
-        <button type="button" data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-green btn-red2 ">No</button>
+      <div class="modal-body"></div>
+      <div class="modal-footer" style="justify-content: center">
+        <button
+          type="button"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+          (click)="cancelPickup()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-green btn-red2"
+        >
+          No
+        </button>
       </div>
     </div>
   </div>
 </div>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

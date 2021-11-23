@@ -1,39 +1,39 @@
-import { Directive,Input,SimpleChanges } from '@angular/core';
-import {Validator,AbstractControl} from "@angular/forms";
-import {NG_VALIDATORS} from "@angular/forms";
+import { Directive, Input, SimpleChanges } from "@angular/core";
+import { Validator, AbstractControl } from "@angular/forms";
+import { NG_VALIDATORS } from "@angular/forms";
 
 @Directive({
-  selector: '[requiredIf]',
-   providers: [
-        {provide: NG_VALIDATORS,useExisting:RequiredIfDirective, multi: true}
-    ]
+  selector: "[requiredIf]",
+  providers: [
+    { provide: NG_VALIDATORS, useExisting: RequiredIfDirective, multi: true },
+  ],
 })
 export class RequiredIfDirective implements Validator {
-
-  constructor() { }
+  constructor() {}
 
   @Input("requiredIf")
-    requiredIf: boolean;
+  requiredIf: boolean;
 
-    validate(currentPass:AbstractControl) {
-  
-       let value = currentPass.value;
-        if ((value == null || value == undefined || value == "") && this.requiredIf) {
-                return {
-                    requiredIf: {condition:this.requiredIf}
-                };
-        }
-        return null;
+  validate(currentPass: AbstractControl) {
+    let value = currentPass.value;
+    if (
+      (value == null || value == undefined || value == "") &&
+      this.requiredIf
+    ) {
+      return {
+        requiredIf: { condition: this.requiredIf },
+      };
     }
+    return null;
+  }
 
-
-  registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
+  registerOnValidatorChange(fn: () => void): void {
+    this._onChange = fn;
+  }
   private _onChange: () => void;
 
   ngOnChanges(changes: SimpleChanges): void {
- 
-    if ('requiredIf' in changes) {
-      
+    if ("requiredIf" in changes) {
       if (this._onChange) this._onChange();
     }
   }

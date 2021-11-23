@@ -1,14 +1,17 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
-
   <div class="row">
     <div class="col-md-9">
       <div class="left-search">
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search by name, phone, id..."
-          [(ngModel)]="filter.q">
+        <input
+          type="text"
+          class="owl-input owls-search"
+          placeholder="search by name, phone, id..."
+          [(ngModel)]="filter.q"
+        />
       </div>
     </div>
     <!-- <div class="col-md-3">
@@ -44,52 +47,86 @@
       </select>
     </div> -->
 
-    <div class="col-md-3  col-xs-6 ">
-      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
-        (click)="searchInCustomers()">Search</button>
+    <div class="col-md-3 col-xs-6">
+      <button
+        class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
+        (click)="searchInCustomers()"
+      >
+        Search
+      </button>
     </div>
 
-    <div class="col-md-3" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.city_id" (ngModelChange)="selectCity($event)">
+    <div class="col-md-3" style="margin-bottom: 20px">
+      <select
+        name=""
+        class="owl-input bg-white"
+        [(ngModel)]="filter.city_id"
+        (ngModelChange)="selectCity($event)"
+      >
         <option value="">Select City</option>
-        <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+        <option value="{{ city.id }}" *ngFor="let city of cities">
+          {{ city.name }}
+        </option>
       </select>
     </div>
 
-    <div class="col-md-3" style="margin-bottom: 20px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.area_id" (ngModelChange)="selectArea($event)">
-        <option value="">Select Area </option>
-        <option value="{{area.id}}" *ngFor="let area of areaListSearch">{{area.name}}</option>
+    <div class="col-md-3" style="margin-bottom: 20px">
+      <select
+        name=""
+        class="owl-input bg-white"
+        [(ngModel)]="filter.area_id"
+        (ngModelChange)="selectArea($event)"
+      >
+        <option value="">Select Area</option>
+        <option value="{{ area.id }}" *ngFor="let area of areaListSearch">
+          {{ area.name }}
+        </option>
       </select>
     </div>
 
     <div class="col-md-3">
       <div class="left-search">
-        <input type="number" class="owl-input owls-search" placeholder="Orders From" [(ngModel)]="filter.no_orders_from"
-          (change)="changePage(1)">
+        <input
+          type="number"
+          class="owl-input owls-search"
+          placeholder="Orders From"
+          [(ngModel)]="filter.no_orders_from"
+          (change)="changePage(1)"
+        />
       </div>
     </div>
 
     <div class="col-md-3">
       <div class="left-search">
-        <input type="number" class="owl-input owls-search" placeholder="Orders To" [(ngModel)]="filter.no_orders_to"
-          (change)="changePage(1)">
+        <input
+          type="number"
+          class="owl-input owls-search"
+          placeholder="Orders To"
+          [(ngModel)]="filter.no_orders_to"
+          (change)="changePage(1)"
+        />
       </div>
     </div>
-
-
   </div>
   <div class="row">
-
     <div class="col-md-6"></div>
     <div class="col-md-3 text-right">
       <div class="owl-btn-list">
-        <button (click)="createCustomer()" class="btn btn-owls btn-rounded btn-blue2">+New Customer</button>
+        <button
+          (click)="createCustomer()"
+          class="btn btn-owls btn-rounded btn-blue2"
+        >
+          +New Customer
+        </button>
       </div>
     </div>
     <div class="col-md-3 text-right">
       <div class="owl-btn-list">
-        <a (click)="exportCustomers()" class="btn btn-owls btn-rounded btn-blue2">Export to CSV</a>
+        <a
+          (click)="exportCustomers()"
+          class="btn btn-owls btn-rounded btn-blue2"
+          >Export to CSV</a
+        >
       </div>
     </div>
   </div>
@@ -102,61 +139,88 @@
         <th scope="col">Customer iD</th>
         <th scope="col">Name</th>
         <th scope="col">Area</th>
-        <th scope="col">contact details </th>
+        <th scope="col">contact details</th>
         <th scope="col">Total Orders</th>
         <th scope="col">action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let customer of customers | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }">
+      <tr
+        *ngFor="
+          let customer of customers
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }
+        "
+      >
         <td scope="row">
-          {{customer.id}}
+          {{ customer.id }}
         </td>
-        <td>{{customer.name | truncate : 15 }}</td>
-        <td>{{customer.address }}</td>
-        <td>{{customer.phone}}</td>
-        <td>{{customer.orders}}</td>
+        <td>{{ customer.name | truncate: 15 }}</td>
+        <td>{{ customer.address }}</td>
+        <td>{{ customer.phone }}</td>
+        <td>{{ customer.orders }}</td>
 
         <td>
-          <a href="javascript:void(0)" class="toggle-vindor-view table-view" (click)="viewCustomer(customer)">
+          <a
+            href="javascript:void(0)"
+            class="toggle-vindor-view table-view"
+            (click)="viewCustomer(customer)"
+          >
             <i class="icon-View"></i>
           </a>
 
-          <a (click)="editCustomer(customer)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <a
+            (click)="editCustomer(customer)"
+            class="table-view edit-product mx-1"
+            href="javascript:void(0)"
+          >
             <i class="icon-grey"></i>
           </a>
 
           <label class="switch">
-            <input type="checkbox" value="1" [(ngModel)]="customer.active" (change)="changeActive(customer, $event)">
+            <input
+              type="checkbox"
+              value="1"
+              [(ngModel)]="customer.active"
+              (change)="changeActive(customer, $event)"
+            />
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!customer.showReason">
-              <textarea class="owl-input" placeholder="Why Do yo want to deactivate this customer?"
-                [(ngModel)]="customer.notes"></textarea>
-              <button class="btn btn-owls btn-rounded btn-green2" [ngClass]="{'not-allowed' : !customer.notes }"
-                [disabled]="!customer.notes" (click)="submitDeactivate(customer)">submit</button>
-              <button class="btn btn-owls btn-rounded btn-blue2 cancel-check"
-                (click)="cancelDeactivate(customer)">cancel</button>
-
+              <textarea
+                class="owl-input"
+                placeholder="Why Do yo want to deactivate this customer?"
+                [(ngModel)]="customer.notes"
+              ></textarea>
+              <button
+                class="btn btn-owls btn-rounded btn-green2"
+                [ngClass]="{ 'not-allowed': !customer.notes }"
+                [disabled]="!customer.notes"
+                (click)="submitDeactivate(customer)"
+              >
+                submit
+              </button>
+              <button
+                class="btn btn-owls btn-rounded btn-blue2 cancel-check"
+                (click)="cancelDeactivate(customer)"
+              >
+                cancel
+              </button>
             </div>
             <div class="hover-reason text-left" *ngIf="!customer.active">
-              <div class="head">
-                Deactivation Notes
-              </div>
+              <div class="head">Deactivation Notes</div>
               <div class="body">
-                {{customer.deactivation_notes}}
+                {{ customer.deactivation_notes }}
               </div>
             </div>
           </label>
-
         </td>
       </tr>
-
     </tbody>
   </table>
 </div>
-<pagination-controls (pageChange)="changePage($event)" *ngIf="!searchTerm"></pagination-controls>
-
-
+<pagination-controls
+  (pageChange)="changePage($event)"
+  *ngIf="!searchTerm"
+></pagination-controls>
 
 <div class="form-sidebar view-vindor-types" id="view-active">
   <div class="head">
@@ -168,31 +232,40 @@
 
   <app-loader *ngIf="customerLoading"></app-loader>
 
-  <div *ngIf="customer && !customerLoading" class=" details details-2">
-
+  <div *ngIf="customer && !customerLoading" class="details details-2">
     <div>
       <div class="customer-det">
         <!-- <img src="http://via.placeholder.com/50x50" alt="" width="50" height="50"> -->
         <div class="content">
-          <p>{{customer.name}}</p>
+          <p>{{ customer.name }}</p>
           <h5 *ngIf="environmentVariables.SMS_CONNECTION">
-            {{customer.phone}}
-            <span style="cursor: pointer;" class="text-success" *ngIf="customer.phone_verified"><i
-                class="fa fa-check"></i> Verified</span>
-            <span (click)="confirmVerifyPhone(customer)" data-toggle="modal" data-target="#verifyPopUp"
-              style="cursor: pointer;" class="warning" *ngIf="customer.phone && !customer.phone_verified"><i
-                class="fa fa-exclamation-circle"></i> Not Verified</span>
+            {{ customer.phone }}
+            <span
+              style="cursor: pointer"
+              class="text-success"
+              *ngIf="customer.phone_verified"
+              ><i class="fa fa-check"></i> Verified</span
+            >
+            <span
+              (click)="confirmVerifyPhone(customer)"
+              data-toggle="modal"
+              data-target="#verifyPopUp"
+              style="cursor: pointer"
+              class="warning"
+              *ngIf="customer.phone && !customer.phone_verified"
+              ><i class="fa fa-exclamation-circle"></i> Not Verified</span
+            >
           </h5>
-          <h5>{{customer.email}}</h5>
-          <p style="cursor: pointer" (click)="loginAsCustomer(customer.id)"><i class="fa fa-sign-in"></i>&nbsp;Login as
-            {{customer.name}}</p>
+          <h5>{{ customer.email }}</h5>
+          <p style="cursor: pointer" (click)="loginAsCustomer(customer.id)">
+            <i class="fa fa-sign-in"></i>&nbsp;Login as {{ customer.name }}
+          </p>
         </div>
         <div class="date">
-          {{customer.id}}
+          {{ customer.id }}
         </div>
       </div>
     </div>
-
 
     <div>
       <h5>address</h5>
@@ -201,16 +274,27 @@
       </p> -->
       <div>
         <p *ngFor="let address of customer.addresses; index as i">
-          {{address.formatted_address}}
-          <a *ngIf="address.lat" href="https://www.google.com/maps/search/?api=1&query={{address.lat}},{{address.lng}}"
-            target="_blank"><i class="fa fa-external-link"></i>
+          {{ address.formatted_address }}
+          <a
+            *ngIf="address.lat"
+            href="https://www.google.com/maps/search/?api=1&query={{
+              address.lat
+            }},{{ address.lng }}"
+            target="_blank"
+            ><i class="fa fa-external-link"></i>
           </a>
-          <a (click)="editAddress(customer, address)" class="table-view edit-product mx-1" href="javascript:void(0)">
+          <a
+            (click)="editAddress(customer, address)"
+            class="table-view edit-product mx-1"
+            href="javascript:void(0)"
+          >
             <i class="icon-grey"></i>
           </a>
         </p>
       </div>
-      <a href="javascript:void(0)" (click)="createAddress(customer)">+New Address</a>
+      <a href="javascript:void(0)" (click)="createAddress(customer)"
+        >+New Address</a
+      >
     </div>
 
     <!-- <div>
@@ -220,9 +304,8 @@
 
     <div>
       <h5>date of joining</h5>
-      <p>{{customer.created_at | date : "yyyy-MM-dd hh:mm a"}}</p>
+      <p>{{ customer.created_at | date: "yyyy-MM-dd hh:mm a" }}</p>
     </div>
-
 
     <div *ngIf="customer.active">
       <p class="btn-rounded btn-green2">active</p>
@@ -233,24 +316,28 @@
       <div class="reason-text">
         <div class="inner">
           <p>
-            {{customer.deactivation_notes}}
+            {{ customer.deactivation_notes }}
           </p>
         </div>
       </div>
 
       <div>
-        <button class="btn btn-owls btn-rounded btn-green" (click)="activateUser(customer)">Reactivate</button>
+        <button
+          class="btn btn-owls btn-rounded btn-green"
+          (click)="activateUser(customer)"
+        >
+          Reactivate
+        </button>
       </div>
     </div>
 
-
     <div class="order-history">
-      <h5>order history ({{customer.orders.length}})</h5>
+      <h5>order history ({{ customer.orders.length }})</h5>
 
       <div class="order-list">
         <div class="order-item" *ngFor="let order of customer.orders">
           <a [routerLink]="['/pages/orders/order-details', order.id]">
-            <h4>Order ID: {{order.id}}</h4>
+            <h4>Order ID: {{ order.id }}</h4>
           </a>
 
           <a [routerLink]="['/pages/orders/order-details', order.id]">
@@ -258,7 +345,9 @@
           </a>
 
           <p>
-            <span *ngFor="let product of order.products">{{product.name}}</span>
+            <span *ngFor="let product of order.products">{{
+              product.name
+            }}</span>
           </p>
         </div>
       </div>
@@ -270,9 +359,17 @@
       <div class="order-list">
         <div class="order-item" *ngFor="let point of customer.earned">
           <div>
-            <h4 style="display: inline-block;">Total Points: {{point?.total_points}}</h4>
-            <a *ngIf="!point.deleted_at" class="pull-right" href="javascript:void(0)" data-toggle="modal"
-              data-target="#cancelPopUp" (click)="confirmCancelPoints(point)">
+            <h4 style="display: inline-block">
+              Total Points: {{ point?.total_points }}
+            </h4>
+            <a
+              *ngIf="!point.deleted_at"
+              class="pull-right"
+              href="javascript:void(0)"
+              data-toggle="modal"
+              data-target="#cancelPopUp"
+              (click)="confirmCancelPoints(point)"
+            >
               <i class="fa fa-times"></i>
             </a>
           </div>
@@ -280,79 +377,127 @@
           <!-- <p *ngIf="!point.deleted_at">
             {{point.active ? "Earned" : "Pending"}}
           </p> -->
-          <p *ngIf="point?.deleted_at">
-            Cancelled
-          </p>
-          <p *ngIf="point?.order">
-            Order ID: {{point.order.id}}
-          </p>
-          <p *ngIf="!point?.order">
-            Referer: {{point?.referer?.referal}}
-          </p>
-          <p>
-            Earned Points: {{point?.total_points}}
-          </p>
-
-
+          <p *ngIf="point?.deleted_at">Cancelled</p>
+          <p *ngIf="point?.order">Order ID: {{ point.order.id }}</p>
+          <p *ngIf="!point?.order">Referer: {{ point?.referer?.referal }}</p>
+          <p>Earned Points: {{ point?.total_points }}</p>
         </div>
       </div>
-
     </div>
   </div>
-
 </div>
 
-
-<div class="modal fade" id="cancelPopUp" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="cancelPopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="currentPoints">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to cancel {{currentPoints.remaining_points}} points?
+        <h5 class="modal-title" id="exampleModalLabel">
+          are you sure to cancel {{ currentPoints.remaining_points }} points?
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      </div>
+      <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2"
-          (click)="cancelPoints()">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">No</button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-red2"
+          (click)="cancelPoints()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+        >
+          No
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="verifyPopUp" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="verifyPopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="customer">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to verify {{customer.phone}} for {{customer.name}}?
+        <h5 class="modal-title" id="exampleModalLabel">
+          are you sure to verify {{ customer.phone }} for {{ customer.name }}?
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      </div>
+      <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2"
-          (click)="verifyPhone()">Yes</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">No</button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-red2"
+          (click)="verifyPhone()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+        >
+          No
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-<app-add-edit-customer #customerForm class="parent-editor-viewer-sidebar" (closeSideBarEmit)="closeSideBar($event)"
-  (dataCustomerEmit)="addOrUpdateCustomer($event)" [@slideInOut]="toggleAddCustomer"
-  [selectedCustomer]="selectedCustomer">
+<app-add-edit-customer
+  #customerForm
+  class="parent-editor-viewer-sidebar"
+  (closeSideBarEmit)="closeSideBar($event)"
+  (dataCustomerEmit)="addOrUpdateCustomer($event)"
+  [@slideInOut]="toggleAddCustomer"
+  [selectedCustomer]="selectedCustomer"
+>
 </app-add-edit-customer>
 
-<app-add-edit-address #addressForm (closeModalEmit)="closeAddressModal($event)" [selectedAddress]="selectedAddress"
-  [selectedCustomer]="selectedCustomer">
+<app-add-edit-address
+  #addressForm
+  (closeModalEmit)="closeAddressModal($event)"
+  [selectedAddress]="selectedAddress"
+  [selectedCustomer]="selectedCustomer"
+>
 </app-add-edit-address>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

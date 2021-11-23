@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { StaticPagesComponent } from './static-pages.component';
+import { StaticPagesComponent } from "./static-pages.component";
 
-describe('StaticPagesComponent', () => {
+describe("StaticPagesComponent", () => {
   let component: StaticPagesComponent;
   let fixture: ComponentFixture<StaticPagesComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StaticPagesComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [StaticPagesComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StaticPagesComponent);
@@ -19,7 +20,7 @@ describe('StaticPagesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

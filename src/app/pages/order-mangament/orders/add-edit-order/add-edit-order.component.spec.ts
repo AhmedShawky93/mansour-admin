@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { AddEditOrderComponent } from './add-edit-order.component';
+import { AddEditOrderComponent } from "./add-edit-order.component";
 
-describe('AddEditOrderComponent', () => {
+describe("AddEditOrderComponent", () => {
   let component: AddEditOrderComponent;
   let fixture: ComponentFixture<AddEditOrderComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AddEditOrderComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AddEditOrderComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddEditOrderComponent);
@@ -19,7 +20,7 @@ describe('AddEditOrderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

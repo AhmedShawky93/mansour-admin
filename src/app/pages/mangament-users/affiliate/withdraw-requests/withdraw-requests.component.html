@@ -1,56 +1,98 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
   <form>
-    <div class="row"
-      style="border: 1px solid #dbdbdb;      margin: 0 2px 20px 0; padding: 20px 0;  border-radius: 10px;">
-      <div class="col-md-4" style="margin-bottom:10px;">
+    <div
+      class="row"
+      style="
+        border: 1px solid #dbdbdb;
+        margin: 0 2px 20px 0;
+        padding: 20px 0;
+        border-radius: 10px;
+      "
+    >
+      <div class="col-md-4" style="margin-bottom: 10px">
         <div class="left-search">
           <span>
             <i class="fa fa-search"></i>
           </span>
-          <input type="text" (ngModelChange)="search()" class="owl-input owls-search"
-            placeholder="Search by name, phone" [(ngModel)]="filter.q" name='name'>
+          <input
+            type="text"
+            (ngModelChange)="search()"
+            class="owl-input owls-search"
+            placeholder="Search by name, phone"
+            [(ngModel)]="filter.q"
+            name="name"
+          />
         </div>
       </div>
       <!-- col -->
       <div class="col-md-4 col-sm-10">
         <mat-form-field class="datepicker">
-          <input matInput placeholder="Date From" [(ngModel)]="dateFrom" name='dateFrom' readonly
-            [satDatepicker]="pickerFrom" (click)="pickerFrom.open()" (dateChange)="setDateFrom($event)">
-          <sat-datepicker #pickerFrom>
-          </sat-datepicker>
-          <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
+          <input
+            matInput
+            placeholder="Date From"
+            [(ngModel)]="dateFrom"
+            name="dateFrom"
+            readonly
+            [satDatepicker]="pickerFrom"
+            (click)="pickerFrom.open()"
+            (dateChange)="setDateFrom($event)"
+          />
+          <sat-datepicker #pickerFrom> </sat-datepicker>
+          <sat-datepicker-toggle
+            matSuffix
+            [for]="pickerFrom"
+          ></sat-datepicker-toggle>
         </mat-form-field>
       </div>
       <!-- col -->
       <div class="col-md-4 col-sm-12">
         <mat-form-field class="datepicker">
-          <input matInput #mdate placeholder="Date To" readonly (dateChange)="setDateTo($event)"
-            (click)="pickerTo.open()" [satDatepicker]="pickerTo" [(ngModel)]="dateTo" name='dateTo'>
+          <input
+            matInput
+            #mdate
+            placeholder="Date To"
+            readonly
+            (dateChange)="setDateTo($event)"
+            (click)="pickerTo.open()"
+            [satDatepicker]="pickerTo"
+            [(ngModel)]="dateTo"
+            name="dateTo"
+          />
           <!-- (dateChange)="changePage(1)" -->
-          <sat-datepicker #pickerTo [rangeMode]="false">
-          </sat-datepicker>
-          <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
+          <sat-datepicker #pickerTo [rangeMode]="false"> </sat-datepicker>
+          <sat-datepicker-toggle
+            matSuffix
+            [for]="pickerTo"
+          ></sat-datepicker-toggle>
         </mat-form-field>
       </div>
       <!-- col -->
-      <div class="col-md-8" style="margin-bottom: 20px;">
-        <select name="status" class="owl-input bg-white" [(ngModel)]="filter.status"
-          (ngModelChange)="getAllAffiliates()">
-          <option value="" disabled>Select Status </option>
-          <option value="{{item.id}}" *ngFor="let item of statusList">{{item.name}}</option>
+      <div class="col-md-8" style="margin-bottom: 20px">
+        <select
+          name="status"
+          class="owl-input bg-white"
+          [(ngModel)]="filter.status"
+          (ngModelChange)="getAllAffiliates()"
+        >
+          <option value="" disabled>Select Status</option>
+          <option value="{{ item.id }}" *ngFor="let item of statusList">
+            {{ item.name }}
+          </option>
         </select>
       </div>
-      <div class="col-md-4  col-xs-6 text-right ">
+      <div class="col-md-4 col-xs-6 text-right">
         <div class="form-group">
-          <a class=" btn btn-owls btn-rounded btn-green  btn-special w-180px-plr-0" target="_blank"
-            (click)="goToLink()">Export
-            CSV </a>
+          <a
+            class="btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0"
+            target="_blank"
+            (click)="goToLink()"
+            >Export CSV
+          </a>
         </div>
       </div>
     </div>
   </form>
-
 
   <div class="statics">
     <div class="row">
@@ -59,11 +101,26 @@
           <h6 class="text-center title">Withdraw</h6>
           <div class="parent">
             <h6>Total</h6>
-            <h6 class="text-right">{{statistics?.withdraw_statistics?.total_withdraw | number : '1.2-2'}}</h6>
+            <h6 class="text-right">
+              {{
+                statistics?.withdraw_statistics?.total_withdraw
+                  | number: "1.2-2"
+              }}
+            </h6>
             <h6>Approved</h6>
-            <h6 class="text-right">{{statistics?.withdraw_statistics?.approved_withdraw | number : '1.2-2'}}</h6>
+            <h6 class="text-right">
+              {{
+                statistics?.withdraw_statistics?.approved_withdraw
+                  | number: "1.2-2"
+              }}
+            </h6>
             <h6>Pending</h6>
-            <h6 class="text-right">{{statistics?.withdraw_statistics?.pending_withdraw | number : '1.2-2'}}</h6>
+            <h6 class="text-right">
+              {{
+                statistics?.withdraw_statistics?.pending_withdraw
+                  | number: "1.2-2"
+              }}
+            </h6>
           </div>
         </div>
       </div>
@@ -77,8 +134,8 @@
       <thead>
         <tr>
           <th scope="col">No.</th>
-          <th scope="col"> Date </th>
-          <th scope="col"> Affiliate user</th>
+          <th scope="col">Date</th>
+          <th scope="col">Affiliate user</th>
           <th scope="col">State</th>
           <th scope="col">Total</th>
           <th scope="col">actions</th>
@@ -86,10 +143,20 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let item of walletHistoryAffiliates | paginate: { itemsPerPage: 20, currentPage: filter.page, totalItems: total }; let i = index">
-          <td>{{item.id}}</td>
-          <td>{{item.created_at | date:'d MMM , y h:mm a'}}</td>
-          <td>{{item.affiliate.id}} : {{item.affiliate.name}}</td>
+          *ngFor="
+            let item of walletHistoryAffiliates
+              | paginate
+                : {
+                    itemsPerPage: 20,
+                    currentPage: filter.page,
+                    totalItems: total
+                  };
+            let i = index
+          "
+        >
+          <td>{{ item.id }}</td>
+          <td>{{ item.created_at | date: "d MMM , y h:mm a" }}</td>
+          <td>{{ item.affiliate.id }} : {{ item.affiliate.name }}</td>
           <td>
             <span [ngSwitch]="item.status">
               <span *ngSwitchCase="0">Pending</span>
@@ -98,11 +165,17 @@
               <span *ngSwitchDefault>-</span>
             </span>
           </td>
-          <td>{{item.amount}}</td>
+          <td>{{ item.amount }}</td>
           <td>
             <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
                 <span [ngSwitch]="item.status">
                   <span *ngSwitchCase="0">Pending</span>
                   <span *ngSwitchCase="1">Accepted</span>
@@ -110,23 +183,36 @@
                 </span>
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" (click)="openPopupViewActionAffiliate(1, item)"
-                  *ngIf="item.status != 1">Accept</a>
-                <a class="dropdown-item" (click)="openPopupViewActionAffiliate(2,item)"
-                  *ngIf="item.status != 2">ReJect</a>
+                <a
+                  class="dropdown-item"
+                  (click)="openPopupViewActionAffiliate(1, item)"
+                  *ngIf="item.status != 1"
+                  >Accept</a
+                >
+                <a
+                  class="dropdown-item"
+                  (click)="openPopupViewActionAffiliate(2, item)"
+                  *ngIf="item.status != 2"
+                  >ReJect</a
+                >
               </div>
             </div>
           </td>
         </tr>
-
       </tbody>
     </table>
-    <h4 class="text-center" *ngIf="!walletHistoryAffiliates.length">There Are No Withdraw Requests</h4>
+    <h4 class="text-center" *ngIf="!walletHistoryAffiliates.length">
+      There Are No Withdraw Requests
+    </h4>
   </div>
   <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
-
-
 </div>
-<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
-  <p style="color: white"> Loading... </p>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

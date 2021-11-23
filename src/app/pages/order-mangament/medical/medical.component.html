@@ -6,13 +6,22 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input type="text" class="owl-input owls-search" placeholder="search ...">
+        <input
+          type="text"
+          class="owl-input owls-search"
+          placeholder="search ..."
+        />
       </div>
     </div>
 
     <div class="col-md-5 col-xs-12 text-right">
       <div class="form-group">
-        <a class=" btn btn-owls btn-rounded btn-blue2  btn-special" target="_blank" href="{{exportUrl}}">export CSV</a>
+        <a
+          class="btn btn-owls btn-rounded btn-blue2 btn-special"
+          target="_blank"
+          href="{{ exportUrl }}"
+          >export CSV</a
+        >
         <!-- <div style="line-height: 32px;" class=" btn btn-owls btn-rounded btn-blue2  owl-input-file">
           export csv
           <input type="file" class="" id=" " placeholder="type here ">
@@ -23,34 +32,44 @@
 </div>
 
 <div class="table-responsive">
-  <table class="table owls-table text-center ">
+  <table class="table owls-table text-center">
     <thead>
       <tr>
         <th scope="col">iD</th>
-        <th scope="col"> time </th>
+        <th scope="col">time</th>
         <th scope="col">sender</th>
-        <th scope="col"> phone </th>
-        <th scope="col"> address </th>
+        <th scope="col">phone</th>
+        <th scope="col">address</th>
         <!-- <th scope="col"></th> -->
         <th scope="col">action</th>
       </tr>
     </thead>
     <tbody>
-
-      <tr *ngFor="let med of medical | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }">
-        <td>{{med.id}}</td>
-        <td>{{med.created_at | date : "yyyy-MM-dd hh:mm a"}}</td>
-        <td>{{med.user.name}}</td>
-        <td>{{med.user.phone}}</td>
-        <td class="relative"><span
-            *ngIf="med.user.addresses.length">{{med.user.addresses[0].formatted_address | summary : 25}}</span>
-          <div class="hover-reason text-left"
-            *ngIf="med.user.addresses.length && med.user.addresses[0].formatted_address && med.user.addresses[0].formatted_address.length >= 25">
-            <div class="head">
-              address
-            </div>
+      <tr
+        *ngFor="
+          let med of medical
+            | paginate: { itemsPerPage: 10, currentPage: p, totalItems: total }
+        "
+      >
+        <td>{{ med.id }}</td>
+        <td>{{ med.created_at | date: "yyyy-MM-dd hh:mm a" }}</td>
+        <td>{{ med.user.name }}</td>
+        <td>{{ med.user.phone }}</td>
+        <td class="relative">
+          <span *ngIf="med.user.addresses.length">{{
+            med.user.addresses[0].formatted_address | summary: 25
+          }}</span>
+          <div
+            class="hover-reason text-left"
+            *ngIf="
+              med.user.addresses.length &&
+              med.user.addresses[0].formatted_address &&
+              med.user.addresses[0].formatted_address.length >= 25
+            "
+          >
+            <div class="head">address</div>
             <div class="body">
-              {{med.user.addresses[0].formatted_address}}
+              {{ med.user.addresses[0].formatted_address }}
             </div>
           </div>
         </td>
@@ -107,67 +126,93 @@
         </td> -->
 
         <td>
-          <a href="javascript:void(0)" (click)="viewMed(med)" data-toggle="modal" data-target="#viewPopUp"
-            class="table-view">
+          <a
+            href="javascript:void(0)"
+            (click)="viewMed(med)"
+            data-toggle="modal"
+            data-target="#viewPopUp"
+            class="table-view"
+          >
             <i class="icon-View"></i>
           </a>
         </td>
       </tr>
-
-
-
     </tbody>
   </table>
 </div>
 <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
-
-
-
 <!-- view  Popup-->
-<div class="modal fade" *ngIf="viewMedical" id="viewPopUp" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  *ngIf="viewMedical"
+  id="viewPopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-
     <div class="modal-content">
-
-
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
         <span aria-hidden="true">
           <i class="icon-Exit"></i>
         </span>
       </button>
 
       <div class="v-img">
-        <img src="{{viewMedical.image}}" alt="" class="img-fluid owl-img">
+        <img src="{{ viewMedical.image }}" alt="" class="img-fluid owl-img" />
       </div>
 
       <div class="content">
         <h4>customer note</h4>
         <p>
-          {{viewMedical.note}}
+          {{ viewMedical.note }}
         </p>
       </div>
-
     </div>
   </div>
 </div>
 
-
 <!-- Delete  Popup-->
-<div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
+<div
+  class="modal fade"
+  id="removePopUp"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">are you sure to delete this item ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">
+          are you sure to delete this item ?
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      </div>
+      <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">remove</button>
-        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-blue2">cancel </button>
+        <button type="button" class="btn-owls btn-rounded btn-green btn-red2">
+          remove
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+        >
+          cancel
+        </button>
       </div>
     </div>
   </div>

@@ -1,46 +1,45 @@
-
 .statics {
   .balance {
     .card-statics {
-          background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            .parent {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                h6 {
-                    font-size: 13px;
-                }
-            }
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      .parent {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        h6 {
+          font-size: 13px;
         }
+      }
     }
+  }
 }
-.material-icons{
-    cursor: pointer;
+.material-icons {
+  cursor: pointer;
 }
 
-  .collapsing,
-  .dropdown,
-  .dropup {
-    background: #eb1c24;
-    color: #fff;
-    height: 40px;
-    line-height: 44px;
-    border-radius: 25px;
-    width: 110px;
-    margin: 0px auto;
-  }
-  .btn-secondary.custom-file-control:before,
-  .btn.btn-secondary {
-    color: #fff;
-  }
-  
-  .btn.btn-secondary:hover {
-    color: #fff;
-  }
-  
-  .dropdown-item {
-    cursor: pointer;
-  }
+.collapsing,
+.dropdown,
+.dropup {
+  background: #eb1c24;
+  color: #fff;
+  height: 40px;
+  line-height: 44px;
+  border-radius: 25px;
+  width: 110px;
+  margin: 0px auto;
+}
+.btn-secondary.custom-file-control:before,
+.btn.btn-secondary {
+  color: #fff;
+}
+
+.btn.btn-secondary:hover {
+  color: #fff;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}

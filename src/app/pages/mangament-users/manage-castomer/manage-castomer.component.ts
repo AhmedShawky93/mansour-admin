@@ -136,7 +136,7 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   getCities() {
-    this._areaService.getCities(null, null).subscribe((response: any) => {
+    this._areaService.getCities().subscribe((response: any) => {
       if (response.code === 200) {
         this.cities = response.data;
       }

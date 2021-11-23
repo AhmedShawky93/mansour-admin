@@ -6,28 +6,27 @@
     <h3>View Options</h3>
   </div>
   <div class="details details-2" *ngIf="dataView">
-
     <div>
-      <h5>Option name </h5>
-      <p>{{dataView.name_en}}</p>
+      <h5>Option name</h5>
+      <p>{{ dataView.name_en }}</p>
     </div>
     <div>
-      <h5>Option name Ar </h5>
-      <p>{{dataView.name_ar}}</p>
+      <h5>Option name Ar</h5>
+      <p>{{ dataView.name_ar }}</p>
     </div>
 
     <div>
       <h5>Creation Date</h5>
-      <p>{{dataView?.created_at | date : "yyyy-MM-dd hh:mm a"}} </p>
+      <p>{{ dataView?.created_at | date: "yyyy-MM-dd hh:mm a" }}</p>
     </div>
 
     <div>
       <h5>Description</h5>
-      <p>{{dataView?.description_en}}</p>
+      <p>{{ dataView?.description_en }}</p>
     </div>
     <div>
       <h5>Description ar</h5>
-      <p>{{dataView?.description_ar}}</p>
+      <p>{{ dataView?.description_ar }}</p>
     </div>
 
     <div>
@@ -44,14 +43,13 @@
       </ul> -->
 
       <p *ngIf="dataView?.values">
-        <span *ngFor="let value of  dataView?.values">
-          <span class="d-block">{{value.name_en}}</span>
+        <span *ngFor="let value of dataView?.values">
+          <span class="d-block">{{ value.name_en }}</span>
           <div class="details-price" *ngIf="value.image">
-            <img src="{{value?.image}}" alt="" class=" owl-img img-fluid ">
+            <img src="{{ value?.image }}" alt="" class="owl-img img-fluid" />
           </div>
         </span>
       </p>
-
     </div>
   </div>
 </div>

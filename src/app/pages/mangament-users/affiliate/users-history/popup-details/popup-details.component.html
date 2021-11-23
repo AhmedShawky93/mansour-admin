@@ -1,19 +1,39 @@
 <section class="popup-details">
-  <span class="material-icons close" (click)='closePopup()'>
-    close
-  </span>
+  <span class="material-icons close" (click)="closePopup()"> close </span>
   <h5 *ngIf="affiliateDetails.type == 2">Admin</h5>
   <h5 *ngIf="affiliateDetails.type == 3">Request</h5>
 
-  <h6 *ngIf="affiliateDetails.type == 2">Admin comment: <span>{{affiliateDetails?.admin_comment}}</span></h6>
-  <h6>Amount: <span>{{affiliateDetails?.amount}}</span></h6>
+  <h6 *ngIf="affiliateDetails.type == 2">
+    Admin comment: <span>{{ affiliateDetails?.admin_comment }}</span>
+  </h6>
+  <h6>
+    Amount: <span>{{ affiliateDetails?.amount }}</span>
+  </h6>
 
-  <h6 *ngIf="affiliateDetails.type == 3">Payment method: <span>{{affiliateDetails?.payment_method == 1 ? 'Vodafone cash' :'Bank'}}</span></h6>
+  <h6 *ngIf="affiliateDetails.type == 3">
+    Payment method:
+    <span>{{
+      affiliateDetails?.payment_method == 1 ? "Vodafone cash" : "Bank"
+    }}</span>
+  </h6>
 
-  <h6 *ngIf="affiliateDetails.payment_method == 1">Phone Number: <span>{{affiliateDetails?.phone_number}}</span></h6>
+  <h6 *ngIf="affiliateDetails.payment_method == 1">
+    Phone Number: <span>{{ affiliateDetails?.phone_number }}</span>
+  </h6>
 
-  <h6 *ngIf="affiliateDetails.type == 3 && affiliateDetails.payment_method == 2">Account name: <span>{{affiliateDetails?.account_name}}</span></h6>
-  <h6 *ngIf="affiliateDetails.type == 3 && affiliateDetails.payment_method == 2">Account number: <span>{{affiliateDetails?.account_number}}</span></h6>
-  <h6 *ngIf="affiliateDetails.type == 3 && affiliateDetails.payment_method == 2">Bank name: <span>{{affiliateDetails?.bank_name}}</span></h6>
-
+  <h6
+    *ngIf="affiliateDetails.type == 3 && affiliateDetails.payment_method == 2"
+  >
+    Account name: <span>{{ affiliateDetails?.account_name }}</span>
+  </h6>
+  <h6
+    *ngIf="affiliateDetails.type == 3 && affiliateDetails.payment_method == 2"
+  >
+    Account number: <span>{{ affiliateDetails?.account_number }}</span>
+  </h6>
+  <h6
+    *ngIf="affiliateDetails.type == 3 && affiliateDetails.payment_method == 2"
+  >
+    Bank name: <span>{{ affiliateDetails?.bank_name }}</span>
+  </h6>
 </section>

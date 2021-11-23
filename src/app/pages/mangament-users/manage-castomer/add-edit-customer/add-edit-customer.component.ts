@@ -41,7 +41,7 @@ export class AddEditCustomerComponent implements OnInit {
 
   ngOnInit() {
     this.setupForm(this.selectedCustomer);
-    this.citiesService.getCities(null, null).subscribe((response: any) => {
+    this.citiesService.getCities().subscribe((response: any) => {
       this.cities = response.data;
     });
     this.getConfig();

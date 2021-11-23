@@ -6,34 +6,38 @@
     <h3>View Branch</h3>
   </div>
   <div class="details details-2" *ngIf="dataView">
-
     <div>
-      <h5>Option name </h5>
-      <p>{{dataView.name}}</p>
+      <h5>Option name</h5>
+      <p>{{ dataView.name }}</p>
     </div>
-
 
     <div>
       <h5>Creation Date</h5>
-      <p>{{(dataView?.created_at) ?  (dataView?.created_at  | date : "yyyy-MM-dd hh:mm a")  : '-' }}</p>
+      <p>
+        {{
+          dataView?.created_at
+            ? (dataView?.created_at | date: "yyyy-MM-dd hh:mm a")
+            : "-"
+        }}
+      </p>
     </div>
 
     <div>
       <h5>Description</h5>
-      <p>{{dataView?.address}}</p>
+      <p>{{ dataView?.address }}</p>
     </div>
     <div>
       <h5>City</h5>
-      <p>{{dataView?.delivererProfile?.city?.name}}</p>
+      <p>{{ dataView?.delivererProfile?.city?.name }}</p>
     </div>
     <div>
       <h5>Area</h5>
-      <p>{{dataView?.delivererProfile?.area?.name}}</p>
+      <p>{{ dataView?.delivererProfile?.area?.name }}</p>
     </div>
     <div>
       <h5>districts</h5>
       <p *ngFor="let districts of dataView?.delivererProfile?.districts">
-        • {{districts?.name}}
+        • {{ districts?.name }}
       </p>
     </div>
   </div>

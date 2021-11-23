@@ -8,13 +8,12 @@
 
 .owl-input-add {
   cursor: pointer;
-  background: url('/assets/img/Expand.svg') no-repeat right;
-  background-color: #F4F4F4;
+  background: url("/assets/img/Expand.svg") no-repeat right;
+  background-color: #f4f4f4;
 }
 
 .owl-input-add2 {
-  background-image: url('/assets/img/collapse.svg');
-
+  background-image: url("/assets/img/collapse.svg");
 }
 
 .inputAimage input {
@@ -24,14 +23,13 @@
   height: 45px;
 }
 
-
 .owls-upload3 {
   display: block;
   padding: 0;
   background-color: transparent;
 }
 
-.owls-upload3 input[type=file] {
+.owls-upload3 input[type="file"] {
   top: 0;
   width: 150px;
   height: 150px;
@@ -69,7 +67,6 @@
 }
 
 @media (max-width: 920px) {
-
   .owl-btn-list .btn {
     margin-left: 0 !important;
     width: 100% !important;
@@ -84,7 +81,6 @@
     font-size: 9px !important;
     padding-bottom: 15px;
     padding-top: 15px;
-
   }
 
   .table td,
@@ -116,7 +112,6 @@
 .view-vindor-types {
   padding: 30px;
   width: 550px;
-
 }
 
 #view-category {
@@ -131,7 +126,6 @@
 
 .style2 .owl-input {
   height: 30px !important;
-
 }
 
 .style2 .alert-danger {
@@ -143,7 +137,6 @@
   position: relative !important;
   left: 16px !important;
   top: 18px;
-
 }
 
 .alert-danger {
@@ -177,7 +170,6 @@
 
 .customOption {
   margin-left: 29px;
-
 }
 
 .cursor {
@@ -188,7 +180,6 @@
   position: absolute;
   bottom: 77px;
   left: 165px;
-
 }
 
 .exitOption {
@@ -202,7 +193,6 @@
   padding: 15px;
   padding-top: 25px;
   margin-bottom: 25px;
-
 }
 
 .exitStyleMain {
@@ -215,11 +205,10 @@
 
 .exitStyle {
   margin-bottom: 30px;
-
 }
 
 .borderChild {
-  border: 1px solid #EEF;
+  border: 1px solid #eef;
   padding: 20px;
 }
 
@@ -227,11 +216,9 @@
   border: 1px solid #eee;
   padding: 20px;
   margin-bottom: 20px;
-
 }
 
 @media (max-width: 920px) {
-
   .owl-btn-list .btn {
     margin-left: 0 !important;
     width: 100% !important;
@@ -239,10 +226,10 @@
 
   .btn-rounded {
     padding: 0 !important;
-    width: 90PX;
+    width: 90px;
     line-height: 44px;
     height: 44px;
-    FONT-SIZE: 10PX !important;
+    font-size: 10px !important;
   }
 
   .owl-btn-list .btn {
@@ -261,7 +248,6 @@
     font-size: 9px !important;
     padding-bottom: 15px;
     padding-top: 15px;
-
   }
 
   .table td,
@@ -299,16 +285,13 @@
     height: 18px;
     line-height: 7px;
     font-size: 11px;
-
   }
 
   .ngx-pagination a,
   .ngx-pagination button,
   .ngx-pagination li {
     font-size: 15px !important;
-
   }
-
 
   .ngx-pagination .current {
     width: 33px;
@@ -320,7 +303,7 @@
     text-align: center;
   }
 
-  .home-item>span {
+  .home-item > span {
     left: 61px;
   }
 }
@@ -331,7 +314,6 @@
 }
 .alert-danger {
   text-align: left !important;
-
 }
 .actionBtns {
   width: 100% !important;

@@ -44,7 +44,7 @@ export class AddEditAddressComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.setupForm(this.selectedAddress);
 
-    this.citiesService.getCities(null, null).subscribe((response: any) => {
+    this.citiesService.getCities().subscribe((response: any) => {
       this.cities = response.data;
     });
   }

@@ -4,21 +4,31 @@
     <span class="close" id="close-add-area" (click)="closeSideBar()">
       <i class="icon-Exit"></i>
     </span>
-    <h3> Edit order states </h3>
+    <h3>Edit order states</h3>
   </div>
   <div class="add-area-form">
-
     <form [formGroup]="cityForm" (ngSubmit)="submitForm()" novalidate>
       <div class="form-group">
         <label for="">Name </label>
 
-        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name">
-
+        <input
+          type="text"
+          class="owl-input"
+          placeholder="type here.."
+          name="name"
+          required
+          formControlName="name"
+        />
       </div>
       <!-- Errors Rolues -->
-      <div *ngIf="cityForm.controls.name.invalid && (cityForm.controls.name.dirty || cityForm.controls.name.touched)"
-        class="alert alert-danger">
-        <div *ngIf="cityForm.controls.name.errors.required ">
+      <div
+        *ngIf="
+          cityForm.controls.name.invalid &&
+          (cityForm.controls.name.dirty || cityForm.controls.name.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="cityForm.controls.name.errors.required">
           Name is required.
         </div>
       </div>
@@ -26,45 +36,88 @@
       <div class="form-group">
         <label for="">Name (ar)</label>
 
-        <input type="text" class="owl-input" placeholder="type here.." name="name" required formControlName="name_ar">
-
+        <input
+          type="text"
+          class="owl-input"
+          placeholder="type here.."
+          name="name"
+          required
+          formControlName="name_ar"
+        />
       </div>
       <!-- Errors Rolues -->
       <div
-        *ngIf="cityForm.controls.name_ar.invalid && (cityForm.controls.name_ar.dirty || cityForm.controls.name_ar.touched)"
-        class="alert alert-danger">
-        <div *ngIf="cityForm.controls.name_ar.errors.required ">
+        *ngIf="
+          cityForm.controls.name_ar.invalid &&
+          (cityForm.controls.name_ar.dirty || cityForm.controls.name_ar.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="cityForm.controls.name_ar.errors.required">
           Name (Ar)is required.
         </div>
       </div>
       <div class="sub-status" formArrayName="sub_states">
-        <div class="" *ngFor="let item of cityForm.get('sub_states')['controls']; let i = index">
-          <div [formGroupName]='i' class="sub-state">
+        <div
+          class=""
+          *ngFor="
+            let item of cityForm.get('sub_states')['controls'];
+            let i = index
+          "
+        >
+          <div [formGroupName]="i" class="sub-state">
             <div class="form-group">
               <label for="">Name </label>
-              <input type="text" class="owl-input" placeholder="type here.." name="name" required
-                formControlName="name">
+              <input
+                type="text"
+                class="owl-input"
+                placeholder="type here.."
+                name="name"
+                required
+                formControlName="name"
+              />
             </div>
             <div
-              *ngIf="cityForm.controls.sub_states.controls[i].controls.name.invalid &&
-             (cityForm.controls.sub_states.controls[i].controls.name.dirty || cityForm.controls.sub_states.controls[i].controls.name.touched)"
-              class="alert alert-danger" style="margin-bottom: 0px;">
-              <div *ngIf="cityForm.controls.sub_states.controls[i].controls.name.errors.required">
+              *ngIf="
+                cityForm.controls.sub_states.controls[i].controls.name
+                  .invalid &&
+                (cityForm.controls.sub_states.controls[i].controls.name.dirty ||
+                  cityForm.controls.sub_states.controls[i].controls.name
+                    .touched)
+              "
+              class="alert alert-danger"
+              style="margin-bottom: 0px"
+            >
+              <div
+                *ngIf="
+                  cityForm.controls.sub_states.controls[i].controls.name.errors
+                    .required
+                "
+              >
                 Name is required.
               </div>
             </div>
-
           </div>
         </div>
       </div>
       <div>
-        <a href="javascript:void(0)" class="add-sub" (click)="addSubStates(null)">Add sub States</a>
+        <a
+          href="javascript:void(0)"
+          class="add-sub"
+          (click)="addSubStates(null)"
+          >Add sub States</a
+        >
       </div>
 
       <div class="btn-group">
-        <button type="submit" class="btn btn-owls btn-rounded btn-green" [appLoading]="submitting">Save</button>
+        <button
+          type="submit"
+          class="btn btn-owls btn-rounded btn-green"
+          [appLoading]="submitting"
+        >
+          Save
+        </button>
       </div>
     </form>
   </div>
-
 </div>
