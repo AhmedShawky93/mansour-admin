@@ -48,19 +48,15 @@
       </tr>
     </thead>
     <tbody>
-      <<<<<<< HEAD
       <tr
         *ngFor="
           let area of cities
             | paginate
               : { itemsPerPage: 20, currentPage: page, totalItems: total }
         "
-      >
-        =======
-      </tr>
+      ></tr>
 
       <tr *ngFor="let area of cities">
-        >>>>>>> e1a68bc8b19cadb04e1d5f709095900c41f8964e
         <td>{{ area.name ? area.name : "-" }}</td>
         <td>{{ area.name_ar ? area.name_ar : "-" }}</td>
         <td *ngIf="area.fees_type == 1">
