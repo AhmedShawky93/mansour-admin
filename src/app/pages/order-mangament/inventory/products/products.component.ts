@@ -472,6 +472,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.toggleVariant = "out";
     this.toggleAddProduct = "out";
     this.disableBodyScrollTop();
+    this.brandsarray = this.brands;
+    this.categoriesarray = this.categories;
   }
 
   edit(data) {

@@ -52,7 +52,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataProductEmit = new EventEmitter();
   @Input() selectedProduct;
-
+  @Input("brandsarray") brandsarray;
+  @Input("categoriesarray") categoriesarray;
   submitting: boolean;
   parentProduct: any;
   componentForm: FormGroup;
@@ -99,8 +100,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     private reactivityService: ReactivityService
   ) {
     this.allOptions$ = this.optionsService.getOptions();
-    this.categories$ = this.categoriesService.getCategories();
-    this.brands$ = this.productsService.getBrands();
+    // this.categories$ = this.categoriesService.getCategories();
+    // this.brands$ = this.productsService.getBrands();
     this.editorConfig = {
       editable: true,
       spellcheck: true,
@@ -126,7 +127,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.getInitialData();
+    this.getInitialData2();
     this.getPaymentMethods();
   }
 
@@ -140,6 +141,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.setForm(this.selectedProduct);
+    this.brands = this.brandsarray;
+    this.getCategories2(this.categoriesarray);
   }
 
   getInitialData() {
@@ -149,6 +152,20 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         this.getAllOptions(options);
         this.getCategories(categories);
         this.getBrands(brands);
+        this.mergeData(this.selectedProduct);
+        this.setData(this.selectedProduct);
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+  }
+  getInitialData2() {
+    this.spinner.show();
+    combineLatest(this.allOptions$).subscribe(
+      ([options]) => {
+        this.getAllOptions(options);
+        // this.getCategories(categories);
+        // this.getBrands(brands);
         this.mergeData(this.selectedProduct);
         this.setData(this.selectedProduct);
         this.spinner.hide();
@@ -469,7 +486,27 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
       });
     }
   }
+  getCategories2(data) {
+    // this._CategoriesService.getCategories().subscribe((response: any) => {
+    //   if (response.code === 200) {
+    // this.categories = response.data;
+    // this.optionalCategories = response.data;
+    if (data) {
+      this.categories = data;
+      this.optionalCategories = data;
+      this.categories = this.categories.map((c) => {
+        c.selected = false;
+        return c;
+      });
+      this.optionalCategories = this.optionalCategories.map((c) => {
+        c.selected = false;
+        return c;
+      });
+    }
 
+    //   }
+    // });
+  }
   getBrands(response: any) {
     this.brands = response.data;
   }
