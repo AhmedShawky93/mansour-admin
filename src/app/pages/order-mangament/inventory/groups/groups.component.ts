@@ -1,15 +1,24 @@
-import { CategoryService } from "@app/pages/services/category.service";
-import { GroupsService } from "./../../../services/groups.service";
-import { OptionsService } from "./../../../services/options.service";
-import { Component, ElementRef, OnInit } from "@angular/core";
-import { UploadFilesService } from "@app/pages/services/upload-files.service";
-import { ViewChild } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
-import { FormGroup, FormControl, FormArray } from "@angular/forms";
-import { Validators } from "@angular/forms";
-import { ProductsService } from "@app/pages/services/products.service";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+
 import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+
+import { CategoryService } from "@app/pages/services/category.service";
+import { ProductsService } from "@app/pages/services/products.service";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
+
+import { GroupsService } from "../../../services/groups.service";
+import { OptionsService } from "../../../services/options.service";
 
 declare var jquery: any;
 declare var $: any;
