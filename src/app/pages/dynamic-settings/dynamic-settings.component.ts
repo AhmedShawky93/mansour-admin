@@ -11,15 +11,18 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { UploadFilesService } from "@app/pages/services/upload-files.service";
-import { AngularEditorConfig } from "@kolkov/angular-editor";
-import { SettingService } from "@app/pages/services/setting.service";
-import { Observable } from "rxjs/Observable";
-import { ToastrService } from "ngx-toastr";
-import { ReactivityService } from "@app/shared/services/reactivity.service";
-import { ShowAffiliateService } from "../services/show-affiliate.service";
+
 import * as _ from "lodash";
 import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs/Observable";
+
+import { SettingService } from "@app/pages/services/setting.service";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import { ReactivityService } from "@app/shared/services/reactivity.service";
+import { AngularEditorConfig } from "@kolkov/angular-editor";
+
+import { ShowAffiliateService } from "../services/show-affiliate.service";
 
 @Component({
   selector: "app-dynamic-settings",

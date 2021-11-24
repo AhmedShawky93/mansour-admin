@@ -7,7 +7,10 @@ import {
   Output,
 } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import {
+  DomSanitizer,
+  SafeUrl,
+} from "@angular/platform-browser";
 
 import { ToastrService } from "ngx-toastr";
 
@@ -22,6 +25,7 @@ export class ImageUploaderComponent implements OnInit, OnChanges {
   @Input() myForm: FormGroup;
   @Input() formControlChildName: string;
   @Input() fileUrl;
+  @Input() deleteIcon;
   @Input() height: string;
   @Input() width: string;
   @Output() uploadedImageUrl = new EventEmitter();
@@ -55,7 +59,12 @@ export class ImageUploaderComponent implements OnInit, OnChanges {
     this.imageUrl = this.fileUrl;
     this.checkUrlType();
   }
-
+  resetImg() {
+    this.imageUrl = "";
+    this.myForm.controls[this.formControlChildName].setValue("");
+    /*this.myForm.value[this.formControlChildName] = this.imageUrl;*/
+    this.uploadedImageUrl.emit(this.imageUrl);
+  }
   checkUrlType() {
     if (this.imageUrl) {
       const pdf = this.imageUrl.substring(
