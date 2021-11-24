@@ -43,7 +43,7 @@ export class CustomAdsComponent implements OnInit {
   total;
   products: any = [];
   products$: Observable<any>;
-  productsInput$ = new Subject<String | null>();
+  productsInput$ = new Subject<string | null>();
   productsLoading: boolean;
 
   categories: any;
@@ -79,7 +79,7 @@ export class CustomAdsComponent implements OnInit {
   showViewAd: boolean;
   showAddEditAd: boolean;
   submitting: boolean;
-  oldSearch: String;
+  oldSearch: string;
 
   constructor(
     private adsService: CustomAdsService,
@@ -124,39 +124,6 @@ export class CustomAdsComponent implements OnInit {
       dev_key: new FormControl("", Validators.required),
       brand: new FormControl(),
     });
-
-    // this.products$ = concat(
-    //   of([]), // default items
-    //   this.productsInput$.pipe(
-    //     debounceTime(200),
-    //     distinctUntilChanged(),
-    //     tap(() => (this.productsLoading = true)),
-    //     switchMap((term) =>
-    //       this.productsService
-    //         .searchProducts(
-    //           {
-    //             q: term,
-    //             category_id: this.newAdsForm.controls.Category.value,
-    //             sub_category_id: this.newAdsForm.controls.subCategory.value,
-    //           },
-    //           1
-    //         )
-    //         .pipe(
-    //           catchError(() => of([])), // empty list on error
-    //           tap(() => (this.productsLoading = false)),
-    //           map((response: any) => {
-    //             this.productList = response.data.products;
-    //             return response.data.products.map((p) => {
-    //               return {
-    //                 id: p.id,
-    //                 name: p.name,
-    //               };
-    //             });
-    //           })
-    //         )
-    //     )
-    //   )
-    // );
 
     this.ad.popup = "";
   }
@@ -266,10 +233,6 @@ export class CustomAdsComponent implements OnInit {
     // fill select options
     if (ad.type == 1 || ad.type == 2) {
       this.onCategoryChange();
-
-      // if (ad.type == 1) {
-      //   this.onSubCategoryChange();
-      // }
     }
 
     this.onAdTypeChanged(this.newAdsForm);
