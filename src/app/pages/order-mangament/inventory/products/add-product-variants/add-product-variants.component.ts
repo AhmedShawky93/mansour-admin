@@ -903,8 +903,8 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
           // this.spinner.hide();
           this.toasterService.error(response.message);
           // this.productsService.deleteProduct()
+          this.submitting = false;
         }
-        this.submitting = false;
       });
   }
 
