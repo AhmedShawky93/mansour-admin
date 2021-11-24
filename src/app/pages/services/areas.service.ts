@@ -27,10 +27,12 @@ export class AreasService {
       });
   }
 
-  getCities() {
-    return this._HttpClient.get(this.url + "/cities").catch((error: any) => {
-      return Observable.throw(error.error || "Area error");
-    });
+  getCities(limit = null, page = null) {
+    return this._HttpClient
+      .get(`${this.url}/cities?limit=${limit}&page=${page}`)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Area error");
+      });
   }
 
   createCity(data) {
@@ -65,9 +67,9 @@ export class AreasService {
   // End City
 
   // start areas
-  getAreaById(id) {
+  getAreaById(areaId, limit, page) {
     return this._HttpClient
-      .get(this.url + "/cities/" + id + "/areas")
+      .get(`${this.url}/cities/${areaId}/areas?limit=${limit}&page=${page}`)
       .catch((error: any) => {
         return Observable.throw(error.error || "Area error");
       });
@@ -110,9 +112,11 @@ export class AreasService {
   }
   // End areas
   // start areas
-  getDistrictById(id) {
+  getDistrictById(districtId, limit, page) {
     return this._HttpClient
-      .get(this.url + "/areas/" + id + "/districts")
+      .get(
+        `${this.url}/areas/${districtId}/districts?limit=${limit}&page=${page}`
+      )
       .catch((error: any) => {
         return Observable.throw(error.error || "Area error");
       });

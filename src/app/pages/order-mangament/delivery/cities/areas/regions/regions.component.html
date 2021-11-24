@@ -48,6 +48,14 @@
       </tr>
     </thead>
     <tbody>
+      <tr
+        *ngFor="
+          let area of cities
+            | paginate
+              : { itemsPerPage: 20, currentPage: page, totalItems: total }
+        "
+      ></tr>
+
       <tr *ngFor="let area of cities">
         <td>{{ area.name ? area.name : "-" }}</td>
         <td>{{ area.name_ar ? area.name_ar : "-" }}</td>
@@ -114,6 +122,8 @@
     </tbody>
   </table>
 </div>
+<pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+
 <!-- view product -->
 <app-view-region
   (closeSideBarEmit)="closeSideBar()"
@@ -130,3 +140,12 @@
   [selectDataEdit]="selectData"
   [idParent]="idParent"
 ></app-add-edit-region>
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

@@ -65,7 +65,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let area of cities">
+      <tr
+        *ngFor="
+          let area of cities
+            | paginate
+              : { itemsPerPage: 20, currentPage: page, totalItems: total }
+        "
+      >
         <td>{{ area.name ? area.name : "-" }}</td>
         <td>{{ area.name_ar ? area.name_ar : "-" }}</td>
         <td>
@@ -145,6 +151,7 @@
     </tbody>
   </table>
 </div>
+<pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
 <!-- view product -->
 <app-view-city

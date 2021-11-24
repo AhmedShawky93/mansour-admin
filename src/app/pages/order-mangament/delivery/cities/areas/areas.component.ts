@@ -10,6 +10,7 @@ import {
   style,
 } from "@angular/animations";
 import { ActivatedRoute } from "@angular/router";
+import { NgxSpinnerService } from "ngx-spinner";
 declare var jquery: any;
 declare var $: any;
 @Component({
@@ -44,16 +45,20 @@ export class AreasComponent implements OnInit {
   selectDataView: any;
   selectData: any;
   idParent: any;
+  limit: number = 20;
+  page: number = 1;
+  total = null;
   constructor(
     private _areaService: AreasService,
     private activeRoute: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
     this.activeRoute.params.subscribe((params) => {
       this.idParent = params["id"];
-      this.getareaById(this.idParent);
+      this.getareaById();
     }),
       $(".open-add").on("click", function () {
         $("#add-area").toggleClass("open-view-vindor-types");
@@ -97,16 +102,26 @@ export class AreasComponent implements OnInit {
     this.toggleAddEditData = "out";
     this.viewDataSidebar = "out";
   }
-  getareaById(id) {
-    this._areaService.getAreaById(id).subscribe((response: any) => {
-      if (response.code === 200) {
-        this.cities = response.data;
-        this.cities.map((data: any) => {
-          data.deactivated = !data.active;
-          return data;
-        });
-      }
-    });
+  getareaById() {
+    this.spinner.show();
+    this._areaService
+      .getAreaById(this.idParent, this.limit, this.page)
+      .subscribe((response: any) => {
+        this.spinner.hide();
+        if (response.code === 200) {
+          this.cities = response.data;
+          this.total = response.meta.total;
+          this.cities.map((data: any) => {
+            data.deactivated = !data.active;
+            return data;
+          });
+        }
+      });
+  }
+
+  changePage(p) {
+    this.page = p;
+    this.getareaById();
   }
 
   addOrUpdateData(data) {
