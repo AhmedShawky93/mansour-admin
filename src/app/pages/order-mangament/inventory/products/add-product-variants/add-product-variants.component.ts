@@ -127,7 +127,7 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.getInitialData2();
+    this.getInitialData();
     this.getPaymentMethods();
   }
 
@@ -142,25 +142,13 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.setForm(this.selectedProduct);
     this.brands = this.brandsarray;
-    this.getCategories2(this.categoriesarray);
+    this.getCategories(this.categoriesarray);
   }
 
   getInitialData() {
     this.spinner.show();
-    combineLatest(this.allOptions$, this.categories$, this.brands$).subscribe(
-      ([options, categories, brands]) => {
-        this.getAllOptions(options);
-        this.getCategories(categories);
-        this.getBrands(brands);
-        this.mergeData(this.selectedProduct);
-        this.setData(this.selectedProduct);
-        this.spinner.hide();
-      },
-      () => this.spinner.hide()
-    );
-  }
-  getInitialData2() {
-    this.spinner.show();
+    // combineLatest(this.allOptions$, this.categories$, this.brands$).subscribe(
+    //   ([options, categories, brands]) => {
     combineLatest(this.allOptions$).subscribe(
       ([options]) => {
         this.getAllOptions(options);
@@ -472,25 +460,21 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
     }
   }
 
-  getCategories(response: any) {
-    if (response.code === 200) {
-      this.categories = response.data;
-      this.optionalCategories = response.data;
-      this.categories = this.categories.map((c) => {
-        c.selected = false;
-        return c;
-      });
-      this.optionalCategories = this.optionalCategories.map((c) => {
-        c.selected = false;
-        return c;
-      });
-    }
-  }
-  getCategories2(data) {
-    // this._CategoriesService.getCategories().subscribe((response: any) => {
-    //   if (response.code === 200) {
-    // this.categories = response.data;
-    // this.optionalCategories = response.data;
+  // getCategories(response: any) {
+  //   if (response.code === 200) {
+  //     this.categories = response.data;
+  //     this.optionalCategories = response.data;
+  //     this.categories = this.categories.map((c) => {
+  //       c.selected = false;
+  //       return c;
+  //     });
+  //     this.optionalCategories = this.optionalCategories.map((c) => {
+  //       c.selected = false;
+  //       return c;
+  //     });
+  //   }
+  // }
+  getCategories(data) {
     if (data) {
       this.categories = data;
       this.optionalCategories = data;
@@ -503,9 +487,6 @@ export class AddProductVariantsComponent implements OnInit, OnChanges {
         return c;
       });
     }
-
-    //   }
-    // });
   }
   getBrands(response: any) {
     this.brands = response.data;
