@@ -1,14 +1,11 @@
 <!-- <ngx-loading-bar [color]="'#4AC356 '"></ngx-loading-bar> -->
 <div class="top-table-bar">
-  <div
-    class="row"
-    style="
+  <div class="row" style="
       border: 1px solid #dbdbdb;
       margin-bottom: 24px;
       padding: 20px 0;
       border-radius: 10px;
-    "
-  >
+    ">
     <!-- <div class="col-md-4">
       <div class="left-search">
         <span>
@@ -23,12 +20,7 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input
-          type="text"
-          class="owl-input owls-search"
-          placeholder="Order id"
-          [(ngModel)]="filter.ids"
-        />
+        <input type="text" class="owl-input owls-search" placeholder="Order id" [(ngModel)]="filter.ids" />
         <!-- (keydown)="changePage(1)" -->
       </div>
     </div>
@@ -37,12 +29,8 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input
-          type="text"
-          class="owl-input owls-search"
-          placeholder="Customer name"
-          [(ngModel)]="filter.customer_name"
-        />
+        <input type="text" class="owl-input owls-search" placeholder="Customer name"
+          [(ngModel)]="filter.customer_name" />
         <!-- (keydown)="changePage(1)" -->
       </div>
     </div>
@@ -51,12 +39,8 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input
-          type="text"
-          class="owl-input owls-search"
-          placeholder="customer email"
-          [(ngModel)]="filter.customer_email"
-        />
+        <input type="text" class="owl-input owls-search" placeholder="customer email"
+          [(ngModel)]="filter.customer_email" />
         <!--  (keydown)="changePage(1)" -->
       </div>
     </div>
@@ -65,18 +49,14 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input
-          type="text"
-          class="owl-input owls-search"
-          placeholder="customer phone"
-          [(ngModel)]="filter.customer_phone"
-        />
+        <input type="text" class="owl-input owls-search" placeholder="customer phone"
+          [(ngModel)]="filter.customer_phone" />
         <!-- (keydown)="changePage(1)" -->
       </div>
     </div>
 
     <!-- <div class="col-md-4" style="margin-bottom: 10px;">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.payment_method">
+      <select  class="owl-input bg-white" [(ngModel)]="filter.payment_method">
         <option [value]="null" disabled hidden>Select payment method</option>
         <option [value]="0">All</option>
         <option [value]="1"> Cash </option>
@@ -85,12 +65,7 @@
      </div> -->
 
     <div class="col-md-4" style="margin-bottom: 20px">
-      <select
-        name=""
-        class="owl-input bg-white"
-        [(ngModel)]="filter.customer_city_ids"
-        (ngModelChange)="selectCity($event)"
-      >
+      <select class="owl-input bg-white" [(ngModel)]="filter.customer_city_ids" (ngModelChange)="selectCity($event)">
         <option value="">Select City</option>
         <option value="{{ city.id }}" *ngFor="let city of cities">
           {{ city.name }}
@@ -98,12 +73,7 @@
       </select>
     </div>
     <div class="col-md-4" style="margin-bottom: 20px">
-      <select
-        name=""
-        class="owl-input bg-white"
-        [(ngModel)]="filter.customer_area_ids"
-        (ngModelChange)="selectArea($event)"
-      >
+      <select class="owl-input bg-white" [(ngModel)]="filter.customer_area_ids" (ngModelChange)="selectArea($event)">
         <option value="">Select Area</option>
         <option value="{{ area.id }}" *ngFor="let area of areaListSearch">
           {{ area.name }}
@@ -111,11 +81,7 @@
       </select>
     </div>
     <div class="col-md-4">
-      <select
-        name=""
-        class="owl-input bg-white"
-        [(ngModel)]="filter.payment_method"
-      >
+      <select class="owl-input bg-white" [(ngModel)]="filter.payment_method">
         <option [value]="null">Select Payment Method</option>
         <option [value]="payment.id" *ngFor="let payment of paymentMethods">
           {{ payment.name }}
@@ -124,42 +90,20 @@
     </div>
     <div class="col-md-4 col-sm-10">
       <mat-form-field class="datepicker">
-        <input
-          matInput
-          #mdate
-          placeholder="Date From"
-          readonly
-          (click)="pickerFrom.open()"
-          [satDatepicker]="pickerFrom"
-          [value]="date"
-          [(ngModel)]="filter.date_from"
-        />
+        <input matInput #mdate placeholder="Date From" readonly (click)="pickerFrom.open()" [satDatepicker]="pickerFrom"
+          [value]="date" [(ngModel)]="filter.date_from" />
         <!-- (dateChange)="changePage(1)" -->
         <sat-datepicker #pickerFrom [rangeMode]="false"> </sat-datepicker>
-        <sat-datepicker-toggle
-          matSuffix
-          [for]="pickerFrom"
-        ></sat-datepicker-toggle>
+        <sat-datepicker-toggle matSuffix [for]="pickerFrom"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
     <div class="col-md-4 col-sm-12">
       <mat-form-field class="datepicker">
-        <input
-          matInput
-          #mdate
-          placeholder="Date To"
-          readonly
-          (click)="pickerTo.open()"
-          [satDatepicker]="pickerTo"
-          [value]="date"
-          [(ngModel)]="filter.date_to"
-        />
+        <input matInput #mdate placeholder="Date To" readonly (click)="pickerTo.open()" [satDatepicker]="pickerTo"
+          [value]="date" [(ngModel)]="filter.date_to" />
         <!-- (dateChange)="changePage(1)" -->
         <sat-datepicker #pickerTo [rangeMode]="false"> </sat-datepicker>
-        <sat-datepicker-toggle
-          matSuffix
-          [for]="pickerTo"
-        ></sat-datepicker-toggle>
+        <sat-datepicker-toggle matSuffix [for]="pickerTo"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
     <div class="col-md-4">
@@ -167,17 +111,13 @@
         <span>
           <i class="fa fa-search"></i>
         </span>
-        <input
-          type="number"
-          class="owl-input owls-search"
-          placeholder="Shipping Number"
-          [(ngModel)]="filter.shipping_id"
-        />
+        <input type="number" class="owl-input owls-search" placeholder="Shipping Number"
+          [(ngModel)]="filter.shipping_id" />
         <!-- (keydown)="changePage(1)" -->
       </div>
     </div>
     <div class="col-md-4" style="margin-bottom: 20px">
-      <select name="" class="owl-input bg-white" [(ngModel)]="filter.state_id">
+      <select class="owl-input bg-white" [(ngModel)]="filter.state_id">
         <option value="">Select Status</option>
         <option value="{{ status.id }}" *ngFor="let status of orderStatus">
           {{ status.name }}
@@ -186,11 +126,7 @@
       <!-- (change)="changePage(p)" -->
     </div>
     <div class="col-md-4" style="margin-bottom: 20px">
-      <select
-        name=""
-        class="owl-input bg-white"
-        [(ngModel)]="filter.user_agent"
-      >
+      <select class="owl-input bg-white" [(ngModel)]="filter.user_agent">
         <option value="">Select Order source</option>
         <option [value]="'web'">Web</option>
         <option [value]="'android'">Android</option>
@@ -199,12 +135,7 @@
       <!-- (change)="changePage(p)" -->
     </div>
     <div class="col-md-4" style="margin-bottom: 20px">
-      <select
-        name=""
-        class="owl-input bg-white"
-        [(ngModel)]="filter.order_type"
-        (ngModelChange)="selectOrder($event)"
-      >
+      <select class="owl-input bg-white" [(ngModel)]="filter.order_type" (ngModelChange)="selectOrder($event)">
         <option value="null">Order Owner</option>
         <option value="null">All Orders</option>
         <option value="1">Affiliate Order</option>
@@ -221,22 +152,15 @@
     <!-- <div class="col-md-4  col-xs-6 "></div> -->
     <div class="col-md-8 col-xs-6"></div>
     <div class="col-md-2 col-xs-6">
-      <button
-        class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
-        style="
+      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0" style="
           background: #eee !important;
           color: var(--brand-color) !important;
-        "
-        (click)="ClearSearch()"
-      >
+        " (click)="ClearSearch()">
         Clear
       </button>
     </div>
     <div class="col-md-2 col-xs-6">
-      <button
-        class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
-        (click)="changePage(1)"
-      >
+      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0" (click)="changePage(1)">
         Search
       </button>
     </div>
@@ -260,13 +184,7 @@
     <div class="col-md-2 col-xs-6">
       <!-- <span *ngIf="!order.order_status_editable"> {{order.order_status_name}}</span>
         <div *ngIf="order.order_status_editable"> -->
-      <select
-        class="owl-input"
-        required
-        name="status"
-        [(ngModel)]="state_id"
-        (ngModelChange)="selectStatus($event)"
-      >
+      <select class="owl-input" required name="status" [(ngModel)]="state_id" (ngModelChange)="selectStatus($event)">
         <option value="" selected>Select Status</option>
         <option value="{{ status.id }}" *ngFor="let status of orderStatus">
           {{ status.name }}
@@ -275,12 +193,7 @@
       <!-- </div> -->
     </div>
     <div class="col-md-2 col-xs-6" *ngIf="orderSubStates.length">
-      <select
-        class="owl-input"
-        required
-        name="status"
-        [(ngModel)]="sub_state_id"
-      >
+      <select class="owl-input" required name="status" [(ngModel)]="sub_state_id">
         <option [value]="null" selected hidden>Select sub Status</option>
         <option value="{{ status.id }}" *ngFor="let status of orderSubStates">
           {{ status.name }}
@@ -288,41 +201,28 @@
       </select>
     </div>
     <div clas="col-md-2  col-xs-6 ">
-      <button
-        class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
-        (click)="changeStausBulkInOrders()"
-      >
+      <button class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0" (click)="changeStausBulkInOrders()">
         Apply
       </button>
     </div>
     <!-- <div [ngClass]="orderSubStates.length ? 'col-md-2' : 'col-md-4'"></div> -->
     <div class="col-md-2 col-xs-6 text-right">
       <div class="form-group">
-        <button
-          class="btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0"
-          href=""
-          (click)="createOrder()"
-        >
+        <button class="btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0" href="" (click)="createOrder()">
           Create Order
         </button>
       </div>
     </div>
     <div class="col-md-2 col-xs-6 text-right">
       <div class="form-group">
-        <a
-          class="btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0"
-          (click)="exportOrder()"
-          >Export Orders
+        <a class="btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0" (click)="exportOrder()">Export Orders
         </a>
       </div>
     </div>
     <div class="col-md-2 col-xs-6 text-right">
       <div class="form-group">
-        <a
-          class="btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0"
-          (click)="exportProductSales()"
-          >Export Products Sales</a
-        >
+        <a class="btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0" (click)="exportProductSales()">Export
+          Products Sales</a>
       </div>
     </div>
   </div>
@@ -339,15 +239,11 @@
       <tr>
         <th scope="col">
           <label class="container">
-            <input
-              type="checkbox"
-              class="form-control checkbox-style"
-              (click)="selectAll()"
-            />
+            <input type="checkbox" class="form-control checkbox-style" (click)="selectAll()" />
             <span class="checkmark"></span>
           </label>
         </th>
-        <th scope="col">order iD</th>
+        <th scope="col">order ID</th>
         <th scope="col">user name</th>
         <th scope="col">
           order time
@@ -367,21 +263,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="
+      <tr *ngFor="
           let order of orders
             | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total };
           let i = index
-        "
-      >
+        ">
         <td scope="row">
           <label class="container">
-            <input
-              type="checkbox"
-              class="form-control checkbox-style"
-              [(ngModel)]="order.select"
-              (click)="changeSelectBulk(order)"
-            />
+            <input type="checkbox" class="form-control checkbox-style" [(ngModel)]="order.select"
+              (click)="changeSelectBulk(order)" />
             <span class="checkmark"></span>
           </label>
         </td>
@@ -413,31 +303,17 @@
         </td>
         <td>
           <div class="dropdown">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Actions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" (click)="openPopupAction(1, order)"
-                >Assign order</a
-              >
+              <a class="dropdown-item" (click)="openPopupAction(1, order)">Assign order</a>
               <!-- <a class="dropdown-item" (click)="openPopupAction(2, order)"> Order details</a> -->
               <!-- <a class="dropdown-item" (click)="openPopupAction(3, order)">Edit order</a> -->
-              <a
-                class="dropdown-item"
-                [ngClass]="order.user.id == null ? 'disabled' : ''"
-                (click)="editOrder(order)"
-                >Edit order</a
-              >
-              <a class="dropdown-item" (click)="addToPickup(order.id)"
-                >Add to Pickup</a
-              >
+              <a class="dropdown-item" [ngClass]="order.user.id == null ? 'disabled' : ''"
+                (click)="editOrder(order)">Edit order</a>
+              <a class="dropdown-item" (click)="addToPickup(order.id)">Add to Pickup</a>
               <!-- <a class="dropdown-item" (click)="openPopupAction(5, order)">Return order</a> -->
               <!-- <a class="dropdown-item" *ngIf="order.state_id == 1 || order.state_id == 2 || order.state_id == 5"
                 (click)="openPopupAction(4, order)">Cancel order</a> -->
@@ -452,13 +328,8 @@
               <div class="inner-addon left-addon"></div>
               <div class="row">
                 <div class="col-6">
-                  <select
-                    class="owl-input mb-10"
-                    required
-                    name="city_id"
-                    [ngModel]="order.address.city_id"
-                    (ngModelChange)="getArea($event)"
-                  >
+                  <select class="owl-input mb-10" required name="city_id" [ngModel]="order.address.city_id"
+                    (ngModelChange)="getArea($event)">
                     <option value="" selected hidden>Select City</option>
                     <option value="{{ city.id }}" *ngFor="let city of cities">
                       {{ city.name }}
@@ -466,34 +337,18 @@
                   </select>
                 </div>
                 <div class="col-6">
-                  <select
-                    class="owl-input mb-10"
-                    required
-                    name="status"
-                    [ngModel]="order.address.area_id"
-                    (ngModelChange)="getDistrict($event)"
-                  >
+                  <select class="owl-input mb-10" required name="status" [ngModel]="order.address.area_id"
+                    (ngModelChange)="getDistrict($event)">
                     <option value="" selected hidden>Select Area</option>
-                    <option
-                      value="{{ status.id }}"
-                      *ngFor="let status of areaList"
-                    >
+                    <option value="{{ status.id }}" *ngFor="let status of areaList">
                       {{ status.name }}
                     </option>
                   </select>
                 </div>
                 <div class="col-12">
-                  <select
-                    class="owl-input mb-10"
-                    required
-                    name="status"
-                    [(ngModel)]="selectedDistrict"
-                  >
+                  <select class="owl-input mb-10" required name="status" [(ngModel)]="selectedDistrict">
                     <option value="" selected hidden>Select district</option>
-                    <option
-                      value="{{ status.id }}"
-                      *ngFor="let status of districts"
-                    >
+                    <option value="{{ status.id }}" *ngFor="let status of districts">
                       {{ status.name }}
                     </option>
                   </select>
@@ -501,66 +356,35 @@
               </div>
               <div class="delivary-list">
                 <ul class="list-unstyled">
-                  <li
-                    class="media"
-                    *ngFor="
+                  <li class="media" *ngFor="
                       let user of availableDeliverers
                         | deliveryFilter: selectedDistrict
-                    "
-                    (click)="selectDeliverer(user)"
-                  >
-                    <img
-                      width="65"
-                      height="65"
-                      *ngIf="user?.deliverer_profile?.image"
-                      class="mr-3 img-circle"
-                      src="{{ user?.deliverer_profile?.image }}"
-                      alt=""
-                    />
-                    <img
-                      height="65"
-                      width="65"
-                      *ngIf="!user?.deliverer_profile?.image"
-                      class="img-circle"
-                      src="./assets/img/profile.png"
-                      alt=""
-                    />
+                    " (click)="selectDeliverer(user)">
+                    <img width="65" height="65" *ngIf="user?.deliverer_profile?.image" class="mr-3 img-circle"
+                      src="{{ user?.deliverer_profile?.image }}" alt="" />
+                    <img height="65" width="65" *ngIf="!user?.deliverer_profile?.image" class="img-circle"
+                      src="./assets/img/profile.png" alt="" />
                     <div class="media-body">
-                      <img
-                        src="assets/img/available2.svg"
-                        alt=""
-                        *ngIf="user?.selected"
-                      />
+                      <img src="assets/img/available2.svg" alt="" *ngIf="user?.selected" />
                       <h5 class="">{{ user?.name }}</h5>
-                      <span
-                        >{{ user.deliverer_profile.city.name
-                        }}<span *ngIf="user.deliverer_profile.area"
-                          >,{{ user.deliverer_profile.area.name }}</span
-                        ><span *ngIf="user.deliverer_profile.districts"
-                          >,{{
+                      <span>{{ user.deliverer_profile.city.name
+                        }}<span *ngIf="user.deliverer_profile.area">,{{ user.deliverer_profile.area.name }}</span><span
+                          *ngIf="user.deliverer_profile.districts">,{{
                             (user.deliverer_profile.district_names
                               | slice: 0:20) + "..."
-                          }}</span
-                        ></span
-                      >
+                          }}</span></span>
                     </div>
                   </li>
                 </ul>
               </div>
-              <button
-                class="btn btn-owls btn-rounded btn-blue2"
-                (click)="assignDeliverer(order)"
-              >
+              <button class="btn btn-owls btn-rounded btn-blue2" (click)="assignDeliverer(order)">
                 assign
               </button>
             </div>
           </div>
         </td>
         <td>
-          <a
-            [routerLink]="['/pages/orders/order-details', order.id]"
-            class="table-view"
-          >
+          <a [routerLink]="['/pages/orders/order-details', order.id]" class="table-view">
             <i class="icon-View"></i>
           </a>
         </td>
@@ -571,57 +395,28 @@
 </div>
 <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
 
-<ngx-spinner
-  [fullScreen]="true"
-  bdColor="rgba(0, 0, 0, 0.8)"
-  color="#fff"
-  size="medium"
-  type="timer"
->
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff" size="medium" type="timer">
   <p style="color: white">Loading...</p>
 </ngx-spinner>
 
 <!-- cancel  Popup-->
-<div
-  class="modal fade"
-  id="removePopUp"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="removePopUp" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="exampleModalLabel"
-          style="text-align: center"
-        >
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center">
           are you sure to cancel this order?
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer" style="justify-content: center">
-        <button
-          type="button"
-          class="btn-owls btn-rounded btn-green btn-blue2"
-          (click)="cancelOrder()"
-        >
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="cancelOrder()">
           Yes
         </button>
-        <button
-          type="button"
-          data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-green btn-red2"
-        >
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-green btn-red2">
           No
         </button>
       </div>
@@ -630,42 +425,23 @@
 </div>
 
 <!-- return for cancel sidebar Popup-->
-<div
-  class="modal fade"
-  id="removePopUp3"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="removePopUp3" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
           Are you sure you want to return this order ?
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn-owls btn-rounded btn-green btn-blue2"
-          (click)="returnOrder()"
-        >
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="returnOrder()">
           Return Order
         </button>
-        <button
-          type="button"
-          data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-red2"
-        >
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
           close
         </button>
       </div>
@@ -683,15 +459,11 @@
 
   <div class="details details-2" *ngIf="currentOrder">
     <div>
-      <button
-        class="add-item-btn"
-        (click)="toggleProductSelect()"
-        *ngIf="
+      <button class="add-item-btn" (click)="toggleProductSelect()" *ngIf="
           currentOrder.state_id == 1 ||
           currentOrder.state_id == 2 ||
           currentOrder.state_id == 5
-        "
-      >
+        ">
         + Add New Product
       </button>
 
@@ -704,24 +476,13 @@
             <!-- <i class="fa fa-search"></i>
             <input type="text" class="owl-input owls-search" placeholder="search ..." [(ngModel)]="productTerm"> -->
             <label for="amount">Search</label>
-            <ng-select
-              [typeahead]="productsInput$"
-              [loading]="productsLoading"
-              name="products"
-              [items]="products$ | async"
-              bindLabel="name"
-              bindValue="id"
-              placeholder="Enter Product name"
-              [(ngModel)]="selectedProduct"
-            >
+            <ng-select [typeahead]="productsInput$" [loading]="productsLoading" name="products"
+              [items]="products$ | async" bindLabel="name" bindValue="id" placeholder="Enter Product name"
+              [(ngModel)]="selectedProduct">
             </ng-select>
           </div>
 
-          <button
-            type="button"
-            class="add-item-btn btn-success"
-            (click)="addProductToOrder()"
-          >
+          <button type="button" class="add-item-btn btn-success" (click)="addProductToOrder()">
             Add Product
           </button>
 
@@ -738,55 +499,26 @@
         </div>
 
         <div class="order-list">
-          <img
-            src="./assets/img/loading-table.svg"
-            class="img-loading-side-bar-product"
-            *ngIf="loadingProductSideBar"
-          />
-          <div
-            class="item"
-            *ngFor="let product of product_list | productFilter: productTerm"
-          >
+          <img src="./assets/img/loading-table.svg" class="img-loading-side-bar-product"
+            *ngIf="loadingProductSideBar" />
+          <div class="item" *ngFor="let product of product_list | productFilter: productTerm">
             <div class="float-right">
               <span>
-                <img
-                  src="./assets/img/collapse.svg"
-                  alt=""
-                  (click)="removeAmount(product)"
-                  style="cursor: pointer"
-                />
+                <img src="./assets/img/collapse.svg" alt="" (click)="removeAmount(product)" style="cursor: pointer" />
               </span>
               <b>{{ product.amount }}</b>
               <span>
-                <img
-                  src="./assets/img/Expand.svg"
-                  alt=""
-                  (click)="addAmount(product)"
-                  style="cursor: pointer"
-                />
+                <img src="./assets/img/Expand.svg" alt="" (click)="addAmount(product)" style="cursor: pointer" />
               </span>
-              <img
-                src="./assets/img/available.svg"
-                style="position: absolute; left: 30px; top: 30px"
-                alt=""
-                *ngIf="product.amount > 0"
-              />
+              <img src="./assets/img/available.svg" style="position: absolute; left: 30px; top: 30px" alt=""
+                *ngIf="product.amount > 0" />
             </div>
 
-            <img
-              class="owl-img"
-              src="{{ product.image }}"
-              alt=""
-              width="45"
-              height="45"
-            />
+            <img class="owl-img" src="{{ product.image }}" alt="" width="45" height="45" />
             <div class="content">
               <h4 class="relative">
                 {{ product.name | summary: 15 }}
-                <div
-                  class="hover-reason text-left"
-                  *ngIf="product.name.length >= 10"
-                >
+                <div class="hover-reason text-left" *ngIf="product.name.length >= 10">
                   <div class="head">product name</div>
                   <div class="body">
                     {{ product.name }}
@@ -801,19 +533,13 @@
         <!-- <button class="btn btn-owls  btn-rounded btn-green" (click)="addProducts()">add</button> -->
       </div>
 
-      <div
-        class="btn-group"
-        *ngIf="
+      <div class="btn-group" *ngIf="
           currentOrder.state_id == 1 ||
           currentOrder.state_id == 2 ||
           currentOrder.state_id == 5
-        "
-      >
-        <button
-          class="btn btn-owls btn-rounded btn-green"
-          *ngIf="currentOrder.state_id == 5"
-          (click)="proceedOrder(currentOrder)"
-        >
+        ">
+        <button class="btn btn-owls btn-rounded btn-green" *ngIf="currentOrder.state_id == 5"
+          (click)="proceedOrder(currentOrder)">
           Proceed
         </button>
         <!-- <button data-toggle="modal" data-target="#removePopUp" class="btn btn-owls  btn-rounded btn-red2"
@@ -827,18 +553,12 @@
     </div>
 
     <div class="order-report">
-      <div
-        *ngIf="
+      <div *ngIf="
           currentOrder.state_id == 1 ||
           currentOrder.state_id == 2 ||
           currentOrder.state_id == 5
-        "
-      >
-        <i
-          class="fa fa-trash trash-side"
-          *ngIf="!showDelete"
-          (click)="toggleDelete()"
-        ></i>
+        ">
+        <i class="fa fa-trash trash-side" *ngIf="!showDelete" (click)="toggleDelete()"></i>
       </div>
 
       <!-- <div *ngIf="hide">
@@ -859,38 +579,21 @@
     </div>
     <div class="order-list">
       <div class="item" *ngFor="let item of currentOrder.items; index as i">
-        <img
-          class="owl-img"
-          src="{{ item.product.image }}"
-          alt=""
-          width="45"
-          height="45"
-        />
+        <img class="owl-img" src="{{ item.product.image }}" alt="" width="45" height="45" />
         <!-- <img *ngIf="!item.missing" src="./assets/img/available.svg" alt="">
         <img *ngIf="item.missing" src="./assets/img/unavailable.svg" alt=""> -->
         <span class="quantity-item">
           <span>
-            <img
-              src="./assets/img/collapse.svg"
-              alt=""
-              (click)="removeAmountOldItem(item)"
-            />
+            <img src="./assets/img/collapse.svg" alt="" (click)="removeAmountOldItem(item)" />
           </span>
           <b>{{ item.amount }}</b>
           <span>
-            <img
-              src="./assets/img/Expand.svg"
-              alt=""
-              (click)="addAmountOldItem(item)"
-              [ngClass]="{ 'img-disabled': item.amount >= item.product.stock }"
-            />
+            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItem(item)"
+              [ngClass]="{ 'img-disabled': item.amount >= item.product.stock }" />
           </span>
         </span>
         <h4 class="relative">
-          <span
-            style="width: 270px; display: inline-block"
-            *ngIf="item.product"
-          >
+          <span style="width: 270px; display: inline-block" *ngIf="item.product">
             {{
               item.product.name.length > 26
                 ? (item.product.name | summary: 25)
@@ -901,17 +604,11 @@
               item.product.sku
             }}</span>
           </span>
-          <span
-            style="width: 270px; display: inline-block"
-            *ngIf="!item.product"
-          >
+          <span style="width: 270px; display: inline-block" *ngIf="!item.product">
             {{ item.name.length > 26 ? (item.name | summary: 25) : item.name }}
           </span>
           <!-- x{{item.amount}} -->
-          <div
-            class="hover-reason text-left"
-            *ngIf="item.product.name.length >= 25"
-          >
+          <div class="hover-reason text-left" *ngIf="item.product.name.length >= 25">
             <div class="head">product name</div>
             <div class="body" *ngIf="item?.product">
               {{ item.product.name }}
@@ -922,55 +619,31 @@
           </div>
         </h4>
         <label class="checkup" *ngIf="showDelete">
-          <input
-            type="checkbox"
-            checked="checked"
-            [(ngModel)]="item.remove"
-            name="remove{{ i }}"
-          />
+          <input type="checkbox" checked="checked" [(ngModel)]="item.remove" name="remove{{ i }}" />
           <span class="checkmark"></span>
         </label>
       </div>
     </div>
     <div class="form-group">
       <label for="">Admin notes</label>
-      <textarea
-        style="height: 130px"
-        class="owl-input"
-        placeholder="Type.."
-        #admin_notes="ngModel"
-        [(ngModel)]="currentOrder.admin_notes"
-      >
+      <textarea style="height: 130px" class="owl-input" placeholder="Type.." #admin_notes="ngModel"
+        [(ngModel)]="currentOrder.admin_notes">
       </textarea>
     </div>
     <div class="form-group">
       <label for="">Notes</label>
-      <textarea
-        style="height: 130px"
-        class="owl-input"
-        placeholder="Type.."
-        #notes="ngModel"
-        [(ngModel)]="currentOrder.notes"
-      >
+      <textarea style="height: 130px" class="owl-input" placeholder="Type.." #notes="ngModel"
+        [(ngModel)]="currentOrder.notes">
       </textarea>
     </div>
     <div class="form-group">
       <label for=""> delivery fees</label>
-      <input
-        type="text"
-        class="owl-input"
-        placeholder="Type.."
-        #delivery_fees="ngModel"
-        [(ngModel)]="currentOrder.delivery_fees"
-        min="0"
-      />
-      <div
-        *ngIf="
+      <input type="text" class="owl-input" placeholder="Type.." #delivery_fees="ngModel"
+        [(ngModel)]="currentOrder.delivery_fees" min="0" />
+      <div *ngIf="
           delivery_fees.invalid &&
           (delivery_fees.dirty || delivery_fees.touched)
-        "
-        class="alert alert-danger"
-      >
+        " class="alert alert-danger">
         <div *ngIf="delivery_fees.errors.min">
           Delivery fees cannot be less than 0
         </div>
@@ -987,11 +660,7 @@
 
     </div> -->
     <p class="text-danger" *ngIf="showErrorItems">{{ showErrorItems }}</p>
-    <button
-      class="btn btn-owls btn-rounded btn-green"
-      [disabled]="delivery_fees.invalid"
-      (click)="updateProducts()"
-    >
+    <button class="btn btn-owls btn-rounded btn-green" [disabled]="delivery_fees.invalid" (click)="updateProducts()">
       Update Order
     </button>
   </div>
@@ -1008,54 +677,31 @@
   <div class="details details-2" *ngIf="currentOrder">
     <div class="order-list">
       <div class="item" *ngFor="let item of currentOrder.items; index as i">
-        <img
-          class="owl-img"
-          src="{{ item.product.image }}"
-          alt=""
-          width="45"
-          height="45"
-        />
+        <img class="owl-img" src="{{ item.product.image }}" alt="" width="45" height="45" />
         <!-- <img *ngIf="!item.missing" src="./assets/img/available.svg" alt="">
         <img *ngIf="item.missing" src="./assets/img/unavailable.svg" alt=""> -->
         <span class="quantity-item" *ngIf="item.retrun">
           <span>
-            <img
-              src="./assets/img/collapse.svg"
-              alt=""
-              (click)="removeAmountOldItemReturn(item)"
-            />
+            <img src="./assets/img/collapse.svg" alt="" (click)="removeAmountOldItemReturn(item)" />
           </span>
           <b>{{ item.quantity }}</b>
           <span>
-            <img
-              src="./assets/img/Expand.svg"
-              alt=""
-              (click)="addAmountOldItemReturn(item)"
-            />
+            <img src="./assets/img/Expand.svg" alt="" (click)="addAmountOldItemReturn(item)" />
           </span>
         </span>
         <h4 class="relative">
-          <span
-            style="width: 270px; display: inline-block"
-            *ngIf="item.product"
-          >
+          <span style="width: 270px; display: inline-block" *ngIf="item.product">
             {{
               item.product.name.length > 26
                 ? (item.product.name | summary: 25)
                 : item.product.name
             }}
           </span>
-          <span
-            style="width: 270px; display: inline-block"
-            *ngIf="!item.product"
-          >
+          <span style="width: 270px; display: inline-block" *ngIf="!item.product">
             {{ item.name.length > 26 ? (item.name | summary: 25) : item.name }}
           </span>
           <!-- x{{item.amount}} -->
-          <div
-            class="hover-reason text-left"
-            *ngIf="item.product.name.length >= 25"
-          >
+          <div class="hover-reason text-left" *ngIf="item.product.name.length >= 25">
             <div class="head">product name</div>
             <div class="body" *ngIf="item?.product">
               {{ item.product.name }}
@@ -1066,12 +712,7 @@
           </div>
         </h4>
         <label class="checkup">
-          <input
-            type="checkbox"
-            checked="checked"
-            [(ngModel)]="item.retrun"
-            name="remove{{ i }}"
-          />
+          <input type="checkbox" checked="checked" [(ngModel)]="item.retrun" name="remove{{ i }}" />
           <span class="checkmark"></span>
         </label>
       </div>
@@ -1080,29 +721,14 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="confirmOrderUpdate"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="confirmOrderUpdate" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="exampleModalLabel"
-          style="text-align: center"
-        >
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center">
           Are you sure you want to update this order ?
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -1114,18 +740,11 @@
         </label>
       </div>
       <div class="modal-footer" style="justify-content: center">
-        <button
-          type="button"
-          class="btn-owls btn-rounded btn-green btn-blue2"
-          (click)="confirmUpdateProducts(notifyUser)"
-        >
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2"
+          (click)="confirmUpdateProducts(notifyUser)">
           Yes
         </button>
-        <button
-          type="button"
-          data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-red2"
-        >
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
           no
         </button>
       </div>
@@ -1133,29 +752,14 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="returnOrder"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="returnOrder" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="exampleModalLabel"
-          style="text-align: center"
-        >
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center">
           Are you sure you want to return items in this order ?
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="returnOrder"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="returnOrder" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -1166,18 +770,10 @@
         </label>
       </div> -->
       <div class="modal-footer" style="justify-content: center">
-        <button
-          type="button"
-          class="btn-owls btn-rounded btn-green btn-blue2"
-          (click)="returnItemsProducts()"
-        >
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" (click)="returnItemsProducts()">
           Yes
         </button>
-        <button
-          type="button"
-          data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-red2"
-        >
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
           no
         </button>
       </div>
@@ -1185,30 +781,15 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="confirmOrderStatus"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="confirmOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="stateForm">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="exampleModalLabel"
-          style="text-align: center"
-        >
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center">
           Are you sure you want to change Status of ({{ ordersBulk.length }})
           selected orders?
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -1217,64 +798,37 @@
         <div class="modal-body" *ngIf="orderStatusId !== '8'">
           <label class="checkup">
             notify user
-            <input
-              type="checkbox"
-              checked="checked"
-              [(ngModel)]="notifyUser"
-              [ngModelOptions]="{ standalone: true }"
-            />
+            <input type="checkbox" checked="checked" [(ngModel)]="notifyUser" [ngModelOptions]="{ standalone: true }" />
             <span class="checkmark"></span>
           </label>
           <br />
           <div class="form-group" *ngIf="orderStatusId == '6'">
             <label for="">Cancellation Reason</label>
-            <select
-              name=""
-              class="owl-input bg-white"
-              formControlName="cancellation_id"
-            >
+            <select class="owl-input bg-white" formControlName="cancellation_id">
               <option [value]="'placeholder'" selected hidden>
                 Select Cancellation Reason
               </option>
-              <option
-                value="{{ reason.id }}"
-                *ngFor="let reason of cancelReasons"
-              >
+              <option value="{{ reason.id }}" *ngFor="let reason of cancelReasons">
                 {{ reason.text }}
               </option>
             </select>
           </div>
 
-          <label
-            class="checkup"
-            *ngIf="orderStatusId == '6' && environmentVariables.showLoyality"
-          >
+          <label class="checkup" *ngIf="orderStatusId == '6' && environmentVariables.showLoyality">
             Remove Points
             <input type="checkbox" formControlName="remove_loyalty_points" />
             <span class="checkmark"></span>
           </label>
 
-          <label
-            class="checkup"
-            *ngIf="orderStatusId == '4' && environmentVariables.showLoyality"
-          >
+          <label class="checkup" *ngIf="orderStatusId == '4' && environmentVariables.showLoyality">
             Add Points
-            <input
-              type="checkbox"
-              checked="checked"
-              formControlName="add_loyalty_points"
-            />
+            <input type="checkbox" checked="checked" formControlName="add_loyalty_points" />
             <span class="checkmark"></span>
           </label>
 
           <div class="form-group" *ngIf="orderStatusId == '6'">
             <label for="">Status notes </label>
-            <textarea
-              style="height: 130px"
-              class="owl-input"
-              placeholder="Type.."
-              formControlName="status_notes"
-            >
+            <textarea style="height: 130px" class="owl-input" placeholder="Type.." formControlName="status_notes">
             </textarea>
             <!-- <div
               *ngIf="stateForm.controls.status_notes.invalid && (stateForm.controls.status_notes.dirty || stateForm.controls.status_notes.touched)"
@@ -1285,12 +839,7 @@
             </div> -->
             <label class="checkup">
               Return To stock
-              <input
-                type="checkbox"
-                checked="checked"
-                [(ngModel)]="subtract_stock"
-                formControlName="subtract_stock"
-              />
+              <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock" formControlName="subtract_stock" />
               <span class="checkmark"></span>
             </label>
           </div>
@@ -1298,96 +847,63 @@
 
         <div class="modal-body" *ngIf="orderStatusId == '8'">
           <div class="form-group">
-            <select
-              name=""
-              class="owl-input bg-white"
-              formControlName="branch_id"
-            >
+            <select class="owl-input bg-white" formControlName="branch_id">
               <option value="" hidden selected>Select pickup Location</option>
               <option value="{{ branch.id }}" *ngFor="let branch of branches">
                 {{ branch.name }}
               </option>
             </select>
-            <div
-              *ngIf="
+            <div *ngIf="
                 stateForm.controls.branch_id.invalid &&
                 (stateForm.controls.branch_id.dirty ||
                   stateForm.controls.branch_id.touched)
-              "
-              class="alert alert-danger"
-            >
+              " class="alert alert-danger">
               <div *ngIf="stateForm.controls.branch_id.errors.required">
                 Branch is required.
               </div>
             </div>
           </div>
           <div class="form-group">
-            <select
-              name=""
-              class="owl-input bg-white"
-              formControlName="shipping_method"
-            >
+            <select class="owl-input bg-white" formControlName="shipping_method">
               <option value="" hidden selected>Select Company Shipping</option>
               <option value="1">Internal</option>
               <!-- <option value="2">Mylerz</option> -->
               <option value="3">Aramex</option>
             </select>
-            <div
-              *ngIf="
+            <div *ngIf="
                 stateForm.controls.shipping_method.invalid &&
                 (stateForm.controls.shipping_method.dirty ||
                   stateForm.controls.shipping_method.touched)
-              "
-              class="alert alert-danger"
-            >
+              " class="alert alert-danger">
               <div *ngIf="stateForm.controls.shipping_method.errors.required">
                 Shipping Method is required.
               </div>
             </div>
           </div>
           <div class="form-group">
-            <select
-              name=""
-              class="owl-input bg-white"
-              formControlName="aramex_account_number"
-              *ngIf="stateForm.controls.shipping_method.value == 3"
-            >
+            <select class="owl-input bg-white" formControlName="aramex_account_number"
+              *ngIf="stateForm.controls.shipping_method.value == 3">
               <option value="" hidden selected>Select Aramex</option>
-              <option
-                [value]="account.account"
-                *ngFor="let account of aramixAccounts"
-              >
+              <option [value]="account.account" *ngFor="let account of aramixAccounts">
                 Account {{ account.account }}
                 {{ account.account_number ? account.account_number : "" }}
               </option>
             </select>
-            <div
-              *ngIf="
+            <div *ngIf="
                 stateForm.controls.aramex_account_number.invalid &&
                 (stateForm.controls.aramex_account_number.dirty ||
                   stateForm.controls.aramex_account_number.touched)
-              "
-              class="alert alert-danger"
-            >
-              <div
-                *ngIf="stateForm.controls.aramex_account_number.errors.required"
-              >
+              " class="alert alert-danger">
+              <div *ngIf="stateForm.controls.aramex_account_number.errors.required">
                 Aramex Account is required.
               </div>
             </div>
           </div>
           <div class="form-group">
             <label for="">Pickup ID (optional)</label>
-            <select
-              name=""
-              class="owl-input bg-white"
-              formControlName="pickup_guid"
-            >
+            <select class="owl-input bg-white" formControlName="pickup_guid">
               <option value="" selected>Select pickup</option>
-              <option
-                value="{{ pickup.shipping_guid }}"
-                *ngFor="let pickup of available_pickups"
-              >
+              <option value="{{ pickup.shipping_guid }}" *ngFor="let pickup of available_pickups">
                 {{ pickup.pickup_time | date: "d-M-yyyy h:mm a" }} -
                 {{ pickup.shipping_guid }}
               </option>
@@ -1429,33 +945,18 @@
           </div> -->
           <div class="form-group">
             <label for="">Shipping Notes</label>
-            <textarea
-              style="height: 130px"
-              class="owl-input"
-              placeholder="Type.."
-              formControlName="shipping_notes"
-            >
+            <textarea style="height: 130px" class="owl-input" placeholder="Type.." formControlName="shipping_notes">
             </textarea>
           </div>
         </div>
       </form>
 
       <div class="modal-footer" style="justify-content: center">
-        <button
-          type="button"
-          class="btn-owls btn-rounded btn-green btn-blue2"
-          style="position: relative"
-          (click)="confirmChangeStatus(notifyUser)"
-          [appLoading]="stateSubmitting"
-          [disabled]="stateSubmitting"
-        >
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative"
+          (click)="confirmChangeStatus(notifyUser)" [appLoading]="stateSubmitting" [disabled]="stateSubmitting">
           Yes
         </button>
-        <button
-          type="button"
-          data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-red2"
-        >
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
           No
         </button>
       </div>
@@ -1463,49 +964,24 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="confirmOrderPickup"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="confirmOrderPickup" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngIf="stateForm">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="exampleModalLabel"
-          style="text-align: center"
-        >
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center">
           Are you sure you want to change Status of ({{ ordersBulk.length }})
           selected orders?
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="pickup-ids" *ngIf="orderSelectedPickup?.length">
         <span *ngFor="let Pickup of orderSelectedPickup" class="pickup-id">
           {{ Pickup }}
-          <button
-            (click)="removePickupId(Pickup)"
-            type="button"
-            class="close"
-            style="float: none"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span
-              aria-hidden="true"
-              style="float: none; position: relative; top: 3px"
-              >&times;</span
-            >
+          <button (click)="removePickupId(Pickup)" type="button" class="close" style="float: none" data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true" style="float: none; position: relative; top: 3px">&times;</span>
           </button>
         </span>
       </div>
@@ -1513,39 +989,24 @@
         <div class="modal-body" *ngIf="orderStatusId !== '8'">
           <label class="checkup">
             notify user
-            <input
-              type="checkbox"
-              checked="checked"
-              [(ngModel)]="notifyUser"
-              [ngModelOptions]="{ standalone: true }"
-            />
+            <input type="checkbox" checked="checked" [(ngModel)]="notifyUser" [ngModelOptions]="{ standalone: true }" />
             <span class="checkmark"></span>
           </label>
           <div class="form-group" *ngIf="orderStatusId == '6'">
             <label for="">Cancellation Reason</label>
-            <select
-              name=""
-              class="owl-input bg-white"
-              formControlName="cancellation_id"
-            >
+            <select class="owl-input bg-white" formControlName="cancellation_id">
               <option [value]="'placeholder'" selected hidden>
                 Select Cancellation Reason
               </option>
-              <option
-                value="{{ reason.id }}"
-                *ngFor="let reason of cancelReasons"
-              >
+              <option value="{{ reason.id }}" *ngFor="let reason of cancelReasons">
                 {{ reason.text }}
               </option>
             </select>
-            <div
-              *ngIf="
+            <div *ngIf="
                 stateForm.controls.cancellation_id.invalid &&
                 (stateForm.controls.cancellation_id.dirty ||
                   stateForm.controls.cancellation_id.touched)
-              "
-              class="alert alert-danger"
-            >
+              " class="alert alert-danger">
               <div *ngIf="stateForm.controls.cancellation_id.errors.required">
                 Cancel Reason is required.
               </div>
@@ -1553,33 +1014,20 @@
           </div>
           <div class="form-group" *ngIf="orderStatusId == '6'">
             <label for="">Status notes </label>
-            <textarea
-              style="height: 130px"
-              class="owl-input"
-              placeholder="Type.."
-              formControlName="status_notes"
-            >
+            <textarea style="height: 130px" class="owl-input" placeholder="Type.." formControlName="status_notes">
             </textarea>
-            <div
-              *ngIf="
+            <div *ngIf="
                 stateForm.controls.status_notes.invalid &&
                 (stateForm.controls.status_notes.dirty ||
                   stateForm.controls.status_notes.touched)
-              "
-              class="alert alert-danger"
-            >
+              " class="alert alert-danger">
               <div *ngIf="stateForm.controls.status_notes.errors.required">
                 Status notes is required.
               </div>
             </div>
             <label class="checkup">
               Return To stock
-              <input
-                type="checkbox"
-                checked="checked"
-                [(ngModel)]="subtract_stock"
-                formControlName="subtract_stock"
-              />
+              <input type="checkbox" checked="checked" [(ngModel)]="subtract_stock" formControlName="subtract_stock" />
               <span class="checkmark"></span>
             </label>
           </div>
@@ -1587,110 +1035,69 @@
 
         <div class="modal-body" *ngIf="orderStatusId == '8'">
           <div class="form-group">
-            <select
-              name=""
-              class="owl-input bg-white"
-              formControlName="branch_id"
-            >
+            <select class="owl-input bg-white" formControlName="branch_id">
               <option value="" hidden selected>Select pickup Location</option>
               <option value="{{ branch.id }}" *ngFor="let branch of branches">
                 {{ branch.name }}
               </option>
             </select>
-            <div
-              *ngIf="
+            <div *ngIf="
                 stateForm.controls.branch_id.invalid &&
                 (stateForm.controls.branch_id.dirty ||
                   stateForm.controls.branch_id.touched)
-              "
-              class="alert alert-danger"
-            >
+              " class="alert alert-danger">
               <div *ngIf="stateForm.controls.branch_id.errors.required">
                 Branch is required.
               </div>
             </div>
           </div>
           <div class="form-group">
-            <select
-              name=""
-              class="owl-input bg-white"
-              formControlName="shipping_method"
-            >
+            <select class="owl-input bg-white" formControlName="shipping_method">
               <option value="" hidden selected>Select Company Shipping</option>
               <option value="3">Aramex</option>
               <option value="5">Qatar Post</option>
             </select>
-            <div
-              *ngIf="
+            <div *ngIf="
                 stateForm.controls.shipping_method.invalid &&
                 (stateForm.controls.shipping_method.dirty ||
                   stateForm.controls.shipping_method.touched)
-              "
-              class="alert alert-danger"
-            >
+              " class="alert alert-danger">
               <div *ngIf="stateForm.controls.shipping_method.errors.required">
                 Shipping Method is required.
               </div>
             </div>
           </div>
           <div class="form-group">
-            <select
-              name=""
-              class="owl-input bg-white"
-              formControlName="aramex_account_number"
-              *ngIf="stateForm.controls.shipping_method.value == 3"
-            >
+            <select class="owl-input bg-white" formControlName="aramex_account_number"
+              *ngIf="stateForm.controls.shipping_method.value == 3">
               <option value="" hidden selected>Select Aramex</option>
-              <option
-                [value]="account.account"
-                *ngFor="let account of aramixAccounts"
-              >
+              <option [value]="account.account" *ngFor="let account of aramixAccounts">
                 Account {{ account.account }}
                 {{ account.account_number ? account.account_number : "" }}
               </option>
             </select>
-            <div
-              *ngIf="
+            <div *ngIf="
                 stateForm.controls.aramex_account_number.invalid &&
                 (stateForm.controls.aramex_account_number.dirty ||
                   stateForm.controls.aramex_account_number.touched)
-              "
-              class="alert alert-danger"
-            >
-              <div
-                *ngIf="stateForm.controls.aramex_account_number.errors.required"
-              >
+              " class="alert alert-danger">
+              <div *ngIf="stateForm.controls.aramex_account_number.errors.required">
                 Aramex Account is required.
               </div>
             </div>
           </div>
           <div class="form-group w-60">
             <mat-form-field>
-              <input
-                matInput
-                [min]="today"
-                #mdate
-                placeholder="Date "
-                readonly
-                (click)="picker2.open()"
-                [satDatepicker]="picker2"
-                [value]="date"
-                formControlName="pickup_date"
-              />
+              <input matInput [min]="today" #mdate placeholder="Date " readonly (click)="picker2.open()"
+                [satDatepicker]="picker2" [value]="date" formControlName="pickup_date" />
               <sat-datepicker #picker2 [rangeMode]="false"> </sat-datepicker>
-              <sat-datepicker-toggle
-                matSuffix
-                [for]="picker2"
-              ></sat-datepicker-toggle>
+              <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
             </mat-form-field>
-            <div
-              *ngIf="
+            <div *ngIf="
                 stateForm.controls.pickup_date.invalid &&
                 (stateForm.controls.pickup_date.dirty ||
                   stateForm.controls.pickup_date.touched)
-              "
-              class="alert alert-danger"
-            >
+              " class="alert alert-danger">
               <div *ngIf="stateForm.controls.pickup_date.errors.required">
                 Pickup Date is required.
               </div>
@@ -1702,26 +1109,14 @@
 
           <div class="form-group w-40">
             <label for=""> Time</label>
-            <input
-              formControlName="pickup_time"
-              type="text"
-              id="pickup_time"
-              class="owl-input"
-              name="pickup_time"
-              [ngxTimepicker]="openPickerTime"
-            />
-            <ngx-material-timepicker
-              [minutesGap]="5"
-              #openPickerTime
-            ></ngx-material-timepicker>
-            <div
-              *ngIf="
+            <input formControlName="pickup_time" type="text" id="pickup_time" class="owl-input" name="pickup_time"
+              [ngxTimepicker]="openPickerTime" />
+            <ngx-material-timepicker [minutesGap]="5" #openPickerTime></ngx-material-timepicker>
+            <div *ngIf="
                 stateForm.controls.pickup_time.invalid &&
                 (stateForm.controls.pickup_time.dirty ||
                   stateForm.controls.pickup_time.touched)
-              "
-              class="alert alert-danger"
-            >
+              " class="alert alert-danger">
               <div *ngIf="stateForm.controls.pickup_time.errors.required">
                 Pickup time is required.
               </div>
@@ -1729,32 +1124,18 @@
           </div>
           <div class="form-group">
             <label for="">Shipping Notes</label>
-            <textarea
-              style="height: 130px"
-              class="owl-input"
-              placeholder="Type.."
-              formControlName="shipping_notes"
-            >
+            <textarea style="height: 130px" class="owl-input" placeholder="Type.." formControlName="shipping_notes">
             </textarea>
           </div>
         </div>
       </form>
 
       <div class="modal-footer" style="justify-content: center">
-        <button
-          type="button"
-          class="btn-owls btn-rounded btn-green btn-blue2"
-          style="position: relative"
-          (click)="confirmPickup(notifyUser)"
-          [appLoading]="stateSubmitting"
-        >
+        <button type="button" class="btn-owls btn-rounded btn-green btn-blue2" style="position: relative"
+          (click)="confirmPickup(notifyUser)" [appLoading]="stateSubmitting">
           Yes
         </button>
-        <button
-          type="button"
-          data-dismiss="modal"
-          class="btn-owls btn-rounded btn-green btn-red2"
-        >
+        <button type="button" data-dismiss="modal" class="btn-owls btn-rounded btn-green btn-red2">
           No
         </button>
       </div>
@@ -1762,29 +1143,14 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="errorPopup"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal fade" id="errorPopup" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="exampleModalLabel"
-          style="text-align: center"
-        >
+        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center">
           {{ errorMessage }}
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -1793,11 +1159,6 @@
   </div>
 </div>
 
-<app-add-edit-order
-  #orderForm
-  (closeSideBarEmit)="closeSideBar($event)"
-  [@slideInOut]="toggleAddOrder"
-  class="parent-editor-viewer-sidebar"
-  [selectedOrder]="selectedOrder"
->
+<app-add-edit-order #orderForm (closeSideBarEmit)="closeSideBar($event)" [@slideInOut]="toggleAddOrder"
+  class="parent-editor-viewer-sidebar" [selectedOrder]="selectedOrder">
 </app-add-edit-order>

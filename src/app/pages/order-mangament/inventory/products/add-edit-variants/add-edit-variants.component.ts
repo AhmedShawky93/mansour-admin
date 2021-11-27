@@ -449,7 +449,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       /*Case Update*/
       const selectedOptions = this.selectVariant.product_variant_options.map(
         (data) => {
-          return { option: data.option, selectedValue: data.values[0] };
+          return { option: data, selectedValue: data.values[0] };
         }
       );
 

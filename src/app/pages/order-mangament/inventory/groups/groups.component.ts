@@ -150,8 +150,9 @@ export class GroupsComponent implements OnInit {
     this.groupsService.createGroup(group).subscribe((response: any) => {
       this.creating = false;
       if (response.code == 200) {
+        this.openCategory = false;
         this.groups.push(response.data);
-        $("#add-cat").toggleClass("open-view-vindor-types");
+        this.openCategory = false;
         this.showSubError = 0;
         this.groupForm.reset();
       } else {
@@ -223,7 +224,8 @@ export class GroupsComponent implements OnInit {
       .subscribe((response: any) => {
         this.updating = false;
         if (response.code) {
-          $("#edit-cat").toggleClass("open-view-vindor-types");
+          this.editCat = false;
+          this.viewCategory = false;
           let group = response.data;
           group.deactivated = !group.active;
 

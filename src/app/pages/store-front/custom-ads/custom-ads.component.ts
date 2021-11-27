@@ -43,7 +43,7 @@ export class CustomAdsComponent implements OnInit {
   total;
   products: any = [];
   products$: Observable<any>;
-  productsInput$ = new Subject<String>();
+  productsInput$ = new Subject<string | null>();
   productsLoading: boolean;
 
   categories: any;
@@ -79,6 +79,7 @@ export class CustomAdsComponent implements OnInit {
   showViewAd: boolean;
   showAddEditAd: boolean;
   submitting: boolean;
+  oldSearch: string;
 
   constructor(
     private adsService: CustomAdsService,
@@ -92,10 +93,6 @@ export class CustomAdsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // add new side bar
-    // $(".add-new").on("click", function () {
-    //   $("#add-ads").toggleClass("open-view-vindor-types");
-    // });
     $(".switch").on("click", ".slider", function () {
       const then = $(this).siblings(".reason-popup").slideToggle(100);
       $(".reason-popup").not(then).slideUp(50);
@@ -123,38 +120,6 @@ export class CustomAdsComponent implements OnInit {
       dev_key: new FormControl("", Validators.required),
       brand: new FormControl(),
     });
-
-    this.products$ = concat(
-      of([]), // default items
-      this.productsInput$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        tap(() => (this.productsLoading = true)),
-        switchMap((term) =>
-          this.productsService
-            .searchProducts(
-              {
-                q: term,
-                sub_category_id: this.newAdsForm.controls.subCategory.value,
-              },
-              1
-            )
-            .pipe(
-              catchError(() => of([])), // empty list on error
-              tap(() => (this.productsLoading = false)),
-              map((response: any) => {
-                this.productList = response.data.products;
-                return response.data.products.map((p) => {
-                  return {
-                    id: p.id,
-                    name: p.name,
-                  };
-                });
-              })
-            )
-        )
-      )
-    );
 
     this.ad.popup = "";
   }
@@ -216,36 +181,23 @@ export class CustomAdsComponent implements OnInit {
       this.products = [{ name: ad.item_data.name, id: ad.item_data.id }];
       this.productsService
         .searchProducts(
-          { q: ad.item_data.name, sub_category_id: ad.item_data.category_id },
+          { q: ad.item_data.name, category_id: ad.item_data.category_id },
           1
         )
         .subscribe((res: any) => (this.productList = res.data.products));
       this.products$ = concat(
-        of(this.products), // default items
+        of(this.products),
         this.productsInput$.pipe(
           debounceTime(200),
           distinctUntilChanged(),
           tap(() => (this.productsLoading = true)),
-          switchMap((term) =>
-            this.productsService
-              .searchProducts(
-                { q: term, sub_category_id: ad.item_data.category_id },
-                1
-              )
-              .pipe(
-                catchError(() => of([])), // empty list on error
-                tap(() => (this.productsLoading = false)),
-                map((response: any) => {
-                  this.productList = response.data.products;
-                  return response.data.products.map((p) => {
-                    return {
-                      id: p.id,
-                      name: p.name,
-                    };
-                  });
-                })
-              )
-          )
+          switchMap((term) => {
+            if (term) {
+              return this.getList(ad, term);
+            } else {
+              return this.getList(ad, this.oldSearch);
+            }
+          })
         )
       );
     }
@@ -253,10 +205,7 @@ export class CustomAdsComponent implements OnInit {
     this.selectedAd = ad;
     if (ad.type == 1) {
       this.newAdsForm.get("subCategory").setValue(ad.item_data.category_id);
-      this.newAdsForm.get("category").setValue(ad.item_data.category.id);
-      // setTimeout(() => {
-      //   this.newAdsForm.get("prod").setValue(ad.item_data.id);
-      // }, 2000);
+      this.newAdsForm.get("category").setValue(ad.item_data.category?.id);
     } else if (ad.type == 2) {
       this.newAdsForm.get("subCategory").setValue(ad.item_id);
       this.newAdsForm.get("category").setValue(ad.item_data.parent_id);
@@ -274,16 +223,40 @@ export class CustomAdsComponent implements OnInit {
     this.selectedSubcategory = this.newAdsForm.get("subCategory").value;
     this.selectedProductId = this.newAdsForm.get("prod").value;
 
-    // fill select options
     if (ad.type == 1 || ad.type == 2) {
       this.onCategoryChange();
-
-      // if (ad.type == 1) {
-      //   this.onSubCategoryChange();
-      // }
     }
 
     this.onAdTypeChanged(this.newAdsForm);
+  }
+  getList(ad, term) {
+    return this.productsService
+      .searchProducts(
+        {
+          q: term,
+          category_id: ad.item_data.category_id
+            ? ad.item_data.category.id
+            : this.newAdsForm.controls.category.value,
+          sub_category_id: ad.item_data.category_id
+            ? ad.item_data.category_id
+            : this.newAdsForm.controls.subCategory.value,
+        },
+        1
+      )
+      .pipe(
+        catchError(() => of([])),
+        tap(() => (this.productsLoading = false)),
+        map((response: any) => {
+          this.oldSearch = term;
+          this.productList = response.data.products;
+          return response.data.products.map((p) => {
+            return {
+              id: p.id,
+              name: p.name,
+            };
+          });
+        })
+      );
   }
 
   onAdTypeChanged(form: FormGroup) {
@@ -310,7 +283,6 @@ export class CustomAdsComponent implements OnInit {
       form.get("list_id").clearValidators();
     } else if (form.get("type").value == 7) {
       form.get("link").setValidators([Validators.required]);
-      // form.get("link").setValue("");
       form.get("brand").clearValidators();
       form.get("category").clearValidators();
       form.get("subCategory").clearValidators();
@@ -395,6 +367,7 @@ export class CustomAdsComponent implements OnInit {
     this.adsService.creatAds(ad).subscribe((response: any) => {
       this.submitting = false;
       if (response.code == 200) {
+        this.showAddEditAd = false;
         $("#add-ads").removeClass("open-view-vindor-types");
         this.newAdsForm.reset();
         const ad = response.data;
@@ -439,6 +412,7 @@ export class CustomAdsComponent implements OnInit {
       this.submitting = false;
 
       if (response.code == 200) {
+        this.showAddEditAd = false;
         $("#add-ads").removeClass("open-view-vindor-types");
 
         const ind = this.ads.findIndex((item) => {
@@ -476,7 +450,7 @@ export class CustomAdsComponent implements OnInit {
     const category_id = this.newAdsForm.get("category").value;
     const index = this.categories.findIndex((item) => item.id == category_id);
     const category = this.categories[index];
-    this.sub_categories = category.sub_categories;
+    this.sub_categories = category?.sub_categories;
   }
 
   onSubCategoryChange() {
@@ -488,8 +462,6 @@ export class CustomAdsComponent implements OnInit {
         this.newAdsForm.get("prod").setValue("");
         if (this.selectedAd.type == 1) {
           this.newAdsForm.get("prod").setValue(this.selectedAd.item_data.id);
-          // setTimeout(() => {
-          // }, 2000);
         }
       });
   }
@@ -514,7 +486,6 @@ export class CustomAdsComponent implements OnInit {
       });
 
     if (ad.active) {
-      // currently checked
       ad.showReason = 0;
       ad.notes = "";
       if (ad.deactivated) {

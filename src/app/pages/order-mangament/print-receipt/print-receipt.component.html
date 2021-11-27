@@ -279,12 +279,7 @@
       </div>
     </div>
     <div class="col-5 text-center">
-      <img
-        *ngIf="environmentVariables"
-        class="img-logo"
-        [src]="environmentVariables.brands.logoBlack"
-        alt=""
-      />
+      <img *ngIf="environmentVariables" class="img-logo" [src]="environmentVariables.brands.logoBlack" alt="" />
     </div>
     <div class="col-12">
       <div class="table-product">
@@ -375,19 +370,10 @@
             </p>
           </div>
           <div class="value-col" style="border-left: none">
-            <img
-              [src]="item.product.image"
-              onError="this.src='./assets/img/placeholder200.jpg';"
-              default="./assets/img/placeholder200.jpg"
-              alt=""
-              height="100"
-              style="width: 90%; object-fit: contain"
-            />
+            <img [src]="item.product.image" onError="this.src='./assets/img/placeholder200.jpg';"
+              default="./assets/img/placeholder200.jpg" alt="" height="100" style="width: 90%; object-fit: contain" />
           </div>
-          <div
-            style="page-break-inside: avoid; page-break-before: always"
-            *ngIf="i + 1 == 10"
-          ></div>
+          <div style="page-break-inside: avoid; page-break-before: always" *ngIf="i + 1 == 10"></div>
         </div>
         <div class="box-price">
           <div class="value-price" style="direction: ltr">
@@ -441,64 +427,46 @@
         <div class="box-price" style="border-left: 1px solid #888">
           <div class="name-price">Client Name</div>
 
-          <div
-            class="value-price"
-            style="
+          <div class="value-price" style="
               direction: ltr;
               border-right: 1px solid #888;
               width: 87.5%;
               text-align: left;
-            "
-          >
+            ">
             {{ order?.user?.name }}
           </div>
         </div>
         <div class="box-price" style="border-left: 1px solid #888">
           <div class="name-price">Client phone</div>
 
-          <div
-            class="value-price"
-            style="
+          <div class="value-price" style="
               direction: ltr;
               border-right: 1px solid #888;
               width: 87.5%;
               text-align: left;
-            "
-          >
+            ">
             {{ order?.user?.phone }}
           </div>
         </div>
-        <div
-          class="box-price"
-          style="border-left: 1px solid #888; border-left: 1px solid #888"
-        >
+        <div class="box-price" style="border-left: 1px solid #888; border-left: 1px solid #888">
           <div class="name-price">Client address</div>
-          <div
-            class="value-price"
-            style="
+          <div class="value-price" style="
               direction: ltr;
               border-right: 1px solid #888;
               width: 87.5%;
               text-align: left;
-            "
-          >
+            ">
             {{ order?.address?.formatted_address }}
           </div>
         </div>
-        <div
-          class="box-price"
-          style="border-bottom: 1px solid #888; border-left: 1px solid #888"
-        >
+        <div class="box-price" style="border-bottom: 1px solid #888; border-left: 1px solid #888">
           <div class="name-price">Notes</div>
-          <div
-            class="value-price"
-            style="
+          <div class="value-price" style="
               direction: ltr;
               border-right: 1px solid #888;
               width: 87.5%;
               text-align: left;
-            "
-          >
+            ">
             {{ order.notes ? order.notes : "-" }}
           </div>
         </div>
