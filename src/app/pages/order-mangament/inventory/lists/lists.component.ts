@@ -1,16 +1,25 @@
-import { ToastrService } from "ngx-toastr";
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
 import "rxjs/Rx";
+
 import {
-  trigger,
-  state,
-  transition,
   animate,
+  state,
   style,
+  transition,
+  trigger,
 } from "@angular/animations";
-import { ListsService } from "@app/pages/services/lists.service";
+import {
+  Component,
+  OnInit,
+} from "@angular/core";
+import {
+  FormControl,
+  FormGroup,
+} from "@angular/forms";
+
 import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+
+import { ListsService } from "@app/pages/services/lists.service";
 
 @Component({
   selector: "app-lists",
