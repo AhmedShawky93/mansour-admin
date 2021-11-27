@@ -69,3 +69,14 @@
 /*.ng-invalid.ng-touched{
   border: 1px solid red;
 }*/
+.deleteImg {
+  position: absolute;
+  text-align: center;
+  font-size: 30px;
+  padding-top: 20%;
+  right: -70px;
+  cursor: pointer;
+}
+.deleteImg .fa {
+  color: red !important;
+}

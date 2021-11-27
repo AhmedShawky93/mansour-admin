@@ -8,13 +8,16 @@
     class="uploading-spinner"
     src="./assets/img/Spinner-loading.svg"
   />
+  <div *ngIf="deleteIcon" (click)="resetImg()" class="deleteImg">
+    <i class="fa fa-trash" aria-hidden="true"></i>
+  </div>
   <embed *ngIf="isPdf" [src]="trustURL(imageUrl)" type="application/pdf" />
   <img
     *ngIf="!isPdf"
     class="bordered-img"
     onError="this.src='./assets/img/placeholder200.jpg';"
     default="./assets/img/placeholder200.jpg"
-    [src]="imageUrl ? imageUrl : fallbackImage"
+    [src]="imageUrl && imageUrl != null ? imageUrl : fallbackImage"
     alt=""
   />
   <input
