@@ -43,6 +43,8 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataProductEmit = new EventEmitter();
   @Input("selectProductDataEdit") selectProductDataEdit;
+  @Input("brandsarray") brandsarray;
+  @Input("categoriesarray") categoriesarray;
   addProductForm: FormGroup;
   addSubImages: FormArray;
   deleted_images: any;
@@ -111,10 +113,12 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.getCategories();
-    this.productsService.getBrands().subscribe((response: any) => {
-      this.brands = response.data;
-    });
+    // this.getCategories();
+    // this.productsService.getBrands().subscribe((response: any) => {
+    //   this.brands = response.data;
+    // });
+    this.brands = this.brandsarray;
+    this.getCategories(this.categoriesarray);
 
     this.getForm(this.selectProductDataEdit);
     this.setData(this.selectProductDataEdit);
@@ -613,21 +617,26 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     // }
   }
 
-  getCategories() {
-    this._CategoriesService.getCategories().subscribe((response: any) => {
-      if (response.code === 200) {
-        this.categories = response.data;
-        this.optionalCategories = response.data;
-        this.categories = this.categories.map((c) => {
-          c.selected = false;
-          return c;
-        });
-        this.optionalCategories = this.optionalCategories.map((c) => {
-          c.selected = false;
-          return c;
-        });
-      }
-    });
+  getCategories(data) {
+    // this._CategoriesService.getCategories().subscribe((response: any) => {
+    //   if (response.code === 200) {
+    // this.categories = response.data;
+    // this.optionalCategories = response.data;
+    if (data) {
+      this.categories = data;
+      this.optionalCategories = data;
+      this.categories = this.categories.map((c) => {
+        c.selected = false;
+        return c;
+      });
+      this.optionalCategories = this.optionalCategories.map((c) => {
+        c.selected = false;
+        return c;
+      });
+    }
+
+    //   }
+    // });
   }
 
   selectCategory(event) {

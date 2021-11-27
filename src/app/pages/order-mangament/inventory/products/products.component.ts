@@ -132,6 +132,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   statedeleting: boolean;
   environmentVariables: any;
   parent_id: any = "";
+  brandsarray: any[];
+  categoriesarray: any[];
 
   constructor(
     private productsService: ProductsService,
@@ -444,6 +446,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.selectProductData = { ...data };
     this.viewProductSidebar = "out";
     this.toggleAddProduct = "in";
+    this.brandsarray = this.brands;
+    this.categoriesarray = this.categories;
   }
 
   toggleEditVariantMenu(data) {
@@ -468,6 +472,8 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.toggleVariant = "out";
     this.toggleAddProduct = "out";
     this.disableBodyScrollTop();
+    this.brandsarray = this.brands;
+    this.categoriesarray = this.categories;
   }
 
   edit(data) {
@@ -487,6 +493,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   disableBodyScrollTop() {
     window.scroll(0, 0);
     document.body.style.overflow = "hidden";
+    document.getElementById("add-prod").scroll(0, 0);
   }
 
   removeProduct(product) {

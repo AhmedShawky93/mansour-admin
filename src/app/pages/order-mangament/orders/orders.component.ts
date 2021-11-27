@@ -739,7 +739,6 @@ export class OrdersComponent implements OnInit {
 
   changePage(p) {
     this.p = p;
-
     this.filter$.next(this.filter);
   }
 

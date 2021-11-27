@@ -31,7 +31,12 @@ export class ReactivityService {
       let element = document.getElementsByClassName(
         "alert-danger"
       )[0] as HTMLElement;
-      element && element.scrollIntoView();
+      element &&
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "start",
+        });
     }, 100);
   }
 }
