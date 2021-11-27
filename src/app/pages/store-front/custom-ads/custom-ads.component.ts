@@ -93,10 +93,6 @@ export class CustomAdsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // add new side bar
-    // $(".add-new").on("click", function () {
-    //   $("#add-ads").toggleClass("open-view-vindor-types");
-    // });
     $(".switch").on("click", ".slider", function () {
       const then = $(this).siblings(".reason-popup").slideToggle(100);
       $(".reason-popup").not(then).slideUp(50);
@@ -190,7 +186,7 @@ export class CustomAdsComponent implements OnInit {
         )
         .subscribe((res: any) => (this.productList = res.data.products));
       this.products$ = concat(
-        of(this.products), // default items
+        of(this.products),
         this.productsInput$.pipe(
           debounceTime(200),
           distinctUntilChanged(),
@@ -210,9 +206,6 @@ export class CustomAdsComponent implements OnInit {
     if (ad.type == 1) {
       this.newAdsForm.get("subCategory").setValue(ad.item_data.category_id);
       this.newAdsForm.get("category").setValue(ad.item_data.category?.id);
-      // setTimeout(() => {
-      //   this.newAdsForm.get("prod").setValue(ad.item_data.id);
-      // }, 2000);
     } else if (ad.type == 2) {
       this.newAdsForm.get("subCategory").setValue(ad.item_id);
       this.newAdsForm.get("category").setValue(ad.item_data.parent_id);
@@ -230,7 +223,6 @@ export class CustomAdsComponent implements OnInit {
     this.selectedSubcategory = this.newAdsForm.get("subCategory").value;
     this.selectedProductId = this.newAdsForm.get("prod").value;
 
-    // fill select options
     if (ad.type == 1 || ad.type == 2) {
       this.onCategoryChange();
     }
@@ -291,7 +283,6 @@ export class CustomAdsComponent implements OnInit {
       form.get("list_id").clearValidators();
     } else if (form.get("type").value == 7) {
       form.get("link").setValidators([Validators.required]);
-      // form.get("link").setValue("");
       form.get("brand").clearValidators();
       form.get("category").clearValidators();
       form.get("subCategory").clearValidators();
@@ -471,8 +462,6 @@ export class CustomAdsComponent implements OnInit {
         this.newAdsForm.get("prod").setValue("");
         if (this.selectedAd.type == 1) {
           this.newAdsForm.get("prod").setValue(this.selectedAd.item_data.id);
-          // setTimeout(() => {
-          // }, 2000);
         }
       });
   }
@@ -497,7 +486,6 @@ export class CustomAdsComponent implements OnInit {
       });
 
     if (ad.active) {
-      // currently checked
       ad.showReason = 0;
       ad.notes = "";
       if (ad.deactivated) {
