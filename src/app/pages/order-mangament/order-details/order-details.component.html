@@ -622,7 +622,7 @@
 
         <div class="form-group" *ngIf="orderStatusId == '6'">
           <label for="">Cancellation Reason</label>
-          <select name="" class="owl-input bg-white" [(ngModel)]="cancelReason">
+          <select  class="owl-input bg-white" [(ngModel)]="cancelReason">
             <option [value]="''" selected hidden>
               Select Cancellation Reason
             </option>
@@ -695,7 +695,7 @@
           </label>
           <div class="form-group" *ngIf="orderStatusId == '6'">
             <label for="">Cancellation Reason</label>
-            <select name="" class="owl-input bg-white" formControlName="cancellation_id">
+            <select  class="owl-input bg-white" formControlName="cancellation_id">
               <option [value]="'placeholder'" hidden>
                 Select Cancellation Reason
               </option>
@@ -744,7 +744,7 @@
 
         <div class="modal-body" *ngIf="orderStatusId == '8'">
           <div class="form-group">
-            <select name="" class="owl-input bg-white" formControlName="branch_id">
+            <select  class="owl-input bg-white" formControlName="branch_id">
               <option value="" hidden selected>Select pickup Location</option>
               <option value="{{ branch.id }}" *ngFor="let branch of branches">
                 {{ branch.name }}
@@ -761,7 +761,7 @@
             </div>
           </div>
           <div class="form-group">
-            <select name="" class="owl-input bg-white" formControlName="shipping_method">
+            <select  class="owl-input bg-white" formControlName="shipping_method">
               <option value="" hidden selected>Select Company Shipping</option>
               <option value="1">Internal</option>
               <!-- <option value="2">Mylerz</option> -->
@@ -778,7 +778,7 @@
             </div>
           </div>
           <div class="form-group">
-            <select name="" class="owl-input bg-white" formControlName="aramex_account_number"
+            <select  class="owl-input bg-white" formControlName="aramex_account_number"
               *ngIf="stateForm.controls.shipping_method.value == 3">
               <option value="" hidden selected>Select Aramex</option>
               <option [value]="account.account" *ngFor="let account of aramixAccounts">
@@ -798,7 +798,7 @@
           </div>
           <div class="form-group">
             <label for="">Pickup ID (optional)</label>
-            <select name="" class="owl-input bg-white" formControlName="pickup_guid">
+            <select  class="owl-input bg-white" formControlName="pickup_guid">
               <option value="" selected>Select pickup</option>
               <option value="{{ pickup.shipping_guid }}" *ngFor="let pickup of available_pickups">
                 {{ pickup.pickup_time | date: "d-M-yyyy h:mm a" }} -
@@ -1015,7 +1015,7 @@
       <form action="" [formGroup]="shipmentForm" (submit)="submitShipment()">
         <div class="modal-body">
           <div class="form-group">
-            <select name="" class="owl-input bg-white" required formControlName="branch_id">
+            <select  class="owl-input bg-white" required formControlName="branch_id">
               <!-- <option value="" hidden selected>Select pickup Location</option> -->
               <option value="{{ branch.id }}" *ngFor="let branch of branches">
                 {{ branch.name }}
@@ -1032,7 +1032,7 @@
             </div>
           </div>
           <div class="form-group">
-            <select name="" class="owl-input bg-white" required formControlName="shipping_method">
+            <select  class="owl-input bg-white" required formControlName="shipping_method">
               <option value="" hidden selected>Select Company Shipping</option>
               <option value="3">Aramex</option>
             </select>
@@ -1047,7 +1047,7 @@
             </div>
           </div>
           <div class="form-group">
-            <select name="" class="owl-input bg-white" formControlName="aramex_account_number"
+            <select  class="owl-input bg-white" formControlName="aramex_account_number"
               *ngIf="shipmentForm.controls.shipping_method.value == 3">
               <option value="" hidden selected>Select Aramex</option>
               <option [value]="account.account" *ngFor="let account of aramixAccounts">
@@ -1069,7 +1069,7 @@
           </div>
           <div class="form-group">
             <label for="">Pickup ID (optional)</label>
-            <select name="" class="owl-input bg-white" formControlName="pickup_guid">
+            <select  class="owl-input bg-white" formControlName="pickup_guid">
               <option value="" selected>Select pickup</option>
               <option value="{{ pickup.shipping_guid }}" *ngFor="let pickup of available_pickups">
                 {{ pickup.pickup_time | date: "d-M-yyyy h:mm a" }} -

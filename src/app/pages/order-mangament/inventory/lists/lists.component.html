@@ -110,7 +110,7 @@
             <input type="checkbox" value="1" [(ngModel)]="list.active" (change)="changeActive(list, $event)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!list.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this list?"
+              <textarea  class="owl-input" placeholder="Why Do yo want to deactivate this list?"
                 [(ngModel)]="list.notes"></textarea>
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!list.notes"
                 (click)="submitDeactivate(list)">submit</button>

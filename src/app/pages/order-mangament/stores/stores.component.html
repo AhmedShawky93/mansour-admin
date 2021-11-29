@@ -129,7 +129,7 @@
             <input type="checkbox" value="1" [(ngModel)]="branche.active" (change)="changeActive(branche, $event)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!branche.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this branche?"
+              <textarea  class="owl-input" placeholder="Why Do yo want to deactivate this branche?"
                 [(ngModel)]="branche.notes"></textarea>
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!branche.notes"
                 (click)="submitDeactivate(branche)" [ngClass]="{'not-allowed' : !branche.notes }">submit</button>

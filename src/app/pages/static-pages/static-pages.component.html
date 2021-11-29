@@ -84,7 +84,7 @@
             <input type="checkbox" value="1" [(ngModel)]="page.active" (change)="changeActive(page)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!page.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do you want to deactivate this page?"
+              <textarea  class="owl-input" placeholder="Why Do you want to deactivate this page?"
                 [(ngModel)]="page.notes"></textarea>
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!page.notes"
                 (click)="submitDeactivate(page)" [ngClass]="{'not-allowed' : !page.notes }">submit</button>

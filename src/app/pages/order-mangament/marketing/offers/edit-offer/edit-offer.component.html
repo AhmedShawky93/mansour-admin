@@ -16,7 +16,7 @@
       <h2>edit promocode</h2>
       <div class="form-group">
         <label for="charge">Select type Customers</label>
-        <select name="" id="charge" class="owl-input" name="target_type" formControlName="target_type"
+        <select  id="charge" class="owl-input" name="target_type" formControlName="target_type"
           [(ngModel)]="promo.target_type" (change)="typeCustmerSelect($event)">
           <option value="null" selected>Select type Customers</option>
           <option value="1">Select Customers</option>
@@ -82,7 +82,7 @@
 
       <div class="form-group">
         <label for="charge">Promocode Recurrence</label>
-        <select name="" id="charge" class="owl-input" name="recurrence" formControlName="recurrence"
+        <select  id="charge" class="owl-input" name="recurrence" formControlName="recurrence"
           [(ngModel)]="promo.recurrence" (change)="changeTypePromo($event)">
           <option [value]="" disabled selected>
             Select PromoCode Recurrence
@@ -106,7 +106,7 @@
 
       <div class="form-group">
         <label for="charge">promocode type </label>
-        <select name="" id="charge" class="owl-input" [(ngModel)]="promo.type" formControlName="editType"
+        <select  id="charge" class="owl-input" [(ngModel)]="promo.type" formControlName="editType"
           name="editType" (change)="changeTypePromo($event.target.value)">
           <option [value]="1">amount</option>
           <option [value]="2">percentage</option>
@@ -203,7 +203,7 @@
       </div>
       <div class="form-group">
         <label for="charge">Description </label>
-        <textarea name="" style="height: 150px" class="owl-input" placeholder="type here.."
+        <textarea  style="height: 150px" class="owl-input" placeholder="type here.."
           [(ngModel)]="promo.description" formControlName="editDescription" name="edit Description"></textarea>
         <!-- Start  Errors Rolues -->
         <div *ngIf="
