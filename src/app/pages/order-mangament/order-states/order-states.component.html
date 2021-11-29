@@ -50,7 +50,7 @@
             <input type="checkbox" value="1" [(ngModel)]="status.active" (change)="changeActive(status, $event)">
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!status.showReason">
-              <textarea name="" class="owl-input" placeholder="Why Do yo want to deactivate this status?"
+              <textarea  class="owl-input" placeholder="Why Do yo want to deactivate this status?"
                 [(ngModel)]="status.notes"></textarea>
               <button class="btn btn-owls btn-rounded btn-green2" [disabled]="!status.notes"
                 (click)="submitDeactivate(status)">submit</button>
