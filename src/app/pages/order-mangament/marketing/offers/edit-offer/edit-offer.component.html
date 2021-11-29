@@ -16,7 +16,7 @@
       <h2>edit promocode</h2>
       <div class="form-group">
         <label for="charge">Select type Customers</label>
-        <select name="" id="charge" class="owl-input" required name="target_type" formControlName="target_type"
+        <select name="" id="charge" class="owl-input" name="target_type" formControlName="target_type"
           [(ngModel)]="promo.target_type" (change)="typeCustmerSelect($event)">
           <option value="null" selected>Select type Customers</option>
           <option value="1">Select Customers</option>
@@ -63,7 +63,7 @@
       <div class="form-group">
         <label for="">prmocode name </label>
         <input type="text" class="owl-input" [(ngModel)]="promo.name" formControlName="editName" name="edit Name"
-          required pattern="[A-Za-z0-9\-\&]+$" maxlength="15" id="" placeholder="Type here..." />
+          pattern="[A-Za-z0-9\-\&]+$" maxlength="15" id="" placeholder="Type here..." />
         <!-- Start  Errors Rolues -->
         <div *ngIf="
             editForm.controls.editName.invalid &&
@@ -82,7 +82,7 @@
 
       <div class="form-group">
         <label for="charge">Promocode Recurrence</label>
-        <select name="" id="charge" class="owl-input" required name="recurrence" formControlName="recurrence"
+        <select name="" id="charge" class="owl-input" name="recurrence" formControlName="recurrence"
           [(ngModel)]="promo.recurrence" (change)="changeTypePromo($event)">
           <option [value]="" disabled selected>
             Select PromoCode Recurrence
@@ -106,7 +106,7 @@
 
       <div class="form-group">
         <label for="charge">promocode type </label>
-        <select name="" id="charge" class="owl-input" [(ngModel)]="promo.type" required formControlName="editType"
+        <select name="" id="charge" class="owl-input" [(ngModel)]="promo.type" formControlName="editType"
           name="editType" (change)="changeTypePromo($event.target.value)">
           <option [value]="1">amount</option>
           <option [value]="2">percentage</option>
@@ -139,7 +139,7 @@
         <!--Start For max Amount -->
         <label for=""> percentage </label>
         <input type="number" class="owl-input" id="" placeholder="percentage..." name="amount"
-          [(ngModel)]="promo.amount" required [min]="1" formControlName="editAmount" [max]="100" />
+          [(ngModel)]="promo.amount" [min]="1" formControlName="editAmount" [max]="100" />
         <!-- Start  Errors Rolues -->
         <div *ngIf="
             editForm.controls.editAmount.invalid &&
@@ -204,7 +204,7 @@
       <div class="form-group">
         <label for="charge">Description </label>
         <textarea name="" style="height: 150px" class="owl-input" placeholder="type here.."
-          [(ngModel)]="promo.description" formControlName="editDescription" name="edit Description" required></textarea>
+          [(ngModel)]="promo.description" formControlName="editDescription" name="edit Description"></textarea>
         <!-- Start  Errors Rolues -->
         <div *ngIf="
             editForm.controls.editDescription.invalid &&
