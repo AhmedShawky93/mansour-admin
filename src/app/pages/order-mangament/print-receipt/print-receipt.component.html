@@ -107,6 +107,7 @@
             <th style="width: 160px">Item</th>
             <th style="text-align: center; width: 70px">Price</th>
             <th style="text-align: center; padding-right: 12px">QTY</th>
+            <th style="text-align: center">Total</th>
           </thead>
           <tbody>
             <tr *ngFor="let item of order?.items">
@@ -121,14 +122,22 @@
               </td>
 
               <td style="text-align: right; padding-right: 10px !important">
-                <span *ngIf="item.discount_price === null"
-                  >{{ item.price }}
+                <span *ngIf="item.product?.discount_price === null"
+                  >{{ item.product?.price }}
                 </span>
-                <span *ngIf="item.discount_price !== null"
-                  >{{ item.discount_price }}
+                <span *ngIf="item.product?.discount_price !== null"
+                  >{{ item.product?.discount_price }}
                 </span>
               </td>
               <td style="text-align: center">{{ item.amount }}</td>
+              <td style="text-align: right; padding-right: 10px !important">
+                <span *ngIf="item.product?.discount_price === null"
+                  >{{ item.product?.price * item.amount }}
+                </span>
+                <span *ngIf="item.product?.discount_price !== null"
+                  >{{ item.product?.discount_price * item.amount }}
+                </span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -218,6 +227,82 @@
               >
             </div>
           </div>
+
+          <!-- <div
+            class="col-6"
+            style="
+              padding-right: 0px !important;
+              font-weight: 600;
+              font-size: 11px;
+            "
+          >
+            <div class="row" style="margin: 0px !important;">
+              <span style="padding: 0px !important;" class="col-6">
+                Remaining :</span
+              >
+              <span
+                class="col-6"
+                style="
+                  padding: 0px !important;
+                  margin-right: 0px;
+                  font-size: 11px;
+                  width: 120%;
+                  font-weight: 600;
+                "
+                >{{ order.remaining }} <span class="text-right">L.E</span>
+              </span>
+            </div>
+          </div> -->
+          <!-- <div
+          class="col-6"
+          style="
+            padding-right: 0px !important;
+            font-weight: 600;
+            font-size: 11px;
+          "
+        >
+          <div class="row" style="margin: 0px !important;">
+            <span style="padding: 0px !important;" class="col-6">
+              admin discount :</span
+            >
+            <span
+              class="col-6"
+              style="
+                padding: 0px !important;
+                margin-right: 0px;
+                font-size: 11px;
+                width: 120%;
+                font-weight: 600;
+              "
+              >{{ order.delivery_fees }}
+              <span class="text-right">L.E</span></span
+            >
+          </div>
+        </div> -->
+          <!-- <div class="col-6">
+            <div class="row">
+                <p style=" font-size: 14px; " class="col-6">Items Total</p>
+                <h4 style="font-size: 16px !important;" class="col-6">{{order.actual_amount}} L.E</h4>
+            </div>
+
+          </div> -->
+
+          <!-- <div class="col-6" *ngIf="order.discount_amount">
+            <p  style="font-size: 14px; ">Offer</p>
+            <h4 *ngIf="order.promo">{{order.promo.amount}} <span *ngIf="order.promo.type == 2">%</span><span *ngIf="order.promo.type == 1">LE</span>
+            </h4>
+            <h4 class="font-size: 16px !important;">-{{(order.actual_amount - order.discount_amount) | number}} L.E</h4>
+          </div> -->
+
+          <!-- <div class="col-6">
+            <p style="font-size: 14px; ">Delivery Fees</p>
+            <h4 style="font-size: 16px !important">{{order.delivery_fees}} L.E</h4>
+          </div> -->
+
+          <!-- <div class="col-6">
+              <p style="font-size: 14px; ">Remaining</p>
+              <h4 style="font-size: 16px !important;">{{order.remaining}} L.E</h4>
+            </div> -->
         </div>
       </div>
 
