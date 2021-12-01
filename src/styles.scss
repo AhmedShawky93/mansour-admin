@@ -1778,6 +1778,9 @@ bar-rating {
   .main-content {
     margin-left: 0px !important;
   }
+  .printActionsArea {
+    display: none;
+  }
 }
 
 .toast-container .toast {
@@ -2117,4 +2120,20 @@ i {
 
 .modal-backdrop {
   z-index: 997 !important;
+}
+.printActionsArea {
+  text-align: center;
+  padding: 20px;
+  button.printBtn {
+    border: 0;
+    background-color: var(--brand-color);
+    color: white;
+    padding: 8px;
+    min-width: 120px;
+    border-radius: 30px;
+    &:hover {
+      background-color: gray;
+      transition: 0.3s ease-in-out;
+    }
+  }
 }

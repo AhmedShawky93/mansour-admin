@@ -1,8 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { ActivatedRoute } from "@angular/router";
+import {
+  Component,
+  OnInit,
+} from "@angular/core";
+import {
+  ActivatedRoute,
+  Router,
+} from "@angular/router";
+
 import { OrdersService } from "@app/pages/services/orders.service";
 import { SettingService } from "@app/pages/services/setting.service";
+
 // import { environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
@@ -19,6 +26,7 @@ export class PrintReceiptComponent implements OnInit {
       },
     },
   ];
+  loading = true;
   environmentVariables;
 
   item: any;
@@ -35,14 +43,17 @@ export class PrintReceiptComponent implements OnInit {
   ngOnInit() {
     this.activeRoute.params.subscribe((params) => {
       let id = params["id"];
-
       this.orderService.getOrderPrint(id).subscribe((response: any) => {
         this.order = response.data;
-        setTimeout(() => {
-          window.print();
-        }, 800);
+        this.loading = false;
+        // setTimeout(() => {
+        //   this.print();
+        // }, 800);
       });
     });
+  }
+  print() {
+    window.print();
   }
   getConfig() {
     this.settingService.getenvConfig().subscribe((res) => {

@@ -10,9 +10,13 @@
               alt=""
             />
           </div>
-          <div class="col right-rec">
+          <div
+            *ngIf="environmentVariables?.brandRelatedVariables.hotline"
+            class="col right-rec"
+          >
             <p class="text-right" style="position: relative; right: 24px">
-              <i class="fa fa-phone"></i> 010 270 11114
+              <i class="fa fa-phone"></i
+              >{{ environmentVariables?.brandRelatedVariables.hotline }}
             </p>
           </div>
         </div>
@@ -224,6 +228,9 @@
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="!loading" class="printActionsArea">
+  <button class="printBtn" (click)="print()">Print</button>
 </div>
 <!-- <div class="print">
   <div class="row">
