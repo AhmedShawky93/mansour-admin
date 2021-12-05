@@ -260,11 +260,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     this.productsService.exportFbSheet().subscribe((res) => {
       this.toastrService.success(
         "You’ll receive a notification when the export is ready for download.",
-        " Your export is now being generated ",
-        {
-          enableHtml: true,
-          timeOut: 3000,
-        }
+        " Your export is now being generated "
       );
     });
   }
