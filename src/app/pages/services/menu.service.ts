@@ -17,7 +17,7 @@ export class MenuService {
 
   // Create Products
   getMenuItems() {
-    return this.http.get<any>(environment.api + `/api/customer/home/menu`);
+    return this.http.get<any>(`${environment.api}/api/customer/home/menu`);
   }
 
   getMenu() {
