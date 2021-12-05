@@ -33,7 +33,7 @@ export class ProductsService {
   }
 
   exportFbSheet() {
-    return this.http.get(this.url + "/products/export_fb");
+    return this.http.get(`${this.url}/products/export_fb`);
   }
 
   searchProducts(data, p = 1) {

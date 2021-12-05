@@ -92,7 +92,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   currentProduct: any;
   category_id: any;
   selectedDraft: any;
-  // syncFbSheet: any;
   selectedUserIds: number[];
   products: Array<any> = [];
   selectedMainProduct: any;
@@ -184,7 +183,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.initProductFilterForm();
     this.getConfig();
-    // this.syncFbSheet = `${environment.api}/api/admin/products/export_fb`;
     this.productsService
       .getBrands()
       .subscribe((response: any) => (this.brands = response.data));
