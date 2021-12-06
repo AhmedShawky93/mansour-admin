@@ -35,9 +35,11 @@ export class PrintReceiptComponent implements OnInit {
       });
     });
   }
+
   print() {
     window.print();
   }
+
   getConfig() {
     this.settingService.getenvConfig().subscribe((res) => {
       this.environmentVariables = res;

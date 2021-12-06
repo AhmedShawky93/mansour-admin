@@ -1,328 +1,8 @@
-<div class="row">
-  <div class="style-w-370px">
-    <div class="receipt">
-      <div class="head">
-        <div class="row">
-          <div class="col">
-            <img
-              src="{{ environmentVariables.brands.logoBlack }}"
-              width="50"
-              alt=""
-            />
-          </div>
-          <div
-            *ngIf="environmentVariables?.brandRelatedVariables.hotline"
-            class="col right-rec"
-          >
-            <p class="text-right" style="position: relative; right: 24px">
-              <i class="fa fa-phone"></i
-              >{{ environmentVariables?.brandRelatedVariables.hotline }}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <ul class="main-list" *ngIf="order">
-        <div class="row">
-          <div class="col-6" style="padding-right: 0px !important">
-            <li class="row" style="margin: 0px !important">
-              <span style="padding: 0px !important" class="col-6"
-                >Creation :</span
-              >
-              <span
-                class="col-6"
-                style="
-                  padding: 0px !important;
-                  margin-right: 0px;
-                  font-size: 11px;
-                  width: 120%;
-                  font-weight: 500;
-                "
-              >
-                {{ order?.created_at | date: "short" }}</span
-              >
-            </li>
-          </div>
-          <div class="col-6 text-left">
-            <li>
-              <span>Branch :</span
-              >{{
-                order?.deliverer?.name.length > 10
-                  ? (order?.deliverer?.name | slice: 0:10)
-                  : order?.deliverer?.name
-              }}
-            </li>
-          </div>
-          <div class="col-6">
-            <li class="row" style="margin: 0px !important">
-              <span style="padding: 0px !important" class="col-6">Order :</span>
-              <span class="col-6" style="padding: 0px !important">{{
-                order?.id
-              }}</span>
-            </li>
-          </div>
-          <div class="col-6 text-left">
-            <li><span>Client :</span>{{ order?.user?.name }}</li>
-          </div>
-          <div class="col-6 text-left">
-            <li><span>city :</span>{{ order?.address?.city?.name }}</li>
-          </div>
-          <div class="col-6 text-left">
-            <li><span>Area :</span>{{ order?.address?.area?.name }}</li>
-          </div>
-          <div class="col-6 text-left">
-            <li><span>district :</span>{{ order?.address?.district?.name }}</li>
-          </div>
-          <div class="col-6">
-            <li class="row" style="margin: 0px !important">
-              <span style="padding: 0px !important" class="col-6">Phone :</span>
-              <span class="col-6" style="padding: 0px !important">{{
-                order?.user?.phone
-              }}</span>
-            </li>
-          </div>
-        </div>
-        <li style="word-break: break-all">
-          <span>Address :</span>{{ order?.address?.address }}
-        </li>
-        <li *ngIf="order?.address?.landmark">
-          <span>Landmark :</span>{{ order?.address?.landmark }}
-        </li>
-
-        <ul class="row">
-          <div class="col">
-            <li><span>Building : </span>{{ order?.address?.apartment }}</li>
-          </div>
-
-          <div class="col">
-            <li><span>Apt : </span>{{ order?.address?.floor }}</li>
-          </div>
-        </ul>
-        <li *ngIf="order.notes"><span> Notes </span>{{ order?.notes }}</li>
-      </ul>
-
-      <div style="padding: 10px">
-        <table>
-          <thead>
-            <th style="width: 160px">Item</th>
-            <th style="text-align: center; width: 70px">Price</th>
-            <th style="text-align: center; padding-right: 12px">QTY</th>
-            <th style="text-align: center">Total</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of order?.items">
-              <td>
-                {{
-                  item.product?.name_ar
-                    ? item.product?.name_ar
-                    : item.product?.name
-                }}
-                <br />
-                {{ "sku: " + item.sku }}
-              </td>
-
-              <td style="text-align: right; padding-right: 10px !important">
-                <span *ngIf="item.product?.discount_price === null"
-                  >{{ item.product?.price }}
-                </span>
-                <span *ngIf="item.product?.discount_price !== null"
-                  >{{ item.product?.discount_price }}
-                </span>
-              </td>
-              <td style="text-align: center">{{ item.amount }}</td>
-              <td style="text-align: right; padding-right: 10px !important">
-                <span *ngIf="item.product?.discount_price === null"
-                  >{{ item.product?.price * item.amount }}
-                </span>
-                <span *ngIf="item.product?.discount_price !== null"
-                  >{{ item.product?.discount_price * item.amount }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <hr style="margin-top: 0rem; margin-bottom: 0rem" />
-      <div style="padding: 10px" *ngIf="order">
-        <div class="row">
-          <div
-            class="col-6"
-            style="
-              padding-right: 0px !important;
-              font-weight: 600;
-              font-size: 11px;
-            "
-          >
-            <div class="row" style="margin: 0px !important">
-              <span style="padding: 0px !important" class="col-6">
-                Items Total :</span
-              >
-              <span
-                class="col-6"
-                style="
-                  padding: 0px !important;
-                  margin-right: 0px;
-                  font-size: 11px;
-                  width: 120%;
-                  font-weight: 600;
-                "
-              >
-                {{ order.actual_amount }}
-                <span class="text-right">L.E</span></span
-              >
-            </div>
-          </div>
-
-          <div
-            class="col-6"
-            *ngIf="order.discount_amount"
-            style="
-              padding-right: 0px !important;
-              font-weight: 600;
-              font-size: 11px;
-            "
-          >
-            <div class="row" style="margin: 0px !important">
-              <span style="padding: 0px !important" class="col-6">
-                Offer :</span
-              >
-              <span
-                class="col-6"
-                style="
-                  padding: 0px !important;
-                  margin-right: 0px;
-                  font-size: 11px;
-                  width: 120%;
-                  font-weight: 600;
-                "
-              >
-                -{{ order.actual_amount - order.discount_amount | number }}
-                <span class="text-right">L.E</span></span
-              >
-            </div>
-          </div>
-          <div
-            class="col-6"
-            style="
-              padding-right: 0px !important;
-              font-weight: 600;
-              font-size: 11px;
-            "
-          >
-            <div class="row" style="margin: 0px !important">
-              <span style="padding: 0px !important" class="col-6">
-                Delivery Fees :</span
-              >
-              <span
-                class="col-6"
-                style="
-                  padding: 0px !important;
-                  margin-right: 0px;
-                  font-size: 11px;
-                  width: 120%;
-                  font-weight: 600;
-                "
-                >{{ order.delivery_fees }}
-                <span class="text-right">L.E</span></span
-              >
-            </div>
-          </div>
-
-          <!-- <div
-            class="col-6"
-            style="
-              padding-right: 0px !important;
-              font-weight: 600;
-              font-size: 11px;
-            "
-          >
-            <div class="row" style="margin: 0px !important;">
-              <span style="padding: 0px !important;" class="col-6">
-                Remaining :</span
-              >
-              <span
-                class="col-6"
-                style="
-                  padding: 0px !important;
-                  margin-right: 0px;
-                  font-size: 11px;
-                  width: 120%;
-                  font-weight: 600;
-                "
-                >{{ order.remaining }} <span class="text-right">L.E</span>
-              </span>
-            </div>
-          </div> -->
-          <!-- <div
-          class="col-6"
-          style="
-            padding-right: 0px !important;
-            font-weight: 600;
-            font-size: 11px;
-          "
-        >
-          <div class="row" style="margin: 0px !important;">
-            <span style="padding: 0px !important;" class="col-6">
-              admin discount :</span
-            >
-            <span
-              class="col-6"
-              style="
-                padding: 0px !important;
-                margin-right: 0px;
-                font-size: 11px;
-                width: 120%;
-                font-weight: 600;
-              "
-              >{{ order.delivery_fees }}
-              <span class="text-right">L.E</span></span
-            >
-          </div>
-        </div> -->
-          <!-- <div class="col-6">
-            <div class="row">
-                <p style=" font-size: 14px; " class="col-6">Items Total</p>
-                <h4 style="font-size: 16px !important;" class="col-6">{{order.actual_amount}} L.E</h4>
-            </div>
-
-          </div> -->
-
-          <!-- <div class="col-6" *ngIf="order.discount_amount">
-            <p  style="font-size: 14px; ">Offer</p>
-            <h4 *ngIf="order.promo">{{order.promo.amount}} <span *ngIf="order.promo.type == 2">%</span><span *ngIf="order.promo.type == 1">LE</span>
-            </h4>
-            <h4 class="font-size: 16px !important;">-{{(order.actual_amount - order.discount_amount) | number}} L.E</h4>
-          </div> -->
-
-          <!-- <div class="col-6">
-            <p style="font-size: 14px; ">Delivery Fees</p>
-            <h4 style="font-size: 16px !important">{{order.delivery_fees}} L.E</h4>
-          </div> -->
-
-          <!-- <div class="col-6">
-              <p style="font-size: 14px; ">Remaining</p>
-              <h4 style="font-size: 16px !important;">{{order.remaining}} L.E</h4>
-            </div> -->
-        </div>
-      </div>
-
-      <div class="footer text-center">
-        <p>
-          grand total <span>{{ order.amount + order.delivery_fees }} L.E</span>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-<div *ngIf="!loading" class="printActionsArea">
-  <button class="printBtn" (click)="print()">Print</button>
-</div>
-<!-- <div class="print">
+<div class="print">
   <div class="row">
     <div class="col-6">
       <div class="client-details">
         <div class="row">
-        
           <div class="col-7 title-text">
             <div>
               <p>Order id (رقم الطلب)</p>
@@ -335,7 +15,6 @@
               </p>
             </div>
           </div>
-        
           <div class="col-7 title-text">
             <div>
               <p>Order date (تاريخ الطلب)</p>
@@ -352,7 +31,12 @@
       </div>
     </div>
     <div class="col-5 text-center">
-      <img *ngIf="environmentVariables" class="img-logo" [src]="environmentVariables.brands.logoBlack" alt="" />
+      <img
+        *ngIf="environmentVariables"
+        class="img-logo"
+        [src]="environmentVariables.brands.logoBlack"
+        alt=""
+      />
     </div>
     <div class="col-12">
       <div class="table-product">
@@ -366,7 +50,6 @@
             (السعر قبل الخصم)
           </div>
 
-      
           <div class="name-col">
             Quantity <br />
             (الكمية)
@@ -399,7 +82,7 @@
               }}
             </p>
           </div>
-  
+
           <div class="value-col">
             <p>
               {{ item?.price }}
@@ -427,10 +110,19 @@
             </p>
           </div>
           <div class="value-col" style="border-left: none">
-            <img [src]="item.product.image" onError="this.src='./assets/img/placeholder200.jpg';"
-              default="./assets/img/placeholder200.jpg" alt="" height="100" style="width: 90%; object-fit: contain" />
+            <img
+              [src]="item.product.image"
+              onError="this.src='./assets/img/placeholder200.jpg';"
+              default="./assets/img/placeholder200.jpg"
+              alt=""
+              height="100"
+              style="width: 90%; object-fit: contain"
+            />
           </div>
-          <div style="page-break-inside: avoid; page-break-before: always" *ngIf="i + 1 == 10"></div>
+          <div
+            style="page-break-inside: avoid; page-break-before: always"
+            *ngIf="i + 1 == 10"
+          ></div>
         </div>
         <div class="box-price">
           <div class="value-price" style="direction: ltr">
@@ -474,53 +166,70 @@
         <p>
           Payment method (طريقة الدفع) :
           <span>{{ order?.payment_method_object?.name_en }}</span>
- 
         </p>
       </div>
       <div class="info-user">
         <div class="box-price" style="border-left: 1px solid #888">
           <div class="name-price">Client Name</div>
 
-          <div class="value-price" style="
+          <div
+            class="value-price"
+            style="
               direction: ltr;
               border-right: 1px solid #888;
               width: 87.5%;
               text-align: left;
-            ">
+            "
+          >
             {{ order?.user?.name }}
           </div>
         </div>
         <div class="box-price" style="border-left: 1px solid #888">
           <div class="name-price">Client phone</div>
 
-          <div class="value-price" style="
+          <div
+            class="value-price"
+            style="
               direction: ltr;
               border-right: 1px solid #888;
               width: 87.5%;
               text-align: left;
-            ">
+            "
+          >
             {{ order?.user?.phone }}
           </div>
         </div>
-        <div class="box-price" style="border-left: 1px solid #888; border-left: 1px solid #888">
+        <div
+          class="box-price"
+          style="border-left: 1px solid #888; border-left: 1px solid #888"
+        >
           <div class="name-price">Client address</div>
-          <div class="value-price" style="
+          <div
+            class="value-price"
+            style="
               direction: ltr;
               border-right: 1px solid #888;
               width: 87.5%;
               text-align: left;
-            ">
+            "
+          >
             {{ order?.address?.formatted_address }}
           </div>
         </div>
-        <div class="box-price" style="border-bottom: 1px solid #888; border-left: 1px solid #888">
+        <div
+          class="box-price"
+          style="border-bottom: 1px solid #888; border-left: 1px solid #888"
+        >
           <div class="name-price">Notes</div>
-          <div class="value-price" style="
+          <div
+            class="value-price"
+            style="
               direction: ltr;
               border-right: 1px solid #888;
               width: 87.5%;
               text-align: left;
-            ">
+            "
+          >
             {{ order.notes ? order.notes : "-" }}
           </div>
         </div>
@@ -573,4 +282,4 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
