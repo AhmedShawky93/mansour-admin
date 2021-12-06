@@ -2,15 +2,10 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
-import {
-  ActivatedRoute,
-  Router,
-} from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 
 import { OrdersService } from "@app/pages/services/orders.service";
 import { SettingService } from "@app/pages/services/setting.service";
-
-// import { environmentVariables } from '../../../../environments/enviromentalVariables';
 
 @Component({
   selector: "app-print-receipt",
@@ -18,21 +13,12 @@ import { SettingService } from "@app/pages/services/setting.service";
   styleUrls: ["./print-receipt.component.css"],
 })
 export class PrintReceiptComponent implements OnInit {
-  order: any = [
-    {
-      id: "",
-      user: {
-        name: "",
-      },
-    },
-  ];
+  order: any = [];
   loading = true;
   environmentVariables;
-
   item: any;
 
   constructor(
-    private router: Router,
     private activeRoute: ActivatedRoute,
     private orderService: OrdersService,
     private settingService: SettingService
@@ -46,9 +32,6 @@ export class PrintReceiptComponent implements OnInit {
       this.orderService.getOrderPrint(id).subscribe((response: any) => {
         this.order = response.data;
         this.loading = false;
-        // setTimeout(() => {
-        //   this.print();
-        // }, 800);
       });
     });
   }
