@@ -43,7 +43,6 @@
   font-size: 12px;
   font-weight: normal;
   color: #000000;
-  /* text-transform: capitalize; */
   display: block;
   margin-bottom: 0px;
 }
@@ -72,7 +71,6 @@ tr td {
 }
 
 .footer p {
-  /* text-transform: capitalize; */
   font-size: 15px;
   color: #000000;
   font-weight: bold;
