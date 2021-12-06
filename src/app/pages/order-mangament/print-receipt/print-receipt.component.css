@@ -88,17 +88,13 @@ tr td {
   width: 370px;
   margin: 0px auto;
 }
-.p-r {
+.po-r {
   position: relative;
 }
 .r-24 {
   right: 24px;
 }
-.spaning {
-  font-size: 11px;
-  width: 120%;
-  font-weight: 500;
-}
+
 .wb-a {
   word-break: break-all;
 }
@@ -116,6 +112,9 @@ tr td {
 }
 .fw-6 {
   font-weight: 600;
+}
+.fw-5 {
+  font-weight: 500;
 }
 .fs-11 {
   font-size: 11px;
