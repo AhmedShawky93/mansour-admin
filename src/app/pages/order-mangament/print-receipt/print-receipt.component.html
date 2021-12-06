@@ -1,285 +1,184 @@
-<div class="print">
-  <div class="row">
-    <div class="col-6">
-      <div class="client-details">
+<div class="row">
+  <div class="style-w-370px">
+    <div class="receipt">
+      <div class="head">
         <div class="row">
-          <div class="col-7 title-text">
-            <div>
-              <p>Order id (رقم الطلب)</p>
-            </div>
-          </div>
-          <div class="col-5">
-            <div>
-              <p>
-                {{ order.id }}
-              </p>
-            </div>
-          </div>
-          <div class="col-7 title-text">
-            <div>
-              <p>Order date (تاريخ الطلب)</p>
-            </div>
-          </div>
-          <div class="col-5">
-            <div>
-              <p>
-                {{ order?.created_at | date: "d/M/yyyy h:mm a" }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-5 text-center">
-      <img
-        *ngIf="environmentVariables"
-        class="img-logo"
-        [src]="environmentVariables.brands.logoBlack"
-        alt=""
-      />
-    </div>
-    <div class="col-12">
-      <div class="table-product">
-        <div class="box-col">
-          <div class="name-col">
-            Price after discount <br />
-            (السعر بعد الخصم)
-          </div>
-          <div class="name-col">
-            Price<br />
-            (السعر قبل الخصم)
-          </div>
-
-          <div class="name-col">
-            Quantity <br />
-            (الكمية)
-          </div>
-          <div class="name-col">
-            Serial Number <br />
-            (رقم المسلسل)
-          </div>
-          <div class="name-col">
-            Name <br />
-            (الاسم)
-          </div>
-          <div class="name-col">
-            Sku<br />
-            ( كود المنتج)
-          </div>
-          <div class="name-col" style="border-left: none">
-            Product image<br />
-            ( صورة المنتج)
-          </div>
-        </div>
-        <div class="box-col" *ngFor="let item of order?.items; let i = index">
-          <div class="value-col" style="direction: ltr">
-            <p>
-              {{
-                item?.discount_price
-                  ? item?.discount_price +
-                    environmentVariables?.localization?.currency_code_en
-                  : "-"
-              }}
-            </p>
-          </div>
-
-          <div class="value-col">
-            <p>
-              {{ item?.price }}
-              {{ environmentVariables?.localization?.currency_code_en }}
-            </p>
-          </div>
-          <div class="value-col">
-            <p>
-              {{ item?.amount }}
-            </p>
-          </div>
-          <div class="value-col">
-            <p class="word-break-all">
-              {{ item?.serial_number || "-" }}
-            </p>
-          </div>
-          <div class="value-col">
-            <p>
-              {{ item?.product?.name }}
-            </p>
-          </div>
-          <div class="value-col">
-            <p>
-              {{ item?.product?.sku }}
-            </p>
-          </div>
-          <div class="value-col" style="border-left: none">
+          <div class="col">
             <img
-              [src]="item.product.image"
-              onError="this.src='./assets/img/placeholder200.jpg';"
-              default="./assets/img/placeholder200.jpg"
+              src="{{ environmentVariables.brands.logoBlack }}"
+              width="50"
               alt=""
-              height="100"
-              style="width: 90%; object-fit: contain"
             />
           </div>
           <div
-            style="page-break-inside: avoid; page-break-before: always"
-            *ngIf="i + 1 == 10"
-          ></div>
-        </div>
-        <div class="box-price">
-          <div class="value-price" style="direction: ltr">
-            {{ order?.actual_amount }}
-            {{ environmentVariables?.localization?.currency_code_en }}
+            *ngIf="environmentVariables?.brandRelatedVariables.hotline"
+            class="col right-rec"
+          >
+            <p class="text-right p-r r-24">
+              <i class="fa fa-phone"></i
+              >{{ environmentVariables?.brandRelatedVariables.hotline }}
+            </p>
           </div>
-          <div class="name-price">Subtotal</div>
-        </div>
-        <div class="box-price">
-          <div class="value-price" style="direction: ltr">
-            {{
-              order.discount_amount
-                ? order.actual_amount -
-                  order.discount_amount +
-                  environmentVariables?.localization?.currency_code_en
-                : "-"
-            }}
-          </div>
-          <div class="name-price">Discount</div>
-        </div>
-        <div class="box-price">
-          <div class="value-price" style="direction: ltr">
-            {{
-              order.delivery_fees
-                ? order.delivery_fees +
-                  environmentVariables?.localization?.currency_code_en
-                : "-"
-            }}
-          </div>
-          <div class="name-price">Shiping cost</div>
-        </div>
-        <div class="box-price">
-          <div class="value-price" style="direction: ltr">
-            {{ order.amount + order.delivery_fees }}
-            {{ environmentVariables?.localization?.currency_code_en }}
-          </div>
-          <div class="name-price">Total amount</div>
         </div>
       </div>
-      <div class="payment-method">
-        <p>
-          Payment method (طريقة الدفع) :
-          <span>{{ order?.payment_method_object?.name_en }}</span>
-        </p>
-      </div>
-      <div class="info-user">
-        <div class="box-price" style="border-left: 1px solid #888">
-          <div class="name-price">Client Name</div>
 
-          <div
-            class="value-price"
-            style="
-              direction: ltr;
-              border-right: 1px solid #888;
-              width: 87.5%;
-              text-align: left;
-            "
-          >
-            {{ order?.user?.name }}
+      <ul class="main-list" *ngIf="order">
+        <div class="row">
+          <div class="col-6 pr-0">
+            <li class="row m-0">
+              <span class="col-6 p-0">Creation :</span>
+              <span class="col-6 p-0 mr-0 spaning">
+                {{ order?.created_at | date: "short" }}</span
+              >
+            </li>
+          </div>
+          <div class="col-6 text-left">
+            <li>
+              <span>Branch :</span
+              >{{
+                order?.deliverer?.name.length > 10
+                  ? (order?.deliverer?.name | slice: 0:10)
+                  : order?.deliverer?.name
+              }}
+            </li>
+          </div>
+          <div class="col-6">
+            <li class="row m-0">
+              <span class="col-6 p-0">Order :</span>
+              <span class="col-6 p-0">{{ order?.id }}</span>
+            </li>
+          </div>
+          <div class="col-6 text-left">
+            <li><span>Client :</span>{{ order?.user?.name }}</li>
+          </div>
+          <div class="col-6 text-left">
+            <li><span>city :</span>{{ order?.address?.city?.name }}</li>
+          </div>
+          <div class="col-6 text-left">
+            <li><span>Area :</span>{{ order?.address?.area?.name }}</li>
+          </div>
+          <div class="col-6 text-left">
+            <li><span>district :</span>{{ order?.address?.district?.name }}</li>
+          </div>
+          <div class="col-6">
+            <li class="row m-0">
+              <span class="col-6 p-0">Phone :</span>
+              <span class="col-6 p-0">{{ order?.user?.phone }}</span>
+            </li>
           </div>
         </div>
-        <div class="box-price" style="border-left: 1px solid #888">
-          <div class="name-price">Client phone</div>
+        <li class="wb-a">
+          <span>Address :</span>{{ order?.address?.address }}
+        </li>
+        <li *ngIf="order?.address?.landmark">
+          <span>Landmark :</span>{{ order?.address?.landmark }}
+        </li>
 
-          <div
-            class="value-price"
-            style="
-              direction: ltr;
-              border-right: 1px solid #888;
-              width: 87.5%;
-              text-align: left;
-            "
-          >
-            {{ order?.user?.phone }}
+        <ul class="row">
+          <div class="col">
+            <li><span>Building : </span>{{ order?.address?.apartment }}</li>
           </div>
-        </div>
-        <div
-          class="box-price"
-          style="border-left: 1px solid #888; border-left: 1px solid #888"
-        >
-          <div class="name-price">Client address</div>
-          <div
-            class="value-price"
-            style="
-              direction: ltr;
-              border-right: 1px solid #888;
-              width: 87.5%;
-              text-align: left;
-            "
-          >
-            {{ order?.address?.formatted_address }}
+
+          <div class="col">
+            <li><span>Apt : </span>{{ order?.address?.floor }}</li>
           </div>
-        </div>
-        <div
-          class="box-price"
-          style="border-bottom: 1px solid #888; border-left: 1px solid #888"
-        >
-          <div class="name-price">Notes</div>
-          <div
-            class="value-price"
-            style="
-              direction: ltr;
-              border-right: 1px solid #888;
-              width: 87.5%;
-              text-align: left;
-            "
-          >
-            {{ order.notes ? order.notes : "-" }}
+        </ul>
+        <li *ngIf="order.notes"><span> Notes </span>{{ order?.notes }}</li>
+      </ul>
+
+      <div class="p-1">
+        <table>
+          <thead>
+            <th class="w-160">Item</th>
+            <th class="w-70 text-center">Price</th>
+            <th class="pr-12 text-center">QTY</th>
+            <th class="text-center">Total</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of order?.items">
+              <td>
+                {{
+                  item.product?.name_ar
+                    ? item.product?.name_ar
+                    : item.product?.name
+                }}
+                <br />
+                {{ "sku: " + item.sku }}
+              </td>
+
+              <td class="text-right pr-1">
+                <span *ngIf="item.product?.discount_price === null"
+                  >{{ item.product?.price }}
+                </span>
+                <span *ngIf="item.product?.discount_price !== null"
+                  >{{ item.product?.discount_price }}
+                </span>
+              </td>
+              <td class="text-center">{{ item.amount }}</td>
+              <td class="text-right pr-1">
+                <span *ngIf="item.product?.discount_price === null"
+                  >{{ item.product?.price * item.amount }}
+                </span>
+                <span *ngIf="item.product?.discount_price !== null"
+                  >{{ item.product?.discount_price * item.amount }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr class="tmt-0 mb-0" />
+      <div class="p-1" *ngIf="order">
+        <div class="row">
+          <div class="col-6 pr-0 fw-6 fs-11">
+            <div class="row m-0">
+              <span class="col-6 p-0"> Items Total :</span>
+              <span class="col-6 p-0 mr-0 fs-11 wp-120 fw-6">
+                {{ order.actual_amount }}
+                <span class="text-right">{{
+                  environmentVariables.localization.currency_code_en
+                }}</span></span
+              >
+            </div>
+          </div>
+
+          <div class="col-6 pr-0 fw-6 fs-11" *ngIf="order.discount_amount">
+            <div class="row m-0">
+              <span class="col-6 p-0"> Offer :</span>
+              <span class="col-6 p-0 mr-0 fs-11 wp-120 fw-6">
+                -{{ order.actual_amount - order.discount_amount | number }}
+                <span class="text-right">{{
+                  environmentVariables.localization.currency_code_en
+                }}</span></span
+              >
+            </div>
+          </div>
+          <div class="col-6 pr-0 fw-6 fs-11">
+            <div class="row m-0">
+              <span class="col-6 p-0"> Delivery Fees :</span>
+              <span class="col-6 p-0 mr-0 fs-11 wp-120 fw-6"
+                >{{ order.delivery_fees }}
+                <span class="text-right">{{
+                  environmentVariables.localization.currency_code_en
+                }}</span></span
+              >
+            </div>
           </div>
         </div>
       </div>
-      <div class="info">
+
+      <div class="footer text-center">
         <p>
-          For any inquiries or requests please contact our customer service
-          at:<br />
-          Hotline:
-          {{
-            environmentVariables
-              ? environmentVariables.brandRelatedVariables.hotline
-              : ""
-          }}<br />
-          Email:
-          {{
-            environmentVariables
-              ? environmentVariables.brandRelatedVariables.email
-              : ""
-          }}<br />
-          Thanks for shopping at
-          {{
-            environmentVariables
-              ? environmentVariables.brandRelatedVariables.brand
-              : ""
-          }}!<br />
-        </p>
-        <p class="text-ar">
-          : لأي إستفسارات برجاء التواصل معنا على خدمة العملاء علي<br />
-          الخط الساخن:
-          {{
-            environmentVariables
-              ? environmentVariables.brandRelatedVariables.hotline
-              : ""
-          }}
-          <br />
-          {{
-            environmentVariables
-              ? environmentVariables.brandRelatedVariables.email
-              : ""
-          }}
-          : بريد إلكتروني<br />
-          !شكرا لتسوقك علي
-          {{
-            environmentVariables
-              ? environmentVariables.brandRelatedVariables.brandArabic
-              : ""
-          }}
+          grand total
+          <span
+            >{{ order.amount + order.delivery_fees }}
+            {{ environmentVariables.localization.currency_code_en }}</span
+          >
         </p>
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="!loading" class="printActionsArea">
+  <button class="printBtn" (click)="print()">Print</button>
 </div>

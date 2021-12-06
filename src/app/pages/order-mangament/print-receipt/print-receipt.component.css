@@ -43,6 +43,7 @@
   font-size: 12px;
   font-weight: normal;
   color: #000000;
+  /* text-transform: capitalize; */
   display: block;
   margin-bottom: 0px;
 }
@@ -71,6 +72,7 @@ tr td {
 }
 
 .footer p {
+  /* text-transform: capitalize; */
   font-size: 15px;
   color: #000000;
   font-weight: bold;
@@ -87,4 +89,36 @@ tr td {
 .style-w-370px {
   width: 370px;
   margin: 0px auto;
+}
+.p-r {
+  position: relative;
+}
+.r-24 {
+  right: 24px;
+}
+.spaning {
+  font-size: 11px;
+  width: 120%;
+  font-weight: 500;
+}
+.wb-a {
+  word-break: break-all;
+}
+.w-160 {
+  width: 160px;
+}
+.w-70 {
+  width: 70px;
+}
+.wp-120 {
+  width: 120%;
+}
+.pr-12 {
+  padding-right: 12px;
+}
+.fw-6 {
+  font-weight: 600;
+}
+.fs-11 {
+  font-size: 11px;
 }
