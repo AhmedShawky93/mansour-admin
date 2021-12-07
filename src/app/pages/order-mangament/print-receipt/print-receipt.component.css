@@ -259,3 +259,32 @@ tr td {
   width: 100%;
   padding: 50px;
 }
+.bl-n {
+  border-left: none;
+}
+.d-ltr {
+  direction: rtl;
+}
+.value-col img {
+  width: 90%;
+  object-fit: contain;
+  height: 100px;
+}
+.pb-i {
+  page-break-inside: avoid;
+}
+.pb-b {
+  page-break-before: always;
+}
+.bl-1 {
+  border-left: 1px solid #888;
+}
+.br-1 {
+  border-right: 1px solid #888;
+}
+.bb-1 {
+  border-bottom: 1px solid #888;
+}
+.wp-87_5 {
+  width: 87.5%;
+}
