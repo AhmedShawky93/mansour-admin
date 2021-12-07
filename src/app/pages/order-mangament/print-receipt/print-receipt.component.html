@@ -248,13 +248,13 @@
               Sku<br />
               ( كود المنتج)
             </div>
-            <div class="name-col" style="border-left: none">
+            <div class="name-col bl-n">
               Product image<br />
               ( صورة المنتج)
             </div>
           </div>
           <div class="box-col" *ngFor="let item of order?.items; let i = index">
-            <div class="value-col" style="direction: ltr">
+            <div class="value-col d-ltr">
               <p>
                 {{
                   item?.discount_price
@@ -291,30 +291,25 @@
                 {{ item?.product?.sku }}
               </p>
             </div>
-            <div class="value-col" style="border-left: none">
+            <div class="value-col bl-n">
               <img
                 [src]="item.product.image"
                 onError="this.src='./assets/img/placeholder200.jpg';"
                 default="./assets/img/placeholder200.jpg"
                 alt=""
-                height="100"
-                style="width: 90%; object-fit: contain"
               />
             </div>
-            <div
-              style="page-break-inside: avoid; page-break-before: always"
-              *ngIf="i + 1 == 10"
-            ></div>
+            <div class="pb-i pb-b" *ngIf="i + 1 == 10"></div>
           </div>
           <div class="box-price">
-            <div class="value-price" style="direction: ltr">
+            <div class="value-price d-ltr">
               {{ order?.actual_amount }}
               {{ environmentVariables?.localization?.currency_code_en }}
             </div>
             <div class="name-price">Subtotal</div>
           </div>
           <div class="box-price">
-            <div class="value-price" style="direction: ltr">
+            <div class="value-price d-ltr">
               {{
                 order?.discount_amount
                   ? order?.actual_amount -
@@ -326,7 +321,7 @@
             <div class="name-price">Discount</div>
           </div>
           <div class="box-price">
-            <div class="value-price" style="direction: ltr">
+            <div class="value-price d-ltr">
               {{
                 order?.delivery_fees
                   ? order.delivery_fees +
@@ -337,7 +332,7 @@
             <div class="name-price">Shiping cost</div>
           </div>
           <div class="box-price">
-            <div class="value-price" style="direction: ltr">
+            <div class="value-price d-ltr">
               {{ order?.amount + order?.delivery_fees }}
               {{ environmentVariables?.localization?.currency_code_en }}
             </div>
@@ -355,67 +350,29 @@
           </p>
         </div>
         <div class="info-user">
-          <div class="box-price" style="border-left: 1px solid #888">
+          <div class="box-price bl-1">
             <div class="name-price">Client Name</div>
 
-            <div
-              class="value-price"
-              style="
-                direction: ltr;
-                border-right: 1px solid #888;
-                width: 87.5%;
-                text-align: left;
-              "
-            >
+            <div class="value-price d-ltr br-1 wp-87_5 text-left">
               {{ order?.user?.name }}
             </div>
           </div>
-          <div class="box-price" style="border-left: 1px solid #888">
+          <div class="box-price bl-1">
             <div class="name-price">Client phone</div>
 
-            <div
-              class="value-price"
-              style="
-                direction: ltr;
-                border-right: 1px solid #888;
-                width: 87.5%;
-                text-align: left;
-              "
-            >
+            <div class="value-price br-1 d-ltr wp-87_5 text-left">
               {{ order?.user?.phone }}
             </div>
           </div>
-          <div
-            class="box-price"
-            style="border-left: 1px solid #888; border-left: 1px solid #888"
-          >
+          <div class="box-price bl-1">
             <div class="name-price">Client address</div>
-            <div
-              class="value-price"
-              style="
-                direction: ltr;
-                border-right: 1px solid #888;
-                width: 87.5%;
-                text-align: left;
-              "
-            >
+            <div class="value-price d-ltr br-1 wp-87_5 text-left">
               {{ order?.address?.formatted_address }}
             </div>
           </div>
-          <div
-            class="box-price"
-            style="border-bottom: 1px solid #888; border-left: 1px solid #888"
-          >
+          <div class="box-price bb-1 bl-1">
             <div class="name-price">Notes</div>
-            <div
-              class="value-price"
-              style="
-                direction: ltr;
-                border-right: 1px solid #888;
-                width: 87.5%;
-                text-align: left;
-              "
-            >
+            <div class="value-price d-ltr br-1 wp-87_5 text-left">
               {{ order.notes ? order.notes : "-" }}
             </div>
           </div>
