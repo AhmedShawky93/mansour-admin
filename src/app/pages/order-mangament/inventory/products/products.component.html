@@ -96,15 +96,15 @@
           </div>
           <div class="col-md-2 col-xs-12 p-l-r-5">
             <div class="form-group">
-              <a
+              <button
                 class="
                   btn btn-owls btn-rounded btn-green btn-special
                   w-180px-plr-0
                 "
-                target="_blank"
-                [href]="syncFbSheet"
-                >Sync FaceBook Sheet
-              </a>
+                (click)="exportFb()"
+              >
+                Sync FaceBook Sheet
+              </button>
             </div>
           </div>
           <div class="col-md-2 col-xs-12 p-l-r-5">
@@ -292,7 +292,6 @@
               <textarea
                 [(ngModel)]="product.notes"
                 class="owl-input"
-                
                 placeholder="Why Do yo want to deactivate this product?"
               ></textarea>
               <button

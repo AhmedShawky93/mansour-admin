@@ -38,14 +38,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -66,14 +66,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -93,14 +93,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -125,14 +125,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -157,14 +157,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -189,14 +189,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -225,14 +225,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -244,8 +244,8 @@
             <label>{{ group.value.name }}</label>
             <app-image-uploader
               [formControlChildName]="'value'"
-              [myForm]="group"
               [deleteIcon]="true"
+              [myForm]="group"
               class="w-100"
               height="285px"
               width="100%"
@@ -257,14 +257,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -286,14 +286,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -314,14 +314,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -345,14 +345,14 @@
           </div>
           <div
             *ngIf="
-              groupArray['controls'][i].controls.value.invalid &&
-              (groupArray['controls'][i].controls.value.dirty ||
-                groupArray['controls'][i].controls.value.touched)
+              groupArray['controls'][i].controls.value?.invalid &&
+              (groupArray['controls'][i].controls.value?.dirty ||
+                groupArray['controls'][i].controls.value?.touched)
             "
             class="alert alert-danger"
           >
             <div
-              *ngIf="groupArray['controls'][i].controls.value.errors.required"
+              *ngIf="groupArray['controls'][i].controls.value.errors?.required"
             >
               {{ groupArray.title }} is required.
             </div>
@@ -365,8 +365,8 @@
             <label>{{ group.value.name }}</label>
             <app-image-uploader
               [fileUrl]="group.value.value"
-              [deleteIcon]="true"
               [formControlChildName]="'value'"
+              [deleteIcon]="true"
               [myForm]="group"
               class="w-100"
               height="275px"

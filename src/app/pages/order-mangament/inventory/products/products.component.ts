@@ -18,22 +18,36 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import {
+  ActivatedRoute,
+  Router,
+} from "@angular/router";
+
+import { environment } from "environments/environment.prod";
 import { debounce } from "lodash";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { tap } from "rxjs/operators";
 import { Subject } from "rxjs/Rx";
+
 import { CategoryService } from "@app/pages/services/category.service";
 import { DraftProductService } from "@app/pages/services/draft-product.service";
 import { ProductsService } from "@app/pages/services/products.service";
-import { ShowAffiliateService } from "@app/pages/services/show-affiliate.service";
+import {
+  ShowAffiliateService,
+} from "@app/pages/services/show-affiliate.service";
 import { UploadFilesService } from "@app/pages/services/upload-files.service";
 import { AuthService } from "@app/shared/auth.service";
-import { environment } from "environments/environment.prod";
+
 import { SettingService } from "../../../services/setting.service";
-import { AddEditProductComponent } from "./add-edit-product/add-edit-product.component";
+import {
+  AddEditProductComponent,
+} from "./add-edit-product/add-edit-product.component";
 
 declare var $: any;
 
@@ -78,7 +92,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   currentProduct: any;
   category_id: any;
   selectedDraft: any;
-  syncFbSheet: any;
   selectedUserIds: number[];
   products: Array<any> = [];
   selectedMainProduct: any;
@@ -170,7 +183,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.initProductFilterForm();
     this.getConfig();
-    this.syncFbSheet = `${environment.api}/api/admin/products/export_fb`;
     this.productsService
       .getBrands()
       .subscribe((response: any) => (this.brands = response.data));
@@ -244,7 +256,14 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   getFormControlValue(formControlValue) {
     return this.filterForm.get(formControlValue).value;
   }
-
+  exportFb() {
+    this.productsService.exportFbSheet().subscribe((res) => {
+      this.toastrService.success(
+        "You’ll receive a notification when the export is ready for download.",
+        " Your export is now being generated "
+      );
+    });
+  }
   setNavigateParams() {
     this.router.navigate(["/pages/products"], {
       relativeTo: this.activatedRoute,

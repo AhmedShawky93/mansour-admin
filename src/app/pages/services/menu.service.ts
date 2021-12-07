@@ -1,8 +1,9 @@
+import "rxjs/add/operator/catch";
+
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+
 import { environment } from "environments/environment.prod";
-import { Observable } from "rxjs";
-import "rxjs/add/operator/catch";
 
 @Injectable({
   providedIn: "root",
@@ -16,9 +17,7 @@ export class MenuService {
 
   // Create Products
   getMenuItems() {
-    return this.http.get<any>(
-      "https://mobilatyapi-staging.el-dokan.com/api/customer/home/menu"
-    );
+    return this.http.get<any>(`${environment.api}/api/customer/home/menu`);
   }
 
   getMenu() {

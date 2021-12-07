@@ -1,8 +1,10 @@
+import "rxjs/add/operator/catch";
+
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+
 import { environment } from "environments/environment.prod";
 import { Observable } from "rxjs";
-import "rxjs/add/operator/catch";
 
 @Injectable({
   providedIn: "root",
@@ -28,6 +30,10 @@ export class ProductsService {
 
   getStats(id, data) {
     return this.http.post(this.url + "/products/" + id + "/stats", data);
+  }
+
+  exportFbSheet() {
+    return this.http.get(`${this.url}/products/export_fb`);
   }
 
   searchProducts(data, p = 1) {
