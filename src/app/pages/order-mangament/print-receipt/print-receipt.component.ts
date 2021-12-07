@@ -14,6 +14,7 @@ import { SettingService } from "@app/pages/services/setting.service";
 })
 export class PrintReceiptComponent implements OnInit {
   order: any = [];
+  pos = true;
   loading = true;
   environmentVariables;
   item: any;

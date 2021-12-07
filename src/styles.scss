@@ -1554,7 +1554,7 @@ bar-rating {
   }
 
   .receipt {
-    height: 100% !important;
+    height: auto !important;
     width: 100% !important;
     margin: 0px auto !important;
     position: fixed !important;
@@ -2124,6 +2124,9 @@ i {
 .printActionsArea {
   text-align: center;
   padding: 20px;
+  button {
+    margin: 0 10px;
+  }
   button.printBtn {
     border: 0;
     background-color: var(--brand-color);
@@ -2133,6 +2136,32 @@ i {
     border-radius: 30px;
     &:hover {
       background-color: gray;
+      transition: 0.3s ease-in-out;
+    }
+  }
+  button.pos-btn {
+    border: 0;
+    background-color: black;
+    color: white;
+    padding: 8px;
+    min-width: 120px;
+    border-radius: 30px;
+    &:hover {
+      background-color: gray;
+      transition: 0.3s ease-in-out;
+    }
+  }
+  button.invoice-btn {
+    border: 0;
+    background-color: white;
+    border: 1px solid var(--brand-color);
+    color: var(--brand-color);
+    padding: 8px;
+    min-width: 120px;
+    border-radius: 30px;
+    &:hover {
+      background-color: var(--brand-color);
+      color: white;
       transition: 0.3s ease-in-out;
     }
   }
