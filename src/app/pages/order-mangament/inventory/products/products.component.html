@@ -229,8 +229,8 @@
         <td *ngIf="selectedMainProduct">
           {{ product?.last_editor?.name }}
         </td>
-        <td class="hidden">{{ product.stock ? product.stock : "0" }}</td>
-        <td *ngIf="selectedMainProduct" class="hidden">
+        <td>{{ product.stock ? product.stock : "0" }}</td>
+        <td *ngIf="selectedMainProduct">
           {{ product.price ? product.price : "0" }}
         </td>
         <td *ngIf="isAffiliate">
