@@ -189,6 +189,7 @@
         <th *ngIf="!selectedMainProduct" scope="col">category > subcat</th>
         <th *ngIf="selectedMainProduct" scope="col">Last Editor</th>
         <th scope="col">Stock</th>
+        <th *ngIf="selectedMainProduct" scope="col">Price</th>
         <th scope="col" *ngIf="isAffiliate">Commission</th>
         <th scope="col">action</th>
       </tr>
@@ -228,7 +229,10 @@
         <td *ngIf="selectedMainProduct">
           {{ product?.last_editor?.name }}
         </td>
-        <td class="hidden">{{ product.stock ? product.stock : "0" }}</td>
+        <td>{{ product.stock ? product.stock : "0" }}</td>
+        <td *ngIf="selectedMainProduct">
+          {{ product.price ? product.price : "0" }}
+        </td>
         <td *ngIf="isAffiliate">
           {{
             product.affiliate_commission ? product.affiliate_commission : "-"
