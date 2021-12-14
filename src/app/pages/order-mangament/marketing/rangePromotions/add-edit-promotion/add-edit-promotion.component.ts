@@ -137,6 +137,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         this.addConditionsForm(element);
         this.selectTypeConditions(element.item_type);
       });
+      data.segments.forEach((element) => {
+        this.addRangeForm(element);
+      });
     }
   }
 
