@@ -52,6 +52,24 @@
     </div>
 
     <div class="form-group">
+      <label for="">User Code</label>
+      <input
+        type="text"
+        class="owl-input"
+        name="code"
+        placeholder="Type here..."
+        formControlName="code"
+      />
+
+      <div
+        *ngIf="formControlValidator(customerForm, 'code', 'required')"
+        class="alert alert-danger"
+      >
+        User code is required.
+      </div>
+    </div>
+
+    <!-- <div class="form-group">
       <div class="form-group" style="margin-top: 10px; margin-bottom: 10px">
         <label class="container"
           >add Address
@@ -67,9 +85,9 @@
           <span class="checkmark"></span>
         </label>
       </div>
-    </div>
+    </div> -->
 
-    <div
+    <!-- <div
       formGroupName="address"
       *ngIf="customerForm.controls['has_address'].value"
     >
@@ -85,8 +103,6 @@
               {{ address.name }}
             </option>
           </select>
-          <!-- <input type="text" class="owl-input" name="name" placeholder="Type here..." formControlName="name"> -->
-
           <div
             *ngIf="
               customerForm.controls.address['controls']['name'].errors &&
@@ -225,7 +241,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="form-group">
       <label for="">email address </label>
@@ -237,12 +253,12 @@
         formControlName="email"
       />
 
-      <div
+      <!-- <div
         *ngIf="formControlValidator(customerForm, 'email', 'required')"
         class="alert alert-danger"
       >
         Email is required.
-      </div>
+      </div> -->
       <div
         *ngIf="formControlValidator(customerForm, 'email', 'email')"
         class="alert alert-danger"
@@ -344,7 +360,7 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="">Disabled payment methods</label>
       <ng-select
         name="closed_payment_methods"
@@ -356,7 +372,7 @@
         <ng-option [value]="3">Valu</ng-option>
         <ng-option [value]="5">Premium</ng-option>
       </ng-select>
-    </div>
+    </div> -->
 
     <div class="btn-group">
       <button

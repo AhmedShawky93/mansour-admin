@@ -122,7 +122,6 @@
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!category.showReason">
               <textarea
-                
                 class="owl-input"
                 placeholder="Why Do yo want to deactivate this category?"
                 [(ngModel)]="category.notes"
@@ -210,7 +209,6 @@
           <span class="slider round"></span>
           <div class="reason-popup text-left" [hidden]="!cat.showReason">
             <textarea
-              
               class="owl-input"
               placeholder="Why Do yo want to deactivate this category?"
               [(ngModel)]="cat.notes"
@@ -699,6 +697,68 @@
                   </div>
                 </div>
               </div>
+              <div class="col-12 m-t-b-5">
+                <label> Ex Rate Pts </label>
+                <input
+                  type="number"
+                  class="owl-input"
+                  placeholder="type here"
+                  name="ex_rate_pts"
+                  formControlName="ex_rate_pts"
+                  required
+                />
+                <div
+                  *ngIf="
+                    editCatForm.controls.sub_categories.controls[i].controls
+                      .ex_rate_pts.invalid &&
+                    (editCatForm.controls.sub_categories.controls[i].controls
+                      .ex_rate_pts.dirty ||
+                      editCatForm.controls.sub_categories.controls[i].controls
+                        .ex_rate_pts.touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div
+                    *ngIf="
+                      editCatForm.controls.sub_categories.controls[i].controls
+                        .ex_rate_pts.errors.required
+                    "
+                  >
+                    Ex Rate Pts is required.
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 m-t-b-5">
+                <label> Ex Rate Egp </label>
+                <input
+                  type="number"
+                  class="owl-input"
+                  placeholder="type here"
+                  name="ex_rate_egp"
+                  formControlName="ex_rate_egp"
+                  required
+                />
+                <div
+                  *ngIf="
+                    editCatForm.controls.sub_categories.controls[i].controls
+                      .ex_rate_egp.invalid &&
+                    (editCatForm.controls.sub_categories.controls[i].controls
+                      .ex_rate_egp.dirty ||
+                      editCatForm.controls.sub_categories.controls[i].controls
+                        .ex_rate_egp.touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div
+                    *ngIf="
+                      editCatForm.controls.sub_categories.controls[i].controls
+                        .ex_rate_egp.errors.required
+                    "
+                  >
+                    Ex Rate Pts is required.
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1184,6 +1244,68 @@
                       "
                     >
                       order is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 m-t-b-5">
+                  <label> Ex Rate Pts </label>
+                  <input
+                    type="number"
+                    class="owl-input"
+                    placeholder="type here"
+                    name="ex_rate_pts"
+                    formControlName="ex_rate_pts"
+                    required
+                  />
+                  <div
+                    *ngIf="
+                      categoriesForm.controls.sub_categories.controls[i]
+                        .controls.ex_rate_pts.invalid &&
+                      (categoriesForm.controls.sub_categories.controls[i]
+                        .controls.ex_rate_pts.dirty ||
+                        categoriesForm.controls.sub_categories.controls[i]
+                          .controls.ex_rate_pts.touched)
+                    "
+                    class="alert alert-danger"
+                  >
+                    <div
+                      *ngIf="
+                        categoriesForm.controls.sub_categories.controls[i]
+                          .controls.ex_rate_pts.errors.required
+                      "
+                    >
+                      Ex Rate Pts is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 m-t-b-5">
+                  <label> Ex Rate Egp </label>
+                  <input
+                    type="number"
+                    class="owl-input"
+                    placeholder="type here"
+                    name="ex_rate_egp"
+                    formControlName="ex_rate_egp"
+                    required
+                  />
+                  <div
+                    *ngIf="
+                      categoriesForm.controls.sub_categories.controls[i]
+                        .controls.ex_rate_egp.invalid &&
+                      (categoriesForm.controls.sub_categories.controls[i]
+                        .controls.ex_rate_egp.dirty ||
+                        categoriesForm.controls.sub_categories.controls[i]
+                          .controls.ex_rate_egp.touched)
+                    "
+                    class="alert alert-danger"
+                  >
+                    <div
+                      *ngIf="
+                        categoriesForm.controls.sub_categories.controls[i]
+                          .controls.ex_rate_egp.errors.required
+                      "
+                    >
+                      Ex Rate Pts is required.
                     </div>
                   </div>
                 </div>

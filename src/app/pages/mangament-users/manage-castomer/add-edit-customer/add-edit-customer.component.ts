@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -7,10 +13,12 @@ import {
   ValidatorFn,
   Validators,
 } from "@angular/forms";
+
+import { ToastrService } from "ngx-toastr";
+
 import { AreasService } from "@app/pages/services/areas.service";
 import { CustomerService } from "@app/pages/services/customer.service";
 import { SettingService } from "@app/pages/services/setting.service";
-import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-add-edit-customer",
@@ -99,19 +107,17 @@ export class AddEditCustomerComponent implements OnInit {
         data ? data.last_name : "",
         Validators.required
       ),
-      email: new FormControl(data ? data.email : "", [
-        Validators.required,
-        Validators.email,
-      ]),
-      has_address: new FormControl(data ? data.has_address : false),
+      code: new FormControl(data ? data.code : "", Validators.required),
+      email: new FormControl(data ? data.email : "", [Validators.email]),
+      has_address: new FormControl(data ? data.has_address : true),
       address: new FormGroup({
-        name: new FormControl(data ? data.name : ""),
-        address: new FormControl(data ? data.address : ""),
-        city_id: new FormControl(data ? data.city_id : ""),
-        area_id: new FormControl(data ? data.area_id : ""),
-        landmark: new FormControl(data ? data.landmark : ""),
-        floor: new FormControl(data ? data.floor : ""),
-        apartment: new FormControl(data ? data.apartment : ""),
+        name: new FormControl(data ? data.name : "1"),
+        address: new FormControl(data ? data.address : 1),
+        city_id: new FormControl(data ? data.city_id : 10),
+        area_id: new FormControl(data ? data.area_id : 512),
+        landmark: new FormControl(data ? data.landmark : "1"),
+        floor: new FormControl(data ? data.floor : "1"),
+        apartment: new FormControl(data ? data.apartment : "1"),
       }),
       phone: new FormControl(data ? data.phone : "", [
         Validators.required,

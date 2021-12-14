@@ -1,15 +1,26 @@
-import { OptionsService } from "./../../../services/options.service";
-import { Component, ElementRef, OnInit } from "@angular/core";
-import { CategoryService } from "@app/pages/services/category.service";
-import { UploadFilesService } from "@app/pages/services/upload-files.service";
-import { ViewChild } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
-import { FormGroup, FormControl, FormArray } from "@angular/forms";
-import { Validators } from "@angular/forms";
-import { ProductsService } from "@app/pages/services/products.service";
-import { ReactivityService } from "@app/shared/services/reactivity.service";
-import { NgxSpinnerService } from "ngx-spinner";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+
 import { environment } from "environments/environment.prod";
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+
+import { CategoryService } from "@app/pages/services/category.service";
+import { ProductsService } from "@app/pages/services/products.service";
+import { UploadFilesService } from "@app/pages/services/upload-files.service";
+import { ReactivityService } from "@app/shared/services/reactivity.service";
+
+import { OptionsService } from "../../../services/options.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -251,6 +262,8 @@ export class CategoriesComponent implements OnInit {
           id: new FormControl(item.id),
           name: new FormControl(item.name, Validators.required),
           name_ar: new FormControl(item.name_ar, Validators.required),
+          ex_rate_pts: new FormControl(item.ex_rate_pts, Validators.required),
+          ex_rate_egp: new FormControl(item.ex_rate_egp, Validators.required),
           image: new FormControl(item.image, Validators.required),
           slug: new FormControl(item.slug, Validators.required),
           order: new FormControl(item.order),
@@ -307,6 +320,8 @@ export class CategoriesComponent implements OnInit {
         name_ar: new FormControl("", Validators.required),
         image: new FormControl("", Validators.required),
         order: new FormControl("", Validators.required),
+        ex_rate_pts: new FormControl("", Validators.required),
+        ex_rate_egp: new FormControl("", Validators.required),
         slug: new FormControl("", Validators.required),
         options: new FormControl([]),
       })
