@@ -78,4 +78,7 @@ export class PromotionsService {
   deletePromotion(id) {
     return this.http.delete(`${this.url}/promotions/${id}`);
   }
+  deleteRangePromotion(id) {
+    return this.http.delete(`${this.url}/promotions_b2b/${id}`);
+  }
 }

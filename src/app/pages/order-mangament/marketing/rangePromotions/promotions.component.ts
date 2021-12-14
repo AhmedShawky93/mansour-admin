@@ -176,7 +176,7 @@ export class PromotionsComponent implements OnInit {
   confirmDelete() {
     this.statedeleting = true;
     this.promotionsService
-      .deletePromotion(this.currentProduct.id)
+      .deleteRangePromotion(this.currentProduct.id)
       .subscribe(async (res: any) => {
         if (res.code == 200) {
           this.promotions = await this.promotions.filter(
