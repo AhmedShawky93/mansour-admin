@@ -666,7 +666,7 @@
                 >
                 </ng-select>
               </div>
-              <div class="col-12 m-t-b-5">
+              <div class="col-12 mt-3">
                 <label> Order </label>
                 <input
                   type="number"
@@ -697,7 +697,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12 m-t-b-5">
+              <div class="col-12 mt-3">
                 <label> Ex Rate Pts </label>
                 <input
                   type="number"
@@ -707,6 +707,9 @@
                   formControlName="ex_rate_pts"
                   required
                 />
+                <small class="form-text text-muted mt-2"
+                  >X points added to User account for Each Rate Egp
+                </small>
                 <div
                   *ngIf="
                     editCatForm.controls.sub_categories.controls[i].controls
@@ -728,7 +731,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12 m-t-b-5">
+              <div class="col-12 mt-3">
                 <label> Ex Rate Egp </label>
                 <input
                   type="number"
@@ -738,6 +741,9 @@
                   formControlName="ex_rate_egp"
                   required
                 />
+                <small class="form-text text-muted mt-2"
+                  >Y EGP spent by the user</small
+                >
                 <div
                   *ngIf="
                     editCatForm.controls.sub_categories.controls[i].controls
@@ -755,7 +761,7 @@
                         .ex_rate_egp.errors.required
                     "
                   >
-                    Ex Rate Pts is required.
+                    Ex Rate Egp is required.
                   </div>
                 </div>
               </div>
@@ -1106,7 +1112,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 m-t-b-5">
+            <div class="col-sm-12 mt-3">
               <label for="">Slug</label>
               <input
                 type="text"
@@ -1138,7 +1144,7 @@
             </div>
             <div class="col-sm-12 col-lx-6">
               <div class="row">
-                <div class="col-sm-12 m-t-b-5">
+                <div class="col-sm-12 mt-3">
                   <label for="">sub category</label>
                   <input
                     type="text"
@@ -1201,7 +1207,7 @@
                   </div>
                 </div>
 
-                <div class="col-12 m-t-b-5">
+                <div class="col-12 mt-3">
                   <label> Options Name </label>
                   <ng-select
                     name="optionName"
@@ -1216,7 +1222,7 @@
                   </ng-select>
                 </div>
 
-                <div class="col-12 m-t-b-5">
+                <div class="col-12 mt-3">
                   <label> Order </label>
                   <input
                     type="number"
@@ -1247,7 +1253,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 m-t-b-5">
+                <div class="col-12 mt-3">
                   <label> Ex Rate Pts </label>
                   <input
                     type="number"
@@ -1257,6 +1263,9 @@
                     formControlName="ex_rate_pts"
                     required
                   />
+                  <small class="form-text text-muted mt-2"
+                    >X points added to User account for Each Rate Egp
+                  </small>
                   <div
                     *ngIf="
                       categoriesForm.controls.sub_categories.controls[i]
@@ -1278,7 +1287,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 m-t-b-5">
+                <div class="col-12 mt-3">
                   <label> Ex Rate Egp </label>
                   <input
                     type="number"
@@ -1288,6 +1297,9 @@
                     formControlName="ex_rate_egp"
                     required
                   />
+                  <small class="form-text text-muted mt-2"
+                    >Y EGP spent by the user</small
+                  >
                   <div
                     *ngIf="
                       categoriesForm.controls.sub_categories.controls[i]
@@ -1305,7 +1317,7 @@
                           .controls.ex_rate_egp.errors.required
                       "
                     >
-                      Ex Rate Pts is required.
+                      Ex Rate Egp is required.
                     </div>
                   </div>
                 </div>
