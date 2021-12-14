@@ -1,0 +1,419 @@
+<div class="form-sidebar view-vindor-types add-edit-product-form" id="add-prod">
+  <div class="head">
+    <span class="close" (click)="closeSideBar()">
+      <i class="icon-Exit"></i>
+    </span>
+    <h3>{{ promotionData ? "Edit Promotion" : "New Promotion" }}</h3>
+  </div>
+
+  <form
+    class="sideform"
+    (ngSubmit)="submitForm()"
+    [formGroup]="promotionForm"
+    novalidate
+  >
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        formControlName="name"
+        id="name"
+      />
+      <div
+        *ngIf="
+          promotionForm.controls.name.invalid &&
+          (promotionForm.controls.name.dirty ||
+            promotionForm.controls.name.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="promotionForm.controls.name.errors.required">
+          Name is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="nameAr">Name (Ar)</label>
+      <input
+        type="text"
+        class="owl-input"
+        placeholder="Type.."
+        formControlName="name_ar"
+        id="nameAr"
+      />
+
+      <div
+        *ngIf="
+          promotionForm.controls.name_ar.invalid &&
+          (promotionForm.controls.name_ar.dirty ||
+            promotionForm.controls.name_ar.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="promotionForm.controls.name_ar.errors.required">
+          Name (Ar) is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="priority">Priority</label>
+      <input
+        type="number"
+        class="owl-input"
+        placeholder="Type.."
+        formControlName="priority"
+        pattern="[0-9]+(\.[0-9][0-9]?)?"
+        id="priority"
+      />
+      <div
+        *ngIf="
+          promotionForm.controls.priority.invalid &&
+          (promotionForm.controls.priority.dirty ||
+            promotionForm.controls.priority.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="promotionForm.controls.priority.errors.required">
+          Priority is required.
+        </div>
+        <div *ngIf="promotionForm.controls.priority.errors.min">
+          Priority can't be negative.
+        </div>
+      </div>
+    </div>
+
+    <div class="conditions">
+      <div class="form-group" formArrayName="conditions">
+        <div *ngFor="let item of conditions.controls; let i = index">
+          <div class="row box-range" [formGroupName]="i">
+            <div class="col-md-12 d-flex align-items-center p-0 mb-2 mt-4">
+              <h5 class="mr-3">Conditions:</h5>
+            </div>
+            <div
+              class="col-md-12"
+              *ngIf="
+                promotionForm.controls.conditions['controls'][i].controls
+                  .item_type.value == 1
+              "
+            >
+              <div class="form-group">
+                <label for="lists">Custom List</label>
+                <ng-select
+                  formControlName="item_id"
+                  [items]="lists"
+                  name="lists"
+                  bindLabel="name_en"
+                  bindValue="id"
+                  placeholder="Enter List name"
+                >
+                </ng-select>
+                <div
+                  *ngIf="
+                    item.get('item_id').invalid &&
+                    (item.get('item_id').dirty || item.get('item_id').touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="item.get('item_id').errors?.required">
+                    List is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="javascript:void(0)"
+              class="add-sub"
+              (click)="removeConditionsForm(i)"
+              *ngIf="conditions.length != 1"
+              >Remove Values</a
+            >
+          </div>
+        </div>
+      </div>
+      <button class="btn mb-3" type="button" (click)="addConditionsForm()">
+        Add Conditions
+      </button>
+    </div>
+
+    <div formArrayName="segments">
+      <div
+        *ngFor="
+          let item of promotionForm.get('segments')['controls'];
+          let i = index
+        "
+      >
+        <div class="row box-range" [formGroupName]="i">
+          <div class="col-md-12 d-flex align-items-center p-0 mb-2 mt-4">
+            <h5 class="mr-3">Range :</h5>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">From</label>
+              <input
+                type="text"
+                class="owl-input"
+                placeholder="type here.."
+                formControlName="min"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
+              />
+              <div
+                *ngIf="
+                  promotionForm.controls.segments['controls'][i].controls.min
+                    .invalid &&
+                  (promotionForm.controls.segments['controls'][i].controls.min
+                    .dirty ||
+                    promotionForm.controls.segments['controls'][i].controls.min
+                      .touched)
+                "
+                class="alert alert-danger"
+              >
+                <div
+                  *ngIf="
+                    promotionForm.controls.segments['controls'][i].controls.min
+                      .errors.required
+                  "
+                >
+                  from is required.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">to</label>
+              <input
+                type="text"
+                class="owl-input"
+                placeholder="type here.."
+                formControlName="max"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
+              />
+              <div
+                *ngIf="
+                  promotionForm.controls.segments['controls'][i].controls.max
+                    .invalid &&
+                  (promotionForm.controls.segments['controls'][i].controls.max
+                    .dirty ||
+                    promotionForm.controls.segments['controls'][i].controls.max
+                      .touched)
+                "
+                class="alert alert-danger"
+              >
+                <div
+                  *ngIf="
+                    promotionForm.controls.segments['controls'][i].controls.max
+                      .errors.required
+                  "
+                >
+                  to is required.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">vlaue</label>
+              <input
+                type="text"
+                class="owl-input"
+                placeholder="type here.."
+                name="discount"
+                min="0"
+                max="500"
+                formControlName="discount"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
+              />
+              <div
+                *ngIf="
+                  promotionForm.controls.segments['controls'][i].controls
+                    .discount.invalid &&
+                  (promotionForm.controls.segments['controls'][i].controls
+                    .discount.dirty ||
+                    promotionForm.controls.segments['controls'][i].controls
+                      .discount.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div
+                  *ngIf="
+                    promotionForm.controls.segments['controls'][i].controls
+                      .discount.errors.required
+                  "
+                >
+                  value is required.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mt-4">
+            <label class="checkup"
+              >per item
+              <input type="radio" formControlName="discount_type" [value]="1" />
+              <span class="checkmark"></span>
+            </label>
+            <label class="checkup ml-2"
+              >fixed
+              <input type="radio" formControlName="discount_type" [value]="2" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="">iterator</label>
+              <input
+                type="text"
+                class="owl-input"
+                placeholder="type here.."
+                name="iterator"
+                min="0"
+                max="500"
+                formControlName="iterator"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
+              />
+              <div
+                *ngIf="
+                  promotionForm.controls.segments['controls'][i].controls
+                    .iterator.invalid &&
+                  (promotionForm.controls.segments['controls'][i].controls
+                    .iterator.dirty ||
+                    promotionForm.controls.segments['controls'][i].controls
+                      .iterator.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div
+                  *ngIf="
+                    promotionForm.controls.segments['controls'][i].controls
+                      .iterator.errors.required
+                  "
+                >
+                  value is required.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="ranges.length > 1" class="col-md-4">
+            <a
+              href="javascript:void(0)"
+              class="add-sub"
+              (click)="removeRangeForm(i)"
+              >Remove Values</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <button class="btn mb-3" type="button" (click)="addRangeForm(null)">
+        Add Values
+      </button>
+    </div>
+
+    <div class="group-block box-range">
+      <h5>Start Date-Time</h5>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <app-generic-date-picker
+            [myForm]="promotionForm"
+            [formControlChildName]="'start_date'"
+            [placeholder]="'Start Date'"
+          >
+          </app-generic-date-picker>
+          <div
+            *ngIf="
+              promotionForm.controls.start_date.invalid &&
+              (promotionForm.controls.start_date.dirty ||
+                promotionForm.controls.start_date.touched)
+            "
+            class="alert alert-danger"
+          >
+            <div *ngIf="promotionForm.controls.start_date.errors.required">
+              Start Date is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <app-generic-time-picker
+            [formControlChildName]="'start_time'"
+            [myForm]="promotionForm"
+            [placeholder]="'Pick Time'"
+          ></app-generic-time-picker>
+          <div
+            *ngIf="
+              promotionForm.controls.start_time.invalid &&
+              (promotionForm.controls.start_time.dirty ||
+                promotionForm.controls.start_time.touched)
+            "
+            class="alert alert-danger"
+          >
+            <div *ngIf="promotionForm.controls.start_time.errors.required">
+              Start Time is required.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Expiration Date Time -->
+    <div class="group-block box-range">
+      <h5>Expiration Date-Time</h5>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <app-generic-date-picker
+            [myForm]="promotionForm"
+            [formControlChildName]="'expiration_date'"
+            [placeholder]="'Expiration Date'"
+          >
+          </app-generic-date-picker>
+          <div
+            *ngIf="
+              promotionForm.controls.expiration_date.invalid &&
+              (promotionForm.controls.expiration_date.dirty ||
+                promotionForm.controls.expiration_date.touched)
+            "
+            class="alert alert-danger"
+          >
+            <div *ngIf="promotionForm.controls.expiration_date.errors.required">
+              Expiration Date is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <app-generic-time-picker
+            [formControlChildName]="'expiration_time'"
+            [myForm]="promotionForm"
+            [placeholder]="'Pick Time'"
+          ></app-generic-time-picker>
+          <div
+            *ngIf="
+              promotionForm.controls.expiration_time.invalid &&
+              (promotionForm.controls.expiration_time.dirty ||
+                promotionForm.controls.expiration_time.touched)
+            "
+            class="alert alert-danger"
+          >
+            <div *ngIf="promotionForm.controls.expiration_time.errors.required">
+              Expiration Time is required.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-sidebar-btns">
+      <button
+        class="btn btn-owls btn-rounded btn-green"
+        style="position: relative"
+        [appLoading]="stateSubmitting"
+        [disabled]="stateSubmitting"
+      >
+        Save
+      </button>
+      <!-- <button class="btn btn-owls btn-rounded btn-green">Save</button> -->
+    </div>
+  </form>
+</div>

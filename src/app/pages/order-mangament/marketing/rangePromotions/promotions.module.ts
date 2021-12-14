@@ -30,7 +30,7 @@ const router = [
   {
     path: "",
     component: PromotionsComponent,
-    data: { title: "Item Promotions" },
+    data: { title: "Range Promotions" },
   },
 ];
 

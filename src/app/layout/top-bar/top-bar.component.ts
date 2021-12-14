@@ -1,13 +1,26 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { AuthService } from "@app/shared/auth.service";
-import { Router } from "@angular/router";
-import { SettingService } from "@app/pages/services/setting.service";
-import { NavigationEnd } from "@angular/router";
-import { ActivatedRoute } from "@angular/router";
 import "rxjs/add/operator/startWith";
 import "rxjs/add/operator/pairwise";
+
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+} from "@angular/router";
+
 import { interval } from "rxjs";
-import { switchMap, startWith } from "rxjs/operators";
+import {
+  startWith,
+  switchMap,
+} from "rxjs/operators";
+
+import { SettingService } from "@app/pages/services/setting.service";
+import { AuthService } from "@app/shared/auth.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -73,6 +86,8 @@ export class TopBarComponent implements OnInit {
       .filter((route) => route.outlet === "primary")
       .mergeMap((route) => route.data)
       .subscribe((event) => {
+        console.log("event : ", event);
+
         this.title = event["title"];
       });
 

@@ -405,8 +405,13 @@
             >
           </li>
           <li *ngxPermissionsOnly="['ADMIN', 'View Promos']">
-            <a routerLink="/pages/promotions" routerLinkActive="active">
-              Promotions</a
+            <a routerLink="/pages/range-promotions" routerLinkActive="active">
+              Range Promotions</a
+            >
+          </li>
+          <li *ngxPermissionsOnly="['ADMIN', 'View Promos']">
+            <a routerLink="/pages/item-promotions" routerLinkActive="active">
+              Item Promotions</a
             >
           </li>
           <!-- <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
