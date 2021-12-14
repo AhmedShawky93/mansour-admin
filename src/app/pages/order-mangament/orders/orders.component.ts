@@ -1,33 +1,6 @@
-import { PromosService } from "./../../services/promos.service";
-import { AreasService } from "@app/pages/services/areas.service";
-import { Router } from "@angular/router";
-import { OrderStatesService } from "./../../services/order-states.service";
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { OrdersService } from "@app/pages/services/orders.service";
-import { CategoryService } from "@app/pages/services/category.service";
-import { ToastrService } from "ngx-toastr";
-import { MatInput } from "@angular/material";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/map";
-import { NgxSpinnerService } from "ngx-spinner";
 
-import * as moment from "moment";
-
-import { Title } from "@angular/platform-browser";
-import { Subject, Observable, concat, of } from "rxjs";
-import {
-  tap,
-  switchMap,
-  debounceTime,
-  distinctUntilChanged,
-  catchError,
-  map,
-} from "rxjs/operators";
-import { AuthService } from "@app/shared/auth.service";
-import { environment } from "environments/environment.prod";
-import { DeliveryService } from "@app/pages/services/delivery.service";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ProductsService } from "@app/pages/services/products.service";
 import {
   animate,
   state,
@@ -35,9 +8,51 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
-import { AffiliateService } from "@app/pages/services/affiliate.service";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { MatInput } from "@angular/material";
+import { Title } from "@angular/platform-browser";
+import { Router } from "@angular/router";
+
+import { environment } from "environments/environment.prod";
 import { debounce } from "lodash";
+import * as moment from "moment";
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+import {
+  concat,
+  Observable,
+  of,
+  Subject,
+} from "rxjs";
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
+} from "rxjs/operators";
+
+import { AffiliateService } from "@app/pages/services/affiliate.service";
+import { AreasService } from "@app/pages/services/areas.service";
+import { CategoryService } from "@app/pages/services/category.service";
+import { DeliveryService } from "@app/pages/services/delivery.service";
+import { OrdersService } from "@app/pages/services/orders.service";
+import { ProductsService } from "@app/pages/services/products.service";
 import { SettingService } from "@app/pages/services/setting.service";
+import { AuthService } from "@app/shared/auth.service";
+
+import { OrderStatesService } from "../../services/order-states.service";
+import { PromosService } from "../../services/promos.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -100,17 +115,17 @@ export class OrdersComponent implements OnInit {
     state_id: "",
     date_from: "",
     date_to: "",
-    customer_city_ids: [],
-    customer_area_ids: [],
+    // customer_city_ids: [],
+    // customer_area_ids: [],
     hide_scheduled: 1,
     ids: [],
     customer_name: "",
     customer_email: "",
     customer_phone: "",
-    shipping_id: "",
-    payment_method: null,
-    user_agent: "",
-    order_type: null,
+    // shipping_id: "",
+    // payment_method: null,
+    // user_agent: "",
+    // order_type: null,
   };
 
   p = 1;
@@ -375,26 +390,26 @@ export class OrdersComponent implements OnInit {
       }
     });
   }
-  selectOrder(orderId) {
-    this.filter.order_type = orderId;
-  }
+  // selectOrder(orderId) {
+  //   this.filter.order_type = orderId;
+  // }
   ClearSearch() {
     this.filter = {
       term: "",
       state_id: "",
       date_from: "",
       date_to: "",
-      customer_city_ids: [],
-      customer_area_ids: [],
+      // customer_city_ids: [],
+      // customer_area_ids: [],
       hide_scheduled: 1,
       ids: [],
       customer_name: "",
       customer_email: "",
       customer_phone: "",
-      shipping_id: "",
-      user_agent: "",
-      order_type: null,
-      payment_method: null,
+      // shipping_id: "",
+      // user_agent: "",
+      // order_type: null,
+      // payment_method: null,
     };
     this.changePage(1);
   }
@@ -1290,37 +1305,37 @@ export class OrdersComponent implements OnInit {
     }
     this.districts = [];
   }
-  public selectCity(cityId) {
-    if (cityId) {
-      this.filter.customer_city_ids = [];
-      this.filter.customer_area_ids = [];
+  // public selectCity(cityId) {
+  //   if (cityId) {
+  //     // this.filter.customer_city_ids = [];
+  //     // this.filter.customer_area_ids = [];
 
-      const index = this.cities.findIndex((item) => item.id == cityId);
-      if (index !== -1) {
-        if (this.cities[index].areas.length) {
-          this.areaListSearch = this.cities[index].areas;
-        } else {
-          this.areaListSearch = [];
-          this.areaListSearch.push(this.cities[index]);
-        }
-      }
+  //     const index = this.cities.findIndex((item) => item.id == cityId);
+  //     if (index !== -1) {
+  //       if (this.cities[index].areas.length) {
+  //         this.areaListSearch = this.cities[index].areas;
+  //       } else {
+  //         this.areaListSearch = [];
+  //         this.areaListSearch.push(this.cities[index]);
+  //       }
+  //     }
 
-      this.filter.customer_city_ids = [cityId];
-    } else {
-      this.filter.customer_city_ids = [];
-      this.areaListSearch = [];
-    }
-    // this.changePage(1);
-  }
-  selectArea(areaId) {
-    if (areaId) {
-      this.filter.customer_area_ids = [areaId];
-    } else {
-      // this.filter.customer_area_ids = [areaId]
-      this.filter.customer_area_ids = [];
-    }
-    // this.changePage(1);
-  }
+  //     this.filter.customer_city_ids = [cityId];
+  //   } else {
+  //     this.filter.customer_city_ids = [];
+  //     this.areaListSearch = [];
+  //   }
+  //   // this.changePage(1);
+  // }
+  // selectArea(areaId) {
+  //   if (areaId) {
+  //     this.filter.customer_area_ids = [areaId];
+  //   } else {
+  //     // this.filter.customer_area_ids = [areaId]
+  //     this.filter.customer_area_ids = [];
+  //   }
+  //   // this.changePage(1);
+  // }
 
   public getDistrict(district) {
     const index = this.areaList.findIndex((item) => item.id == district);
@@ -1335,11 +1350,11 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  createOrder() {
-    this.selectedOrder = null;
-    // this.viewOrderSidebar = 'out';
-    this.toggleAddOrder = "in";
-  }
+  // createOrder() {
+  //   this.selectedOrder = null;
+  //   // this.viewOrderSidebar = 'out';
+  //   this.toggleAddOrder = "in";
+  // }
 
   editOrder(order) {
     this.selectedOrder = order;

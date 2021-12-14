@@ -224,7 +224,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       ]),
       min: new FormControl(data ? data.min : "", [Validators.required]),
       max: new FormControl(data ? data.max : "", [Validators.required]),
-      iterator: new FormControl(data ? data.max : "", [Validators.required]),
+      iterator: new FormControl(data ? data.iterator : "", [
+        Validators.required,
+      ]),
       discount_type: new FormControl(data ? data.discount_type : 1, [
         Validators.required,
       ]),

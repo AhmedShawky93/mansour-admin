@@ -1,19 +1,3 @@
-import { OrderStatesService } from "./../../services/order-states.service";
-import { Component, OnInit } from "@angular/core";
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
-import { Router } from "@angular/router";
-import { ActivatedRoute } from "@angular/router";
-import { OrdersService } from "@app/pages/services/orders.service";
-import { ToastrService } from "ngx-toastr";
-import { DeliveryService } from "@app/pages/services/delivery.service";
-import * as moment from "moment";
-import { Subject } from "rxjs";
 import {
   animate,
   state,
@@ -21,8 +5,32 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
-import { SettingService } from "@app/pages/services/setting.service";
+import {
+  Component,
+  OnInit,
+} from "@angular/core";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import {
+  ActivatedRoute,
+  Router,
+} from "@angular/router";
+
+import * as moment from "moment";
 import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
+import { Subject } from "rxjs";
+
+import { DeliveryService } from "@app/pages/services/delivery.service";
+import { OrdersService } from "@app/pages/services/orders.service";
+import { SettingService } from "@app/pages/services/setting.service";
+
+import { OrderStatesService } from "../../services/order-states.service";
 
 declare var jquery: any;
 declare var $: any;
