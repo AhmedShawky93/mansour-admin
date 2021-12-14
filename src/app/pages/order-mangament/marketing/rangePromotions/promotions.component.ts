@@ -125,12 +125,14 @@ export class PromotionsComponent implements OnInit {
       promotion.showReason = 0;
       promotion.notes = "";
       if (promotion.deactivated) {
-        this.promotionsService.activate(promotion.id).subscribe((data: any) => {
-          promotion.active = 1;
-          promotion.notes = "";
-          promotion.deactivation_notes = "";
-          promotion.deactivated = 0;
-        });
+        this.promotionsService
+          .activateRange(promotion.id)
+          .subscribe((data: any) => {
+            promotion.active = 1;
+            promotion.notes = "";
+            promotion.deactivation_notes = "";
+            promotion.deactivated = 0;
+          });
       }
     } else {
       promotion.notes = promotion.deactivation_notes;
@@ -146,7 +148,7 @@ export class PromotionsComponent implements OnInit {
   submitDeactivate(promotion) {
     promotion.active = 0;
     this.promotionsService
-      .deactivate(promotion.id, { deactivation_notes: promotion.notes })
+      .deactivateRange(promotion.id, { deactivation_notes: promotion.notes })
       .subscribe((data: any) => {
         promotion.active = 0;
         promotion.deactivation_notes = promotion.notes;

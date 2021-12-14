@@ -74,7 +74,21 @@ export class PromotionsService {
         return Observable.throw(error.error || "Server error");
       });
   }
+  activateRange(id) {
+    return this.http
+      .post(this.url + "/promotions_b2b/" + id + "/activate", id)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
 
+  deactivateRange(id, data) {
+    return this.http
+      .post(this.url + "/promotions_b2b/" + id + "/deactivate", data)
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
   deletePromotion(id) {
     return this.http.delete(`${this.url}/promotions/${id}`);
   }
