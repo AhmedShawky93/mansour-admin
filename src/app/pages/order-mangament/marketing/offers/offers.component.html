@@ -98,7 +98,6 @@
             <span class="slider round"></span>
             <div class="reason-popup text-left" [hidden]="!promo.showReason">
               <textarea
-                
                 class="owl-input"
                 placeholder="Why Do yo want to deactivate this promo?"
                 [(ngModel)]="promo.notes"
@@ -186,7 +185,7 @@
       <h5>description</h5>
       <p>{{ viewPromo.description }}</p>
     </div>
-    <div>
+    <!-- <div>
       <h5>Payment Methods</h5>
       <p
         *ngFor="let paymentMethod of viewPromo.payment_methods"
@@ -195,7 +194,7 @@
         {{ paymentMethod.name }}
         {{ paymentMethod.active ? "" : "- Deactivate " }}
       </p>
-    </div>
+    </div> -->
   </div>
 </div>
 
