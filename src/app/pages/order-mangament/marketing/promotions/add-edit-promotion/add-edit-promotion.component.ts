@@ -1,35 +1,40 @@
 import {
   Component,
+  EventEmitter,
+  Input,
+  OnChanges,
   OnInit,
   Output,
-  Input,
-  EventEmitter,
-  OnChanges,
 } from "@angular/core";
 import {
-  Validators,
-  FormGroup,
   FormArray,
-  FormControl,
   FormBuilder,
+  FormControl,
+  FormGroup,
   ValidatorFn,
-  ValidationErrors,
-  AbstractControl,
+  Validators,
 } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
-import { PromotionsService } from "@app/pages/services/promotions.service";
+
 import * as moment from "moment";
-import { ListsService } from "@app/pages/services/lists.service";
-import { Subject, concat, of } from "rxjs";
-import { ProductsService } from "@app/pages/services/products.service";
+import { ToastrService } from "ngx-toastr";
 import {
-  distinctUntilChanged,
-  debounceTime,
-  tap,
-  switchMap,
-  map,
+  concat,
+  of,
+  Subject,
+} from "rxjs";
+import {
   catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
 } from "rxjs/operators";
+
+import { ListsService } from "@app/pages/services/lists.service";
+import { ProductsService } from "@app/pages/services/products.service";
+import { PromotionsService } from "@app/pages/services/promotions.service";
+
 @Component({
   selector: "app-add-edit-promotion",
   templateUrl: "./add-edit-promotion.component.html",
@@ -114,11 +119,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       gift_en: new FormControl(data ? data.gift_en : ""),
       gift_ar: new FormControl(data ? data.gift_ar : ""),
       active: new FormControl(data ? data.active : 1),
+      boost: new FormControl(data ? data.boost : null),
       conditionsTypes: new FormControl([]),
-      type: new FormControl(data ? data.type : 1, [
-        Validators.required,
-        Validators.min(0),
-      ]),
+      type: new FormControl(1),
       showConditions: new FormControl(1),
       showTarget: new FormControl(1),
       times: new FormControl(data ? data.times : null, [Validators.min(0)]),

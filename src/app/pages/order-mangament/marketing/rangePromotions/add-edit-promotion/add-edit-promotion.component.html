@@ -194,26 +194,6 @@
                 formControlName="max"
                 onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
               />
-              <div
-                *ngIf="
-                  promotionForm.controls.segments['controls'][i].controls.max
-                    .invalid &&
-                  (promotionForm.controls.segments['controls'][i].controls.max
-                    .dirty ||
-                    promotionForm.controls.segments['controls'][i].controls.max
-                      .touched)
-                "
-                class="alert alert-danger"
-              >
-                <div
-                  *ngIf="
-                    promotionForm.controls.segments['controls'][i].controls.max
-                      .errors.required
-                  "
-                >
-                  to is required.
-                </div>
-              </div>
             </div>
           </div>
           <div class="col-md-4">

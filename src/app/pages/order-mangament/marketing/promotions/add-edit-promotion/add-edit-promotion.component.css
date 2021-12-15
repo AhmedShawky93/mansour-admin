@@ -226,4 +226,7 @@ agm-map {
   left: 7px !important;
   top: 2px !important;
 }
+p.field-value {
+  color: gray;
+}
 /*end checkbox style*/
