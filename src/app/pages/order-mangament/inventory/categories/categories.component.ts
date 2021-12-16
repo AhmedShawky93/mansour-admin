@@ -264,6 +264,9 @@ export class CategoriesComponent implements OnInit {
           name_ar: new FormControl(item.name_ar, Validators.required),
           ex_rate_pts: new FormControl(item.ex_rate_pts, Validators.required),
           ex_rate_egp: new FormControl(item.ex_rate_egp, Validators.required),
+          payment_target: new FormControl(
+            item.payment_target ? item.payment_target : null
+          ),
           image: new FormControl(item.image, Validators.required),
           slug: new FormControl(item.slug, Validators.required),
           order: new FormControl(item.order),
@@ -322,6 +325,7 @@ export class CategoriesComponent implements OnInit {
         order: new FormControl("", Validators.required),
         ex_rate_pts: new FormControl("", Validators.required),
         ex_rate_egp: new FormControl("", Validators.required),
+        payment_target: new FormControl(null),
         slug: new FormControl("", Validators.required),
         options: new FormControl([]),
       })
