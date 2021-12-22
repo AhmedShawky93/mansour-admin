@@ -227,6 +227,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       iterator: new FormControl(data ? data.iterator : "", [
         Validators.required,
       ]),
+      override_range: new FormControl(data ? data.override_range : false),
       discount_type: new FormControl(data ? data.discount_type : 1, [
         Validators.required,
       ]),

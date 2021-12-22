@@ -278,6 +278,24 @@
               </div>
             </div>
           </div>
+          <div class="col-md-4">
+            <div
+              class="form-group"
+              style="margin-top: 40px; margin-bottom: 10px"
+            >
+              <label class="container"
+                >Override Range
+                <input
+                  type="checkbox"
+                  class="form-control checkbox-style"
+                  name="override_range"
+                  id="override_range"
+                  formControlName="override_range"
+                />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div>
           <div *ngIf="ranges.length > 1" class="col-md-4">
             <a
               href="javascript:void(0)"
