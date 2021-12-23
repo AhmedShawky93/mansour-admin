@@ -298,7 +298,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
   }
 
   addTargetForm(data?): void {
-    this.targets.clear();
     this.targets.push(this.createTargetItem(data));
   }
 
