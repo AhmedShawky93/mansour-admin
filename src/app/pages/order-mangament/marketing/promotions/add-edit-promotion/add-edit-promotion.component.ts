@@ -298,17 +298,22 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
   }
 
   addTargetForm(data?): void {
+    this.targets.clear();
     this.targets.push(this.createTargetItem(data));
   }
 
   createTargetItem(data): FormGroup {
     let fg = this.formBuilder.group({
-      item_id: new FormControl(data ? data.item_id : ""),
-      item_type: new FormControl(data ? data.item_type : 1),
-      custom_list: new FormControl(
-        data ? data.custom_lists.map((res) => res.item_id) : []
-      ),
+      item_id: new FormControl(data ? data.item_id : null),
+      item_type: new FormControl(data ? data.item_type : 2),
+      // custom_list: new FormControl(
+      //   data ? data.custom_lists.map((res) => res.item_id) : []
+      // ),
+      quantity: new FormControl(data ? data.quantity : null, [
+        Validators.min(1),
+      ]),
     });
+    this.creatMultiProducts();
     return fg;
   }
 
@@ -323,9 +328,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         this.promotionForm.controls.targets["controls"][
           i
         ].controls.item_id.reset();
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.custom_list.reset();
+        // this.promotionForm.controls.targets["controls"][
+        //   i
+        // ].controls.custom_list.reset();
       }
       if (
         this.promotionForm.controls.targets["controls"][i].controls.item_type
@@ -349,16 +354,16 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       ) {
         this.promotionForm.controls.targets["controls"][
           i
-        ].controls.custom_list.setValidators([Validators.required]);
+        ].controls.item_id.setValidators([Validators.required]);
         this.promotionForm.controls.targets["controls"][
           i
         ].controls.item_id.clearValidators();
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.item_id.updateValueAndValidity();
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.custom_list.updateValueAndValidity();
+        // this.promotionForm.controls.targets["controls"][
+        //   i
+        // ].controls.item_id.updateValueAndValidity();
+        // this.promotionForm.controls.targets["controls"][
+        //   i
+        // ].controls.custom_list.updateValueAndValidity();
       } else {
         this.promotionForm.controls.targets["controls"][
           i
@@ -412,11 +417,14 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         productsLoading: productsLoading,
       });
     });
+
     data.targets.forEach((item) => {
       const productsInput$ = new Subject<String>();
       let productsLoading = false;
+      var singleProduct = [];
+      singleProduct.push(item);
       const products$ = concat(
-        of(item.custom_lists.map((res) => res.product)),
+        of(singleProduct.map((res) => res.product)),
         productsInput$.pipe(
           debounceTime(200),
           distinctUntilChanged(),
@@ -437,6 +445,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
           )
         )
       );
+
       this.targetsProducts.push({
         products$: products$,
         productsInput$: productsInput$,
@@ -593,15 +602,15 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         }
       });
     }
-    if (data.targets) {
-      data.targets.filter((condition) => {
-        if (condition.item_type == 1) {
-          delete condition.custom_list;
-        } else {
-          delete condition.item_id;
-        }
-      });
-    }
+    // if (data.targets) {
+    //   data.targets.filter((condition) => {
+    //     if (condition.item_type == 1) {
+    //       delete condition.custom_list;
+    //     } else {
+    //       delete condition.item_id;
+    //     }
+    //   });
+    // }
   }
 
   changeType(e) {

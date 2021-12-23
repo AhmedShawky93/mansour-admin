@@ -344,7 +344,7 @@
                   class="alert alert-danger"
                 >
                   <div *ngIf="item.get('quantity').errors?.min">
-                    Quantity can't be negative.
+                    Quantity can't be 0 or negative.
                   </div>
                 </div>
               </div>
@@ -441,66 +441,10 @@
           <div class="row box-range" [formGroupName]="i">
             <div class="col-md-12 d-flex align-items-center p-0 mb-2 mt-4">
               <h5 class="mr-3">Targets:</h5>
-              <label class="checkup" (change)="selectTypeTarget(1, i)"
-                >List
-                <input type="radio" [value]="1" formControlName="item_type" />
-                <span class="checkmark"></span>
-              </label>
-              <label class="checkup ml-2" (change)="selectTypeTarget(2, i)"
-                >Products
-                <input type="radio" [value]="2" formControlName="item_type" />
-                <span class="checkmark"></span>
-              </label>
             </div>
-            <div
-              class="col-md-12"
-              *ngIf="
-                promotionForm.controls.targets['controls'][i].controls.item_type
-                  .value == 1
-              "
-            >
+            <div class="col-md-6">
               <div class="form-group">
-                <label for="listName">Custom List</label>
-                <ng-select
-                  formControlName="item_id"
-                  [items]="lists"
-                  bindLabel="name_en"
-                  bindValue="id"
-                  placeholder="Enter List name"
-                  id="listName"
-                >
-                </ng-select>
-                <div
-                  *ngIf="
-                    promotionForm.controls.targets['controls'][i].controls
-                      .item_id.invalid &&
-                    (promotionForm.controls.targets['controls'][i].controls
-                      .item_id.dirty ||
-                      promotionForm.controls.targets['controls'][i].controls
-                        .item_id.touched)
-                  "
-                  class="alert alert-danger"
-                >
-                  <div
-                    *ngIf="
-                      promotionForm.controls.targets['controls'][i].controls
-                        .item_id.errors.required
-                    "
-                  >
-                    List is required.
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col-md-12"
-              *ngIf="
-                promotionForm.controls.targets['controls'][i].controls.item_type
-                  .value == 2
-              "
-            >
-              <div class="form-group">
-                <label for="targetsProducts">Products</label>
+                <label for="targetsProducts">Product</label>
                 <ng-select
                   [typeahead]="targetsProducts[i].productsInput$"
                   [loading]="targetsProducts[i].productsLoading"
@@ -509,30 +453,58 @@
                   bindLabel="name"
                   bindValue="id"
                   placeholder="Enter Product name"
-                  formControlName="custom_list"
-                  [multiple]="true"
+                  formControlName="item_id"
+                  [multiple]="false"
                 >
-                  >
                 </ng-select>
                 <div
                   *ngIf="
-                    promotionForm.controls.targets['controls'][i].controls
-                      .custom_list.invalid &&
-                    (promotionForm.controls.targets['controls'][i].controls
-                      .custom_list.dirty ||
-                      promotionForm.controls.targets['controls'][i].controls
-                        .custom_list.touched)
+                    item.get('item_id').invalid &&
+                    (item.get('item_id').dirty || item.get('item_id').touched)
                   "
                   class="alert alert-danger"
                 >
-                  <div
-                    *ngIf="
-                      promotionForm.controls.targets['controls'][i].controls
-                        .custom_list.errors.required
-                    "
-                  >
-                    Products is required.
+                  <div *ngIf="item.get('item_id').errors?.required">
+                    Product is required.
                   </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input
+                  type="number"
+                  class="owl-input"
+                  placeholder="Type.."
+                  formControlName="quantity"
+                  pattern="[0-9]+(\.[0-9][0-9]?)?"
+                  id="quantity"
+                />
+                <div
+                  *ngIf="
+                    item.get('quantity').invalid &&
+                    (item.get('quantity').dirty || item.get('quantity').touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="item.get('quantity').errors?.min">
+                    Quantity can't be 0 or negative.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-end">
+              <div
+                *ngIf="
+                  (!item.get('quantity').value ||
+                    item.get('quantity').value == null) &&
+                  isSubmit
+                "
+              >
+                <div>
+                  <h6 style="color: red">Quantity is required.</h6>
                 </div>
               </div>
             </div>
@@ -546,6 +518,9 @@
           </div>
         </div>
       </div>
+      <button class="btn mb-3" type="button" (click)="addTargetForm()">
+        Add Targets
+      </button>
     </div>
 
     <div class="form-group">
