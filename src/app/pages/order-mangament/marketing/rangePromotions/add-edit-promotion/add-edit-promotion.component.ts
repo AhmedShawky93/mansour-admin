@@ -238,7 +238,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       index
     ].controls.override_range.setValue(
       this.promotionForm.controls.segments["controls"][index].controls
-        .override_range
+        .override_range.value
         ? 1
         : 0
     );
@@ -346,10 +346,12 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
   submitForm() {
     this.isSubmit = true;
+
     if (!this.promotionForm.valid) {
       this.markFormGroupTouched(this.promotionForm);
       return;
     }
+
     if (this.promotionData) {
       this.editPromotion();
     } else {
