@@ -227,11 +227,21 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       iterator: new FormControl(data ? data.iterator : "", [
         Validators.required,
       ]),
-      override_range: new FormControl(data ? data.override_range : false),
+      override_range: new FormControl(data ? data.override_range : 0),
       discount_type: new FormControl(data ? data.discount_type : 1, [
         Validators.required,
       ]),
     });
+  }
+  changeOveride(index) {
+    this.promotionForm.controls.segments["controls"][
+      index
+    ].controls.override_range.setValue(
+      this.promotionForm.controls.segments["controls"][index].controls
+        .override_range
+        ? 1
+        : 0
+    );
   }
   removeRangeForm(index) {
     this.ranges.removeAt(index);
