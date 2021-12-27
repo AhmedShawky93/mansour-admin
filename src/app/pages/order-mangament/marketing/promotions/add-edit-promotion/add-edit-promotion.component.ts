@@ -304,6 +304,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     let fg = this.formBuilder.group({
       item_id: new FormControl(data ? data.item_id : null),
       item_type: new FormControl(data ? data.item_type : 2),
+      operator: new FormControl(data ? data.operator : 1),
       // custom_list: new FormControl(
       //   data ? data.custom_lists.map((res) => res.item_id) : []
       // ),

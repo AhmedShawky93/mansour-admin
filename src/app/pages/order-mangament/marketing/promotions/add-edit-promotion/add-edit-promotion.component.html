@@ -510,6 +510,28 @@
                 </div> -->
               </div>
             </div>
+            <div class="col-md-3 d-flex pt-2 mt-4">
+              <label class="checkup"
+                >And
+                <input
+                  type="radio"
+                  name="operatortarget{{ i }}"
+                  [value]="1"
+                  formControlName="operator"
+                />
+                <span class="checkmark"></span>
+              </label>
+              <label class="checkup"
+                >Or
+                <input
+                  type="radio"
+                  name="operatortarget{{ i }}"
+                  [value]="0"
+                  formControlName="operator"
+                />
+                <span class="checkmark"></span>
+              </label>
+            </div>
 
             <!-- <div class="col-md-12 d-flex justify-content-end">
               <div
