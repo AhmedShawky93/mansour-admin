@@ -231,6 +231,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     let fg = this.formBuilder.group({
       item_id: new FormControl(data ? data.item_id : null),
       item_type: new FormControl(data ? data.item_type : 1),
+      operator: new FormControl(data ? data.operator : 1),
       amount: new FormControl(data ? data.amount : null, [Validators.min(1)]),
       quantity: new FormControl(data ? data.quantity : null, [
         Validators.min(1),
@@ -327,56 +328,47 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         this.promotionForm.controls.targets["controls"][
           i
         ].controls.item_id.reset();
-        // this.promotionForm.controls.targets["controls"][
-        //   i
-        // ].controls.custom_list.reset();
       }
-      if (
-        this.promotionForm.controls.targets["controls"][i].controls.item_type
-          .value == 1
-      ) {
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.item_id.setValidators([Validators.required]);
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.custom_list.clearValidators();
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.item_id.updateValueAndValidity();
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.custom_list.updateValueAndValidity();
-      } else if (
-        this.promotionForm.controls.targets["controls"][i].controls.item_type
-          .value == 2
-      ) {
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.item_id.setValidators([Validators.required]);
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.item_id.clearValidators();
-        // this.promotionForm.controls.targets["controls"][
-        //   i
-        // ].controls.item_id.updateValueAndValidity();
-        // this.promotionForm.controls.targets["controls"][
-        //   i
-        // ].controls.custom_list.updateValueAndValidity();
-      } else {
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.custom_list.clearValidators();
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.item_id.clearValidators();
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.item_id.updateValueAndValidity();
-        this.promotionForm.controls.targets["controls"][
-          i
-        ].controls.custom_list.updateValueAndValidity();
-      }
+      //   if (
+      //     this.promotionForm.controls.targets["controls"][i].controls.item_type
+      //       .value == 1
+      //   ) {
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.item_id.setValidators([Validators.required]);
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.custom_list.clearValidators();
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.item_id.updateValueAndValidity();
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.custom_list.updateValueAndValidity();
+      //   } else if (
+      //     this.promotionForm.controls.targets["controls"][i].controls.item_type
+      //       .value == 2
+      //   ) {
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.item_id.setValidators([Validators.required]);
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.item_id.clearValidators();
+      //   } else {
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.custom_list.clearValidators();
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.item_id.clearValidators();
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.item_id.updateValueAndValidity();
+      //     this.promotionForm.controls.targets["controls"][
+      //       i
+      //     ].controls.custom_list.updateValueAndValidity();
+      //   }
     });
     this.promotionForm.get("targets").updateValueAndValidity();
     this.promotionForm.updateValueAndValidity();

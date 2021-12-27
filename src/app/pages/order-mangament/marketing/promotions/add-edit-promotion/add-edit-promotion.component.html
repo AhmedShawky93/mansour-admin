@@ -357,6 +357,28 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-12 d-flex">
+              <label class="checkup"
+                >And
+                <input
+                  type="radio"
+                  name="operator"
+                  [value]="1"
+                  formControlName="operator"
+                />
+                <span class="checkmark"></span>
+              </label>
+              <label class="checkup"
+                >Or
+                <input
+                  type="radio"
+                  name="operator"
+                  [value]="0"
+                  formControlName="operator"
+                />
+                <span class="checkmark"></span>
+              </label>
+            </div>
             <a
               href="javascript:void(0)"
               class="add-sub"
@@ -457,7 +479,7 @@
                   [multiple]="false"
                 >
                 </ng-select>
-                <div
+                <!-- <div
                   *ngIf="
                     item.get('item_id').invalid &&
                     (item.get('item_id').dirty || item.get('item_id').touched)
@@ -467,7 +489,7 @@
                   <div *ngIf="item.get('item_id').errors?.required">
                     Product is required.
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="col-md-3">
@@ -481,7 +503,7 @@
                   pattern="[0-9]+(\.[0-9][0-9]?)?"
                   id="quantity"
                 />
-                <div
+                <!-- <div
                   *ngIf="
                     item.get('quantity').invalid &&
                     (item.get('quantity').dirty || item.get('quantity').touched)
@@ -491,11 +513,11 @@
                   <div *ngIf="item.get('quantity').errors?.min">
                     Quantity can't be 0 or negative.
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
 
-            <div class="col-md-12 d-flex justify-content-end">
+            <!-- <div class="col-md-12 d-flex justify-content-end">
               <div
                 *ngIf="
                   (!item.get('quantity').value ||
@@ -507,7 +529,7 @@
                   <h6 style="color: red">Quantity is required.</h6>
                 </div>
               </div>
-            </div>
+            </div> -->
             <a
               href="javascript:void(0)"
               class="add-sub"
