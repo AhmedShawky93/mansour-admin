@@ -362,7 +362,7 @@
                 >And
                 <input
                   type="radio"
-                  name="operator"
+                  name="operator{{ i }}"
                   [value]="1"
                   formControlName="operator"
                 />
@@ -372,7 +372,7 @@
                 >Or
                 <input
                   type="radio"
-                  name="operator"
+                  name="operator{{ i }}"
                   [value]="0"
                   formControlName="operator"
                 />
@@ -413,9 +413,6 @@
         "
         class="alert alert-danger"
       >
-        <div *ngIf="promotionForm.controls.discount_qty.errors.required">
-          Discount Quantity is required.
-        </div>
         <div *ngIf="promotionForm.controls.discount_qty.errors?.min">
           Amount can't be negative.
         </div>
@@ -441,9 +438,6 @@
         "
         class="alert alert-danger"
       >
-        <div *ngIf="promotionForm.controls.discount.errors.required">
-          Discount is required.
-        </div>
         <div *ngIf="promotionForm.controls.discount.errors.min">
           Discount minimum is 1%.
         </div>

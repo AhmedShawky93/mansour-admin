@@ -141,11 +141,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       //   data ? data.check_all_conditions : 0
       // ),
       discount_qty: new FormControl(data ? data.discount_qty : "", [
-        Validators.required,
         Validators.min(1),
       ]),
       discount: new FormControl(data ? data.discount : "", [
-        Validators.required,
         Validators.min(1),
         Validators.max(100),
       ]),
@@ -507,7 +505,11 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     data.active = 1;
     this.stateSubmitting = true;
     data.type = Number(data.type);
-
+    for (let t = 0; t < data.targets.length; t++) {
+      if (data.targets[t].item_id == null) {
+        data.targets.splice(t, 1);
+      }
+    }
     this.promotionService.createPromotion(data).subscribe((response: any) => {
       if (response.code == 200) {
         this.promotionForm.reset();
@@ -531,6 +533,11 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
     this.formatData(data);
     this.stateSubmitting = true;
+    for (let t = 0; t < data.targets.length; t++) {
+      if (data.targets[t].item_id == null) {
+        data.targets?.splice(t);
+      }
+    }
     console.log(data);
     this.promotionService
       .editPromotion(this.promotionData.id, data)
