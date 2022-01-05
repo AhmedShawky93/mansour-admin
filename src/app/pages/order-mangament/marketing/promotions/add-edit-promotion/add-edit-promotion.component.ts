@@ -17,11 +17,7 @@ import {
 
 import * as moment from "moment";
 import { ToastrService } from "ngx-toastr";
-import {
-  concat,
-  of,
-  Subject,
-} from "rxjs";
+import { concat, of, Subject } from "rxjs";
 import {
   catchError,
   debounceTime,
@@ -120,6 +116,8 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       gift_ar: new FormControl(data ? data.gift_ar : ""),
       active: new FormControl(data ? data.active : 1),
       boost: new FormControl(data ? data.boost : null),
+      exclusive: new FormControl(data ? data.exclusive : false),
+      per_month: new FormControl(data ? data.per_month : false),
       conditionsTypes: new FormControl([]),
       type: new FormControl(1),
       showConditions: new FormControl(1),
@@ -491,6 +489,26 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     if (!this.promotionForm.valid) {
       this.markFormGroupTouched(this.promotionForm);
       return;
+    }
+    if (
+      this.promotionForm.get("exclusive").value == true ||
+      this.promotionForm.get("exclusive").value == 1
+    ) {
+      this.promotionForm.get("exclusive").setValue(1);
+      this.promotionForm.get("exclusive").updateValueAndValidity();
+    } else {
+      this.promotionForm.get("exclusive").setValue(0);
+      this.promotionForm.get("exclusive").updateValueAndValidity();
+    }
+    if (
+      this.promotionForm.get("per_month").value == true ||
+      this.promotionForm.get("per_month").value == 1
+    ) {
+      this.promotionForm.get("per_month").setValue(1);
+      this.promotionForm.get("per_month").updateValueAndValidity();
+    } else {
+      this.promotionForm.get("per_month").setValue(0);
+      this.promotionForm.get("per_month").updateValueAndValidity();
     }
     if (this.promotionData) {
       this.editPromotion();
