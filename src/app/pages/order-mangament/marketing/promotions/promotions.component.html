@@ -49,8 +49,8 @@
       >
         <td class="relative">
           {{
-            promotion.name.length >= 25
-              ? (promotion.name | slice: 0:25) + "..."
+            promotion.name.length > 30
+              ? (promotion.name | slice: 0:30) + "..."
               : promotion.name
           }}
           <div
