@@ -469,11 +469,11 @@ getAllGroups(){
     if(this.promotionForm.get("group_id").value == 'null'){
       this.promotionForm.get("group_id").setValue(null);
     }
-
-    this.promotionData ?
-      this.editPromotion():
+    if (this.promotionData) {
+      this.editPromotion();
+    } else {
       this.createPromotion();
-
+    }
   }
 
   createPromotion() {
