@@ -222,7 +222,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       discount: new FormControl(data ? data.discount : "", [
         Validators.required,
       ]),
-      min: new FormControl(data ? data.min : "", [Validators.required]),
+      min: new FormControl(data ? data.min : "", [Validators.required,Validators.min(0.001)]),
       max: new FormControl(data ? data.max : null),
       iterator: new FormControl(data ? data.iterator : "", [
         Validators.required,
@@ -279,32 +279,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         productsLoading: productsLoading,
       });
     });
-    // data.targets.forEach((item) => {
-    //   const productsInput$ = new Subject<String>();
-    //   let productsLoading = false;
-    //   const products$ = concat(
-    //     of(item.custom_lists.map((res) => res.product)),
-    //     productsInput$.pipe(
-    //       debounceTime(200),
-    //       distinctUntilChanged(),
-    //       tap(() => (productsLoading = true)),
-    //       switchMap((term) =>
-    //         this.productService.searchProducts({ q: term, variant: 1 }, 1).pipe(
-    //           catchError(() => of([])),
-    //           tap(() => (productsLoading = false)),
-    //           map((response: any) => {
-    //             return response.data.products.map((p) => {
-    //               return {
-    //                 id: p.id,
-    //                 name: p.name,
-    //               };
-    //             });
-    //           })
-    //         )
-    //       )
-    //     )
-    //   );
-    // });
+
   }
 
   creatMultiProducts() {
@@ -365,7 +340,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     this.formatData(data);
     data.active = 1;
     this.stateSubmitting = true;
-    // data.type = Number(data.type);
 
     this.promotionService
       .createRangePromotion(data)
@@ -387,7 +361,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
   editPromotion() {
     const data = this.promotionForm.value;
-    // data.type = Number(data.type);
     data.expiration_date = moment(data.expiration_date).format("YYYY-MM-DD");
 
     this.formatData(data);
@@ -427,17 +400,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     data.start_date =
       data.start_date + " " + this.promotionForm.get("start_time").value;
     data.start_date = moment(data.start_date).format("YYYY-MM-DD HH:mm");
-    // data.different_brands = conditionsTypes.includes(1) ? 1 : 0;
-    // data.different_categories = conditionsTypes.includes(5) ? 1 : 0;
-    // data.different_products = conditionsTypes.includes(2)
-    //   ? 1
-    //   : conditionsTypes.includes(3)
-    //   ? 0
-    //   : conditionsTypes.includes(4)
-    //   ? 2
-    //   : null;
-    // data.override_discount = conditionsTypes.includes(6) ? 1 : 0;
-    // data.check_all_conditions = conditionsTypes.includes(7) ? 1 : 0;
+
     delete data.expiration_time;
     delete data.start_time;
     delete data.showConditions;
@@ -451,15 +414,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         }
       });
     }
-    // if (data.targets) {
-    //   data.targets.filter((condition) => {
-    //     if (condition.item_type == 1) {
-    //       delete condition.custom_list;
-    //     } else {
-    //       delete condition.item_id;
-    //     }
-    //   });
-    // }
+
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {

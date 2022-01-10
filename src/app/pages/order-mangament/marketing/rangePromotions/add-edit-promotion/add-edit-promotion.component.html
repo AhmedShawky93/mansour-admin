@@ -180,6 +180,10 @@
                 >
                   from is required.
                 </div>
+                <div *ngIf="promotionForm.controls.segments['controls'][i].controls.min
+                .errors?.min">
+                from can't be 0 or negative.
+                </div>
               </div>
             </div>
           </div>
@@ -412,7 +416,6 @@
       >
         Save
       </button>
-      <!-- <button class="btn btn-owls btn-rounded btn-green">Save</button> -->
     </div>
   </form>
 </div>

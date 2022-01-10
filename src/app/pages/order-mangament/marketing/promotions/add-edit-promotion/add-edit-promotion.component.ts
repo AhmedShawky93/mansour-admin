@@ -53,6 +53,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
   loading: boolean;
   conditionsProducts: any = [];
   targetsProducts: any = [];
+  groupsList:any=[];
   conditionsTypes: any[] = [
     { id: 1, name: "Different Brands", isDisabled: false },
     { id: 2, name: "Different Products", isDisabled: false },
@@ -73,6 +74,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getLists();
+    this.getAllGroups();
     this.getForm(this.promotionData);
     if (!this.promotionData) {
       this.addConditionsForm();
@@ -112,6 +114,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     this.promotionForm = this.formBuilder.group({
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
+      group_id: new FormControl(data ? data.group_id : ""),
       gift_en: new FormControl(data ? data.gift_en : ""),
       gift_ar: new FormControl(data ? data.gift_ar : ""),
       active: new FormControl(data ? data.active : 1),
@@ -129,15 +132,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         Validators.required,
         Validators.min(1),
       ]),
-      // different_brands: new FormControl(data ? data.different_brands : 0),
-      // different_products: new FormControl(data ? data.different_products : 0),
-      // different_categories: new FormControl(
-      //   data ? data.different_categories : 0
-      // ),
-      // override_discount: new FormControl(data ? data.override_discount : 0),
-      // check_all_conditions: new FormControl(
-      //   data ? data.check_all_conditions : 0
-      // ),
       discount_qty: new FormControl(data ? data.discount_qty : "", [
         Validators.min(1),
       ]),
@@ -205,7 +199,11 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       this.AllTypesArr.push(selectedType);
     }
   }
-
+getAllGroups(){
+  this.promotionService.getGroups().subscribe((res:any)=>{
+    this.groupsList=res.data;
+  })
+}
   validateAmountOrQty(): ValidatorFn {
     return (group: FormGroup) => {
       const amount = group.controls["amount"];
@@ -230,7 +228,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       operator: new FormControl(data ? data.operator : 1),
       amount: new FormControl(data ? data.amount : null, [Validators.min(1)]),
       quantity: new FormControl(data ? data.quantity : null, [
-        Validators.min(1),
+        Validators.min(0.001),
       ]),
       custom_list: new FormControl(
         data ? data.custom_lists.map((res) => res.item_id) : []
@@ -303,11 +301,8 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       item_id: new FormControl(data ? data.item_id : null),
       item_type: new FormControl(data ? data.item_type : 2),
       operator: new FormControl(data ? data.operator : 1),
-      // custom_list: new FormControl(
-      //   data ? data.custom_lists.map((res) => res.item_id) : []
-      // ),
       quantity: new FormControl(data ? data.quantity : null, [
-        Validators.min(1),
+        Validators.min(0.001),
       ]),
     });
     this.creatMultiProducts();
@@ -326,46 +321,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
           i
         ].controls.item_id.reset();
       }
-      //   if (
-      //     this.promotionForm.controls.targets["controls"][i].controls.item_type
-      //       .value == 1
-      //   ) {
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.item_id.setValidators([Validators.required]);
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.custom_list.clearValidators();
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.item_id.updateValueAndValidity();
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.custom_list.updateValueAndValidity();
-      //   } else if (
-      //     this.promotionForm.controls.targets["controls"][i].controls.item_type
-      //       .value == 2
-      //   ) {
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.item_id.setValidators([Validators.required]);
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.item_id.clearValidators();
-      //   } else {
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.custom_list.clearValidators();
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.item_id.clearValidators();
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.item_id.updateValueAndValidity();
-      //     this.promotionForm.controls.targets["controls"][
-      //       i
-      //     ].controls.custom_list.updateValueAndValidity();
-      //   }
+
     });
     this.promotionForm.get("targets").updateValueAndValidity();
     this.promotionForm.updateValueAndValidity();
@@ -510,6 +466,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       this.promotionForm.get("per_month").setValue(0);
       this.promotionForm.get("per_month").updateValueAndValidity();
     }
+    if(this.promotionForm.get("group_id").value == 'null'){
+      this.promotionForm.get("group_id").setValue(null);
+    }
     if (this.promotionData) {
       this.editPromotion();
     } else {
@@ -619,15 +578,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         }
       });
     }
-    // if (data.targets) {
-    //   data.targets.filter((condition) => {
-    //     if (condition.item_type == 1) {
-    //       delete condition.custom_list;
-    //     } else {
-    //       delete condition.item_id;
-    //     }
-    //   });
-    // }
+
   }
 
   changeType(e) {
