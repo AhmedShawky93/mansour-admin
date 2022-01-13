@@ -180,9 +180,13 @@
                 >
                   from is required.
                 </div>
-                <div *ngIf="promotionForm.controls.segments['controls'][i].controls.min
-                .errors?.min">
-                from can't be 0 or negative.
+                <div
+                  *ngIf="
+                    promotionForm.controls.segments['controls'][i].controls.min
+                      .errors?.min
+                  "
+                >
+                  from can't be 0 or negative.
                 </div>
               </div>
             </div>
@@ -316,7 +320,31 @@
         Add Values
       </button>
     </div>
-
+    <div class="form-group">
+      <label for="exclusive" class="container"
+        >Exclusive
+        <input
+          type="checkbox"
+          class="form-control checkbox-style"
+          name="exclusive"
+          id="exclusive"
+          [value]="1"
+          formControlName="exclusive"
+        />
+        <span class="checkmark"></span>
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="periodic">Apply Per</label>
+      <input
+        type="number"
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+        class="owl-input"
+        placeholder="Type.."
+        formControlName="periodic"
+        id="periodic"
+      />
+    </div>
     <div class="group-block box-range">
       <h5>Start Date-Time</h5>
       <div class="row">

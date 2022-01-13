@@ -53,7 +53,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
   loading: boolean;
   conditionsProducts: any = [];
   targetsProducts: any = [];
-  groupsList:any=[];
+  groupsList: any = [];
   conditionsTypes: any[] = [
     { id: 1, name: "Different Brands", isDisabled: false },
     { id: 2, name: "Different Products", isDisabled: false },
@@ -120,7 +120,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       active: new FormControl(data ? data.active : 1),
       boost: new FormControl(data ? data.boost : null),
       exclusive: new FormControl(data ? data.exclusive : false),
-      per_month: new FormControl(data ? data.per_month : false),
+      periodic: new FormControl(data ? data.periodic : ""),
       conditionsTypes: new FormControl([]),
       type: new FormControl(1),
       showConditions: new FormControl(1),
@@ -199,11 +199,11 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       this.AllTypesArr.push(selectedType);
     }
   }
-getAllGroups(){
-  this.promotionService.getGroups().subscribe((res:any)=>{
-    this.groupsList=res.data;
-  })
-}
+  getAllGroups() {
+    this.promotionService.getGroups().subscribe((res: any) => {
+      this.groupsList = res.data;
+    });
+  }
   validateAmountOrQty(): ValidatorFn {
     return (group: FormGroup) => {
       const amount = group.controls["amount"];
@@ -321,7 +321,6 @@ getAllGroups(){
           i
         ].controls.item_id.reset();
       }
-
     });
     this.promotionForm.get("targets").updateValueAndValidity();
     this.promotionForm.updateValueAndValidity();
@@ -457,16 +456,13 @@ getAllGroups(){
       this.promotionForm.get("exclusive").updateValueAndValidity();
     }
     if (
-      this.promotionForm.get("per_month").value == true ||
-      this.promotionForm.get("per_month").value == 1
+      this.promotionForm.get("periodic").value == "" ||
+      this.promotionForm.get("periodic").value == 0
     ) {
-      this.promotionForm.get("per_month").setValue(1);
-      this.promotionForm.get("per_month").updateValueAndValidity();
-    } else {
-      this.promotionForm.get("per_month").setValue(0);
-      this.promotionForm.get("per_month").updateValueAndValidity();
+      this.promotionForm.get("periodic").setValue(null);
+      this.promotionForm.get("periodic").updateValueAndValidity();
     }
-    if(this.promotionForm.get("group_id").value == 'null'){
+    if (this.promotionForm.get("group_id").value == "null") {
       this.promotionForm.get("group_id").setValue(null);
     }
     if (this.promotionData) {
@@ -578,7 +574,6 @@ getAllGroups(){
         }
       });
     }
-
   }
 
   changeType(e) {

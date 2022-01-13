@@ -16,11 +16,7 @@ import {
 
 import * as moment from "moment";
 import { ToastrService } from "ngx-toastr";
-import {
-  concat,
-  of,
-  Subject,
-} from "rxjs";
+import { concat, of, Subject } from "rxjs";
 import {
   catchError,
   debounceTime,
@@ -110,6 +106,8 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         Validators.required,
         Validators.min(1),
       ]),
+      exclusive: new FormControl(data ? data.exclusive : false),
+      periodic: new FormControl(data ? data.periodic : ""),
       start_date: new FormControl(
         data && data.start_date ? data.start_date.split(" ")[0] : "",
         Validators.required
@@ -222,7 +220,10 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       discount: new FormControl(data ? data.discount : "", [
         Validators.required,
       ]),
-      min: new FormControl(data ? data.min : "", [Validators.required,Validators.min(0.001)]),
+      min: new FormControl(data ? data.min : "", [
+        Validators.required,
+        Validators.min(0.001),
+      ]),
       max: new FormControl(data ? data.max : null),
       iterator: new FormControl(data ? data.iterator : "", [
         Validators.required,
@@ -279,7 +280,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         productsLoading: productsLoading,
       });
     });
-
   }
 
   creatMultiProducts() {
@@ -326,7 +326,23 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       this.markFormGroupTouched(this.promotionForm);
       return;
     }
-
+    if (
+      this.promotionForm.get("exclusive").value == true ||
+      this.promotionForm.get("exclusive").value == 1
+    ) {
+      this.promotionForm.get("exclusive").setValue(1);
+      this.promotionForm.get("exclusive").updateValueAndValidity();
+    } else {
+      this.promotionForm.get("exclusive").setValue(0);
+      this.promotionForm.get("exclusive").updateValueAndValidity();
+    }
+    if (
+      this.promotionForm.get("periodic").value == "" ||
+      this.promotionForm.get("periodic").value == 0
+    ) {
+      this.promotionForm.get("periodic").setValue(null);
+      this.promotionForm.get("periodic").updateValueAndValidity();
+    }
     if (this.promotionData) {
       this.editPromotion();
     } else {
@@ -414,7 +430,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         }
       });
     }
-
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
