@@ -105,9 +105,9 @@
               >Sections</a
             >
           </li>
-          <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
+          <!-- <li *ngxPermissionsOnly="['ADMIN', 'View Ads']">
             <a routerLink="/pages/custom-ads" routerLinkActive="active">Ads</a>
-          </li>
+          </li> -->
           <li *ngxPermissionsOnly="['ADMIN', 'View Slider']">
             <a routerLink="/pages/ads" routerLinkActive="active">Slider</a>
           </li>
@@ -229,7 +229,7 @@
         </a>
       </li>
 
-      <li
+      <!-- <li
         class="side-nav-item"
         routerLinkActive="active"
         *ngxPermissionsOnly="['ADMIN']"
@@ -243,7 +243,7 @@
           ></i>
           <span>Imports</span>
         </a>
-      </li>
+      </li> -->
       <ng-container *ngIf="environmentVariables?.showPrescription">
         <li
           class="side-nav-item"
@@ -466,7 +466,7 @@
           </a>
         </li>
       </ng-container> -->
-      <li class="side-nav-item" routerLinkActive="active">
+      <!-- <li class="side-nav-item" routerLinkActive="active">
         <a routerLink="/pages/reports" routerLinkActive="active">
           <i
             class="icon-None8"
@@ -476,7 +476,7 @@
           ></i>
           <span>Reports</span>
         </a>
-      </li>
+      </li> -->
       <li class="side-nav-item" routerLinkActive="active">
         <a routerLink="/pages/admin-log" routerLinkActive="active">
           <i
