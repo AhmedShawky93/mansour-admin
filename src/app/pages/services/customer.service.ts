@@ -45,7 +45,11 @@ export class CustomerService {
       return Observable.throw(error.error || "Server error");
     });
   }
-
+  syncCustomer() {
+    return this.http.get(this.url + "/sync/all").catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
   updateCustomer(id, data) {
     return this.http
       .post(this.url + "/customers/" + id, data)

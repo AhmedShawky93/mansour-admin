@@ -42,7 +42,7 @@
       </div>
       <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
         <div class="row">
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-5 col-xs-12">
             <div class="form-group">
               <select
                 (change)="selectCategoryFilter()"
@@ -59,7 +59,7 @@
               </select>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-5 col-xs-12">
             <div class="form-group">
               <select
                 formControlName="sub_category_id"
@@ -76,11 +76,7 @@
               </select>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
-        <div class="row">
-          <div class="col-md-2 col-xs-12 p-l-r-5">
+          <div *ngIf="!selectedMainProduct" class="col-md-2 col-xs-12 p-l-r-5">
             <div class="form-group">
               <button
                 class="
@@ -92,6 +88,21 @@
               >
                 Reset Filter
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
+        <div class="row">
+          <div class="col-md-2 col-xs-12 p-l-r-5">
+            <div class="form-group">
+              <button
+              (click)="syncCustomers()"
+              [disabled]="syncLoad"
+              [appLoading]="syncLoad"
+              class="btn btn-owls btn-rounded btn-blue2"
+              >Sync</button
+            >
             </div>
           </div>
           <div class="col-md-2 col-xs-12 p-l-r-5">

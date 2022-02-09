@@ -129,3 +129,7 @@ p.btn-rounded {
   overflow-y: scroll;
   margin-bottom: 0px;
 }
+.search-btn{
+  margin-top: -5px;
+  margin-bottom: 10px;
+}

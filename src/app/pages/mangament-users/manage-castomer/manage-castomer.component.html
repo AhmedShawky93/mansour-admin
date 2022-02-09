@@ -14,42 +14,11 @@
         />
       </div>
     </div>
-    <!-- <div class="col-md-3">
-      <div class="left-search">
-        <span>
-          <i class="fa fa-search"></i>
-        </span>
-        <input type="text" class="owl-input owls-search" placeholder="search by phone" [(ngModel)]="filter.phone">
-      </div>
-    </div>
-    <div class="col-md-3" style="margin-bottom: 10px;">
-      <div class="left-search">
-        <span>
-          <i class="fa fa-search"></i>
-        </span>
-        <input type="text" class="owl-input owls-search" placeholder="search by id" [(ngModel)]="filter.ids">
-      </div>
-    </div> -->
-    <!-- <div class="col-md-3">
-      <div class="left-search">
-        <span>
-          <i class="fa fa-search"></i>
-        </span>
-        <input type="text" class="owl-input owls-search" placeholder="search by email" [(ngModel)]="filter.email">
-      </div>
-    </div> -->
 
-    <!-- <div class="col-md-3" style="margin-bottom: 20px;">
-      <select  class="owl-input bg-white" [(ngModel)]="filter.active" (ngModelChange)="selectCity($event)">
-        <option value="" selected hidden>Select Status Custumer</option>
-        <option value="1">Active</option>
-        <option value="2">InActive</option>
-      </select>
-    </div> -->
 
     <div class="col-md-3 col-xs-6">
       <button
-        class="float-right btn btn-owls btn-rounded btn-green w-180px-plr-0"
+        class="float-right btn btn-owls btn-rounded btn-green search-btn"
         (click)="searchInCustomers()"
       >
         Search
@@ -91,7 +60,7 @@
           class="owl-input owls-search"
           placeholder="Orders From"
           [(ngModel)]="filter.no_orders_from"
-          (change)="changePage(1)"
+          (change)="searchInCustomers()"
         />
       </div>
     </div>
@@ -103,29 +72,34 @@
           class="owl-input owls-search"
           placeholder="Orders To"
           [(ngModel)]="filter.no_orders_to"
-          (change)="changePage(1)"
+          (change)="searchInCustomers()"
         />
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-3 text-right">
+    <div class="col-md-5"></div>
+
+    <div class="col-md-7 text-center d-flex">
       <div class="owl-btn-list">
         <button
-          (click)="createCustomer()"
-          class="btn btn-owls btn-rounded btn-blue2"
-        >
-          +New Customer
-        </button>
-      </div>
-    </div>
-    <div class="col-md-3 text-right">
-      <div class="owl-btn-list">
-        <a
+        (click)="createCustomer()"
+        class="btn btn-owls btn-rounded btn-blue2"
+      >
+        +New Customer
+      </button>
+        <button
+        (click)="syncCustomers()"
+        [disabled]="syncLoad"
+        [appLoading]="syncLoad"
+        class="btn btn-owls btn-rounded btn-blue2"
+        >Sync</button
+      >
+
+        <button
           (click)="exportCustomers()"
           class="btn btn-owls btn-rounded btn-blue2"
-          >Export to CSV</a
+          >Export to CSV</button
         >
       </div>
     </div>
@@ -235,7 +209,6 @@
   <div *ngIf="customer && !customerLoading" class="details details-2">
     <div>
       <div class="customer-det">
-        <!-- <img src="http://via.placeholder.com/50x50" alt="" width="50" height="50"> -->
         <div class="content">
           <p>{{ customer.name }}</p>
           <h5 *ngIf="environmentVariables.SMS_CONNECTION">
@@ -257,9 +230,6 @@
             >
           </h5>
           <h5>{{ customer.email }}</h5>
-          <!-- <p style="cursor: pointer" (click)="loginAsCustomer(customer.id)">
-            <i class="fa fa-sign-in"></i>&nbsp;Login as {{ customer.name }}
-          </p> -->
         </div>
         <div class="date">
           {{ customer.id }}
@@ -269,9 +239,6 @@
 
     <div>
       <h5>address</h5>
-      <!-- <p style="cursor: pointer;" (click)="toggleShow()" *ngIf="customer.addresses.length">{{customer.addresses[0].formatted_address}}
-        <i *ngIf="customer.addresses.length > 0 && hide" class="fa fa-angle-down"></i> <i *ngIf="customer.addresses.length > 0 && show" class="fa fa-angle-up"></i>
-      </p> -->
       <div>
         <p *ngFor="let address of customer.addresses; index as i">
           {{ address.formatted_address }}
@@ -296,11 +263,6 @@
         >+New Address</a
       >
     </div>
-
-    <!-- <div>
-      <h5>date of birth</h5>
-      <p>{{customer.birthdate}}</p>
-    </div> -->
 
     <div>
       <h5>date of joining</h5>
@@ -374,9 +336,7 @@
             </a>
           </div>
 
-          <!-- <p *ngIf="!point.deleted_at">
-            {{point.active ? "Earned" : "Pending"}}
-          </p> -->
+
           <p *ngIf="point?.deleted_at">Cancelled</p>
           <p *ngIf="point?.order">Order ID: {{ point.order.id }}</p>
           <p *ngIf="!point?.order">Referer: {{ point?.referer?.referal }}</p>

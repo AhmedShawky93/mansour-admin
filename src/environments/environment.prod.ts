@@ -1,4 +1,4 @@
 export const environment = {
-  api: "https://mansourgroupapi.el-dokan.com",
+  api: "https://52.232.15.9",
   production: true,
 };

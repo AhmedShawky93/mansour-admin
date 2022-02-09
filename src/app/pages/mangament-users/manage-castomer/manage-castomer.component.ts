@@ -1,7 +1,6 @@
 import { AreasService } from "@app/pages/services/areas.service";
 import { Component, OnInit } from "@angular/core";
 import { CustomerService } from "@app/pages/services/customer.service";
-declare var jquery: any;
 declare var $: any;
 import { environment } from "environments/environment.prod";
 import { AuthService } from "@app/shared/auth.service";
@@ -73,8 +72,9 @@ export class ManageCastomerComponent implements OnInit {
   selectedAddress: any;
   customerId: any;
   environmentVariables;
+ syncLoad=false;
   constructor(
-    private cs: CustomerService,
+    private customerService: CustomerService,
     private auth: AuthService,
     private _areaService: AreasService,
     private activatedRoute: ActivatedRoute,
@@ -83,7 +83,6 @@ export class ManageCastomerComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) {
     this.getConfig();
-    // this.navigatedCustomerData = JSON.parse(localStorage.getItem('selectedCustomer'));
   }
   getConfig() {
     this.settingService.getenvConfig().subscribe((res) => {
@@ -121,7 +120,7 @@ export class ManageCastomerComponent implements OnInit {
     this.exportUrl =
       environment.api + "/api" + "/admin/customers/export?token=" + token;
 
-    this.loadCustomers();
+    this.searchInCustomers();
     if (this.activatedRoute.snapshot.queryParams.fromOrder) {
       this.createCustomer();
     }
@@ -144,7 +143,7 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   exportCustomers() {
-    this.cs.exportCustomers(this.exportUrl).subscribe({
+    this.customerService.exportCustomers(this.exportUrl).subscribe({
       next: (rep: any) => {},
     });
     setTimeout(() => {
@@ -159,7 +158,7 @@ export class ManageCastomerComponent implements OnInit {
     }, 500);
   }
 
-  public selectCity(cityId) {
+ selectCity(cityId) {
     if (cityId) {
       this.filter.city_id = [];
       this.filter.area_id = [];
@@ -179,12 +178,12 @@ export class ManageCastomerComponent implements OnInit {
       this.filter.city_id = [];
       this.areaListSearch = [];
     }
-    this.changePage(1);
+    this.searchInCustomers();
   }
 
   selectArea(areaId) {
     this.filter.area_id = areaId;
-    this.changePage(1);
+    this.searchInCustomers();
   }
 
   toggleShow() {
@@ -195,85 +194,46 @@ export class ManageCastomerComponent implements OnInit {
   changePage(p) {
     this.p = p;
     this.filter.page = this.p;
-    this.cs.getCustomers(this.filter).subscribe((data: any) => {
-      this.p = p;
-      this.customers = data.data.customers;
-    });
+    this.searchInCustomers();
   }
+  syncCustomers(){
+    this.syncLoad=true;
+  this.customerService.syncCustomer().subscribe((res:any)=>{
+    this.syncLoad=false;
+    if(res.code==200){this.toastrService.success(res.message); this.searchInCustomers();}
+    else this.toastrService.error(res.message);
+  })
 
+  }
   searchInCustomers() {
-    this.filter.page = "1";
-    this.cs.getCustomers(this.filter).subscribe((response: any) => {
-      this.customers = response.data.customers;
-      this.customers.map((user) => {
-        user.age = this.calculateAge(new Date(user.birthdate));
-        user.deactivated = !user.active;
-        return user;
-      });
-      this.total = response.data.total;
-    });
-  }
-
-  loadCustomers() {
-    /*شريف هو اللي قالي اعمل كدا وانا مش راضي (:*/
+    this.filter.page = this.p;
     this.filter.ids = this.customerId ? [this.customerId] : [];
     this.spinner.show();
-    this.cs.getCustomers(this.filter).subscribe((response: any) => {
+    this.customerService.getCustomers(this.filter).subscribe((response: any) => {
+      this.customers = response.data.customers;
       this.spinner.hide();
-      this.customers = response.data.customers;
       this.customers.map((user) => {
         user.age = this.calculateAge(new Date(user.birthdate));
         user.deactivated = !user.active;
         return user;
       });
       this.total = response.data.total;
-      this.getCustomerDetails(this.customers);
     });
   }
 
-  getCustomerDetails(data) {
-    /*شريف هو اللي قالي اعمل كدا وانا مش راضي (:*/
-    if (this.customerId) {
-      this.filter.q = this.customerId;
-      this.viewCustomer(data[0]);
-      document
-        .querySelector("#view-active")
-        .classList.add("open-view-vindor-types");
-      this.customerId = null;
-      this.filter.ids = [];
-      // localStorage.removeItem('selectedCustomer');
-    }
-  }
-
-  searchCustomers(q) {
-    if (!q.length) {
-      this.changePage(this.p);
-    }
-    this.cs.searchCustomers(q).subscribe((response: any) => {
-      this.customers = response.data.customers;
-      this.customers.map((user) => {
-        user.age = this.calculateAge(new Date(user.birthdate));
-        user.deactivated = !user.active;
-        return user;
-      });
-      this.p = 1;
-      this.total = response.data.total;
-    });
-  }
 
   viewCustomer(customer) {
     this.customerLoading = true;
     this.customer = null;
-    this.cs.getCustomer(customer.id).subscribe((response: any) => {
+    this.customerService.getCustomer(customer.id).subscribe((response: any) => {
       this.customer = { ...response.data };
       this.customerLoading = false;
     });
   }
 
   calculateAge(birthday) {
-    // birthday is a date
     const ageDifMs = Date.now() - birthday.getTime();
-    const ageDate = new Date(ageDifMs); // miliseconds from epoch
+    const ageDate = new Date(ageDifMs);
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 
@@ -295,7 +255,7 @@ export class ManageCastomerComponent implements OnInit {
       user.showReason = 0;
       user.notes = "";
       if (user.deactivated) {
-        this.cs.activateCustomer(user.id).subscribe((data: any) => {
+        this.customerService.activateCustomer(user.id).subscribe((data: any) => {
           user.active = 1;
           user.deactivated = 0;
         });
@@ -311,7 +271,7 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   cancelPoints() {
-    this.cs.cancelPoints(this.currentPoints.id).subscribe((response: any) => {
+    this.customerService.cancelPoints(this.currentPoints.id).subscribe((response: any) => {
       this.currentPoints = response.data;
       const ind = this.customer.points.findIndex(
         (p) => p.id == this.currentPoints.id
@@ -327,7 +287,7 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   verifyPhone() {
-    this.cs.verifyPhone(this.customer.id).subscribe((response: any) => {
+    this.customerService.verifyPhone(this.customer.id).subscribe((response: any) => {
       if (response.code == 200) {
         this.customer.phone_verified = response.data.phone_verified;
       }
@@ -335,9 +295,8 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   loginAsCustomer(id) {
-    this.cs.getCustomerToken(id).subscribe((response: any) => {
+    this.customerService.getCustomerToken(id).subscribe((response: any) => {
       const token = response.data;
-      // var environmentVariables=JSON.parse(localStorage.getItem("systemConfig"));
       window.open(
         `${this.environmentVariables.brandRelatedVariables.loginApi}/session/signin?disabled_guard=true&token=${token}`,
         "_blank"
@@ -352,7 +311,7 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   activateUser(user) {
-    this.cs.activateCustomer(user.id).subscribe((data: any) => {
+    this.customerService.activateCustomer(user.id).subscribe((data: any) => {
       user.active = 1;
       user.deactivated = 0;
 
@@ -368,7 +327,7 @@ export class ManageCastomerComponent implements OnInit {
 
   submitDeactivate(user) {
     user.active = 0;
-    this.cs
+    this.customerService
       .deactivateCustomer(user.id, { deactivation_notes: user.notes })
       .subscribe((data: any) => {
         user.active = 0;
@@ -386,7 +345,6 @@ export class ManageCastomerComponent implements OnInit {
 
   createCustomer() {
     this.selectedCustomer = null;
-    // this.viewCustomerSidebar = 'out';
     this.toggleAddCustomer = "in";
   }
 

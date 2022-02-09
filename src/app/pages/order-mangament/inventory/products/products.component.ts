@@ -48,6 +48,7 @@ import { SettingService } from "../../../services/setting.service";
 import {
   AddEditProductComponent,
 } from "./add-edit-product/add-edit-product.component";
+import { CustomerService } from "@app/pages/services/customer.service";
 
 declare var $: any;
 
@@ -95,6 +96,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   selectedUserIds: number[];
   products: Array<any> = [];
   selectedMainProduct: any;
+  syncLoad=false;
   public product: any = {
     name: "",
     description: "",
@@ -158,6 +160,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     private showAffiliateService: ShowAffiliateService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private customerService: CustomerService,
     private toasterService: ToastrService,
     private draftProductService: DraftProductService,
     private settingService: SettingService,
@@ -176,6 +179,15 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
       this.environmentVariables = res;
     });
     this.website_url = this.environmentVariables.envApi.env.checkoutUrl;
+  }
+  syncCustomers(){
+    this.syncLoad=true;
+  this.customerService.syncCustomer().subscribe((res:any)=>{
+    this.syncLoad=false;
+    if(res.code==200){this.toastrService.success(res.message); this.getProducts();}
+    else this.toastrService.error(res.message);
+  })
+
   }
 
   addCustomUser = (term) => ({ id: term, name: term });
@@ -289,7 +301,6 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   getAffiliate() {
     this.showAffiliateService.showAffiliate.subscribe((rep: any) => {
-      console.log("#### rep ==>", rep);
       this.isAffiliate = rep;
     });
   }
