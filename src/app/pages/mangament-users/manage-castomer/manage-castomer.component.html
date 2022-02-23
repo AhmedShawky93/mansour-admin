@@ -83,12 +83,6 @@
     <div class="col-md-7 text-center d-flex">
       <div class="owl-btn-list">
         <button
-        (click)="createCustomer()"
-        class="btn btn-owls btn-rounded btn-blue2"
-      >
-        +New Customer
-      </button>
-        <button
         (click)="syncCustomers()"
         [disabled]="syncLoad"
         [appLoading]="syncLoad"

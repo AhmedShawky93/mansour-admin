@@ -23,7 +23,7 @@
           />
         </div>
       </div>
-      <div class="col-md-3 col-xs-12 text-right">
+      <!-- <div class="col-md-3 col-xs-12 text-right">
         <div class="owl-btn-list">
           <button
             (click)="
@@ -39,7 +39,7 @@
             </div>
           </button>
         </div>
-      </div>
+      </div> -->
       <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="!selectedMainProduct">
         <div class="row">
           <div class="col-md-5 col-xs-12">
@@ -105,7 +105,7 @@
             >
             </div>
           </div>
-          <div class="col-md-2 col-xs-12 p-l-r-5">
+          <!-- <div class="col-md-2 col-xs-12 p-l-r-5">
             <div class="form-group">
               <button
                 class="
@@ -117,8 +117,8 @@
                 Sync FaceBook Sheet
               </button>
             </div>
-          </div>
-          <div class="col-md-2 col-xs-12 p-l-r-5">
+          </div> -->
+          <div class="col-md-2 col-xs-12 p-l-r-5 mr-2">
             <div class="form-group">
               <a
                 (click)="goToLink()"
@@ -127,7 +127,7 @@
               >
             </div>
           </div>
-          <div class="col-md-2 col-xs-12 p-l-r-5">
+          <!-- <div class="col-md-2 col-xs-12 p-l-r-5">
             <div class="form-group">
               <button
                 class="
@@ -171,7 +171,7 @@
                 />
               </button>
             </div>
-          </div>
+          </div> -->
           <div class="col-md-2 col-xs-12 p-l-r-5">
             <div class="form-group">
               <a
@@ -383,7 +383,6 @@
   (dataProductEmit)="addOrUpdateProduct($event)"
   [@slideInOut]="toggleAddProduct"
   [selectProductDataEdit]="selectProductData"
-  [brandsarray]="brandsarray"
   [categoriesarray]="categoriesarray"
 >
 </app-add-edit-product>

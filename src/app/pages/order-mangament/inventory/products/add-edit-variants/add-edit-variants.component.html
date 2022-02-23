@@ -68,17 +68,6 @@
         </div>
       </div>
     </div>
-
-    <div class="form-group">
-      <label> Video (optional) </label>
-      <input
-        class="owl-input"
-        formControlName="video"
-        placeholder="Type..."
-        type="text"
-      />
-    </div>
-
     <div class="form-group">
       <label> Name</label>
       <input
@@ -115,7 +104,6 @@
 
     <div class="form-group">
       <label>Description</label>
-      <!--<textarea class="owl-input" formControlName="description" laceholder="type" maxlength="250" required></textarea>-->
       <angular-editor
         [id]="'description'"
         formControlName="description"
@@ -146,8 +134,6 @@
 
     <div class="form-group">
       <label>Description (Ar)</label>
-      <!--<textarea class="owl-input" formControlName="description_ar" maxlength="250" placeholder="type"
-                required></textarea>-->
       <angular-editor
         [id]="'description_ar'"
         formControlName="description_ar"
@@ -178,7 +164,6 @@
 
     <div class="form-group">
       <label> Long description</label>
-      <!--<textarea class="owl-input" formControlName="long_description_en" placeholder="type"></textarea>-->
       <angular-editor
         [id]="'long_description_en'"
         formControlName="long_description_en"
@@ -189,7 +174,6 @@
 
     <div class="form-group">
       <label>Long description (Ar)</label>
-      <!--<textarea class="owl-input" formControlName="long_description_ar" placeholder="type"></textarea>-->
       <angular-editor
         [id]="'long_description_ar'"
         formControlName="long_description_ar"
@@ -292,165 +276,6 @@
       </div>
     </div>
 
-    <div class="group-box mt-2">
-      <div class="form-group">
-        <label>
-          Discount Price
-          <small> optional</small>
-        </label>
-        <input
-          [min]="0"
-          class="owl-input"
-          formControlName="discount_price"
-          pattern="[0-9]+(\.[0-9][0-9]?)?"
-          placeholder="Type.."
-          type="number"
-        />
-        <div
-          *ngIf="formControlValidator('discount_price', 'min')"
-          class="alert alert-danger"
-        >
-          Discount price can't be a negative value
-        </div>
-        <div
-          *ngIf="formControlValidator('discount_price', 'max')"
-          class="alert alert-danger"
-        >
-          Discount Price must be less than the price
-        </div>
-        <div
-          *ngIf="formControlValidator('discount_price', 'pattern')"
-          class="alert alert-danger"
-        >
-          Invalid number format
-        </div>
-        <div
-          *ngIf="formControlValidator('discount_price', 'lessThan')"
-          class="text-danger"
-        >
-          Discount Can't Exceed The Price
-        </div>
-      </div>
-      <div>
-        <div class="title">Start Date-Time</div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <app-generic-date-picker
-              [myForm]="variantForm"
-              [formControlChildName]="'discount_start_date'"
-              [placeholder]="'Start Date'"
-            >
-            </app-generic-date-picker>
-            <div
-              *ngIf="formControlValidator('discount_start_date', 'required')"
-              class="text-danger"
-            >
-              Filed Is Required
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <app-generic-time-picker
-              [formControlChildName]="'start_time'"
-              [myForm]="variantForm"
-              [placeholder]="'Pick Time'"
-            ></app-generic-time-picker>
-            <div
-              *ngIf="formControlValidator('start_time', 'required')"
-              class="text-danger"
-            >
-              Filed Is Required
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="title">Expiration Date-Time</div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <app-generic-date-picker
-              [myForm]="variantForm"
-              [formControlChildName]="'discount_end_date'"
-              [placeholder]="'Expiration Date'"
-            >
-            </app-generic-date-picker>
-            <div
-              *ngIf="formControlValidator('discount_end_date', 'required')"
-              class="text-danger"
-            >
-              Filed Is Required
-            </div>
-            <div
-              *ngIf="formControlValidator('discount_end_date', 'dateRang')"
-              class="text-danger"
-            >
-              Expiration Date Must Be Greater Than Start Date
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <app-generic-time-picker
-              [formControlChildName]="'expiration_time'"
-              [myForm]="variantForm"
-              [placeholder]="'Pick Time'"
-            ></app-generic-time-picker>
-            <div
-              *ngIf="formControlValidator('expiration_time', 'required')"
-              class="text-danger"
-            >
-              Filed Is Required
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>
-          Commission
-          <small> optional</small>
-        </label>
-        <!-- (ngModelChange)='editText($event)' -->
-        <input
-          class="owl-input"
-          formControlName="affiliate_commission"
-          placeholder="Type.."
-          onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
-        />
-        <div
-          *ngIf="
-            variantForm.controls.affiliate_commission.invalid &&
-            (variantForm.controls.affiliate_commission.dirty ||
-              variantForm.controls.affiliate_commission.touched)
-          "
-          class="alert alert-danger"
-        >
-          <div *ngIf="variantForm.controls.affiliate_commission.errors.min">
-            Minimum percentage 1%
-          </div>
-          <div *ngIf="variantForm.controls.affiliate_commission.errors.max">
-            Max percentage 100 %
-          </div>
-          <div *ngIf="variantForm.controls.affiliate_commission.errors.pattern">
-            Number Only
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>
-          Payment Methods
-          <!-- <small> optional</small> -->
-        </label>
-        <ng-select
-          [closeOnSelect]="false"
-          [items]="paymentMethods"
-          [multiple]="true"
-          formControlName="payment_method_discount_ids"
-          bindLabel="name"
-          bindValue="id"
-          name="payment_method_discount_ids"
-          placeholder="Select Payment Methods"
-        >
-        </ng-select>
-      </div>
-    </div>
-
     <div>
       {{ variantForm.get("option_values")["controls"].length }}
       <div
@@ -471,7 +296,6 @@
               formControlName="option_value_id"
             >
               <option value="" hidden selected>Select option</option>
-              <!--<option value="{{value.id}}" *ngFor="let value of option?.values">{{value.name_en}}</option>-->
               <option
                 *ngFor="let val of option?.controls['optionValues']?.value"
                 value="{{ val.id }}"
@@ -521,12 +345,6 @@
               >
               </angular-editor>
             </div>
-            <!--<div class="form-group">
-              <input type="text" class="owl-input" (click)="takeInputId(option, i)" placeholder="English" formControlName="input_en">
-            </div>
-            <div class="form-group">
-              <input type="text"   class="owl-input" placeholder="Arabic" formControlName="input_ar">
-            </div>-->
           </div>
         </span>
       </div>
@@ -546,26 +364,6 @@
         formControlName="bundle_products_ids"
       >
       </ng-select>
-    </div>
-
-    <div class="form-group">
-      <label>Weight</label>
-      <input
-        [min]="0"
-        class="owl-input"
-        formControlName="weight"
-        maxlength="6"
-        pattern="^\d+(?:\.\d{1,2})?$"
-        onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
-        placeholder="Weight"
-        type="text"
-      />
-      <div
-        *ngIf="formControlValidator('weight', 'required')"
-        class="alert alert-danger"
-      >
-        Weight is required
-      </div>
     </div>
 
     <div class="form-group">
@@ -600,26 +398,6 @@
         formControlName="order"
       />
     </div>
-
-    <div class="form-group" style="margin-top: 10px; margin-bottom: 10px">
-      <label class="container"
-        >Free Delivery
-        <input
-          type="checkbox"
-          class="form-control checkbox-style"
-          name="free_delivery"
-          id="free_delivery"
-          [value]="1"
-          formControlName="free_delivery"
-        />
-        <span class="checkmark"></span>
-      </label>
-    </div>
-
-    <!--<div class="form-group">
-      <label>Stock notification limit </label>
-      <input class="owl-input" formControlName="stock_alert" placeholder="Type.." type="number">
-    </div>-->
 
     <div class="form-group">
       <div
@@ -733,7 +511,6 @@
         </div>
       </div>
     </div>
-    <!-- <pre class="text-dark">{{variantForm.value | json}}</pre>-->
     <div class="form-sidebar-btns">
       <button
         [appLoading]="submitting"

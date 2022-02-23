@@ -43,7 +43,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   @Output() closeSideBarEmit = new EventEmitter();
   @Output() dataProductEmit = new EventEmitter();
   @Input("selectProductDataEdit") selectProductDataEdit;
-  @Input("brandsarray") brandsarray;
   @Input("categoriesarray") categoriesarray;
   addProductForm: FormGroup;
   addSubImages: FormArray;
@@ -113,11 +112,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    // this.getCategories();
-    // this.productsService.getBrands().subscribe((response: any) => {
-    //   this.brands = response.data;
-    // });
-    this.brands = this.brandsarray;
     this.getCategories(this.categoriesarray);
 
     this.getForm(this.selectProductDataEdit);
@@ -129,20 +123,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       {
         name: new FormControl(data ? data.name : "", Validators.required),
         name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-        /*description: new FormControl(data ? data.description : '', [
-        Validators.required,
-        Validators.minLength(3)
-      ]),
-      description_ar: new FormControl(data ? data.description_ar : '', [
-        Validators.required,
-        Validators.minLength(3)
-      ]),
-      long_description_en: new FormControl(data ? data.long_description_en : ''),
-      long_description_ar: new FormControl(data ? data.long_description_ar : ''),*/
-        /*meta_title: new FormControl(data ? data.meta_title : ''),
-      meta_description: new FormControl(data ? data.meta_description : ''),
-      keywords: new FormControl(data ? data.keywords : ''),*/
-        /*price: new FormControl(data ? data.price : "", Validators.required),*/
         discount_price: new FormControl(data ? data.discount_price : "", [
           Validators.min(1),
           (control: AbstractControl) => Validators.max(this.price)(control),
@@ -166,70 +146,23 @@ export class AddEditProductComponent implements OnInit, OnChanges {
             ? data.optional_sub_category_id
             : ""
         ),
-        /*stock: new FormControl(data ? data.stock : 0, Validators.required),*/
-        preorder: new FormControl(data ? data.preorder : 0),
-        available_soon: new FormControl(data ? data.available_soon : 0),
-        preorder_start_date: new FormControl(
-          data && data.preorder_start_date
-            ? data.preorder_start_date.split(" ")[0]
-            : "",
-          []
-        ),
-        start_time: new FormControl(
-          data &&
-          data.preorder_start_date &&
-          data.preorder_start_date.split(" ")[1]
-            ? data.preorder_start_date.split(" ")[1].substring(0, 5)
-            : "23:59",
-          []
-        ),
-        preorder_end_date: new FormControl(
-          data && data.preorder_end_date
-            ? data.preorder_end_date.split(" ")[0]
-            : "",
-          []
-        ),
-        expiration_time: new FormControl(
-          data && data.preorder_end_date && data.preorder_end_date.split(" ")[1]
-            ? data.preorder_end_date.split(" ")[1].substring(0, 5)
-            : "23:59",
-          []
-        ),
-        /*preorder_price: new FormControl(data ? data.preorder_price : 0, Validators.required),*/
         sku: new FormControl(data ? data.sku : "", Validators.required),
-        /*image: new FormControl(data ? data.image : '', Validators.required),
-      images: this.formBuilder.array(data ? data.images : []),*/
         max_per_order: new FormControl(data ? data.max_per_order : ""),
         min_days: new FormControl(data ? data.min_days : ""),
         stock_alert: new FormControl(data ? data.stock_alert : ""),
-        type: new FormControl(data ? data.type : "", Validators.required),
+        type: new FormControl(data ? data.type : 1, Validators.required),
         has_stock: new FormControl(data ? data.has_stock : ""),
         bundle_checkout: new FormControl(data ? data.bundle_checkout : ""),
         related_ids: new FormControl(
           data ? data.relatedProducts.map((rp) => rp.id) : ""
         ),
         option_values: this.formBuilder.array([]),
-        /*discount_start_date: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[0] : '', []),
-      start_time: new FormControl((data && data.discount_start_date) ? data.discount_start_date.split(' ')[1] : '00:00:00', []),
-      discount_end_date: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[0] : '', []),
-      expiration_time: new FormControl((data && data.discount_end_date) ? data.discount_end_date.split(' ')[1] : '00:00:00', []),*/
         product_variant_options: new FormControl(
           data ? data.product_variant_options.map((item) => item.id) : "",
           []
         ),
-      },
-      {
-        validator: [
-          DateLessThan(
-            "preorder_start_date",
-            "preorder_end_date",
-            "start_time",
-            "expiration_time"
-          ),
-        ],
       }
     );
-    // this.addProductForm.setControl('images', this.formBuilder.array(data.images || []));
   }
 
   getAllOptions() {
@@ -244,16 +177,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   setData(data) {
     if (data) {
       this.setCategoriesData(data);
-
-      /*if (data.options.length) {
-        // this.selectSubCategoryOption(data.category.sub_categories[0].id);
-        data.options.forEach((element) => {
-          this.options.push(element.option);
-          this.addOptionsEdit(element);
-        });
-
-      }*/
-
       if (data.options.length) {
         data.options.forEach((element) => {
           element.option["values"] = this.allOptions.find(
@@ -263,13 +186,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
           this.addOptionsEdit(element);
         });
       }
-
-      /*if (data.image) {
-        this.addProductForm.get('image').clearValidators();
-        // this.addProductForm.get("image").patchValue(data.image);
-        this.addProductForm.get('image').updateValueAndValidity();
-        this.addProductForm.updateValueAndValidity();
-      }*/
     }
 
     let relatedProducts = [];
@@ -282,14 +198,14 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       });
     }
     this.relatedProducts$ = concat(
-      of(relatedProducts), // default items
+      of(relatedProducts),
       this.relatedProductsInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
         tap(() => (this.relatedProductsLoading = true)),
         switchMap((term) =>
           this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
-            catchError(() => of([])), // empty list on error
+            catchError(() => of([])),
             tap(() => (this.relatedProductsLoading = false)),
             map((response: any) => {
               return response.data.products.map((p) => {
@@ -326,16 +242,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   closeSideBar() {
     this.closeSideBarEmit.emit();
     this.addProductForm.reset();
-    /*if (this.selectProductDataEdit == undefined) {
-      this.resetForm();
-      this.addProductForm.reset();
-      if (this.option_values) {
-        while (this.addProductForm.get('option_values').value.length > 0) {
-          this.option_values.removeAt(0);
-        }
-        this.option_values.reset();
-      }
-    }*/
   }
 
   addImage(): void {
@@ -351,36 +257,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       urlPath: "",
     });
   }
-
-  /*  addOptions(data): void {
-      this.option_values = this.addProductForm.get('option_values') as FormArray;
-      this.option_values.push(this.createItemOptions(data));
-    }
-
-    createItemOptions(data): FormGroup {
-      return this.formBuilder.group({
-        option_id: data.id,
-        id: new FormControl(''),
-        option_value_id: new FormControl(''),
-        input_en: new FormControl(''),
-        input_ar: new FormControl(''),
-      });
-    }
-
-    addOptionsEdit(data): void {
-      this.option_values = this.addProductForm.get('option_values') as FormArray;
-      this.option_values.push(this.createItemOptionsEdit(data));
-    }
-
-    createItemOptionsEdit(data): FormGroup {
-      return this.formBuilder.group({
-        option_id: data.option.id,
-        option_value_id: new FormControl(''),
-        input_en: new FormControl(data ? data.value.input_en : ''),
-        input_ar: new FormControl(data ? data.value.input_ar : ''),
-      });
-    }*/
-
   addOptions(data): void {
     this.option_values = this.addProductForm.get("option_values") as FormArray;
     this.option_values.push(this.createItemOptions(data));
@@ -461,22 +337,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
 
   addProducts() {
     if (this.selectProductDataEdit) {
-      // edit
-
       const product = this.addProductForm.value;
-
-      /*product.image = this.imageUrl;*/
-      /*this.formatDateForSaving(product, this.addProductForm);*/
-      /*if (product.image) {
-        this.addProductForm.get('image').clearValidators();
-        this.addProductForm.get('image').updateValueAndValidity();
-      }
-      if (this.imageUrl) {
-        this.addProductForm.get('image').clearValidators();
-        // this.addProductForm.get("image").patchValue(data.image);
-        this.addProductForm.get('image').updateValueAndValidity();
-        this.addProductForm.updateValueAndValidity();
-      }*/
       if (!this.addProductForm.valid) {
         this.markFormGroupTouched(this.addProductForm);
         this.reactivityService.scrollToFirstError("add-edit-product-form");
@@ -486,37 +347,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         delete item.optionValues;
         delete item.name_en;
       });
-      if (product.preorder_end_date) {
-        product.preorder_end_date = moment(
-          this.addProductForm.get("preorder_end_date").value
-        ).format("YYYY-MM-DD");
-        product.preorder_end_date =
-          product.preorder_end_date +
-          " " +
-          this.addProductForm.get("expiration_time").value;
-        product.preorder_end_date = moment(product.preorder_end_date).format(
-          "YYYY-MM-DD HH:mm"
-        );
-      } else {
-        product.preorder_end_date = null;
-      }
-
-      if (product.preorder_start_date) {
-        product.preorder_start_date = moment(
-          this.addProductForm.get("preorder_start_date").value
-        ).format("YYYY-MM-DD");
-        product.preorder_start_date =
-          product.preorder_start_date +
-          " " +
-          this.addProductForm.get("start_time").value;
-        product.preorder_start_date = moment(
-          product.preorder_start_date
-        ).format("YYYY-MM-DD HH:mm");
-      } else {
-        product.preorder_start_date = null;
-      }
-
-      product.available_soon = !!product.available_soon;
 
       this.submitting = true;
       this.productsService
@@ -533,12 +363,9 @@ export class AddEditProductComponent implements OnInit, OnChanges {
           this.submitting = false;
         });
     } else {
-      // add
       const product = this.addProductForm.value;
       product.image = this.imageUrl;
       delete product.main_category;
-      /*this.formatDateForSaving(product, this.addProductForm);*/
-
       if (this.addProductForm.invalid) {
         this.markFormGroupTouched(this.addProductForm);
         return;
@@ -547,41 +374,7 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         delete item.optionValues;
         delete item.name_en;
       });
-
-      if (product.preorder_end_date) {
-        product.preorder_end_date = moment(
-          this.addProductForm.get("preorder_end_date").value
-        ).format("YYYY-MM-DD");
-        product.preorder_end_date =
-          product.preorder_end_date +
-          " " +
-          this.addProductForm.get("expiration_time").value;
-        product.preorder_end_date = moment(product.preorder_end_date).format(
-          "YYYY-MM-DD HH:mm"
-        );
-      } else {
-        product.preorder_end_date = null;
-      }
-
-      if (product.preorder_start_date) {
-        product.preorder_start_date = moment(
-          this.addProductForm.get("preorder_start_date").value
-        ).format("YYYY-MM-DD");
-        product.preorder_start_date =
-          product.preorder_start_date +
-          " " +
-          this.addProductForm.get("start_time").value;
-        product.preorder_start_date = moment(
-          product.preorder_start_date
-        ).format("YYYY-MM-DD HH:mm");
-      } else {
-        product.preorder_start_date = null;
-      }
-
-      product.available_soon = !!product.available_soon;
-
       this.submitting = true;
-
       this.productsService.creatProduct(product).subscribe((response: any) => {
         if (response.code == 200) {
           this.toastrService.success("Product Added Successfully");
@@ -607,21 +400,9 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     }
   }
 
-  changeValidation() {
-    // if (this.addProductForm.value.preorder) {
-    //   this.addProductForm.get('preorder_price').setValidators([Validators.required]);
-    //   this.addProductForm.get('preorder_price').updateValueAndValidity();
-    // } else if (!this.addProductForm.value.preorder) {
-    //   this.addProductForm.get('preorder_price').clearValidators();
-    //   this.addProductForm.get('preorder_price').updateValueAndValidity();
-    // }
-  }
+
 
   getCategories(data) {
-    // this._CategoriesService.getCategories().subscribe((response: any) => {
-    //   if (response.code === 200) {
-    // this.categories = response.data;
-    // this.optionalCategories = response.data;
     if (data) {
       this.categories = data;
       this.optionalCategories = data;
@@ -634,9 +415,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
         return c;
       });
     }
-
-    //   }
-    // });
   }
 
   selectCategory(event) {
@@ -677,49 +455,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     }
   }
 
-  selectOptionalSubCategoryOption(id) {
-    /*if (this.option_values) {
-      while (this.addProductForm.get('option_values').value.length > 0) {
-        this.option_values.removeAt(0);
-      }
-      this.option_values.reset();
-    }
-
-    const cat_id = id;
-    let index = this.sub_categories.findIndex((item) => item.id == cat_id);
-    if (index !== -1) {
-      this.options = this.sub_categories[index].options;
-      this.options.forEach((element) => {
-        this.addOptions(element);
-      });
-    }*/
-  }
-
-  /*formatDateForSaving(data, form) {
-    if (data.discount_end_date) {
-      data.discount_end_date = moment(form.get('discount_end_date').value).format('YYYY-MM-DD');
-      data.discount_end_date = data.discount_end_date + ' ' + form.get('expiration_time').value;
-      data.discount_end_date = moment(data.discount_end_date).format('YYYY-MM-DD HH:mm');
-    } else {
-      data.discount_end_date = null;
-    }
-
-    if (data.discount_start_date) {
-      data.discount_start_date = moment(form.get('discount_start_date').value).format('YYYY-MM-DD');
-      data.discount_start_date = data.discount_start_date + ' ' + form.get('start_time').value;
-      data.discount_start_date = moment(data.discount_start_date).format('YYYY-MM-DD HH:mm');
-    } else {
-      data.discount_start_date = null;
-    }
-  }*/
-
-  selectOptionValue(option, value, index) {
-    // this.addProductForm.get("option_values").value[index].option_id = option.id;
-  }
-
-  takeInputId(option, index) {
-    // this.addProductForm.get("option_values").value[index].option_id = option.id;
-  }
 
   onQuantityFieldsChange() {
     if (

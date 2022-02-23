@@ -71,7 +71,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   productsLoading: boolean;
   attribute_options = [];
   option_values: FormArray;
-  paymentMethods: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -107,7 +106,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.getPaymentMethods();
   }
 
   ngOnChanges() {
@@ -150,12 +148,10 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     this.variantForm = this.formBuilder.group(
       {
         image: new FormControl(data ? data.image : "", Validators.required),
-        video: new FormControl(data ? data.video : ""),
         images: this.formBuilder.array([]),
         name: new FormControl(data ? data.name : "", Validators.required),
         name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
         product_with_variant: new FormControl(false),
-        free_delivery: new FormControl(data ? data.free_delivery : false),
         description: new FormControl(data ? data.description : "", [
           Validators.required,
         ]),
@@ -169,6 +165,7 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
           data ? data.long_description_ar : ""
         ),
         meta_title: new FormControl(data ? data.meta_title : ""),
+        weight: new FormControl(1),
         meta_description: new FormControl(data ? data.meta_description : ""),
         order: new FormControl(data ? data.order : ""),
         meta_title_ar: new FormControl(data ? data.meta_title_ar : ""),
@@ -180,18 +177,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
           Validators.min(1),
           Validators.max(1000000),
         ]),
-        discount_price: new FormControl(data ? data.discount_price : "", [
-          Validators.min(1),
-          (control: AbstractControl) => Validators.max(this.price)(control),
-        ]),
-        affiliate_commission: new FormControl(
-          data ? data.affiliate_commission : "",
-          [
-            Validators.min(1),
-            Validators.max(99),
-            //  ,Validators.pattern(this.regex),
-          ]
-        ),
         default_variant: new FormControl(data ? data.default_variant : 0),
         bundle_products_ids: new FormControl(
           data && data.bundleProducts
@@ -200,66 +185,13 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         ),
         stock: new FormControl(data ? data.stock : 0, Validators.required),
         preorder: new FormControl(data ? data.preorder : 0),
-        // preorder_price: new FormControl(data ? data.preorder_price : 0),
-        weight: new FormControl(data ? data.weight : 0, Validators.required),
-        /*stock_alert: new FormControl(data ? data.stock_alert : ''),*/
         sku: new FormControl(data ? data.sku : "", Validators.required),
         options: this.formBuilder.array([]),
-        discount_start_date: new FormControl(
-          data && data.discount_start_date
-            ? data.discount_start_date.split(" ")[0]
-            : "",
-          []
-        ),
-        start_time: new FormControl(
-          data &&
-          data.discount_start_date &&
-          data.discount_start_date.split(" ")[1]
-            ? data.discount_start_date.split(" ")[1].substring(0, 5)
-            : "23:59",
-          []
-        ),
-        discount_end_date: new FormControl(
-          data && data.discount_end_date
-            ? data.discount_end_date.split(" ")[0]
-            : "",
-          []
-        ),
-        expiration_time: new FormControl(
-          data && data.discount_end_date && data.discount_end_date.split(" ")[1]
-            ? data.discount_end_date.split(" ")[1].substring(0, 5)
-            : "23:59",
-          []
-        ),
-        payment_method_discount_ids: new FormControl(
-          data && data.payment_method_discount_ids
-            ? data.payment_method_discount_ids
-            : [],
-          []
-        ),
         option_values: this.formBuilder.array([]),
-      },
-      {
-        validator: [
-          DateLessThan(
-            "discount_start_date",
-            "discount_end_date",
-            "start_time",
-            "expiration_time"
-          ),
-          compareNumbers("discount_price", "price"),
-        ],
       }
     );
   }
 
-  getPaymentMethods() {
-    this.promoService.getPaymentMethods().subscribe((rep) => {
-      if (rep.code === 200) {
-        this.paymentMethods = rep.data.filter((item) => item.active == "1");
-      }
-    });
-  }
 
   getCategories(res: any) {
     if (res.code === 200) {
@@ -274,7 +206,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
   getAllOptions(res: any) {
     if (res["code"] === 200) {
       this.allOptions = res["data"];
-      /*this.mergeData(this.selectVariant);*/
     } else {
       this.toasterService.error(res["message"]);
     }
@@ -291,14 +222,14 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       });
     }
     this.products$ = concat(
-      of(bundleProducts), // default items
+      of(bundleProducts),
       this.productsInput$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
         tap(() => (this.productsLoading = true)),
         switchMap((term) =>
           this.productsService.searchProducts({ q: term, variant: 1 }, 1).pipe(
-            catchError(() => of([])), // empty list on error
+            catchError(() => of([])),
             tap(() => (this.productsLoading = false)),
             map((response: any) => {
               return response.data.products.map((p) => {
@@ -331,12 +262,10 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
         this.addOptionsEdit(element);
       });
     } else {
-      // remap options from(subCategory)
       this.selectSubCategoryOption(
         this.parentProduct.category.id,
         this.parentProduct.category_id
       );
-      // remap options from(Optional subCategory)
       if (
         this.parentProduct.optional_category &&
         this.parentProduct.optional_category.length
@@ -387,13 +316,6 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
       this.variantForm.get("price").clearValidators();
       this.variantForm.get("price").updateValueAndValidity();
     }
-    // if (this.variantForm.value.preorder) {
-    //   this.variantForm.get('preorder_price').setValidators([Validators.required]);
-    //   this.variantForm.get('preorder_price').updateValueAndValidity();
-    // } else if (!this.variantForm.value.preorder) {
-    //   this.variantForm.get('preorder_price').clearValidators();
-    //   this.variantForm.get('preorder_price').updateValueAndValidity();
-    // }
   }
 
   createVariantOption(item): FormGroup {
@@ -583,58 +505,15 @@ export class AddEditVariantsComponent implements OnInit, OnChanges {
     data.options.forEach((item) => {
       delete item.optionData;
     });
-    this.formatDateForSaving(data, this.variantForm);
     return data;
   }
 
-  formatDateForSaving(data, form) {
-    if (data.discount_end_date) {
-      data.discount_end_date = moment(
-        form.get("discount_end_date").value
-      ).format("YYYY-MM-DD");
-      data.discount_end_date =
-        data.discount_end_date + " " + form.get("expiration_time").value;
-      data.discount_end_date = moment(data.discount_end_date).format(
-        "YYYY-MM-DD HH:mm"
-      );
-    } else {
-      data.discount_end_date = null;
-    }
-
-    if (data.discount_start_date) {
-      data.discount_start_date = moment(
-        form.get("discount_start_date").value
-      ).format("YYYY-MM-DD");
-      data.discount_start_date =
-        data.discount_start_date + " " + form.get("start_time").value;
-      data.discount_start_date = moment(data.discount_start_date).format(
-        "YYYY-MM-DD HH:mm"
-      );
-    } else {
-      data.discount_start_date = null;
-    }
-  }
 
   save() {
-    /*Check Is Valid Form Data & Fire Validation*/
-    if (
-      this.variantForm.controls["discount_price"].value &&
-      !this.variantForm.controls["discount_start_date"].value
-    ) {
-      let today = new Date();
-      let startDate = `${today.getFullYear()}-${
-        today.getMonth() + 1
-      }-${today.getDate()} 23:59`;
-      this.variantForm.controls["discount_start_date"].setValue(today);
-      this.variantForm.controls["discount_start_date"].updateValueAndValidity();
-      this.variantForm.updateValueAndValidity();
-    }
     if (this.formValidator()) {
       if (!this.selectVariant) {
-        /*Case Create*/
         this.createProduct(this.mappingDataForSaving());
       } else {
-        /*Case Update*/
         this.updateProduct(this.mappingDataForSaving());
       }
     }

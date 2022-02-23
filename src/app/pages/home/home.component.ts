@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
     this.ordersService.getUnassignedOrders().subscribe((response: any) => {
       this.spinner.hide("tableSpinner");
       this.orders = response.data;
-      this.total = this.orders.length;
+      this.total = this.orders?.length;
     });
     setTimeout(() => {
       this.spinner.show("staticDataSpinner"); // sp1, sp2, sp3
