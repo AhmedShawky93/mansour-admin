@@ -180,9 +180,9 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     });
     this.website_url = this.environmentVariables.envApi.env.checkoutUrl;
   }
-  syncCustomers(){
+  syncProducts(){
     this.syncLoad=true;
-  this.customerService.syncCustomer().subscribe((res:any)=>{
+  this.customerService.syncProducts().subscribe((res:any)=>{
     this.syncLoad=false;
     if(res.code==200){this.toastrService.success(res.message); this.getProducts();}
     else this.toastrService.error(res.message);
