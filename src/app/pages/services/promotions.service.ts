@@ -30,6 +30,14 @@ export class PromotionsService {
         return Observable.throw(error.error || "Server error");
       });
   }
+  getIncentivs() {
+    return this.http
+      .get(this.url + "/incentiveTypes")
+      .catch((error: any) => {
+        return Observable.throw(error.error || "Server error");
+      });
+  }
+
   getRangePromotions(data) {
     return this.http
       .get(this.url + "/promotions_b2b", { params: data })

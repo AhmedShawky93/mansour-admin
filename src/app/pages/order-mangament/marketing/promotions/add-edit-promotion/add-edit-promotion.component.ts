@@ -46,6 +46,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
   AllTypesArr = [];
   brands = [];
   lists = [];
+  incentives = [];
   values: FormArray;
   today: Date = new Date();
   stateSubmitting: boolean = false;
@@ -74,6 +75,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getLists();
+    this.getIncentives();
     this.getAllGroups();
     this.getForm(this.promotionData);
     if (!this.promotionData) {
@@ -85,7 +87,11 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       this.getAllProducts(this.promotionData);
     }
   }
-
+  getIncentives(){
+    this.promotionService.getIncentivs().subscribe((response: any) => {
+      this.incentives = response.data;
+    });
+  }
   ngOnChanges(): void {
     this.isSubmit = false;
     this.getForm(this.promotionData);
@@ -112,6 +118,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
   getForm(data?) {
     this.promotionForm = this.formBuilder.group({
+      incentive_id: new FormControl(data ? String(data.incentive_id) : "", Validators.required),
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       group_id: new FormControl(data ? data.group_id : ""),
@@ -120,6 +127,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       active: new FormControl(data ? data.active : 1),
       boost: new FormControl(data ? data.boost : null),
       exclusive: new FormControl(data ? data.exclusive : false),
+      instant: new FormControl(data ? data.instant : true),
       periodic: new FormControl(data ? data.periodic : ""),
       conditionsTypes: new FormControl([]),
       type: new FormControl(1),
@@ -455,6 +463,17 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       this.promotionForm.get("exclusive").setValue(0);
       this.promotionForm.get("exclusive").updateValueAndValidity();
     }
+    if (
+      this.promotionForm.get("instant").value == true ||
+      this.promotionForm.get("instant").value == 1
+    ) {
+      this.promotionForm.get("instant").setValue(1);
+      this.promotionForm.get("instant").updateValueAndValidity();
+    } else {
+      this.promotionForm.get("instant").setValue(0);
+      this.promotionForm.get("instant").updateValueAndValidity();
+    }
+
     if (
       this.promotionForm.get("periodic").value == "" ||
       this.promotionForm.get("periodic").value == 0

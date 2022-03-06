@@ -64,7 +64,6 @@ export class DynamicSettingsComponent
       minHeight: "5rem",
       placeholder: "Enter text here...",
       translate: "no",
-      uploadUrl: "v1/images", // if needed
       customClasses: [
         // optional
         {

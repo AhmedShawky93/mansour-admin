@@ -45,6 +45,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
   showError: number;
   brands = [];
   lists = [];
+  incentives = [];
   values: FormArray;
   today: Date = new Date();
   stateSubmitting: boolean = false;
@@ -62,6 +63,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getLists();
+    this.getIncentives();
     this.getForm(this.promotionData);
     if (!this.promotionData) {
       this.addConditionsForm();
@@ -71,7 +73,11 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       this.getAllProducts(this.promotionData);
     }
   }
-
+  getIncentives(){
+    this.promotionService.getIncentivs().subscribe((response: any) => {
+      this.incentives = response.data;
+    });
+  }
   ngOnChanges(): void {
     this.isSubmit = false;
     this.getForm(this.promotionData);
@@ -95,6 +101,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
   getForm(data?) {
     this.promotionForm = this.formBuilder.group({
+      incentive_id: new FormControl(data ? String(data.incentive_id) : "", Validators.required),
       name: new FormControl(data ? data.name : "", Validators.required),
       name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
       active: new FormControl(data ? data.active : 1),
@@ -107,6 +114,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         Validators.min(1),
       ]),
       exclusive: new FormControl(data ? data.exclusive : false),
+      instant: new FormControl(data ? data.instant : true),
       periodic: new FormControl(data ? data.periodic : ""),
       start_date: new FormControl(
         data && data.start_date ? data.start_date.split(" ")[0] : "",
@@ -337,6 +345,17 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       this.promotionForm.get("exclusive").updateValueAndValidity();
     }
     if (
+      this.promotionForm.get("instant").value == true ||
+      this.promotionForm.get("instant").value == 1
+    ) {
+      this.promotionForm.get("instant").setValue(1);
+      this.promotionForm.get("instant").updateValueAndValidity();
+    } else {
+      this.promotionForm.get("instant").setValue(0);
+      this.promotionForm.get("instant").updateValueAndValidity();
+    }
+
+    if (
       this.promotionForm.get("periodic").value == "" ||
       this.promotionForm.get("periodic").value == 0
     ) {
@@ -381,7 +400,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
     this.formatData(data);
     this.stateSubmitting = true;
-    console.log(data);
     this.promotionService
       .editRangePromotion(this.promotionData.id, data)
       .subscribe((response: any) => {

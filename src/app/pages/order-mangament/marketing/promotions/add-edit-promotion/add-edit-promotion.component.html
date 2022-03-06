@@ -12,6 +12,30 @@
     [formGroup]="promotionForm"
     novalidate
   >
+  <div class="form-group">
+    <label for="incentive_id">Incentive Mapping</label>
+    <ng-select
+      formControlName="incentive_id"
+      [items]="incentives"
+      name="incentive_id"
+      bindLabel="incentive_desc"
+      bindValue="incentive_id"
+      placeholder="Enter incentive name"
+    >
+    </ng-select>
+    <div
+      *ngIf="
+      promotionForm.get('incentive_id').invalid &&
+        (promotionForm.get('incentive_id').dirty || promotionForm.get('incentive_id').touched)
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="promotionForm.get('incentive_id').errors?.required">
+        Incentive mapping is required.
+      </div>
+    </div>
+  </div>
+
     <div class="form-group">
       <label for="name">Name</label>
       <input
@@ -636,7 +660,20 @@
         </div>
       </div>
     </div>
-
+    <div class="form-group">
+      <label for="Instant" class="container"
+        >Instant Discount
+        <input
+          type="checkbox"
+          class="form-control checkbox-style"
+          name="Instant"
+          id="Instant"
+          [value]="1"
+          formControlName="instant"
+        />
+        <span class="checkmark"></span>
+      </label>
+    </div>
     <div class="form-sidebar-btns">
       <button
         class="btn btn-owls btn-rounded btn-green"
