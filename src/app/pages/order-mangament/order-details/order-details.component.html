@@ -549,7 +549,20 @@
             <i class="icon-grey edit-price"></i>
           </a>
         </div> -->
-
+        <div class="block-item">
+          <p>Total Incentive</p>
+          <span
+            >{{ order?.total_incentive | number: "1.2-2" }}
+            {{ environmentVariables?.localization?.currency_code_en }}</span
+          >
+        </div>
+        <div class="block-item">
+          <p>Total Cashback</p>
+          <span
+            >{{ order?.total_cashback | number: "1.2-2" }}
+            {{ environmentVariables?.localization?.currency_code_en }}</span
+          >
+        </div>
         <div class="block-item">
           <p>Grand Total</p>
           <span
