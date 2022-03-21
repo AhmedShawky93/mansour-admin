@@ -118,50 +118,45 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   }
 
   getForm(data) {
-    this.addProductForm = this.formBuilder.group(
-      {
-        name: new FormControl(data ? data.name : "", Validators.required),
-        name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
-        discount_price: new FormControl(data ? data.discount_price : "", [
-          Validators.min(1),
-          (control: AbstractControl) => Validators.max(this.price)(control),
-        ]),
-        brand_id: new FormControl(
-          data ? data.brand_id : "",
-          Validators.required
-        ),
-        main_category: new FormControl(
-          data && data.category ? data.category.id : ""
-        ),
-        category_id: new FormControl(
-          data ? data.category_id : "",
-          Validators.required
-        ),
-        optional_category: new FormControl(
-          data && data.optional_category ? data.optional_category.id : ""
-        ),
-        optional_sub_category_id: new FormControl(
-          data && data.optional_sub_category_id
-            ? data.optional_sub_category_id
-            : ""
-        ),
-        sku: new FormControl(data ? data.sku : "", Validators.required),
-        max_per_order: new FormControl(data ? data.max_per_order : ""),
-        min_days: new FormControl(data ? data.min_days : ""),
-        stock_alert: new FormControl(data ? data.stock_alert : ""),
-        type: new FormControl(data ? data.type : 1, Validators.required),
-        has_stock: new FormControl(data ? data.has_stock : ""),
-        bundle_checkout: new FormControl(data ? data.bundle_checkout : ""),
-        related_ids: new FormControl(
-          data ? data.relatedProducts.map((rp) => rp.id) : ""
-        ),
-        option_values: this.formBuilder.array([]),
-        product_variant_options: new FormControl(
-          data ? data.product_variant_options.map((item) => item.id) : "",
-          []
-        ),
-      }
-    );
+    this.addProductForm = this.formBuilder.group({
+      name: new FormControl(data ? data.name : "", Validators.required),
+      name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
+      discount_price: new FormControl(data ? data.discount_price : "", [
+        Validators.min(1),
+        (control: AbstractControl) => Validators.max(this.price)(control),
+      ]),
+      brand_id: new FormControl(data ? data.brand_id : ""),
+      main_category: new FormControl(
+        data && data.category ? data.category.id : ""
+      ),
+      category_id: new FormControl(
+        data ? data.category_id : "",
+        Validators.required
+      ),
+      optional_category: new FormControl(
+        data && data.optional_category ? data.optional_category.id : ""
+      ),
+      optional_sub_category_id: new FormControl(
+        data && data.optional_sub_category_id
+          ? data.optional_sub_category_id
+          : ""
+      ),
+      sku: new FormControl(data ? data.sku : "", Validators.required),
+      max_per_order: new FormControl(data ? data.max_per_order : ""),
+      min_days: new FormControl(data ? data.min_days : ""),
+      stock_alert: new FormControl(data ? data.stock_alert : ""),
+      type: new FormControl(data ? data.type : 1, Validators.required),
+      has_stock: new FormControl(data ? data.has_stock : ""),
+      bundle_checkout: new FormControl(data ? data.bundle_checkout : ""),
+      related_ids: new FormControl(
+        data ? data.relatedProducts.map((rp) => rp.id) : ""
+      ),
+      option_values: this.formBuilder.array([]),
+      product_variant_options: new FormControl(
+        data ? data.product_variant_options.map((item) => item.id) : "",
+        []
+      ),
+    });
   }
 
   getAllOptions() {
@@ -399,8 +394,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     }
   }
 
-
-
   getCategories(data) {
     if (data) {
       this.categories = data;
@@ -453,7 +446,6 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       this.optionalSubCategories = optionalCategory.sub_categories;
     }
   }
-
 
   onQuantityFieldsChange() {
     if (
