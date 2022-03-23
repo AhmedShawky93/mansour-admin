@@ -1,15 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
-import {
-  FormArray,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { environment } from "environments/environment.prod";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -237,18 +227,15 @@ export class CategoriesComponent implements OnInit {
     this.editCatForm = new FormGroup({
       id: new FormControl(category.id),
       image: new FormControl(category.image, [Validators.required]),
-      slug: new FormControl(category.slug, Validators.required),
+      slug: new FormControl(category.slug),
       name: new FormControl(category.name, [
         Validators.required,
         Validators.pattern(/[A-Za-z0-9\-\&\s]+$/),
       ]),
-      name_ar: new FormControl(category.name_ar, [Validators.required]),
-      description: new FormControl(category.description, Validators.required),
-      description_ar: new FormControl(
-        category.description_ar,
-        Validators.required
-      ),
-      order: new FormControl(category.order, Validators.required),
+      name_ar: new FormControl(category.name_ar),
+      description: new FormControl(category.description),
+      description_ar: new FormControl(category.description_ar),
+      order: new FormControl(category.order),
 
       sub_categories: new FormArray(
         [],
@@ -261,14 +248,14 @@ export class CategoriesComponent implements OnInit {
         new FormGroup({
           id: new FormControl(item.id),
           name: new FormControl(item.name, Validators.required),
-          name_ar: new FormControl(item.name_ar, Validators.required),
+          name_ar: new FormControl(item.name_ar),
           ex_rate_pts: new FormControl(item.ex_rate_pts, Validators.required),
           ex_rate_egp: new FormControl(item.ex_rate_egp, Validators.required),
           payment_target: new FormControl(
             item.payment_target ? item.payment_target : null
           ),
           image: new FormControl(item.image, Validators.required),
-          slug: new FormControl(item.slug, Validators.required),
+          slug: new FormControl(item.slug),
           order: new FormControl(item.order),
           options: new FormControl(item.options.map((p) => p.id)),
         })
@@ -277,6 +264,8 @@ export class CategoriesComponent implements OnInit {
   }
 
   updateCategory(category) {
+    console.log(this.editCatForm);
+
     if (!this.editCatForm.valid) {
       this.markFormGroupTouched(this.editCatForm);
       return;

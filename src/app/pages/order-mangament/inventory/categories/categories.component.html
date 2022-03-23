@@ -15,20 +15,14 @@
       </div>
     </div>
 
-    <div class="col-md-2 col-sm-3 col-xs-12 text-right">
+    <!-- <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <button
-        class="
-          btn btn-owls btn-block
-          actionBtns
-          btn-rounded btn-blue2 btn-big
-          add-category
-          ml-auto
-        "
+        class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big add-category ml-auto"
         (click)="addCaregory()"
       >
         + New category
       </button>
-    </div>
+    </div> -->
 
     <!-- <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <button
@@ -54,12 +48,7 @@
     </div> -->
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <button
-        class="
-          btn btn-owls btn-block
-          actionBtns
-          btn-rounded btn-blue2 btn-big
-          ml-auto
-        "
+        class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big ml-auto"
         (click)="exportCsv()"
       >
         export CSV
@@ -328,6 +317,7 @@
                 [(ngModel)]="editCat.name"
                 required
                 formControlName="name"
+                readonly
               />
               <!-- start Errors Rolues -->
               <div
@@ -357,7 +347,7 @@
                 name="name_ar"
                 placeholder="اسم القسم.."
                 [(ngModel)]="editCat.name_ar"
-                required
+                readonly
                 formControlName="name_ar"
               />
               <!-- start Errors Rolues -->
@@ -383,7 +373,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col">
+      <div class="col d-none">
         <div class="form-group">
           <label for="amount">Description (140 Max)</label>
           <textarea
@@ -393,7 +383,6 @@
             id=""
             maxlength="140"
             [(ngModel)]="editCat.description"
-            required
             formControlName="description"
           ></textarea>
           <!-- Errors Rolues -->
@@ -413,7 +402,7 @@
           <!-- <input type="text" class="owl-input" id="amount" aria-describedby="emailHelp" placeholder="Type.."> -->
         </div>
       </div>
-      <div class="col">
+      <div class="col d-none">
         <div class="form-group">
           <label for="amount">Description (ar) (140 Max)</label>
           <textarea
@@ -423,7 +412,6 @@
             id=""
             maxlength="140"
             [(ngModel)]="editCat.description_ar"
-            required
             formControlName="description_ar"
           ></textarea>
           <!-- Errors Rolues -->
@@ -443,8 +431,8 @@
           <!-- <input type="text" class="owl-input" id="amount" aria-describedby="emailHelp" placeholder="Type.."> -->
         </div>
       </div>
-      <div class="w-100"></div>
-      <div class="col">
+      <!-- <div class="w-100" ></div> -->
+      <div class="col d-none">
         <div class="form-group">
           <label for="">Slug</label>
           <input
@@ -453,7 +441,6 @@
             placeholder="Type.."
             name="slug"
             [(ngModel)]="editCat.slug"
-            required
             formControlName="slug"
           />
           <div
@@ -470,7 +457,7 @@
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="col-6">
         <div class="form-group">
           <label>Order</label>
           <input
@@ -559,7 +546,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 col-lx-6">
+            <div class="col-sm-12 col-lx-6 mt-4">
               <div class="col-sm-12 m-t-b-8">
                 <label for="">sub category</label>
                 <input
@@ -569,6 +556,7 @@
                   name="subName{{ i }}"
                   formControlName="name"
                   required
+                  readonly
                 />
                 <div
                   *ngIf="
@@ -591,14 +579,13 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-12 m-t-b-8">
+              <div class="col-sm-12 m-t-b-8 d-none">
                 <label for="">Slug</label>
                 <input
                   type="text"
                   class="owl-input"
                   name="subName{{ i }}"
                   formControlName="slug"
-                  required
                 />
                 <div
                   *ngIf="
@@ -629,7 +616,7 @@
                   placeholder="اسم القسم الفرعي ..."
                   name="subNameAr{{i}"
                   formControlName="name_ar"
-                  required
+                  readonly
                 />
                 <div
                   *ngIf="
@@ -652,7 +639,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12 m-t-b-8">
+              <div class="col-12 m-t-b-8 d-none">
                 <label> Options Name </label>
                 <ng-select
                   name="optionName"
@@ -674,7 +661,6 @@
                   placeholder="type here"
                   name="suborder{{ i }}"
                   formControlName="order"
-                  required
                 />
                 <div
                   *ngIf="
@@ -765,7 +751,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12 mt-3">
+              <div class="col-12 mt-3 d-none">
                 <label> Payment Targets </label>
                 <input
                   type="number"
@@ -773,7 +759,6 @@
                   placeholder="type here"
                   name="payment_target"
                   formControlName="payment_target"
-                  required
                 />
                 <small class="form-text text-muted mt-2"
                   >Total payment purchase targets</small
@@ -789,12 +774,12 @@
       </div>
     </div>
 
-    <a
+    <!-- <a
       href="javascript:void(0)"
       class="add-sub"
       (click)="addSubCategoryEdit(editCatForm)"
       >add subcategory</a
-    >
+    > -->
 
     <div
       *ngIf="
