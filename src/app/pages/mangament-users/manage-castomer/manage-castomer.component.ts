@@ -72,7 +72,7 @@ export class ManageCastomerComponent implements OnInit {
   selectedAddress: any;
   customerId: any;
   environmentVariables;
- syncLoad=false;
+  syncLoad = false;
   constructor(
     private customerService: CustomerService,
     private auth: AuthService,
@@ -158,7 +158,7 @@ export class ManageCastomerComponent implements OnInit {
     }, 500);
   }
 
- selectCity(cityId) {
+  selectCity(cityId) {
     if (cityId) {
       this.filter.city_id = [];
       this.filter.area_id = [];
@@ -196,31 +196,33 @@ export class ManageCastomerComponent implements OnInit {
     this.filter.page = this.p;
     this.searchInCustomers();
   }
-  syncCustomers(){
-    this.syncLoad=true;
-  this.customerService.syncCustomer().subscribe((res:any)=>{
-    this.syncLoad=false;
-    if(res.code==200){this.toastrService.success(res.message); this.searchInCustomers();}
-    else this.toastrService.error(res.message);
-  })
-
+  syncCustomers() {
+    this.syncLoad = true;
+    this.customerService.syncCustomer().subscribe((res: any) => {
+      this.syncLoad = false;
+      if (res.code == 200) {
+        this.toastrService.success(res.message);
+        this.searchInCustomers();
+      } else this.toastrService.error(res.message);
+    });
   }
   searchInCustomers() {
     this.filter.page = this.p;
     this.filter.ids = this.customerId ? [this.customerId] : [];
     this.spinner.show();
-    this.customerService.getCustomers(this.filter).subscribe((response: any) => {
-      this.customers = response.data.customers;
-      this.spinner.hide();
-      this.customers.map((user) => {
-        user.age = this.calculateAge(new Date(user.birthdate));
-        user.deactivated = !user.active;
-        return user;
+    this.customerService
+      .getCustomers(this.filter)
+      .subscribe((response: any) => {
+        this.customers = response.data.customers;
+        this.spinner.hide();
+        this.customers.map((user) => {
+          user.age = this.calculateAge(new Date(user.birthdate));
+          user.deactivated = !user.active;
+          return user;
+        });
+        this.total = response.data.total;
       });
-      this.total = response.data.total;
-    });
   }
-
 
   viewCustomer(customer) {
     this.customerLoading = true;
@@ -255,10 +257,12 @@ export class ManageCastomerComponent implements OnInit {
       user.showReason = 0;
       user.notes = "";
       if (user.deactivated) {
-        this.customerService.activateCustomer(user.id).subscribe((data: any) => {
-          user.active = 1;
-          user.deactivated = 0;
-        });
+        this.customerService
+          .activateCustomer(user.id)
+          .subscribe((data: any) => {
+            user.active = 1;
+            user.deactivated = 0;
+          });
       }
     } else {
       user.notes = user.deactivation_notes;
@@ -271,15 +275,17 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   cancelPoints() {
-    this.customerService.cancelPoints(this.currentPoints.id).subscribe((response: any) => {
-      this.currentPoints = response.data;
-      const ind = this.customer.points.findIndex(
-        (p) => p.id == this.currentPoints.id
-      );
-      if (ind !== -1) {
-        this.customer.points[ind] = this.currentPoints;
-      }
-    });
+    this.customerService
+      .cancelPoints(this.currentPoints.id)
+      .subscribe((response: any) => {
+        this.currentPoints = response.data;
+        const ind = this.customer.points.findIndex(
+          (p) => p.id == this.currentPoints.id
+        );
+        if (ind !== -1) {
+          this.customer.points[ind] = this.currentPoints;
+        }
+      });
   }
 
   confirmVerifyPhone(customer) {
@@ -287,11 +293,13 @@ export class ManageCastomerComponent implements OnInit {
   }
 
   verifyPhone() {
-    this.customerService.verifyPhone(this.customer.id).subscribe((response: any) => {
-      if (response.code == 200) {
-        this.customer.phone_verified = response.data.phone_verified;
-      }
-    });
+    this.customerService
+      .verifyPhone(this.customer.id)
+      .subscribe((response: any) => {
+        if (response.code == 200) {
+          this.customer.phone_verified = response.data.phone_verified;
+        }
+      });
   }
 
   loginAsCustomer(id) {

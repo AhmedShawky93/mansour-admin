@@ -113,6 +113,7 @@ import { ProductFilterPipe } from "./shared/product-filter.pipe";
 import { SharedModule } from "./shared/shared.module";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "environments/environment.prod";
+import { ManageRequestsComponent } from "./pages/mangament-users/customers-requests/customers-requests.component";
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { environment } from "environments/environment.prod";
     DetailsViewComponent,
     DoneComponent,
     ManageCastomerComponent,
+    ManageRequestsComponent,
     TotalOrdersComponent,
     AdminLogComponent,
     CustomAdsComponent,

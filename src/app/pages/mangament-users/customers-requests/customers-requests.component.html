@@ -1,0 +1,100 @@
+<div class="top-table-bar"></div>
+
+<div class="top-table-bar table-responsive">
+  <table class="table owls-table">
+    <thead>
+      <tr>
+        <th scope="col">Customer iD</th>
+        <th scope="col">Name</th>
+        <th scope="col">contact details</th>
+        <th scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let request of requests
+            | paginate: { itemsPerPage: 20, currentPage: p, totalItems: total }
+        "
+      >
+        <td scope="row">
+          {{ request.id }}
+        </td>
+        <td>{{ request.name | truncate: 15 }}</td>
+        <td>{{ request.mobile }}</td>
+
+        <td>
+          <a
+            (click)="deleteRequest(request)"
+            class="table-view edit-product mx-1"
+            href="javascript:void(0)"
+          >
+            <i class="fa fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+
+<ngx-spinner
+  [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  color="#fff"
+  size="medium"
+  type="timer"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+<div
+  class="modal fade"
+  id="deleteProduct"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center"
+        >
+          Delete Request
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to Delete the Request ({{ currentrequest?.id }}) ?
+      </div>
+      <div class="modal-footer" style="justify-content: center">
+        <button
+          type="button"
+          [appLoading]="statedeleting"
+          [disabled]="statedeleting"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+          style="position: relative"
+          (click)="confirmDelete()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-red2"
+        >
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

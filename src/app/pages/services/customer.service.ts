@@ -117,4 +117,10 @@ export class CustomerService {
   getCustomerToken(id) {
     return this.http.get(this.url + "/customers/" + id + "/token");
   }
+  getRequests(page) {
+    return this.http.get(this.url + `/register/request?page=${page}`);
+  }
+  softDeleteRequest(id) {
+    return this.http.delete(this.url + "/register/request/" + id);
+  }
 }

@@ -1,0 +1,135 @@
+#view-deactive,
+#view-active {
+  width: 481px;
+}
+.reason-text {
+  padding: 25px;
+  background: #f6f8f9;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.reason-text .inner p {
+  font-size: 18px;
+  color: #557e96;
+  text-transform: none;
+}
+
+.reason-popup {
+  position: absolute;
+  /* display: none; */
+  right: -57px;
+  top: 33px;
+  width: 600px;
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid rgba(167, 189, 202, 0.33);
+  box-shadow: 0 11px 22px 0 rgba(6, 40, 57, 0.05);
+  border-radius: 5px;
+  z-index: 7;
+}
+
+.reason-popup textarea {
+  height: 108px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+
+.order-history h5 {
+  font-size: 16px;
+  color: #557e96;
+}
+
+.order-item {
+  position: relative;
+  background: #f3f6f8;
+  border-radius: 12px;
+  padding: 25px 25px 5px 25px;
+  margin-bottom: 15px;
+}
+
+.order-item h4 {
+  font-size: 16px;
+  color: #003c62;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.order-item p {
+  font-size: 13px;
+  color: #557e96;
+}
+.order-item p span::after {
+  content: ",";
+  margin-right: 3px;
+}
+.order-item p span:last-child::after {
+  content: " ";
+}
+
+p.btn-rounded {
+  display: inline-block;
+}
+
+.order-item a + a {
+  position: absolute;
+  right: 25px;
+  top: 34%;
+  color: #003c62;
+  font-size: 25px;
+}
+
+.order-history > span {
+  float: right;
+}
+
+@media (max-width: 920px) {
+  .owl-btn-list .btn {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  .btn-rounded {
+    padding: 0 !important;
+  }
+  .table thead th {
+    padding-right: 15px;
+    font-size: 8px !important;
+    text-align: center;
+  }
+  .table td,
+  .table th {
+    padding-right: 4px;
+    font-size: 9px;
+    text-align: center;
+  }
+  .tb-btn {
+    width: 65px;
+    font-size: 9px;
+    margin: 2px;
+    margin-right: 5px;
+  }
+  i {
+    font-size: 14px;
+  }
+  .owl-btn-list .btn {
+    width: 100% !important;
+    font-size: 10px !important;
+    line-height: 44px;
+    height: 44px;
+  }
+}
+
+@media (min-width: 992px) {
+  .table-responsive {
+    overflow-x: inherit !important;
+  }
+}
+.order-list {
+  max-height: 300px;
+  overflow-y: scroll;
+  margin-bottom: 0px;
+}
+.search-btn{
+  margin-top: -5px;
+  margin-bottom: 10px;
+}

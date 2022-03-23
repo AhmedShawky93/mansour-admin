@@ -229,6 +229,21 @@
         </a>
       </li>
 
+      <li
+        class="side-nav-item"
+        routerLinkActive="active"
+        *ngxPermissionsOnly="['ADMIN']"
+      >
+        <a routerLink="/pages/customer-request" routerLinkActive="active">
+          <i
+            class="icon-None8"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Customers"
+          ></i>
+          <span>Customers Requests</span>
+        </a>
+      </li>
       <!-- <li
         class="side-nav-item"
         routerLinkActive="active"
