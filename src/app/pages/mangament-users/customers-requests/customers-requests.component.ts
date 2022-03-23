@@ -159,6 +159,7 @@ export class ManageRequestsComponent implements OnInit {
           );
           this.currentrequest["delete"] = true;
           this.addOrUpdateRequest(this.currentrequest);
+          this.changePage(1);
           $("#deleteProduct").modal("hide");
         } else {
           this.statedeleting = false;
