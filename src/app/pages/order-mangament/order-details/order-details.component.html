@@ -564,6 +564,13 @@
           >
         </div>
         <div class="block-item">
+          <p>Taxes</p>
+          <span
+            >{{ order?.tax | number: "1.2-2" }}
+            {{ environmentVariables?.localization?.currency_code_en }}</span
+          >
+        </div>
+        <div class="block-item">
           <p>Grand Total</p>
           <span
             >{{ order.amount + order.delivery_fees | number: "1.2-2" }}
