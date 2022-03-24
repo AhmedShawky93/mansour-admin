@@ -12,29 +12,31 @@
     [formGroup]="promotionForm"
     novalidate
   >
-  <div class="form-group">
-    <label for="incentive_id">Incentive Mapping</label>
-    <ng-select
-      formControlName="incentive_id"
-      [items]="incentives"
-      name="incentive_id"
-      bindLabel="incentive_desc"
-      bindValue="incentive_id"
-      placeholder="Enter incentive name"
-    >
-    </ng-select>
-    <div
-      *ngIf="
-      promotionForm.get('incentive_id').invalid &&
-        (promotionForm.get('incentive_id').dirty || promotionForm.get('incentive_id').touched)
-      "
-      class="alert alert-danger"
-    >
-      <div *ngIf="promotionForm.get('incentive_id').errors?.required">
-        Incentive mapping is required.
+    <div class="form-group">
+      <label for="incentive_id">Incentive Mapping</label>
+      <ng-select
+        formControlName="incentive_id"
+        [items]="incentives"
+        name="incentive_id"
+        bindLabel="incentive_desc"
+        bindValue="incentive_id"
+        placeholder="Enter incentive name"
+        (change)="setValues()"
+      >
+      </ng-select>
+      <div
+        *ngIf="
+          promotionForm.get('incentive_id').invalid &&
+          (promotionForm.get('incentive_id').dirty ||
+            promotionForm.get('incentive_id').touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="promotionForm.get('incentive_id').errors?.required">
+          Incentive mapping is required.
+        </div>
       </div>
     </div>
-  </div>
 
     <div class="form-group">
       <label for="name">Name</label>
@@ -44,6 +46,7 @@
         placeholder="Type.."
         formControlName="name"
         id="name"
+        readonly
       />
       <div
         *ngIf="
@@ -67,6 +70,7 @@
         placeholder="Type.."
         formControlName="name_ar"
         id="nameAr"
+        readonly
       />
 
       <div
@@ -79,6 +83,54 @@
       >
         <div *ngIf="promotionForm.controls.name_ar.errors.required">
           Name (Ar) is required.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        class="owl-input"
+        placeholder="Description...."
+        name="description"
+        id="description"
+        maxlength="140"
+        formControlName="description"
+        readonly
+      ></textarea>
+      <div
+        *ngIf="
+          promotionForm.controls.description.invalid &&
+          (promotionForm.controls.description.dirty ||
+            promotionForm.controls.description.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="promotionForm.controls.description.errors.required">
+          Description is required.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description_ar">Description (AR)</label>
+      <textarea
+        class="owl-input"
+        placeholder="Description...."
+        name="description_ar"
+        id="description_ar"
+        maxlength="140"
+        formControlName="description_ar"
+        readonly
+      ></textarea>
+      <div
+        *ngIf="
+          promotionForm.controls.description_ar.invalid &&
+          (promotionForm.controls.description_ar.dirty ||
+            promotionForm.controls.description_ar.touched)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="promotionForm.controls.description_ar.errors.required">
+          Description (AR) is required.
         </div>
       </div>
     </div>
