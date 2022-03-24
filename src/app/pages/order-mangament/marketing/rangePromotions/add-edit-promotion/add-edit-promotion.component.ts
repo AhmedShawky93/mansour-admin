@@ -73,7 +73,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       this.getAllProducts(this.promotionData);
     }
   }
-  getIncentives(){
+  getIncentives() {
     this.promotionService.getIncentivs().subscribe((response: any) => {
       this.incentives = response.data;
     });
@@ -101,9 +101,32 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
 
   getForm(data?) {
     this.promotionForm = this.formBuilder.group({
-      incentive_id: new FormControl(data ? String(data.incentive_id) : "", Validators.required),
-      name: new FormControl(data ? data.name : "", Validators.required),
-      name_ar: new FormControl(data ? data.name_ar : "", Validators.required),
+      incentive_id: new FormControl(
+        data ? String(data.incentive_id) : "",
+        Validators.required
+      ),
+      name: new FormControl(
+        data
+          ? this.findInIncentive(data.incentive_id, "arabic_description")
+          : "",
+        Validators.required
+      ),
+      name_ar: new FormControl(
+        data
+          ? this.findInIncentive(data.incentive_id, "arabic_description")
+          : "",
+        Validators.required
+      ),
+      description: new FormControl(
+        data
+          ? this.findInIncentive(data.incentive_id, "arabic_description")
+          : ""
+      ),
+      description_ar: new FormControl(
+        data
+          ? this.findInIncentive(data.incentive_id, "arabic_description")
+          : ""
+      ),
       active: new FormControl(data ? data.active : 1),
       showConditions: new FormControl(1),
       showTarget: new FormControl(1),
@@ -149,6 +172,54 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     }
   }
 
+  findInIncentive(id, value) {
+    let incentive = this.incentives.find(
+      (incentive) => incentive.incentive_id == id
+    );
+    return incentive[value];
+  }
+
+  setValues() {
+    this.promotionForm
+      .get("name")
+      .setValue(
+        this.findInIncentive(
+          this.promotionForm.get("incentive_id").value,
+          "arabic_description"
+        )
+      );
+    this.promotionForm.get("name").updateValueAndValidity();
+
+    this.promotionForm
+      .get("name_ar")
+      .setValue(
+        this.findInIncentive(
+          this.promotionForm.get("incentive_id").value,
+          "arabic_description"
+        )
+      );
+    this.promotionForm.get("name_ar").updateValueAndValidity();
+
+    this.promotionForm
+      .get("description")
+      .setValue(
+        this.findInIncentive(
+          this.promotionForm.get("incentive_id").value,
+          "arabic_description"
+        )
+      );
+    this.promotionForm.get("description").updateValueAndValidity();
+
+    this.promotionForm
+      .get("description_ar")
+      .setValue(
+        this.findInIncentive(
+          this.promotionForm.get("incentive_id").value,
+          "arabic_description"
+        )
+      );
+    this.promotionForm.get("description_ar").updateValueAndValidity();
+  }
   addConditionsForm(data?, clear = false): void {
     clear && this.conditions.clear();
     this.conditions.push(this.createItem(data));
