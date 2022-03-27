@@ -106,9 +106,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         Validators.required
       ),
       name: new FormControl(
-        data
-          ? this.findInIncentive(data.incentive_id, "arabic_description")
-          : "",
+        data ? this.findInIncentive(data.incentive_id, "incentive_desc") : "",
         Validators.required
       ),
       name_ar: new FormControl(
@@ -117,16 +115,8 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
           : "",
         Validators.required
       ),
-      description: new FormControl(
-        data
-          ? this.findInIncentive(data.incentive_id, "arabic_description")
-          : ""
-      ),
-      description_ar: new FormControl(
-        data
-          ? this.findInIncentive(data.incentive_id, "arabic_description")
-          : ""
-      ),
+      description: new FormControl(data ? data.description : ""),
+      description_ar: new FormControl(data ? data.description_ar : ""),
       active: new FormControl(data ? data.active : 1),
       showConditions: new FormControl(1),
       showTarget: new FormControl(1),
@@ -185,7 +175,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       .setValue(
         this.findInIncentive(
           this.promotionForm.get("incentive_id").value,
-          "arabic_description"
+          "incentive_desc"
         )
       );
     this.promotionForm.get("name").updateValueAndValidity();
@@ -199,26 +189,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         )
       );
     this.promotionForm.get("name_ar").updateValueAndValidity();
-
-    this.promotionForm
-      .get("description")
-      .setValue(
-        this.findInIncentive(
-          this.promotionForm.get("incentive_id").value,
-          "arabic_description"
-        )
-      );
-    this.promotionForm.get("description").updateValueAndValidity();
-
-    this.promotionForm
-      .get("description_ar")
-      .setValue(
-        this.findInIncentive(
-          this.promotionForm.get("incentive_id").value,
-          "arabic_description"
-        )
-      );
-    this.promotionForm.get("description_ar").updateValueAndValidity();
   }
   addConditionsForm(data?, clear = false): void {
     clear && this.conditions.clear();

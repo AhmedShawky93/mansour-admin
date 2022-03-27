@@ -123,9 +123,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         Validators.required
       ),
       name: new FormControl(
-        data
-          ? this.findInIncentive(data.incentive_id, "arabic_description")
-          : "",
+        data ? this.findInIncentive(data.incentive_id, "incentive_desc") : "",
         Validators.required
       ),
       name_ar: new FormControl(
@@ -134,16 +132,8 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
           : "",
         Validators.required
       ),
-      description: new FormControl(
-        data
-          ? this.findInIncentive(data.incentive_id, "arabic_description")
-          : ""
-      ),
-      description_ar: new FormControl(
-        data
-          ? this.findInIncentive(data.incentive_id, "arabic_description")
-          : ""
-      ),
+      description: new FormControl(data ? data.description : ""),
+      description_ar: new FormControl(data ? data.description_ar : ""),
       group_id: new FormControl(data ? data.group_id : ""),
       gift_en: new FormControl(data ? data.gift_en : ""),
       gift_ar: new FormControl(data ? data.gift_ar : ""),
@@ -218,7 +208,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       .setValue(
         this.findInIncentive(
           this.promotionForm.get("incentive_id").value,
-          "arabic_description"
+          "incentive_desc"
         )
       );
     this.promotionForm.get("name").updateValueAndValidity();
@@ -232,26 +222,6 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         )
       );
     this.promotionForm.get("name_ar").updateValueAndValidity();
-
-    this.promotionForm
-      .get("description")
-      .setValue(
-        this.findInIncentive(
-          this.promotionForm.get("incentive_id").value,
-          "arabic_description"
-        )
-      );
-    this.promotionForm.get("description").updateValueAndValidity();
-
-    this.promotionForm
-      .get("description_ar")
-      .setValue(
-        this.findInIncentive(
-          this.promotionForm.get("incentive_id").value,
-          "arabic_description"
-        )
-      );
-    this.promotionForm.get("description_ar").updateValueAndValidity();
   }
 
   getAllTypes(data) {
