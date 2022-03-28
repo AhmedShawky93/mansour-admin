@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -103,10 +97,7 @@ export class AddEditCustomerComponent implements OnInit {
   setupForm(data) {
     this.customerForm = new FormGroup({
       name: new FormControl(data ? data.name : "", Validators.required),
-      last_name: new FormControl(
-        data ? data.last_name : "",
-        Validators.required
-      ),
+      last_name: new FormControl(data ? data.last_name : ""),
       code: new FormControl(data ? data.code : "", Validators.required),
       email: new FormControl(data ? data.email : "", [Validators.email]),
       has_address: new FormControl(data ? data.has_address : true),
