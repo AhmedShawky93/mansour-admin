@@ -5,10 +5,7 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   FormArray,
   FormBuilder,
@@ -16,10 +13,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import {
-  ActivatedRoute,
-  Router,
-} from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import * as moment from "moment";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -113,6 +107,7 @@ export class OrderDetailsComponent implements OnInit {
   toggleAddOrder: string;
   aramixAccounts: any;
   environmentVariables: any;
+  grandTotalSum: any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -197,6 +192,10 @@ export class OrderDetailsComponent implements OnInit {
     this.orderService.getOrder(id).subscribe((response: any) => {
       this.spinner.hide();
       this.order = response.data;
+      this.grandTotalSum =
+        Number(this.order.amount) +
+        Number(this.order.delivery_fees) +
+        Number(this.order?.tax);
       this.getOrderStates();
 
       this.order.history.map((state) => {

@@ -580,7 +580,7 @@
         <div class="block-item">
           <p>Grand Total</p>
           <span
-            >{{ order.amount + order.delivery_fees | number: "1.2-2" }}
+            >{{ grandTotalSum | number: "1.2-2" }}
             {{ environmentVariables?.localization?.currency_code_en }}</span
           >
         </div>
