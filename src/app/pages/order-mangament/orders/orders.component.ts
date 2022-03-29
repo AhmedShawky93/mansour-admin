@@ -8,16 +8,8 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
-import {
-  Component,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatInput } from "@angular/material";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
@@ -27,12 +19,7 @@ import { debounce } from "lodash";
 import * as moment from "moment";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
-import {
-  concat,
-  Observable,
-  of,
-  Subject,
-} from "rxjs";
+import { concat, Observable, of, Subject } from "rxjs";
 import {
   catchError,
   debounceTime,
@@ -903,7 +890,9 @@ export class OrdersComponent implements OnInit {
   promtCancel(order) {
     this.order = order;
   }
-
+  getSumGrandTotal(amount, delivery_fees, tax) {
+    return Number(amount) + Number(delivery_fees) + Number(tax);
+  }
   cancelOrder() {
     this.ordersService.cancelOrder(this.order.id).subscribe((response: any) => {
       if (response.code === 200) {

@@ -375,7 +375,9 @@
           }}</span>
         </td>
 
-        <td>{{ order.amount + order.delivery_fees }}</td>
+        <td>
+          {{ getSumGrandTotal(order.amount, order.delivery_fees, order.tax) }}
+        </td>
         <td>
           <span>
             {{ order.payment_method_object.name }}
