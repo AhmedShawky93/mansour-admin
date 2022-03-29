@@ -571,6 +571,13 @@
           >
         </div>
         <div class="block-item">
+          <p>Wallet Redeem</p>
+          <span
+            >{{ order?.wallet_redeem | number: "1.2-2" }}
+            {{ environmentVariables?.localization?.currency_code_en }}</span
+          >
+        </div>
+        <div class="block-item">
           <p>Grand Total</p>
           <span
             >{{ order.amount + order.delivery_fees | number: "1.2-2" }}
