@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
 import { OrdersService } from "@app/pages/services/orders.service";
@@ -36,7 +33,9 @@ export class PrintReceiptComponent implements OnInit {
       });
     });
   }
-
+  getSumGrandTotal(amount, tax) {
+    return Number(amount) + Number(tax);
+  }
   print() {
     window.print();
   }

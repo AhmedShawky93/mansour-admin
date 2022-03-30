@@ -27,13 +27,15 @@
           <div class="row">
             <div class="col-6 pr-0">
               <li class="row m-0">
-                <span class="col-6 p-0">Creation :</span>
+                <span class="col-6 p-0" style="vertical-align: top"
+                  >Creation :</span
+                >
                 <span class="col-6 p-0 mr-0 fs-11 wp-120 fw-5">
                   {{ order?.created_at | date: "short" }}</span
                 >
               </li>
             </div>
-            <div class="col-6 text-left">
+            <!-- <div class="col-6 text-left">
               <li>
                 <span>Branch :</span
                 >{{
@@ -42,7 +44,7 @@
                     : order?.deliverer?.name
                 }}
               </li>
-            </div>
+            </div> -->
             <div class="col-6">
               <li class="row m-0">
                 <span class="col-6 p-0">Order :</span>
@@ -52,7 +54,7 @@
             <div class="col-6 text-left">
               <li><span>Client :</span>{{ order?.user?.name }}</li>
             </div>
-            <div class="col-6 text-left">
+            <!-- <div class="col-6 text-left">
               <li><span>city :</span>{{ order?.address?.city?.name }}</li>
             </div>
             <div class="col-6 text-left">
@@ -62,7 +64,7 @@
               <li>
                 <span>district :</span>{{ order?.address?.district?.name }}
               </li>
-            </div>
+            </div> -->
             <div class="col-6">
               <li class="row m-0">
                 <span class="col-6 p-0">Phone :</span>
@@ -70,7 +72,7 @@
               </li>
             </div>
           </div>
-          <li class="wb-a">
+          <!-- <li class="wb-a">
             <span>Address :</span>{{ order?.address?.address }}
           </li>
           <li *ngIf="order?.address?.landmark">
@@ -85,7 +87,7 @@
             <div class="col">
               <li><span>Apt : </span>{{ order?.address?.floor }}</li>
             </div>
-          </ul>
+          </ul> -->
           <li *ngIf="order.notes"><span> Notes </span>{{ order?.notes }}</li>
         </ul>
 
@@ -158,9 +160,9 @@
             </div>
             <div class="col-6 pr-0 fw-6 fs-11">
               <div class="row m-0">
-                <span class="col-6 p-0"> Delivery Fees :</span>
+                <span class="col-6 p-0">Tax :</span>
                 <span class="col-6 p-0 mr-0 fs-11 wp-120 fw-6"
-                  >{{ order?.delivery_fees }}
+                  >{{ order?.tax }}
                   <span class="text-right">{{
                     environmentVariables.localization.currency_code_en
                   }}</span></span
@@ -174,7 +176,9 @@
           <p>
             grand total
             <span
-              >{{ order?.amount ? order.amount + order.delivery_fees : 0 }}
+              >{{
+                order?.amount ? getSumGrandTotal(order.amount, order.tax) : 0
+              }}
               {{ environmentVariables?.localization.currency_code_en }}</span
             >
           </p>
@@ -329,17 +333,18 @@
             <div class="box-price">
               <div class="value-price d-ltr">
                 {{
-                  order?.delivery_fees
-                    ? order.delivery_fees +
-                      environmentVariables?.localization?.currency_code_en
+                  order?.tax
+                    ? environmentVariables?.localization?.currency_code_en +
+                      " " +
+                      order.tax
                     : "-"
                 }}
               </div>
-              <div class="name-price">Shiping cost</div>
+              <div class="name-price">Tax</div>
             </div>
             <div class="box-price">
               <div class="value-price d-ltr">
-                {{ order?.amount + order?.delivery_fees }}
+                {{ getSumGrandTotal(order?.amount, order?.tax) }}
                 {{ environmentVariables?.localization?.currency_code_en }}
               </div>
               <div class="name-price">Total amount</div>
