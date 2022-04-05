@@ -701,6 +701,7 @@ export class OrdersComponent implements OnInit {
           $("#confirmOrderStatus").modal("hide");
           this.filter$.next(this.filter);
         } else {
+          $("#confirmOrderStatus").modal("hide");
           this.toasterService.error(response.message, "Error");
         }
 

@@ -391,6 +391,7 @@ export class OrderDetailsComponent implements OnInit {
           $("#confirmOrderStatus").modal("hide");
           this.getOrderDetails(this.orderId);
         } else {
+          $("#confirmOrderStatus").modal("hide");
           this.toastrService.error(response.message, "Error");
         }
 
