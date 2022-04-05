@@ -685,6 +685,7 @@ export class OrdersComponent implements OnInit {
       state_id: null,
       shipping_method: null,
       branch_id: null,
+      add_loyalty_points: true,
     };
     newData.order_ids = this.stateForm.value.order_ids;
     newData.state_id = +this.stateForm.value.state_id;

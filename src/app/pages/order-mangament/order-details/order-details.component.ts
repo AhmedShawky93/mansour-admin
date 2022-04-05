@@ -349,7 +349,6 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   confirmChangeStatus(notifyUser) {
-
     // this.markFormGroupTouched(this.stateForm);
     // if (this.stateForm.get("shipping_method").value !== "3") {
     //   this.stateForm.get("aramex_account_number").setValidators([]);
@@ -376,6 +375,7 @@ export class OrderDetailsComponent implements OnInit {
       state_id: null,
       shipping_method: null,
       branch_id: null,
+      add_loyalty_points: true,
     };
     newData.order_ids = this.stateForm.value.order_ids;
     newData.state_id = +this.stateForm.value.state_id;
