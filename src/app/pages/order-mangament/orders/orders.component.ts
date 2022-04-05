@@ -654,35 +654,46 @@ export class OrdersComponent implements OnInit {
     //   }
     // }
 
-    if (this.stateForm.get("shipping_method").value !== "3") {
-      this.stateForm.get("aramex_account_number").setValidators([]);
-      this.stateForm.get("aramex_account_number").updateValueAndValidity();
-    } else {
-      this.stateForm
-        .get("aramex_account_number")
-        .setValidators([Validators.required]);
-      this.stateForm.get("aramex_account_number").updateValueAndValidity();
-    }
-    if (!this.stateForm.valid) {
-      return this.markFormGroupTouched(this.stateForm);
-    }
-    let data = this.stateForm.value;
-    if (data.state_id == 8) {
-      data.pickup_date =
-        moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
-      data.shipping_method = +data.shipping_method;
-    }
+    // if (this.stateForm.get("shipping_method").value !== "3") {
+    //   this.stateForm.get("aramex_account_number").setValidators([]);
+    //   this.stateForm.get("aramex_account_number").updateValueAndValidity();
+    // } else {
+    //   this.stateForm
+    //     .get("aramex_account_number")
+    //     .setValidators([Validators.required]);
+    //   this.stateForm.get("aramex_account_number").updateValueAndValidity();
+    // }
+    // if (!this.stateForm.valid) {
+    //   return this.markFormGroupTouched(this.stateForm);
+    // }
+    // let data = this.stateForm.value;
+    // if (data.state_id == 8) {
+    //   data.pickup_date =
+    //     moment(data.pickup_date).format("YYYY-MM-DD") + " " + data.pickup_time;
+    //   data.shipping_method = +data.shipping_method;
+    // }
     // if (this.orderStatusId == '6') {
     //   if (!this.status_notesText) {
     //     this.error_status_notes = true
     //     return
     //   }
     // }
-    data.state_id = +data.state_id;
-    data.notify_customer = this.notifyUser;
+    // data.state_id = +data.state_id;
+    // data.notify_customer = this.notifyUser;
+    let newData = {
+      order_ids: [],
+      state_id: null,
+      shipping_method: null,
+      branch_id: null,
+    };
+    newData.order_ids = this.stateForm.value.order_ids;
+    newData.state_id = +this.stateForm.value.state_id;
+    newData.shipping_method = "1";
+    newData.shipping_method = "1";
+    newData.branch_id = "1";
     this.stateSubmitting = true;
     this.ordersService
-      .changeBulkChangeState(this.orderId, data)
+      .changeBulkChangeState(this.orderId, newData)
       .subscribe((response: any) => {
         if (response.code === 200) {
           this.status_notesText = "";
