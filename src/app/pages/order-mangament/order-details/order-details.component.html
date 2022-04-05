@@ -863,8 +863,8 @@
         </button>
       </div>
 
-      <form action="" [formGroup]="stateForm">
-        <div class="modal-body" *ngIf="orderStatusId !== '8'">
+      <!-- <form action="" [formGroup]="stateForm"> -->
+      <!-- <div class="modal-body" *ngIf="orderStatusId !== '8'">
           <label class="checkup">
             notify user
             <input
@@ -875,8 +875,8 @@
             />
             <span class="checkmark"></span>
           </label>
-          <div class="form-group" *ngIf="orderStatusId == '6'">
-            <label for="">Cancellation Reason</label>
+          <div class="form-group" *ngIf="orderStatusId == '6'"> -->
+      <!-- <label for="">Cancellation Reason</label>
             <select
               class="owl-input bg-white"
               formControlName="cancellation_id"
@@ -890,18 +890,18 @@
               >
                 {{ reason.text }}
               </option>
-            </select>
+            </select> -->
 
-            <label
+      <!-- <label
               class="checkup"
               *ngIf="orderStatusId == '6' && environmentVariables.showLoyality"
             >
               Remove Points
               <input type="checkbox" formControlName="remove_loyalty_points" />
               <span class="checkmark"></span>
-            </label>
+            </label> -->
 
-            <label
+      <!-- <label
               class="checkup"
               *ngIf="orderStatusId == '4' && environmentVariables.showLoyality"
             >
@@ -912,32 +912,32 @@
                 formControlName="add_loyalty_points"
               />
               <span class="checkmark"></span>
-            </label>
-            <!-- <div *ngIf="stateForm.controls.cancellation_id.invalid &&
+            </label> -->
+      <!-- <div *ngIf="stateForm.controls.cancellation_id.invalid &&
               (stateForm.controls.cancellation_id.dirty || stateForm.controls.cancellation_id.touched)"
               class="alert alert-danger">
               <div *ngIf="stateForm.controls.cancellation_id.errors.required">
                 Cancel Reason is required.
               </div>
             </div> -->
-          </div>
-          <div class="form-group" *ngIf="orderStatusId == '6'">
-            <label for="">Status notes </label>
+      <!-- </div> -->
+      <!-- <div class="form-group" *ngIf="orderStatusId == '6'"> -->
+      <!-- <label for="">Status notes </label>
             <textarea
               style="height: 130px"
               class="owl-input"
               placeholder="Type.."
               formControlName="status_notes"
             >
-            </textarea>
-            <!-- <div
+            </textarea> -->
+      <!-- <div
               *ngIf="stateForm.controls.status_notes.invalid && (stateForm.controls.status_notes.dirty || stateForm.controls.status_notes.touched)"
               class="alert alert-danger">
               <div *ngIf="stateForm.controls.status_notes.errors.required">
                 Status notes is required.
               </div>
             </div> -->
-            <label class="checkup">
+      <!-- <label class="checkup">
               Return To stock
               <input
                 type="checkbox"
@@ -946,12 +946,12 @@
                 formControlName="subtract_stock"
               />
               <span class="checkmark"></span>
-            </label>
-          </div>
-        </div>
+            </label> -->
+      <!-- </div> -->
+      <!-- </div> -->
 
-        <div class="modal-body" *ngIf="orderStatusId == '8'">
-          <div class="form-group">
+      <!-- <div class="modal-body" *ngIf="orderStatusId == '8'"> -->
+      <!-- <div class="form-group">
             <select class="owl-input bg-white" formControlName="branch_id">
               <option value="" hidden selected>Select pickup Location</option>
               <option value="{{ branch.id }}" *ngFor="let branch of branches">
@@ -978,7 +978,7 @@
             >
               <option value="" hidden selected>Select Company Shipping</option>
               <option value="1">Internal</option>
-              <!-- <option value="2">Mylerz</option> -->
+              <option value="2">Mylerz</option>
               <option value="3">Aramex</option>
             </select>
             <div
@@ -1036,8 +1036,8 @@
                 {{ pickup.shipping_guid }}
               </option>
             </select>
-          </div>
-          <!-- <div class="form-group w-60">
+          </div> -->
+      <!-- <div class="form-group w-60">
             <mat-form-field>
               <input matInput [min]="today"  #mdate placeholder="Date " readonly (click)="picker2.open()" [satDatepicker]="picker2"
                 [value]="date" formControlName="pickup_date">
@@ -1071,7 +1071,7 @@
             </div>
 
           </div> -->
-          <div class="form-group">
+      <!-- <div class="form-group">
             <label for="">Shipping Notes</label>
             <textarea
               style="height: 130px"
@@ -1080,9 +1080,9 @@
               formControlName="shipping_notes"
             >
             </textarea>
-          </div>
-        </div>
-      </form>
+          </div> -->
+      <!-- </div> -->
+      <!-- </form> -->
 
       <div class="modal-footer" style="justify-content: center">
         <button
