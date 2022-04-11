@@ -106,12 +106,14 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
         Validators.required
       ),
       name: new FormControl(
-        data ? this.findInIncentive(data.incentive_id, "incentive_desc") : "",
+        data && data?.incentive_id
+          ? this.findInIncentive(data?.incentive_id, "incentive_desc")
+          : "",
         Validators.required
       ),
       name_ar: new FormControl(
-        data
-          ? this.findInIncentive(data.incentive_id, "arabic_description")
+        data && data?.incentive_id
+          ? this.findInIncentive(data?.incentive_id, "arabic_description")
           : "",
         Validators.required
       ),
