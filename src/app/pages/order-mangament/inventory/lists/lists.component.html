@@ -105,7 +105,13 @@
           >
             <i class="icon-grey"></i>
           </a>
-
+          <a
+            (click)="removeList(list)"
+            class="table-view edit-product ml-2"
+            href="javascript:void(0)"
+          >
+            <i class="fa fa-trash"></i>
+          </a>
           <!-- <label class="switch">
             <input type="checkbox" value="1" [(ngModel)]="list.active" (change)="changeActive(list, $event)">
             <span class="slider round"></span>
@@ -144,9 +150,60 @@
 >
 </app-view-list>
 <app-add-edit-list
-  (dataOptionEmit)="addOrUpdateOption($event)"
+  (dataOptionEmit)="addOrUpdateList($event)"
   (closeSideBarEmit)="closeSideBar()"
   [@slideInOut]="toggleListForm"
   [listData]="selectOptionData"
 >
 </app-add-edit-list>
+<div
+  class="modal fade"
+  id="deleteList"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center"
+        >
+          Delete List
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to Delete the List ({{ currentList?.name_en }}) ?
+      </div>
+      <div class="modal-footer" style="justify-content: center">
+        <button
+          type="button"
+          [appLoading]="statedeleting"
+          [disabled]="statedeleting"
+          class="btn-owls btn-rounded btn-green btn-blue2"
+          style="position: relative"
+          (click)="confirmDelete()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          data-dismiss="modal"
+          class="btn-owls btn-rounded btn-green btn-red2"
+        >
+          no
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

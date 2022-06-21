@@ -21,6 +21,19 @@
     <div class="col-md-6">
       <h2>edit promocode</h2>
       <div class="form-group">
+        <label for="incentive_id">Incentive Mapping</label>
+        <ng-select
+          formControlName="incentive_id"
+          [items]="incentives"
+          [(ngModel)]="promo.incentive_id"
+          name="incentive_id"
+          bindLabel="incentive_desc"
+          bindValue="incentive_id"
+          placeholder="Enter incentive name"
+        >
+        </ng-select>
+      </div>
+      <div class="form-group">
         <label for="charge">Select type Customers</label>
         <select
           id="charge"
@@ -68,13 +81,7 @@
       </div>
       <div class="form-group" *ngIf="promo.target_type == '2'">
         <button
-          class="
-            btn btn-owls
-            import-file
-            btn-rounded btn-green btn-special
-            owl-input-file
-            inputFile
-          "
+          class="btn btn-owls import-file btn-rounded btn-green btn-special owl-input-file inputFile"
           style="overflow: hidden"
         >
           Import Customers phone
@@ -95,7 +102,7 @@
       </div>
 
       <div class="form-group">
-        <label for="">prmocode name </label>
+        <label for="">promocode name </label>
         <input
           type="text"
           class="owl-input"
@@ -171,7 +178,6 @@
         >
           <option [value]="1">amount</option>
           <option [value]="2">percentage</option>
-          <option [value]="3">Free delivery</option>
         </select>
       </div>
 

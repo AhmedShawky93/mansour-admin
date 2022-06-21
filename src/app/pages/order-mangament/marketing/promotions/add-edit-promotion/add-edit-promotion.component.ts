@@ -90,6 +90,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
   getIncentives() {
     this.promotionService.getIncentivs().subscribe((response: any) => {
       this.incentives = response.data;
+      this.incentives.map((item) => {
+        item.incentive_desc = item.incentive_desc + "-" + item.incentive_id;
+      });
     });
   }
   ngOnChanges(): void {

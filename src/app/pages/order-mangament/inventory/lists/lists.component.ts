@@ -7,20 +7,14 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-} from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 
 import { ListsService } from "@app/pages/services/lists.service";
-
+declare var $: any;
 @Component({
   selector: "app-lists",
   templateUrl: "./lists.component.html",
@@ -70,6 +64,7 @@ export class ListsComponent implements OnInit {
   productIsEmpty: boolean;
   lists = [];
   currentList: any;
+  statedeleting: boolean;
   constructor(
     private toastrService: ToastrService,
     private listsService: ListsService,
@@ -104,7 +99,33 @@ export class ListsComponent implements OnInit {
       // }
     });
   }
-
+  removeList(list) {
+    this.currentList = list;
+    $("#deleteList").modal("show");
+  }
+  confirmDelete() {
+    this.statedeleting = true;
+    this.listsService
+      .softDeleteList(this.currentList.id)
+      .subscribe((response: any) => {
+        if (response.code === 200) {
+          this.statedeleting = false;
+          this.toastrService.success("List Deleted Successfully", "Success", {
+            enableHtml: true,
+            timeOut: 3000,
+          });
+          this.currentList["delete"] = true;
+          this.addOrUpdateList(this.currentList);
+          $("#deleteList").modal("hide");
+        } else {
+          this.statedeleting = false;
+          this.toastrService.error(response.message, "Error Occured", {
+            enableHtml: true,
+            timeOut: 3000,
+          });
+        }
+      });
+  }
   changeActive(list) {
     this.lists
       .filter((lists) => {
@@ -184,7 +205,7 @@ export class ListsComponent implements OnInit {
     this.viewOptionSidebar = "out";
   }
 
-  addOrUpdateOption(data) {
+  addOrUpdateList(data) {
     const index = this.lists.findIndex((item) => item.id == data.id);
 
     if (index !== -1) {

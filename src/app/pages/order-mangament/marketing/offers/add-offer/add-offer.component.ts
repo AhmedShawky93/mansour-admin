@@ -24,6 +24,7 @@ import {
 } from "rxjs/operators";
 import { ListsService } from "@app/pages/services/lists.service";
 import { ProductsService } from "@app/pages/services/products.service";
+import { PromotionsService } from "@app/pages/services/promotions.service";
 
 @Component({
   selector: "app-add-category",
@@ -58,6 +59,7 @@ export class AddOfferComponent implements OnInit {
   selectFile: File;
   lists: any;
   submitting: boolean;
+  incentives = [];
   constructor(
     private promoService: PromosService,
     private toastrService: ToastrService,
@@ -65,6 +67,7 @@ export class AddOfferComponent implements OnInit {
     private router: Router,
     private uploadFile: UploadFilesService,
     private listsService: ListsService,
+    private promotionService: PromotionsService,
     private productsService: ProductsService
   ) {}
 
@@ -88,7 +91,14 @@ export class AddOfferComponent implements OnInit {
       }
     });
   }
-
+  getIncentives() {
+    this.promotionService.getIncentivs().subscribe((response: any) => {
+      this.incentives = response.data;
+      this.incentives.map((item) => {
+        item.incentive_desc = item.incentive_desc + "-" + item.incentive_id;
+      });
+    });
+  }
   importExcel(event) {
     let fileName = <File>event.target.files[0];
     this.productsService.import(fileName, "8").subscribe((response: any) => {
@@ -112,6 +122,7 @@ export class AddOfferComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getIncentives();
     this.today = new Date();
     this.today.setDate(this.today.getDate() - 1);
 
@@ -148,6 +159,7 @@ export class AddOfferComponent implements OnInit {
     );
 
     this.newPromo = new FormGroup({
+      incentive_id: new FormControl(""),
       promoName: new FormControl("", [
         Validators.required,
         Validators.pattern(/[A-Za-z0-9]+$/),

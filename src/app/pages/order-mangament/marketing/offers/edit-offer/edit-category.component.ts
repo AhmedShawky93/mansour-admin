@@ -24,6 +24,7 @@ import {
 import { CustomerService } from "@app/pages/services/customer.service";
 import { ListsService } from "@app/pages/services/lists.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { PromotionsService } from "@app/pages/services/promotions.service";
 
 @Component({
   selector: "app-edit-category",
@@ -47,11 +48,13 @@ export class EditOfferComponent implements OnInit {
   lists: any;
   paymentMethods: any;
   updating: boolean;
+  incentives = [];
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
     private promoService: PromosService,
     private _formBuilder: FormBuilder,
+    private promotionService: PromotionsService,
     private customerService: CustomerService,
     private toastrService: ToastrService,
     private uploadFile: UploadFilesService,
@@ -60,7 +63,9 @@ export class EditOfferComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getIncentives();
     this.editForm = this._formBuilder.group({
+      incentive_id: [""],
       editName: ["", Validators.required],
       editType: ["", Validators.required],
       editAmount: ["", Validators.required],
@@ -140,7 +145,14 @@ export class EditOfferComponent implements OnInit {
       });
     });
   }
-
+  getIncentives() {
+    this.promotionService.getIncentivs().subscribe((response: any) => {
+      this.incentives = response.data;
+      this.incentives.map((item) => {
+        item.incentive_desc = item.incentive_desc + "-" + item.incentive_id;
+      });
+    });
+  }
   getPaymentMethods() {
     this.promoService.getPaymentMethods().subscribe((rep) => {
       if (rep.code === 200) {

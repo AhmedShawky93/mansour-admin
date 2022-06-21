@@ -232,7 +232,7 @@
       <li
         class="side-nav-item"
         routerLinkActive="active"
-        *ngxPermissionsOnly="['ADMIN']"
+        *ngxPermissionsOnly="['ADMIN', 'View Customers']"
       >
         <a routerLink="/pages/customer-request" routerLinkActive="active">
           <i
@@ -492,7 +492,7 @@
           <span>Reports</span>
         </a>
       </li> -->
-      <li class="side-nav-item" routerLinkActive="active">
+      <!-- <li class="side-nav-item" routerLinkActive="active">
         <a routerLink="/pages/admin-log" routerLinkActive="active">
           <i
             class="icon-None8"
@@ -502,7 +502,7 @@
           ></i>
           <span>Admin Log</span>
         </a>
-      </li>
+      </li> -->
       <li class="side-nav-item" *ngxPermissionsOnly="['ADMIN', 'View Admins']">
         <a
           routerLinkActive="active"

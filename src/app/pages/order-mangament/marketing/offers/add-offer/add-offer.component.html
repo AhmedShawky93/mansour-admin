@@ -22,6 +22,18 @@
     <div class="col-12 col-md-6">
       <h2>new promocode</h2>
       <div class="form-group">
+        <label for="incentive_id">Incentive Mapping</label>
+        <ng-select
+          formControlName="incentive_id"
+          [items]="incentives"
+          name="incentive_id"
+          bindLabel="incentive_desc"
+          bindValue="incentive_id"
+          placeholder="Enter incentive name"
+        >
+        </ng-select>
+      </div>
+      <div class="form-group">
         <label for="charge">Select type Customers</label>
         <select
           id="charge"
@@ -69,13 +81,7 @@
       </div>
       <div class="form-group" *ngIf="promo.target_type == '2'">
         <button
-          class="
-            btn btn-owls
-            import-file
-            btn-rounded btn-green btn-special
-            owl-input-file
-            inputFile
-          "
+          class="btn btn-owls import-file btn-rounded btn-green btn-special owl-input-file inputFile"
           style="overflow: hidden"
         >
           Import Customers phone
@@ -170,7 +176,6 @@
           <option value="" disabled selected>Select PromoCode Type</option>
           <option [value]="1">Amount</option>
           <option [value]="2">Percentage</option>
-          <option [value]="3">Free delivery</option>
         </select>
         <!-- Start  Errors Rolues -->
         <div

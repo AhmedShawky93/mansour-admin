@@ -41,7 +41,11 @@ export class ListsService {
         return Observable.throw(error.error || "Server error");
       });
   }
-
+  softDeleteList(id) {
+    return this.http.delete(this.url + "/lists/" + id).catch((error: any) => {
+      return Observable.throw(error.error || "Server error");
+    });
+  }
   activate(id) {
     return this.http
       .post(this.url + "/lists/" + id + "/activate", id)
