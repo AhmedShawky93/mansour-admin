@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
     private showAffiliateService: ShowAffiliateService
   ) {
     this.getConfigration();
+    console.log("test");
   }
 
   ngOnInit() {} // end oninit
