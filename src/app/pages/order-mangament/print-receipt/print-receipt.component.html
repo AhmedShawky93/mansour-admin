@@ -162,7 +162,41 @@
               <div class="row m-0">
                 <span class="col-6 p-0">Tax :</span>
                 <span class="col-6 p-0 mr-0 fs-11 wp-120 fw-6"
-                  >{{ order?.tax }}
+                  >{{ order?.tax | number: "1.2-2" }}
+                  <span class="text-right">{{
+                    environmentVariables.localization.currency_code_en
+                  }}</span></span
+                >
+              </div>
+            </div>
+            <div class="col-6 pr-0 fw-6 fs-11">
+              <div class="row m-0">
+                <span class="col-6 p-0">Total Incentive :</span>
+                <span class="col-6 p-0 mr-0 fs-11 wp-120 fw-6"
+                  >{{ order?.total_incentive | number: "1.2-2" }}
+                  <span class="text-right">{{
+                    environmentVariables.localization.currency_code_en
+                  }}</span></span
+                >
+              </div>
+            </div>
+            <div class="col-6 pr-0 fw-6 fs-11">
+              <div class="row m-0">
+                <span class="col-6 p-0">Cashback :</span>
+                <span class="col-6 p-0 mr-0 fs-11 wp-120 fw-6"
+                  >{{ order?.total_cashback | number: "1.2-2" }}
+                  <span class="text-right">{{
+                    environmentVariables.localization.currency_code_en
+                  }}</span></span
+                >
+              </div>
+            </div>
+
+            <div class="col-6 pr-0 fw-6 fs-11">
+              <div class="row m-0">
+                <span class="col-6 p-0">Wallet Redeem :</span>
+                <span class="col-6 p-0 mr-0 fs-11 wp-120 fw-6"
+                  >{{ order?.wallet_redeem | number: "1.2-2" }}
                   <span class="text-right">{{
                     environmentVariables.localization.currency_code_en
                   }}</span></span
