@@ -376,6 +376,44 @@
               </div>
               <div class="name-price">Tax</div>
             </div>
+
+            <div class="box-price">
+              <div class="value-price d-ltr">
+                {{
+                  order?.total_incentive
+                    ? environmentVariables?.localization?.currency_code_en +
+                      " " +
+                      order.total_incentive
+                    : "-"
+                }}
+              </div>
+              <div class="name-price">Total Incentive</div>
+            </div>
+
+            <div class="box-price">
+              <div class="value-price d-ltr">
+                {{
+                  order?.total_cashback
+                    ? environmentVariables?.localization?.currency_code_en +
+                      " " +
+                      order.total_cashback
+                    : "-"
+                }}
+              </div>
+              <div class="name-price">Total Cashback</div>
+            </div>
+            <div class="box-price">
+              <div class="value-price d-ltr">
+                {{
+                  order?.wallet_redeem
+                    ? environmentVariables?.localization?.currency_code_en +
+                      " " +
+                      order.wallet_redeem
+                    : "-"
+                }}
+              </div>
+              <div class="name-price">Wallet Redeem</div>
+            </div>
             <div class="box-price">
               <div class="value-price d-ltr">
                 {{ getSumGrandTotal(order?.amount, order?.tax) }}
