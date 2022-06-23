@@ -69,7 +69,7 @@ export class ListsComponent implements OnInit {
     private toastrService: ToastrService,
     private listsService: ListsService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getLists();
@@ -115,7 +115,11 @@ export class ListsComponent implements OnInit {
             timeOut: 3000,
           });
           this.currentList["delete"] = true;
-          this.addOrUpdateList(this.currentList);
+          var list_id = this.currentList.id;
+          const index = this.lists.findIndex((item) => item.id == list_id);
+          if (index !== -1) {
+            this.lists.splice(index, 1);
+          }
           $("#deleteList").modal("hide");
         } else {
           this.statedeleting = false;
