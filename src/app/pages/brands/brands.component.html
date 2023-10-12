@@ -22,13 +22,7 @@
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <div class="owl-btn-list">
         <button
-          class="
-            btn btn-owls btn-rounded
-            actionBtns
-            btn-blue2 btn-big
-            add-product
-            w-100
-          "
+          class="btn btn-owls btn-rounded actionBtns btn-blue2 btn-big add-product w-100"
           (click)="resetForm()"
         >
           + Brand
@@ -60,12 +54,7 @@
     </div> -->
     <div class="col-md-2 col-sm-3 col-xs-12 text-right">
       <button
-        class="
-          btn btn-owls btn-block
-          actionBtns
-          btn-rounded btn-blue2 btn-big
-          ml-auto
-        "
+        class="btn btn-owls btn-block actionBtns btn-rounded btn-blue2 btn-big ml-auto"
         (click)="exportCsv()"
       >
         export CSV
@@ -73,7 +62,7 @@
     </div>
   </div>
 </div>
-
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
 <div class="table-responsive">
   <table class="table owls-table">
     <thead>

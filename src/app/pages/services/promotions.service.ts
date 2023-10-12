@@ -37,7 +37,15 @@ export class PromotionsService {
         return Observable.throw(error.error || "Server error");
       });
   }
-
+  // Ahmed Shawky===
+    createDiv(data) {
+      return this.http
+        .post(this.url + "/promotions_b2b", data)
+        .catch((error: any) => {
+          return Observable.throw(error.error || "Server error");
+        });
+    }
+  // Ahmed Shawky===
   getRangePromotions(data) {
     return this.http
       .get(this.url + "/promotions_b2b", { params: data })

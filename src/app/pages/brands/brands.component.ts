@@ -42,7 +42,7 @@ export class BrandsComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private productsService: ProductsService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit() {
     $(".slider").on("click", function () {
@@ -130,7 +130,7 @@ export class BrandsComponent implements OnInit {
     const exportStock = environment.api + "/api/admin/brands/export";
 
     this.productsService.exportFile(exportStock).subscribe({
-      next: (rep: any) => {},
+      next: (rep: any) => { },
     });
     setTimeout(() => {
       this.toastrService.success(
@@ -173,7 +173,7 @@ export class BrandsComponent implements OnInit {
 
   onImageSelected(event) {
     let file = <File>event.target.files[0];
-    if (file.size > 1048576) {
+    if (file.size > 7048576) {
       alert("file size is too big max size is 1MB");
     } else {
       this.uploadService.uploadFile(file).subscribe((response: any) => {

@@ -144,6 +144,7 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       gift_ar: new FormControl(data ? data.gift_ar : ""),
       active: new FormControl(data ? data.active : 1),
       boost: new FormControl(data ? data.boost : null),
+      boost_ws: new FormControl(data ? data.boost_ws : null),
       exclusive: new FormControl(data ? data.exclusive : false),
       instant: new FormControl(data ? data.instant : true),
       periodic: new FormControl(data ? data.periodic : ""),

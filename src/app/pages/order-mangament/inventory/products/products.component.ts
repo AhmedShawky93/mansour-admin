@@ -96,7 +96,7 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
   selectedUserIds: number[];
   products: Array<any> = [];
   selectedMainProduct: any;
-  syncLoad=false;
+  syncLoad = false;
   public product: any = {
     name: "",
     description: "",
@@ -180,13 +180,13 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     });
     this.website_url = this.environmentVariables.envApi.env.checkoutUrl;
   }
-  syncProducts(){
-    this.syncLoad=true;
-  this.customerService.syncProducts().subscribe((res:any)=>{
-    this.syncLoad=false;
-    if(res.code==200){this.toastrService.success(res.message); this.getProducts();}
-    else this.toastrService.error(res.message);
-  })
+  syncProducts() {
+    this.syncLoad = true;
+    this.customerService.syncProducts().subscribe((res: any) => {
+      this.syncLoad = false;
+      if (res.code == 200) { this.toastrService.success(res.message); this.getProducts(); }
+      else this.toastrService.error(res.message);
+    })
 
   }
 
@@ -248,12 +248,10 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     const token = this.auth.getToken();
-    this.exportUrl = `${
-      environment.api
-    }/api/admin/products/fullExport?token=${token}&${
-      this.getFormControlValue("sub_category_id") &&
+    this.exportUrl = `${environment.api
+      }/api/admin/products/fullExport?token=${token}&${this.getFormControlValue("sub_category_id") &&
       "sub_category_id=" + this.getFormControlValue("sub_category_id")
-    }`;
+      }`;
     this.exportStock = `${environment.api}/api/admin/products/export_prices?token=${token}`;
   }
 
@@ -376,11 +374,10 @@ export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
 
   goToLink() {
     const fullExportApiUrl = `${environment.api}/api/admin/products/fullExport`;
-    const fullExportWithSubCategoriesApiUrl = `${
-      environment.api
-    }/api/admin/products/fullExport?sub_category_id=${this.getFormControlValue(
-      "sub_category_id"
-    )}`;
+    const fullExportWithSubCategoriesApiUrl = `${environment.api
+      }/api/admin/products/fullExport?sub_category_id=${this.getFormControlValue(
+        "sub_category_id"
+      )}`;
 
     this.productsService
       .exportFile(

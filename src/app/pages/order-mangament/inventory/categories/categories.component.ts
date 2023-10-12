@@ -60,7 +60,7 @@ export class CategoriesComponent implements OnInit {
     private productsService: ProductsService,
     private reactivityService: ReactivityService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getCategories();
@@ -147,7 +147,7 @@ export class CategoriesComponent implements OnInit {
     const exportStock = environment.api + "/api/admin/categories/export";
 
     this.productsService.exportFileStocksPost(exportStock).subscribe({
-      next: (rep: any) => {},
+      next: (rep: any) => { },
     });
     setTimeout(() => {
       this.toastrService.success(
@@ -351,35 +351,17 @@ export class CategoriesComponent implements OnInit {
 
   uploadImage(image, e: any) {
     let file = <File>e.target.files[0];
-    if (file.size > 1048576) {
+    if (file.size > 8048576) {
       alert("file size is too big max size is 1MB");
     } else {
       let fileList: FileList = e.target.files;
       if (fileList.length > 0) {
         let file: File = fileList[0];
 
-        // if(file.size > 3000000) {
-        //   this.showVendorSizeError = true;
-        //   return
-        // }else{
-        //   this.showVendorSizeError = false;
-        // }
-
-        // var reader = new FileReader();
-
-        // reader.onload = (e: any) => {
-        //   category.imageUrl = e.target.result;
-        // }
-
-        // reader.readAsDataURL(e.target.files[0]);
-
         this.uploadService.uploadFile(file).subscribe((response: any) => {
           // this.isUploadingVendor = false;
           if (response.body) {
             image.setValue(response.body.data.filePath);
-            // category.image = response.body.data.name;
-            // category.imageUrl = response.body.data.filePath;
-            // category.showError = 0;
           }
         });
       }

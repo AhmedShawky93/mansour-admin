@@ -46,6 +46,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
   brands = [];
   lists = [];
   incentives = [];
+  // AHmed--
+  // wsORrt = ["ws", "rt"];
+  // Ajmed--
   values: FormArray;
   today: Date = new Date();
   stateSubmitting: boolean = false;
@@ -59,11 +62,12 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     private promotionService: PromotionsService,
     private listsService: ListsService,
     private productService: ProductsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getLists();
     this.getIncentives();
+    // this.getRTOPWS();
     this.getForm(this.promotionData);
     if (!this.promotionData) {
       this.addConditionsForm();
@@ -81,6 +85,11 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       });
     });
   }
+  // getRTOPWS() {
+  //   this.wsORrt.map((item) => {
+  //     item.length
+  //   });
+  // }
   ngOnChanges(): void {
     this.isSubmit = false;
     this.getForm(this.promotionData);
@@ -274,6 +283,9 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
       discount: new FormControl(data ? data.discount : "", [
         Validators.required,
       ]),
+      discount_ws: new FormControl(data ? data.discount_ws : "", [
+        Validators.required,
+      ]),
       min: new FormControl(data ? data.min : "", [
         Validators.required,
         Validators.min(0.001),
@@ -421,7 +433,13 @@ export class AddEditPromotionComponent implements OnInit, OnChanges {
     this.formatData(data);
     data.active = 1;
     this.stateSubmitting = true;
+    // Ahmed Shawky=================
+    // this.promotionService.createDiv(data).subscribe((response: any) => {
+    //   if (response.code == 200) {
 
+    //   }
+    // });
+    // Ahmed Shawky=================
     this.promotionService
       .createRangePromotion(data)
       .subscribe((response: any) => {

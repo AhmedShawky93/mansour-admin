@@ -277,6 +277,7 @@
               />
             </div>
           </div>
+
           <div class="col-md-4">
             <div class="form-group">
               <label for="">value</label>
@@ -312,6 +313,44 @@
               </div>
             </div>
           </div>
+          <!--START AHMED SHAWKY -->
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="value_Ws">value Ws</label>
+              <input
+                type="text"
+                id="value_Ws"
+                class="owl-input"
+                placeholder="type here.."
+                name="discount_ws"
+                min="0"
+                max="500"
+                formControlName="discount_ws"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57 ) || event.charCode == 46"
+              />
+              <div
+                *ngIf="
+                  promotionForm.controls.segments['controls'][i].controls
+                    .discount_ws.invalid &&
+                  (promotionForm.controls.segments['controls'][i].controls
+                    .discount_ws.dirty ||
+                    promotionForm.controls.segments['controls'][i].controls
+                      .discount_ws.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div
+                  *ngIf="
+                    promotionForm.controls.segments['controls'][i].controls
+                      .discount_ws.errors.required
+                  "
+                >
+                  value Ws is required.
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--END AHMMED SHAWKY -->
           <div class="col-md-4 mt-4">
             <label class="checkup"
               >per item

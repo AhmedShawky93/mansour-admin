@@ -79,10 +79,7 @@
           <div *ngIf="!selectedMainProduct" class="col-md-2 col-xs-12 p-l-r-5">
             <div class="form-group">
               <button
-                class="
-                  btn btn-owls btn-rounded btn-green btn-special
-                  w-180px-plr-0
-                "
+                class="btn btn-owls btn-rounded btn-green btn-special w-180px-plr-0"
                 type="button"
                 (click)="resetFilterForm()"
               >
@@ -97,12 +94,13 @@
           <div class="col-md-2 col-xs-12 p-l-r-5">
             <div class="form-group">
               <button
-              (click)="syncProducts()"
-              [disabled]="syncLoad"
-              [appLoading]="syncLoad"
-              class="btn btn-owls btn-rounded btn-blue2"
-              >Sync</button
-            >
+                (click)="syncProducts()"
+                [disabled]="syncLoad"
+                [appLoading]="syncLoad"
+                class="btn btn-owls btn-rounded btn-blue2"
+              >
+                Sync
+              </button>
             </div>
           </div>
           <!-- <div class="col-md-2 col-xs-12 p-l-r-5">
@@ -191,6 +189,7 @@
     <h5>Main Product: {{ selectedMainProduct.name }}</h5>
   </div>
 </div>
+<pagination-controls (pageChange)="pagination($event)"></pagination-controls>
 <div class="table-responsive text-center fixed-table-scroll">
   <table class="table owls-table">
     <thead>
